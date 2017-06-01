@@ -1,0 +1,154 @@
+@charset "utf-8";
+/* CreamHouse Web (creamhouse.net) jung gyu lim 20130115 */
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,input,textarea,figure {
+	margin:0;
+	padding:0;
+	border:0;
+	font-size:100%;
+	vertical-align:baseline;
+	background:transparent;
+}
+
+* {
+	-webkit-text-size-adjust:none;
+}
+
+body {
+	font-size:12px;
+	font-family: '돋움',Dotum,tahoma,AppleGothic,Sans-serif,Arial;
+	color:#646464;
+	line-height:1;
+}
+
+header, footer, section, article, aside, nav, hgroup, details, menu, figure, figcaption {
+	display: block;
+}
+
+a {
+	color:#646464;
+	text-decoration:none;
+}
+a:hover {
+	text-decoration:underline;
+}
+
+input[type=checkbox], input[type=radio]  {
+	width:14px;
+	height:14px;
+	vertical-align:middle;
+}
+input[type=text], input[type=password]  {
+	height:17px;
+	padding-left:10px;
+	font-family:Dotum, '돋움' ;
+	color:#646464;
+	vertical-align:middle;
+	border:1px solid #bcbcbc;
+	background-color:#fff;
+	line-height:17px;
+}
+
+textarea {
+	font-family:Dotum, '돋움' ;
+	color:#646464;
+	border-top:1px solid #c9c9c9;
+	border-left:1px solid #c9c9c9;
+	border-right:1px solid #e6e6e6;
+	border-bottom:1px solid #e6e6e6;
+}
+
+select {
+	height:19px;
+	font-size:12px;
+	font-family:Dotum, '돋움' ;
+	line-height:19px;
+	vertical-align:middle;
+}
+
+ul, ol {
+	list-style:none;
+}
+
+address,caption,cite,code,dfn,var,em {
+	font-style:normal;
+	font-weight:normal;
+}
+
+button {
+	border:0 none;
+	padding:0;
+	margin:0;
+	font-family:Dotum, '돋움' ;
+	vertical-align:middle;
+	background:transparent;
+	cursor:pointer;
+}
+button::-moz-focus-inner {
+	margin: -1px;
+	padding: 0;
+}
+
+fieldset,img {
+	border:0;
+}
+
+legend {
+	width:0;
+	height:0;
+	overflow:hidden;
+	margin:0;
+	padding:0;
+	visibility:hidden;
+	font-size:0;
+	line-height:0;
+}
+
+hr {
+	display:none
+}
+
+/* clear */
+.clearfix:after {
+	display:block;
+	visibility:hidden;
+	clear:both;
+	height:0;
+	content:'.';
+}
+.hidden {
+	display:none;
+}
+.visible {
+	position:absolute;
+	top:-9999px;
+	width:0;
+	height:0;
+	overflow:hidden;
+	margin:0;
+	padding:0;
+	visibility:hidden;
+	font-size:0;
+	line-height:0;
+}
+* html .clearfix {
+	height:1%;
+}
+
+
+/* Table */
+caption {
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	padding: 0;
+	visibility: hidden;
+	font-size: 0;
+	line-height: 0;
+}
+table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+					

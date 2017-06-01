@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
+<sqlMap namespace="gnrl">
+	<select id="gnrl.cmmn.selectExcelContents" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT 
+		TEXT1, TEXT2, TEXT3, TEXT4, TEXT5, TEXT6, TEXT7, TEXT8, TEXT9, TEXT10
+		FROM TB_EXCEL
+		ORDER BY EXCEL_NO ASC
+	</select>
+	
+
+	<select id="gnrl.cmmn.selectFileID" resultClass="String">
+		SELECT LPAD(SEQ_FILE_ID.NEXTVAL, 10, '0') FROM DUAL
+	</select>
+
+	<select id="gnrl.cmmn.selectFileNo" parameterClass="java.util.HashMap" resultClass="String">
+		SELECT NVL(MAX(FILE_NO)+1, 1) 
+		FROM TB_FILE 
+		WHERE FILE_ID = #file_id#
+	</select>
+	
+	<insert id="gnrl.cmmn.insertFile" parameterClass="HashMap">
+		INSERT INTO TB_FILE(
+			FILE_ID,
+			FILE_NO,
+			FILE_NM,
+			FILE_SIZE,
+			FILE_CN,
+			SYS_FILE_PATH,
+			SYS_FILE_NM,
+			SYS_FILE_THUMB_PATH,
+			REG_ID,
+			REG_DT,
+			MOD_ID,
+			MOD_DT
+		) VALUES(
+			#file_id#,
+			#file_no#,
+			#file_nm#,
+			#file_size#,
+			#file_cn#,
+			#sys_file_path#,
+			#sys_file_nm#,
+			#sys_file_thumb_path#,
+			'',
+			SYSDATE,
+			'',
+			SYSDATE
+		)
+	</insert>
+
+	<insert id="gnrl.cmmn.insertFileDtl" parameterClass="HashMap">
+		INSERT INTO TB_FILE_DTL(
+			FILE_ID,
+			FILE_NO,
+			HASH_MD5,
+			HASH_SHA1,
+			PLAY_TIME,
+			MOVIE_CODEC,
+			AUDIO_CODEC,
+			BIT_RATE,
+			MOVIE_SIZE,
+			PIC_DT,
+			IMG_WIDTH,
+			IMG_HEIGHT,
+			ISO_MODE,
+			CAMERA_COMP,
+			CAMERA_MODEL,
+			REG_ID,
+			REG_DT,
+			MOD_ID,
+			MOD_DT
+		) VALUES(
+			#file_id#,
+			#file_no#,
+			#hash_md5#,
+			#hash_sha1#,
+			#play_time#,
+			#movie_codec#,
+			#audio_codec#,
+			#bit_rate#,
+			#movie_size#,
+			#pic_dt#,
+			#img_width#,
+			#img_height#,
+			#iso_mode#,
+			#camera_comp#,
+			#camera_model#,
+			'',
+			SYSDATE,
+			'',
+			SYSDATE
+		)
+	</insert>
+
+	<insert id="gnrl.cmmn.insertThumb" parameterClass="HashMap">
+		INSERT INTO TB_THUMBNAIL(
+			FILE_ID,
+			FILE_NO,
+			THUMB_NO,
+			THUMB_NM,
+			THUMB_PATH,
+			POSITION,
+			TIME,
+			REPRSNT_YN,
+			REG_ID,
+			REG_DT
+		) VALUES(
+			#file_id#,
+			#file_no#,
+			(SELECT NVL(MAX(THUMB_NO)+1, 1) FROM TB_THUMBNAIL WHERE FILE_ID = #file_id# AND FILE_NO = #file_no#),
+			#thumb_nm#,
+			#thumb_path#,
+			#position#,
+			#time#,
+			#reprsnt_yn#,
+			'',
+			SYSDATE
+		)
+	</insert>
+
+	<select id="gnrl.cmmn.selectFileList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
+	    SELECT
+	    F.FILE_ID,
+	    F.FILE_NO,
+	    F.FILE_NM,
+	    F.FILE_SIZE,
+	    F.FILE_CN,
+	    F.SYS_FILE_PATH,
+	    F.SYS_FILE_NM,
+	    F.SYS_FILE_THUMB_PATH,
+	    CASE WHEN T.FILE_ID IS NOT NULL THEN
+	    T.FILE_ID ||'_'|| T.FILE_NO
+	    ELSE '' END AS THUMB_PATH,
+	    T.THUMB_NM
+	    FROM TB_FILE F
+	    LEFT JOIN TB_THUMBNAIL T ON T.FILE_ID = F.FILE_ID AND T.FILE_NO = F.FILE_NO AND REPRSNT_YN = 'Y'
+	    ORDER BY F.REG_DT DESC
+	</select>
+
+	<select id="gnrl.cmmn.selectFileDetail" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
+	    SELECT
+	    F.FILE_ID,
+	    F.FILE_NO,
+	    F.FILE_NM,
+	    F.FILE_SIZE,
+	    F.FILE_CN,
+	    F.SYS_FILE_PATH,
+	    F.SYS_FILE_NM,
+	    F.SYS_FILE_THUMB_PATH
+	    FROM TB_FILE F
+		WHERE FILE_ID = #file_id# AND FILE_NO = #file_no#
+	</select>
+
+	<select id="gnrl.cmmn.selectThumbList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
+		SELECT
+		THUMB_NO,
+		THUMB_NM,
+		THUMB_PATH,
+		POSITION,
+		TIME,
+		REPRSNT_YN
+		FROM TB_THUMBNAIL
+		WHERE FILE_ID = #file_id# AND FILE_NO = #file_no#
+		ORDER BY POSITION ASC
+	</select>
+
+	<select id="gnrl.cmmn.selectThumbDetail" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
+		SELECT
+		THUMB_NM,
+		THUMB_PATH,
+		POSITION,
+		TIME,
+		REPRSNT_YN
+		FROM TB_THUMBNAIL
+		WHERE FILE_ID = #file_id# AND FILE_NO = #file_no# 
+		<isNotEmpty prepend="AND" property="thumb_no">
+			THUMB_NO = #thumb_no#
+		</isNotEmpty>
+		<isEmpty prepend="AND" property="thumb_no">
+			REPRSNT_YN = 'Y'
+		</isEmpty>
+		AND ROWNUM = 1
+	</select>
+
+
+	<update id="gnrl.cmmn.updateThumb" parameterClass="HashMap">
+		UPDATE TB_THUMBNAIL SET
+		REPRSNT_YN = #reprsnt_yn#
+		WHERE FILE_ID = #file_id# AND FILE_NO = #file_no#
+		<isNotEmpty prepend="AND" property="thumb_no">
+			THUMB_NO = #thumb_no#
+		</isNotEmpty>
+	</update>
+
+	<delete id="gnrl.cmmn.deleteThumb" parameterClass="HashMap">
+		DELETE FROM TB_THUMBNAIL
+		WHERE FILE_ID = #file_id# AND FILE_NO = #file_no#
+		<isNotEmpty prepend="AND" property="thumb_no">
+			THUMB_NO = #thumb_no#
+		</isNotEmpty>
+	</delete>
+	
+</sqlMap>
