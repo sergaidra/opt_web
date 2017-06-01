@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.*;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import twitter4j.internal.org.json.JSONObject;
 
 @Controller
-@RequestMapping(value = "/mber/")
+@RequestMapping(value = "/")
 public class LoginController {
 
 	@Resource
@@ -31,55 +32,57 @@ public class LoginController {
     public String login(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
         LoginManager loginManager = LoginManager.getInstance();
         HttpSession session = request.getSession();
-        String userID = SimpleUtils.default_set((String)session.getAttribute("userID"));
-        String userNm = SimpleUtils.default_set((String)session.getAttribute("userNm"));
+        String esntl_id = SimpleUtils.default_set((String)session.getAttribute("esntl_id"));
+        String user_id = SimpleUtils.default_set((String)session.getAttribute("user_id"));
+        String user_nm = SimpleUtils.default_set((String)session.getAttribute("user_nm"));
         
-
-        
-
-int test1 = session.getMaxInactiveInterval();
-Date test2 = new Date(session.getCreationTime());
-Date test3 = new Date(session.getLastAccessedTime());        
-        
-        model.addAttribute("userID", userID);
-        model.addAttribute("userNm", userNm);
+        model.addAttribute("user_id", user_id);
+        model.addAttribute("user_nm", user_nm);
         model.addAttribute("userCnt", Integer.valueOf(loginManager.getUserCount()));
         String result = SimpleUtils.default_set(request.getParameter("result"));
         model.addAttribute("result", result);
         
         
-        return "uia/login";
+        return "gnrl/mber/login";
     }
 
     @RequestMapping(value="/loginAction/")
     public void loginAction(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
         LoginManager loginManager = LoginManager.getInstance();
         HttpSession session = request.getSession();
-        String userID = SimpleUtils.default_set(request.getParameter("userID"));
-        String userPW = SimpleUtils.default_set(request.getParameter("userPW"));
-        
-        ArrayList u = new ArrayList();
-        u.add("shkim");
-        u.add("gdhong");
-        u.add("mdkim");
-        if(u.contains(userID)){
-        	//중복로그인 여부 확인
-        	if(loginManager.isUsing(userID)){
-        	    //기존의 접속(세션)을 끊는다.
-        	    loginManager.removeSession(userID);
+        String user_id = SimpleUtils.default_set(request.getParameter("txtID"));
+        String user_pw = SimpleUtils.default_set(request.getParameter("txtPW"));
+
+    	HashMap map = new HashMap();
+    	map.put("user_id", user_id);
+    	HashMap result = loginService.userInfo(map);
+
+        if(!result.isEmpty()){
+
+        	String esntl_id = (String) result.get("ESNTL_ID");
+        	String password = (String) result.get("PASSWORD");
+
+        	//password
+        	if(user_pw.equals(password)){
+            	//중복로그인 여부 확인
+            	if(loginManager.isUsing(esntl_id)){
+            	    loginManager.removeSession(esntl_id);
+            	}
+
+            	session.setAttribute("user_id", result.get("USER_ID"));
+            	session.setAttribute("user_nm", result.get("USER_NM"));
+            	session.setAttribute("esntl_id", esntl_id);
+            	//timeout 10분
+            	session.setMaxInactiveInterval(630);
+
+            	//새로운 접속(세션) 생성
+            	loginManager.setSession(session, esntl_id);
+            	response.sendRedirect("/login/");
+        	}else{
+                response.sendRedirect("/login/?result=fail");
         	}
-
-        	//관리되는 세션정보들
-        	session.setAttribute("userID", userID);
-        	session.setAttribute("userNm", "홍길동");
-        	//timeout 10분
-        	session.setMaxInactiveInterval(600);
-
-        	//새로운 접속(세션) 생성
-        	loginManager.setSession(session, userID);
-        	response.sendRedirect("/uia/login/");
         } else {
-            response.sendRedirect("/uia/login/?result=fail");
+            response.sendRedirect("/login/?result=fail");
         }
     }
 
@@ -87,7 +90,7 @@ Date test3 = new Date(session.getLastAccessedTime());
     public void logout(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
         HttpSession session = request.getSession();
         session.invalidate();
-        response.sendRedirect("/uia/login/");
+        response.sendRedirect("/login/");
     }
 
     @RequestMapping(value="/sessionAlive/")
@@ -97,9 +100,9 @@ Date test3 = new Date(session.getLastAccessedTime());
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add("Content-Type", "text/plain; charset=utf-8");
         HttpSession session = request.getSession();
-        String userID = SimpleUtils.default_set((String)session.getAttribute("userID"));
+        String user_id = SimpleUtils.default_set((String)session.getAttribute("user_id"));
 
-        if(userID == null || userID.isEmpty()){
+        if(user_id == null || user_id.isEmpty()){
             obj.put("RESULT", -1);
         }else{
             obj.put("RESULT", 0);
@@ -125,6 +128,6 @@ Date test3 = new Date(session.getLastAccessedTime());
         model.addAttribute("ctime", cdate);
         model.addAttribute("ltime", ldate);
 
-        return "uia/sessionTimeout";
+        return "gnrl/mber/sessionTimeout";
     }
 }

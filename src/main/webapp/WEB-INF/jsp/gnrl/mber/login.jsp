@@ -36,12 +36,12 @@
 	});
 
 	$(function () {
-		$("#userID").keyup(function () {
+		$("#txtID").keyup(function () {
 			//작성이벤트 발생
 			checkUnload = true; 
 		});
 
-		$("#userPW").keyup(function () {
+		$("#txtPW").keyup(function () {
 			//작성이벤트 발생
 			checkUnload = true; 
 		});
@@ -51,7 +51,7 @@
 	function login(){
 		//알림없이 이동할 경우
 	    checkUnload = false;
-		frmLogin.action="<c:url value='/uia/loginAction/'/>";
+		frmLogin.action="<c:url value='/loginAction/'/>";
 		frmLogin.submit();
 	}
 
@@ -69,12 +69,12 @@
 		</tr>
 
 <c:choose>
-	<c:when test="${userID ne ''}">
-	<iframe id="sessionFrame" src="<c:url value='/uia/sessionTimeout/'/>" width="300" height="50" frameborder=0 scrolling="yes" ></iframe>
+	<c:when test="${user_id ne ''}">
+	<iframe id="sessionFrame" src="<c:url value='/sessionTimeout/'/>" width="300" height="50" frameborder=0 scrolling="yes" ></iframe>
 		<tr>
 			<td align="center">
-				${userID}(${userNm}) 로그인중...
-			<th align="center"><a href="<c:url value='/uia/logout/'/>">로그아웃</a></th>
+				${user_id}(${user_nm}) 로그인중...
+			<th align="center"><a href="<c:url value='/logout/'/>">로그아웃</a></th>
 			</td>
 		</tr>
 
@@ -94,7 +94,7 @@
 
 	function fnTimeout(){
 		//로그아웃
-	    location.href = "/uia/logout/";
+	    location.href = "/logout/";
 	}
 
 	function fnNotEnd(){
@@ -135,7 +135,7 @@
 /*
 	function sessionAlive(){
 		$.ajax({
-			url : "<c:url value='/uia/sessionAlive/'/>",
+			url : "<c:url value='/sessionAlive/'/>",
 			dataType : "json",
 			type : "POST",
 			async : false,
@@ -164,14 +164,14 @@
 	</c:when>
 	<c:otherwise>
 
-	<form name="frmLogin" action="<c:url value='/uia/loginAction/'/>">
+	<form name="frmLogin" action="<c:url value='/loginAction/'/>">
 		<tr>
 			<th align="left">아이디</th>
-			<td align="left"><input type="text" id="userID" name="userID"></td>
+			<td align="left"><input type="text" id="txtID" name="txtID"></td>
 		</tr>
 		<tr>
 			<th align="left">비밀번호</th>
-			<td align="left"><input type="text" id="userPW" name="userPW"></td>
+			<td align="left"><input type="text" id="txtPW" name="txtPW"></td>
 		</tr>
 		<tr>
 			<th align="center" colspan="2"><a href="javascript:login();">로그인</a></th>

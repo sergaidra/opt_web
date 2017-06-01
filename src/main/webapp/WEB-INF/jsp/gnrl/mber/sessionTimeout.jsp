@@ -13,11 +13,11 @@
 
 	function fnRestart(){
 		//fnTimer_01 호출
-		fnTimer_01(60, "divRemainTime","Y");
+		fnTimer_01(600, "divRemainTime","Y");
 
 		//session 연장
 		$.ajax({
-			url : "<c:url value='/uia/sessionAlive/'/>",
+			url : "<c:url value='/sessionAlive/'/>",
 			dataType : "json",
 			type : "POST",
 			async : false,
