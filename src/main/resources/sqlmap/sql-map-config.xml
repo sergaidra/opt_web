@@ -2,7 +2,6 @@
 <!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
 
 <sqlMapConfig>
-	<sqlMap resource="sqlmap/siione/gnrl/cmmn_db_sql.xml"/>
 	<sqlMap resource="sqlmap/siione/gnrl/mber_db_sql.xml"/>
-	<sqlMap resource="sqlmap/siione/mngr/cmmn_db_sql.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_tour_cmpny.xml"/>
 </sqlMapConfig>

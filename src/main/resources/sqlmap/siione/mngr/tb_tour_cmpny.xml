@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="query">
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+
+	<insert id="TourCmpnyDAO.insertTourCmpny" parameterClass="hashMap">
+	<![CDATA[
+		INSERT INTO TB_TOUR_CMPNY( CMPNY_CODE
+								 , CMPNY_NM
+								 , CMPNY_INTRCN
+								 , ADRES
+								 , TELNO
+								 , DELETE_AT
+								 , WRITNG_ID
+								 , WRITNG_DE )
+						   VALUES( LPAD(SEQ_TOUR_CMPNY.NEXTVAL, 10, '0')
+								 , #CMPNY_NM#
+								 , #CMPNY_INTRCN#
+								 , #ADRES#
+								 , #TELNO#
+								 , #ADRES#
+								 , 'N'
+								 , #WRITNG_ID#
+								 , TO_CHAR(SYSDATE, 'YYYYMMDD'))
+	]]>
+	</insert>
+
+	<update id="BoxInfoDAO.updateBoxInfo" parameterClass="hashMap">
+		UPDATE TB_BOXINFO
+		   SET BOX_SN = #BOX_SN#
+		     <isNotEmpty property="BOX_NM"  ><![CDATA[, BOX_NM = #BOX_NM#    ]]></isNotEmpty>
+		     <isNotEmpty property="BOX_DC"  ><![CDATA[, BOX_DC = #BOX_DC#    ]]></isNotEmpty>
+		     <isNotEmpty property="BOX_ORDR"><![CDATA[, BOX_ORDR = #BOX_ORDR#]]></isNotEmpty>
+		 WHERE BOX_SN = #BOX_SN#
+		   AND REG_ID = NVL(#REG_ID#, #USER_ID#)
+	</update>
+
+	<delete id="BoxInfoDAO.deleteBoxInfo" parameterClass="hashMap">
+	<![CDATA[
+		DELETE
+		  FROM TB_BOXINFO
+		 WHERE BOX_SN = #BOX_SN#
+		   AND REG_ID = NVL(#REG_ID#, #USER_ID#)		 
+	]]>
+	</delete>
+
+	<select id="TourCmpnyDAO.selectTourCmpnyList" parameterClass="hashMap" resultClass="hashMap">
+	<![CDATA[
+		SELECT CMPNY_CODE
+			 , CMPNY_NM
+			 , CMPNY_INTRCN
+			 , ADRES
+			 , TELNO
+			 , DELETE_AT
+			 , WRITNG_ID
+			 , WRITNG_DE
+			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2 
+		  FROM TB_TOUR_CMPNY   
+	]]>
+	</select>
+
+
+
+
+</sqlMap>
