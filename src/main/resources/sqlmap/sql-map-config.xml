@@ -3,5 +3,5 @@
 
 <sqlMapConfig>
 	<sqlMap resource="sqlmap/siione/gnrl/cmmn_db_sql.xml"/>
-	<sqlMap resource="sqlmap/siione/mngr/cmmn_db_sql.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_tour_cmpny.xml"/>
 </sqlMapConfig>
