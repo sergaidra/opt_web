@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/jsp/">
+
+	<decorator name="layout" page="layout.jsp">
+		<pattern>/*</pattern>
+	</decorator>
+
+	<excludes>
+		<pattern>/index*</pattern>
+		
+		<!-- 관리자 -->
+		<pattern>/mngr/*</pattern>
+
+		<!-- iframe -->
+		<pattern>*Iframe/</pattern>
+
+		<!-- popup -->
+		<pattern>*Popup/</pattern>
+
+		<!-- action -->
+		<pattern>*Action/</pattern>
+
+		<!-- json -->
+		<pattern>*Json/</pattern>
+	</excludes>
+</decorators>

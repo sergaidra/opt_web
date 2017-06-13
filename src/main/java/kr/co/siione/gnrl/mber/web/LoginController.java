@@ -1,10 +1,6 @@
 package kr.co.siione.gnrl.mber.web;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.*;
@@ -12,7 +8,6 @@ import javax.servlet.http.*;
 import kr.co.siione.dist.utils.SimpleUtils;
 import kr.co.siione.gnrl.mber.service.LoginService;
 import kr.co.siione.utl.LoginManager;
-import kr.co.siione.utl.Utility;
 
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
@@ -22,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import twitter4j.internal.org.json.JSONObject;
 
 @Controller
-@RequestMapping(value = "/")
+@RequestMapping(value = "/member/")
 public class LoginController {
 
 	@Resource
@@ -57,7 +52,7 @@ public class LoginController {
     	map.put("user_id", user_id);
     	HashMap result = loginService.userInfo(map);
 
-        if(!result.isEmpty()){
+        if(result != null){
 
         	String esntl_id = (String) result.get("ESNTL_ID");
         	String password = (String) result.get("PASSWORD");
@@ -72,28 +67,28 @@ public class LoginController {
             	session.setAttribute("user_id", result.get("USER_ID"));
             	session.setAttribute("user_nm", result.get("USER_NM"));
             	session.setAttribute("esntl_id", esntl_id);
-            	//timeout 10분
-            	session.setMaxInactiveInterval(630);
+            	//timeout 30분
+            	session.setMaxInactiveInterval(1800);
 
             	//새로운 접속(세션) 생성
             	loginManager.setSession(session, esntl_id);
-            	response.sendRedirect("/login/");
+            	response.sendRedirect("/main/indexAction/");
         	}else{
-                response.sendRedirect("/login/?result=fail");
+                response.sendRedirect("/member/login/?result=fail");
         	}
         } else {
-            response.sendRedirect("/login/?result=fail");
+            response.sendRedirect("/member/login/?result=fail");
         }
     }
 
-    @RequestMapping(value="/logout/")
+    @RequestMapping(value="/logoutAction/")
     public void logout(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
         HttpSession session = request.getSession();
         session.invalidate();
-        response.sendRedirect("/login/");
+        response.sendRedirect("/main/indexAction/");
     }
 
-    @RequestMapping(value="/sessionAlive/")
+    @RequestMapping(value="/aliveJson/")
     public ResponseEntity sessionAlive(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
         ResponseEntity entity = null;
         JSONObject obj = new JSONObject();
@@ -111,23 +106,9 @@ public class LoginController {
         return entity;
     }
 
-    @RequestMapping(value="/sessionTimeout/")
+    @RequestMapping(value="/timerIframe/")
     public String sessionTimeout(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
-        LoginManager loginManager = LoginManager.getInstance();
-        HttpSession session = request.getSession();        
-
-		int interval = session.getMaxInactiveInterval();
-		Date ctime = new Date(session.getCreationTime());
-		Date ltime = new Date(session.getLastAccessedTime());
-
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");		 
-		String cdate = sdf.format(ctime);		 
-		String ldate = sdf.format(ltime);
-
-        model.addAttribute("interval", interval);
-        model.addAttribute("ctime", cdate);
-        model.addAttribute("ltime", ldate);
-
-        return "gnrl/mber/sessionTimeout";
+        return "gnrl/mber/timer";
     }
+    
 }
