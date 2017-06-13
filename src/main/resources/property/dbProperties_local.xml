@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
-<properties>
-	<comment>DB</comment>
-	<entry key="base.driver">oracle.jdbc.driver.OracleDriver</entry>
-	<entry key="base.url">jdbc:oracle:thin:@192.168.10.10:1521/siione</entry>
-	<entry key="base.username">opt_dba</entry>
-	<entry key="base.password">opt_dba</entry>
-</properties>
