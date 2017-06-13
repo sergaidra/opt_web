@@ -7,17 +7,18 @@
 <script src="/js/siione.js"></script>
 <script language='javascript'>
 
+	var default_sec = 600;
 	window.onload = function(){
-	    fnRestart();
+	    fnRestart(default_sec);
 	}
 
-	function fnRestart(){
+	function fnRestart(second){
 		//fnTimer_01 호출
-		fnTimer_01(600, "divRemainTime","Y");
+		fnTimer_01(second, "divRemainTime","Y");
 
 		//session 연장
 		$.ajax({
-			url : "<c:url value='/sessionAlive/'/>",
+			url : "<c:url value='/member/aliveJson/'/>",
 			dataType : "json",
 			type : "POST",
 			async : false,
@@ -43,7 +44,7 @@
 </head>
 <body leftmargin='0' topmargin='0'>
 
-<span id='divRemainTime'></span>&nbsp;<input type='button' value='연장' onclick='javascript:fnRestart();'>
+<span id='divRemainTime'></span>&nbsp;<input type='button' value='연장' onclick='javascript:location.reload();'>
 
 </body>
 </html>

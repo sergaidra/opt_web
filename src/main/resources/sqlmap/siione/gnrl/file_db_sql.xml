@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
+<sqlMap namespace="gnrl.file">
+
+	<select id="gnrl.file.selectFileList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
+		SELECT 
+		FD.FILE_CODE,
+		FD.FILE_SN,
+		FD.FILE_NM,
+		FD.FILE_PATH,
+		FD.FILE_DC,
+		FD.FILE_SIZE,
+		FD.FILE_CL,
+		FD.REPRSNT_AT,
+		FD.SORT_NO,
+		FD.WRITNG_ID,
+		FD.WRITNG_DE,
+		FD.UPDT_ID,
+		FD.UPDT_DE
+		FROM TB_FILE_DETAIL FD		
+		WHERE FD.FILE_CODE = #file_code#
+	    <isNotEmpty property="file_cl" prepend="AND">
+			FD.FILE_CL = #file_cl#
+		</isNotEmpty>
+		ORDER BY FD.SORT_NO ASC	
+	</select>
+
+	<select id="gnrl.file.selectFileDetail" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
+		SELECT 
+		FD.FILE_CODE,
+		FD.FILE_SN,
+		FD.FILE_NM,
+		FD.FILE_PATH,
+		FD.FILE_DC,
+		FD.FILE_SIZE,
+		FD.FILE_CL,
+		FD.REPRSNT_AT,
+		FD.SORT_NO,
+		FD.WRITNG_ID,
+		FD.WRITNG_DE,
+		FD.UPDT_ID,
+		FD.UPDT_DE
+		FROM TB_FILE_DETAIL FD		
+		WHERE FD.FILE_CODE = #file_code#
+		AND FD.FILE_SN = #file_sn#
+	    <isNotEmpty property="file_cl" prepend="AND">
+			FD.FILE_CL = #file_cl#
+		</isNotEmpty>
+	</select>
+	
+</sqlMap>

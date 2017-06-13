@@ -3,6 +3,7 @@
 
 <sqlMapConfig>
 	<sqlMap resource="sqlmap/siione/gnrl/cmmn_db_sql.xml"/>
+	<sqlMap resource="sqlmap/siione/gnrl/file_db_sql.xml"/>
 	<sqlMap resource="sqlmap/siione/gnrl/mber_db_sql.xml"/>
-	<sqlMap resource="sqlmap/siione/mngr/cmmn_db_sql.xml"/>
+	<sqlMap resource="sqlmap/siione/gnrl/goods_db_sql.xml"/>
 </sqlMapConfig>
