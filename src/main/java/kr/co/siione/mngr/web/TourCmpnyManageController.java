@@ -39,15 +39,90 @@ public class TourCmpnyManageController {
 	 * @throws Exception
 	 */
     @RequestMapping(value="/mngr/tourCmpnyManage/")
-	public String tourCmpnyManage(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap map) throws Exception {
+	public String tourCmpnyManage(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
 		try {
 			List<Map<String, String>> list = tourCmpnyManageService.selectTourCmpnyList(param);
-			map.put("TOUR_CMPNY_LIST", list);
+			model.put("TOUR_CMPNY_LIST", list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
         return "/mngr/tourCmpnyManage";	
 	}
     
-      
+    @RequestMapping(value="/mngr/tourCmpnyRegist/")
+	public String tourCmpnyRegist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "/mngr/tourCmpnyRegist";	
+	}    
+    
+    @RequestMapping(value="/mngr/tourCmpnyModify/")
+	public String tourCmpnyModify(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+		try {
+			Map<String, String> map = tourCmpnyManageService.selectTourCmpnyByPk(param);
+			model.put("tourCmpnyInfo", map);
+			model.put("success", true);
+		} catch (Exception e) {
+			model.put("success", false);
+			e.printStackTrace();
+		}	
+        return "/mngr/tourCmpnyModify";	
+	}    
+    
+    @RequestMapping(value="/mngr/addTourCmpny/")
+	public String addTourCmpny(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+    	param.put("WRITNG_ID", ssUserId);
+		try {
+			tourCmpnyManageService.insertTourCmpny(param);
+			model.put("message", "여행사를 등록하였습니다.");
+			model.put("success", true);
+		} catch (Exception e) {
+			model.put("message", e.getLocalizedMessage());
+			model.put("success", false);
+		}
+		List<Map<String, String>> list = tourCmpnyManageService.selectTourCmpnyList(param);
+		model.put("TOUR_CMPNY_LIST", list);
+
+		return "/mngr/tourCmpnyManage";
+	}
+    
+    @RequestMapping(value="/mngr/modTourCmpny/")
+	public String modTourCmpny(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+    	param.put("UPDT_ID", ssUserId);
+		try {
+			if(tourCmpnyManageService.updateTourCmpny(param) > 0) {
+				model.put("message", "여행사를 수정하였습니다.");
+				model.put("success", true);	
+			} else {
+				model.put("message", "여행사 수정중 오류가 발생했습니다.");
+				model.put("success", false);
+			}
+		} catch (Exception e) {
+			model.put("message", e.getLocalizedMessage());
+			model.put("success", false);
+		}
+		List<Map<String, String>> list = tourCmpnyManageService.selectTourCmpnyList(param);
+		model.put("TOUR_CMPNY_LIST", list);
+		
+		return "/mngr/tourCmpnyManage";
+	}  
+    
+    @RequestMapping(value="/mngr/delTourCmpny/")
+	public String delTourCmpny(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+    	param.put("UPDT_ID", ssUserId);
+		try {
+			if(tourCmpnyManageService.deleteTourCmpny(param) > 0) {
+				model.put("message", "여행사를 삭제하였습니다.");
+				model.put("success", true);	
+			} else {
+				model.put("message", "여행사 삭제중 오류가 발생했습니다.");
+				model.put("success", false);
+			}
+		} catch (Exception e) {
+			model.put("message", e.getLocalizedMessage());
+			model.put("success", false);
+		}
+		List<Map<String, String>> list = tourCmpnyManageService.selectTourCmpnyList(param);
+		model.put("TOUR_CMPNY_LIST", list);
+		
+		return "/mngr/tourCmpnyManage";
+	}    
 }

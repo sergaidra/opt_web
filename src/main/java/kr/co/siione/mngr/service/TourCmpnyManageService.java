@@ -5,11 +5,13 @@ import java.util.Map;
 
 public interface TourCmpnyManageService {
 	
-	public Map<String, Object> insertTourCmpny(Map<String, String> param) throws Exception;
+	public void insertTourCmpny(Map<String, String> param) throws Exception;
 	
-	public Map<String, Object> updateTourCmpny(Map<String, String> param) throws Exception;
+	public int updateTourCmpny(Map<String, String> param) throws Exception;
 
-	public Map<String, Object> deleteTourCmpny(Map<String, String> param) throws Exception;
+	public int deleteTourCmpny(Map<String, String> param) throws Exception;
+	
+	public Map<String, String> selectTourCmpnyByPk(Map<String, String> param) throws Exception;
 
 	public List<Map<String, String>> selectTourCmpnyList(Map<String, String> param) throws Exception;
 

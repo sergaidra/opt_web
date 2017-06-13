@@ -3,11 +3,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>관리자 메뉴</title>
+<title>OPT 관리자 메뉴</title>
 </head>
 <body>
 <ul>
-	<li><a href="/opt/mngr/tourCmpnyManage/" target="_blank">여행사관리</a></li>
+	<li><a href="/siione/mngr/tourCmpnyManage/" target="_self">여행사관리</a></li>
+	<li><a href="/siione/mngr/tourCmpnyRegist/" target="_self">여행사등록</a></li>
+	<li><a href="/siione/mngr/guideRegist/" target="_self">가이드관리</a></li>
 </ul>
 </body>
 </html>

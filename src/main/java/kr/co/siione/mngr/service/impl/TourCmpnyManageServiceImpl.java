@@ -16,23 +16,25 @@ public class TourCmpnyManageServiceImpl implements TourCmpnyManageService {
 	private TourCmpnyDAO tourCmpnyDAO;
 
 	@Override
-	public Map<String, Object> insertTourCmpny(Map<String, String> param) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public void insertTourCmpny(Map<String, String> param) throws Exception {
+		tourCmpnyDAO.insertTourCmpny(param);
 	}
 
 	@Override
-	public Map<String, Object> updateTourCmpny(Map<String, String> param) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public int updateTourCmpny(Map<String, String> param) throws Exception {
+		return tourCmpnyDAO.updateTourCmpny(param);
 	}
 
 	@Override
-	public Map<String, Object> deleteTourCmpny(Map<String, String> param) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public int deleteTourCmpny(Map<String, String> param) throws Exception {
+		return tourCmpnyDAO.deleteTourCmpny(param);
 	}
 
+	@Override
+	public Map<String, String> selectTourCmpnyByPk(Map<String, String> param) throws Exception {
+		return tourCmpnyDAO.selectTourCmpnyByPk(param);
+	}
+	
 	@Override
 	public List<Map<String, String>> selectTourCmpnyList(Map<String, String> param) throws Exception {
 		return tourCmpnyDAO.selectTourCmpnyList(param);
