@@ -21,13 +21,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/file/")
 public class FileController {
 
-    private String resourcePath = "C:" + File.separator + "optFiles" + File.separator;
+    private String RESOURCE_PATH = "C:" + File.separator + "optFiles" + File.separator;
+    private String NO_IMAGE_NAME = "no_img.gif";
+    private String NO_IMAGE_PATH = "/images/" + NO_IMAGE_NAME;
 
 	@Resource
 	private FileService fileService;
-	
+
+    
+    @RequestMapping(value="/imageListIframe/")
+    public String imageList(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+    	
+    	String file_code = SimpleUtils.default_set(request.getParameter("file_code"));
+
+    	HashMap map = new HashMap();
+    	map.put("file_code", file_code);
+    	List<HashMap> result = fileService.getFileList(map);
+
+        model.addAttribute("result", result);
+        return "gnrl/file/imageList";
+    }
+
     @RequestMapping(value="/getImage/")
-    public ResponseEntity<byte[]> getThumbnail(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+    public ResponseEntity<byte[]> getImage(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
         ResponseEntity entity = null;
         HttpHeaders responseHeaders = new HttpHeaders();
         entity = new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -35,14 +51,20 @@ public class FileController {
         String file_code = SimpleUtils.default_set(request.getParameter("file_code"));
         String file_sn = SimpleUtils.default_set(request.getParameter("file_sn"));
 
-    	String noImagePath = request.getSession().getServletContext().getRealPath("/") + "/images/no_img.gif";
+    	String noImagePath = request.getSession().getServletContext().getRealPath("/") + NO_IMAGE_PATH;
     	String realPath = noImagePath;
-    	String fileName = "no_img.gif";
+    	String fileName = NO_IMAGE_NAME;
         
     	HashMap map = new HashMap();
-    	map.put("file_code", file_code);
-    	map.put("file_sn", file_sn);
+    	map.put("file_code", file_code);    	
     	map.put("file_cl", "I");
+    	
+    	//파일번호 없으면 대표이미지 조회
+    	if(file_sn.isEmpty()){
+        	map.put("reprsnt_at", "Y");
+    	}else{
+        	map.put("file_sn", file_sn);
+    	}
     	HashMap result = fileService.getFileDetail(map);
 
     	if(result != null){

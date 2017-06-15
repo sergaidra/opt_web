@@ -2,6 +2,18 @@
 <!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
 <sqlMap namespace="gnrl">
 
+	<resultMap id="goodsDetail" class="java.util.HashMap">
+		<result property="GOODS_CODE" column="GOODS_CODE" columnIndex="1"/>
+		<result property="GOODS_NM" column="GOODS_NM" columnIndex="2"/>
+		<result property="GOODS_INTRCN" column="GOODS_INTRCN" columnIndex="3" javaType="String" jdbcType="CLOB"/>
+		<result property="DELETE_AT" column="DELETE_AT" columnIndex="4"/>
+		<result property="FILE_CODE" column="FILE_CODE" columnIndex="5"/>
+		<result property="WRITNG_ID" column="WRITNG_ID" columnIndex="6"/>
+		<result property="WRITNG_DE" column="WRITNG_DE" columnIndex="7"/>
+		<result property="UPDT_ID" column="UPDT_ID" columnIndex="8"/>
+		<result property="UPDT_DE" column="UPDT_DE" columnIndex="9"/>
+	</resultMap>
+
 	<select id="gnrl.goods.selectTourClList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
 		SELECT  
 		TT.CL_CODE,
@@ -44,20 +56,14 @@
 		SELECT  
 		TG.GOODS_CODE,
 		TG.GOODS_NM,
-		TG.GOODS_INTRCN,
 		TG.DELETE_AT,
 		TG.FILE_CODE,
-		(
-			SELECT 
-			FD.FILE_SN
-			FROM TB_FILE_DETAIL FD		
-			WHERE FD.FILE_CODE = TG.FILE_CODE AND FD.REPRSNT_AT = 'Y'
-			AND ROWNUM = 1
-		) AS FILE_SN,
 		TG.WRITNG_ID,
 		TG.WRITNG_DE,
 		TG.UPDT_ID,
-		TG.UPDT_DE
+		TG.UPDT_DE,
+		FN_CL_LIST(TG.GOODS_CODE) AS CL_LIST,
+		FN_SCHDUL_LIST(TG.GOODS_CODE) AS SCHDUL_LIST
 		FROM TB_GOODS TG
 		WHERE TG.DELETE_AT = 'N'
 		AND EXISTS (
@@ -73,7 +79,7 @@
 		ORDER BY TG.WRITNG_DE DESC
 	</select>
 
-	<select id="gnrl.goods.selectGoodsDetail" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
+	<select id="gnrl.goods.selectGoodsDetail" parameterClass="java.util.HashMap" resultMap="goodsDetail"> 
 		SELECT  
 		TG.GOODS_CODE,
 		TG.GOODS_NM,
@@ -89,5 +95,30 @@
 		AND TG.GOODS_CODE = #goods_code#
 	</select>
 
+	<select id="gnrl.goods.selectGoodsClList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+        SELECT TC.CL_CODE, TC.CL_NM
+        FROM TB_GOODS_CL GC
+        INNER JOIN TB_TOUR_CL TC ON GC.CL_CODE = TC.CL_CODE
+        WHERE GC.GOODS_CODE = #goods_code#
+        ORDER BY TC.CL_NM ASC
+	</select>
+
+	<select id="gnrl.goods.selectGoodsSchdulList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+        SELECT GS.BEGIN_DE, GS.END_DE, 
+        SUBSTR(GS.BEGIN_DE,1,4) ||'-'|| SUBSTR(GS.BEGIN_DE,5,2) ||'-'|| SUBSTR(GS.BEGIN_DE,7,2) AS BEGIN_CAL_DE,
+        SUBSTR(GS.END_DE,1,4) ||'-'|| SUBSTR(GS.END_DE,5,2) ||'-'|| SUBSTR(GS.END_DE,7,2) AS END_CAL_DE
+        FROM TB_GOODS_SCHDUL GS
+        WHERE GS.GOODS_CODE = #goods_code#
+        AND GS.DELETE_AT = 'N'
+        ORDER BY GS.BEGIN_DE ASC
+	</select>
+
+	<select id="gnrl.goods.selectGoodsNmprList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT GN.NMPR_SN, GN.NMPR_CND, GN.SETUP_AMOUNT
+		FROM TB_GOODS_NMPR GN
+		WHERE GN.DELETE_AT = 'N'
+		AND GN.GOODS_CODE = #goods_code#
+		ORDER BY GN.NMPR_SN ASC
+	</select>
 
 </sqlMap>

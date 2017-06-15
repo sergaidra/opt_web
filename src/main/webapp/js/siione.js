@@ -68,3 +68,52 @@
 	    }
 	    return str;
 	}
+
+	
+	function fnIsEmpty(inVal) {
+		if (new String(inVal).valueOf() == "undefined")
+			return true;
+		if (inVal == null)
+			return true;
+		if (inVal == 'null')
+			return true;
+
+		var v_ChkStr = new String(inVal);
+
+		if (v_ChkStr == null)
+			return true;
+		if (v_ChkStr.toString().length == 0)
+			return true;
+		return false;
+	}
+
+	function fnCalendarPopup(ctl, sDate, eDate) {		
+		var id = $("#"+ctl).attr('id');
+
+		$("#" + id).datepicker({
+			dateFormat : 'yy-mm-dd',
+			monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
+			monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
+			dayNames : [ '일', '월', '화', '수', '목', '금', '토' ],
+			dayNamesShort : [ '일', '월', '화', '수', '목', '금', '토' ],
+			dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
+			changeYear : false,
+			changeMonth : false,
+			showOtherMonths : true,
+			selectOtherMonths : false,
+			showOn : 'none'
+		});
+
+		if(sDate != "") $("#" + id).datepicker("option", "minDate", sDate);
+		if(eDate != "") $("#" + id).datepicker("option", "maxDate", eDate);
+		
+		$("#" + id).datepicker('show');	
+	}
+
+
+	function fnCalendarReset(ctl) {
+		var id = $("#"+ctl).attr('id');
+		$("#" + id).val("");
+	}
+
+	

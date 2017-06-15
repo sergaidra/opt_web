@@ -42,10 +42,16 @@
 		FD.UPDT_DE
 		FROM TB_FILE_DETAIL FD		
 		WHERE FD.FILE_CODE = #file_code#
-		AND FD.FILE_SN = #file_sn#
+	    <isNotEmpty property="file_sn" prepend="AND">
+			FD.FILE_SN = #file_sn#
+		</isNotEmpty>
+		<isNotEmpty property="reprsnt_at" prepend="AND">
+			FD.REPRSNT_AT = #reprsnt_at#
+		</isNotEmpty>
 	    <isNotEmpty property="file_cl" prepend="AND">
 			FD.FILE_CL = #file_cl#
 		</isNotEmpty>
+		AND ROWNUM = 1
 	</select>
 	
 </sqlMap>
