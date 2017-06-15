@@ -12,15 +12,15 @@
 		<pattern>/mngr/*</pattern>
 
 		<!-- iframe -->
-		<pattern>*Iframe/</pattern>
+		<pattern>*Iframe/*</pattern>
 
 		<!-- popup -->
-		<pattern>*Popup/</pattern>
+		<pattern>*Popup/*</pattern>
 
 		<!-- action -->
-		<pattern>*Action/</pattern>
+		<pattern>*Action/*</pattern>
 
 		<!-- json -->
-		<pattern>*Json/</pattern>
+		<pattern>*Json/*</pattern>
 	</excludes>
 </decorators>

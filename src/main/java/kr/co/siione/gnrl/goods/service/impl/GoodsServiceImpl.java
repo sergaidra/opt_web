@@ -29,4 +29,16 @@ public class GoodsServiceImpl implements GoodsService {
     public HashMap getGoodsDetail(HashMap map) throws Exception {
         return goodsDAO.selectGoodsDetail(map);
     }
+
+    public List<HashMap> getGoodsClList(HashMap map) throws Exception {
+        return goodsDAO.selectGoodsClList(map);
+    }
+
+    public List<HashMap> getGoodsSchdulList(HashMap map) throws Exception {
+        return goodsDAO.selectGoodsSchdulList(map);
+    }
+
+    public List<HashMap> getGoodsNmprList(HashMap map) throws Exception {
+        return goodsDAO.selectGoodsNmprList(map);
+    }
 }

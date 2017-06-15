@@ -31,8 +31,13 @@
 	a.cbtn {display:inline-block; height:25px; padding:0 14px 0; border:1px solid #304a8a; background-color:#3f5a9d; font-size:13px; color:#fff; line-height:25px;}	
 	a.cbtn:hover {border: 1px solid #091940; background-color:#1f326a; color:#fff;}
 </style>
-<script src="/js/jquery-1.11.1.js"></script>
-<script src="/js/siione.js"></script>
+
+<link type="text/css" href="/css/jquery-ui.css" rel="stylesheet" media="screen"/>
+<script type="text/javascript" src="/js/jquery-1.11.1.js"></script>
+<script type="text/javascript" src="/js/jquery-ui.js"></script>
+
+<script type="text/javascript" src="/js/siione.js"></script>
+<script type="text/javascript" src="/js/calendar.js"></script>
 
 <decorator:head />
 

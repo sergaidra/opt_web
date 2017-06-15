@@ -27,7 +27,7 @@
 				<table cellspacing="0" cellpadding="0">
 				<tr>
 					<td align="center">
-						<a href="javascript:fnCheck('${result.CL_CODE}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1" width="300"></a>
+						<a href="javascript:fnCheck('${result.CL_CODE}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1" width="300" height="225px"></a>
 					</td>
 				</tr>
 				<tr>
