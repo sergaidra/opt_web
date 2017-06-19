@@ -10,10 +10,10 @@
 <script type="text/javascript">
 	function f_add() {
 		fnCheckRequired();
-		if(!fnCheckMaxLength("CMPNY_NM", "회사이름")) return false;
-		//if(!fnCheckMaxLength("CMPNY_INTRCN", "회사소개") return false;
-		if(!fnCheckMaxLength("ADRES", "회사주소")) return false;
-		if(!fnCheckMaxLength("TELNO", "전화번호")) return false;
+		if(!fnCheckMaxLength("CMPNY_NM", "회사이름")) return;
+		//if(!fnCheckMaxLength("CMPNY_INTRCN", "회사소개") return;
+		if(!fnCheckMaxLength("ADRES", "회사주소")) return;
+		if(!fnCheckMaxLength("TELNO", "전화번호")) return;
 		form1.submit();	
 	}
 </script>

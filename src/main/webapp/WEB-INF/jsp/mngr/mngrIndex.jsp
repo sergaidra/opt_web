@@ -9,7 +9,9 @@
 <ul>
 	<li><a href="/siione/mngr/tourCmpnyManage/" target="_self">여행사관리</a></li>
 	<li><a href="/siione/mngr/tourCmpnyRegist/" target="_self">여행사등록</a></li>
-	<li><a href="/siione/mngr/guideRegist/" target="_self">가이드관리</a></li>
+	<li><a href="/siione/mngr/tourClManage/" target="_self">여행분류관리</a></li>
+	<li><a href="/siione/mngr/tourClRegist/" target="_self">여행분류등록</a></li>
+	<li><a href="/siione/mngr/mngrManage/" target="_self">가이드관리</a></li>
 </ul>
 </body>
 </html>
