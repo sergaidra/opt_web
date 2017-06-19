@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
+
 <script type="text/javascript">	
 	function fnPage() {
 		var form = $("form[id=frmList]");
@@ -13,6 +15,13 @@
 		var form = $("form[id=frmList]");
 		$("input:hidden[id=hidGoodsCode]").val(goods_code);
 		form.attr({"method":"post","action":"<c:url value='/goods/detail/'/>"});
+		form.submit();
+	}
+	
+	function fnLinkPage(page){
+		var form = $("form[id=frmList]");
+		$("input:hidden[id=hidPage]").val(page);
+		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
 		form.submit();
 	}
 </script>
@@ -65,5 +74,6 @@
 		</tr>
 	</table>
 	</form>
-	
+
+	<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="fnLinkPage"/>
 </div>

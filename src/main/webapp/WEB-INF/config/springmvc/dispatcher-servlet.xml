@@ -27,6 +27,16 @@
 		</property>
 	</bean>
 
+
+	<bean class="kr.co.siione.utl.ImagePaginationRenderer" id="imageRenderer"/>
+	<bean class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager" id="paginationManager">
+		<property name="rendererType">
+			<map>
+				<entry key="image" value-ref="imageRenderer"/>
+			</map>
+		</property>
+	</bean>
+
 	<bean id="loginCheckInterceptor" class="kr.co.siione.utl.SessionCheck" />
 	
 	<!-- 세션을 이용한 Locale 이용시-->
