@@ -23,7 +23,12 @@ public class TourClDAO extends EgovComAbstractDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Map<String, String>> selectTourCl(Map<String, String> param) throws Exception {
-		return list("TourClDAO.selectTourCl", param);
+	public Map<String, String> selectTourClByPk(Map<String, String> param) throws Exception {
+		return (Map<String, String>) selectByPk("TourClDAO.selectTourClByPk", param);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Map<String, String>> selectTourClList(Map<String, String> param) throws Exception {
+		return list("TourClDAO.selectTourClList", param);
 	}
 }

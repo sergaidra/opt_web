@@ -5,12 +5,14 @@ import java.util.Map;
 
 public interface TourClManageService {
 	
-	public Map<String, Object> insertTourCl(Map<String, String> param) throws Exception;
+	public void insertTourCl(Map<String, String> param) throws Exception;
 	
-	public Map<String, Object> updateTourCl(Map<String, String> param) throws Exception;
+	public int updateTourCl(Map<String, String> param) throws Exception;
 
-	public Map<String, Object> deleteTourCl(Map<String, String> param) throws Exception;
+	public int deleteTourCl(Map<String, String> param) throws Exception;
+	
+	public Map<String, String> selectTourClByPk(Map<String, String> param) throws Exception;
 
-	public List<Map<String, String>> selectTourCl(Map<String, String> param) throws Exception;
+	public List<Map<String, String>> selectTourClList(Map<String, String> param) throws Exception;
 
 }

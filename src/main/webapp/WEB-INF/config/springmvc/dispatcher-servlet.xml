@@ -62,7 +62,13 @@
 		<property name="order">
 			<value>1</value>
 		</property>
-	</bean>
+	</bean>	
+		
+	<!-- for JFile -->	  
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
+	
+	<!-- JSON View -->
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
 	
 	<mvc:resources location="/resources/**" mapping="/resources/**"/>
 	<mvc:resources location="/js/**" mapping="/js/**"/>

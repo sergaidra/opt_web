@@ -4,14 +4,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>여행사관리</title>
+<title>분류관리</title>
+<script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
 <script type = "text/javascript">
 	function f_reg() {
-		location.href = "<c:url value='../tourCmpnyRegist/'/>";
+		location.href = "<c:url value='../tourClRegist/'/>";
 	}
-
-	function f_mod(code) {
-		form1.CMPNY_CODE.value = code;
+	
+	function f_mod(clCode, fileCode) {
+		form1.CL_CODE.value = clCode;
+		form1.FILE_CODE.value = fileCode;
 		form1.submit();
 	}
 	<c:choose>
@@ -24,32 +26,31 @@
 </script>
 </head>
 <body>
-◆ 여행사관리
+◆ 분류관리
 <br><br>
 <input type="button" value="등록" onclick="f_reg()">
 <br><br>
 <table border='1'>
 	<tr>
 		<th>순서</th>
-		<th>회사명</th>
-		<th>주소</th>
-		<th>전화번호</th>
-		<th>소개</th>
+		<th>분류코드</th>
+		<th>분류명</th>
 		<th>등록일자</th>
+		<th>파일여부</th>
 	<tr>
-	<c:forEach var="tourCmpnyList" items="${TOUR_CMPNY_LIST}" varStatus="status">
+	<c:forEach var="tourCl" items="${tourClList}" varStatus="status">
 	<tr>
 		<td><c:out value='${status.count}'/></td>
-		<td onclick="javascript:f_mod('${tourCmpnyList.CMPNY_CODE}')"><c:out value='${tourCmpnyList.CMPNY_NM}'/></td>
-		<td><c:out value='${tourCmpnyList.ADRES}'/></td>
-		<td><c:out value='${tourCmpnyList.TELNO}'/></td>
-		<td><c:out value='${tourCmpnyList.CMPNY_INTRCN}'/></td>
-		<td><c:out value='${tourCmpnyList.WRITNG_DE2}'/></td>
+		<td><c:out value='${tourCl.CL_CODE}'/></td>
+		<td ondblclick="javascript:f_mod('${tourCl.CL_CODE}', '${tourCl.FILE_CODE}')"><c:out value='${tourCl.CL_NM}'/></td>
+		<td><c:out value='${tourCl.WRITNG_DE2}'/></td>
+		<td><c:out value='${tourCl.FILE_CODE}'/></td>
 	</tr>
 	</c:forEach>
 </table>
-<form id="form1" method="post" action="<c:url value='../tourCmpnyModify/'/>">
-	<input type="hidden" name="CMPNY_CODE">
+<form id="form1" method="post" action="<c:url value='../tourClModify/'/>">
+	<input type="hidden" name="CL_CODE">
+	<input type="hidden" name="FILE_CODE">
 </form>
 </body>
 </html>

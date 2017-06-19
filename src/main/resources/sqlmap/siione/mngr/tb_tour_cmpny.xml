@@ -4,6 +4,18 @@
 <sqlMap namespace="query">
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="string" type="java.lang.String"/>
+	
+	<resultMap id="rmTourCmpny" class="hashMap">
+		<result property="CMPNY_CODE" column="CMPNY_CODE" jdbcType="string" javaType="string"/>
+		<result property="CMPNY_NM" column="CMPNY_NM" jdbcType="string" javaType="string"/>
+		<result property="CMPNY_INTRCN" column="CMPNY_INTRCN" jdbcType="CLOB" javaType="string" />		
+		<result property="ADRES" column="ADRES" jdbcType="string" javaType="string"/>
+		<result property="TELNO" column="TELNO" jdbcType="string" javaType="string"/>
+		<result property="DELETE_AT" column="DELETE_AT" jdbcType="string" javaType="string"/>
+		<result property="WRITNG_ID" column="WRITNG_ID" jdbcType="string" javaType="string"/>
+		<result property="WRITNG_DE" column="WRITNG_DE" jdbcType="string" javaType="string"/>
+		<result property="WRITNG_DE2" column="WRITNG_DE2" jdbcType="string" javaType="string"/>
+	</resultMap>
 
 	<insert id="TourCmpnyDAO.insertTourCmpny" parameterClass="hashMap">
 	<![CDATA[
@@ -17,36 +29,39 @@
 								 , WRITNG_DE )
 						   VALUES( LPAD(SEQ_TOUR_CMPNY.NEXTVAL, 10, '0')
 								 , #CMPNY_NM#
-								 , #CMPNY_INTRCN#
+								 , #CMPNY_INTRCN:CLOB#
 								 , #ADRES#
 								 , #TELNO#
-								 , #ADRES#
 								 , 'N'
 								 , #WRITNG_ID#
 								 , TO_CHAR(SYSDATE, 'YYYYMMDD'))
 	]]>
 	</insert>
 
-	<update id="BoxInfoDAO.updateBoxInfo" parameterClass="hashMap">
-		UPDATE TB_BOXINFO
-		   SET BOX_SN = #BOX_SN#
-		     <isNotEmpty property="BOX_NM"  ><![CDATA[, BOX_NM = #BOX_NM#    ]]></isNotEmpty>
-		     <isNotEmpty property="BOX_DC"  ><![CDATA[, BOX_DC = #BOX_DC#    ]]></isNotEmpty>
-		     <isNotEmpty property="BOX_ORDR"><![CDATA[, BOX_ORDR = #BOX_ORDR#]]></isNotEmpty>
-		 WHERE BOX_SN = #BOX_SN#
-		   AND REG_ID = NVL(#REG_ID#, #USER_ID#)
+	<update id="TourCmpnyDAO.updateTourCmpny" parameterClass="hashMap">
+	<![CDATA[
+		UPDATE TB_TOUR_CMPNY
+		   SET CMPNY_NM = #CMPNY_NM#
+		     , CMPNY_INTRCN = #CMPNY_INTRCN:CLOB#
+		     , ADRES = #ADRES#
+		     , TELNO = #TELNO#
+		     , UPDT_ID = #UPDT_ID#
+		     , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+		 WHERE CMPNY_CODE = #CMPNY_CODE#
+	]]>
 	</update>
 
-	<delete id="BoxInfoDAO.deleteBoxInfo" parameterClass="hashMap">
+	<delete id="TourCmpnyDAO.deleteTourCmpny" parameterClass="hashMap">
 	<![CDATA[
-		DELETE
-		  FROM TB_BOXINFO
-		 WHERE BOX_SN = #BOX_SN#
-		   AND REG_ID = NVL(#REG_ID#, #USER_ID#)		 
+		UPDATE TB_TOUR_CMPNY
+		   SET DELETE_AT = 'Y'
+		     , UPDT_ID = #UPDT_ID#
+		     , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+		 WHERE CMPNY_CODE = #CMPNY_CODE#
 	]]>
 	</delete>
-
-	<select id="TourCmpnyDAO.selectTourCmpnyList" parameterClass="hashMap" resultClass="hashMap">
+	
+	<select id="TourCmpnyDAO.selectTourCmpnyByPk" parameterClass="hashMap" resultMap="rmTourCmpny">
 	<![CDATA[
 		SELECT CMPNY_CODE
 			 , CMPNY_NM
@@ -58,10 +73,25 @@
 			 , WRITNG_DE
 			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2 
 		  FROM TB_TOUR_CMPNY   
+		 WHERE CMPNY_CODE = #CMPNY_CODE#	  
 	]]>
 	</select>
 
-
-
+	<select id="TourCmpnyDAO.selectTourCmpnyList" parameterClass="hashMap" resultMap="rmTourCmpny">
+	<![CDATA[
+		SELECT CMPNY_CODE
+			 , CMPNY_NM
+			 , CMPNY_INTRCN
+			 , ADRES
+			 , TELNO
+			 , DELETE_AT
+			 , WRITNG_ID
+			 , WRITNG_DE
+			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2 
+		  FROM TB_TOUR_CMPNY   
+		 WHERE DELETE_AT = 'N'
+		 ORDER BY WRITNG_DE, CMPNY_CODE		  
+	]]>
+	</select>
 
 </sqlMap>

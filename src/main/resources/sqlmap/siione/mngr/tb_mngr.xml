@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="query">
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	
+	<insert id="MngrDAO.insertMngr" parameterClass="hashMap">
+	<![CDATA[
+		INSERT INTO TB_MNGR ( ESNTL_ID
+		                    , MNGR_ID
+		                    , MNGR_NM
+		                    , PASSWORD
+		                    , CMPNY_CODE
+		                    , AUTHOR_CL
+		                    , CONFM_AT
+		                    , WRITNG_ID
+		                    , WRITNG_DE )
+		             VALUES ( #ESNTL_ID#
+		                    , #MNGR_ID#
+		                    , #MNGR_NM#
+		                    , #PASSWORD#
+		                    , #CMPNY_CODE#
+		                    , #AUTHOR_CL#
+		                    , #CONFM_AT#
+		                    , #WRITNG_ID#
+		                    , TO_CHAR(SYSDATE, 'YYYYMMDD') )
+	]]>
+	</insert>
+
+	<update id="MngrDAO.updateMngr" parameterClass="hashMap">
+	<![CDATA[
+		UPDATE TB_MNGR
+		   SET CMPNY_NM = #CMPNY_NM#
+		     , CMPNY_INTRCN = #CMPNY_INTRCN:CLOB#
+		     , ADRES = #ADRES#
+		     , TELNO = #TELNO#
+		     , UPDT_ID = #UPDT_ID#
+		     , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+		 WHERE CMPNY_CODE = #CMPNY_CODE#
+	]]>
+	</update>
+
+	<delete id="MngrDAO.deleteMngr" parameterClass="hashMap">
+	<![CDATA[
+		UPDATE TB_MNGR
+		   SET DELETE_AT = 'Y'
+		     , UPDT_ID = #UPDT_ID#
+		     , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+		 WHERE CMPNY_CODE = #CMPNY_CODE#
+	]]>
+	</delete>
+	
+	<select id="MngrDAO.selectMngrByPk" parameterClass="hashMap" resultClass="hashMap">
+	<![CDATA[
+		SELECT CMPNY_CODE
+			 , CMPNY_NM
+			 , CMPNY_INTRCN
+			 , ADRES
+			 , TELNO
+			 , DELETE_AT
+			 , WRITNG_ID
+			 , WRITNG_DE
+			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2 
+		  FROM TB_MNGR   
+		 WHERE CMPNY_CODE = #CMPNY_CODE#	  
+	]]>
+	</select>
+
+	<select id="MngrDAO.selectMngrList" parameterClass="hashMap" resultClass="hashMap">
+	<![CDATA[
+		SELECT ESNTL_ID
+		     , MNGR_ID
+		     , MNGR_NM
+		     , PASSWORD
+		     , AUTHOR_CL
+		     , CMPNY_CODE
+		     , (SELECT CMPNY_NM FROM TB_TOUR_CMPNY X WHERE A.CMPNY_CODE = X.CMPNY_CODE) CMPNY_NM 
+		     , CONFM_AT
+		     , WRITNG_ID
+		     , WRITNG_DE
+		     , UPDT_ID
+		     , UPDT_DE
+			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2		     
+		  FROM TB_MNGR A 
+		 WHERE 1 = 1
+	]]>
+		<isNotEmpty property="SCH_MNGR_NM">
+		  AND MNGR_NM LIKE #SCH_MNGR_NM#||'%'
+		</isNotEmpty>
+	
+	
+	
+	</select>
+
+</sqlMap>
