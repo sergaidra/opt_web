@@ -2,6 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <script type="text/javascript">
+	
+	window.onload = function(){
+		fnNmprCndChange();
+	}
+
 	function fnList() {
 		var form = $("form[id=frmDetail]");
 		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
@@ -13,6 +18,15 @@
 		$("input:hidden[id=chkCategory]").val(cl_code);
 		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
 		form.submit();
+	}
+
+	function fnNmprCndChange(){
+		var form = $("form[id=frmDetail]");
+		$("input:text[id=txtPay]").val($("input:hidden[id=hidNmprCnd"+ $("input:radio[id=rdoNmprCnd]:checked").val() +"]").val());
+	}
+	
+	function fnAddCart(){
+		
 	}
 </script>
 <div align="center">
@@ -57,11 +71,13 @@
 			</td>
 			<td align="center">
 				<c:forEach var="list" items="${nmprList}" varStatus="status">
-				<input type="radio" id="rdoNmprCnd" name="rdoNmprCnd" value="${list.NMPR_SN}" <c:if test="${status.count==1}">checked</c:if>> ${list.NMPR_CND} : ₩ ${list.SETUP_AMOUNT}
+				<input type="radio" id="rdoNmprCnd" name="rdoNmprCnd" value="${list.NMPR_SN}" <c:if test="${status.count==1}">checked</c:if> onchange="fnNmprCndChange()"> ${list.NMPR_CND} : ₩ ${list.SETUP_AMOUNT}
+				<input type="hidden" id="hidNmprCnd${list.NMPR_SN}" name="hidNmprCnd${list.NMPR_SN}" value="₩ ${list.SETUP_AMOUNT}">
 				<br>
 				</c:forEach>
 				<br>
-				<input type="text" name="txtPay" id="txtPay" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="₩ 50000" readonly onfocus="this.blur()">
+				<input type="text" name="txtPay" id="txtPay" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="" readonly onfocus="this.blur()">
+				<a href="javascript:fnAddCart()">장바구니 추가</a>
 			</td>
 		</tr>
 	</table>

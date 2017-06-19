@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+
 @Controller
 @RequestMapping(value = "/goods/")
 public class GoodsController {
@@ -32,15 +34,44 @@ public class GoodsController {
 
     @RequestMapping(value="/list/")
     public String list(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
-        String[] category = request.getParameterValues("chkCategory");
 
+        String[] category = request.getParameterValues("chkCategory");
+        
+        //현재 페이지 파라메타
+        String strPage = SimpleUtils.default_set(request.getParameter("hidPage"));
+        int intPage = 1;
+		if(!strPage.equals(""))		
+			intPage = Integer.parseInt((String)strPage);
+		
+		//페이지 기본설정
+		int pageBlock = 4;
+		int pageArea = 10;
+        
     	HashMap map = new HashMap();
     	map.put("cl_code_arr", category);
-    	List<HashMap> tourList = goodsService.getTourClList(map);    	
-    	List<HashMap> goodsList = goodsService.getGoodsList(map);
+    	List<HashMap> tourList = goodsService.getTourClList(map);
 
+    	//page 
+    	PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(intPage);
+		paginationInfo.setRecordCountPerPage(pageBlock);
+		paginationInfo.setPageSize(pageArea);
+
+    	map.put("startRow", paginationInfo.getFirstRecordIndex());
+    	map.put("endRow", paginationInfo.getLastRecordIndex());
+
+		int list_cnt = 0;
+    	List<HashMap> list = goodsService.getGoodsList(map);
+
+		if(list.size() > 0){
+			list_cnt = Integer.parseInt(list.get(0).get("TOT_CNT").toString());
+			paginationInfo.setTotalRecordCount(list_cnt);
+		}
+    	
+        model.addAttribute("paginationInfo", paginationInfo);
+	
         model.addAttribute("tourList", tourList);
-        model.addAttribute("goodsList", goodsList);
+        model.addAttribute("goodsList", list);
 
         return "gnrl/goods/list";
     }
