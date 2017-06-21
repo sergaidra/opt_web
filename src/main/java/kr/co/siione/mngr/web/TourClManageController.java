@@ -40,11 +40,6 @@ public class TourClManageController {
 	
 	private static final String ssUserId = "admin";
 	
-    @RequestMapping(value="/mngr/index/")
-	public String mngrIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/mngr/mngrIndex";	
-	} 
-	
 	/**
 	 * 
 	 * <pre>
@@ -99,6 +94,10 @@ public class TourClManageController {
 		FileOutputStream fos = null;
     	
 		try {
+			
+			System.out.println("################Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
+			System.out.println("################File.separator:"+File.separator);
+			
 			String storePath = EgovProperties.getProperty("Globals.fileStorePath") + "TOUR_CL" + File.separator;
 
 			MultipartFile file = mRequest.getFile("FILE_NM");

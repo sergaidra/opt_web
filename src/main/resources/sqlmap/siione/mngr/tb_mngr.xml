@@ -16,13 +16,13 @@
 		                    , CONFM_AT
 		                    , WRITNG_ID
 		                    , WRITNG_DE )
-		             VALUES ( #ESNTL_ID#
+		             VALUES ( 'MNGR'||LPAD(SQ_ESNTL_ID.NEXTVAL, 16, '0')
 		                    , #MNGR_ID#
 		                    , #MNGR_NM#
 		                    , #PASSWORD#
 		                    , #CMPNY_CODE#
 		                    , #AUTHOR_CL#
-		                    , #CONFM_AT#
+		                    , NVL(#CONFM_AT#, 'N')
 		                    , #WRITNG_ID#
 		                    , TO_CHAR(SYSDATE, 'YYYYMMDD') )
 	]]>
@@ -31,13 +31,12 @@
 	<update id="MngrDAO.updateMngr" parameterClass="hashMap">
 	<![CDATA[
 		UPDATE TB_MNGR
-		   SET CMPNY_NM = #CMPNY_NM#
-		     , CMPNY_INTRCN = #CMPNY_INTRCN:CLOB#
-		     , ADRES = #ADRES#
-		     , TELNO = #TELNO#
+		   SET PASSWORD = #PASSWORD#
+		     , AUTHOR_CL = #AUTHOR_CL#
+		     , CMPNY_CODE = #CMPNY_CODE#
 		     , UPDT_ID = #UPDT_ID#
 		     , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
-		 WHERE CMPNY_CODE = #CMPNY_CODE#
+		 WHERE ESNTL_ID = #ESNTL_ID#
 	]]>
 	</update>
 
@@ -51,23 +50,17 @@
 	]]>
 	</delete>
 	
-	<select id="MngrDAO.selectMngrByPk" parameterClass="hashMap" resultClass="hashMap">
-	<![CDATA[
-		SELECT CMPNY_CODE
-			 , CMPNY_NM
-			 , CMPNY_INTRCN
-			 , ADRES
-			 , TELNO
-			 , DELETE_AT
-			 , WRITNG_ID
-			 , WRITNG_DE
-			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2 
-		  FROM TB_MNGR   
-		 WHERE CMPNY_CODE = #CMPNY_CODE#	  
+	<update id="MngrDAO.confrmMngr" parameterClass="hashMap">
+<![CDATA[
+		UPDATE TB_MNGR
+		   SET CONFM_AT = #CONFM_AT#
+		     , UPDT_ID = #UPDT_ID#
+		     , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+		 WHERE ESNTL_ID = #ESNTL_ID#
 	]]>
-	</select>
-
-	<select id="MngrDAO.selectMngrList" parameterClass="hashMap" resultClass="hashMap">
+</update>
+	
+	<select id="MngrDAO.selectMngrByPk" parameterClass="hashMap" resultClass="hashMap">
 	<![CDATA[
 		SELECT ESNTL_ID
 		     , MNGR_ID
@@ -81,16 +74,56 @@
 		     , WRITNG_DE
 		     , UPDT_ID
 		     , UPDT_DE
-			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2		     
+		  FROM TB_MNGR A 
+		 WHERE ESNTL_ID = #ESNTL_ID#	  
+	]]>
+	</select>
+
+
+	<sql id="sqlPagePre">
+		SELECT T2.* 
+		  FROM (SELECT T1.* 
+			           , ROWNUM AS RN
+		             , COUNT(1) OVER() AS TOT_CNT
+		          FROM (
+	</sql>
+
+	<sql id="sqlPagePost">
+		               ) T1    
+		       ) T2
+		 WHERE (RN <![CDATA[ > ]]> #startRow# AND RN <![CDATA[ <= ]]> #endRow#)
+		 ORDER BY RN
+	</sql>
+
+	<select id="MngrDAO.selectMngrList" parameterClass="hashMap" resultClass="hashMap">
+	<include refid="sqlPagePre"/>	
+	<![CDATA[
+		SELECT ESNTL_ID
+		     , MNGR_ID
+		     , MNGR_NM
+		     , PASSWORD
+		     , AUTHOR_CL
+		     , CMPNY_CODE
+		     , (SELECT CMPNY_NM FROM TB_TOUR_CMPNY X WHERE A.CMPNY_CODE = X.CMPNY_CODE) CMPNY_NM 
+		     , CONFM_AT
+		     , WRITNG_ID
+		     , WRITNG_DE
+		     , UPDT_ID
+		     , UPDT_DE
 		  FROM TB_MNGR A 
 		 WHERE 1 = 1
 	]]>
 		<isNotEmpty property="SCH_MNGR_NM">
 		  AND MNGR_NM LIKE #SCH_MNGR_NM#||'%'
 		</isNotEmpty>
-	
-	
-	
+		<isNotEmpty property="SCH_AUTHOR_CL">
+		  AND AUTHOR_CL = #SCH_AUTHOR_CL#
+		</isNotEmpty>	
+		<isNotEmpty property="SCH_CONFM_AT">
+		  AND CONFM_AT = #SCH_CONFM_AT#
+		</isNotEmpty>		
+		ORDER BY ESNTL_ID
+	<include refid="sqlPagePost"/>			
 	</select>
 
 </sqlMap>

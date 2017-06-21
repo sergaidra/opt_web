@@ -49,6 +49,17 @@ public class TourCmpnyManageController {
         return "/mngr/tourCmpnyManage";	
 	}
     
+    @RequestMapping(value="/mngr/tourCmpnyPopup/")
+	public String tourCmpnyPopup(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+		try {
+			List<Map<String, String>> list = tourCmpnyManageService.selectTourCmpnyList(param);
+			model.put("TOUR_CMPNY_LIST", list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+        return "/mngr/tourCmpnyPopup";	
+	}
+    
     @RequestMapping(value="/mngr/tourCmpnyRegist/")
 	public String tourCmpnyRegist(HttpServletRequest request, HttpServletResponse response) throws Exception {
         return "/mngr/tourCmpnyRegist";	

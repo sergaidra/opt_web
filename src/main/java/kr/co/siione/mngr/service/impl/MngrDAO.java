@@ -3,9 +3,9 @@ package kr.co.siione.mngr.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Repository;
-
 import kr.co.siione.utl.egov.EgovComAbstractDAO;
+
+import org.springframework.stereotype.Repository;
 
 @Repository("MngrDAO")
 public class MngrDAO extends EgovComAbstractDAO {
@@ -22,6 +22,10 @@ public class MngrDAO extends EgovComAbstractDAO {
 		return delete("MngrDAO.deleteMngr", map);
 	}
 
+	public int confrmMngr(Map<String, String> map) throws Exception {
+		return update("MngrDAO.confrmMngr", map);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public Map<String, String> selectMngrByPk(Map<String, String> param) throws Exception {
 		return (Map<String, String>) selectByPk("MngrDAO.selectMngrByPk", param);

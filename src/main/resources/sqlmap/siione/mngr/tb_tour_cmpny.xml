@@ -14,7 +14,6 @@
 		<result property="DELETE_AT" column="DELETE_AT" jdbcType="string" javaType="string"/>
 		<result property="WRITNG_ID" column="WRITNG_ID" jdbcType="string" javaType="string"/>
 		<result property="WRITNG_DE" column="WRITNG_DE" jdbcType="string" javaType="string"/>
-		<result property="WRITNG_DE2" column="WRITNG_DE2" jdbcType="string" javaType="string"/>
 	</resultMap>
 
 	<insert id="TourCmpnyDAO.insertTourCmpny" parameterClass="hashMap">
@@ -27,7 +26,7 @@
 								 , DELETE_AT
 								 , WRITNG_ID
 								 , WRITNG_DE )
-						   VALUES( LPAD(SEQ_TOUR_CMPNY.NEXTVAL, 10, '0')
+						   VALUES( LPAD(SQ_CMPNY_CODE.NEXTVAL, 10, '0')
 								 , #CMPNY_NM#
 								 , #CMPNY_INTRCN:CLOB#
 								 , #ADRES#
@@ -71,7 +70,6 @@
 			 , DELETE_AT
 			 , WRITNG_ID
 			 , WRITNG_DE
-			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2 
 		  FROM TB_TOUR_CMPNY   
 		 WHERE CMPNY_CODE = #CMPNY_CODE#	  
 	]]>
@@ -87,11 +85,16 @@
 			 , DELETE_AT
 			 , WRITNG_ID
 			 , WRITNG_DE
-			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2 
 		  FROM TB_TOUR_CMPNY   
-		 WHERE DELETE_AT = 'N'
-		 ORDER BY WRITNG_DE, CMPNY_CODE		  
+		 WHERE 1 = 1
 	]]>
+		<isNotEmpty property='SCH_DELETE_AT'>
+		   AND DELETE_AT = #SCH_DELETE_AT#
+		</isNotEmpty>
+		<isNotEmpty property='SCH_CMPNY_NM'>
+		   AND CMPNY_NM LIKE #SCH_CMPNY_NM#||'%' 
+		</isNotEmpty>		 
+		 ORDER BY WRITNG_DE, CMPNY_CODE		  
 	</select>
 
 </sqlMap>

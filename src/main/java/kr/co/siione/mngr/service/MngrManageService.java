@@ -11,6 +11,8 @@ public interface MngrManageService {
 
 	public int deleteMngr(Map<String, String> param) throws Exception;
 	
+	public int confrmMngr(Map<String, String> param) throws Exception;
+	
 	public Map<String, String> selectMngrByPk(Map<String, String> param) throws Exception;
 
 	public List<Map<String, String>> selectMngrList(Map<String, String> param) throws Exception;

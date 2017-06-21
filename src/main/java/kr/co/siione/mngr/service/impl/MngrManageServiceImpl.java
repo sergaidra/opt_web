@@ -31,6 +31,11 @@ public class MngrManageServiceImpl implements MngrManageService {
 	}
 
 	@Override
+	public int confrmMngr(Map<String, String> param) throws Exception {
+		return mngrDAO.confrmMngr(param);
+	}
+	
+	@Override
 	public Map<String, String> selectMngrByPk(Map<String, String> param) throws Exception {
 		return mngrDAO.selectMngrByPk(param);
 	}

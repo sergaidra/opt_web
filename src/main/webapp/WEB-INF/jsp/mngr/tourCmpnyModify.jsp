@@ -34,14 +34,34 @@
 <br><br>
 <form id="form1" method="post">
 <input type="hidden" id="CMPNY_CODE" name="CMPNY_CODE" value="<c:out value='${tourCmpnyInfo.CMPNY_CODE}'/>">
-<br><br>회사이름 : <input type="text" id="CMPNY_NM" name="CMPNY_NM" size="50" maxlength="100" title="회사이름" value="<c:out value='${tourCmpnyInfo.CMPNY_NM}'/>">
-<br><br>회사소개 : <textarea id="CMPNY_INTRCN" name="CMPNY_INTRCN" cols="50" rows="10" title="소개"><c:out value='${tourCmpnyInfo.CMPNY_INTRCN}'/></textarea>
-<br><br>회사주소 : <input type="text" id="ADRES" name="ADRES" size="50" maxlength="500" title="주소"  value="<c:out value='${tourCmpnyInfo.ADRES}'/>">
-<br><br>전화번호 : <input type="text" id="TELNO" name="TELNO" size="50" maxlength="20" title="전화번호" value="<c:out value='${tourCmpnyInfo.TELNO}'/>">
+<table width="800" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid;">
+	<tr>
+		<td width="25%">회사이름</td>
+		<td width="75%"><input type="text" id="CMPNY_NM" name="CMPNY_NM" size="50" maxlength="100" title="회사이름" value="<c:out value='${tourCmpnyInfo.CMPNY_NM}'/>"></td>
+	</tr>
+	<tr>
+		<td width="25%">전화번호</td>
+		<td width="75%"><input type="text" id="TELNO" name="TELNO" size="50" maxlength="20" title="전화번호" value="<c:out value='${tourCmpnyInfo.TELNO}'/>"></td>
+	</tr>	
+	<tr>
+		<td width="25%">회사주소</td>
+		<td width="75%"><input type="text" id="ADRES" name="ADRES" size="50" maxlength="500" title="주소"  value="<c:out value='${tourCmpnyInfo.ADRES}'/>"></td>
+	</tr>	
+			<tr>
+		<td width="25%">회사소개</td>
+		<td width="75%"><textarea id="CMPNY_INTRCN" name="CMPNY_INTRCN" cols="50" rows="10" title="소개"><c:out value='${tourCmpnyInfo.CMPNY_INTRCN}'/></textarea></td>
+	</tr>	
+</table>
+
+<table width="800" cellpadding="5" cellspacing="0" border="0" align="left" >
+	<tr>
+		<td width='100%' align="right">
+			<input type="button" value="저장" onclick="f_mod()">
+			<input type="button" value="삭제" onclick="f_del()">
+			<input type="button" value="취소" onclick="form1.reset();">
+		</td>
+	</tr>	
+</table>
 </form>
-<br><br>
-<input type="button" value="저장" onclick="f_mod()">
-<input type="button" value="삭제" onclick="f_del()">
-<input type="button" value="취소" onclick="form1.reset();">
 </body>
 </html>
