@@ -6,9 +6,15 @@
 		frmLogin.submit();
 	}
 
-	<c:if test="${result eq 'fail'}">
-		alert("ID/PW가 정확하지 않다.")
-	</c:if>
+	<c:choose>
+		<c:when test="${result eq 'fail'}">
+			alert("ID/PW가 정확하지 않습니다.");
+		</c:when>
+		<c:when test="${result eq 'need'}">
+			alert("로그인해야 사용할 수 있습니다.");
+		</c:when>
+		<c:otherwise></c:otherwise>
+	</c:choose>
 </script>
 <div align="center">
 	<table width="400">

@@ -37,7 +37,6 @@ public class LoginController {
         String result = SimpleUtils.default_set(request.getParameter("result"));
         model.addAttribute("result", result);
         
-        
         return "gnrl/mber/login";
     }
 

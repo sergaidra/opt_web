@@ -50,12 +50,11 @@
 			<td align="center">
 				<table style="border-collapse: collapse; margin-top: 3px; height:40px;">
 					<tr>
-						<td width="80px" align="center" style="border: 1px solid #bcbcbc;">OPT</td>
+						<td width="80px" align="center" style="border: 1px solid #bcbcbc;"><a href="<c:url value='/main/intro/'/>">OPT</a></td>
 						<td width="120px" align="center" style="border: 1px solid #bcbcbc;">원패스투어?</td>
 						<td width="120px" align="center" style="border: 1px solid #bcbcbc;"><a href="<c:url value='/goods/category/'/>">투어상품</a></td>
 						<td width="120px" align="center" style="border: 1px solid #bcbcbc;">여행후기</td>
-						<td width="120px" align="center" style="border: 1px solid #bcbcbc;">고객서비스</td>
-						<td width="120px" align="center" style="border: 1px solid #bcbcbc;">Event</td>
+						<td width="120px" align="center" style="border: 1px solid #bcbcbc;"><a href="<c:url value='/cart/list/'/>">장바구니</a></td>
 					</tr>
 				</table>
 			</td>

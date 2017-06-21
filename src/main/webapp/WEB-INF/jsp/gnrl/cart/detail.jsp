@@ -9,15 +9,14 @@
 
 	function fnList() {
 		var form = $("form[id=frmDetail]");
-		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
+		form.attr({"method":"post","action":"<c:url value='/cart/list/'/>"});
 		form.submit();
 	}
 
 	function fnSearch(cl_code) {
 		var form = $("form[id=frmDetail]");
-		$("input:hidden[id=hidCategory]").val(cl_code);
 		$("input:hidden[id=hidPage]").val(1);
-		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
+		form.attr({"method":"post","action":"<c:url value='/cart/list/'/>"});
 		form.submit();
 	}
 
@@ -25,25 +24,11 @@
 		var form = $("form[id=frmDetail]");
 		$("input:text[id=txtPay]").val($("input:hidden[id=hidNmprCnd"+ $("input:radio[id=rdoNmprCnd]:checked").val() +"]").val());
 	}
-	
-	function fnAddCart(){
-		var strDate = $("input:text[id=txtDate]").val();
-
-		if(strDate.length!=10){
-			alert(strDate);
-			return;
-		}
-
-		var form = $("form[id=frmDetail]");
-		form.attr({"method":"post","action":"<c:url value='/cart/addAction/'/>"});
-		form.submit();
-	}
 </script>
 <div align="center">
-	<form id="frmDetail" name="frmDetail" action="<c:url value='/goods/list/'/>">
+	<form id="frmDetail" name="frmDetail" action="<c:url value='/cart/list/'/>">
 	<input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
-	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode" value="${goods_code}">
-	<input type="hidden" id="hidCategory" name="hidCategory" value="${hidCategory}">
+	<input type="hidden" id="hidCartSn" name="hidCartSn" value="${cart_sn}">
 	<table width="1024px" border="1" cellspacing="0" cellpadding="0" height="100%" style="border-collapse:collapse; border:1px gray solid;">
 		<tr height="100px">
 			<td align="center" colspan="2">
@@ -77,11 +62,11 @@
 				<br><br>
 				</c:forEach>
 				
-				<input type="text" name="txtDate" id="txtDate" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="일정을 선택하세요" readonly onfocus="this.blur()">
+				<input type="text" name="txtDate" id="txtDate" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="${fn:substring(result.TOUR_DE,0,4)}-${fn:substring(result.TOUR_DE,4,6)}-${fn:substring(result.TOUR_DE,6,8)}" readonly onfocus="this.blur()">
 			</td>
 			<td align="center">
 				<c:forEach var="list" items="${nmprList}" varStatus="status">
-				<input type="radio" id="rdoNmprCnd" name="rdoNmprCnd" value="${list.NMPR_SN}" <c:if test="${status.count==1}">checked</c:if> onchange="fnNmprCndChange()"> ${list.NMPR_CND} : ₩ ${list.SETUP_AMOUNT}
+				<input type="radio" id="rdoNmprCnd" name="rdoNmprCnd" value="${list.NMPR_SN}" <c:if test="${result.NMPR_SN eq list.NMPR_SN}">checked</c:if> onchange="fnNmprCndChange()"> ${list.NMPR_CND} : ₩ ${list.SETUP_AMOUNT}
 				<input type="hidden" id="hidNmprCnd${list.NMPR_SN}" name="hidNmprCnd${list.NMPR_SN}" value="₩ ${list.SETUP_AMOUNT}">
 				<br>
 				</c:forEach>
@@ -95,7 +80,6 @@
 
 <div style="height:100px;" align="center">
 	<p style="vertical-align:middle;">
-		<a href="javascript:fnList()">상품 목록</a>&nbsp;&nbsp;&nbsp;
-		<a href="javascript:fnAddCart()">장바구니 추가</a>
+		<a href="javascript:fnList()">장바구니 목록</a>&nbsp;&nbsp;&nbsp;
 	</p>
 </div>

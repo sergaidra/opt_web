@@ -50,7 +50,7 @@
 			#esntl_id#,
 			#user_id#,
 			#user_nm#,
-			#user_id#,
+			#esntl_id#,
 			TO_CHAR(SYSDATE,'yyyymmdd'),
 			#password#
 		)

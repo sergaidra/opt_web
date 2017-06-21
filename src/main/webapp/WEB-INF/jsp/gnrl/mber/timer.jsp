@@ -7,7 +7,7 @@
 <script src="/js/siione.js"></script>
 <script language='javascript'>
 
-	var default_sec = 600;
+	var default_sec = 1200;
 	window.onload = function(){
 	    fnRestart(default_sec);
 	}

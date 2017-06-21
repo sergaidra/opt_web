@@ -4,6 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface FileService {
-    public List<HashMap> getFileList(HashMap hashmap) throws Exception;
-    public HashMap getFileDetail(HashMap hashmap) throws Exception;
+    public List<HashMap> getFileList(HashMap map) throws Exception;
+    public HashMap getFileDetail(HashMap map) throws Exception;
 }

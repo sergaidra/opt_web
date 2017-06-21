@@ -48,15 +48,15 @@ public class LoginManager implements HttpSessionBindingListener{
 	
 	/*
 	* 입력받은 아이디를 해시테이블에서 삭제. 
-	* @param userID 사용자 아이디
+	* @param esntlID 사용자 아이디
 	* @return void
 	*/ 
-	public void removeSession(String userId){
+	public void removeSession(String esntlID){
 		Enumeration e = loginUsers.keys();
 		HttpSession session = null;
 		while(e.hasMoreElements()){
 			session = (HttpSession)e.nextElement();
-			if(loginUsers.get(session).equals(userId)){
+			if(loginUsers.get(session).equals(esntlID)){
 				//세션이 invalidate될때 HttpSessionBindingListener를 
 				//구현하는 클레스의 valueUnbound()함수가 호출된다.
 				session.invalidate();
@@ -67,23 +67,23 @@ public class LoginManager implements HttpSessionBindingListener{
 	/*
 	* 해당 아이디의 동시 사용을 막기위해서 
 	* 이미 사용중인 아이디인지를 확인한다.
-	* @param userID 사용자 아이디
+	* @param esntlID 사용자 아이디
 	* @return boolean 이미 사용 중인 경우 true, 사용중이 아니면 false
 	*/
-	public boolean isUsing(String userID){
-		return loginUsers.containsValue(userID);
+	public boolean isUsing(String esntlID){
+		return loginUsers.containsValue(esntlID);
 	}
 	
 	
 	/*
 	* 로그인을 완료한 사용자의 아이디를 세션에 저장하는 메소드
 	* @param session 세션 객체
-	* @param userID 사용자 아이디
+	* @param esntlID 사용자 아이디
 	*/
-	public void setSession(HttpSession session, String userId){
+	public void setSession(HttpSession session, String esntlID){
 		//이순간에 Session Binding이벤트가 일어나는 시점
-		//name값으로 userId, value값으로 자기자신(HttpSessionBindingListener를 구현하는 Object)
-		session.setAttribute(userId, this);//login에 자기자신을 집어넣는다.
+		//name값으로 esntlID, value값으로 자기자신(HttpSessionBindingListener를 구현하는 Object)
+		session.setAttribute(esntlID, this);//login에 자기자신을 집어넣는다.
 	}
 	
 	
@@ -92,7 +92,7 @@ public class LoginManager implements HttpSessionBindingListener{
 	* @param session : 접속한 사용자의 session Object
 	* @return String : 접속자 아이디
 	*/
-	public String getUserID(HttpSession session){
+	public String getEsntlID(HttpSession session){
 		return (String)loginUsers.get(session);
 	}
 	

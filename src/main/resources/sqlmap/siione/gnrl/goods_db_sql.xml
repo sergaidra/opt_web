@@ -141,5 +141,4 @@
 		AND GN.GOODS_CODE = #goods_code#
 		ORDER BY GN.NMPR_SN ASC
 	</select>
-
 </sqlMap>

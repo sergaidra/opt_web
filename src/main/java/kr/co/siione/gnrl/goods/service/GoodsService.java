@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface GoodsService {
-    public List<HashMap> getTourClList(HashMap hashmap) throws Exception;
-    public HashMap getTourClDetail(HashMap hashmap) throws Exception;
-    public List<HashMap> getGoodsList(HashMap hashmap) throws Exception;
-    public HashMap getGoodsDetail(HashMap hashmap) throws Exception;
-    public List<HashMap> getGoodsClList(HashMap hashmap) throws Exception;
-    public List<HashMap> getGoodsSchdulList(HashMap hashmap) throws Exception;
-    public List<HashMap> getGoodsNmprList(HashMap hashmap) throws Exception;
+    public List<HashMap> getTourClList(HashMap map) throws Exception;
+    public HashMap getTourClDetail(HashMap map) throws Exception;
+    public List<HashMap> getGoodsList(HashMap map) throws Exception;
+    public HashMap getGoodsDetail(HashMap map) throws Exception;
+    public List<HashMap> getGoodsClList(HashMap map) throws Exception;
+    public List<HashMap> getGoodsSchdulList(HashMap map) throws Exception;
+    public List<HashMap> getGoodsNmprList(HashMap map) throws Exception;
 }

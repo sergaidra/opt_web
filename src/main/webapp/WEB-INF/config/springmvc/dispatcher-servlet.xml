@@ -48,6 +48,7 @@
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
 		<property name="interceptors">
 			<list>
+				<ref bean="loginCheckInterceptor" />
 				<ref bean="localeChangeInterceptor"/>
 			</list>
 		</property>
