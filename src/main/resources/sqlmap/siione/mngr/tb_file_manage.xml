@@ -7,7 +7,7 @@
 
 	<insert id="FileManageDAO.insertFileManage" parameterClass="hashMap">
 	<selectKey keyProperty="FILE_CODE" resultClass="string">
-		SELECT LPAD(SEQ_FILE_MANAGE.NEXTVAL, 10, '0') FROM DUAL 
+		SELECT LPAD(SQ_FILE_CODE.NEXTVAL, 10, '0') FROM DUAL 
 	</selectKey>	
 	<![CDATA[
 		INSERT INTO TB_FILE_MANAGE( FILE_CODE
@@ -83,7 +83,6 @@
 			 , SORT_NO
 			 , WRITNG_ID
 			 , WRITNG_DE
-		     , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2
 			 , UPDT_ID
 			 , UPDT_DE
 		  FROM TB_FILE_DETAIL   
@@ -105,7 +104,6 @@
 			 , SORT_NO
 			 , WRITNG_ID
 			 , WRITNG_DE
-		     , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2
 			 , UPDT_ID
 			 , UPDT_DE
 		  FROM TB_FILE_DETAIL   

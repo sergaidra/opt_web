@@ -133,3 +133,19 @@ function fnCheckImgSize(obj, size) {
 
 	return check;
 }
+
+/**
+ * 화면 중앙에 window.open
+ * @param sUrl : 오픈할 url
+ * @param sName : 팝업 이름
+ * @param iWidth  : 팝업 가로 크기
+ * @param iHeigth : 팝업 세로 크기
+ */
+function fnOpenPopup(sUrl, sName, iWidth, iHeigth){
+    var sw = screen.width;
+    var sh = screen.height;
+    var x = (sw-iWidth)/2;
+    var y = (sh-iHeigth)/2;
+    var opts = "width="+iWidth+", height="+iHeigth+", left="+x+", top="+y+", scrollbars=yes, menubar=no, location=no";
+    window.open(sUrl, sName, opts).focus();
+}

@@ -13,7 +13,7 @@
 							  , WRITNG_ID
 							  , WRITNG_DE 
 							  , FILE_CODE )
-					    VALUES( LPAD(SEQ_TOUR_CL.NEXTVAL, 5, '0')
+					    VALUES( LPAD(SQ_CL_CODE.NEXTVAL, 5, '0')
 						      , #CL_NM#
 							  , 'N'
 							  , #WRITNG_ID#
@@ -50,7 +50,6 @@
 			 , DELETE_AT
 			 , WRITNG_ID
 			 , WRITNG_DE
-			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2
 			 , UPDT_ID
 			 , UPDT_DE
 			 , FILE_CODE  
@@ -66,7 +65,6 @@
 			 , DELETE_AT
 			 , WRITNG_ID
 			 , WRITNG_DE
-			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2
 			 , UPDT_ID
 			 , UPDT_DE
 			 , FILE_CODE 

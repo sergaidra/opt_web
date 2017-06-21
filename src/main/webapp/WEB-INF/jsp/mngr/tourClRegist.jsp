@@ -25,16 +25,30 @@
 </script>
 </head>
 <body>
-◆ 분류등록
+◆ 여행분류등록
 <br><br>
 
 <form id="form1" method="post" action="<c:url value='../addTourCl/'/>" enctype="multipart/form-data">
-<br><br>분류이름 : <input type="text" id="CL_NM" name="CL_NM" size="50" maxlength="200" title="분류이름">
-<br><br>파일첨부 : <input type="file" id="FILE_NM" name="FILE_NM" size="50">
-</form>
-<br><br>
+<table width="800" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid;">
+	<tr>
+		<td width="25%">분류이름</td>
+		<td width="75%"><input type="text" id="CL_NM" name="CL_NM" size="50" maxlength="200" title="분류이름"></td>
+	</tr>
+	<tr>
+		<td width="25%">파일첨부</td>
+		<td width="75%"><input type="file" id="FILE_NM" name="FILE_NM" size="50"></td>
+	</tr>	
+</table>
 
-<input type="button" value="저장" onclick="f_add()">
-<input type="button" value="취소" onclick="form1.reset();">
+<table width="800" cellpadding="5" cellspacing="0" border="0" align="left" >
+	<tr>
+		<td width='100%' align="right">
+			<input type="button" value="저장" onclick="f_add()">
+			<input type="button" value="취소" onclick="form1.reset();">
+		</td>
+	</tr>	
+</table>
+</form>
+
 </body>
 </html>

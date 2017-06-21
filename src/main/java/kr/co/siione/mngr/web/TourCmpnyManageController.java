@@ -1,5 +1,7 @@
 package kr.co.siione.mngr.web;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -7,14 +9,20 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.co.siione.dist.utils.SimpleUtils;
 import kr.co.siione.mngr.service.TourCmpnyManageService;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
 public class TourCmpnyManageController {
@@ -40,13 +48,100 @@ public class TourCmpnyManageController {
 	 */
     @RequestMapping(value="/mngr/tourCmpnyManage/")
 	public String tourCmpnyManage(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
-		try {
+	
+    	try {
+		    //현재 페이지 파라메타
+            String strPage = SimpleUtils.default_set(param.get("hidPage"));
+            int intPage = 1;
+    		if(!strPage.equals(""))		
+    			intPage = Integer.parseInt((String)strPage);
+			
+			//페이지 기본설정
+			int pageBlock = 10;
+			int pageArea = 10;
+			
+			//page 
+	    	PaginationInfo paginationInfo = new PaginationInfo();
+			paginationInfo.setCurrentPageNo(intPage);
+			paginationInfo.setRecordCountPerPage(pageBlock);
+			paginationInfo.setPageSize(pageArea);
+
+			//HashMap<String, Integer> map = new HashMap<String, Integer>();
+			param.put("startRow", String.valueOf(paginationInfo.getFirstRecordIndex()));
+			param.put("endRow", String.valueOf(paginationInfo.getLastRecordIndex()));
+			
+			Map<String, ?> result = RequestContextUtils.getInputFlashMap(request);
+			
+			if(result != null){
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>result:"+result);
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>message:"+result.get("message"));
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>success:"+result.get("success"));
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>param:"+result.get("param"));
+			}
+
 			List<Map<String, String>> list = tourCmpnyManageService.selectTourCmpnyList(param);
-			model.put("TOUR_CMPNY_LIST", list);
+			model.put("tourCmpnyList", list);
+			
+			if(list.size() > 0){
+				int list_cnt = Integer.parseInt(String.valueOf(list.get(0).get("TOT_CNT")));
+				paginationInfo.setTotalRecordCount(list_cnt);
+			}
+			model.put("paginationInfo", paginationInfo);
+			
+			if(param!= null) {
+				model.put("param", param);
+			}
+			if(result != null){
+				model.put("message", result.get("message"));
+				model.put("success", result.get("success"));
+				model.put("param", result.get("param"));
+			}			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
+    	System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>model:"+model);
         return "/mngr/tourCmpnyManage";	
+	}
+    
+    @RequestMapping(value="/mngr/tourCmpnyPopup/")
+	public String tourCmpnyPopup(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+		
+    	try {
+		    //현재 페이지 파라메타
+            String strPage = SimpleUtils.default_set(param.get("hidPage"));
+            int intPage = 1;
+    		if(!strPage.equals(""))		
+    			intPage = Integer.parseInt((String)strPage);
+			
+			//페이지 기본설정
+			int pageBlock = 10;
+			int pageArea = 10;
+			
+			//page 
+	    	PaginationInfo paginationInfo = new PaginationInfo();
+			paginationInfo.setCurrentPageNo(intPage);
+			paginationInfo.setRecordCountPerPage(pageBlock);
+			paginationInfo.setPageSize(pageArea);
+
+			//HashMap<String, Integer> map = new HashMap<String, Integer>();
+			param.put("startRow", String.valueOf(paginationInfo.getFirstRecordIndex()));
+			param.put("endRow", String.valueOf(paginationInfo.getLastRecordIndex()));
+			
+			List<Map<String, String>> list = tourCmpnyManageService.selectTourCmpnyList(param);
+			model.put("tourCmpnyList", list);
+			
+			if(list.size() > 0){
+				int list_cnt = Integer.parseInt(String.valueOf(list.get(0).get("TOT_CNT")));
+				paginationInfo.setTotalRecordCount(list_cnt);
+			}
+			model.put("paginationInfo", paginationInfo);
+			
+			model.put("param", param);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+        return "/mngr/tourCmpnyPopup";	
 	}
     
     @RequestMapping(value="/mngr/tourCmpnyRegist/")
@@ -85,44 +180,44 @@ public class TourCmpnyManageController {
 	}
     
     @RequestMapping(value="/mngr/modTourCmpny/")
-	public String modTourCmpny(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+	public String modTourCmpny(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
     	param.put("UPDT_ID", ssUserId);
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	result.put("param", param);    	
 		try {
 			if(tourCmpnyManageService.updateTourCmpny(param) > 0) {
-				model.put("message", "여행사를 수정하였습니다.");
-				model.put("success", true);	
+				result.put("message", "여행사를 수정하였습니다.");
+				result.put("success", true);	
 			} else {
-				model.put("message", "여행사 수정중 오류가 발생했습니다.");
-				model.put("success", false);
+				result.put("message", "여행사 수정 중 오류가 발생했습니다.");
+				result.put("success", false);
 			}
 		} catch (Exception e) {
-			model.put("message", e.getLocalizedMessage());
-			model.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+			result.put("success", false);
 		}
-		List<Map<String, String>> list = tourCmpnyManageService.selectTourCmpnyList(param);
-		model.put("TOUR_CMPNY_LIST", list);
-		
-		return "/mngr/tourCmpnyManage";
+		redirectAttr.addFlashAttribute("result", result);
+		return "redirect:/mngr/tourCmpnyManage/";		
 	}  
     
     @RequestMapping(value="/mngr/delTourCmpny/")
-	public String delTourCmpny(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+	public String delTourCmpny(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
     	param.put("UPDT_ID", ssUserId);
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	result.put("param", param);      	
 		try {
 			if(tourCmpnyManageService.deleteTourCmpny(param) > 0) {
-				model.put("message", "여행사를 삭제하였습니다.");
-				model.put("success", true);	
+				result.put("message", "여행사를 삭제하였습니다.");
+				result.put("success", true);	
 			} else {
-				model.put("message", "여행사 삭제중 오류가 발생했습니다.");
-				model.put("success", false);
+				result.put("message", "여행사 삭제중 오류가 발생했습니다.");
+				result.put("success", false);
 			}
 		} catch (Exception e) {
-			model.put("message", e.getLocalizedMessage());
-			model.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+			result.put("success", false);
 		}
-		List<Map<String, String>> list = tourCmpnyManageService.selectTourCmpnyList(param);
-		model.put("TOUR_CMPNY_LIST", list);
-		
-		return "/mngr/tourCmpnyManage";
+		redirectAttr.addFlashAttribute("result", result);
+		return "redirect:/mngr/tourCmpnyManage/";	
 	}    
 }

@@ -21,15 +21,34 @@
 <body>
 ◆ 여행사등록
 <br><br>
-
 <form id="form1" method="post" action="<c:url value='../addTourCmpny/'/>">
-<br><br>회사이름 : <input type="text" id="CMPNY_NM" name="CMPNY_NM" size="50" maxlength="100" title="회사이름">
-<br><br>회사소개 : <textarea id="CMPNY_INTRCN" name="CMPNY_INTRCN" cols="50" rows="10" title="소개">test</textarea>
-<br><br>회사주소 : <input type="text" id="ADRES" name="ADRES" size="50" maxlength="500" title="주소">
-<br><br>전화번호 : <input type="text" id="TELNO" name="TELNO" size="50" maxlength="20" title="전화번호">
+<table width="800" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid;">
+	<tr>
+		<td width="25%">회사이름</td>
+		<td width="75%"><input type="text" id="CMPNY_NM" name="CMPNY_NM" size="50" maxlength="100" title="회사이름"></td>
+	</tr>
+	<tr>
+		<td width="25%">전화번호</td>
+		<td width="75%"><input type="text" id="TELNO" name="TELNO" size="50" maxlength="20" title="전화번호"></td>
+	</tr>	
+	<tr>
+		<td width="25%">회사주소</td>
+		<td width="75%"><input type="text" id="ADRES" name="ADRES" size="50" maxlength="500" title="주소"></td>
+	</tr>	
+			<tr>
+		<td width="25%">회사소개</td>
+		<td width="75%"><textarea id="CMPNY_INTRCN" name="CMPNY_INTRCN" cols="50" rows="10" title="소개"></textarea></td>
+	</tr>	
+</table>
+
+<table width="800" cellpadding="5" cellspacing="0" border="0" align="left" >
+	<tr>
+		<td width='100%' align="right">
+			<input type="button" value="저장" onclick="f_add()">
+			<input type="button" value="취소" onclick="form1.reset();">
+		</td>
+	</tr>	
+</table>
 </form>
-<br><br>
-<input type="button" value="저장" onclick="f_add()">
-<input type="button" value="취소" onclick="form1.reset();">
 </body>
 </html>

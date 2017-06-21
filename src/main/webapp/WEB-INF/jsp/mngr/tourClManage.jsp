@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,11 +27,11 @@
 </script>
 </head>
 <body>
-◆ 분류관리
+◆ 여행분류관리
 <br><br>
 <input type="button" value="등록" onclick="f_reg()">
 <br><br>
-<table border='1'>
+<table width="1024" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid;">
 	<tr>
 		<th>순서</th>
 		<th>분류코드</th>
@@ -40,10 +41,19 @@
 	<tr>
 	<c:forEach var="tourCl" items="${tourClList}" varStatus="status">
 	<tr>
-		<td><c:out value='${status.count}'/></td>
-		<td><c:out value='${tourCl.CL_CODE}'/></td>
-		<td ondblclick="javascript:f_mod('${tourCl.CL_CODE}', '${tourCl.FILE_CODE}')"><c:out value='${tourCl.CL_NM}'/></td>
-		<td><c:out value='${tourCl.WRITNG_DE2}'/></td>
+		<td>
+			<c:out value='${status.count}'/>
+		</td>
+		<td>
+			<c:out value='${tourCl.CL_CODE}'/>
+		</td>
+		<td ondblclick="javascript:f_mod('${tourCl.CL_CODE}', '${tourCl.FILE_CODE}')">
+			<c:out value='${tourCl.CL_NM}'/>
+		</td>
+		<td>
+			<fmt:parseDate value="${tourCl.WRITNG_DE}" pattern="yyyyMMdd" var="WRITNG_DE" scope="page"/>
+			<fmt:formatDate value="${WRITNG_DE}" pattern="yyyy-MM-dd"/>
+		</td>
 		<td><c:out value='${tourCl.FILE_CODE}'/></td>
 	</tr>
 	</c:forEach>

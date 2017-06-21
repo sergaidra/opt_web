@@ -41,13 +41,31 @@
 <input type="hidden" id="CL_CODE" name="CL_CODE" value="<c:out value='${tourClInfo.CL_CODE}'/>">
 <input type="hidden" id="FILE_CODE" name="FILE_CODE" value="<c:out value='${tourClInfo.FILE_CODE}'/>">
 <input type="hidden" id="FILE_PATH" name="FILE_PATH" value="<c:out value='${fileList[0].FILE_PATH}'/>">
-<br><br>분류이름 : <input type="text" id="CL_NM" name="CL_NM" size="50" maxlength="200" title="분류이름" value="<c:out value='${tourClInfo.CL_NM}'/>">
-<br><br>파일첨부 : <input type="file" id="FILE_NM" name="FILE_NM" size="50">
-<br><br>미리보기 : <c:out value='${fileList[0].FILE_PATH}'/>
+
+<table width="800" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid;">
+	<tr>
+		<td width="25%">분류이름</td>
+		<td width="75%"><input type="text" id="CL_NM" name="CL_NM" size="50" maxlength="200" title="분류이름" value="<c:out value='${tourClInfo.CL_NM}'/>"></td>
+	</tr>
+	<tr>
+		<td width="25%">파일첨부</td>
+		<td width="75%"><input type="file" id="FILE_NM" name="FILE_NM" size="50"></td>
+	</tr>	
+	<tr>
+		<td>미리보기</td>
+		<td><c:out value='${fileList[0].FILE_PATH}'/></td>
+	</tr>
+</table>
+
+<table width="800" cellpadding="5" cellspacing="0" border="0" align="left" >
+	<tr>
+		<td width='100%' align="right">
+			<input type="button" value="저장" onclick="f_mod()">
+			<input type="button" value="삭제" onclick="f_del()">
+			<input type="button" value="취소" onclick="form1.reset();">
+		</td>
+	</tr>	
+</table>
 </form>
-<br><br>
-<input type="button" value="저장" onclick="f_mod()">
-<input type="button" value="삭제" onclick="f_del()">
-<input type="button" value="취소" onclick="form1.reset();">
 </body>
 </html>

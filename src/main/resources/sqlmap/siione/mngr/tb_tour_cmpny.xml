@@ -4,17 +4,18 @@
 <sqlMap namespace="query">
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="string" type="java.lang.String"/>
-	
+
 	<resultMap id="rmTourCmpny" class="hashMap">
 		<result property="CMPNY_CODE" column="CMPNY_CODE" jdbcType="string" javaType="string"/>
 		<result property="CMPNY_NM" column="CMPNY_NM" jdbcType="string" javaType="string"/>
-		<result property="CMPNY_INTRCN" column="CMPNY_INTRCN" jdbcType="CLOB" javaType="string" />		
+		<result property="CMPNY_INTRCN" column="CMPNY_INTRCN" jdbcType="CLOB" javaType="string" />
 		<result property="ADRES" column="ADRES" jdbcType="string" javaType="string"/>
 		<result property="TELNO" column="TELNO" jdbcType="string" javaType="string"/>
 		<result property="DELETE_AT" column="DELETE_AT" jdbcType="string" javaType="string"/>
 		<result property="WRITNG_ID" column="WRITNG_ID" jdbcType="string" javaType="string"/>
 		<result property="WRITNG_DE" column="WRITNG_DE" jdbcType="string" javaType="string"/>
-		<result property="WRITNG_DE2" column="WRITNG_DE2" jdbcType="string" javaType="string"/>
+		<result property="RN" column="RN" jdbcType="string" javaType="string"/>
+		<result property="TOT_CNT" column="TOT_CNT" jdbcType="string" javaType="string"/>
 	</resultMap>
 
 	<insert id="TourCmpnyDAO.insertTourCmpny" parameterClass="hashMap">
@@ -27,7 +28,7 @@
 								 , DELETE_AT
 								 , WRITNG_ID
 								 , WRITNG_DE )
-						   VALUES( LPAD(SEQ_TOUR_CMPNY.NEXTVAL, 10, '0')
+						   VALUES( LPAD(SQ_CMPNY_CODE.NEXTVAL, 10, '0')
 								 , #CMPNY_NM#
 								 , #CMPNY_INTRCN:CLOB#
 								 , #ADRES#
@@ -60,7 +61,7 @@
 		 WHERE CMPNY_CODE = #CMPNY_CODE#
 	]]>
 	</delete>
-	
+
 	<select id="TourCmpnyDAO.selectTourCmpnyByPk" parameterClass="hashMap" resultMap="rmTourCmpny">
 	<![CDATA[
 		SELECT CMPNY_CODE
@@ -71,27 +72,51 @@
 			 , DELETE_AT
 			 , WRITNG_ID
 			 , WRITNG_DE
-			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2 
-		  FROM TB_TOUR_CMPNY   
-		 WHERE CMPNY_CODE = #CMPNY_CODE#	  
+			 , ROWNUM AS RN
+			 , COUNT(1) OVER() AS TOT_CNT
+		  FROM TB_TOUR_CMPNY
+		 WHERE CMPNY_CODE = #CMPNY_CODE#
 	]]>
 	</select>
 
+	<sql id="TourCmpny.sqlPagePre">
+		SELECT T2.*
+		  FROM (SELECT T1.*
+		             , ROWNUM AS RN
+		             , COUNT(1) OVER() AS TOT_CNT
+		          FROM (
+		</sql>
+
+		<sql id="TourCmpny.sqlPagePost">
+		               ) T1
+		       ) T2
+		   WHERE (RN <![CDATA[ > ]]> #startRow# AND RN <![CDATA[ <= ]]> #endRow#)
+		   ORDER BY RN
+	</sql>
+
 	<select id="TourCmpnyDAO.selectTourCmpnyList" parameterClass="hashMap" resultMap="rmTourCmpny">
+	<include refid="TourCmpny.sqlPagePre"/>
 	<![CDATA[
 		SELECT CMPNY_CODE
-			 , CMPNY_NM
-			 , CMPNY_INTRCN
-			 , ADRES
-			 , TELNO
-			 , DELETE_AT
-			 , WRITNG_ID
-			 , WRITNG_DE
-			 , SUBSTR(WRITNG_DE,1,4)||'-'||SUBSTR(WRITNG_DE,5,2)||'-'||SUBSTR(WRITNG_DE,7,2) AS WRITNG_DE2 
-		  FROM TB_TOUR_CMPNY   
-		 WHERE DELETE_AT = 'N'
-		 ORDER BY WRITNG_DE, CMPNY_CODE		  
+		     , CMPNY_NM
+		     , CMPNY_INTRCN
+		     , ADRES
+		     , TELNO
+		     , DELETE_AT
+		     , WRITNG_ID
+		     , WRITNG_DE
+		  FROM TB_TOUR_CMPNY
+		 WHERE 1 = 1
 	]]>
+		<isNotEmpty property='SCH_DELETE_AT'>
+		   AND DELETE_AT = #SCH_DELETE_AT#
+		</isNotEmpty>
+		<isNotEmpty property='SCH_CMPNY_NM'>
+		   AND CMPNY_NM LIKE #SCH_CMPNY_NM#||'%'
+		</isNotEmpty>
+		 ORDER BY WRITNG_DE, CMPNY_CODE
+	<include refid="TourCmpny.sqlPagePost"/>
 	</select>
+
 
 </sqlMap>
