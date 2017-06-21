@@ -65,7 +65,7 @@ public class MngrManageController {
     			intPage = Integer.parseInt((String)strPage);
 			
 			//페이지 기본설정
-			int pageBlock = 15;
+			int pageBlock = 10;
 			int pageArea = 10;
 			
 			//page 

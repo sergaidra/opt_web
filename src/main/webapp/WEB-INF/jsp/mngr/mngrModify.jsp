@@ -25,7 +25,7 @@
 	});	
 	
 	function f_mod() {
-		fnCheckRequired();
+ 		fnCheckRequired();
 		if(!fnCheckMaxLength("MNGR_NM", "이름")) return;
 		if(!fnCheckMaxLength("MNGR_ID", "아이디")) return;
 		if(!fnCheckMaxLength("PASSWORD", "비밀번호")) return;
@@ -36,7 +36,7 @@
 		if(!f_chkPwd($('#PASSWORD').val())) return;
 		if(!f_cfmPwd($('#PASSWORD').val(), $('#PASSWORD_CONFIRM').val())) return;		
 		
-		form1.submit();
+		$("#form1").attr("action", "<c:url value='../modMngr/'/>").submit();
 	}
 
 	function f_chkPwd(str){
@@ -46,17 +46,17 @@
 		var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
 
 		if(pw.length < 10 || pw.length > 20){
-			$("#divChkPwd").html("10~20자리 이내로 입력하십시오.");
+			$("#divChkPwd").html("<font color='red'>10~20자리 이내로 입력하십시오.</font>");
 			return false;
 		}
 
 		if(pw.search(/₩s/) != -1){
-			$("#divChkPwd").html("비밀번호는 공백없이 입력하십시오.");
+			$("#divChkPwd").html("<font color='red'>비밀번호는 공백없이 입력하십시오.</font>");
 			return false;
 		}
 
 		if( (num < 0 && eng < 0) || (eng < 0 && spe < 0) || (spe < 0 && num < 0) ){
-			$("#divChkPwd").html("영문, 숫자, 특수문자 중 2가지 이상을 혼합하여 입력하십시오.");
+			$("#divChkPwd").html("<font color='red'>영문, 숫자, 특수문자 중 2가지 이상을 혼합하여 입력하십시오.</font>");
 			return false;
 		}
 		
@@ -72,7 +72,7 @@
 		if(!pw2) return false;
 		
 		if(pw1 != pw2) {
-			$("#divCfmPwd").html("비밀번호와 일치하지 않습니다. 다시 입력하십시오.");
+			$("#divCfmPwd").html("<font color='red'>비밀번호와 일치하지 않습니다. 다시 입력하십시오.</font>");
 			return false;
 		}
 		

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,12 +15,22 @@
 		$("#CMPNY_NM", opener.document).val(str2);
 		window.close();
 	}
+	function fnPage() {
+		$("#hidPage").val(1);
+		$("#form1").attr("action", "<c:url value='../tourCmpnyManage/'/>").submit();
+	}
+	
+	function fnLinkPage(page){
+		$("#hidPage").val(page);
+		$("#form1").attr("action", "<c:url value='../tourCmpnyManage/'/>").submit();
+	}	
 </script>
 </head>
 <body>
 ◆ 여행사조회
 <br>
 <form id="form1" method="post" action="../tourCmpnyPopup/">
+<input type="hidden" id="hidPage" name="hidPage">
 <input type="hidden" id="SCH_DELETE_AT" name="SCH_DELETE_AT" value="N">
 <table cellpadding="5" cellspacing="0" border="0" align="left" >
 	<tr>
@@ -42,19 +54,19 @@
 		<th>전화번호</th>
 	<tr>
 	<tbody>
-	<c:forEach var="tourCmpnyList" items="${TOUR_CMPNY_LIST}" varStatus="status">
+	<c:forEach var="tourCmpny" items="${tourCmpnyList}" varStatus="status">
 	<tr>
 		<td>
 			<c:out value='${status.count}'/>
 		</td>
-		<td ondblclick="javascript:f_sel('${tourCmpnyList.CMPNY_CODE}', '${tourCmpnyList.CMPNY_NM}')">
-			<c:out value='${tourCmpnyList.CMPNY_NM}'/>
+		<td ondblclick="javascript:f_sel('${tourCmpny.CMPNY_CODE}', '${tourCmpny.CMPNY_NM}')">
+			<c:out value='${tourCmpny.CMPNY_NM}'/>
 		</td>
 		<td>
-			<c:out value='${tourCmpnyList.ADRES}'/>
+			<c:out value='${tourCmpny.ADRES}'/>
 		</td>
 		<td>
-			<c:out value='${tourCmpnyList.TELNO}'/>
+			<c:out value='${tourCmpny.TELNO}'/>
 		</td>
 	</tr>
 	</c:forEach>
@@ -62,5 +74,15 @@
 </table>
 
 </form>
+
+<br>
+<br>
+<table width="650">	
+	<tr>
+		<td align="center">
+			<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="fnLinkPage"/>
+		</td>
+	</tr>
+</table>
 </body>
 </html>

@@ -16,8 +16,7 @@
 		});
 		
 		$("#btn_sch").click(function(){
-			$("#hidPage").val(1);
-			$("#form1").attr("action", "<c:url value='../mngrManage/'/>").submit();
+			fnPage();
 		});
 	});
 
@@ -25,7 +24,6 @@
 		$('#ESNTL_ID').val(str);
 		$("#form1").attr("action", "<c:url value='../mngrModify/'/>").submit();
 	}
-	
 	
 	function fnPage() {
 		$("#hidPage").val(1);
@@ -36,7 +34,6 @@
 		$("#hidPage").val(page);
 		$("#form1").attr("action", "<c:url value='../mngrManage/'/>").submit();
 	}
-	
 	<c:choose>
 		<c:when test="${result.success eq true}">
 			<c:if test="${result.message ne null}">alert("<c:out value='${result.message}'/>");</c:if>

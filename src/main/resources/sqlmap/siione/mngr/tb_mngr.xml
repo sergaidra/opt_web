@@ -4,7 +4,7 @@
 <sqlMap namespace="query">
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="string" type="java.lang.String"/>
-	
+
 	<insert id="MngrDAO.insertMngr" parameterClass="hashMap">
 	<![CDATA[
 		INSERT INTO TB_MNGR ( ESNTL_ID
@@ -49,7 +49,7 @@
 		 WHERE CMPNY_CODE = #CMPNY_CODE#
 	]]>
 	</delete>
-	
+
 	<update id="MngrDAO.confrmMngr" parameterClass="hashMap">
 <![CDATA[
 		UPDATE TB_MNGR
@@ -59,7 +59,7 @@
 		 WHERE ESNTL_ID = #ESNTL_ID#
 	]]>
 </update>
-	
+
 	<select id="MngrDAO.selectMngrByPk" parameterClass="hashMap" resultClass="hashMap">
 	<![CDATA[
 		SELECT ESNTL_ID
@@ -68,35 +68,34 @@
 		     , PASSWORD
 		     , AUTHOR_CL
 		     , CMPNY_CODE
-		     , (SELECT CMPNY_NM FROM TB_TOUR_CMPNY X WHERE A.CMPNY_CODE = X.CMPNY_CODE) CMPNY_NM 
+		     , (SELECT CMPNY_NM FROM TB_TOUR_CMPNY X WHERE A.CMPNY_CODE = X.CMPNY_CODE) CMPNY_NM
 		     , CONFM_AT
 		     , WRITNG_ID
 		     , WRITNG_DE
 		     , UPDT_ID
 		     , UPDT_DE
-		  FROM TB_MNGR A 
-		 WHERE ESNTL_ID = #ESNTL_ID#	  
+		  FROM TB_MNGR A
+		 WHERE ESNTL_ID = #ESNTL_ID#
 	]]>
 	</select>
 
-
-	<sql id="sqlPagePre">
-		SELECT T2.* 
-		  FROM (SELECT T1.* 
-			           , ROWNUM AS RN
+	<sql id="Mngr.sqlPagePre">
+		SELECT T2.*
+		  FROM (SELECT T1.*
+		             , ROWNUM AS RN
 		             , COUNT(1) OVER() AS TOT_CNT
 		          FROM (
 	</sql>
 
-	<sql id="sqlPagePost">
-		               ) T1    
+	<sql id="Mngr.sqlPagePost">
+		               ) T1
 		       ) T2
 		 WHERE (RN <![CDATA[ > ]]> #startRow# AND RN <![CDATA[ <= ]]> #endRow#)
 		 ORDER BY RN
 	</sql>
 
 	<select id="MngrDAO.selectMngrList" parameterClass="hashMap" resultClass="hashMap">
-	<include refid="sqlPagePre"/>	
+	<include refid="Mngr.sqlPagePre"/>
 	<![CDATA[
 		SELECT ESNTL_ID
 		     , MNGR_ID
@@ -104,13 +103,13 @@
 		     , PASSWORD
 		     , AUTHOR_CL
 		     , CMPNY_CODE
-		     , (SELECT CMPNY_NM FROM TB_TOUR_CMPNY X WHERE A.CMPNY_CODE = X.CMPNY_CODE) CMPNY_NM 
+		     , (SELECT CMPNY_NM FROM TB_TOUR_CMPNY X WHERE A.CMPNY_CODE = X.CMPNY_CODE) CMPNY_NM
 		     , CONFM_AT
 		     , WRITNG_ID
 		     , WRITNG_DE
 		     , UPDT_ID
 		     , UPDT_DE
-		  FROM TB_MNGR A 
+		  FROM TB_MNGR A
 		 WHERE 1 = 1
 	]]>
 		<isNotEmpty property="SCH_MNGR_NM">
@@ -118,12 +117,12 @@
 		</isNotEmpty>
 		<isNotEmpty property="SCH_AUTHOR_CL">
 		  AND AUTHOR_CL = #SCH_AUTHOR_CL#
-		</isNotEmpty>	
+		</isNotEmpty>
 		<isNotEmpty property="SCH_CONFM_AT">
 		  AND CONFM_AT = #SCH_CONFM_AT#
-		</isNotEmpty>		
+		</isNotEmpty>
 		ORDER BY ESNTL_ID
-	<include refid="sqlPagePost"/>			
+	<include refid="Mngr.sqlPagePost"/>
 	</select>
 
 </sqlMap>

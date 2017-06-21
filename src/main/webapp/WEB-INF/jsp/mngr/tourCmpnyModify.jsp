@@ -15,18 +15,23 @@
 		if(!fnCheckMaxLength("ADRES", "회사주소")) return false;
 		if(!fnCheckMaxLength("TELNO", "전화번호")) return false;
 		
-		form1.action = "<c:url value='../modTourCmpny/'/>";
-		form1.submit();	
+		$("#form1").attr("action", "<c:url value='../modTourCmpny/'/>").submit();
 	}
 	
 	function f_del() {
-		form1.action = "<c:url value='../delTourCmpny/'/>";
-		form1.submit();
+		$("#form1").attr("action", "<c:url value='../delTourCmpny/'/>").submit();
 	}
 
 	<c:if test="${success eq false}">
 		alert("조회 중 오류 발생");
 	</c:if>
+	<c:choose>
+		<c:when test="${result.success eq true}">
+			<c:if test="${result.message ne null}">alert("<c:out value='${result.message}'/>");</c:if>
+		</c:when>
+		<c:when test="${result.success eq false}">alert("<c:out value='${result.message}'/>");</c:when>
+		<c:otherwise/>
+	</c:choose>	
 </script>
 </head>
 <body>
@@ -56,9 +61,12 @@
 <table width="800" cellpadding="5" cellspacing="0" border="0" align="left" >
 	<tr>
 		<td width='100%' align="right">
+		<c:if test="${tourCmpnyInfo.DELETE_AT != 'Y'}">
 			<input type="button" value="저장" onclick="f_mod()">
 			<input type="button" value="삭제" onclick="f_del()">
 			<input type="button" value="취소" onclick="form1.reset();">
+		</c:if>
+			<input type="button" value="목록" onclick="window.history.go(-1);">
 		</td>
 	</tr>	
 </table>
