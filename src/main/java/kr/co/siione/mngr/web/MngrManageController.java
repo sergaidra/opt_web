@@ -19,7 +19,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -56,6 +55,7 @@ public class MngrManageController {
 	 */
     @RequestMapping(value="/mngr/mngrManage/")
 	public String mngrManage(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+    	if(param!= null) model.put("param", param);
 
     	try {
 		    //현재 페이지 파라메타
@@ -74,14 +74,11 @@ public class MngrManageController {
 			paginationInfo.setRecordCountPerPage(pageBlock);
 			paginationInfo.setPageSize(pageArea);
 
-			//HashMap<String, Integer> map = new HashMap<String, Integer>();
 			param.put("startRow", String.valueOf(paginationInfo.getFirstRecordIndex()));
 			param.put("endRow", String.valueOf(paginationInfo.getLastRecordIndex()));
 	    				
-			Map<String, ?> result = RequestContextUtils.getInputFlashMap(request);
-			//FlashMap [attributes={result={message=가이드(관리자)를 등록하였습니다., success=true}}, targetRequestPath=/mngr/mngrManage/, targetRequestParams={}]
-			
 			List<Map<String, String>> list = mngrManageService.selectMngrList(param);
+			model.put("mngrList", list);
 			
 			if(list.size() > 0){
 				int list_cnt = Integer.parseInt(String.valueOf(list.get(0).get("TOT_CNT")));
@@ -89,20 +86,10 @@ public class MngrManageController {
 			}
 			model.put("paginationInfo", paginationInfo);
 			
-			model.put("mngrList", list);
-			
-			if(param!= null) {
-				model.put("param", param);
-			}
-			if(result != null){
-				model.put("message", result.get("message"));
-				model.put("success", result.get("success"));
-				model.put("param", result.get("param"));
-			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}	
+		}
+
         return "/mngr/mngrManage";	
 	}
     
@@ -128,8 +115,8 @@ public class MngrManageController {
 	public String addMngr(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
     	param.put("WRITNG_ID", ssUserId);
     	Map<String, Object> result = new HashMap<String, Object>();
-    	result.put("param", param);
-		try {
+
+    	try {
 			mngrManageService.insertMngr(param);
 			result.put("message", "가이드(관리자)를 등록하였습니다.");
 			result.put("success", true);
@@ -137,6 +124,7 @@ public class MngrManageController {
 			result.put("message", e.getLocalizedMessage());
 			result.put("success", false);
 		}
+    	
 		redirectAttr.addFlashAttribute("result", result);
 		return "redirect:/mngr/mngrManage/";
 	}
@@ -145,7 +133,7 @@ public class MngrManageController {
 	public String modMngr(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
     	param.put("UPDT_ID", ssUserId);
     	Map<String, Object> result = new HashMap<String, Object>();
-    	result.put("param", param);    	
+    	
 		try {
 			if(mngrManageService.updateMngr(param) > 0) {
 				result.put("message", "가이드(관리자)를 수정하였습니다.");
@@ -158,36 +146,38 @@ public class MngrManageController {
 			result.put("message", e.getLocalizedMessage());
 			result.put("success", false);
 		}
+		
 		redirectAttr.addFlashAttribute("result", result);
 		return "redirect:/mngr/mngrManage/";
 	}  
     
     @RequestMapping(value="/mngr/delMngr/")
-	public String delMngr(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+	public String delMngr(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
     	param.put("UPDT_ID", ssUserId);
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	
 		try {
 			if(mngrManageService.deleteMngr(param) > 0) {
-				model.put("message", "가이드(관리자)를 삭제하였습니다.");
-				model.put("success", true);	
+				result.put("message", "가이드(관리자)를 삭제하였습니다.");
+				result.put("success", true);	
 			} else {
-				model.put("message", "가이드(관리자) 삭제 중 오류가 발생했습니다.");
-				model.put("success", false);
+				result.put("message", "가이드(관리자) 삭제 중 오류가 발생했습니다.");
+				result.put("success", false);
 			}
 		} catch (Exception e) {
-			model.put("message", e.getLocalizedMessage());
-			model.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+			result.put("success", false);
 		}
-		List<Map<String, String>> list = mngrManageService.selectMngrList(param);
-		model.put("mngrList", list);
 		
-		return "/mngr/mngrManage";
+		redirectAttr.addFlashAttribute("result", result);
+		return "redirect:/mngr/mngrManage/";
 	}  
     
     @RequestMapping(value="/mngr/confrmMngr/")
    	public String confrmMngr(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
        	param.put("UPDT_ID", ssUserId);
        	Map<String, Object> result = new HashMap<String, Object>();
-       	result.put("param", param);
+
    		try {
    			String sMsg = "승인처리";
    	       	if(!param.get("CONFM_AT").toString().equals("Y")){
@@ -204,10 +194,33 @@ public class MngrManageController {
    			result.put("message", e.getLocalizedMessage());
    			result.put("success", false);
    		}
+   		
    		redirectAttr.addFlashAttribute("result", result);
    		return "redirect:/mngr/mngrManage/";
    	}    
         
+    @RequestMapping(value="/mngr/checkMngrId/")
+	public void checkMngrId(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	
+    	try {
+			String sDupAt = mngrManageService.selectMngrIdForDup(param);
+			
+			if(sDupAt.equals("Y")) {
+				result.put("message", "해당 아이디를 사용할 수 없습니다. 아이디를 새로 입력하십시오.");
+				result.put("success", false);
+			} else {
+				result.put("message", "해당 아이디를 사용할 수 있습니다.");
+				result.put("success", true);				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("message", "아이디 중복 체크 중 오류가 발생했습니다.");
+			result.put("success", false);
+		}	
+		jsonView.render(result, request, response);
+	}  
+    
     @RequestMapping(value="/mngr/getMngrListAjax/")
 	public void getMngrListAjax(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
     	Map<String, Object> result = new HashMap<String, Object>();
@@ -224,7 +237,4 @@ public class MngrManageController {
 		}	
 		jsonView.render(result, request, response);
 	}    
-    
-       
-       
 }

@@ -125,4 +125,11 @@
 	<include refid="Mngr.sqlPagePost"/>
 	</select>
 
+	<select id="MngrDAO.selectMngrIdForDup" parameterClass="hashMap" resultClass="string">
+	<![CDATA[
+		SELECT DECODE(SIGN(COUNT(MNGR_ID)), 0, 'N', 'Y') AS CL_DUP_AT
+		  FROM TB_MNGR A
+		 WHERE MNGR_ID = #MNGR_ID#
+	]]>
+	</select>
 </sqlMap>

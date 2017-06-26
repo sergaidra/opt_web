@@ -55,13 +55,13 @@
 		<td>*이름:</td>
 		<td><input type="text" name="SCH_MNGR_NM" id="SCH_MNGR_NM" size="20" value="<c:out value='${param.SCH_MNGR_NM}'/>"></td>
 		<td>*권한구분:</td>
-		<td><input type="radio" name="SCH_AUTHOR_CL" value=""  <c:if test="${param.SCH_AUTHOR_CL==''}">checked="checked"</c:if>>전체
+		<td><input type="radio" name="SCH_AUTHOR_CL" value=""  <c:if test="${param.SCH_AUTHOR_CL!='A' && param.SCH_AUTHOR_CL!='G'}">checked="checked"</c:if>>전체
 			<input type="radio" name="SCH_AUTHOR_CL" value="A" <c:if test="${param.SCH_AUTHOR_CL=='A'}">checked="checked"</c:if>>관리자
 			<input type="radio" name="SCH_AUTHOR_CL" value="G" <c:if test="${param.SCH_AUTHOR_CL=='G'}">checked="checked"</c:if>>가이드</td>
 		<td>*승인여부:</td>
-		<td><input type="radio" name="SCH_CONFM_AT" value=""  <c:if test="${param.SCH_AUTHOR_CL==''}">checked="checked"</c:if>>전체
-			<input type="radio" name="SCH_CONFM_AT" value="Y" <c:if test="${param.SCH_AUTHOR_CL=='Y'}">checked="checked"</c:if>>승인
-			<input type="radio" name="SCH_CONFM_AT" value="N" <c:if test="${param.SCH_AUTHOR_CL=='N'}">checked="checked"</c:if>>미승인</td>	
+		<td><input type="radio" name="SCH_CONFM_AT" value=""  <c:if test="${param.SCH_CONFM_AT!='Y' && param.SCH_CONFM_AT!='N'}">checked="checked"</c:if>>전체
+			<input type="radio" name="SCH_CONFM_AT" value="Y" <c:if test="${param.SCH_CONFM_AT=='Y'}">checked="checked"</c:if>>승인
+			<input type="radio" name="SCH_CONFM_AT" value="N" <c:if test="${param.SCH_CONFM_AT=='N'}">checked="checked"</c:if>>미승인</td>	
 		<td><input type="button" id="btn_sch" value="검색">
 			<input type="button" id="btn_reg" value="등록"></td>
 	</tr>	

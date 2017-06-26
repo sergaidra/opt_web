@@ -16,7 +16,15 @@
 				f_popupTourCmpy();
 			}
 		});
+		
+		$('#MNGR_ID').focus(function(){
+			$("#CHK_MNGR_ID").val("");
+		});
 
+		$('#MNGR_ID').keydown(function(){
+			$("#CHK_MNGR_ID").val("");
+		});
+		
 		$('#PASSWORD').keyup(function(){
 			f_chkPwd($(this).val());
 		});
@@ -27,13 +35,18 @@
 	});
 	
 	function f_add() {
-		fnCheckRequired();
+ 		fnCheckRequired();
 		if(!fnCheckMaxLength("MNGR_NM", "이름")) return;
 		if(!fnCheckMaxLength("MNGR_ID", "아이디")) return;
 		if(!fnCheckMaxLength("PASSWORD", "비밀번호")) return;
 		if(!fnCheckMaxLength("PASSWORD_CONFIRM", "비밀번호확인")) return;
 		//if(!fnCheckMaxLength("AUTHOR_CL", "가입유형")) return;
 		if(!fnCheckMaxLength("CMPNY_CODE", "소속여행사")) return;
+
+		if($("#CHK_MNGR_ID").val() != "Y") {
+			alert("아이디 중복 체크를 실행하십시오.");
+			return;
+		}
 		
 		if(!f_chkPwd($('#PASSWORD').val())) return;
 		if(!f_cfmPwd($('#PASSWORD').val(), $('#PASSWORD_CONFIRM').val())) return;
@@ -82,6 +95,26 @@
 		return true;
 	}
 	
+	function f_chkDup() {
+		$.ajax({
+			url: "<c:url value='../checkMngrId/'/>",
+			type:'post',
+			datatype: 'json',
+			async: true,
+			data:$('#form1').serialize(),
+			success: function(json) {
+				alert(json.message);
+				if (json.success) {
+					$("#CHK_MNGR_ID").val("Y");
+				} else {
+					$("#CHK_MNGR_ID").val("");
+					$("#MNGR_ID").val("");
+					$("#MNGR_ID").focus();
+				}
+			}
+		})
+	}
+	
 	function f_popupTourCmpy() {
 		fnOpenPopup("../tourCmpnyPopup/", "winTourCmpnyPopup", 700, 450);
 	}
@@ -98,7 +131,11 @@
 	</tr>
 	<tr>
 		<td width="25%">아이디</td>
-		<td width="75%"><input type="text" id="MNGR_ID" name="MNGR_ID" size="50" maxlength="20" title="아이디"></td>
+		<td width="75%">
+			<input type="text" id="MNGR_ID" name="MNGR_ID" size="50" maxlength="20" title="아이디">
+			<input type="button" value="아이디중복체크" onclick="f_chkDup()">
+			<input type="hidden" id="CHK_MNGR_ID" name="CHK_MNGR_ID">
+		</td>
 	</tr>	
 	<tr>
 		<td width="25%">비밀번호</td>
@@ -119,7 +156,7 @@
 		<td width="25%">가입유형</td>
 		<td width="75%">
 			<input type="radio" name="AUTHOR_CL" value="A">관리자
-			<input type="radio" name="AUTHOR_CL" value="G">가이드
+			<input type="radio" name="AUTHOR_CL" value="G" checked="checked">가이드
 		</td>
 	</tr>		
 	<tr>

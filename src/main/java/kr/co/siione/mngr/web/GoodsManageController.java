@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.co.siione.mngr.service.FileManageService;
+import kr.co.siione.mngr.service.GoodsManageService;
 import kr.co.siione.mngr.service.TourClManageService;
 import kr.co.siione.utl.egov.EgovProperties;
 
@@ -29,7 +30,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-public class TourClManageController {
+public class GoodsManageController {
+	
+	@Resource(name = "GoodsManageService")
+	private GoodsManageService goodsManageService;
 	
 	@Resource(name = "TourClManageService")
 	private TourClManageService tourClManageService;
@@ -37,15 +41,15 @@ public class TourClManageController {
 	@Resource(name = "FileManageService")
 	private FileManageService fileManageService;
 	
-	private static final Logger LOG = LoggerFactory.getLogger(TourClManageController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GoodsManageController.class);
 	
 	private static final String ssUserId = "admin";
 	
 	/**
 	 * 
 	 * <pre>
-	 * 1. 메소드명 : tourClManage
-	 * 2. 설명 : 여행분류관리 화면 호출
+	 * 1. 메소드명 : goodsManage
+	 * 2. 설명 : 상품관리 화면 호출
 	 * 3. 작성일 : 2017. 6. 1.
 	 * </pre>
 	 * @param request
@@ -53,41 +57,43 @@ public class TourClManageController {
 	 * @return
 	 * @throws Exception
 	 */
-    @RequestMapping(value="/mngr/tourClManage/")
-	public String tourClManage(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+    @RequestMapping(value="/mngr/goodsManage/")
+	public String goodsManage(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
     	try {
-			List<Map<String, String>> list = tourClManageService.selectTourClList(param);
-			model.put("tourClList", list);
+			List<Map<String, String>> list = goodsManageService.selectGoodsList(param);
+			model.put("goodsList", list);
 			
+			List<Map<String, String>> listCl = tourClManageService.selectTourClList(param);
+			model.put("tourClList", listCl);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
-        return "/mngr/tourClManage";
+        return "/mngr/goodsManage";
 	}
     
-    @RequestMapping(value="/mngr/tourClRegist/")
-	public String tourClRegist(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/mngr/tourClRegist";	
+    @RequestMapping(value="/mngr/goodsRegist/")
+	public String goodsRegist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "/mngr/goodsRegist";	
 	}    
     
-    @RequestMapping(value="/mngr/tourClModify/")
-	public String tourClModify(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+    @RequestMapping(value="/mngr/goodsModify/")
+	public String goodsModify(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
 		try {
-			Map<String, String> map = tourClManageService.selectTourClByPk(param);
+			Map<String, String> map = goodsManageService.selectGoodsByPk(param);
 			List<Map<String, String>> list = fileManageService.selectFileDetailList(param);
-			model.put("tourClInfo", map);
+			model.put("goodsInfo", map);
 			model.put("fileList", list);
 			model.put("success", true);
 		} catch (Exception e) {
-			model.put("message", "여행분류 조회 중 오류가 발생했습니다.");
+			model.put("message", "상품 조회 중 오류가 발생했습니다.");
 			model.put("success", false);
 			e.printStackTrace();
 		}	
-        return "/mngr/tourClModify";	
+        return "/mngr/goodsModify";	
 	}    
     
-    @RequestMapping(value="/mngr/addTourCl/")
-	public String addTourCl(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
+    @RequestMapping(value="/mngr/addGoods/")
+	public String addGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
     	param.put("WRITNG_ID", ssUserId);
     	Map<String, Object> result = new HashMap<String, Object>();
     	    	
@@ -112,7 +118,7 @@ public class TourClManageController {
 			fos = new FileOutputStream(storePath + saveFileNm);
 			fos.write(file.getBytes());			
 			
-			param.put("REGIST_PATH", "여행분류");
+			param.put("REGIST_PATH", "상품");
 			param.put("FILE_SN", "1");
 			param.put("FILE_NM", fileName);
 			param.put("FILE_PATH", storePath + saveFileNm);
@@ -121,12 +127,12 @@ public class TourClManageController {
 			param.put("REPRSNT_AT", "Y");
 			param.put("SORT_NO", "1");
 			
-			tourClManageService.insertTourCl(param);
+			goodsManageService.insertGoods(param);
 			
-			result.put("message", "여행분류를 등록하였습니다.");
+			result.put("message", "상품을 등록하였습니다.");
 			result.put("success", true);
 		} catch (Exception e) {
-			result.put("message", "여행분류 등록 중 오류가 발생했습니다.");
+			result.put("message", "상품 등록 중 오류가 발생했습니다.");
 			result.put("success", false);
 		} finally {
     		try {
@@ -139,11 +145,11 @@ public class TourClManageController {
 		}
 
 		redirectAttr.addFlashAttribute("result", result);
-		return "redirect:/mngr/tourClManage/";
+		return "redirect:/mngr/goodsManage/";
     }
     
-    @RequestMapping(value="/mngr/modTourCl/")
-	public String modTourCl(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
+    @RequestMapping(value="/mngr/modGoods/")
+	public String modGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
     	param.put("WRITNG_ID", ssUserId);
     	Map<String, Object> result = new HashMap<String, Object>();
     	
@@ -165,7 +171,7 @@ public class TourClManageController {
 			fos = new FileOutputStream(storePath + saveFileNm);
 			fos.write(file.getBytes());			
 			
-			param.put("REGIST_PATH", "여행분류");
+			param.put("REGIST_PATH", "상품");
 			param.put("FILE_SN", "1");
 			param.put("FILE_NM", fileName);
 			param.put("FILE_PATH", storePath + saveFileNm);
@@ -174,8 +180,8 @@ public class TourClManageController {
 			param.put("REPRSNT_AT", "Y");
 			param.put("SORT_NO", "1");
 
-			tourClManageService.updateTourCl(param);
-			result.put("message", "여행분류를 수정하였습니다.");
+			goodsManageService.updateGoods(param);
+			result.put("message", "상품을 수정하였습니다.");
 			result.put("success", true);
 		} catch (Exception e) {
 			result.put("message", e.getLocalizedMessage());
@@ -191,20 +197,20 @@ public class TourClManageController {
 		}
 
 		redirectAttr.addFlashAttribute("result", result);
-		return "redirect:/mngr/tourClManage/";
+		return "redirect:/mngr/goodsManage/";
 	}  
     
-    @RequestMapping(value="/mngr/delTourCl/")
-	public String delTourCl(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
+    @RequestMapping(value="/mngr/delGoods/")
+	public String delGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
     	param.put("UPDT_ID", ssUserId);
     	Map<String, Object> result = new HashMap<String, Object>();
     	
 		try {
-			if(tourClManageService.deleteTourCl(param) > 0) {
-				result.put("message", "여행분류를 삭제하였습니다.");
+			if(goodsManageService.deleteGoods(param) > 0) {
+				result.put("message", "상품을 삭제하였습니다.");
 				result.put("success", true);	
 			} else {
-				result.put("message", "여행분류 삭제중 오류가 발생했습니다.");
+				result.put("message", "상품 삭제중 오류가 발생했습니다.");
 				result.put("success", false);
 			}
 		} catch (Exception e) {
@@ -213,7 +219,7 @@ public class TourClManageController {
 		}
 		
 		redirectAttr.addFlashAttribute("result", result);
-		return "redirect:/mngr/tourClManage/";
+		return "redirect:/mngr/goodsManage/";
 	}
     
 	public static String getDate(String sFormat) {

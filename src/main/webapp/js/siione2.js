@@ -48,7 +48,7 @@ function fnCheckByte(el){
  * @returns {Boolean}
  */
 function fnCheckRequired() {
-	// todo form 수 체크, input 외 다른 object 체크, 필수가 아닌 object 체크
+	// TODO form 수 체크, input 외 다른 object 체크, 필수가 아닌 object 체크
 	var inputObjs = $("form input");
 	var bEmpty = true;
 	var focus;

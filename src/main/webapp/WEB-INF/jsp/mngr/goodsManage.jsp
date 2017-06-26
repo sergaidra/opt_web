@@ -5,17 +5,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>분류관리</title>
+<title>상품관리</title>
 <script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
 <script type = "text/javascript">
 	function f_reg() {
-		$(location).attr("href", "<c:url value='../tourClRegist/'/>");
+		$(location).attr("href", "<c:url value='../goodsRegist/'/>");
 	}
 	
 	function f_mod(clCode, fileCode) {
-		$('#CL_CODE').val(clCode);
+		$('#GOODS_CODE').val(clCode);
 		$('#FILE_CODE').val(fileCode);
-		$("#form1").attr("action", "<c:url value='../tourClModify/'/>").submit();
+		$("#form1").attr("action", "<c:url value='../goodsModify/'/>").submit();
 	}
 	<c:choose>
 		<c:when test="${result.success eq true}">
@@ -27,49 +27,49 @@
 </script>
 </head>
 <body>
-◆ 여행분류관리
+◆ 상품관리
 <br><br>
 <input type="button" value="등록" onclick="f_reg()">
 <br><br>
 <table width="1024" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid;">
 	<tr>
 		<th>순서</th>
-		<th>분류코드</th>
-		<th>분류명</th>
+		<th>상품코드</th>
+		<th>상품명</th>
 		<th>삭제여부</th>
 		<th>등록일자</th>
 		<th>수정일자</th>
 		<th>파일여부</th>
 	<tr>
-	<c:forEach var="tourCl" items="${tourClList}" varStatus="status">
+	<c:forEach var="goods" items="${goodsList}" varStatus="status">
 	<tr>
 		<td>
 			<c:out value='${status.count}'/>
 		</td>
 		<td>
-			<c:out value='${tourCl.CL_CODE}'/>
+			<c:out value='${goods.GOODS_CODE}'/>
 		</td>
-		<td ondblclick="javascript:f_mod('${tourCl.CL_CODE}', '${tourCl.FILE_CODE}')">
-			<c:out value='${tourCl.CL_NM}'/>
+		<td ondblclick="javascript:f_mod('${goods.GOODS_CODE}', '${goods.FILE_CODE}')">
+			<c:out value='${goods.GOODS_NM}'/>
 		</td>
 		<td>
-			<c:if test="${tourCl.DELETE_AT == 'N'}">사용</c:if>
-			<c:if test="${tourCl.DELETE_AT == 'Y'}"><font color='red'>삭제</font></c:if>
+			<c:if test="${goods.DELETE_AT == 'N'}">사용</c:if>
+			<c:if test="${goods.DELETE_AT == 'Y'}"><font color='red'>삭제</font></c:if>
 		</td>		
 		<td>
-			<fmt:parseDate value="${tourCl.WRITNG_DE}" pattern="yyyyMMdd" var="writngDe" scope="page"/>
+			<fmt:parseDate value="${goods.WRITNG_DE}" pattern="yyyyMMdd" var="writngDe" scope="page"/>
 			<fmt:formatDate value="${writngDe}" pattern="yyyy-MM-dd"/>
 		</td>
 		<td>
-			<fmt:parseDate value="${tourCl.UPDT_DE}" pattern="yyyyMMdd" var="updtDe" scope="page"/>
+			<fmt:parseDate value="${goods.UPDT_DE}" pattern="yyyyMMdd" var="updtDe" scope="page"/>
 			<fmt:formatDate value="${updtDe}" pattern="yyyy-MM-dd"/>
 		</td>		
-		<td><c:out value='${tourCl.FILE_CODE}'/></td>
+		<td><c:out value='${goods.FILE_CODE}'/></td>
 	</tr>
 	</c:forEach>
 </table>
-<form id="form1" method="post" action="<c:url value='../tourClModify/'/>">
-	<input type="hidden" name="CL_CODE" id="CL_CODE">
+<form id="form1" method="post" action="<c:url value='../goodsModify/'/>">
+	<input type="hidden" name="GOODS_CODE" id="GOODS_CODE">
 	<input type="hidden" name="FILE_CODE" id="FILE_CODE">
 </form>
 </body>

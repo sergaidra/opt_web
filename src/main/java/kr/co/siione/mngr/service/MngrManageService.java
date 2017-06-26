@@ -14,7 +14,8 @@ public interface MngrManageService {
 	public int confrmMngr(Map<String, String> param) throws Exception;
 	
 	public Map<String, String> selectMngrByPk(Map<String, String> param) throws Exception;
-
+	
 	public List<Map<String, String>> selectMngrList(Map<String, String> param) throws Exception;
 
+	public String selectMngrIdForDup(Map<String, String> param) throws Exception;
 }

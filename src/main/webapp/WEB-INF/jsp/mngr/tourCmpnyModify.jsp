@@ -25,13 +25,6 @@
 	<c:if test="${success eq false}">
 		alert("조회 중 오류 발생");
 	</c:if>
-	<c:choose>
-		<c:when test="${result.success eq true}">
-			<c:if test="${result.message ne null}">alert("<c:out value='${result.message}'/>");</c:if>
-		</c:when>
-		<c:when test="${result.success eq false}">alert("<c:out value='${result.message}'/>");</c:when>
-		<c:otherwise/>
-	</c:choose>	
 </script>
 </head>
 <body>

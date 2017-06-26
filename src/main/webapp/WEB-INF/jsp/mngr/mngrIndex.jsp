@@ -14,6 +14,8 @@
 	<li><a href="<c:url value='/mngr/tourClRegist/'/>" target="_self">여행분류등록</a></li>
 	<li><a href="<c:url value='/mngr/mngrManage/'/>" target="_self">가이드관리</a></li>
 	<li><a href="<c:url value='/mngr/mngrRegist/'/>" target="_self">가이드등록</a></li>
+	<li><a href="<c:url value='/mngr/goodsManage/'/>" target="_self">상품관리</a></li>
+	<li><a href="<c:url value='/mngr/goodsRegist/'/>" target="_self">상품등록</a></li>
 </ul>
 </body>
 </html>

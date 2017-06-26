@@ -45,4 +45,8 @@ public class MngrManageServiceImpl implements MngrManageService {
 		return mngrDAO.selectMngrList(param);
 	}
 
+	@Override
+	public String selectMngrIdForDup(Map<String, String> param) throws Exception {
+		return mngrDAO.selectMngrIdForDup(param);
+	}
 }

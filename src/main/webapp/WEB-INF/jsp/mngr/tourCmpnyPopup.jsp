@@ -17,12 +17,12 @@
 	}
 	function fnPage() {
 		$("#hidPage").val(1);
-		$("#form1").attr("action", "<c:url value='../tourCmpnyManage/'/>").submit();
+		$("#form1").submit();
 	}
 	
 	function fnLinkPage(page){
 		$("#hidPage").val(page);
-		$("#form1").attr("action", "<c:url value='../tourCmpnyManage/'/>").submit();
+		$("#form1").submit();
 	}	
 </script>
 </head>

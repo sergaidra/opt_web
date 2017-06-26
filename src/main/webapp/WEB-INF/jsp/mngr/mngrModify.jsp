@@ -88,10 +88,14 @@
 		$("#CONFM_AT").val(str);
 		$("#form1").attr("action", "../confrmMngr/").submit();
 	}
+	
+	<c:if test="${success eq false}">
+		alert("조회 중 오류 발생");
+	</c:if>
 </script>
 </head>
 <body>
-◆ 가이드등록
+◆ 가이드수정
 <br><br>
 <form id="form1" method="post" action="<c:url value='../modMngr/'/>" >
 <input type="hidden" name="ESNTL_ID" id="ESNTL_ID" value="<c:out value='${mngrInfo.ESNTL_ID}'/>">

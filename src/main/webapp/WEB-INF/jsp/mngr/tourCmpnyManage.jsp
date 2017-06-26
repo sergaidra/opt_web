@@ -34,10 +34,10 @@
 		$("#form1").attr("action", "<c:url value='../tourCmpnyManage/'/>").submit();
 	}	
 	<c:choose>
-		<c:when test="${success eq true}">
-			<c:if test="${message ne null}">alert("<c:out value='${message}'/>");</c:if>
+		<c:when test="${result.success eq true}">
+			<c:if test="${result.message ne null}">alert("<c:out value='${result.message}'/>");</c:if>
 		</c:when>
-		<c:when test="${success eq false}">alert("<c:out value='${message}'/>");</c:when>
+		<c:when test="${result.success eq false}">alert("<c:out value='${result.message}'/>");</c:when>
 		<c:otherwise/>
 	</c:choose>
 </script>

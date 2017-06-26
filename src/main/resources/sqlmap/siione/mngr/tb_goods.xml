@@ -5,7 +5,7 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="string" type="java.lang.String"/>
 
-	<insert id="TourClDAO.insertTourCl" parameterClass="hashMap">
+	<insert id="GoodsDAO.insertGoods" parameterClass="hashMap">
 	<![CDATA[
 		INSERT INTO TB_TOUR_CL( CL_CODE
 							  , CL_NM
@@ -22,7 +22,7 @@
 	]]>
 	</insert>
 
-	<update id="TourClDAO.updateTourCl" parameterClass="hashMap">
+	<update id="GoodsDAO.updateGoods" parameterClass="hashMap">
 	<![CDATA[
 		UPDATE TB_TOUR_CL
 		   SET CL_NM = #CL_NM#
@@ -33,7 +33,7 @@
 	]]>
 	</update>
 
-	<delete id="TourClDAO.deleteTourCl" parameterClass="hashMap">
+	<delete id="GoodsDAO.deleteGoods" parameterClass="hashMap">
 	<![CDATA[
 		UPDATE TB_TOUR_CL
 		   SET DELETE_AT = 'Y'
@@ -43,7 +43,7 @@
 	]]>
 	</delete>
 	
-	<select id="TourClDAO.selectTourClByPk" parameterClass="hashMap" resultClass="hashMap">
+	<select id="GoodsDAO.selectGoodsByPk" parameterClass="hashMap" resultClass="hashMap">
 	<![CDATA[
 		SELECT CL_CODE
 			 , CL_NM 
@@ -58,24 +58,23 @@
 	]]>
 	</select>
 
-	<select id="TourClDAO.selectTourClList" parameterClass="hashMap" resultClass="hashMap">
+	<select id="GoodsDAO.selectGoodsList" parameterClass="hashMap" resultClass="hashMap">
 	<![CDATA[
-		SELECT CL_CODE
-			 , CL_NM 
-			 , DELETE_AT
-			 , WRITNG_ID
-			 , WRITNG_DE
-			 , DELETE_AT
-			 , UPDT_ID
-			 , UPDT_DE
-			 , FILE_CODE 
-		  FROM TB_TOUR_CL   
-		 WHERE 1 = 1
-	]]>
+		SELECT GOODS_CODE
+		     , GOODS_NM
+		     , GOODS_INTRCN
+		     , DELETE_AT
+		     , WRITNG_ID
+		     , WRITNG_DE
+		     , UPDT_ID
+		     , UPDT_DE
+		     , FILE_CODE
+		  FROM TB_GOODS  
+		 WHERE 1 = 1	]]>
 		<isNotEmpty property="DELETE_AT">
 		  AND DELETE_AT = #DELETE_AT#		
 		</isNotEmpty>
-		 ORDER BY WRITNG_DE, CL_CODE
+		 ORDER BY WRITNG_DE, GOODS_CODE
 	</select>
 
 </sqlMap>

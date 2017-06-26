@@ -35,4 +35,9 @@ public class MngrDAO extends EgovComAbstractDAO {
 	public List<Map<String, String>> selectMngrList(Map<String, String> param) throws Exception {
 		return list("MngrDAO.selectMngrList", param);
 	}
+	
+	@SuppressWarnings("deprecation")
+	public String selectMngrIdForDup(Map<String, String> param) throws Exception {
+		return (String)getSqlMapClient().queryForObject("MngrDAO.selectMngrIdForDup", param);
+	}
 }
