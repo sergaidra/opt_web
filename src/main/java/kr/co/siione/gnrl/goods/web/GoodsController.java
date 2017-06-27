@@ -54,7 +54,7 @@ public class GoodsController {
 			intPage = Integer.parseInt((String)hidPage);
 		
 		//페이지 기본설정
-		int pageBlock = 4;
+		int pageBlock = 6;
 		int pageArea = 10;
         
     	HashMap map = new HashMap();

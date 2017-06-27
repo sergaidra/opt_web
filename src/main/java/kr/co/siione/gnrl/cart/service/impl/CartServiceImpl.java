@@ -22,11 +22,42 @@ public class CartServiceImpl implements CartService {
         return cartDAO.selectCartDetail(map);
     }
 
+    public List<HashMap> getCartNmprList(HashMap map) throws Exception {
+        return cartDAO.selectCartNmprList(map);
+    }
+
     public HashMap getCartValidCnfirm(HashMap map) throws Exception{
         return cartDAO.selectCartValidCnfirm(map);
     }
 
+    public long getCartPayment(HashMap map) throws Exception{
+        return cartDAO.selectCartPayment(map);
+    }
+    
     public void addCart(HashMap map) throws Exception {
+        int cart_sn = cartDAO.selectCartSn(map);
+        map.put("cart_sn", cart_sn);
     	cartDAO.insertCart(map);
+
+		List<HashMap> nList = (List<HashMap>) map.get("nmpr_list");
+		for(HashMap nMap:nList) {
+			nMap.putAll(map);
+			cartDAO.insertCartNmpr(nMap);
+		}
+    }
+
+    public void updateCart(HashMap map) throws Exception {
+    	cartDAO.updateCart(map);
+		cartDAO.deleteCartNmpr(map);
+
+		List<HashMap> nList = (List<HashMap>) map.get("nmpr_list");
+		for(HashMap nMap:nList) {
+			nMap.putAll(map);
+			cartDAO.insertCartNmpr(nMap);
+		}    	
+    }
+
+    public void deleteCart(HashMap map) throws Exception {
+    	cartDAO.deleteCart(map);
     }
 }

@@ -22,5 +22,6 @@
 
 		<!-- json -->
 		<pattern>*Json/*</pattern>
+
 	</excludes>
 </decorators>

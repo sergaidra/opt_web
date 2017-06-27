@@ -5,16 +5,13 @@
 	<resultMap id="cartDetail" class="java.util.HashMap">
 		<result property="CART_SN" column="CART_SN" columnIndex="1"/>
 		<result property="GOODS_CODE" column="GOODS_CODE" columnIndex="2"/>
-		<result property="NMPR_SN" column="NMPR_SN" columnIndex="3"/>
-		<result property="PURCHS_AMOUNT" column="PURCHS_AMOUNT" columnIndex="4"/>
-		<result property="TOUR_DE" column="TOUR_DE" columnIndex="5"/>
-		<result property="GOODS_NM" column="GOODS_NM" columnIndex="6"/>
-		<result property="GOODS_INTRCN" column="GOODS_INTRCN" columnIndex="7" javaType="String" jdbcType="CLOB"/>
-		<result property="FILE_CODE" column="FILE_CODE" columnIndex="8"/>
-		<result property="NMPR_CND" column="NMPR_CND" columnIndex="9"/>
-		<result property="SETUP_AMOUNT" column="SETUP_AMOUNT" columnIndex="10"/>
-		<result property="WRITNG_ID" column="WRITNG_ID" columnIndex="11"/>
-		<result property="WRITNG_DE" column="WRITNG_DE" columnIndex="12"/>
+		<result property="PURCHS_AMOUNT" column="PURCHS_AMOUNT" columnIndex="3"/>
+		<result property="TOUR_DE" column="TOUR_DE" columnIndex="4"/>
+		<result property="GOODS_NM" column="GOODS_NM" columnIndex="5"/>
+		<result property="GOODS_INTRCN" column="GOODS_INTRCN" columnIndex="6" javaType="String" jdbcType="CLOB"/>
+		<result property="FILE_CODE" column="FILE_CODE" columnIndex="7"/>
+		<result property="WRITNG_ID" column="WRITNG_ID" columnIndex="8"/>
+		<result property="WRITNG_DE" column="WRITNG_DE" columnIndex="9"/>
 	</resultMap>
 
 	<select id="gnrl.cart.selectCartList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
@@ -22,14 +19,11 @@
 		X.RN, 
 		X.TOT_CNT,
 		X.CART_SN, 
-		X.GOODS_CODE, 
-		X.NMPR_SN, 
-		X.PURCHS_AMOUNT, 
+		X.GOODS_CODE,
+		FN_PURCHS_AMOUNT(X.ESNTL_ID, X.CART_SN) AS PURCHS_AMOUNT,
 		X.TOUR_DE,
 		X.GOODS_NM, 
 		X.FILE_CODE,
-		X.NMPR_CND, 
-		X.SETUP_AMOUNT,
 		X.WRITNG_ID,
 		X.WRITNG_DE
 		FROM 
@@ -38,24 +32,22 @@
 			ROWNUM AS RN, COUNT(*) OVER() AS TOT_CNT
 			FROM 
 			(
+
 				SELECT 
+				CG.ESNTL_ID, 
 				CG.CART_SN, 
-				CG.GOODS_CODE, 
-				CG.NMPR_SN, 
-				CG.PURCHS_AMOUNT, 
+				CG.GOODS_CODE,
 				CG.TOUR_DE,
 				G.GOODS_NM, 
 				G.FILE_CODE,
-				GN.NMPR_CND, 
-				GN.SETUP_AMOUNT,
 				CG.WRITNG_ID,
 				CG.WRITNG_DE
 				FROM TB_CART_GOODS CG
 				INNER JOIN TB_GOODS G ON G.GOODS_CODE = CG.GOODS_CODE AND G.DELETE_AT = 'N'
-				INNER JOIN TB_GOODS_NMPR GN ON GN.GOODS_CODE = CG.GOODS_CODE AND GN.NMPR_SN = CG.NMPR_SN AND GN.DELETE_AT = 'N'
 				WHERE CG.ESNTL_ID = #esntl_id#
 				AND CG.EXPRTN_AT = 'N'
-				ORDER BY CG.WRITNG_DE DESC		
+				ORDER BY CG.WRITNG_DE DESC
+						
 			) A	
 		) X
 		WHERE (RN <![CDATA[ > ]]> #startRow# AND RN <![CDATA[ <= ]]> #endRow#)
@@ -65,47 +57,58 @@
 	<select id="gnrl.cart.selectCartDetail" parameterClass="java.util.HashMap" resultMap="cartDetail"> 
 		SELECT 
 		CG.CART_SN, 
-		CG.GOODS_CODE, 
-		CG.NMPR_SN, 
-		CG.PURCHS_AMOUNT, 
+		CG.GOODS_CODE,
+		FN_PURCHS_AMOUNT(CG.ESNTL_ID, CG.CART_SN) AS PURCHS_AMOUNT,
 		CG.TOUR_DE,
 		G.GOODS_NM, 
 		G.GOODS_INTRCN,
 		G.FILE_CODE,
-		GN.NMPR_CND, 
-		GN.SETUP_AMOUNT,
 		CG.WRITNG_ID,
 		CG.WRITNG_DE
 		FROM TB_CART_GOODS CG
 		INNER JOIN TB_GOODS G ON G.GOODS_CODE = CG.GOODS_CODE AND G.DELETE_AT = 'N'
-		INNER JOIN TB_GOODS_NMPR GN ON GN.GOODS_CODE = CG.GOODS_CODE AND GN.NMPR_SN = CG.NMPR_SN AND GN.DELETE_AT = 'N'
 		WHERE CG.ESNTL_ID = #esntl_id# AND CG.CART_SN = #cart_sn#
 		AND CG.EXPRTN_AT = 'N'		
 	</select>
 
+	<select id="gnrl.cart.selectCartNmprList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT GN.NMPR_SN, GN.NMPR_CND, GN.SETUP_AMOUNT, NVL(CN.NMPR_CO,0) AS NMPR_CO
+		FROM TB_GOODS_NMPR GN
+		LEFT JOIN TB_CART_NMPR CN ON GN.GOODS_CODE = CN.GOODS_CODE AND GN.NMPR_SN = CN.NMPR_SN AND CN.ESNTL_ID = #esntl_id# AND CN.CART_SN = #cart_sn#
+		WHERE GN.DELETE_AT = 'N'
+		AND GN.GOODS_CODE = #goods_code#
+		ORDER BY GN.NMPR_SN ASC		
+	</select>
+
 	<select id="gnrl.cart.selectCartValidCnfirm" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
 		SELECT 
-		G.GOODS_NM, GN.NMPR_CND, GN.SETUP_AMOUNT
+		G.GOODS_NM
 		FROM TB_GOODS G
-		INNER JOIN TB_GOODS_NMPR GN ON GN.GOODS_CODE = G.GOODS_CODE AND GN.DELETE_AT = 'N'
 		INNER JOIN TB_GOODS_SCHDUL GS ON GS.GOODS_CODE = G.GOODS_CODE AND GS.DELETE_AT = 'N'
-		WHERE G.DELETE_AT = 'N'
-		AND G.GOODS_CODE = #goods_code#
-		AND GN.NMPR_SN = #nmpr_sn#
+		WHERE G.DELETE_AT = 'N' AND G.GOODS_CODE = #goods_code#
 		AND #tour_de# BETWEEN GS.BEGIN_DE AND GS.END_DE
 	</select>
 
-	<insert id="gnrl.cart.insertCart" parameterClass="HashMap">
 
-		<selectKey resultClass="int" keyProperty="cart_sn" >
+	<select id="gnrl.cart.selectCartPayment" parameterClass="java.util.HashMap" resultClass="long">
+		SELECT
+		SUM(GN.SETUP_AMOUNT * CN.NMPR_CO) AS PURCHS_AMOUNT
+		FROM TB_CART_GOODS CG
+	    INNER JOIN TB_CART_NMPR CN ON CN.ESNTL_ID = CG.ESNTL_ID AND CN.CART_SN = CG.CART_SN
+	    INNER JOIN TB_GOODS_NMPR GN ON CN.GOODS_CODE = GN.GOODS_CODE AND CN.NMPR_SN = GN.NMPR_SN
+		WHERE CG.ESNTL_ID = #esntl_id#
+		AND CG.EXPRTN_AT = 'N'
+	</select>
+
+	<select id="gnrl.cart.selectCartSn" parameterClass="java.util.HashMap" resultClass="int">
 			SELECT NVL(MAX(CART_SN)+1, 1) FROM TB_CART_GOODS WHERE ESNTL_ID = #esntl_id#
-		</selectKey>
+	</select>
 
+	<insert id="gnrl.cart.insertCart" parameterClass="HashMap">
 		INSERT INTO TB_CART_GOODS(
 			ESNTL_ID,
 			CART_SN,
 			GOODS_CODE,
-			NMPR_SN,
 			PURCHS_AMOUNT,
 			TOUR_DE,
 			EXPRTN_AT,
@@ -115,12 +118,53 @@
 			#esntl_id#,
 			#cart_sn#,
 			#goods_code#,
-			#nmpr_sn#,
-			(SELECT SETUP_AMOUNT FROM TB_GOODS_NMPR WHERE GOODS_CODE = #goods_code# AND NMPR_SN = #nmpr_sn#),
+			#purchs_amount#,
 			#tour_de#,
 			'N',
 			#esntl_id#,
 			TO_CHAR(SYSDATE,'yyyymmdd')
 		)
-	</insert>	
+	</insert>
+
+	<update id="gnrl.cart.updateCart" parameterClass="HashMap">
+		UPDATE TB_CART_GOODS CG SET
+			TOUR_DE = #tour_de#,
+			UPDT_ID = #esntl_id#,
+			UPDT_DE = TO_CHAR(SYSDATE,'yyyymmdd')
+		WHERE ESNTL_ID = #esntl_id#	AND CART_SN = #cart_sn#
+	</update>
+
+	<delete id="gnrl.cart.deleteCart" parameterClass="HashMap">
+		BEGIN
+
+		DELETE FROM TB_CART_GOODS
+		WHERE ESNTL_ID = #esntl_id#	AND CART_SN = #cart_sn#;
+		
+		DELETE FROM TB_CART_NMPR
+		WHERE ESNTL_ID = #esntl_id#	AND CART_SN = #cart_sn#;
+		
+		END;
+	</delete>
+
+	<insert id="gnrl.cart.insertCartNmpr" parameterClass="HashMap">
+		INSERT INTO TB_CART_NMPR(
+			ESNTL_ID,
+			CART_SN,
+			GOODS_CODE,
+			NMPR_SN,
+			NMPR_CO
+		) VALUES(
+			#esntl_id#,
+			#cart_sn#,
+			#goods_code#,
+			#nmpr_sn#,
+			#nmpr_co#
+		)
+	</insert>
+
+	<delete id="gnrl.cart.deleteCartNmpr" parameterClass="HashMap">
+		DELETE FROM TB_CART_NMPR
+		WHERE ESNTL_ID = #esntl_id#	AND CART_SN = #cart_sn#
+	</delete>
+
 </sqlMap>

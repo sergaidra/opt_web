@@ -1,4 +1,27 @@
 
+	/*
+	 * loading indicator show/hide
+	 */
+	function showLoading() {
+		$.blockUI({
+			overlayCSS:{
+				backgroundColor:'#ffe',
+				opacity: .5
+			},
+			css:{
+				border:'none',
+				opacity: .5,
+				width:'80px',
+				left:'45%'
+			},
+			message:"<img src='/images/loading_white.gif' width='80px'>"
+		});
+	}
+
+	function hideLoading() {
+		$.unblockUI();
+	}
+
 	var timerChecker_01 = null;
 	var timerChecker_02 = null;
 
@@ -116,4 +139,29 @@
 		$("#" + id).val("");
 	}
 
+
+
+	/**
+	 * 숫자형식 검증
+	 */
+	function fnNumberCheck(event){
+		event = event || window.event;
+		var keyID = (event.which) ? event.which : event.keyCode;
+		if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+			return;
+		else
+			return false;
+	}
+
+	/**
+	 * 숫자외에 삭제
+	 */
+	function fnRemoveChar(event) {
+		event = event || window.event;
+		var keyID = (event.which) ? event.which : event.keyCode;
+		if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+			return;
+		else
+			event.target.value = event.target.value.replace(/[^0-9]/g, "");
+	}
 	

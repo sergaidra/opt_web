@@ -35,6 +35,7 @@
 <link type="text/css" href="/css/jquery-ui.css" rel="stylesheet" media="screen"/>
 <script type="text/javascript" src="/js/jquery-1.11.1.js"></script>
 <script type="text/javascript" src="/js/jquery-ui.js"></script>
+<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
 
 <script type="text/javascript" src="/js/siione.js"></script>
 <script type="text/javascript" src="/js/calendar.js"></script>

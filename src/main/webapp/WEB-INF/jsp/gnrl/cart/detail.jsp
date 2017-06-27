@@ -4,7 +4,7 @@
 <script type="text/javascript">
 	
 	window.onload = function(){
-		fnNmprCndChange();
+		fnNmprChange();
 	}
 
 	function fnList() {
@@ -20,14 +20,68 @@
 		form.submit();
 	}
 
-	function fnNmprCndChange(){
+	function fnNmprChange(){
 		var form = $("form[id=frmDetail]");
-		$("input:text[id=txtPay]").val($("input:hidden[id=hidNmprCnd"+ $("input:radio[id=rdoNmprCnd]:checked").val() +"]").val());
+
+		var payment = 0;
+		$("select[name=selNmprCo]").each(function() {
+			payment += $("input:hidden[id="+ this.id +"]").val() * this.value;
+		});
+
+		$("input:text[id=txtPay]").val("₩ "+payment);
 	}
+
+	function fnUpdateCart(){
+		var strDate = $("input:text[id=txtDate]").val();
+
+		if(strDate.length!=10){
+			alert(strDate);
+			return;
+		}
+
+		var totCo = 0;
+		$("select[name=selNmprCo]").each(function() {
+			totCo+=this.value
+		});
+		if(totCo < 1){
+			alert("인원을 입력하세요");
+			return;
+		}
+
+		var form_data = $("form[id=frmDetail]").serialize(); 
+
+		$.ajax({
+			url : "<c:url value='/cart/updateAction/'/>",
+			dataType : "json",
+			type : "POST",
+			async : true,
+			data : form_data,
+			beforeSend:function(){
+				showLoading();
+			},
+			success : function(json) {
+				if(json.result == "0") {
+					alert("구매 조건이 수정되었습니다.");
+				} else if(json.result == "-2") {
+					alert("로그인이 필요합니다.");
+				} else {
+					alert("작업을 실패하였습니다.");
+				}
+			},
+			complete:function() {
+				hideLoading();
+			},
+			error : function() {
+				alert("오류가 발생하였습니다.");
+			}
+		});
+	}	
+
 </script>
 <div align="center">
 	<form id="frmDetail" name="frmDetail" action="<c:url value='/cart/list/'/>">
 	<input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
+	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode" value="${result.GOODS_CODE}">
 	<input type="hidden" id="hidCartSn" name="hidCartSn" value="${cart_sn}">
 	<table width="1024px" border="1" cellspacing="0" cellpadding="0" height="100%" style="border-collapse:collapse; border:1px gray solid;">
 		<tr height="100px">
@@ -66,12 +120,18 @@
 			</td>
 			<td align="center">
 				<c:forEach var="list" items="${nmprList}" varStatus="status">
-				<input type="radio" id="rdoNmprCnd" name="rdoNmprCnd" value="${list.NMPR_SN}" <c:if test="${result.NMPR_SN eq list.NMPR_SN}">checked</c:if> onchange="fnNmprCndChange()"> ${list.NMPR_CND} : ₩ ${list.SETUP_AMOUNT}
-				<input type="hidden" id="hidNmprCnd${list.NMPR_SN}" name="hidNmprCnd${list.NMPR_SN}" value="₩ ${list.SETUP_AMOUNT}">
-				<br>
+				${list.NMPR_CND} (₩ ${list.SETUP_AMOUNT})
+				<select name="selNmprCo" id="txtNmprCo${list.NMPR_SN}" onchange="fnNmprChange()">
+					<c:forEach var="i" begin="0" end="10" step="1">
+						<option value="${i}" <c:if test="${i eq list.NMPR_CO}">selected="selected"</c:if>>${i}</option>
+					</c:forEach>
+				</select>
+				<input type="hidden" name="hidPayment" id="txtNmprCo${list.NMPR_SN}" value="${list.SETUP_AMOUNT}">
+				<input type="hidden" name="hidNmprSn" id="hidNmprSn" value="${list.NMPR_SN}">
+				<br><br>
 				</c:forEach>
-				<br>
-				<input type="text" name="txtPay" id="txtPay" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="" readonly onfocus="this.blur()">
+
+				<input type="text" name="txtPay" id="txtPay" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="인원을 입력하세요" readonly onfocus="this.blur()">
 			</td>
 		</tr>
 	</table>
@@ -81,5 +141,6 @@
 <div style="height:100px;" align="center">
 	<p style="vertical-align:middle;">
 		<a href="javascript:fnList()">장바구니 목록</a>&nbsp;&nbsp;&nbsp;
+		<a href="javascript:fnUpdateCart()">수정</a>
 	</p>
 </div>
