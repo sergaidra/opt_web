@@ -43,8 +43,12 @@ public class SessionCheck extends HandlerInterceptorAdapter {
 		}else{
 			//일반사용자
 			ArrayList<String> freeAccessUrls = new ArrayList<String>();
-			freeAccessUrls.add("/cart/addAction/");
-			freeAccessUrls.add("/cart/updateAction/");
+			
+			/* json으로 활용되는 페이지는 별도로 처리 */
+			//freeAccessUrls.add("/cart/addAction/");
+			//freeAccessUrls.add("/cart/updateAction/");
+			
+			
 			freeAccessUrls.add("/cart/deleteAction/");
 			freeAccessUrls.add("/cart/list/");
 			freeAccessUrls.add("/cart/detail/");
