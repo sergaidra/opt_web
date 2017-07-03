@@ -5,31 +5,28 @@
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="string" type="java.lang.String"/>
 
-    <insert id="GoodsDAO.insertGoods" parameterClass="hashMap">
-    <selectKey keyProperty="GOODS_CODE" resultClass="string">
-        SELECT LPAD(SQ_GOODS_CODE.NEXTVAL, 10, '0') FROM DUAL
-    </selectKey>
+    <insert id="GoodsTimeDAO.insertGoodsTime" parameterClass="hashMap">
     <![CDATA[
-        INSERT INTO TB_GOODS( GOODS_CODE
-                            , GOODS_NM
-                            , GOODS_INTRCN
-                            , DELETE_AT
-                            , WRITNG_ID
-                            , WRITNG_DE
-                            , FILE_CODE )
-                      VALUES( #GOODS_CODE#
-                            , #GOODS_NM#
-                            , #GOODS_INTRCN:CLOB#
-                            , 'N'
-                            , #WRITNG_ID#
-                            , TO_CHAR(SYSDATE, 'YYYYMMDD')
-                            , #FILE_CODE# )
+        INSERT INTO TB_GOODS_TIME( GOODS_CODE
+                                 , TIME_SN
+                                 , BEGIN_TIME
+                                 , END_TIME
+                                 , DELETE_AT
+                                 , WRITNG_ID
+                                 , WRITNG_DE )
+                           VALUES( #GOODS_CODE#
+                                 , (SELECT NVL(MAX(TIME_SN), 0)+1 FROM TB_GOODS_TIME WHERE GOODS_CODE = #GOODS_CODE#)
+                                 , #BEGIN_TIME#
+                                 , #END_TIME#
+                                 , 'N'
+                                 , #WRITNG_ID#
+                                 , TO_CHAR(SYSDATE, 'YYYYMMDD') )
     ]]>
     </insert>
 
-    <update id="GoodsDAO.updateGoods" parameterClass="hashMap">
+    <update id="GoodsTimeDAO.updateGoodsTime" parameterClass="hashMap">
     <![CDATA[
-        UPDATE TB_GOODS
+        UPDATE TB_GOODS_TIME
            SET CL_NM = #CL_NM#
              , FILE_CODE = #FILE_CODE#
              , UPDT_ID = #UPDT_ID#
@@ -38,9 +35,9 @@
     ]]>
     </update>
 
-    <delete id="GoodsDAO.deleteGoods" parameterClass="hashMap">
+    <delete id="GoodsTimeDAO.deleteGoodsTime" parameterClass="hashMap">
     <![CDATA[
-        UPDATE TB_GOODS
+        UPDATE TB_GOODS_TIME
            SET DELETE_AT = 'Y'
              , UPDT_ID = #UPDT_ID#
              , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
@@ -48,7 +45,7 @@
     ]]>
     </delete>
 
-    <select id="GoodsDAO.selectGoodsByPk" parameterClass="hashMap" resultClass="hashMap">
+    <select id="GoodsTimeDAO.selectGoodsTimeByPk" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
         SELECT CL_CODE
              , CL_NM
@@ -58,12 +55,12 @@
              , UPDT_ID
              , UPDT_DE
              , FILE_CODE
-          FROM TB_GOODS
+          FROM TB_GOODS_TIME
          WHERE CL_CODE = #CL_CODE#
     ]]>
     </select>
 
-    <select id="GoodsDAO.selectGoodsList" parameterClass="hashMap" resultClass="hashMap">
+    <select id="GoodsTimeDAO.selectGoodsTimeList" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
         SELECT GOODS_CODE
              , GOODS_NM
@@ -74,7 +71,7 @@
              , UPDT_ID
              , UPDT_DE
              , FILE_CODE
-          FROM TB_GOODS
+          FROM TB_GOODS_TIME
          WHERE 1 = 1    ]]>
         <isNotEmpty property="DELETE_AT">
           AND DELETE_AT = #DELETE_AT#

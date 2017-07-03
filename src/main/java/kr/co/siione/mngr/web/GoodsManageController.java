@@ -3,11 +3,9 @@ package kr.co.siione.mngr.web;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -17,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import kr.co.siione.mngr.service.FileManageService;
 import kr.co.siione.mngr.service.GoodsManageService;
 import kr.co.siione.mngr.service.TourClManageService;
+import kr.co.siione.utl.UserUtils;
 import kr.co.siione.utl.egov.EgovProperties;
 
 import org.slf4j.Logger;
@@ -62,9 +61,6 @@ public class GoodsManageController {
     	try {
 			List<Map<String, String>> list = goodsManageService.selectGoodsList(param);
 			model.put("goodsList", list);
-			
-			List<Map<String, String>> listCl = tourClManageService.selectTourClList(param);
-			model.put("tourClList", listCl);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
@@ -72,7 +68,14 @@ public class GoodsManageController {
 	}
     
     @RequestMapping(value="/mngr/goodsRegist/")
-	public String goodsRegist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String goodsRegist(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+    	try {
+    		param.put("DELETE_AT","N");
+    		List<Map<String, String>> listCl = tourClManageService.selectTourClList(param);
+			model.put("tourClList", listCl);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	    	
         return "/mngr/goodsRegist";	
 	}    
     
@@ -96,42 +99,165 @@ public class GoodsManageController {
 	public String addGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, RedirectAttributes redirectAttr) throws Exception {
     	param.put("WRITNG_ID", ssUserId);
     	Map<String, Object> result = new HashMap<String, Object>();
-    	    	
+		Map<String, Object> params = new HashMap<String,Object>();
+		
 		InputStream is = null;
 		FileOutputStream fos = null;
-    	
+		
+		System.out.println("@@@@@@@@@@@@@@@@@@ param:"+param);
+		UserUtils.log("[상품등록]", param);
+	
 		try {
-			LOG.debug("################Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
-			LOG.debug("################File.separator:"+File.separator);
+			// 상품 분류
+			String clCode[] = request.getParameterValues("CL_CODE");
+			
+			// 상품 일정
+			String beginDe[] = request.getParameterValues("BEGIN_DE");
+			String endDe[] = request.getParameterValues("END_DE");
+			String mon[] = UserUtils.nvl(param.get("txtMon")).split(";");
+			String tue[] = UserUtils.nvl(param.get("txtTue")).split(";");
+			String wed[] = UserUtils.nvl(param.get("txtWed")).split(";");
+			String thu[] = UserUtils.nvl(param.get("txtThu")).split(";");
+			String fri[] = UserUtils.nvl(param.get("txtFri")).split(";");
+			String sat[] = UserUtils.nvl(param.get("txtSat")).split(";");
+			String sun[] = UserUtils.nvl(param.get("txtSun")).split(";");
+			
+			// 상품 시간
+			String beginHh[] = request.getParameterValues("BEGIN_HH");
+			String beginMm[] = request.getParameterValues("BEGIN_MM");
+			String endHh[] = request.getParameterValues("END_HH");
+			String endMm[] = request.getParameterValues("END_MM");
+			
+			// 상품 인원
+			String nmprCnd[] = request.getParameterValues("NMPR_CND");
+			String setupAmount[] = request.getParameterValues("SETUP_AMOUNT");
+
+//			for(String str : clCode) System.out.println("[clCode] "+str);
+//			for(String str : beginHh) System.out.println("[beginHh] "+str);
+//			for(String str : beginMm) System.out.println("[beginMm] "+str);
+//			for(String str : endHh) System.out.println("[endHh] "+str);
+//			for(String str : endMm) System.out.println("[endMm] "+str);
+//			for(String str : beginDe) System.out.println("[beginDe] "+str);
+//			for(String str : endDe) System.out.println("[endDe] "+str);
+//			for(String str : mon) System.out.println("[mon] "+str);
+//			for(String str : tue) System.out.println("[tue] "+str);
+//			for(String str : wed) System.out.println("[wed] "+str);
+//			for(String str : thu) System.out.println("[thu] "+str);
+//			for(String str : fri) System.out.println("[fri] "+str);
+//			for(String str : sat) System.out.println("[sat] "+str);
+//			for(String str : sun) System.out.println("[sun] "+str);
+		
+			
+			LOG.debug("################ Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
+			LOG.debug("################ File.separator:"+File.separator);
 
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
-			MultipartFile file = mRequest.getFile("FILE_NM");
-			String fileName = file.getOriginalFilename();
-			String saveFileNm = getDate("yyyyMMddHHmmss") + "_" + fileName;
+			System.out.println("@@@@@@@@@@@@@@@@@@ mRequest:"+mRequest);
 			
-			String storePath = EgovProperties.getProperty("Globals.fileStorePath") + "TOUR_CL" + File.separator;
-			File f = new File(storePath);
-			if (!f.exists()) {
-				f.mkdirs();
+			List<MultipartFile> filelist = mRequest.getFiles("FILE_NM");
+			//MultipartFile file = mRequest.getFile("FILE_NM");
+			System.out.println("#################### 파일수:"+filelist.size());
+			
+			// 파일 Param
+			List<Map<String, String>> fileParamList = new ArrayList<Map<String, String>>();
+			int fileSn = 0;
+			for(MultipartFile file : filelist) {
+				String fileName = file.getOriginalFilename();
+				System.out.println("#################### 파일이름:"+fileName);
+				if(!fileName.equals("")) {
+					fileSn++;
+					String saveFileNm = UserUtils.getDate("yyyyMMddHHmmss") + "_" + fileName;
+					System.out.println("$$$$$$$$$$$$$$$$$$$$ 저장파일이름:"+saveFileNm);
+					System.out.println("$$$$$$$$$$$$$$$$$$$$ getContentType:"+file.getContentType());
+					
+					String storePath = EgovProperties.getProperty("Globals.fileStorePath") + "GOODS" + File.separator;
+					File f = new File(storePath);
+					if (!f.exists()) {
+						f.mkdirs();
+					}
+				
+					fos = new FileOutputStream(storePath + saveFileNm);
+					fos.write(file.getBytes());			
+					
+					Map<String, String> fileParam = new HashMap<String, String>();
+					fileParam.put("REGIST_PATH", "상품");
+					fileParam.put("FILE_SN", String.valueOf(fileSn)); // TODO 
+					fileParam.put("FILE_NM", fileName);
+					fileParam.put("FILE_PATH", storePath + saveFileNm);
+					fileParam.put("FILE_SIZE", String.valueOf(file.getSize()));
+					fileParam.put("FILE_CL", ((file.getContentType().indexOf("image") > -1)?"I":"M")); // I:이미지, M:동영상
+					fileParam.put("REPRSNT_AT", (fileSn==1?"Y":"N"));
+					fileParam.put("SORT_NO", String.valueOf(fileSn)); // TODO
+					fileParam.put("WRITNG_ID", param.get("WRITNG_ID"));
+					
+					System.out.println("[fileParam]"+fileSn+")"+fileParam);
+					
+					fileParamList.add(fileParam);
+				}
 			}
-		
-			fos = new FileOutputStream(storePath + saveFileNm);
-			fos.write(file.getBytes());			
+			params.put("fileParamList", fileParamList);
 			
-			param.put("REGIST_PATH", "상품");
-			param.put("FILE_SN", "1");
-			param.put("FILE_NM", fileName);
-			param.put("FILE_PATH", storePath + saveFileNm);
-			param.put("FILE_SIZE", String.valueOf(file.getSize()));
-			param.put("FILE_CL", "I"); // I:이미지
-			param.put("REPRSNT_AT", "Y");
-			param.put("SORT_NO", "1");
+			// 상품 Param
+			params.put("goodsParam", param);
 			
-			goodsManageService.insertGoods(param);
+			// 상품 분류 Param
+			List<Map<String, String>> clParamList = new ArrayList<Map<String, String>>();
+			for(String str : clCode) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("CL_CODE", str);
+				map.put("WRITNG_ID", param.get("WRITNG_ID"));
+				clParamList.add(map);
+			}
+			params.put("clParamList", clParamList);
+			
+			// 상품 일정 Param
+			List<Map<String, String>> schdulParamList = new ArrayList<Map<String, String>>();
+			for(int i = 0 ; i < beginDe.length ; i++) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("BEGIN_DE", beginDe[i]);
+				map.put("END_DE", endDe[i]);
+				map.put("MONDAY_POSBL_AT", mon[i]);
+				map.put("TUSDAY_POSBL_AT", tue[i]);
+				map.put("WDNSDY_POSBL_AT", wed[i]);
+				map.put("THRSDAY_POSBL_AT", thu[i]);
+				map.put("FRIDAY_POSBL_AT", fri[i]);
+				map.put("SATDAY_POSBL_AT", sat[i]);
+				map.put("SUNDAY_POSBL_AT", sun[i]);
+				map.put("WRITNG_ID", param.get("WRITNG_ID"));
+				schdulParamList.add(map);
+			}
+			params.put("schdulParamList", schdulParamList);
+			
+			// 상품 시간 Param
+			List<Map<String, String>> timeParamList = new ArrayList<Map<String, String>>();
+			for(int i = 0 ; i < beginHh.length ; i++) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("BEGIN_TIME", beginHh[i]+beginMm[i]);
+				map.put("END_TIME", endHh[i]+endMm[i]);
+				map.put("WRITNG_ID", param.get("WRITNG_ID"));
+				timeParamList.add(map);
+			}
+			params.put("timeParamList", timeParamList);
+			
+			
+			// 상품 인원 Param
+			List<Map<String, String>> nmprParamList = new ArrayList<Map<String, String>>();
+			for(int i = 0 ; i < nmprCnd.length ; i++) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("NMPR_CND", nmprCnd[i]);
+				map.put("SETUP_AMOUNT", setupAmount[i]);
+				map.put("WRITNG_ID", param.get("WRITNG_ID"));
+				nmprParamList.add(map);
+			}
+			params.put("nmprParamList", nmprParamList);
+			
+			goodsManageService.insertGoods(params);
 			
 			result.put("message", "상품을 등록하였습니다.");
 			result.put("success", true);
 		} catch (Exception e) {
+			LOG.error(e.getLocalizedMessage());
+			e.printStackTrace();
 			result.put("message", "상품 등록 중 오류가 발생했습니다.");
 			result.put("success", false);
 		} finally {
@@ -160,7 +286,7 @@ public class GoodsManageController {
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 			MultipartFile file = mRequest.getFile("FILE_NM");
 			String fileName = file.getOriginalFilename();
-			String saveFileNm = getDate("yyyyMMddHHmmss") + "_" + fileName;
+			String saveFileNm = UserUtils.getDate("yyyyMMddHHmmss") + "_" + fileName;
 			
 			String storePath = EgovProperties.getProperty("Globals.fileStorePath") + "TOUR_CL" + File.separator;
 			File f = new File(storePath);
@@ -222,8 +348,6 @@ public class GoodsManageController {
 		return "redirect:/mngr/goodsManage/";
 	}
     
-	public static String getDate(String sFormat) {
-		SimpleDateFormat formatter = new SimpleDateFormat(sFormat, new Locale("ko", "KOREA"));
-		return formatter.format(new Date());
-	}
+
+
 }

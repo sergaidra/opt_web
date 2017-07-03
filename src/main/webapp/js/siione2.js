@@ -76,7 +76,11 @@ function fnCheckRequired() {
  * @returns {Boolean}
  */
 function fnCheckImg(obj, ext){
-	var check = false;
+	if(!$(obj).val()) {
+		return false;
+	}
+	
+	var check = false;	
 	var extName = $(obj).val().substring($(obj).val().lastIndexOf(".")+1).toUpperCase();
 	var str = ext.split(",");
 	for (var i=0;i<str.length;i++) {
@@ -86,7 +90,7 @@ function fnCheckImg(obj, ext){
 			check = false;
 	}
 	if(!check){
-		alert(ext+" 이미지 파일만 업로드 가능합니다.");
+		alert("확장자가 "+ext+"인 파일을 업로드 하세요.");
 	}
 	return check;
 }
