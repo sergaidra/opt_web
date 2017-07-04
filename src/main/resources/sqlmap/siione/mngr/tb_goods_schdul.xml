@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="query">
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="string" type="java.lang.String"/>
+
+    <insert id="GoodsSchdulDAO.insertGoodsSchdul" parameterClass="hashMap">
+    <![CDATA[
+        INSERT INTO TB_GOODS_SCHDUL( GOODS_CODE
+                                   , SCHDUL_SN
+                                   , BEGIN_DE
+                                   , END_DE
+                                   , DELETE_AT
+                                   , MONDAY_POSBL_AT
+                                   , TUSDAY_POSBL_AT
+                                   , WDNSDY_POSBL_AT
+                                   , THRSDAY_POSBL_AT
+                                   , FRIDAY_POSBL_AT
+                                   , SATDAY_POSBL_AT
+                                   , SUNDAY_POSBL_AT
+                                   , WRITNG_ID
+                                   , WRITNG_DE )
+                            VALUES ( #GOODS_CODE#
+                                   , (SELECT NVL(MAX(SCHDUL_SN), 0)+1 FROM TB_GOODS_SCHDUL WHERE GOODS_CODE = #GOODS_CODE#)
+                                   , REPLACE(#BEGIN_DE#, '-', '')
+                                   , REPLACE(#END_DE#, '-', '')
+                                   , 'N'
+                                   , #MONDAY_POSBL_AT#
+                                   , #TUSDAY_POSBL_AT#
+                                   , #WDNSDY_POSBL_AT#
+                                   , #THRSDAY_POSBL_AT#
+                                   , #FRIDAY_POSBL_AT#
+                                   , #SATDAY_POSBL_AT#
+                                   , #SUNDAY_POSBL_AT#
+                                   , #WRITNG_ID#
+                                   , TO_CHAR(SYSDATE, 'YYYYMMDD'))
+    ]]>
+    </insert>
+
+    <update id="GoodsSchdulDAO.updateGoodsSchdul" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GOODS_SCHDUL
+           SET CL_NM = #CL_NM#
+             , FILE_CODE = #FILE_CODE#
+             , UPDT_ID = #UPDT_ID#
+             , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+         WHERE CL_CODE = #CL_CODE#
+    ]]>
+    </update>
+
+    <delete id="GoodsSchdulDAO.deleteGoodsSchdul" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GOODS_SCHDUL
+           SET DELETE_AT = 'Y'
+             , UPDT_ID = #UPDT_ID#
+             , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+         WHERE CL_CODE = #CL_CODE#
+    ]]>
+    </delete>
+    
+    <select id="GoodsSchdulDAO.selectGoodsSchdulByPk" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT CL_CODE
+             , CL_NM 
+             , DELETE_AT
+             , WRITNG_ID
+             , WRITNG_DE
+             , UPDT_ID
+             , UPDT_DE
+             , FILE_CODE  
+          FROM TB_GOODS_SCHDUL   
+         WHERE CL_CODE = #CL_CODE#      
+    ]]>
+    </select>
+
+    <select id="GoodsSchdulDAO.selectGoodsSchdulList" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT GOODS_CODE
+             , GOODS_NM
+             , GOODS_INTRCN
+             , DELETE_AT
+             , WRITNG_ID
+             , WRITNG_DE
+             , UPDT_ID
+             , UPDT_DE
+             , FILE_CODE
+          FROM TB_GOODS_SCHDUL  
+         WHERE 1 = 1    ]]>
+        <isNotEmpty property="DELETE_AT">
+          AND DELETE_AT = #DELETE_AT#        
+        </isNotEmpty>
+         ORDER BY WRITNG_DE, GOODS_CODE
+    </select>
+
+</sqlMap>

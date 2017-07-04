@@ -28,6 +28,10 @@
 		form1.action = "<c:url value='../delTourCl/'/>";
 		form1.submit();
 	}
+	
+	function f_list() {
+		$(location).attr("href", "<c:url value='../tourClManage/'/>");
+	}
 
 	<c:if test="${success eq false}">
 		alert("조회 중 오류 발생");
@@ -60,9 +64,16 @@
 <table width="800" cellpadding="5" cellspacing="0" border="0" align="left" >
 	<tr>
 		<td width='100%' align="right">
+		<c:if test="${tourClInfo.DELETE_AT == 'N'}">
 			<input type="button" value="저장" onclick="f_mod()">
 			<input type="button" value="삭제" onclick="f_del()">
+		</c:if>
+		<c:if test="${tourClInfo.DELETE_AT == 'N'}">
 			<input type="button" value="취소" onclick="form1.reset();">
+		</c:if>
+		<c:if test="${tourClInfo.DELETE_AT == 'Y'}">			
+			<input type="button" value="목록" onclick="f_list()">
+		</c:if>
 		</td>
 	</tr>	
 </table>

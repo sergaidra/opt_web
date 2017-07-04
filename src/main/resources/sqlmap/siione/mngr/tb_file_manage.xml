@@ -2,112 +2,112 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="query">
-	<typeAlias alias="hashMap" type="java.util.HashMap"/>
-	<typeAlias alias="string" type="java.lang.String"/>
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="string" type="java.lang.String"/>
 
-	<insert id="FileManageDAO.insertFileManage" parameterClass="hashMap">
-	<selectKey keyProperty="FILE_CODE" resultClass="string">
-		SELECT LPAD(SQ_FILE_CODE.NEXTVAL, 10, '0') FROM DUAL 
-	</selectKey>	
-	<![CDATA[
-		INSERT INTO TB_FILE_MANAGE( FILE_CODE
-							  , REGIST_PATH
-							  , WRITNG_ID
-							  , WRITNG_DE)
-					    VALUES( #FILE_CODE#
-						      , #REGIST_PATH#
-							  , #WRITNG_ID#
-							  , TO_CHAR(SYSDATE, 'YYYYMMDD'))
-	]]>
-	</insert>
+    <insert id="FileManageDAO.insertFileManage" parameterClass="hashMap">
+    <selectKey keyProperty="FILE_CODE" resultClass="string">
+        SELECT LPAD(SQ_FILE_CODE.NEXTVAL, 10, '0') FROM DUAL
+    </selectKey>
+    <![CDATA[
+        INSERT INTO TB_FILE_MANAGE( FILE_CODE
+                                  , REGIST_PATH
+                                  , WRITNG_ID
+                                  , WRITNG_DE)
+                            VALUES( #FILE_CODE#
+                                  , #REGIST_PATH#
+                                  , #WRITNG_ID#
+                                  , TO_CHAR(SYSDATE, 'YYYYMMDD'))
+    ]]>
+    </insert>
 
-	<delete id="FileManageDAO.deleteFileManage" parameterClass="hashMap">
-	<![CDATA[
-		DELETE TB_FILE_MANAGE
-		 WHERE FILE_CODE = #FILE_CODE#
-	]]>
-	</delete>
+    <delete id="FileManageDAO.deleteFileManage" parameterClass="hashMap">
+    <![CDATA[
+        DELETE TB_FILE_MANAGE
+         WHERE FILE_CODE = #FILE_CODE#
+    ]]>
+    </delete>
 
-	<insert id="FileManageDAO.insertFileDetail" parameterClass="hashMap">
-	<![CDATA[
-		INSERT INTO TB_FILE_DETAIL( FILE_CODE
-							  , FILE_SN
-							  , FILE_NM
-							  , FILE_PATH
-							  , FILE_DC
-							  , FILE_SIZE
-							  , FILE_CL
-							  , REPRSNT_AT
-							  , SORT_NO
-							  , WRITNG_ID
-							  , WRITNG_DE)
-					    VALUES( #FILE_CODE#
-						      , #FILE_SN#
-						      , #FILE_NM#
-						      , #FILE_PATH#
-						      , #FILE_DC#
-						      , #FILE_SIZE#
-						      , #FILE_CL#
-						      , #REPRSNT_AT#
-						      , #SORT_NO#
-							  , #WRITNG_ID#
-							  , TO_CHAR(SYSDATE, 'YYYYMMDD'))
-	]]>
-	</insert>
-	
-	<delete id="FileManageDAO.deleteFileDetailByPk" parameterClass="hashMap">
+    <insert id="FileManageDAO.insertFileDetail" parameterClass="hashMap">
+    <![CDATA[
+        INSERT INTO TB_FILE_DETAIL( FILE_CODE
+                                  , FILE_SN
+                                  , FILE_NM
+                                  , FILE_PATH
+                                  , FILE_DC
+                                  , FILE_SIZE
+                                  , FILE_CL
+                                  , REPRSNT_AT
+                                  , SORT_NO
+                                  , WRITNG_ID
+                                  , WRITNG_DE)
+                            VALUES( #FILE_CODE#
+                                  , #FILE_SN#
+                                  , #FILE_NM#
+                                  , #FILE_PATH#
+                                  , #FILE_DC#
+                                  , #FILE_SIZE#
+                                  , #FILE_CL#
+                                  , #REPRSNT_AT#
+                                  , #SORT_NO#
+                                  , #WRITNG_ID#
+                                  , TO_CHAR(SYSDATE, 'YYYYMMDD'))
+    ]]>
+    </insert>
+
+    <delete id="FileManageDAO.deleteFileDetailByPk" parameterClass="hashMap">
 <![CDATA[
-		DELETE TB_FILE_DETAIL
-		 WHERE FILE_CODE = #FILE_CODE#
-		   AND FILE_SN = #FILE_SN#
-	]]>
-</delete>
-	
-	<delete id="FileManageDAO.deleteFileDetail" parameterClass="hashMap">
-<![CDATA[
-		DELETE TB_FILE_DETAIL
-		 WHERE FILE_CODE = #FILE_CODE#
-	]]>
+        DELETE TB_FILE_DETAIL
+         WHERE FILE_CODE = #FILE_CODE#
+           AND FILE_SN = #FILE_SN#
+    ]]>
 </delete>
 
-	<select id="FileManageDAO.selectFileDetailByPk" parameterClass="hashMap" resultClass="hashMap">
-	<![CDATA[
-		SELECT FILE_CODE
-			 , FILE_SN
-			 , FILE_NM
-			 , FILE_PATH
-			 , FILE_DC
-			 , FILE_SIZE
-			 , FILE_CL
-			 , REPRSNT_AT
-			 , SORT_NO
-			 , WRITNG_ID
-			 , WRITNG_DE
-			 , UPDT_ID
-			 , UPDT_DE
-		  FROM TB_FILE_DETAIL   
-		 WHERE FILE_CODE = #FILE_CODE#
-		   AND FILE_SN = #FILE_SN#	  
-	]]>
-	</select>	
+    <delete id="FileManageDAO.deleteFileDetail" parameterClass="hashMap">
+<![CDATA[
+        DELETE TB_FILE_DETAIL
+         WHERE FILE_CODE = #FILE_CODE#
+    ]]>
+</delete>
 
-	<select id="FileManageDAO.selectFileDetailList" parameterClass="hashMap" resultClass="hashMap">
-	<![CDATA[
-		SELECT FILE_CODE
-			 , FILE_SN
-			 , FILE_NM
-			 , FILE_PATH
-			 , FILE_DC
-			 , FILE_SIZE
-			 , FILE_CL
-			 , REPRSNT_AT
-			 , SORT_NO
-			 , WRITNG_ID
-			 , WRITNG_DE
-			 , UPDT_ID
-			 , UPDT_DE
-		  FROM TB_FILE_DETAIL   
-		 WHERE FILE_CODE = #FILE_CODE#
-	]]>
-	</select>	
+    <select id="FileManageDAO.selectFileDetailByPk" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT FILE_CODE
+             , FILE_SN
+             , FILE_NM
+             , FILE_PATH
+             , FILE_DC
+             , FILE_SIZE
+             , FILE_CL
+             , REPRSNT_AT
+             , SORT_NO
+             , WRITNG_ID
+             , WRITNG_DE
+             , UPDT_ID
+             , UPDT_DE
+          FROM TB_FILE_DETAIL
+         WHERE FILE_CODE = #FILE_CODE#
+           AND FILE_SN = #FILE_SN#
+    ]]>
+    </select>
+
+    <select id="FileManageDAO.selectFileDetailList" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT FILE_CODE
+             , FILE_SN
+             , FILE_NM
+             , FILE_PATH
+             , FILE_DC
+             , FILE_SIZE
+             , FILE_CL
+             , REPRSNT_AT
+             , SORT_NO
+             , WRITNG_ID
+             , WRITNG_DE
+             , UPDT_ID
+             , UPDT_DE
+          FROM TB_FILE_DETAIL
+         WHERE FILE_CODE = #FILE_CODE#
+    ]]>
+    </select>
 </sqlMap>
