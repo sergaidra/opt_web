@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <script type="text/javascript">
-	
+
 	window.onload = function(){
 
 	}
@@ -21,6 +21,15 @@
 		form.submit();
 	}
 
+	function fnTimeClick(obj){
+		$("input:radio[name=rdoTime]").each(function() {
+			if($(this).is(":checked")) {
+				$("input:hidden[id=hidTimeSn]").val($(this).val());
+				$("input:text[id=txtTime]").val($(this).val());  // TODO 화면에 시간표시하기
+			}
+		});
+	}
+
 	function fnNmprChange(){
 		var form = $("form[id=frmDetail]");
 
@@ -34,7 +43,6 @@
 
 	function fnAddCart(){
 		var strDate = $("input:text[id=txtDate]").val();
-
 		if(strDate.length!=10){
 			alert(strDate);
 			return;
@@ -48,8 +56,14 @@
 			alert("인원을 입력하세요");
 			return;
 		}
-
-		var form_data = $("form[id=frmDetail]").serialize(); 
+		
+		var chkTimeVal = $("input:radio[name=rdoTime]:checked").val();
+		if(!chkTimeVal) {
+			alert("시간을 선택하세요");
+			return;
+		}
+		
+		var form_data = $("form[id=frmDetail]").serialize();
 
 		$.ajax({
 			url : "<c:url value='/cart/addAction/'/>",
@@ -76,7 +90,7 @@
 				alert("오류가 발생하였습니다.");
 			}
 		});
-	}	
+	}
 
 </script>
 <div align="center">
@@ -86,22 +100,22 @@
 	<input type="hidden" id="hidCategory" name="hidCategory" value="${hidCategory}">
 	<table width="1024px" border="1" cellspacing="0" cellpadding="0" height="100%" style="border-collapse:collapse; border:1px gray solid;">
 		<tr height="100px">
-			<td align="center" colspan="2">
+			<td align="center" colspan="3">
 				${result.GOODS_NM}
 			</td>
 		</tr>
 		<tr height="150px">
-			<td align="center" colspan="2">
-				${result.GOODS_INTRCN}
+			<td align="center" colspan="3">
+				<p>${result.GOODS_INTRCN}</p>
 			</td>
 		</tr>
 		<tr height="430px">
-			<td align="center" colspan="2">
+			<td align="center" colspan="3">
 			<iframe src="<c:url value='/file/imageListIframe/'/>?file_code=${result.FILE_CODE}" width="100%" height="100%"></iframe>
 			</td>
 		</tr>
 		<tr height="80px">
-			<td align="center" colspan="2">
+			<td align="center" colspan="3">
 				<c:forEach var="list" items="${clList}" varStatus="status">
 				<a href="javascript:fnSearch('${list.CL_CODE}');">#${list.CL_NM}</a>&nbsp;&nbsp;&nbsp;
 				</c:forEach>
@@ -110,14 +124,26 @@
 		<tr height="200px">
 			<td align="center">
 				<c:forEach var="list" items="${schdulList}" varStatus="status">
-				${fn:substring(list.BEGIN_DE,0,4)}. ${fn:substring(list.BEGIN_DE,4,6)}. ${fn:substring(list.BEGIN_DE,6,8)} ~ 
+				${fn:substring(list.BEGIN_DE,0,4)}. ${fn:substring(list.BEGIN_DE,4,6)}. ${fn:substring(list.BEGIN_DE,6,8)} ~
 				${fn:substring(list.END_DE,0,4)}. ${fn:substring(list.END_DE,4,6)}. ${fn:substring(list.END_DE,6,8)}
 				&nbsp;&nbsp;&nbsp;
 				<a href="javascript:fnCalendarPopup('txtDate','${list.BEGIN_CAL_DE}','${list.END_CAL_DE}')">예약일 선택</a>
 				<br><br>
 				</c:forEach>
-				
+
 				<input type="text" name="txtDate" id="txtDate" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="일정을 선택하세요" readonly onfocus="this.blur()">
+			</td>
+			<td align="center">
+				<c:forEach var="list" items="${timeList}" varStatus="status">
+				<input type="radio" name="rdoTime" id="rdoTime_${status.count}" value="${list.BEGIN_TIME}${list.END_TIME}" onclick="fnTimeClick()">
+				<label for="rdoTime_${status.count}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~
+				${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</label>
+				&nbsp;&nbsp;&nbsp;
+
+				<br><br>
+				</c:forEach>
+
+				<input type="text" name="txtTime" id="txtTime" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="시간을 선택하세요" readonly onfocus="this.blur()">
 			</td>
 			<td align="center">
 				<c:forEach var="list" items="${nmprList}" varStatus="status">
@@ -129,6 +155,7 @@
 				</select>
 				<input type="hidden" name="hidPayment" id="txtNmprCo${list.NMPR_SN}" value="${list.SETUP_AMOUNT}">
 				<input type="hidden" name="hidNmprSn" id="hidNmprSn" value="${list.NMPR_SN}">
+				<input type="hidden" name="hidTimeSn" id="hidTimeSn" value="${list.TIME_SN}">
 				<br><br>
 				</c:forEach>
 
@@ -136,7 +163,7 @@
 			</td>
 		</tr>
 	</table>
-	</form>	
+	</form>
 </div>
 
 <div style="height:100px;" align="center">

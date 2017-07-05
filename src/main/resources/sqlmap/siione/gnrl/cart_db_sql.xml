@@ -111,6 +111,8 @@
 			GOODS_CODE,
 			PURCHS_AMOUNT,
 			TOUR_DE,
+			BEGIN_TIME,
+			END_TIME,
 			EXPRTN_AT,
 			WRITNG_ID,
 			WRITNG_DE
@@ -120,6 +122,8 @@
 			#goods_code#,
 			#purchs_amount#,
 			#tour_de#,
+			#begin_time#,
+			#end_time#,			
 			'N',
 			#esntl_id#,
 			TO_CHAR(SYSDATE,'yyyymmdd')

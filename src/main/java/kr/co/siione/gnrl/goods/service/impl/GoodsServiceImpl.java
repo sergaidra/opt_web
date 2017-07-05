@@ -41,4 +41,8 @@ public class GoodsServiceImpl implements GoodsService {
     public List<HashMap> getGoodsNmprList(HashMap map) throws Exception {
         return goodsDAO.selectGoodsNmprList(map);
     }
+    
+    public List<HashMap> getGoodsTimeList(HashMap map) throws Exception {
+        return goodsDAO.selectGoodsTimeList(map);
+    }    
 }

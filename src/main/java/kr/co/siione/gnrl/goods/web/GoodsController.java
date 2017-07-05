@@ -103,6 +103,7 @@ public class GoodsController {
     	List<HashMap> clList = goodsService.getGoodsClList(map);
     	List<HashMap> schdulList = goodsService.getGoodsSchdulList(map);
     	List<HashMap> nmprList = goodsService.getGoodsNmprList(map);
+    	List<HashMap> timeList = goodsService.getGoodsTimeList(map);
 
         model.addAttribute("hidPage", hidPage);
         model.addAttribute("hidCategory", hidCategory);
@@ -112,6 +113,7 @@ public class GoodsController {
         model.addAttribute("clList", clList);
         model.addAttribute("schdulList", schdulList);
         model.addAttribute("nmprList", nmprList);
+        model.addAttribute("timeList", timeList);
 
         return "gnrl/goods/detail";
     }

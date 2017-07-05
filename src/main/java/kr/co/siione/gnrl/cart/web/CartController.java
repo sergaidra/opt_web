@@ -137,6 +137,7 @@ public class CartController {
 
     		String[] selNmprCo = request.getParameterValues("selNmprCo");
     		String[] hidNmprSn = request.getParameterValues("hidNmprSn");
+    		String   hidTime = SimpleUtils.default_set(request.getParameter("hidTime"));
 
     		List<HashMap> nmprList = new ArrayList<HashMap>();		
     		for(int i=0;i< selNmprCo.length;i++){
@@ -155,6 +156,8 @@ public class CartController {
         	map.put("nmpr_list", nmprList);
         	map.put("tour_de", txtDate.replace("-",""));
         	map.put("esntl_id", esntl_id);
+        	map.put("begin_time", hidTime.substring(0, 4));
+        	map.put("end_time", hidTime.substring(4, 8));
 
         	//상품조건이 맞는지 확인
         	HashMap result = cartService.getCartValidCnfirm(map);

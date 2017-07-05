@@ -141,4 +141,11 @@
 		AND GN.GOODS_CODE = #goods_code#
 		ORDER BY GN.NMPR_SN ASC
 	</select>
+	<select id="gnrl.goods.selectGoodsTimeList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT GT.TIME_SN, GT.BEGIN_TIME, GT.END_TIME
+		FROM TB_GOODS_TIME GT
+		WHERE GT.DELETE_AT = 'N'
+		AND GT.GOODS_CODE = #goods_code#
+		ORDER BY GT.BEGIN_TIME
+	</select>	
 </sqlMap>

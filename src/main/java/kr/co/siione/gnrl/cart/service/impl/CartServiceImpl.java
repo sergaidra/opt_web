@@ -35,6 +35,9 @@ public class CartServiceImpl implements CartService {
     }
     
     public void addCart(HashMap map) throws Exception {
+    	
+    	try {
+    	
         int cart_sn = cartDAO.selectCartSn(map);
         map.put("cart_sn", cart_sn);
     	cartDAO.insertCart(map);
@@ -44,6 +47,10 @@ public class CartServiceImpl implements CartService {
 			nMap.putAll(map);
 			cartDAO.insertCartNmpr(nMap);
 		}
+		
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
     }
 
     public void updateCart(HashMap map) throws Exception {

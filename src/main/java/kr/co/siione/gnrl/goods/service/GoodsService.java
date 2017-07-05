@@ -11,4 +11,5 @@ public interface GoodsService {
     public List<HashMap> getGoodsClList(HashMap map) throws Exception;
     public List<HashMap> getGoodsSchdulList(HashMap map) throws Exception;
     public List<HashMap> getGoodsNmprList(HashMap map) throws Exception;
+    public List<HashMap> getGoodsTimeList(HashMap map) throws Exception;
 }
