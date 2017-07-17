@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>분류등록</title>
 <script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/siione2.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/Common.js'/>"></script>
 <script type="text/javascript">
 	function f_add() {
 		if(!fnCheckImg($('#FILE_NM'), 'BMP,GIF,JPG,JPEG,PNG')) {

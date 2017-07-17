@@ -6,11 +6,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>상품수정</title>
-<link type="text/css" href="/css/jquery-ui.css" rel="stylesheet" media="screen"/>
+<link type="text/css" href="<c:url value='/css/jquery-ui.css'/>" rel="stylesheet" media="screen"/>
 <script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/jquery-ui.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/siione.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/siione2.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/Common.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/calendar.js'/>"></script>
 <script type="text/javascript">
 	$(document).ready(function(){

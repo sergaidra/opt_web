@@ -16,6 +16,13 @@ public class UserUtils {
 		return str;
 	}
 	
+	public static String nvl(Object obj) {
+		if (obj == null || obj.toString().length() == 0 || obj.toString().equals(" ") || obj.toString().equals("null")) {
+			return "";
+		}
+		return obj.toString();
+	}
+	
 	public static String rpad(String str, int len, String addStr) {
 		String result = str;
 		int templen = len - result.length();

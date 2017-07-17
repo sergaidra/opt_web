@@ -27,6 +27,9 @@
 		(SELECT COUNT(*) FROM TB_GOODS_CL TG WHERE TG.CL_CODE = TT.CL_CODE) AS GOODS_CNT
 		FROM TB_TOUR_CL TT
 		WHERE TT.DELETE_AT = 'N'
+	    <isEqual property="stayng_fclty_at" compareValue="Y" prepend="AND">
+	    	TT.STAYNG_FCLTY_AT = #stayng_fclty_at#
+	    </isEqual>
 	    <isNotEmpty property="cl_code_arr" prepend="AND">
 			TT.CL_CODE IN
 			<iterate property="cl_code_arr" open=" (" conjunction="," close=")">
@@ -117,7 +120,7 @@
 	</select>
 
 	<select id="gnrl.goods.selectGoodsClList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
-        SELECT TC.CL_CODE, TC.CL_NM
+        SELECT TC.CL_CODE, TC.CL_NM, TC.STAYNG_FCLTY_AT
         FROM TB_GOODS_CL GC
         INNER JOIN TB_TOUR_CL TC ON GC.CL_CODE = TC.CL_CODE
         WHERE GC.GOODS_CODE = #goods_code#
@@ -142,7 +145,7 @@
 		ORDER BY GN.NMPR_SN ASC
 	</select>
 	<select id="gnrl.goods.selectGoodsTimeList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
-		SELECT GT.TIME_SN, GT.BEGIN_TIME, GT.END_TIME
+		SELECT GT.TIME_SN, GT.BEGIN_TIME, GT.END_TIME, GT.BEGIN_TIME||GT.END_TIME TOUR_TIME
 		FROM TB_GOODS_TIME GT
 		WHERE GT.DELETE_AT = 'N'
 		AND GT.GOODS_CODE = #goods_code#

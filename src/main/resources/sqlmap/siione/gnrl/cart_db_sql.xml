@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
 <sqlMap namespace="gnrl">
 
 	<resultMap id="cartDetail" class="java.util.HashMap">
@@ -7,38 +7,44 @@
 		<result property="GOODS_CODE" column="GOODS_CODE" columnIndex="2"/>
 		<result property="PURCHS_AMOUNT" column="PURCHS_AMOUNT" columnIndex="3"/>
 		<result property="TOUR_DE" column="TOUR_DE" columnIndex="4"/>
-		<result property="GOODS_NM" column="GOODS_NM" columnIndex="5"/>
-		<result property="GOODS_INTRCN" column="GOODS_INTRCN" columnIndex="6" javaType="String" jdbcType="CLOB"/>
-		<result property="FILE_CODE" column="FILE_CODE" columnIndex="7"/>
-		<result property="WRITNG_ID" column="WRITNG_ID" columnIndex="8"/>
-		<result property="WRITNG_DE" column="WRITNG_DE" columnIndex="9"/>
+		<result property="BEGIN_TIME" column="BEGIN_TIME" columnIndex="5"/>
+		<result property="END_TIME" column="END_TIME" columnIndex="6"/>
+		<result property="TOUR_TIME" column="TOUR_TIME" columnIndex="7"/>
+		<result property="GOODS_NM" column="GOODS_NM" columnIndex="8"/>
+		<result property="GOODS_INTRCN" column="GOODS_INTRCN" columnIndex="9" javaType="String" jdbcType="CLOB"/>
+		<result property="FILE_CODE" column="FILE_CODE" columnIndex="10"/>
+		<result property="WRITNG_ID" column="WRITNG_ID" columnIndex="11"/>
+		<result property="WRITNG_DE" column="WRITNG_DE" columnIndex="12"/>
 	</resultMap>
 
-	<select id="gnrl.cart.selectCartList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
-		SELECT 
-		X.RN, 
+	<select id="gnrl.cart.selectCartList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT
+		X.RN,
 		X.TOT_CNT,
-		X.CART_SN, 
+		X.CART_SN,
 		X.GOODS_CODE,
 		FN_PURCHS_AMOUNT(X.ESNTL_ID, X.CART_SN) AS PURCHS_AMOUNT,
 		X.TOUR_DE,
-		X.GOODS_NM, 
+		X.BEGIN_TIME,
+		X.END_TIME,
+		X.GOODS_NM,
 		X.FILE_CODE,
 		X.WRITNG_ID,
 		X.WRITNG_DE
-		FROM 
+		FROM
 		(
-			SELECT A.*, 
+			SELECT A.*,
 			ROWNUM AS RN, COUNT(*) OVER() AS TOT_CNT
-			FROM 
+			FROM
 			(
-
-				SELECT 
-				CG.ESNTL_ID, 
-				CG.CART_SN, 
+				SELECT
+				CG.ESNTL_ID,
+				CG.CART_SN,
 				CG.GOODS_CODE,
 				CG.TOUR_DE,
-				G.GOODS_NM, 
+				CG.BEGIN_TIME,
+				CG.END_TIME,
+				G.GOODS_NM,
 				G.FILE_CODE,
 				CG.WRITNG_ID,
 				CG.WRITNG_DE
@@ -47,20 +53,23 @@
 				WHERE CG.ESNTL_ID = #esntl_id#
 				AND CG.EXPRTN_AT = 'N'
 				ORDER BY CG.WRITNG_DE DESC
-						
-			) A	
+
+			) A
 		) X
 		WHERE (RN <![CDATA[ > ]]> #startRow# AND RN <![CDATA[ <= ]]> #endRow#)
 		ORDER BY RN ASC
 	</select>
 
-	<select id="gnrl.cart.selectCartDetail" parameterClass="java.util.HashMap" resultMap="cartDetail"> 
-		SELECT 
-		CG.CART_SN, 
+	<select id="gnrl.cart.selectCartDetail" parameterClass="java.util.HashMap" resultMap="cartDetail">
+		SELECT
+		CG.CART_SN,
 		CG.GOODS_CODE,
 		FN_PURCHS_AMOUNT(CG.ESNTL_ID, CG.CART_SN) AS PURCHS_AMOUNT,
 		CG.TOUR_DE,
-		G.GOODS_NM, 
+		CG.BEGIN_TIME,
+		CG.END_TIME,
+		CG.BEGIN_TIME||CG.END_TIME AS TOUR_TIME,
+		G.GOODS_NM,
 		G.GOODS_INTRCN,
 		G.FILE_CODE,
 		CG.WRITNG_ID,
@@ -68,7 +77,7 @@
 		FROM TB_CART_GOODS CG
 		INNER JOIN TB_GOODS G ON G.GOODS_CODE = CG.GOODS_CODE AND G.DELETE_AT = 'N'
 		WHERE CG.ESNTL_ID = #esntl_id# AND CG.CART_SN = #cart_sn#
-		AND CG.EXPRTN_AT = 'N'		
+		AND CG.EXPRTN_AT = 'N'
 	</select>
 
 	<select id="gnrl.cart.selectCartNmprList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
@@ -77,11 +86,11 @@
 		LEFT JOIN TB_CART_NMPR CN ON GN.GOODS_CODE = CN.GOODS_CODE AND GN.NMPR_SN = CN.NMPR_SN AND CN.ESNTL_ID = #esntl_id# AND CN.CART_SN = #cart_sn#
 		WHERE GN.DELETE_AT = 'N'
 		AND GN.GOODS_CODE = #goods_code#
-		ORDER BY GN.NMPR_SN ASC		
+		ORDER BY GN.NMPR_SN ASC
 	</select>
 
 	<select id="gnrl.cart.selectCartValidCnfirm" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
-		SELECT 
+		SELECT
 		G.GOODS_NM
 		FROM TB_GOODS G
 		INNER JOIN TB_GOODS_SCHDUL GS ON GS.GOODS_CODE = G.GOODS_CODE AND GS.DELETE_AT = 'N'
@@ -94,10 +103,32 @@
 		SELECT
 		SUM(GN.SETUP_AMOUNT * CN.NMPR_CO) AS PURCHS_AMOUNT
 		FROM TB_CART_GOODS CG
-	    INNER JOIN TB_CART_NMPR CN ON CN.ESNTL_ID = CG.ESNTL_ID AND CN.CART_SN = CG.CART_SN
-	    INNER JOIN TB_GOODS_NMPR GN ON CN.GOODS_CODE = GN.GOODS_CODE AND CN.NMPR_SN = GN.NMPR_SN
+		INNER JOIN TB_CART_NMPR CN ON CN.ESNTL_ID = CG.ESNTL_ID AND CN.CART_SN = CG.CART_SN
+		INNER JOIN TB_GOODS_NMPR GN ON CN.GOODS_CODE = GN.GOODS_CODE AND CN.NMPR_SN = GN.NMPR_SN
 		WHERE CG.ESNTL_ID = #esntl_id#
 		AND CG.EXPRTN_AT = 'N'
+	</select>
+
+
+	<select id="gnrl.cart.selectCartListForSchedule" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT
+			ROW_NUMBER() OVER(PARTITION BY CG.TOUR_DE ORDER BY CG.TOUR_DE) TOUR_SN,
+			ROW_NUMBER() OVER(PARTITION BY CG.TOUR_DE ORDER BY CG.BEGIN_TIME DESC) TOUR_SN_DESC,
+			CG.ESNTL_ID,
+			CG.CART_SN,
+			CG.TOUR_DE,
+			TO_CHAR(TO_DATE(CG.TOUR_DE, 'YYYYMMDD'),'DY','NLS_DATE_LANGUAGE=KOREAN') TOUR_DY,
+			CG.BEGIN_TIME,
+			CG.END_TIME,
+			G.GOODS_NM,
+			G.FILE_CODE,
+			CG.WRITNG_ID,
+			CG.WRITNG_DE
+		FROM TB_CART_GOODS CG
+		INNER JOIN TB_GOODS G ON G.GOODS_CODE = CG.GOODS_CODE AND G.DELETE_AT = 'N'
+		WHERE CG.ESNTL_ID = #esntl_id#
+		AND CG.EXPRTN_AT = 'N'
+		ORDER BY CG.TOUR_DE, BEGIN_TIME
 	</select>
 
 	<select id="gnrl.cart.selectCartSn" parameterClass="java.util.HashMap" resultClass="int">
@@ -123,7 +154,7 @@
 			#purchs_amount#,
 			#tour_de#,
 			#begin_time#,
-			#end_time#,			
+			#end_time#,
 			'N',
 			#esntl_id#,
 			TO_CHAR(SYSDATE,'yyyymmdd')
@@ -133,6 +164,8 @@
 	<update id="gnrl.cart.updateCart" parameterClass="HashMap">
 		UPDATE TB_CART_GOODS CG SET
 			TOUR_DE = #tour_de#,
+			BEGIN_TIME = #begin_time#,
+			END_TIME = #end_time#,
 			UPDT_ID = #esntl_id#,
 			UPDT_DE = TO_CHAR(SYSDATE,'yyyymmdd')
 		WHERE ESNTL_ID = #esntl_id#	AND CART_SN = #cart_sn#
@@ -143,10 +176,10 @@
 
 		DELETE FROM TB_CART_GOODS
 		WHERE ESNTL_ID = #esntl_id#	AND CART_SN = #cart_sn#;
-		
+
 		DELETE FROM TB_CART_NMPR
 		WHERE ESNTL_ID = #esntl_id#	AND CART_SN = #cart_sn#;
-		
+
 		END;
 	</delete>
 
@@ -171,4 +204,105 @@
 		WHERE ESNTL_ID = #esntl_id#	AND CART_SN = #cart_sn#
 	</delete>
 
+	<insert id="gnrl.cart.insertFlight" parameterClass="HashMap">
+	<![CDATA[
+		INSERT INTO TB_FLIGHT (
+			ESNTL_ID,
+			FLIGHT_SN,
+			DTRMC_FLIGHT,
+			DTRMC_START_CTY,
+			DTRMC_START_DT,
+			DTRMC_ARVL_CTY,
+			DTRMC_ARVL_DT,
+			HMCMG_FLIGHT,
+			HMCMG_START_CTY,
+			HMCMG_START_DT,
+			HMCMG_ARVL_CTY,
+			HMCMG_ARVL_DT,
+			EXPRTN_AT,
+			WRITNG_ID,
+			WRITNG_DT
+		) VALUES (
+			#esntl_id#,
+			(SELECT NVL(MAX(FLIGHT_SN)+1, 1) FROM TB_FLIGHT WHERE ESNTL_ID = #esntl_id#),
+			#dtrmc_flight#,
+			#dtrmc_start_cty#,
+			TO_DATE(#dtrmc_start_dt#, 'YYYYMMDDHH24MISS'),
+			#dtrmc_arvl_cty#,
+			TO_DATE(#dtrmc_arvl_dt#, 'YYYYMMDDHH24MISS'),
+			#hmcmg_flight#,
+			#hmcmg_start_cty#,
+			TO_DATE(#hmcmg_start_dt#, 'YYYYMMDDHH24MISS'),
+			#hmcmg_arvl_cty#,
+			TO_DATE(#hmcmg_arvl_dt#, 'YYYYMMDDHH24MISS'),
+			'N',
+			#esntl_id#,
+			SYSDATE )
+	]]>
+	</insert>
+
+	<update id="gnrl.cart.updateFlight" parameterClass="HashMap">
+	<![CDATA[
+		UPDATE TB_FLIGHT SET
+			DTRMC_FLIGHT = #dtrmc_flight#,
+			DTRMC_START_CTY = #dtrmc_start_cty#,
+			DTRMC_START_DT = TO_DATE(#dtrmc_start_dt#, 'YYYYMMDDHH24MISS'),
+			DTRMC_ARVL_CTY = #dtrmc_arvl_cty#,
+			DTRMC_ARVL_DT = TO_DATE(#dtrmc_arvl_dt#, 'YYYYMMDDHH24MISS'),
+			HMCMG_FLIGHT = #hmcmg_flight#,
+			HMCMG_START_CTY = #hmcmg_start_cty#,
+			HMCMG_START_DT = TO_DATE(#hmcmg_start_dt#, 'YYYYMMDDHH24MISS'),
+			HMCMG_ARVL_CTY = #hmcmg_arvl_cty#,
+			HMCMG_ARVL_DT = TO_DATE(#hmcmg_arvl_dt#, 'YYYYMMDDHH24MISS'),
+			UPDT_ID = #esntl_id#,
+			UPDT_DT = SYSDATE
+		WHERE ESNTL_ID = #esntl_id#
+		AND FLIGHT_SN = #flight_sn#
+	]]>
+	</update>
+
+	<select id="gnrl.cart.selectFlightDetail" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	<![CDATA[
+		SELECT ESNTL_ID,
+			FLIGHT_SN,
+			DTRMC_FLIGHT,
+			DTRMC_START_CTY,
+			TO_CHAR(DTRMC_START_DT, 'YYYY-MM-DD HH24:MI') DTRMC_START_DT,
+			TO_CHAR(DTRMC_START_DT, 'YYYY-MM-DD') DTRMC_START_DE,
+			TO_CHAR(DTRMC_START_DT, 'HH24') DTRMC_START_HH,
+			TO_CHAR(DTRMC_START_DT, 'MI') DTRMC_START_MI,
+			TO_CHAR(DTRMC_START_DT, 'DY') DTRMC_START_DY,
+			DTRMC_ARVL_CTY,
+			TO_CHAR(DTRMC_ARVL_DT, 'YYYY-MM-DD HH24:MI') DTRMC_ARVL_DT,
+			TO_CHAR(DTRMC_ARVL_DT, 'YYYY-MM-DD') DTRMC_ARVL_DE,
+			TO_CHAR(DTRMC_ARVL_DT, 'HH24') DTRMC_ARVL_HH,
+			TO_CHAR(DTRMC_ARVL_DT, 'MI') DTRMC_ARVL_MI,
+			TO_CHAR(DTRMC_ARVL_DT, 'DY') DTRMC_ARVL_DY,
+			HMCMG_FLIGHT,
+			HMCMG_START_CTY,
+			TO_CHAR(HMCMG_START_DT, 'YYYY-MM-DD HH24:MI') HMCMG_START_DT,
+			TO_CHAR(HMCMG_START_DT, 'YYYY-MM-DD') HMCMG_START_DE,
+			TO_CHAR(HMCMG_START_DT, 'HH24') HMCMG_START_HH,
+			TO_CHAR(HMCMG_START_DT, 'MI') HMCMG_START_MI,
+			TO_CHAR(HMCMG_START_DT, 'DY') HMCMG_START_DY,
+			HMCMG_ARVL_CTY,
+			TO_CHAR(HMCMG_ARVL_DT, 'YYYY-MM-DD HH24:MI') HMCMG_ARVL_DT,
+			TO_CHAR(HMCMG_ARVL_DT, 'YYYY-MM-DD') HMCMG_ARVL_DE,
+			TO_CHAR(HMCMG_ARVL_DT, 'HH24') HMCMG_ARVL_HH,
+			TO_CHAR(HMCMG_ARVL_DT, 'MI') HMCMG_ARVL_MI,
+			TO_CHAR(HMCMG_ARVL_DT, 'DY') HMCMG_ARVL_DY,
+			EXPRTN_AT
+		FROM TB_FLIGHT
+		WHERE ESNTL_ID = #esntl_id#
+		AND EXPRTN_AT = 'N'
+	]]>
+	</select>
+
 </sqlMap>
+
+
+
+
+
+
+

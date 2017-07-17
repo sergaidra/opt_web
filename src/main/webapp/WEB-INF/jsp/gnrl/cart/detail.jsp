@@ -5,6 +5,7 @@
 	
 	window.onload = function(){
 		fnNmprChange();
+		fnTimeClick();
 	}
 
 	function fnList() {
@@ -20,6 +21,15 @@
 		form.submit();
 	}
 
+	function fnTimeClick(){
+		$("input:radio[name=rdoTime]").each(function() {
+			if($(this).is(":checked")) {
+				$("input:hidden[id=hidTime]").val($(this).val());
+				$("input:text[id=txtTime]").val($(this).val().substring(0,2) + ":" + $(this).val().substring(2,4) + " ~ " + $(this).val().substring(4,6) + ":" + $(this).val().substring(6,8));
+			}
+		});
+	}
+	
 	function fnNmprChange(){
 		var form = $("form[id=frmDetail]");
 
@@ -48,10 +58,16 @@
 			return;
 		}
 
+		var chkTimeVal = $("input:radio[name=rdoTime]:checked").val();
+		if(!chkTimeVal) {
+			alert("시간을 선택하세요");
+			return;
+		}
+		
 		var form_data = $("form[id=frmDetail]").serialize(); 
 
 		$.ajax({
-			url : "<c:url value='/cart/updateAction/'/>",
+			url : "<c:url value='/cart/modAction/'/>",
 			dataType : "json",
 			type : "POST",
 			async : true,
@@ -85,22 +101,22 @@
 	<input type="hidden" id="hidCartSn" name="hidCartSn" value="${cart_sn}">
 	<table width="1024px" border="1" cellspacing="0" cellpadding="0" height="100%" style="border-collapse:collapse; border:1px gray solid;">
 		<tr height="100px">
-			<td align="center" colspan="2">
+			<td align="center" colspan="3">
 				${result.GOODS_NM}
 			</td>
 		</tr>
 		<tr height="150px">
-			<td align="center" colspan="2">
+			<td align="center" colspan="3">
 				${result.GOODS_INTRCN}
 			</td>
 		</tr>
 		<tr height="430px">
-			<td align="center" colspan="2">
+			<td align="center" colspan="3">
 			<iframe src="<c:url value='/file/imageListIframe/'/>?file_code=${result.FILE_CODE}" width="100%" height="100%"></iframe>
 			</td>
 		</tr>
 		<tr height="80px">
-			<td align="center" colspan="2">
+			<td align="center" colspan="3">
 				<c:forEach var="list" items="${clList}" varStatus="status">
 				<a href="javascript:fnSearch('${list.CL_CODE}');">#${list.CL_NM}</a>&nbsp;&nbsp;&nbsp;
 				</c:forEach>
@@ -118,6 +134,19 @@
 				
 				<input type="text" name="txtDate" id="txtDate" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="${fn:substring(result.TOUR_DE,0,4)}-${fn:substring(result.TOUR_DE,4,6)}-${fn:substring(result.TOUR_DE,6,8)}" readonly onfocus="this.blur()">
 			</td>
+			<td align="center">
+				<c:forEach var="list" items="${timeList}" varStatus="status">
+				<input type="radio" name="rdoTime" id="rdoTime_${status.count}" value="${list.TOUR_TIME}" onclick="fnTimeClick()" <c:if test="${result.TOUR_TIME eq list.TOUR_TIME}">checked</c:if>>
+				<label for="rdoTime_${status.count}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~
+				${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</label>
+				&nbsp;&nbsp;&nbsp;
+
+				<br><br>
+				</c:forEach>
+
+				<input type="text" name="txtTime" id="txtTime" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="시간을 선택하세요" readonly onfocus="this.blur()">
+				<input type="hidden" name="hidTime" id="hidTime" value="${result.TOUR_TIME}">
+			</td>			
 			<td align="center">
 				<c:forEach var="list" items="${nmprList}" varStatus="status">
 				${list.NMPR_CND} (₩ ${list.SETUP_AMOUNT})

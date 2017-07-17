@@ -46,12 +46,12 @@ public class SessionCheck extends HandlerInterceptorAdapter {
 			
 			/* json으로 활용되는 페이지는 별도로 처리 */
 			//freeAccessUrls.add("/cart/addAction/");
-			//freeAccessUrls.add("/cart/updateAction/");
+			//freeAccessUrls.add("/cart/modAction/");
 			
-			
-			freeAccessUrls.add("/cart/deleteAction/");
+			freeAccessUrls.add("/cart/delAction/");
 			freeAccessUrls.add("/cart/list/");
 			freeAccessUrls.add("/cart/detail/");
+			freeAccessUrls.add("/cart/schedulePopup/");
 	
 			if (freeAccessUrls.contains(uri)) {
 				if (request.getSession().getAttribute("esntl_id") == null) {

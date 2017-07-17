@@ -12,7 +12,14 @@ public interface CartService {
 
     public long getCartPayment(HashMap map) throws Exception;
     
+    public List<HashMap> getCartListForSchedule(HashMap map) throws Exception;
+    
     public void addCart(HashMap map) throws Exception;
     public void updateCart(HashMap map) throws Exception;
     public void deleteCart(HashMap map) throws Exception;
+
+    public void addFlight(HashMap map) throws Exception;
+    public void updateFlight(HashMap map) throws Exception; 
+    public HashMap getFlightDetail(HashMap map) throws Exception;
+    
 }

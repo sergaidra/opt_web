@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator" %> 
+<%@ page import="java.util.HashMap" %>
 <%@ page import="kr.co.siione.dist.utils.SimpleUtils" %>
 <%@ page import="kr.co.siione.utl.LoginManager" %>
 <%
@@ -30,16 +31,28 @@
 
 	a.cbtn {display:inline-block; height:25px; padding:0 14px 0; border:1px solid #304a8a; background-color:#3f5a9d; font-size:13px; color:#fff; line-height:25px;}	
 	a.cbtn:hover {border: 1px solid #091940; background-color:#1f326a; color:#fff;}
+	
+	#divFloatingCart {
+		position:absolute;
+		width:320px;
+		top:138px;
+		right:0px;
+		padding:0;
+		margin:0;
+		z-index:1000;
+		text-align:center;
+		float:center;
+	}	
+
+	/*float:left;*/
 </style>
 
 <link type="text/css" href="/css/jquery-ui.css" rel="stylesheet" media="screen"/>
 <script type="text/javascript" src="/js/jquery-1.11.1.js"></script>
 <script type="text/javascript" src="/js/jquery-ui.js"></script>
 <script type="text/javascript" src="/js/jquery.blockUI.js"></script>
-
-<script type="text/javascript" src="/js/siione.js"></script>
-<script type="text/javascript" src="/js/calendar.js"></script>
-
+<script type="text/javascript" src="/js/Common.js"></script>
+       
 <decorator:head />
 
 </head>
@@ -62,8 +75,6 @@
 			<td align="center">
 				<table style="border-collapse: collapse; margin-top: 3px; height:40px;">
 					<tr>
-
-
 <c:choose>
 	<c:when test="${fn:length(esntl_id) > 0}">
 		<td width="250px" align="center" style="border: 1px solid #bcbcbc;">
@@ -85,7 +96,6 @@
 	function fnTimer_02_callback(){
     	fnTimeout();
 	}
-
 
 	function fnTimeout(){
 		//로그아웃
@@ -122,9 +132,7 @@
 			}
 			e.preventDefault();
 		});
-
 	}		
-    
 </script>
 
 	</c:when>
@@ -147,7 +155,209 @@
 	</table>
 </div>
 
-<decorator:body />
+<div id="divLayoutBody">
+	<decorator:body />
+</div>
+
+<script type="text/javascript">
+	// 장바구니에 담은 상품 목록
+	var fnCartList = function() {
+		$.ajax({
+			url : "<c:url value='/cart/getAction/'/>",
+			dataType : "json",
+			type : "POST",
+			async : true,
+			beforeSend:function(){
+				showLoading();
+			},
+			success : function(json) {
+				if(json.result == "0") {
+					if(json.cartList.length > 0) {
+						var str = '<table width="300" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid; font-size: 9pt;">'
+						$.each(json.cartList, function(key, value){
+							str += "<tr>";
+							if(value.TOUR_SN == 1) {
+								str += "<td rowspan='"+ value.TOUR_SN_DESC +"'>" + value.TOUR_DE.substring(0, 4) +"-" + value.TOUR_DE.substring(4, 6) + "-" +value.TOUR_DE.substring(6, 8)+ "<br>(" + value.TOUR_DY + ")</td>";	
+							}
+							str += "<td>" + value.BEGIN_TIME.substring(0,2) +":" + value.BEGIN_TIME.substring(2,4)+ "</td>"
+							    + "<td align='left'>" + value.GOODS_NM + "</td>"
+							    + "</tr>";
+						});
+						str += "</table>";
+						$("#divSchedulList").html(str);
+					}
+				} else if(json.result == "-2") {
+					//alert("로그인이 필요합니다.");
+				} else{
+					//alert("작업을 실패하였습니다.");
+				}
+			},
+			complete:function() {
+				hideLoading();
+			},
+			error : function() {
+				alert("오류가 발생하였습니다.");
+			}
+		});	
+	}
+
+	// 항공편
+	var fnFlightInfo = function(){
+		$.ajax({
+			url : "<c:url value='/cart/getFlightAction/'/>",
+			dataType : "json",
+			type : "POST",
+			async : true,
+			beforeSend:function(){
+				showLoading();
+			},
+			success : function(json) {
+				if(json.result == "0") {
+					var flight = json.flight;
+					if(flight.FLIGHT_SN) {
+						var str1 = '<table width="300" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid; font-size: 9pt;">'
+								 + '<tr>';
+						if(flight.DTRMC_START_DE == flight.DTRMC_ARVL_DE) {
+							str1 += '<td align="center" rowspan="2">' + flight.DTRMC_START_DE + "<br>(" + flight.DTRMC_START_DY + ")</td>"; 
+						} else {
+							str1 += '<td align="center">' + flight.DTRMC_START_DE + "<br>(" + flight.DTRMC_START_DY + ")</td>"
+						}
+						
+						str1 += '<td align="center">출발</td>'
+							  + '<td align="center">'+flight.DTRMC_START_HH+":"+flight.DTRMC_START_MI+'</td>'
+							  + '<td align="left">'+flight.DTRMC_FLIGHT+' '+flight.DTRMC_START_CTY+'</td>'
+							  + '</tr>'
+							  + '<tr>';
+
+						if(flight.DTRMC_START_DE != flight.DTRMC_ARVL_DE) {
+							str1 += '<td align="center">' + flight.DTRMC_ARVL_DE + "<br>(" + flight.DTRMC_ARVL_DY + ")</td>";
+						}
+
+						str1 += '<td align="center">도착</td>'
+							  + '<td align="center">'+flight.DTRMC_ARVL_HH+":"+flight.DTRMC_ARVL_MI+'</td>'
+							  + '<td align="left">'+flight.DTRMC_ARVL_CTY+'</td>'
+							  + '</tr>'
+							  + '</table>';
+						$("#divFlightDepart").html(str1);
+
+						var str2 = '<table width="300" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid; font-size: 9pt;">'
+								 + '<tr>';
+								 
+						if(flight.HMCMG_START_DE == flight.HMCMG_ARVL_DE) {
+							str2 += '<td align="center" rowspan="2">' + flight.HMCMG_START_DE + "<br>(" + flight.HMCMG_START_DY + ")</td>";
+						} else {
+							str2 += '<td align="center">' + flight.HMCMG_START_DE + "<br>(" + flight.HMCMG_START_DY + ")</td>";
+						}
+						
+						str2 += '<td align="center">출발</td>'
+							  + '<td align="center">'+flight.HMCMG_START_HH+":"+flight.HMCMG_START_MI+'</td>'
+							  + '<td align="left">'+flight.HMCMG_FLIGHT+' '+flight.HMCMG_START_CTY+'</td>'
+							  + '</tr>'
+							  + '<tr>';
+
+						if(flight.HMCMG_START_DE != flight.HMCMG_ARVL_DE) {
+							str2 += '<td align="center">' + flight.HMCMG_ARVL_DE + "<br>(" + flight.HMCMG_ARVL_DY + ")</td>";
+						}
+
+						str2 += '<td align="center">도착</td>'
+							  + '<td align="center">'+flight.HMCMG_ARVL_HH+":"+flight.HMCMG_ARVL_MI+'</td>'
+							  + '<td align="left">'+flight.HMCMG_ARVL_CTY+'</td>'
+							  + '</tr>'
+							  + '</table>';
+						$("#divFlightReturn").html(str2);
+
+					}
+				} else if(json.result == "-2") {
+					//alert("로그인이 필요합니다.");
+				} else{
+					alert("작업을 실패하였습니다.");
+				}
+			},
+			complete:function() {
+				hideLoading();
+			},
+			error : function() {
+				alert("오류가 발생하였습니다.");
+			}
+		});	
+	}
+
+	$(document).ready(function(){
+		// 우측 장바구니 Floating Banner 
+		var topHeight = parseInt($("#divFloatingCart").css("top").substring(0,$("#divFloatingCart").css("top").indexOf("px")));
+		
+		$(window).scroll(function () { 
+			offset = topHeight+$(document).scrollTop()+"px";
+			$("#divFloatingCart").animate({top:offset},{duration:500,queue:false});
+		});
+			
+		fnCartList();
+		fnFlightInfo();
+	});
+	
+	function fnFlightPopup() {
+		var sMsg = "항공편을 입력(수정)하시겠습니까?";  
+		var sUrl = "<c:url value='/cart/flightPopup/'/>";
+		if(confirm(sMsg)){
+			fnOpenPopup(sUrl, "winFightPopup", 650, 450);
+		}
+	}	
+</script>
+
+
+<div id="divFloatingCart">
+	<table>
+		<tr>
+			<td>
+			<!-- 일정표 시작 -->
+			<table width="300" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid;">
+				<tr height="30" width="100%" align="center">
+					<td onclick="fnFlightPopup()">항공편</td>
+				</tr>
+			</table>
+			<table width="300">
+				<tr height="5" width="100%" align="center">
+					<td></td>
+				</tr>
+			</table>
+			<table width="300" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid;">
+				<tr height="30" width="100%" align="center">
+					<td onclick="frmBannerCategory.submit();">숙박 호텔</td>
+				</tr>
+			</table>
+			<table width="300">
+				<tr height="5" width="100%" align="center">
+					<td></td>
+				</tr>
+			</table>
+			<table width="300" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid;">
+				<tr height="30" width="100%" align="center">
+					<td>일정표</td>
+				</tr>
+			</table>
+			<table width="300">
+				<tr height="5" width="100%" align="center">
+					<td></td>
+				</tr>
+			</table>
+			<div id="divFlightDepart"></div>
+			<table width="300">
+				<tr height="5" width="100%" align="center">
+					<td></td>
+				</tr>
+			</table>					
+			<div id="divSchedulList"></div>
+			<table width="300">
+				<tr height="5" width="100%" align="center">
+					<td></td>
+				</tr>
+			</table>					
+			<div id="divFlightReturn"></div>					
+			<!-- 일정표 끝 -->
+			</td>
+		</tr>
+	</table>
+</div>
 
 <div class="layer">
 	<div class="bg"></div>
@@ -169,6 +379,13 @@
 		</div>
 	</div>
 </div>
+
+
+<form name="frmBannerCategory" id="frmBannerCategory" method="post" target="divLayoutBody" action="<c:url value='/goods/list/'/>">
+	<input type="hidden" id="hidStayngFcltyAt" name="hidStayngFcltyAt" value="Y">
+</form>
+
+<input type="hidden" id="hidLayout" name="hidLayout" value="Y">
 
 </body>
 </html>

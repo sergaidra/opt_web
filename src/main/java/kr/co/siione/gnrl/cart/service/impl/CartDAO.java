@@ -32,7 +32,11 @@ public class CartDAO extends EgovComAbstractDAO {
     public int selectCartSn(HashMap map) throws Exception{
         return (Integer)selectByPk("gnrl.cart.selectCartSn", map);
     }
-
+    
+	public List selectCartListForSchedule(HashMap map) throws Exception {
+		return list("gnrl.cart.selectCartListForSchedule", map);
+	}
+	
     public void insertCart(HashMap map) throws Exception {
 		insert("gnrl.cart.insertCart", map);
     }

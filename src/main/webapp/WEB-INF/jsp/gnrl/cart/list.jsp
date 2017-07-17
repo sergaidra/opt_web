@@ -20,7 +20,7 @@
 	function fnDeleteCart(cart_sn) {
 		var form = $("form[id=frmList]");
 		$("input:hidden[id=hidCartSn]").val(cart_sn);
-		form.attr({"method":"post","action":"<c:url value='/cart/deleteAction/'/>"});
+		form.attr({"method":"post","action":"<c:url value='/cart/delAction/'/>"});
 		form.submit();
 	}
 
@@ -31,18 +31,30 @@
 		form.submit();
 	}
 
-
 	function fnCalendar(){
 		var popNm = "popCalendar";
-		var valUrl = "<c:url value='/cart/schedulePopup/'/>";
+		var valUrl = "<c:url value='/cart/calendarPopup/'/>";
 		var strStatus = "width=800,height=600,toolbar=no,status=no,scrollbars=yes,resizable=yes";
 		var debugWin = window.open(valUrl, popNm, strStatus);
 		debugWin.focus();
 	}
 
+	function fnSchedule() {
+		var popNm = "popSchedule";
+		var valUrl = "<c:url value='/cart/schedulePopup/'/>";
+		var strStatus = "width=1024,height=768,toolbar=yes,status=yes,scrollbars=yes,resizable=yes";
+		var debugWin = window.open(valUrl, popNm, strStatus);
+		debugWin.focus();
+	}
+	
 	function fnPurchase(){
 	}
 	
+	function fnSearchGoods() {
+		var form = $("form[id=frmGoodsCategory]");
+		form.submit();
+	}
+
 </script>
 <div align="center">
 	<form id="frmList" name="frmList" action="<c:url value='/cart/detail/'/>">
@@ -57,7 +69,7 @@
 			<td align="center">	
 				<table cellspacing="0" cellpadding="0">
 				<tr>		
-					<td width="200px" align="center" rowspan="4">
+					<td width="200px" align="center" rowspan="5">
 						<a href="javascript:fnDetail('${result.CART_SN}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="200px" height="150px"></a>
 					</td>
 					<td width="800px" align="center" title="${result.GOODS_NM}">
@@ -74,6 +86,14 @@
 						예정일 : ${fn:substring(result.TOUR_DE,0,4)}. ${fn:substring(result.TOUR_DE,4,6)}. ${fn:substring(result.TOUR_DE,6,8)}
 					</td>
 				</tr>
+				<tr>
+					<td width="800px" align="center">
+					<c:if test="${!empty result.BEGIN_TIME}">
+						예정시간 : ${fn:substring(result.BEGIN_TIME,0,2)}:${fn:substring(result.BEGIN_TIME,2,4)} ~ ${fn:substring(result.END_TIME,0,2)}:${fn:substring(result.END_TIME,2,4)}
+					</c:if>
+					</td>
+				</tr>
+
 				<tr>
 					<td width="800px" align="center">
 						<a href="javascript:fnDeleteCart('${result.CART_SN}')">삭제</a>
@@ -113,9 +133,13 @@
 				<div id="divPay" align="left" style="font-size:40px">₩ ${payment}</div>
 			</td>
 			<td width="30%" align="center">
-				<a href="javascript:fnCalendar()">일정표 보기</a><br><br>
+				<a href="javascript:fnSchedule()">일정표 보기</a><br><br>
 				<a href="javascript:fnPurchase()">구매진행</a>
 			</td>
 		</tr>
 	</table>
 </div>
+
+<form name="frmGoodsCategory" id="frmGoodsCategory" method="post" action="<c:url value='/goods/list/'/>">
+	<input type="hidden" id="hidStayngFcltyAt" name="hidStayngFcltyAt" value="Y">
+</form>

@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>가이드등록</title>
 <script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/siione2.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/Common.js'/>"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#CMPNY_NM").click(function(){

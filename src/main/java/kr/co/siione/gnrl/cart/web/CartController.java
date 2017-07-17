@@ -1,18 +1,19 @@
 package kr.co.siione.gnrl.cart.web;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.co.siione.dist.utils.SimpleUtils;
 import kr.co.siione.gnrl.cart.service.CartService;
 import kr.co.siione.gnrl.goods.service.GoodsService;
-import kr.co.siione.utl.LoginManager;
-import twitter4j.internal.org.json.JSONObject;
+import kr.co.siione.utl.UserUtils;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import twitter4j.internal.org.json.JSONObject;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
@@ -103,6 +105,7 @@ public class CartController {
     	List<HashMap> nmprList = cartService.getCartNmprList(map);
     	List<HashMap> clList = goodsService.getGoodsClList(map);
     	List<HashMap> schdulList = goodsService.getGoodsSchdulList(map);
+    	List<HashMap> timeList = goodsService.getGoodsTimeList(map);
 
         model.addAttribute("hidPage", hidPage);
         model.addAttribute("cart_sn", cart_sn);
@@ -111,10 +114,10 @@ public class CartController {
         model.addAttribute("clList", clList);
         model.addAttribute("schdulList", schdulList);
         model.addAttribute("nmprList", nmprList);
+        model.addAttribute("timeList", timeList);
 
         return "gnrl/cart/detail";
     }
-
 
     @RequestMapping(value="/addAction/")
     public ResponseEntity<String> addAction(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -128,16 +131,16 @@ public class CartController {
     	
         HttpSession session = request.getSession();
     	String esntl_id = SimpleUtils.default_set((String)session.getAttribute("esntl_id"));
-
+    	
     	if(esntl_id.isEmpty()){
     		retValue = "-2";    		
     	}else{
             String goods_code = SimpleUtils.default_set(request.getParameter("hidGoodsCode"));
             String txtDate = SimpleUtils.default_set(request.getParameter("txtDate"));
+            String   hidTime = SimpleUtils.default_set(request.getParameter("hidTime"));
 
     		String[] selNmprCo = request.getParameterValues("selNmprCo");
     		String[] hidNmprSn = request.getParameterValues("hidNmprSn");
-    		String   hidTime = SimpleUtils.default_set(request.getParameter("hidTime"));
 
     		List<HashMap> nmprList = new ArrayList<HashMap>();		
     		for(int i=0;i< selNmprCo.length;i++){
@@ -156,8 +159,13 @@ public class CartController {
         	map.put("nmpr_list", nmprList);
         	map.put("tour_de", txtDate.replace("-",""));
         	map.put("esntl_id", esntl_id);
-        	map.put("begin_time", hidTime.substring(0, 4));
-        	map.put("end_time", hidTime.substring(4, 8));
+        	if(hidTime.length() == 8) {
+	        	map.put("begin_time", hidTime.substring(0, 4));
+	        	map.put("end_time", hidTime.substring(4, 8));
+        	} else {
+        		map.put("begin_time", "");
+	        	map.put("end_time", "");
+        	}
 
         	//상품조건이 맞는지 확인
         	HashMap result = cartService.getCartValidCnfirm(map);
@@ -173,8 +181,8 @@ public class CartController {
     	return entity;
     }
     
-    @RequestMapping(value="/updateAction/")
-    public ResponseEntity<String> updateAction(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value="/modAction/")
+    public ResponseEntity<String> modAction(HttpServletRequest request, HttpServletResponse response) throws Exception {
     	ResponseEntity<String> entity = null;
 		JSONObject obj = new JSONObject();
 
@@ -192,6 +200,7 @@ public class CartController {
             String cart_sn = SimpleUtils.default_set(request.getParameter("hidCartSn"));
             String goods_code = SimpleUtils.default_set(request.getParameter("hidGoodsCode"));
             String txtDate = SimpleUtils.default_set(request.getParameter("txtDate"));
+            String hidTime = SimpleUtils.default_set(request.getParameter("hidTime"));        
 
     		String[] selNmprCo = request.getParameterValues("selNmprCo");
     		String[] hidNmprSn = request.getParameterValues("hidNmprSn");
@@ -214,6 +223,13 @@ public class CartController {
         	map.put("nmpr_list", nmprList);
         	map.put("tour_de", txtDate.replace("-",""));
         	map.put("esntl_id", esntl_id);
+        	if(hidTime.length() == 8) {
+	        	map.put("begin_time", hidTime.substring(0, 4));
+	        	map.put("end_time", hidTime.substring(4, 8));
+        	} else {
+        		map.put("begin_time", "");
+	        	map.put("end_time", "");
+        	}
 
         	//상품조건이 맞는지 확인
         	HashMap result = cartService.getCartValidCnfirm(map);
@@ -229,8 +245,8 @@ public class CartController {
     	return entity;
 	}
 
-    @RequestMapping(value="/deleteAction/")
-    public void deleteAction(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+    @RequestMapping(value="/delAction/")
+    public void delAction(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
         HttpSession session = request.getSession();
     	String esntl_id = SimpleUtils.default_set((String)session.getAttribute("esntl_id"));
         String cart_sn = SimpleUtils.default_set(request.getParameter("hidCartSn"));
@@ -243,10 +259,204 @@ public class CartController {
 		response.sendRedirect("/cart/list/");
 	}
 
+    @RequestMapping(value="/getAction/")
+    public ResponseEntity<String> getAction(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	ResponseEntity<String> entity = null;
+		JSONObject obj = new JSONObject();
 
+    	HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type","text/plain; charset=utf-8");
+		
+		String retValue = "-1";
+    	
+        HttpSession session = request.getSession();
+    	String esntl_id = SimpleUtils.default_set((String)session.getAttribute("esntl_id"));
+    	
+    	if(esntl_id.isEmpty()){
+    		retValue = "-2";    		
+    	}else{
+        	HashMap map = new HashMap();
+        	map.put("esntl_id", esntl_id);
+        	
+        	List<HashMap> cartList = cartService.getCartListForSchedule(map);
+        	obj.put("cartList", cartList);
+        	
+        	retValue = "0";
+    	}
 
-    @RequestMapping(value="/schedulePopup/")
-    public String scheduler(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
-        return "gnrl/cart/schedule";
+		obj.put("result", retValue);
+		entity = new ResponseEntity<String>(obj.toString(), responseHeaders, HttpStatus.CREATED);
+		
+    	return entity;
+    }   
+    
+    // 일정표를 calender 형식으로 보여 줌.
+    @RequestMapping(value="/calendarPopup/")
+    public String calendar(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+        return "gnrl/cart/calendar";
     }
+    
+    @RequestMapping(value="/bannerAction/")
+    public String banner(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+        return "gnrl/cart/banner";
+    }
+    
+    @RequestMapping(value="/schedulePopup/")
+    public String schedule(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+    	
+        HttpSession session = request.getSession();
+    	String esntl_id = SimpleUtils.default_set((String)session.getAttribute("esntl_id"));
+    	
+    	HashMap map = new HashMap();
+    	map.put("esntl_id", esntl_id);
+    	
+    	HashMap flight = cartService.getFlightDetail(map);
+    	List<HashMap> cartList = cartService.getCartListForSchedule(map);
+    	
+    	model.addAttribute("flight", flight);
+    	model.addAttribute("cartList", cartList);
+    	
+        return "gnrl/cart/schedule";
+    }    
+    
+    @RequestMapping(value="/flightPopup/")
+    public String flight(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+
+    	HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type","text/plain; charset=utf-8");
+		
+		String retValue = "-1";
+    	
+        HttpSession session = request.getSession();
+    	String esntl_id = SimpleUtils.default_set((String)session.getAttribute("esntl_id"));
+    	
+    	HashMap map = new HashMap();
+    	map.put("esntl_id", esntl_id);
+    	
+    	if(esntl_id.isEmpty()){
+    		retValue = "-2";   
+    	} else {
+    		map = cartService.getFlightDetail(map);
+    	}
+    	
+    	model.addAttribute("flight", map);
+   	
+        return "gnrl/cart/flight";
+    }    
+    
+    
+    @RequestMapping(value="/addFlightAction/")
+    public ResponseEntity<String> addFlightAction(HttpServletRequest request, HttpServletResponse response, @RequestParam HashMap param) throws Exception {
+    	ResponseEntity<String> entity = null;
+		JSONObject obj = new JSONObject();
+
+    	HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type","text/plain; charset=utf-8");
+		
+		String retValue = "-1";
+    	
+        HttpSession session = request.getSession();
+    	String esntl_id = SimpleUtils.default_set((String)session.getAttribute("esntl_id"));
+    	
+    	if(esntl_id.isEmpty()){
+    		retValue = "-2";    		
+    	}else{
+    		HashMap<String, String> map = new HashMap();
+    		map.put("esntl_id", esntl_id);
+    		map.put("dtrmc_flight", UserUtils.nvl(param.get("DTRMC_FLIGHT")));
+    		map.put("dtrmc_start_cty", UserUtils.nvl(param.get("DTRMC_START_CTY")));    		
+    		map.put("dtrmc_start_dt", UserUtils.nvl(param.get("DTRMC_START_DE")).replace("-", "")+UserUtils.nvl(param.get("DTRMC_START_HH"))+UserUtils.nvl(param.get("DTRMC_START_MI")));
+    		map.put("dtrmc_arvl_cty", UserUtils.nvl(param.get("DTRMC_ARVL_CTY")));    		
+    		map.put("dtrmc_arvl_dt", UserUtils.nvl(param.get("DTRMC_ARVL_DE")).replace("-", "")+UserUtils.nvl(param.get("DTRMC_ARVL_HH"))+UserUtils.nvl(param.get("DTRMC_ARVL_MI")));
+    		map.put("hmcmg_flight", UserUtils.nvl(param.get("HMCMG_FLIGHT")));
+    		map.put("hmcmg_start_cty", UserUtils.nvl(param.get("HMCMG_START_CTY")));    		
+    		map.put("hmcmg_start_dt", UserUtils.nvl(param.get("HMCMG_START_DE")).replace("-", "")+UserUtils.nvl(param.get("HMCMG_START_HH"))+UserUtils.nvl(param.get("HMCMG_START_MI")));
+    		map.put("hmcmg_arvl_cty", UserUtils.nvl(param.get("HMCMG_ARVL_CTY")));    		
+    		map.put("hmcmg_arvl_dt", UserUtils.nvl(param.get("HMCMG_ARVL_DE")).replace("-", "")+UserUtils.nvl(param.get("HMCMG_ARVL_HH"))+UserUtils.nvl(param.get("HMCMG_ARVL_MI")));	
+  		
+    		cartService.addFlight(map);
+			retValue = "0";
+    	}
+	    	
+		obj.put("result", retValue);
+		entity = new ResponseEntity<String>(obj.toString(), responseHeaders, HttpStatus.CREATED);
+		
+    	return entity;
+    }
+    
+    @RequestMapping(value="/modFlightAction/")
+    public ResponseEntity<String> modFlightAction(HttpServletRequest request, HttpServletResponse response, @RequestParam HashMap param) throws Exception {
+    	ResponseEntity<String> entity = null;
+		JSONObject obj = new JSONObject();
+
+    	HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type","text/plain; charset=utf-8");
+		
+		String retValue = "-1";
+    	
+        HttpSession session = request.getSession();
+    	String esntl_id = SimpleUtils.default_set((String)session.getAttribute("esntl_id"));
+    	String flight_sn = param.get("hidFlightSn").toString();
+
+    	if(esntl_id.isEmpty()){
+    		retValue = "-2";  
+    	}else if(flight_sn.equals("") || flight_sn == null){
+    		retValue = "-1";
+    	}else{
+    		HashMap<String, String> map = new HashMap();
+    		map.put("esntl_id", esntl_id);
+    		map.put("flight_sn", flight_sn);
+    		map.put("dtrmc_flight", UserUtils.nvl(param.get("DTRMC_FLIGHT")));
+    		map.put("dtrmc_start_cty", UserUtils.nvl(param.get("DTRMC_START_CTY")));    		
+    		map.put("dtrmc_start_dt", UserUtils.nvl(param.get("DTRMC_START_DE")).replace("-", "")+UserUtils.nvl(param.get("DTRMC_START_HH"))+UserUtils.nvl(param.get("DTRMC_START_MI")));
+    		map.put("dtrmc_arvl_cty", UserUtils.nvl(param.get("DTRMC_ARVL_CTY")));    		
+    		map.put("dtrmc_arvl_dt", UserUtils.nvl(param.get("DTRMC_ARVL_DE")).replace("-", "")+UserUtils.nvl(param.get("DTRMC_ARVL_HH"))+UserUtils.nvl(param.get("DTRMC_ARVL_MI")));
+    		map.put("hmcmg_flight", UserUtils.nvl(param.get("HMCMG_FLIGHT")));
+    		map.put("hmcmg_start_cty", UserUtils.nvl(param.get("HMCMG_START_CTY")));    		
+    		map.put("hmcmg_start_dt", UserUtils.nvl(param.get("HMCMG_START_DE")).replace("-", "")+UserUtils.nvl(param.get("HMCMG_START_HH"))+UserUtils.nvl(param.get("HMCMG_START_MI")));
+    		map.put("hmcmg_arvl_cty", UserUtils.nvl(param.get("HMCMG_ARVL_CTY")));    		
+    		map.put("hmcmg_arvl_dt", UserUtils.nvl(param.get("HMCMG_ARVL_DE")).replace("-", "")+UserUtils.nvl(param.get("HMCMG_ARVL_HH"))+UserUtils.nvl(param.get("HMCMG_ARVL_MI")));	
+  		
+    		cartService.updateFlight(map);
+		
+    
+			retValue = "0";	
+    	}
+
+		obj.put("result", retValue);
+		entity = new ResponseEntity<String>(obj.toString(), responseHeaders, HttpStatus.CREATED);
+		
+    	return entity;
+	}      
+    
+    @RequestMapping(value="/getFlightAction/")
+    public ResponseEntity<String> getFilightAction(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	ResponseEntity<String> entity = null;
+		JSONObject obj = new JSONObject();
+
+    	HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type","text/plain; charset=utf-8");
+		
+		String retValue = "-1";
+    	
+        HttpSession session = request.getSession();
+    	String esntl_id = SimpleUtils.default_set((String)session.getAttribute("esntl_id"));
+    	
+    	if(esntl_id.isEmpty()){
+    		retValue = "-2";    		
+    	}else{
+        	HashMap map = new HashMap();
+        	map.put("esntl_id", esntl_id);
+        	
+        	map = cartService.getFlightDetail(map);
+        	obj.put("flight", map);
+        	
+        	retValue = "0";
+    	}
+
+		obj.put("result", retValue);
+		entity = new ResponseEntity<String>(obj.toString(), responseHeaders, HttpStatus.CREATED);
+		
+    	return entity;
+    }          
 }

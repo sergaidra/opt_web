@@ -21,11 +21,11 @@
 		form.submit();
 	}
 
-	function fnTimeClick(obj){
+	function fnTimeClick(){
 		$("input:radio[name=rdoTime]").each(function() {
 			if($(this).is(":checked")) {
-				$("input:hidden[id=hidTimeSn]").val($(this).val());
-				$("input:text[id=txtTime]").val($(this).val());  // TODO 화면에 시간표시하기
+				$("input:hidden[id=hidTime]").val($(this).val());
+				$("input:text[id=txtTime]").val($(this).val().substring(0,2) + ":" + $(this).val().substring(2,4) + " ~ " + $(this).val().substring(4,6) + ":" + $(this).val().substring(6,8));
 			}
 		});
 	}
@@ -77,6 +77,7 @@
 			success : function(json) {
 				if(json.result == "0") {
 					alert("장바구니에 추가되었습니다.");
+					fnCartList();
 				} else if(json.result == "-2") {
 					alert("로그인이 필요합니다.");
 				} else{
@@ -133,9 +134,10 @@
 
 				<input type="text" name="txtDate" id="txtDate" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="일정을 선택하세요" readonly onfocus="this.blur()">
 			</td>
+			<c:if test="${stayngFcltyAt eq 'N'}">
 			<td align="center">
 				<c:forEach var="list" items="${timeList}" varStatus="status">
-				<input type="radio" name="rdoTime" id="rdoTime_${status.count}" value="${list.BEGIN_TIME}${list.END_TIME}" onclick="fnTimeClick()">
+				<input type="radio" name="rdoTime" id="rdoTime_${status.count}" value="${list.TOUR_TIME}" onclick="fnTimeClick()">
 				<label for="rdoTime_${status.count}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~
 				${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</label>
 				&nbsp;&nbsp;&nbsp;
@@ -144,7 +146,19 @@
 				</c:forEach>
 
 				<input type="text" name="txtTime" id="txtTime" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="시간을 선택하세요" readonly onfocus="this.blur()">
+				<input type="hidden" name="hidTime" id="hidTime">
 			</td>
+			</c:if>
+			<c:if test="${stayngFcltyAt ne 'N'}">
+			<td align="center">
+				숙박시설
+
+				<input type="text" name="txtTimeIn" id="txtTimeIn" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="시간을 선택하세요" readonly onfocus="this.blur()">
+				<input type="text" name="txtTimeOut" id="txtTimeOut" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="시간을 선택하세요" readonly onfocus="this.blur()">
+				<input type="hidden" name="hidTimeIn" id="hidTimeIn">
+				<input type="hidden" name="hidTimeOut" id="hidTimeOut">
+			</td>
+			</c:if>			
 			<td align="center">
 				<c:forEach var="list" items="${nmprList}" varStatus="status">
 				${list.NMPR_CND} (₩ ${list.SETUP_AMOUNT})
@@ -155,7 +169,6 @@
 				</select>
 				<input type="hidden" name="hidPayment" id="txtNmprCo${list.NMPR_SN}" value="${list.SETUP_AMOUNT}">
 				<input type="hidden" name="hidNmprSn" id="hidNmprSn" value="${list.NMPR_SN}">
-				<input type="hidden" name="hidTimeSn" id="hidTimeSn" value="${list.TIME_SN}">
 				<br><br>
 				</c:forEach>
 

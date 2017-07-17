@@ -13,7 +13,10 @@ public class CartServiceImpl implements CartService {
 
 	@Resource(name = "cartDAO")
 	private CartDAO cartDAO;
-
+	
+	@Resource(name = "flightDAO")
+	private FlightDAO flightDAO;
+	
     public List<HashMap> getCartList(HashMap map) throws Exception {
         return cartDAO.selectCartList(map);
     }
@@ -34,10 +37,12 @@ public class CartServiceImpl implements CartService {
         return cartDAO.selectCartPayment(map);
     }
     
+    
+    public List<HashMap> getCartListForSchedule(HashMap map) throws Exception {
+        return cartDAO.selectCartListForSchedule(map);
+    }
+    
     public void addCart(HashMap map) throws Exception {
-    	
-    	try {
-    	
         int cart_sn = cartDAO.selectCartSn(map);
         map.put("cart_sn", cart_sn);
     	cartDAO.insertCart(map);
@@ -47,10 +52,6 @@ public class CartServiceImpl implements CartService {
 			nMap.putAll(map);
 			cartDAO.insertCartNmpr(nMap);
 		}
-		
-    	} catch(Exception e) {
-    		e.printStackTrace();
-    	}
     }
 
     public void updateCart(HashMap map) throws Exception {
@@ -67,4 +68,17 @@ public class CartServiceImpl implements CartService {
     public void deleteCart(HashMap map) throws Exception {
     	cartDAO.deleteCart(map);
     }
+    
+    public void addFlight(HashMap map) throws Exception {
+		flightDAO.insertFlight(map);
+    }    
+    
+    public void updateFlight(HashMap map) throws Exception {
+		flightDAO.updateFlight(map);
+    }   
+    
+    public HashMap getFlightDetail(HashMap map) throws Exception{
+        return flightDAO.getFlightDetail(map);
+    }    
+    
 }
