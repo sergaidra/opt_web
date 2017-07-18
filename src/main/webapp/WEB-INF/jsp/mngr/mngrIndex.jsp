@@ -8,14 +8,15 @@
 </head>
 <body>
 <ul>
-	<li><a href="<c:url value='/mngr/tourCmpnyManage/'/>" target="_self">여행사관리</a></li>
-	<li><a href="<c:url value='/mngr/tourCmpnyRegist/'/>" target="_self">여행사등록</a></li>
-	<li><a href="<c:url value='/mngr/tourClManage/'/>" target="_self">여행분류관리</a></li>
-	<li><a href="<c:url value='/mngr/tourClRegist/'/>" target="_self">여행분류등록</a></li>
-	<li><a href="<c:url value='/mngr/mngrManage/'/>" target="_self">가이드관리</a></li>
-	<li><a href="<c:url value='/mngr/mngrRegist/'/>" target="_self">가이드등록</a></li>
-	<li><a href="<c:url value='/mngr/goodsManage/'/>" target="_self">상품관리</a></li>
-	<li><a href="<c:url value='/mngr/goodsRegist/'/>" target="_self">상품등록</a></li>
+	<li><a href="<c:url value='/mngr/tourCmpnyManage/'/>" target="_blank">여행사관리</a></li>
+	<li><a href="<c:url value='/mngr/tourCmpnyRegist/'/>" target="_blank">여행사등록</a></li>
+	<li><a href="<c:url value='/mngr/tourClManage/'/>" target="_blank">여행분류관리</a></li>
+	<li><a href="<c:url value='/mngr/tourClRegist/'/>" target="_blank">여행분류등록</a></li>
+	<li><a href="<c:url value='/mngr/mngrManage/'/>" target="_blank">가이드관리</a></li>
+	<li><a href="<c:url value='/mngr/mngrRegist/'/>" target="_blank">가이드등록</a></li>
+	<li><a href="<c:url value='/mngr/goodsManage/'/>" target="_blank">상품관리</a></li>
+	<li><a href="<c:url value='/mngr/goodsRegist/'/>" target="_blank">상품등록</a></li>
+	<li><a href="<c:url value='/'/>" target="_blank">사용자화면</a></li>
 </ul>
 </body>
 </html>

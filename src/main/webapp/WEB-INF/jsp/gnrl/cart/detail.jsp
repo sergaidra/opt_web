@@ -40,6 +40,12 @@
 
 		$("input:text[id=txtPay]").val("₩ "+payment);
 	}
+	
+	function fnCalendarPopup(objId) {
+		
+		
+		//fnCalendarPopup
+	}
 
 	function fnUpdateCart(){
 		var strDate = $("input:text[id=txtDate]").val();
@@ -123,7 +129,8 @@
 			</td>
 		</tr>
 		<tr height="200px">
-			<td align="center">
+			<c:if test="${stayngFcltyAt eq 'N'}">
+			<td align="center">${stayngFcltyAt}
 				<c:forEach var="list" items="${schdulList}" varStatus="status">
 				${fn:substring(list.BEGIN_DE,0,4)}. ${fn:substring(list.BEGIN_DE,4,6)}. ${fn:substring(list.BEGIN_DE,6,8)} ~ 
 				${fn:substring(list.END_DE,0,4)}. ${fn:substring(list.END_DE,4,6)}. ${fn:substring(list.END_DE,6,8)}
@@ -146,8 +153,19 @@
 
 				<input type="text" name="txtTime" id="txtTime" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="시간을 선택하세요" readonly onfocus="this.blur()">
 				<input type="hidden" name="hidTime" id="hidTime" value="${result.TOUR_TIME}">
+			</td>
+			</c:if>
+			<c:if test="${stayngFcltyAt ne 'N'}">
+			<td align="center" width="33%">
+				체크인 날짜<br><br>
+				<input type="text" name="txtChkinDe" id="txtChkinDe" style="width:250px;height:50px;text-align:center;font-size:25px;" value="${fn:substring(result.CHKIN_DE,0,4)}-${fn:substring(result.CHKIN_DE,4,6)}-${fn:substring(result.CHKIN_DE,6,8)}" readonly onfocus="this.blur()" onclick="fnCalendarPopup('txtChkinDe','${today}','${list.END_CAL_DE}')">
 			</td>			
-			<td align="center">
+			<td align="center" width="34%">
+				체크아웃 날짜<br><br>
+				<input type="text" name="txtChcktDe" id="txtChcktDe" style="width:250px;height:50px;text-align:center;font-size:25px;" value="${fn:substring(result.CHCKT_DE,0,4)}-${fn:substring(result.CHCKT_DE,4,6)}-${fn:substring(result.CHCKT_DE,6,8)}" readonly onfocus="this.blur()" onclick="fnCalendarPopup('txtChcktDe','${today}','${list.END_CAL_DE}')">
+			</td>
+			</c:if>		
+			<td align="center" width="33%">
 				<c:forEach var="list" items="${nmprList}" varStatus="status">
 				${list.NMPR_CND} (₩ ${list.SETUP_AMOUNT})
 				<select name="selNmprCo" id="txtNmprCo${list.NMPR_SN}" onchange="fnNmprChange()">

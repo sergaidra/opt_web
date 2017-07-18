@@ -1,4 +1,4 @@
-package kr.co.siione.mngr.service.impl;
+package kr.co.siione.mngr.dao;
 
 import java.util.List;
 import java.util.Map;

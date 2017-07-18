@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <!DOCTYPE html>
@@ -93,8 +92,7 @@
 			<c:out value='${tourCmpny.DELETE_AT}'/>
 		</td>		
 		<td width="10%">
-			<fmt:parseDate value="${tourCmpny.WRITNG_DE}" pattern="yyyyMMdd" var="writngDe" scope="page"/>
-			<fmt:formatDate value="${writngDe}" pattern="yyyy-MM-dd"/>
+			<c:out value='${tourCmpny.WRITNG_DE}'/>
 		</td>
 	</tr>
 	</c:forEach>

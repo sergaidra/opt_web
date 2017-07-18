@@ -15,7 +15,7 @@
                             , AUTHOR_CL
                             , CONFM_AT
                             , WRITNG_ID
-                            , WRITNG_DE )
+                            , WRITNG_DT )
                      VALUES ( 'MNGR'||LPAD(SQ_ESNTL_ID.NEXTVAL, 16, '0')
                             , #MNGR_ID#
                             , #MNGR_NM#
@@ -24,7 +24,7 @@
                             , #AUTHOR_CL#
                             , NVL(#CONFM_AT#, 'N')
                             , #WRITNG_ID#
-                            , TO_CHAR(SYSDATE, 'YYYYMMDD') )
+                            , SYSDATE )
     ]]>
     </insert>
 
@@ -35,7 +35,7 @@
              , AUTHOR_CL = #AUTHOR_CL#
              , CMPNY_CODE = #CMPNY_CODE#
              , UPDT_ID = #UPDT_ID#
-             , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+             , UPDT_DT = SYSDATE
          WHERE ESNTL_ID = #ESNTL_ID#
     ]]>
     </update>
@@ -45,7 +45,7 @@
         UPDATE TB_MNGR
            SET DELETE_AT = 'Y'
              , UPDT_ID = #UPDT_ID#
-             , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+             , UPDT_DT = SYSDATE
          WHERE CMPNY_CODE = #CMPNY_CODE#
     ]]>
     </delete>
@@ -55,7 +55,7 @@
         UPDATE TB_MNGR
            SET CONFM_AT = #CONFM_AT#
              , UPDT_ID = #UPDT_ID#
-             , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+             , UPDT_DT = SYSDATE
          WHERE ESNTL_ID = #ESNTL_ID#
     ]]>
 </update>
@@ -71,9 +71,9 @@
              , (SELECT CMPNY_NM FROM TB_TOUR_CMPNY X WHERE A.CMPNY_CODE = X.CMPNY_CODE) CMPNY_NM
              , CONFM_AT
              , WRITNG_ID
-             , WRITNG_DE
+             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , UPDT_ID
-             , UPDT_DE
+             , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
           FROM TB_MNGR A
          WHERE ESNTL_ID = #ESNTL_ID#
     ]]>
@@ -106,9 +106,9 @@
              , (SELECT CMPNY_NM FROM TB_TOUR_CMPNY X WHERE A.CMPNY_CODE = X.CMPNY_CODE) CMPNY_NM
              , CONFM_AT
              , WRITNG_ID
-             , WRITNG_DE
+             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , UPDT_ID
-             , UPDT_DE
+             , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
           FROM TB_MNGR A
          WHERE 1 = 1
     ]]>

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import kr.co.siione.mngr.dao.TourCmpnyDAO;
 import kr.co.siione.mngr.service.TourCmpnyManageService;
 
 import org.springframework.stereotype.Service;

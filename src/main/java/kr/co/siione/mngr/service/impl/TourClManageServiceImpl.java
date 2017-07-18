@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import kr.co.siione.mngr.dao.FileManageDAO;
+import kr.co.siione.mngr.dao.TourClDAO;
 import kr.co.siione.mngr.service.TourClManageService;
 
 import org.springframework.stereotype.Service;

@@ -13,14 +13,14 @@
                                  , SETUP_AMOUNT
                                  , DELETE_AT
                                  , WRITNG_ID
-                                 , WRITNG_DE )
+                                 , WRITNG_DT )
                            VALUES( #GOODS_CODE#
                                  , (SELECT NVL(MAX(NMPR_SN), 0)+1 FROM TB_GOODS_NMPR WHERE GOODS_CODE = #GOODS_CODE#)
                                  , #NMPR_CND#
                                  , REPLACE(#SETUP_AMOUNT#, ',', '')
                                  , 'N'
                                  , #WRITNG_ID#
-                                 , TO_CHAR(SYSDATE, 'YYYYMMDD'))
+                                 , SYSDATE)
     ]]>
     </insert>
 
@@ -30,7 +30,7 @@
            SET CL_NM = #CL_NM#
              , FILE_CODE = #FILE_CODE#
              , UPDT_ID = #UPDT_ID#
-             , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+             , UPDT_DT = SYSDATE
          WHERE CL_CODE = #CL_CODE#
     ]]>
     </update>
@@ -40,43 +40,40 @@
         UPDATE TB_GOODS_NMPR
            SET DELETE_AT = 'Y'
              , UPDT_ID = #UPDT_ID#
-             , UPDT_DE = TO_CHAR(SYSDATE, 'YYYYMMDD')
+             , UPDT_DT = SYSDATE
          WHERE CL_CODE = #CL_CODE#
     ]]>
     </delete>
     
     <select id="GoodsNmprDAO.selectGoodsNmprByPk" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
-        SELECT CL_CODE
-             , CL_NM 
-             , DELETE_AT
-             , WRITNG_ID
-             , WRITNG_DE
-             , UPDT_ID
-             , UPDT_DE
-             , FILE_CODE  
-          FROM TB_GOODS_NMPR   
-         WHERE CL_CODE = #CL_CODE#      
+		SELECT GOODS_CODE
+		     , NMPR_SN
+		     , NMPR_CND
+		     , SETUP_AMOUNT
+		     , DELETE_AT
+		     , WRITNG_ID
+		     , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+		  FROM TB_GOODS_NMPR
+		 WHERE GOODS_CODE = #GOODS_CODE#   
+		   AND NMPR_SN = #NMPR_SN#   
     ]]>
     </select>
 
     <select id="GoodsNmprDAO.selectGoodsNmprList" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
-        SELECT GOODS_CODE
-             , GOODS_NM
-             , GOODS_INTRCN
-             , DELETE_AT
-             , WRITNG_ID
-             , WRITNG_DE
-             , UPDT_ID
-             , UPDT_DE
-             , FILE_CODE
-          FROM TB_GOODS_NMPR  
-         WHERE 1 = 1    ]]>
-        <isNotEmpty property="DELETE_AT">
-          AND DELETE_AT = #DELETE_AT#        
-        </isNotEmpty>
-         ORDER BY WRITNG_DE, GOODS_CODE
+		SELECT GOODS_CODE
+		     , NMPR_SN
+		     , NMPR_CND
+		     , SETUP_AMOUNT
+		     , DELETE_AT
+		     , WRITNG_ID
+		     , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+		  FROM TB_GOODS_NMPR
+		 WHERE GOODS_CODE = #GOODS_CODE#
+		   AND DELETE_AT = 'N'
+		 ORDER BY NMPR_SN    
+	]]>
     </select>
 
 </sqlMap>

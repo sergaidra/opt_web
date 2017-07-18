@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <!DOCTYPE html>
@@ -109,12 +108,10 @@
 			<c:if test="${mngr.CONFM_AT == 'N'}"><font color='red'>미승인</font></c:if>
 		</td>
 		<td>
-			<fmt:parseDate value="${mngr.WRITNG_DE}" pattern="yyyyMMdd" var="writngDe" scope="page"/>
-			<fmt:formatDate value="${writngDe}" pattern="yyyy-MM-dd"/>
+			<c:out value='${mngr.WRITNG_DE}'/>
 		</td>
 		<td>
-			<fmt:parseDate value="${mngr.UPDT_DE}" pattern="yyyyMMdd" var="updtDe" scope="page"/>
-			<fmt:formatDate value="${updtDe}" pattern="yyyy-MM-dd"/>		
+			<c:out value='${mngr.UPDT_DE}'/>
 		</td>
 	</tr>
 	</c:forEach>

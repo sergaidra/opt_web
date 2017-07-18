@@ -83,7 +83,12 @@
 				</tr>
 				<tr>
 					<td width="800px" align="center">
+					<c:if test="${!empty result.TOUR_DE}">
 						예정일 : ${fn:substring(result.TOUR_DE,0,4)}. ${fn:substring(result.TOUR_DE,4,6)}. ${fn:substring(result.TOUR_DE,6,8)}
+					</c:if>
+					<c:if test="${!empty result.CHKIN_DE}">
+						숙박일정 : ${fn:substring(result.CHKIN_DE,0,4)}. ${fn:substring(result.CHKIN_DE,4,6)}. ${fn:substring(result.CHKIN_DE,6,8)} ~ ${fn:substring(result.CHCKT_DE,0,4)}. ${fn:substring(result.CHCKT_DE,4,6)}. ${fn:substring(result.CHCKT_DE,6,8)}
+					</c:if>					
 					</td>
 				</tr>
 				<tr>

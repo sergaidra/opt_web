@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import kr.co.siione.mngr.dao.FileManageDAO;
 import kr.co.siione.mngr.service.FileManageService;
 
 @Service("FileManageService")

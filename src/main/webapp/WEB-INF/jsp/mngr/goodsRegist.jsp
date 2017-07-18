@@ -18,13 +18,13 @@
 			idxDe++;
 	        var newDateGroup = "<div class='divDate'> "
 	                         + "<input type='text' class='DatePickerBegin' name='BEGIN_DE' id='BEGIN_DE_"+idxDe+"' size='10'> ~ <input type='text' class='DatePickerEnd' name='END_DE' id='END_DE_"+idxDe+"' size='10'> "
-	                         + "<input type='checkbox' name='MON' checked>월 "
+	                         /*+ "<input type='checkbox' name='MON' checked>월 "
 	                         + "<input type='checkbox' name='TUE' checked>화 "
 	                         + "<input type='checkbox' name='WED' checked>수 "
 	                         + "<input type='checkbox' name='THU' checked>목 "
 	                         + "<input type='checkbox' name='FRI' checked>금 "
 	                         + "<input type='checkbox' name='SAT' checked>토 "
-	                         + "<input type='checkbox' name='SUN' checked>일 "
+	                         + "<input type='checkbox' name='SUN' checked>일 "*/
 	                         + "<input type='button' value='삭제' id='btnDelDate'></div>";
 	        $("#divDateGroup").append(newDateGroup);
 		});
@@ -161,16 +161,21 @@
 
 	function f_add() {
 
-		var chk = 0;
-		$("input:checkbox[name='CL_CODE']").each(function(){
+		/* var chk = 0;
+		$("input:radio[name='CL_CODE']").each(function(){
 			if(this.checked) chk++;
 		});
 
 		if(chk == 0) {
 			alert("상품분류를 선택하세요.");
 			return;
+		} */
+		
+		if(!$("#CL_CODE option:selected").val()) {
+			alert("상품분류를 선택하세요.");
+			return;
 		}
-
+		
 		if($("#GOODS_NM").val() == "") {
 			alert("상품이름은(는) 필수입력항목입니다.");
 			$("#GOODS_NM").focus();
@@ -199,7 +204,7 @@
 			return;
 		}
 
-		if(!f_chkSelectVal("BEGIN_MM")) {
+		if(!f_chkSelectVal("BEGIN_MI")) {
 			alert("구매가능 시작시간(분)을 선택하세요.");
 			return;
 		}
@@ -209,7 +214,7 @@
 			return;
 		}
 
-		if(!f_chkSelectVal("END_MM")) {
+		if(!f_chkSelectVal("END_MI")) {
 			alert("구매가능 종료시간(분)을 선택하세요.");
 			return;
 		}
@@ -235,15 +240,16 @@
 			return;
 		}
 		
+		
+		var str_mon = "Y;Y;Y;Y;Y;Y;Y;";
+		var str_tue = "Y;Y;Y;Y;Y;Y;Y;";
+		var str_wed = "Y;Y;Y;Y;Y;Y;Y;";
+		var str_thu = "Y;Y;Y;Y;Y;Y;Y;";
+		var str_fri = "Y;Y;Y;Y;Y;Y;Y;";
+		var str_sat = "Y;Y;Y;Y;Y;Y;Y;";
+		var str_sun = "Y;Y;Y;Y;Y;Y;Y;";
 
-		var str_mon = "";
-		var str_tue = "";
-		var str_wed = "";
-		var str_thu = "";
-		var str_fri = "";
-		var str_sat = "";
-		var str_sun = "";
-
+		/*
 		$("input:checkbox[name='MON']").each(function(){if(this.checked) str_mon += "Y;";else str_mon += "N;";});
 		$("input:checkbox[name='TUE']").each(function(){if(this.checked) str_tue += "Y;";else str_tue += "N;";});
 		$("input:checkbox[name='WED']").each(function(){if(this.checked) str_wed += "Y;";else str_wed += "N;";});
@@ -251,7 +257,7 @@
 		$("input:checkbox[name='FRI']").each(function(){if(this.checked) str_fri += "Y;";else str_fri += "N;";});
 		$("input:checkbox[name='SAT']").each(function(){if(this.checked) str_sat += "Y;";else str_sat += "N;";});
 		$("input:checkbox[name='SUN']").each(function(){if(this.checked) str_sun += "Y;";else str_sun += "N;";});
-
+		*/
 
 		$("#txtMon").val(str_mon);
 		$("#txtTue").val(str_tue);
@@ -260,7 +266,7 @@
 		$("#txtFri").val(str_fri);
 		$("#txtSat").val(str_sat);
 		$("#txtSun").val(str_sun);
-
+		
 		form1.submit();
 		
 	}
@@ -283,13 +289,10 @@
 	<tr>
 		<td width="25%">상품분류</td>
 		<td width="75%">
-		<table>
-		<c:forEach var="tourCl" items="${tourClList}" varStatus="status">
-			<c:if test="${status.count%4 == 1}"><tr></c:if>
-				<td width="14%"><input type="checkbox" name="CL_CODE" value="<c:out value='${tourCl.CL_CODE}'/>" size=10><c:out value='${tourCl.CL_NM}'/></td>
-			<c:if test="${status.count%4 == 0 || status.last}"></tr></c:if>
-		</c:forEach>
-		</table>
+			<select name="CL_CODE" id="CL_CODE">
+				<option value="">선택</option><c:forEach var="tourCl" items="${tourClList}" varStatus="status">
+				<option value="${tourCl.CL_CODE}">${tourCl.CL_NM}</option></c:forEach>
+			</select>
 		</td>
 	</tr>
 	<tr>
@@ -301,25 +304,25 @@
 		<td width="75%"><textarea id="GOODS_INTRCN" name="GOODS_INTRCN" cols="50" rows="10" title="상품설명"></textarea></td>
 	</tr>
 	<tr>
-		<td width="25%">구매가능 일정</td>
+		<td width="25%">구매가능 날짜</td>
 		<td width="75%">
 		<div id="divDateGroup">
 			<div class="divDate">
 				<input type="text" class="DatePickerBegin" name="BEGIN_DE" id="BEGIN_DE_0" size="10"> ~ <input type="text" class="DatePickerEnd" name="END_DE" id="END_DE_0" size="10">
-				<input type="checkbox" name="MON" checked>월
+				<!-- <input type="checkbox" name="MON" checked>월
 				<input type="checkbox" name="TUE" checked>화
 				<input type="checkbox" name="WED" checked>수
 				<input type="checkbox" name="THU" checked>목
 				<input type="checkbox" name="FRI" checked>금
 				<input type="checkbox" name="SAT" checked>토
-				<input type="checkbox" name="SUN" checked>일
+				<input type="checkbox" name="SUN" checked>일 -->
 				<input type="button" value="추가" id="btnAddDate">
 			</div>
 		</div>
 		</td>
 	</tr>
 	<tr>
-		<td width="25%">구매가능 시간</td>
+		<td width="25%">구매가능 시각</td>
 		<td width="75%">
 		<div id="divTimeGroup">
 			<div class="divTime">
@@ -327,7 +330,7 @@
 					<option value="">선택</option><c:forEach var="i" begin="0" end="23" step="1">
 					<option value="<fmt:formatNumber value="${i}" pattern="00"/>"><fmt:formatNumber value="${i}" pattern="00"/>시</option>
 				</c:forEach></select> :
-				<select name="BEGIN_MM" id="BEGIN_MM">
+				<select name="BEGIN_MI" id="BEGIN_MI">
 					<option value="">선택</option><c:forEach var="i" begin="0" end="50" step="10">
 					<option value="<fmt:formatNumber value="${i}" pattern="00"/>"><fmt:formatNumber value="${i}" pattern="00"/>분</option>
 				</c:forEach></select> ~
@@ -335,7 +338,7 @@
 					<option value="">선택</option><c:forEach var="i" begin="0" end="23" step="1">
 					<option value="<fmt:formatNumber value="${i}" pattern="00"/>"><fmt:formatNumber value="${i}" pattern="00"/>시</option>
 				</c:forEach></select> :
-				<select name="END_MM" id="END_MM">
+				<select name="END_MI" id="END_MI">
 					<option value="">선택</option><c:forEach var="i" begin="0" end="50" step="10">
 					<option value="<fmt:formatNumber value="${i}" pattern="00"/>"><fmt:formatNumber value="${i}" pattern="00"/>분</option>
 				</c:forEach></select>
@@ -344,6 +347,38 @@
 		</div>
 		</td>
 	</tr>
+	<tr>
+		<td width="25%">대기 시간</td>
+		<td width="75%">
+			<select name="WAIT_HH" id="WAIT_HH">		
+				<c:forEach var="i" begin="0" end="5" step="1">
+				<option value="<fmt:formatNumber value="${i}" pattern="00"/>"><fmt:formatNumber value="${i}" pattern="00"/></option>
+			</c:forEach></select> 시간  &nbsp;
+			<select name="WAIT_MI" id="WAIT_MI">		
+				<c:forEach var="i" begin="0" end="55" step="5">
+				<option value="<fmt:formatNumber value="${i}" pattern="00"/>"><fmt:formatNumber value="${i}" pattern="00"/></option>
+			</c:forEach></select> 분
+		</td>
+	</tr>
+	<tr>
+		<td width="25%">이동 시간</td>
+		<td width="75%">
+			<select name="MVMN_HH" id="MVMN_HH">		
+				<c:forEach var="i" begin="0" end="5" step="1">
+				<option value="<fmt:formatNumber value="${i}" pattern="00"/>"><fmt:formatNumber value="${i}" pattern="00"/></option>
+			</c:forEach></select> 시간  &nbsp;
+			<select name="MVMN_MI" id="MVMN_MI">		
+				<c:forEach var="i" begin="0" end="55" step="5">
+				<option value="<fmt:formatNumber value="${i}" pattern="00"/>"><fmt:formatNumber value="${i}" pattern="00"/></option>
+			</c:forEach></select> 분
+		</td>
+	</tr>
+<!-- 	<tr>
+		<td width="25%">활동 위치</td>
+		<td width="75%">
+			
+		</td>
+	</tr> -->
 	<tr>
 		<td width="25%">구매 인원</td>
 		<td width="75%">
@@ -388,7 +423,7 @@
 		<option value="">선택</option><c:forEach var="i" begin="0" end="23" step="1">
 		<option value="<fmt:formatNumber value="${i}" pattern="00"/>"><fmt:formatNumber value="${i}" pattern="00"/>시</option>
 	</c:forEach></select> :
-	<select name="BEGIN_MM" id="BEGIN_MM">
+	<select name="BEGIN_MI" id="BEGIN_MI">
 		<option value="">선택</option><c:forEach var="i" begin="0" end="50" step="10">
 		<option value="<fmt:formatNumber value="${i}" pattern="00"/>"><fmt:formatNumber value="${i}" pattern="00"/>분</option>
 	</c:forEach></select> ~
@@ -396,7 +431,7 @@
 		<option value="">선택</option><c:forEach var="i" begin="0" end="23" step="1">
 		<option value="<fmt:formatNumber value="${i}" pattern="00"/>"><fmt:formatNumber value="${i}" pattern="00"/>시</option>
 	</c:forEach></select> :
-	<select name="END_MM" id="END_MM">
+	<select name="END_MI" id="END_MI">
 		<option value="">선택</option><c:forEach var="i" begin="0" end="50" step="10">
 		<option value="<fmt:formatNumber value="${i}" pattern="00"/>"><fmt:formatNumber value="${i}" pattern="00"/>분</option>
 	</c:forEach></select>

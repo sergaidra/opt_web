@@ -137,7 +137,10 @@ public class CartController {
     	}else{
             String goods_code = SimpleUtils.default_set(request.getParameter("hidGoodsCode"));
             String txtDate = SimpleUtils.default_set(request.getParameter("txtDate"));
-            String   hidTime = SimpleUtils.default_set(request.getParameter("hidTime"));
+            String hidTime = SimpleUtils.default_set(request.getParameter("hidTime"));
+            
+            String txtChkinDe = SimpleUtils.default_set(request.getParameter("txtChkinDe"));
+            String txtChcktDe = SimpleUtils.default_set(request.getParameter("txtChcktDe"));
 
     		String[] selNmprCo = request.getParameterValues("selNmprCo");
     		String[] hidNmprSn = request.getParameterValues("hidNmprSn");
@@ -158,6 +161,8 @@ public class CartController {
         	map.put("goods_code", goods_code);
         	map.put("nmpr_list", nmprList);
         	map.put("tour_de", txtDate.replace("-",""));
+        	map.put("chkin_de", txtChkinDe.replace("-",""));
+        	map.put("chckt_de", txtChcktDe.replace("-",""));
         	map.put("esntl_id", esntl_id);
         	if(hidTime.length() == 8) {
 	        	map.put("begin_time", hidTime.substring(0, 4));
@@ -168,11 +173,11 @@ public class CartController {
         	}
 
         	//상품조건이 맞는지 확인
-        	HashMap result = cartService.getCartValidCnfirm(map);
-        	if(result != null){
+        	//HashMap result = cartService.getCartValidCnfirm(map);
+        	//if(result != null){
             	cartService.addCart(map);
     			retValue = "0";	
-        	}    		
+        	//}    		
     	}
 
 		obj.put("result", retValue);

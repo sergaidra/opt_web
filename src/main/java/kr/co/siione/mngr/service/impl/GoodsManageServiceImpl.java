@@ -6,6 +6,12 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import kr.co.siione.mngr.dao.FileManageDAO;
+import kr.co.siione.mngr.dao.GoodsClDAO;
+import kr.co.siione.mngr.dao.GoodsDAO;
+import kr.co.siione.mngr.dao.GoodsNmprDAO;
+import kr.co.siione.mngr.dao.GoodsSchdulDAO;
+import kr.co.siione.mngr.dao.GoodsTimeDAO;
 import kr.co.siione.mngr.service.GoodsManageService;
 import kr.co.siione.utl.UserUtils;
 
@@ -126,4 +132,23 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 		return goodsDAO.selectGoodsList(param);
 	}
 
+	@Override
+	public List<Map<String, String>> selectGoodsClList(Map<String, String> param) throws Exception {
+		return goodsClDAO.selectGoodsClList(param);
+	}
+	
+	@Override
+	public List<Map<String, String>> selectGoodsSchdulList(Map<String, String> param) throws Exception {
+		return goodsSchdulDAO.selectGoodsSchdulList(param);
+	}
+	
+	@Override
+	public List<Map<String, String>> selectGoodsTimeList(Map<String, String> param) throws Exception {
+		return goodsTimeDAO.selectGoodsTimeList(param);
+	}
+	
+	@Override
+	public List<Map<String, String>> selectGoodsNmprList(Map<String, String> param) throws Exception {
+		return goodsNmprDAO.selectGoodsNmprList(param);
+	}
 }

@@ -24,6 +24,14 @@
 		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
 		form.submit();
 	}
+	
+	function fnSearch(cl_code) {
+		var form = $("form[id=frmDetail]");
+		$("input:hidden[id=hidCategory]").val(cl_code);
+		$("input:hidden[id=hidPage]").val(1);
+		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
+		form.submit();
+	}	
 </script>
 <div align="center">
 	<div style="height:30px;" align="center">

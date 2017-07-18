@@ -8,9 +8,9 @@
 		USER_ID,
 		USER_NM,
 		WRITNG_ID,
-		WRITNG_DE,
+		TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE,
 		UPDT_ID,
-		UPDT_DE,
+		TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE,
 		PASSWORD
 	    FROM TB_USER
 		WHERE USER_ID = #user_id#		
@@ -44,14 +44,14 @@
 			USER_ID,
 			USER_NM,
 			WRITNG_ID,
-			WRITNG_DE,
+			WRITNG_DT,
 			PASSWORD
 		) VALUES(
 			#esntl_id#,
 			#user_id#,
 			#user_nm#,
 			#esntl_id#,
-			TO_CHAR(SYSDATE,'yyyymmdd'),
+			SYSDATE,
 			#password#
 		)
 	</insert>

@@ -15,6 +15,8 @@
 		<result property="FILE_CODE" column="FILE_CODE" columnIndex="10"/>
 		<result property="WRITNG_ID" column="WRITNG_ID" columnIndex="11"/>
 		<result property="WRITNG_DE" column="WRITNG_DE" columnIndex="12"/>
+		<result property="CHKIN_DE" column="CHKIN_DE" columnIndex="13"/>
+		<result property="CHCKT_DE" column="CHCKT_DE" columnIndex="14"/>
 	</resultMap>
 
 	<select id="gnrl.cart.selectCartList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
@@ -30,7 +32,9 @@
 		X.GOODS_NM,
 		X.FILE_CODE,
 		X.WRITNG_ID,
-		X.WRITNG_DE
+		X.WRITNG_DE,
+		X.CHKIN_DE,
+		X.CHCKT_DE
 		FROM
 		(
 			SELECT A.*,
@@ -47,12 +51,14 @@
 				G.GOODS_NM,
 				G.FILE_CODE,
 				CG.WRITNG_ID,
-				CG.WRITNG_DE
+				TO_CHAR(CG.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE,
+				CG.CHKIN_DE,
+				CG.CHCKT_DE
 				FROM TB_CART_GOODS CG
 				INNER JOIN TB_GOODS G ON G.GOODS_CODE = CG.GOODS_CODE AND G.DELETE_AT = 'N'
 				WHERE CG.ESNTL_ID = #esntl_id#
 				AND CG.EXPRTN_AT = 'N'
-				ORDER BY CG.WRITNG_DE DESC
+				ORDER BY CG.WRITNG_DT DESC
 
 			) A
 		) X
@@ -73,7 +79,9 @@
 		G.GOODS_INTRCN,
 		G.FILE_CODE,
 		CG.WRITNG_ID,
-		CG.WRITNG_DE
+		TO_CHAR(CG.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE,
+		CG.CHKIN_DE,
+		CG.CHCKT_DE		
 		FROM TB_CART_GOODS CG
 		INNER JOIN TB_GOODS G ON G.GOODS_CODE = CG.GOODS_CODE AND G.DELETE_AT = 'N'
 		WHERE CG.ESNTL_ID = #esntl_id# AND CG.CART_SN = #cart_sn#
@@ -123,11 +131,12 @@
 			G.GOODS_NM,
 			G.FILE_CODE,
 			CG.WRITNG_ID,
-			CG.WRITNG_DE
+			TO_CHAR(CG.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
 		FROM TB_CART_GOODS CG
 		INNER JOIN TB_GOODS G ON G.GOODS_CODE = CG.GOODS_CODE AND G.DELETE_AT = 'N'
 		WHERE CG.ESNTL_ID = #esntl_id#
 		AND CG.EXPRTN_AT = 'N'
+		and CG.TOUR_DE is not null
 		ORDER BY CG.TOUR_DE, BEGIN_TIME
 	</select>
 
@@ -142,22 +151,26 @@
 			GOODS_CODE,
 			PURCHS_AMOUNT,
 			TOUR_DE,
+			CHKIN_DE,
+			CHCKT_DE,
 			BEGIN_TIME,
 			END_TIME,
 			EXPRTN_AT,
 			WRITNG_ID,
-			WRITNG_DE
+			WRITNG_DT
 		) VALUES(
 			#esntl_id#,
 			#cart_sn#,
 			#goods_code#,
 			#purchs_amount#,
 			#tour_de#,
+			#chkin_de#,
+			#chckt_de#,
 			#begin_time#,
 			#end_time#,
 			'N',
 			#esntl_id#,
-			TO_CHAR(SYSDATE,'yyyymmdd')
+			SYSDATE
 		)
 	</insert>
 
@@ -167,7 +180,7 @@
 			BEGIN_TIME = #begin_time#,
 			END_TIME = #end_time#,
 			UPDT_ID = #esntl_id#,
-			UPDT_DE = TO_CHAR(SYSDATE,'yyyymmdd')
+			UPDT_DT = SYSDATE
 		WHERE ESNTL_ID = #esntl_id#	AND CART_SN = #cart_sn#
 	</update>
 

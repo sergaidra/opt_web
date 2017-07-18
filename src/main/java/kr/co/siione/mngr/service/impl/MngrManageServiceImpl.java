@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import kr.co.siione.mngr.dao.MngrDAO;
 import kr.co.siione.mngr.service.MngrManageService;
 
 import org.springframework.stereotype.Service;

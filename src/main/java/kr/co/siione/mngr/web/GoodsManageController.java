@@ -36,7 +36,7 @@ public class GoodsManageController {
 	
 	@Resource(name = "TourClManageService")
 	private TourClManageService tourClManageService;
-	
+
 	@Resource(name = "FileManageService")
 	private FileManageService fileManageService;
 	
@@ -82,16 +82,32 @@ public class GoodsManageController {
     @RequestMapping(value="/mngr/goodsModify/")
 	public String goodsModify(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
 		try {
+    		param.put("DELETE_AT","N");
+    		List<Map<String, String>> listCl = tourClManageService.selectTourClList(param);
+			model.put("tourClList", listCl);
+			
 			Map<String, String> map = goodsManageService.selectGoodsByPk(param);
 			List<Map<String, String>> list = fileManageService.selectFileDetailList(param);
+			List<Map<String, String>> clList = goodsManageService.selectGoodsClList(param);
+			List<Map<String, String>> mngrList = goodsManageService.selectGoodsNmprList(param);
+			List<Map<String, String>> timeList = goodsManageService.selectGoodsTimeList(param);
+			List<Map<String, String>> schdulList = goodsManageService.selectGoodsSchdulList(param);
+			
 			model.put("goodsInfo", map);
 			model.put("fileList", list);
+			model.put("clList", clList);
+			model.put("mngrList", mngrList);
+			model.put("timeList", timeList);
+			model.put("schdulList", schdulList);
+			
 			model.put("success", true);
 		} catch (Exception e) {
 			model.put("message", "상품 조회 중 오류가 발생했습니다.");
 			model.put("success", false);
 			e.printStackTrace();
 		}	
+		
+		System.out.println(model);
         return "/mngr/goodsModify";	
 	}    
     
@@ -124,29 +140,28 @@ public class GoodsManageController {
 			
 			// 상품 시간
 			String beginHh[] = request.getParameterValues("BEGIN_HH");
-			String beginMm[] = request.getParameterValues("BEGIN_MM");
+			String beginMi[] = request.getParameterValues("BEGIN_MI");
 			String endHh[] = request.getParameterValues("END_HH");
-			String endMm[] = request.getParameterValues("END_MM");
+			String endMi[] = request.getParameterValues("END_MI");
 			
 			// 상품 인원
 			String nmprCnd[] = request.getParameterValues("NMPR_CND");
 			String setupAmount[] = request.getParameterValues("SETUP_AMOUNT");
 
-//			for(String str : clCode) System.out.println("[clCode] "+str);
-//			for(String str : beginHh) System.out.println("[beginHh] "+str);
-//			for(String str : beginMm) System.out.println("[beginMm] "+str);
-//			for(String str : endHh) System.out.println("[endHh] "+str);
-//			for(String str : endMm) System.out.println("[endMm] "+str);
-//			for(String str : beginDe) System.out.println("[beginDe] "+str);
-//			for(String str : endDe) System.out.println("[endDe] "+str);
-//			for(String str : mon) System.out.println("[mon] "+str);
-//			for(String str : tue) System.out.println("[tue] "+str);
-//			for(String str : wed) System.out.println("[wed] "+str);
-//			for(String str : thu) System.out.println("[thu] "+str);
-//			for(String str : fri) System.out.println("[fri] "+str);
-//			for(String str : sat) System.out.println("[sat] "+str);
-//			for(String str : sun) System.out.println("[sun] "+str);
-		
+			for(String str : clCode) System.out.println("[clCode] "+str);
+			for(String str : beginHh) System.out.println("[beginHh] "+str);
+			for(String str : beginMi) System.out.println("[beginMi] "+str);
+			for(String str : endHh) System.out.println("[endHh] "+str);
+			for(String str : endMi) System.out.println("[endMi] "+str);
+			for(String str : beginDe) System.out.println("[beginDe] "+str);
+			for(String str : endDe) System.out.println("[endDe] "+str);
+			for(String str : mon) System.out.println("[mon] "+str);
+			for(String str : tue) System.out.println("[tue] "+str);
+			for(String str : wed) System.out.println("[wed] "+str);
+			for(String str : thu) System.out.println("[thu] "+str);
+			for(String str : fri) System.out.println("[fri] "+str);
+			for(String str : sat) System.out.println("[sat] "+str);
+			for(String str : sun) System.out.println("[sun] "+str);
 			
 			LOG.debug("################ Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
 			LOG.debug("################ File.separator:"+File.separator);
@@ -232,8 +247,8 @@ public class GoodsManageController {
 			List<Map<String, String>> timeParamList = new ArrayList<Map<String, String>>();
 			for(int i = 0 ; i < beginHh.length ; i++) {
 				Map<String, String> map = new HashMap<String, String>();
-				map.put("BEGIN_TIME", beginHh[i]+beginMm[i]);
-				map.put("END_TIME", endHh[i]+endMm[i]);
+				map.put("BEGIN_TIME", beginHh[i]+beginMi[i]);
+				map.put("END_TIME", endHh[i]+endMi[i]);
 				map.put("WRITNG_ID", param.get("WRITNG_ID"));
 				timeParamList.add(map);
 			}

@@ -13,11 +13,11 @@
         INSERT INTO TB_FILE_MANAGE( FILE_CODE
                                   , REGIST_PATH
                                   , WRITNG_ID
-                                  , WRITNG_DE)
+                                  , WRITNG_DT)
                             VALUES( #FILE_CODE#
                                   , #REGIST_PATH#
                                   , #WRITNG_ID#
-                                  , TO_CHAR(SYSDATE, 'YYYYMMDD'))
+                                  , SYSDATE)
     ]]>
     </insert>
 
@@ -40,7 +40,7 @@
                                   , REPRSNT_AT
                                   , SORT_NO
                                   , WRITNG_ID
-                                  , WRITNG_DE)
+                                  , WRITNG_DT)
                             VALUES( #FILE_CODE#
                                   , #FILE_SN#
                                   , #FILE_NM#
@@ -51,7 +51,7 @@
                                   , #REPRSNT_AT#
                                   , #SORT_NO#
                                   , #WRITNG_ID#
-                                  , TO_CHAR(SYSDATE, 'YYYYMMDD'))
+                                  , SYSDATE)
     ]]>
     </insert>
 
@@ -82,9 +82,9 @@
              , REPRSNT_AT
              , SORT_NO
              , WRITNG_ID
-             , WRITNG_DE
+             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , UPDT_ID
-             , UPDT_DE
+             , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
           FROM TB_FILE_DETAIL
          WHERE FILE_CODE = #FILE_CODE#
            AND FILE_SN = #FILE_SN#
@@ -103,9 +103,9 @@
              , REPRSNT_AT
              , SORT_NO
              , WRITNG_ID
-             , WRITNG_DE
+             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , UPDT_ID
-             , UPDT_DE
+             , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
           FROM TB_FILE_DETAIL
          WHERE FILE_CODE = #FILE_CODE#
     ]]>

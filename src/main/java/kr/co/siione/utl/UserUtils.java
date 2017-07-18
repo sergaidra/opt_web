@@ -16,6 +16,13 @@ public class UserUtils {
 		return str;
 	}
 	
+	public static String nvl(String str, String restr) {
+		if (str == null || str.toString().length() == 0 || str.toString().equals(" ") || str.toString().equals("null")) {
+			return restr;
+		}
+		return str;
+	}
+	
 	public static String nvl(Object obj) {
 		if (obj == null || obj.toString().length() == 0 || obj.toString().equals(" ") || obj.toString().equals("null")) {
 			return "";

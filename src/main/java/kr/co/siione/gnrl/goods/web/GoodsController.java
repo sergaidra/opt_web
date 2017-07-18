@@ -149,6 +149,8 @@ public class GoodsController {
         model.addAttribute("schdulList", schdulList);
         model.addAttribute("nmprList", nmprList);
         model.addAttribute("timeList", timeList);
+        
+        model.addAttribute("today", UserUtils.getDate("yyyy-MM-dd"));
 
     	} catch (Exception e) {e.printStackTrace();}
         

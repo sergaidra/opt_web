@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,12 +56,10 @@
 			<c:if test="${tourCl.DELETE_AT == 'Y'}"><font color='red'>삭제</font></c:if>
 		</td>		
 		<td>
-			<fmt:parseDate value="${tourCl.WRITNG_DE}" pattern="yyyyMMdd" var="writngDe" scope="page"/>
-			<fmt:formatDate value="${writngDe}" pattern="yyyy-MM-dd"/>
+			<c:out value='${tourCl.WRITNG_DE}'/>
 		</td>
 		<td>
-			<fmt:parseDate value="${tourCl.UPDT_DE}" pattern="yyyyMMdd" var="updtDe" scope="page"/>
-			<fmt:formatDate value="${updtDe}" pattern="yyyy-MM-dd"/>
+			<c:out value='${tourCl.UPDT_DE}'/>
 		</td>		
 		<td><c:out value='${tourCl.FILE_CODE}'/></td>
 	</tr>

@@ -14,9 +14,9 @@
 		FD.REPRSNT_AT,
 		FD.SORT_NO,
 		FD.WRITNG_ID,
-		FD.WRITNG_DE,
+		TO_CHAR(FD.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE,
 		FD.UPDT_ID,
-		FD.UPDT_DE
+		TO_CHAR(FD.UPDT_DT,'YYYY-MM-DD') UPDT_DE
 		FROM TB_FILE_DETAIL FD		
 		WHERE FD.FILE_CODE = #file_code#
 	    <isNotEmpty property="file_cl" prepend="AND">
@@ -37,9 +37,9 @@
 		FD.REPRSNT_AT,
 		FD.SORT_NO,
 		FD.WRITNG_ID,
-		FD.WRITNG_DE,
+		TO_CHAR(FD.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE,
 		FD.UPDT_ID,
-		FD.UPDT_DE
+		TO_CHAR(FD.UPDT_DT,'YYYY-MM-DD') UPDT_DE
 		FROM TB_FILE_DETAIL FD		
 		WHERE FD.FILE_CODE = #file_code#
 	    <isNotEmpty property="file_sn" prepend="AND">

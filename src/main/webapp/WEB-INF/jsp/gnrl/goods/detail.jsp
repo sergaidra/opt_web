@@ -42,10 +42,31 @@
 	}
 
 	function fnAddCart(){
-		var strDate = $("input:text[id=txtDate]").val();
-		if(strDate.length!=10){
-			alert(strDate);
-			return;
+		
+		if("${stayngFcltyAt}" == "N") {
+			var strDate = $("input:text[id=txtDate]").val();
+			if(strDate.length!=10){
+				alert(strDate);
+				return;
+			}	
+		} else if("${stayngFcltyAt}" == "N") {
+			var strDate = $("input:text[id=txtChkinDe]").val();
+			if(strDate.length!=10){
+				alert("체크인 날짜를 선택하세요.");
+				return;
+			}
+			
+			strDate = $("input:text[id=txtChcktDe]").val();
+			if(strDate.length!=10){
+				alert("체크아웃 날짜를 선택하세요.");
+				return;
+			}
+			
+			var chkTimeVal = $("input:radio[name=rdoTime]:checked").val();
+			if(!chkTimeVal) {
+				alert("시간을 선택하세요");
+				return;
+			}			
 		}
 
 		var totCo = 0;
@@ -54,12 +75,6 @@
 		});
 		if(totCo < 1){
 			alert("인원을 입력하세요");
-			return;
-		}
-		
-		var chkTimeVal = $("input:radio[name=rdoTime]:checked").val();
-		if(!chkTimeVal) {
-			alert("시간을 선택하세요");
 			return;
 		}
 		
@@ -95,7 +110,7 @@
 
 </script>
 <div align="center">
-	<form id="frmDetail" name="frmDetail" action="<c:url value='/goods/list/'/>">
+	<form id="frmDetail" name="frmDetail" method="post" action="<c:url value='/goods/list/'/>">
 	<input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
 	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode" value="${goods_code}">
 	<input type="hidden" id="hidCategory" name="hidCategory" value="${hidCategory}">
@@ -123,7 +138,8 @@
 			</td>
 		</tr>
 		<tr height="200px">
-			<td align="center">
+			<c:if test="${stayngFcltyAt eq 'N'}">
+			<td align="center" width="33%">
 				<c:forEach var="list" items="${schdulList}" varStatus="status">
 				${fn:substring(list.BEGIN_DE,0,4)}. ${fn:substring(list.BEGIN_DE,4,6)}. ${fn:substring(list.BEGIN_DE,6,8)} ~
 				${fn:substring(list.END_DE,0,4)}. ${fn:substring(list.END_DE,4,6)}. ${fn:substring(list.END_DE,6,8)}
@@ -131,35 +147,31 @@
 				<a href="javascript:fnCalendarPopup('txtDate','${list.BEGIN_CAL_DE}','${list.END_CAL_DE}')">예약일 선택</a>
 				<br><br>
 				</c:forEach>
-
-				<input type="text" name="txtDate" id="txtDate" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="일정을 선택하세요" readonly onfocus="this.blur()">
+				<input type="text" name="txtDate" id="txtDate" style="width:250px;height:50px;text-align:center;font-size:25px;" value="일정을 선택하세요" readonly onfocus="this.blur()">
 			</td>
-			<c:if test="${stayngFcltyAt eq 'N'}">
-			<td align="center">
+			<td align="center" width="34%">
 				<c:forEach var="list" items="${timeList}" varStatus="status">
 				<input type="radio" name="rdoTime" id="rdoTime_${status.count}" value="${list.TOUR_TIME}" onclick="fnTimeClick()">
 				<label for="rdoTime_${status.count}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~
 				${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</label>
 				&nbsp;&nbsp;&nbsp;
-
 				<br><br>
 				</c:forEach>
-
-				<input type="text" name="txtTime" id="txtTime" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="시간을 선택하세요" readonly onfocus="this.blur()">
+				<input type="text" name="txtTime" id="txtTime" style="width:250px;height:50px;text-align:center;font-size:25px;" value="시간을 선택하세요" readonly onfocus="this.blur()">
 				<input type="hidden" name="hidTime" id="hidTime">
 			</td>
 			</c:if>
 			<c:if test="${stayngFcltyAt ne 'N'}">
-			<td align="center">
-				숙박시설
-
-				<input type="text" name="txtTimeIn" id="txtTimeIn" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="시간을 선택하세요" readonly onfocus="this.blur()">
-				<input type="text" name="txtTimeOut" id="txtTimeOut" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="시간을 선택하세요" readonly onfocus="this.blur()">
-				<input type="hidden" name="hidTimeIn" id="hidTimeIn">
-				<input type="hidden" name="hidTimeOut" id="hidTimeOut">
+			<td align="center" width="33%">
+				체크인 날짜<br><br>
+				<input type="text" name="txtChkinDe" id="txtChkinDe" style="width:250px;height:50px;text-align:center;font-size:25px;" value="날짜를 선택하세요" readonly onfocus="this.blur()" onclick="fnCalendarPopup('txtChkinDe','${today}','${list.END_CAL_DE}')">
+			</td>			
+			<td align="center" width="34%">
+				체크아웃 날짜<br><br>
+				<input type="text" name="txtChcktDe" id="txtChcktDe" style="width:250px;height:50px;text-align:center;font-size:25px;" value="날짜를 선택하세요" readonly onfocus="this.blur()" onclick="fnCalendarPopup('txtChcktDe','${today}','${list.END_CAL_DE}')">
 			</td>
 			</c:if>			
-			<td align="center">
+			<td align="center" width="33%">
 				<c:forEach var="list" items="${nmprList}" varStatus="status">
 				${list.NMPR_CND} (₩ ${list.SETUP_AMOUNT})
 				<select name="selNmprCo" id="txtNmprCo${list.NMPR_SN}" onchange="fnNmprChange()">
