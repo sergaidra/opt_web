@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<script type="text/javascript" src="<c:url value='/js/jquery.comiseo.daterangepicker.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/moment.min.js'/>"></script>
 <script type="text/javascript">
 
 	window.onload = function(){
@@ -137,6 +139,11 @@
 				</c:forEach>
 			</td>
 		</tr>
+		<tr height="450px">
+			<td align="center" colspan="3"> 
+			<iframe src="<c:url value='/mngr/gmap/'/>?la=${result.LA}&lo=${result.LO}" width="100%" height="100%"></iframe>
+			</td>
+		</tr>
 		<tr height="200px">
 			<c:if test="${stayngFcltyAt eq 'N'}">
 			<td align="center" width="33%">
@@ -162,16 +169,40 @@
 			</td>
 			</c:if>
 			<c:if test="${stayngFcltyAt ne 'N'}">
-			<td align="center" width="33%">
-				체크인 날짜<br><br>
-				<input type="text" name="txtChkinDe" id="txtChkinDe" style="width:250px;height:50px;text-align:center;font-size:25px;" value="날짜를 선택하세요" readonly onfocus="this.blur()" onclick="fnCalendarPopup('txtChkinDe','${today}','${list.END_CAL_DE}')">
-			</td>			
-			<td align="center" width="34%">
-				체크아웃 날짜<br><br>
-				<input type="text" name="txtChcktDe" id="txtChcktDe" style="width:250px;height:50px;text-align:center;font-size:25px;" value="날짜를 선택하세요" readonly onfocus="this.blur()" onclick="fnCalendarPopup('txtChcktDe','${today}','${list.END_CAL_DE}')">
+			<td align="center" width="50%">
+				체크인/체크아웃 날짜<br><br>
+				<input type="hidden" name="txtChkinDe" id="txtChkinDe" style="width:250px;height:50px;text-align:center;font-size:25px;" value="날짜를 선택하세요" readonly onfocus="this.blur()">
+				<input type="hidden" name="txtChcktDe" id="txtChcktDe" style="width:250px;height:50px;text-align:center;font-size:25px;" value="날짜를 선택하세요" readonly onfocus="this.blur()">				
+				<input type="text" id="e1" name="e1">
+				<script>
+					$(function() {
+						$("#e1").daterangepicker({
+							initialText : '기간을 선택하세요.',
+							applyButtonText: '선택', // use '' to get rid of the button
+							clearButtonText: '초기화', // use '' to get rid of the button
+							cancelButtonText: '취소', // use '' to get rid of the button		
+							dateFormat: 'yy-mm-dd',
+							presetRanges: [],
+							rangeSplitter: ' ~ ',
+							applyOnMenuSelect: false,		
+							datepickerOptions : {
+								numberOfMonths: 2,
+								minDate: "${today}",
+								maxDate: null
+							}
+						});	
+						
+						$("#e1").on('change', function(event) { 
+							var __val =  jQuery.parseJSON($("#e1").val());
+							$("#txtChkinDe").val(__val.start);
+							$("#txtChcktDe").val(__val.end);
+							
+						});	
+					})
+				</script>
 			</td>
 			</c:if>			
-			<td align="center" width="33%">
+			<td align="center" width="50%">
 				<c:forEach var="list" items="${nmprList}" varStatus="status">
 				${list.NMPR_CND} (₩ ${list.SETUP_AMOUNT})
 				<select name="selNmprCo" id="txtNmprCo${list.NMPR_SN}" onchange="fnNmprChange()">

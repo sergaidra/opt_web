@@ -16,6 +16,8 @@
                             , WAIT_TIME
                             , MVMN_TIME
                             , DELETE_AT
+                            , LA
+                            , LO
                             , WRITNG_ID
                             , WRITNG_DT
                             , FILE_CODE )
@@ -25,6 +27,8 @@
                             , #WAIT_HH#||#WAIT_MI#
                             , #MVMN_HH#||#MVMN_MI#
                             , 'N'
+                            , #LA#
+                            , #LO#
                             , #WRITNG_ID#
                             , SYSDATE
                             , #FILE_CODE# )
@@ -54,32 +58,39 @@
 
     <select id="GoodsDAO.selectGoodsByPk" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
-		SELECT GOODS_CODE
-		     , GOODS_NM
-		     , GOODS_INTRCN
-		     , DELETE_AT
-		     , FILE_CODE
-		     , WRITNG_ID
-		     , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
-		     , UPDT_ID
-		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
-		  FROM TB_GOODS
+        SELECT GOODS_CODE
+             , GOODS_NM
+             , GOODS_INTRCN
+             , DELETE_AT
+             , FILE_CODE
+             , WRITNG_ID
+             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+             , UPDT_ID
+             , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
+          FROM TB_GOODS
          WHERE GOODS_CODE = #GOODS_CODE#
     ]]>
     </select>
 
     <select id="GoodsDAO.selectGoodsList" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
-        SELECT GOODS_CODE
-             , GOODS_NM
-             , GOODS_INTRCN
-             , DELETE_AT
-             , WRITNG_ID
-             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
-             , UPDT_ID
-             , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
-             , FILE_CODE
-          FROM TB_GOODS
+        SELECT A.GOODS_CODE
+             , A.GOODS_NM
+             , A.GOODS_INTRCN
+             , A.DELETE_AT
+             , A.WRITNG_ID
+             , TO_CHAR(A.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+             , A.UPDT_ID
+             , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DE
+             , A.FILE_CODE
+             , A.LA
+             , A.LO
+             , (SELECT C.CL_NM 
+                  FROM TB_GOODS_CL B, TB_TOUR_CL C 
+                 WHERE A.GOODS_CODE = B.GOODS_CODE 
+                   AND B.CL_CODE = C.CL_CODE 
+                   AND ROWNUM = 1) CL_NM
+          FROM TB_GOODS A
          WHERE 1 = 1    ]]>
         <isNotEmpty property="DELETE_AT">
           AND DELETE_AT = #DELETE_AT#

@@ -107,7 +107,6 @@ public class GoodsManageController {
 			e.printStackTrace();
 		}	
 		
-		System.out.println(model);
         return "/mngr/goodsModify";	
 	}    
     
@@ -120,7 +119,6 @@ public class GoodsManageController {
 		InputStream is = null;
 		FileOutputStream fos = null;
 		
-		System.out.println("@@@@@@@@@@@@@@@@@@ param:"+param);
 		UserUtils.log("[상품등록]", param);
 	
 		try {
@@ -148,7 +146,7 @@ public class GoodsManageController {
 			String nmprCnd[] = request.getParameterValues("NMPR_CND");
 			String setupAmount[] = request.getParameterValues("SETUP_AMOUNT");
 
-			for(String str : clCode) System.out.println("[clCode] "+str);
+			/*for(String str : clCode) System.out.println("[clCode] "+str);
 			for(String str : beginHh) System.out.println("[beginHh] "+str);
 			for(String str : beginMi) System.out.println("[beginMi] "+str);
 			for(String str : endHh) System.out.println("[endHh] "+str);
@@ -161,29 +159,29 @@ public class GoodsManageController {
 			for(String str : thu) System.out.println("[thu] "+str);
 			for(String str : fri) System.out.println("[fri] "+str);
 			for(String str : sat) System.out.println("[sat] "+str);
-			for(String str : sun) System.out.println("[sun] "+str);
+			for(String str : sun) System.out.println("[sun] "+str);*/
 			
 			LOG.debug("################ Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
 			LOG.debug("################ File.separator:"+File.separator);
 
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
-			System.out.println("@@@@@@@@@@@@@@@@@@ mRequest:"+mRequest);
+			LOG.debug("@@@@@@@@@@@@@@@@@@ mRequest:"+mRequest);
 			
 			List<MultipartFile> filelist = mRequest.getFiles("FILE_NM");
 			//MultipartFile file = mRequest.getFile("FILE_NM");
-			System.out.println("#################### 파일수:"+filelist.size());
+			LOG.debug("#################### 파일수:"+filelist.size());
 			
 			// 파일 Param
 			List<Map<String, String>> fileParamList = new ArrayList<Map<String, String>>();
 			int fileSn = 0;
 			for(MultipartFile file : filelist) {
 				String fileName = file.getOriginalFilename();
-				System.out.println("#################### 파일이름:"+fileName);
+				LOG.debug("#################### 파일이름:"+fileName);
 				if(!fileName.equals("")) {
 					fileSn++;
 					String saveFileNm = UserUtils.getDate("yyyyMMddHHmmss") + "_" + fileName;
-					System.out.println("$$$$$$$$$$$$$$$$$$$$ 저장파일이름:"+saveFileNm);
-					System.out.println("$$$$$$$$$$$$$$$$$$$$ getContentType:"+file.getContentType());
+					LOG.debug("$$$$$$$$$$$$$$$$$$$$ 저장파일이름:"+saveFileNm);
+					LOG.debug("$$$$$$$$$$$$$$$$$$$$ getContentType:"+file.getContentType());
 					
 					String storePath = EgovProperties.getProperty("Globals.fileStorePath") + "GOODS" + File.separator;
 					File f = new File(storePath);
@@ -205,7 +203,7 @@ public class GoodsManageController {
 					fileParam.put("SORT_NO", String.valueOf(fileSn)); // TODO
 					fileParam.put("WRITNG_ID", param.get("WRITNG_ID"));
 					
-					System.out.println("[fileParam]"+fileSn+")"+fileParam);
+					LOG.debug("[fileParam]"+fileSn+")"+fileParam);
 					
 					fileParamList.add(fileParam);
 				}

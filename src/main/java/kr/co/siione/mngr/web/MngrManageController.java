@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.co.siione.dist.utils.SimpleUtils;
 import kr.co.siione.mngr.service.MngrManageService;
+import kr.co.siione.utl.UserUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,36 @@ public class MngrManageController {
 	public String mngrIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
         return "/mngr/mngrIndex";	
 	} 	
-	
+
+    
+    @RequestMapping(value="/mngr/test/")
+	public String test(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	return "/mngr/test";		
+	} 
+    
+    @RequestMapping(value="/mngr/gmap/")
+	public String gmap(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+        
+    	UserUtils.log("[gmap]", param);
+    	
+    	model.addAttribute("la", UserUtils.nvl(param.get("la"), "48.874089"));
+    	model.addAttribute("lo", UserUtils.nvl(param.get("lo"), "2.295122"));
+    	
+    	LOG.debug("[gmap-model] "+model);
+    	
+    	return "/mngr/gmapMarker";	
+	} 	
+    
+    @RequestMapping(value="/mngr/gmap2/")
+	public String gmap2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "/mngr/gmapMarker";	
+	}     
+    
+    @RequestMapping(value="/mngr/gmap3/")
+	public String gmap3(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "/mngr/gmapDataLoad";	
+	}   
+    
 	/**
 	 * 
 	 * <pre>

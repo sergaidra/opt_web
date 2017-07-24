@@ -405,6 +405,14 @@
 		</div>
 		</td>
 	</tr>
+	<tr>
+		<td>위치</td>
+		<td>
+			위도 : <input type="text" name="LA" id="LA">&nbsp;&nbsp;&nbsp;
+			경도 : <input type="text" name="LO" id="LO">
+		</td>
+		
+	</tr>
 </table>
 
 <table width="800" cellpadding="5" cellspacing="0" border="0" align="left" >

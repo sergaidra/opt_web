@@ -1,4 +1,23 @@
 
+/**
+ * jquery-ui datepicker 한글
+ */
+$.datepicker.setDefaults({
+    dateFormat: 'yy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년',
+    buttonImage: "button.png", 
+    buttonImageOnly: true     
+});
+
+
 /*
  * loading indicator show/hide
  */
@@ -114,17 +133,11 @@ function fnCalendarPopup(ctl, sDate, eDate) {
 	var id = $("#"+ctl).attr('id');
 
 	$("#" + id).datepicker({
-		dateFormat : 'yy-mm-dd',
-		monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
-		monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ],
-		dayNames : [ '일', '월', '화', '수', '목', '금', '토' ],
-		dayNamesShort : [ '일', '월', '화', '수', '목', '금', '토' ],
-		dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ],
-		changeYear : false,
-		changeMonth : false,
-		showOtherMonths : true,
-		selectOtherMonths : false,
-		showOn : 'none'
+		//changeYear : true,
+		//changeMonth : false,
+		//showOtherMonths : true,
+		//selectOtherMonths : false,
+		//showOn : 'none'
 	});
 
 	if(sDate != "") $("#" + id).datepicker("option", "minDate", sDate);
@@ -317,3 +330,5 @@ function fnOpenPopup(sUrl, sName, iWidth, iHeigth){
     var opts = "width="+iWidth+", height="+iHeigth+", left="+x+", top="+y+", scrollbars=yes, menubar=no, location=no";
     window.open(sUrl, sName, opts).focus();
 }
+
+

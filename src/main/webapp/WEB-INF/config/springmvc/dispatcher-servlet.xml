@@ -75,6 +75,7 @@
 	<mvc:resources location="/js/**" mapping="/js/**"/>
 	<mvc:resources location="/css/**" mapping="/css/**"/>
 	<mvc:resources location="/images/**" mapping="/images/**"/>
+	<mvc:resources location="/fonts/**" mapping="/fonts/**"/>
 	<mvc:resources location="/codebase/**" mapping="/codebase/**"/>
 
 </beans>

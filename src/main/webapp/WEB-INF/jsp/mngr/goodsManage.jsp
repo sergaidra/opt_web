@@ -34,6 +34,7 @@
 	<tr>
 		<th>순서</th>
 		<th>상품코드</th>
+		<th>분류</th>		
 		<th>상품명</th>
 		<th>삭제여부</th>
 		<th>등록일자</th>
@@ -41,14 +42,17 @@
 		<th>파일여부</th>
 	<tr>
 	<c:forEach var="goods" items="${goodsList}" varStatus="status">
-	<tr>
+	<tr ondblclick="javascript:f_mod('${goods.GOODS_CODE}', '${goods.FILE_CODE}')">
 		<td>
 			<c:out value='${status.count}'/>
 		</td>
 		<td>
 			<c:out value='${goods.GOODS_CODE}'/>
 		</td>
-		<td ondblclick="javascript:f_mod('${goods.GOODS_CODE}', '${goods.FILE_CODE}')">
+		<td>
+			<c:out value='${goods.CL_NM}'/>
+		</td>		
+		<td>
 			<c:out value='${goods.GOODS_NM}'/>
 		</td>
 		<td>

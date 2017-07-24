@@ -19,6 +19,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>OnePassTour</title>
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery-ui.css'/>"  media="screen"/>
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery.comiseo.daterangepicker.css'/>" />
 <style type="text/css">
 	.layer {display:none; position:fixed; _position:absolute; top:0; left:0; width:100%; height:100%; z-index:100;}
 		.layer .bg {position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:.5; filter:alpha(opacity=50);}
@@ -47,12 +49,11 @@
 	/*float:left;*/
 </style>
 
-<link type="text/css" href="/css/jquery-ui.css" rel="stylesheet" media="screen"/>
-<script type="text/javascript" src="/js/jquery-1.11.1.js"></script>
-<script type="text/javascript" src="/js/jquery-ui.js"></script>
-<script type="text/javascript" src="/js/jquery.blockUI.js"></script>
-<script type="text/javascript" src="/js/Common.js"></script>
-       
+<script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/jquery-ui.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/jquery.blockUI.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/Common.js'/>"></script>
+      
 <decorator:head />
 
 </head>
