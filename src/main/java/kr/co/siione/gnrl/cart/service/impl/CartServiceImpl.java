@@ -20,6 +20,10 @@ public class CartServiceImpl implements CartService {
     public List<HashMap> getCartList(HashMap map) throws Exception {
         return cartDAO.selectCartList(map);
     }
+    
+    public List<HashMap> getCartListBySearchSe(HashMap map) throws Exception {
+        return cartDAO.selectCartListBySearchSe(map);
+    }
 
     public HashMap getCartDetail(HashMap map) throws Exception {
         return cartDAO.selectCartDetail(map);
@@ -32,11 +36,30 @@ public class CartServiceImpl implements CartService {
     public HashMap getCartValidCnfirm(HashMap map) throws Exception{
         return cartDAO.selectCartValidCnfirm(map);
     }
+    
+    public HashMap getCartTimeValidCnfirm(HashMap map) throws Exception{
+        return cartDAO.selectCartTimeValidCnfirm(map);
+    }    
 
+    public HashMap getCartFlightValidCnfirm(HashMap map) throws Exception{
+        return cartDAO.selectCartFlightValidCnfirm(map);
+    }
+    
+    public List<HashMap> getCartSameValidCnfirm(HashMap map) throws Exception{
+        return cartDAO.selectCartSameValidCnfirm(map);
+    }
+    
+    public List<HashMap> getCartDplctValidCnfirm(HashMap map) throws Exception{
+        return cartDAO.selectCartDplctValidCnfirm(map);
+    }    
+    
+    public List<HashMap> getCartStayngValidCnfirm(HashMap map) throws Exception{
+        return cartDAO.selectCartStayngValidCnfirm(map);
+    }        
+    
     public long getCartPayment(HashMap map) throws Exception{
         return cartDAO.selectCartPayment(map);
     }
-    
     
     public List<HashMap> getCartListForSchedule(HashMap map) throws Exception {
         return cartDAO.selectCartListForSchedule(map);

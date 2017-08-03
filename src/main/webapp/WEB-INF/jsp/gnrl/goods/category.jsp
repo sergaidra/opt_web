@@ -6,9 +6,13 @@
 		var form = $("form[id=frmCategory]");
 		var cateList = "";
 		$("input:checkbox[id=chkCategory]:checked").each(function() {
-			cateList += this.value + "@";
+			if(this.value == 'XXXXX') {
+				cateList += "${clCodeStayng}@";
+			} else {
+				cateList += this.value + "@";	
+			}
 		});
-		$("input:hidden[id=hidCategory]").val(cateList);
+		$("input:hidden[id=hidCategoryNavi]").val(cateList);
 		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
 		form.submit();
 	}
@@ -25,7 +29,7 @@
 <div align="center">
 	<div style="height:30px;" align="center">여러분이 원하는 모든것을 선택하세요. <a href="javascript:fnSearch();">검색</a></div>
 	<form id="frmCategory" name="frmCategory" action="<c:url value='/goods/list/'/>">
-	<input type="hidden" id="hidCategory" name="hidCategory">
+	<input type="hidden" id="hidCategoryNavi" name="hidCategoryNavi">
 	<table width="1024px" border="1" cellspacing="0" cellpadding="0" height="100%" style="border-collapse:collapse; border:1px gray solid;">
 		<tr>
 		<c:forEach var="result" items="${tourList}" varStatus="status">

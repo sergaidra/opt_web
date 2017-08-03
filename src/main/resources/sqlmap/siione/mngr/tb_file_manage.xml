@@ -4,6 +4,7 @@
 <sqlMap namespace="mngr">
     <typeAlias alias="hashMap" type="java.util.HashMap"/>
     <typeAlias alias="string" type="java.lang.String"/>
+    <typeAlias alias="int" type="java.lang.Integer"/>
 
     <insert id="FileManageDAO.insertFileManage" parameterClass="hashMap">
     <selectKey keyProperty="FILE_CODE" resultClass="string">
@@ -42,33 +43,33 @@
                                   , WRITNG_ID
                                   , WRITNG_DT)
                             VALUES( #FILE_CODE#
-                                  , #FILE_SN#
+                                  , NVL(#FILE_SN#, (SELECT NVL(MAX(FILE_SN), 0)+1 FROM TB_FILE_DETAIL WHERE FILE_CODE = #FILE_CODE#))
                                   , #FILE_NM#
                                   , #FILE_PATH#
                                   , #FILE_DC#
                                   , #FILE_SIZE#
                                   , #FILE_CL#
                                   , #REPRSNT_AT#
-                                  , #SORT_NO#
+                                  , NVL(#SORT_NO#, (SELECT NVL(MAX(SORT_NO), 0)+1 FROM TB_FILE_DETAIL WHERE FILE_CODE = #FILE_CODE#))
                                   , #WRITNG_ID#
                                   , SYSDATE)
     ]]>
     </insert>
 
     <delete id="FileManageDAO.deleteFileDetailByPk" parameterClass="hashMap">
-<![CDATA[
+	<![CDATA[
         DELETE TB_FILE_DETAIL
          WHERE FILE_CODE = #FILE_CODE#
            AND FILE_SN = #FILE_SN#
     ]]>
-</delete>
+	</delete>
 
     <delete id="FileManageDAO.deleteFileDetail" parameterClass="hashMap">
-<![CDATA[
+	<![CDATA[
         DELETE TB_FILE_DETAIL
          WHERE FILE_CODE = #FILE_CODE#
     ]]>
-</delete>
+	</delete>
 
     <select id="FileManageDAO.selectFileDetailByPk" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
@@ -108,6 +109,16 @@
              , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
           FROM TB_FILE_DETAIL
          WHERE FILE_CODE = #FILE_CODE#
+         ORDER BY REPRSNT_AT DESC, FILE_SN         
+    ]]>
+    </select>
+    
+    <select id="FileManageDAO.selectFileReprsntCnt" parameterClass="hashMap" resultClass="int">
+    <![CDATA[
+        SELECT COUNT(FILE_SN)
+          FROM TB_FILE_DETAIL
+         WHERE FILE_CODE = #FILE_CODE#     
+           AND REPRSNT_AT = 'Y'    
     ]]>
     </select>
 </sqlMap>

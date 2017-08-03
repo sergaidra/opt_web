@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/jquery-ui.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/Common.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/calendar.js'/>"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		var idxDe = 1;
@@ -58,7 +59,7 @@
 		if($("#BEGIN_DE_"+idx).val()) {
 			fnCalendarPopup($(this).attr("id"), $("#BEGIN_DE_"+idx).val(), "2030-12-31");
 		} else {
-			fnCalendarPopup($(this).attr("id"), "2017-08-01", "2030-12-31");
+			fnCalendarPopup($(this).attr("id"), "2017-06-01", "2030-12-31");
 		}
 	});
 
@@ -274,6 +275,8 @@
 <body>
 ◆ 여행상품등록
 <br><br>
+
+
 <form id="form1" method="post" action="<c:url value='../addGoods/'/>" enctype="multipart/form-data">
 <input type="hidden" name="txtMon" id="txtMon">
 <input type="hidden" name="txtTue" id="txtTue">
@@ -408,140 +411,9 @@
 			위도 : <input type="text" name="ACT_LA" id="ACT_LA">&nbsp;&nbsp;&nbsp;
 			경도 : <input type="text" name="ACT_LO" id="ACT_LO">
 		</td>
+		
 	</tr>
-			<tr>
-				<td width="25%">바우처티켓유형</td>
-				<td width="75%"><input type="text" id="VOCHR_TICKET_TY"
-					name="VOCHR_TICKET_TY" size="65" maxlength="1" title="바우처 티켓 유형"></td>
-			</tr>
-			<tr>
-				<td width="25%">바우처발권소요시간</td>
-				<td width="75%"><input type="text" id="VOCHR_NTSS_REQRE_TIME"
-					name="VOCHR_NTSS_REQRE_TIME" size="65" maxlength="30"
-					title="바우처 발권 소요 시간"></td>
-			</tr>
-			<tr>
-				<td width="25%">바우처사용방법</td>
-				<td width="75%"><input type="text" id="VOCHR_USE_MTH"
-					name="VOCHR_USE_MTH" size="65" maxlength="1000" title="바우처 사용 방법"></td>
-			</tr>
-			<tr>
-				<td width="25%">안내이용시간</td>
-				<td width="75%"><input type="text" id="GUIDANCE_USE_TIME"
-					name="GUIDANCE_USE_TIME" size="65" maxlength="100" title="안내 이용 시간"></td>
-			</tr>
-			<tr>
-				<td width="25%">안내소요시간</td>
-				<td width="75%"><input type="text" id="GUIDANCE_REQRE_TIME"
-					name="GUIDANCE_REQRE_TIME" size="65" maxlength="100"
-					title="안내 소요 시간"></td>
-			</tr>
-			<tr>
-				<td width="25%">안내연령구분</td>
-				<td width="75%"><input type="text" id="GUIDANCE_AGE_DIV"
-					name="GUIDANCE_AGE_DIV" size="65" maxlength="200" title="안내 연령 구분"></td>
-			</tr>
-			<tr>
-				<td width="25%">안내여행일정</td>
-				<td width="75%"><input type="text" id="GUIDANCE_TOUR_SCHDUL"
-					name="GUIDANCE_TOUR_SCHDUL" size="65" maxlength="1000"
-					title="안내 여행 일정"></td>
-			</tr>
-			<tr>
-				<td width="25%">안내공연장위치</td>
-				<td width="75%"><input type="text" id="GUIDANCE_PRFPLC_LC"
-					name="GUIDANCE_PRFPLC_LC" size="65" maxlength="1000"
-					title="안내 공연장 위치"></td>
-			</tr>
-			<tr>
-				<td width="25%">안내교육과정</td>
-				<td width="75%"><input type="text" id="GUIDANCE_EDC_CRSE"
-					name="GUIDANCE_EDC_CRSE" size="65" maxlength="1000"
-					title="안내 교육 과정"></td>
-			</tr>
-			<tr>
-				<td width="25%">안내옵션사항</td>
-				<td width="75%"><input type="text" id="GUIDANCE_OPTN_MATTER"
-					name="GUIDANCE_OPTN_MATTER" size="65" maxlength="1000"
-					title="안내 옵션 사항"></td>
-			</tr>
-			<tr>
-				<td width="25%">안내픽업</td>
-				<td width="75%"><input type="text" id="GUIDANCE_PICKUP"
-					name="GUIDANCE_PICKUP" size="65" maxlength="200" title="안내 픽업"></td>
-			</tr>
-			<tr>
-				<td width="25%">안내준비물</td>
-				<td width="75%"><input type="text" id="GUIDANCE_PRPARETG"
-					name="GUIDANCE_PRPARETG" size="65" maxlength="200" title="안내 준비물"></td>
-			</tr>
-			<tr>
-				<td width="25%">안내포함사항</td>
-				<td width="75%"><input type="text" id="GUIDANCE_INCLS_MATTER"
-					name="GUIDANCE_INCLS_MATTER" size="65" maxlength="500"
-					title="안내 포함 사항"></td>
-			</tr>
-			<tr>
-				<td width="25%">안내불포함사항</td>
-				<td width="75%"><input type="text"
-					id="GUIDANCE_NOT_INCLS_MATTER" name="GUIDANCE_NOT_INCLS_MATTER"
-					size="65" maxlength="500" title="안내 불포함 사항"></td>
-			</tr>
-			<tr>
-				<td width="25%">추가안내</td>
-				<td width="75%"><input type="text" id="ADIT_GUIDANCE"
-					name="ADIT_GUIDANCE" size="65" maxlength="1000" title="추가 안내"></td>
-			</tr>
-			<tr>
-				<td width="25%">유의사항</td>
-				<td width="75%"><input type="text" id="ATENT_MATTER"
-					name="ATENT_MATTER" size="65" maxlength="1000" title="유의 사항"></td>
-			</tr>
-			<tr>
-				<td width="25%">변경환불규정</td>
-				<td width="75%"><input type="text" id="CHANGE_REFND_REGLTN"
-					name="CHANGE_REFND_REGLTN" size="65" maxlength="1000"
-					title="변경 환불 규정"></td>
-			</tr>
-			<tr>
-				<td width="25%">소개상품유형</td>
-				<td width="75%"><input type="text" id="INTRCN_GOODS_TY"
-					name="INTRCN_GOODS_TY" size="65" maxlength="20" title="소개 상품 유형"></td>
-			</tr>
-			<tr>
-				<td width="25%">소개이용시간</td>
-				<td width="75%"><input type="text" id="INTRCN_USE_TIME"
-					name="INTRCN_USE_TIME" size="65" maxlength="20" title="소개 이용 시간"></td>
-			</tr>
-			<tr>
-				<td width="25%">소개집합시간</td>
-				<td width="75%"><input type="text" id="INTRCN_MEET_TIME"
-					name="INTRCN_MEET_TIME" size="65" maxlength="20" title="소개 집합 시간"></td>
-			</tr>
-			<tr>
-				<td width="25%">소개소요시간</td>
-				<td width="75%"><input type="text" id="INTRCN_REQRE_TIME"
-					name="INTRCN_REQRE_TIME" size="65" maxlength="20" title="소개 소요 시간"></td>
-			</tr>
-			<tr>
-				<td width="25%">소개제공언어</td>
-				<td width="75%"><input type="text" id="INTRCN_PROVD_LANG"
-					name="INTRCN_PROVD_LANG" size="65" maxlength="20" title="소개 제공 언어"></td>
-			</tr>
-			<tr>
-				<td width="25%">소개가능연령</td>
-				<td width="75%"><input type="text" id="INTRCN_POSBL_AGE"
-					name="INTRCN_POSBL_AGE" size="65" maxlength="20" title="소개 가능 연령"></td>
-			</tr>
-			<tr>
-				<td width="25%">소개장소</td>
-				<td width="75%"><input type="text" id="INTRCN_PLACE"
-					name="INTRCN_PLACE" size="65" maxlength="20" title="소개 장소"></td>
-			</tr>
-		</table>
-
-
-
+</table>
 
 <table width="800" cellpadding="5" cellspacing="0" border="0" align="left" >
 	<tr>

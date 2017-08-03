@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface GoodsService {
+    public String getTourClStayng(HashMap map) throws Exception;
+    public List<HashMap> getTourClMain(HashMap map) throws Exception;
     public List<HashMap> getTourClList(HashMap map) throws Exception;
     public HashMap getTourClDetail(HashMap map) throws Exception;
     public List<HashMap> getGoodsList(HashMap map) throws Exception;

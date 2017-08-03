@@ -178,10 +178,10 @@
 						$.each(json.cartList, function(key, value){
 							str += "<tr>";
 							if(value.TOUR_SN == 1) {
-								str += "<td rowspan='"+ value.TOUR_SN_DESC +"'>" + value.TOUR_DE.substring(0, 4) +"-" + value.TOUR_DE.substring(4, 6) + "-" +value.TOUR_DE.substring(6, 8)+ "<br>(" + value.TOUR_DY + ")</td>";	
+								str += "<td width='25%' rowspan='"+ value.TOUR_SN_DESC +"'>" + value.TOUR_DE.substring(0, 4) +"-" + value.TOUR_DE.substring(4, 6) + "-" +value.TOUR_DE.substring(6, 8)+ "<br>(" + value.TOUR_DY + ")</td>";	
 							}
-							str += "<td>" + value.BEGIN_TIME.substring(0,2) +":" + value.BEGIN_TIME.substring(2,4)+ "</td>"
-							    + "<td align='left'>" + value.GOODS_NM + "</td>"
+							str += "<td width='15%'>" + value.BEGIN_TIME.substring(0,2) +":" + value.BEGIN_TIME.substring(2,4)+ "</td>"
+							    + '<td align="left" width="60%"><a href="javascript:fnCartDetail('+value.CART_SN+');">' + value.GOODS_NM + "</a></td>"
 							    + "</tr>";
 						});
 						str += "</table>";
@@ -219,14 +219,14 @@
 						var str1 = '<table width="300" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse:collapse; border:1px gray solid; font-size: 9pt;">'
 								 + '<tr>';
 						if(flight.DTRMC_START_DE == flight.DTRMC_ARVL_DE) {
-							str1 += '<td align="center" rowspan="2">' + flight.DTRMC_START_DE + "<br>(" + flight.DTRMC_START_DY + ")</td>"; 
+							str1 += '<td align="center" width="25%" rowspan="2">' + flight.DTRMC_START_DE + "<br>(" + flight.DTRMC_START_DY + ")</td>"; 
 						} else {
-							str1 += '<td align="center">' + flight.DTRMC_START_DE + "<br>(" + flight.DTRMC_START_DY + ")</td>"
+							str1 += '<td align="center" width="25%">' + flight.DTRMC_START_DE + "<br>(" + flight.DTRMC_START_DY + ")</td>"
 						}
 						
-						str1 += '<td align="center">출발</td>'
-							  + '<td align="center">'+flight.DTRMC_START_HH+":"+flight.DTRMC_START_MI+'</td>'
-							  + '<td align="left">'+flight.DTRMC_FLIGHT+' '+flight.DTRMC_START_CTY+'</td>'
+						str1 += '<td align="center" width="15%">'+flight.DTRMC_START_HH+":"+flight.DTRMC_START_MI+'</td>'
+							  + '<td align="center" width="15%">출발</td>'
+							  + '<td align="left" width="45%">'+flight.DTRMC_FLIGHT+' '+flight.DTRMC_START_CTY+'</td>'
 							  + '</tr>'
 							  + '<tr>';
 
@@ -234,8 +234,8 @@
 							str1 += '<td align="center">' + flight.DTRMC_ARVL_DE + "<br>(" + flight.DTRMC_ARVL_DY + ")</td>";
 						}
 
-						str1 += '<td align="center">도착</td>'
-							  + '<td align="center">'+flight.DTRMC_ARVL_HH+":"+flight.DTRMC_ARVL_MI+'</td>'
+						str1 += '<td align="center">'+flight.DTRMC_ARVL_HH+":"+flight.DTRMC_ARVL_MI+'</td>'
+							  + '<td align="center">도착</td>'
 							  + '<td align="left">'+flight.DTRMC_ARVL_CTY+'</td>'
 							  + '</tr>'
 							  + '</table>';
@@ -245,14 +245,14 @@
 								 + '<tr>';
 								 
 						if(flight.HMCMG_START_DE == flight.HMCMG_ARVL_DE) {
-							str2 += '<td align="center" rowspan="2">' + flight.HMCMG_START_DE + "<br>(" + flight.HMCMG_START_DY + ")</td>";
+							str2 += '<td align="center" width="25%" rowspan="2">' + flight.HMCMG_START_DE + "<br>(" + flight.HMCMG_START_DY + ")</td>";
 						} else {
-							str2 += '<td align="center">' + flight.HMCMG_START_DE + "<br>(" + flight.HMCMG_START_DY + ")</td>";
+							str2 += '<td align="center" width="25%">' + flight.HMCMG_START_DE + "<br>(" + flight.HMCMG_START_DY + ")</td>";
 						}
 						
-						str2 += '<td align="center">출발</td>'
-							  + '<td align="center">'+flight.HMCMG_START_HH+":"+flight.HMCMG_START_MI+'</td>'
-							  + '<td align="left">'+flight.HMCMG_FLIGHT+' '+flight.HMCMG_START_CTY+'</td>'
+						str2 += '<td align="center" width="15%">'+flight.HMCMG_START_HH+":"+flight.HMCMG_START_MI+'</td>'
+							  + '<td align="center" width="15%">출발</td>'
+							  + '<td align="left" width="50%">'+flight.HMCMG_FLIGHT+' '+flight.HMCMG_START_CTY+'</td>'
 							  + '</tr>'
 							  + '<tr>';
 
@@ -260,8 +260,8 @@
 							str2 += '<td align="center">' + flight.HMCMG_ARVL_DE + "<br>(" + flight.HMCMG_ARVL_DY + ")</td>";
 						}
 
-						str2 += '<td align="center">도착</td>'
-							  + '<td align="center">'+flight.HMCMG_ARVL_HH+":"+flight.HMCMG_ARVL_MI+'</td>'
+						str2 += '<td align="center">'+flight.HMCMG_ARVL_HH+":"+flight.HMCMG_ARVL_MI+'</td>'
+							  + '<td align="center">도착</td>'
 							  + '<td align="left">'+flight.HMCMG_ARVL_CTY+'</td>'
 							  + '</tr>'
 							  + '</table>';
@@ -295,6 +295,12 @@
 		fnCartList();
 		fnFlightInfo();
 	});
+
+	function fnCartDetail(str) {
+		var form = $("form[id=frmCartDetail]");
+		$("input:hidden[id=hidCartSn]").val(str);
+		form.submit();
+	}
 	
 	function fnFlightPopup() {
 		var sMsg = "항공편을 입력(수정)하시겠습니까?";  
@@ -384,6 +390,10 @@
 
 <form name="frmBannerCategory" id="frmBannerCategory" method="post" target="divLayoutBody" action="<c:url value='/goods/list/'/>">
 	<input type="hidden" id="hidStayngFcltyAt" name="hidStayngFcltyAt" value="Y">
+</form>
+
+<form name="frmCartDetail" id="frmCartDetail" method="post" action="<c:url value='/cart/detail/'/>">
+	<input type="hidden" id="hidCartSn" name="hidCartSn">
 </form>
 
 <input type="hidden" id="hidLayout" name="hidLayout" value="Y">

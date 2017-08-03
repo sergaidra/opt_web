@@ -30,33 +30,30 @@ public class GoodsController {
     public String category(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 
     	HashMap map = new HashMap();
-    	List<HashMap> tourList = goodsService.getTourClList(map);
+    	List<HashMap> tourList = goodsService.getTourClMain(map);
+    	
+    	String clCodeStayng = goodsService.getTourClStayng(map);
+    	
         model.addAttribute("tourList", tourList);
+        model.addAttribute("clCodeStayng", clCodeStayng);
 
         return "gnrl/goods/category";
     }
 
     @RequestMapping(value="/list/")
     public String list(HttpServletRequest request, HttpServletResponse response, ModelMap model, @RequestParam HashMap param) throws Exception {
-
     	
-    	UserUtils.log("[param]", param);
+    	UserUtils.log("[goods_list]param:", param);
     	
-    	
-        String hidCategory = SimpleUtils.default_set(request.getParameter("hidCategory"));
-       	String[] clArr = hidCategory.split("@");
+		String hidCategoryNavi = UserUtils.nvl(request.getParameter("hidCategoryNavi"));  // 선택한 여러개의 분류
+		String hidCategory = UserUtils.nvl(request.getParameter("hidCategory")); // 첫번째 선택한 한개의 분류 OR 선택한 한개의 분류
+		String hidStayngFcltyAt = UserUtils.nvl(request.getParameter("hidStayngFcltyAt"));
 
-		List<String> clList = new ArrayList<String>();
-		if(clArr != null){
-			for(String str:clArr){
-				if(!str.isEmpty()) clList.add(str);
-			}
-		}
-		
-		System.out.println("[param]clList:"+clList);
-
+		String[] clArr = hidCategoryNavi.split("@");
+       	if(clArr != null && hidCategory.equals("")) hidCategory = clArr[0];
+       	
         //현재 페이지 파라메타
-        String hidPage = SimpleUtils.default_set(request.getParameter("hidPage"));
+        String hidPage = UserUtils.nvl(request.getParameter("hidPage"));
         int intPage = 1;
 		if(!hidPage.equals(""))		
 			intPage = Integer.parseInt((String)hidPage);
@@ -65,24 +62,28 @@ public class GoodsController {
 		int pageBlock = 6;
 		int pageArea = 10;
         
-		String hidStayngFcltyAt = SimpleUtils.default_set(request.getParameter("hidStayngFcltyAt"));
-		System.out.println("[param]hidStayngFcltyAt:"+hidStayngFcltyAt);
+		// 검색할 분류 목록 조회
+       	List<String> clList = new ArrayList<String>();
+		for(String str:clArr){
+			if(!str.isEmpty()) clList.add(str);
+		}
+		System.out.println("[goods_list]clList:"+clList);
 		
     	HashMap map = new HashMap();
     	map.put("cl_code_arr", clList);
     	map.put("stayng_fclty_at", hidStayngFcltyAt);
     	List<HashMap> tourList = goodsService.getTourClList(map);
     	
-    	// 숙박 시설 등록
-    	if(hidStayngFcltyAt.equals("Y")) {
-			for(HashMap clmap:tourList){
-				hidCategory += clmap.get("CL_CODE").toString() + "@";
-				clList.add(clmap.get("CL_CODE").toString());
+    	// 숙박 시설
+    	if(hidStayngFcltyAt.equals("Y") && hidCategoryNavi.equals("")) {
+			for(HashMap clmap : tourList) {
+				hidCategoryNavi += clmap.get("CL_CODE").toString() + "@";
 			}
-			map.put("cl_code_arr", clList);
+			if(hidCategory.equals("")) hidCategory = tourList.get(0).get("CL_CODE").toString();
     	}
+    	map.put("cl_code", hidCategory);
     	
-    	UserUtils.log("[map]", map);
+    	UserUtils.log("[good_list]map:", map);
 
     	//page 
     	PaginationInfo paginationInfo = new PaginationInfo();
@@ -105,6 +106,7 @@ public class GoodsController {
 
         model.addAttribute("hidPage", hidPage);
         model.addAttribute("hidCategory", hidCategory);
+        model.addAttribute("hidCategoryNavi", hidCategoryNavi);
 
         model.addAttribute("tourList", tourList);
         model.addAttribute("goodsList", list);
@@ -118,9 +120,10 @@ public class GoodsController {
 
     	try{
     	
-        String goods_code = SimpleUtils.default_set(request.getParameter("hidGoodsCode"));
-        String hidCategory = SimpleUtils.default_set(request.getParameter("hidCategory"));
-        String hidPage = SimpleUtils.default_set(request.getParameter("hidPage"));
+        String goods_code = UserUtils.nvl(request.getParameter("hidGoodsCode"));
+        String hidCategoryNavi = UserUtils.nvl(request.getParameter("hidCategoryNavi"));
+        String hidCategory = UserUtils.nvl(request.getParameter("hidCategory"));
+        String hidPage = UserUtils.nvl(request.getParameter("hidPage"));
 
     	HashMap map = new HashMap();
     	map.put("goods_code", goods_code);
@@ -141,6 +144,7 @@ public class GoodsController {
     	model.addAttribute("stayngFcltyAt", stayngFcltyAt);
 
         model.addAttribute("hidPage", hidPage);
+        model.addAttribute("hidCategoryNavi", hidCategoryNavi);
         model.addAttribute("hidCategory", hidCategory);
         model.addAttribute("goods_code", goods_code);
 

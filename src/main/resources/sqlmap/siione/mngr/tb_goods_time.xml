@@ -41,7 +41,7 @@
            SET DELETE_AT = 'Y'
              , UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
-         WHERE CL_CODE = #CL_CODE#
+         WHERE GOODS_CODE = #GOODS_CODE#
     ]]>
     </delete>
 

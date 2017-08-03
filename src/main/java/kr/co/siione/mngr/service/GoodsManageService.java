@@ -7,7 +7,7 @@ public interface GoodsManageService {
 	
 	public void insertGoods(Map<String, Object> param) throws Exception;
 	
-	public int updateGoods(Map<String, String> param) throws Exception;
+	public int updateGoods(Map<String, Object> param) throws Exception;
 
 	public int deleteGoods(Map<String, String> param) throws Exception;
 	

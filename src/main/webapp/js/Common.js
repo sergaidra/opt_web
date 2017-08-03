@@ -17,7 +17,6 @@ $.datepicker.setDefaults({
     buttonImageOnly: true     
 });
 
-
 /*
  * loading indicator show/hide
  */
@@ -132,13 +131,14 @@ function fnIsEmpty(inVal) {
 function fnCalendarPopup(ctl, sDate, eDate) {		
 	var id = $("#"+ctl).attr('id');
 
-	$("#" + id).datepicker({
-		//changeYear : true,
-		//changeMonth : false,
-		//showOtherMonths : true,
-		//selectOtherMonths : false,
-		//showOn : 'none'
-	});
+	$("#" + id).datepicker({});
+	/*$("#" + id).datepicker({
+		changeYear : true,
+		changeMonth : false,
+		showOtherMonths : true,
+		selectOtherMonths : false,
+		showOn : 'none'
+	});*/
 
 	if(sDate != "") $("#" + id).datepicker("option", "minDate", sDate);
 	if(eDate != "") $("#" + id).datepicker("option", "maxDate", eDate);

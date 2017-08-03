@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<script type="text/javascript" src="<c:url value='/js/jquery.comiseo.daterangepicker.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/moment.min.js'/>"></script>
 <script type="text/javascript">
-	
 	window.onload = function(){
 		fnNmprChange();
 		fnTimeClick();
@@ -29,30 +30,50 @@
 			}
 		});
 	}
-	
+
 	function fnNmprChange(){
 		var form = $("form[id=frmDetail]");
 
 		var payment = 0;
-		$("select[name=selNmprCo]").each(function() {
-			payment += $("input:hidden[id="+ this.id +"]").val() * this.value;
-		});
+		if("${stayngFcltyAt}" == "Y") {
+			$("select[name=selNmprCo]").each(function() {
+				payment += $("input:hidden[id="+ this.id +"]").val() * this.value;
+			});
+			payment = payment * parseInt($("#txtDateCount").val());
+		} else {
+			$("select[name=selNmprCo]").each(function() {
+				payment += $("input:hidden[id="+ this.id +"]").val() * this.value;
+			});
+		}
 
 		$("input:text[id=txtPay]").val("₩ "+payment);
 	}
-	
-	function fnCalendarPopup(objId) {
-		
-		
-		//fnCalendarPopup
-	}
 
 	function fnUpdateCart(){
-		var strDate = $("input:text[id=txtDate]").val();
+		if("${stayngFcltyAt}" == "N") {
+			var strDate = $("input:text[id=txtDate]").val();
+			if(strDate.length!=10){
+				alert(strDate);
+				return;
+			}
+		} else if("${stayngFcltyAt}" == "N") {
+			var strDate = $("input:text[id=hidChkinDe]").val();
+			if(strDate.length!=10){
+				alert("체크인 날짜를 선택하세요.");
+				return;
+			}
 
-		if(strDate.length!=10){
-			alert(strDate);
-			return;
+			strDate = $("input:text[id=hidChcktDe]").val();
+			if(strDate.length!=10){
+				alert("체크아웃 날짜를 선택하세요.");
+				return;
+			}
+
+			var chkTimeVal = $("input:radio[name=rdoTime]:checked").val();
+			if(!chkTimeVal) {
+				alert("시간을 선택하세요");
+				return;
+			}
 		}
 
 		var totCo = 0;
@@ -64,13 +85,7 @@
 			return;
 		}
 
-		var chkTimeVal = $("input:radio[name=rdoTime]:checked").val();
-		if(!chkTimeVal) {
-			alert("시간을 선택하세요");
-			return;
-		}
-		
-		var form_data = $("form[id=frmDetail]").serialize(); 
+		var form_data = $("form[id=frmDetail]").serialize();
 
 		$.ajax({
 			url : "<c:url value='/cart/modAction/'/>",
@@ -83,9 +98,15 @@
 			},
 			success : function(json) {
 				if(json.result == "0") {
-					alert("구매 조건이 수정되었습니다.");
+					if(confirm("구매 조건이 수정되었습니다. 장바구니로 이동하시겠습니까?")) {
+						fnList();
+					} else {
+						fnCartList();
+					}
 				} else if(json.result == "-2") {
 					alert("로그인이 필요합니다.");
+				} else if(json.result == "9") {
+					alert(json.message);					
 				} else {
 					alert("작업을 실패하였습니다.");
 				}
@@ -97,7 +118,7 @@
 				alert("오류가 발생하였습니다.");
 			}
 		});
-	}	
+	}
 
 </script>
 <div align="center">
@@ -105,6 +126,9 @@
 	<input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
 	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode" value="${result.GOODS_CODE}">
 	<input type="hidden" id="hidCartSn" name="hidCartSn" value="${cart_sn}">
+	<input type="hidden" id="hidStayngFcltyAt" name="hidStayngFcltyAt" value="${stayngFcltyAt}">
+	<input type="hidden" id="hidWaitTime" name="hidWaitTime" value="${result.WAIT_TIME}">
+	<input type="hidden" id="hidMvmnTime" name="hidMvmnTime" value="${result.MVMN_TIME}">
 	<table width="1024px" border="1" cellspacing="0" cellpadding="0" height="100%" style="border-collapse:collapse; border:1px gray solid;">
 		<tr height="100px">
 			<td align="center" colspan="3">
@@ -113,7 +137,9 @@
 		</tr>
 		<tr height="150px">
 			<td align="center" colspan="3">
+			<p>
 				${result.GOODS_INTRCN}
+			</p>
 			</td>
 		</tr>
 		<tr height="430px">
@@ -128,17 +154,22 @@
 				</c:forEach>
 			</td>
 		</tr>
+		<tr height="450px">
+			<td align="center" colspan="3">
+			<iframe src="<c:url value='/mngr/gmap/'/>?la=${result.ACT_LA}&lo=${result.ACT_LO}" width="100%" height="100%"></iframe>
+			</td>
+		</tr>		
 		<tr height="200px">
 			<c:if test="${stayngFcltyAt eq 'N'}">
 			<td align="center">${stayngFcltyAt}
 				<c:forEach var="list" items="${schdulList}" varStatus="status">
-				${fn:substring(list.BEGIN_DE,0,4)}. ${fn:substring(list.BEGIN_DE,4,6)}. ${fn:substring(list.BEGIN_DE,6,8)} ~ 
+				${fn:substring(list.BEGIN_DE,0,4)}. ${fn:substring(list.BEGIN_DE,4,6)}. ${fn:substring(list.BEGIN_DE,6,8)} ~
 				${fn:substring(list.END_DE,0,4)}. ${fn:substring(list.END_DE,4,6)}. ${fn:substring(list.END_DE,6,8)}
 				&nbsp;&nbsp;&nbsp;
 				<a href="javascript:fnCalendarPopup('txtDate','${list.BEGIN_CAL_DE}','${list.END_CAL_DE}')">예약일 선택</a>
 				<br><br>
 				</c:forEach>
-				
+
 				<input type="text" name="txtDate" id="txtDate" style="width:250px;height:50px;text-align:center;font-size:25px;" value ="${fn:substring(result.TOUR_DE,0,4)}-${fn:substring(result.TOUR_DE,4,6)}-${fn:substring(result.TOUR_DE,6,8)}" readonly onfocus="this.blur()">
 			</td>
 			<td align="center">
@@ -156,15 +187,57 @@
 			</td>
 			</c:if>
 			<c:if test="${stayngFcltyAt ne 'N'}">
-			<td align="center" width="33%">
-				체크인 날짜<br><br>
-				<input type="text" name="txtChkinDe" id="txtChkinDe" style="width:250px;height:50px;text-align:center;font-size:25px;" value="${fn:substring(result.CHKIN_DE,0,4)}-${fn:substring(result.CHKIN_DE,4,6)}-${fn:substring(result.CHKIN_DE,6,8)}" readonly onfocus="this.blur()" onclick="fnCalendarPopup('txtChkinDe','${today}','${list.END_CAL_DE}')">
-			</td>			
-			<td align="center" width="34%">
-				체크아웃 날짜<br><br>
-				<input type="text" name="txtChcktDe" id="txtChcktDe" style="width:250px;height:50px;text-align:center;font-size:25px;" value="${fn:substring(result.CHCKT_DE,0,4)}-${fn:substring(result.CHCKT_DE,4,6)}-${fn:substring(result.CHCKT_DE,6,8)}" readonly onfocus="this.blur()" onclick="fnCalendarPopup('txtChcktDe','${today}','${list.END_CAL_DE}')">
+			<td align="center" width="50%">
+				체크인/체크아웃 날짜<br><br>
+				<input type="hidden" name="hidChkinDe" id="hidChkinDe" value="${result.CHKIN_DE}">
+				<input type="hidden" name="hidChcktDe" id="hidChcktDe" value="${result.CHCKT_DE}">
+				<input type="text" id="txtDateRange" name="txtDateRange" value="${fn:substring(result.CHKIN_DE,0,4)}-${fn:substring(result.CHKIN_DE,4,6)}-${fn:substring(result.CHKIN_DE,6,8)} ~ ${fn:substring(result.CHCKT_DE,0,4)}-${fn:substring(result.CHCKT_DE,4,6)}-${fn:substring(result.CHCKT_DE,6,8)}">
+				<input type="text" id="txtDateCount" name="txtDateCount" style="width:40px;height:27px;text-align:center;font-size:15px;border: 0px solid" readonly onfocus="this.blur()">
+				<script>
+					$(function() {
+						$("#txtDateRange").daterangepicker({
+							initialText : '기간을 선택하세요.',
+							applyButtonText: '선택', // use '' to get rid of the button
+							clearButtonText: '초기화', // use '' to get rid of the button
+							cancelButtonText: '취소', // use '' to get rid of the button
+							dateFormat: 'yy-mm-dd',
+							presetRanges: [],
+							applyOnMenuSelect: false,
+							rangeSplitter: ' ~ ',
+							datepickerOptions : {
+								numberOfMonths: 2,
+								minDate: "${today}",
+								maxDate: null
+							}
+						});
+
+						var startDate = moment("${result.CHKIN_DE}", "YYYYMMDD")
+						var endDate = moment("${result.CHCKT_DE}", "YYYYMMDD")
+						$("#txtDateRange").daterangepicker("setRange", {start: startDate._d, end: endDate._d});
+						$("#txtDateCount").val(endDate.diff(startDate, 'days')+'박');
+
+						$("#txtDateRange").on('change', function(event) {
+							var __val =  jQuery.parseJSON($("#txtDateRange").val());
+							$("#hidChkinDe").val(__val.start);
+							$("#hidChcktDe").val(__val.end);
+
+							var arr1 = __val.start.split('-');
+							var arr2 = __val.end.split('-');
+
+							var dat1 = new Date(parseInt(arr1[0]), parseInt(arr1[1])-1, parseInt(arr1[2]));
+							var dat2 = new Date(parseInt(arr2[0]), parseInt(arr2[1])-1, parseInt(arr2[2]));
+
+							var diff = dat2.getTime() - dat1.getTime() ;
+							var currDay = 24 * 60 * 60 * 1000;
+
+							$("#txtDateCount").val(diff/currDay + '박');
+
+							fnNmprChange();
+						});
+					});
+				</script>
 			</td>
-			</c:if>		
+			</c:if>
 			<td align="center" width="33%">
 				<c:forEach var="list" items="${nmprList}" varStatus="status">
 				${list.NMPR_CND} (₩ ${list.SETUP_AMOUNT})
@@ -182,7 +255,7 @@
 			</td>
 		</tr>
 	</table>
-	</form>	
+	</form>
 </div>
 
 <div style="height:100px;" align="center">

@@ -1,6 +1,6 @@
 package kr.co.siione.mngr.service.impl;
 
-import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +57,7 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 		// 상품 
 		Map<String, String> goodsParam = (Map<String, String>)params.get("goodsParam");
 		goodsParam.put("FILE_CODE", newFileCode);
+		UserUtils.log("[addGoods][상품]", goodsParam);
 		String newGoodsCode = String.valueOf(goodsDAO.insertGoods(goodsParam));
 		
 		if(UserUtils.nvl(newGoodsCode).equals("")) {
@@ -93,28 +94,66 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 	}
 
 	@Override
-	public int updateGoods(Map<String, String> param) throws Exception {
-		int cnt = goodsDAO.updateGoods(param);
+	public int updateGoods(Map<String, Object> params) throws Exception {
+		// 상품 
+		Map<String, String> goodsParam = (Map<String, String>)params.get("goodsParam");
+		UserUtils.log("[modGoods][상품]", goodsParam);
+		int iGoods = goodsDAO.updateGoods(goodsParam);
 		
-		if(cnt == 1) {
-			// 파일삭제
-			List<Map<String, String>> files = fileManageDAO.selectFileDetailList(param);
-			
-			for(Map<String, String> fileInfo : files) {
-				File file = new File(fileInfo.get("FILE_PATH").toString());
-				file.delete();
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("GOODS_CODE", UserUtils.nvl(goodsParam.get("GOODS_CODE")));
+		map.put("FILE_CODE", UserUtils.nvl(goodsParam.get("FILE_CODE")));
+		map.put("UPDT_ID", UserUtils.nvl(goodsParam.get("UPDT_ID")));
+		String sGoodsCode = UserUtils.nvl(goodsParam.get("GOODS_CODE"));
+		
+		// 파일
+		List<Map<String, String>> fileParamList = (List<Map<String, String>>)params.get("fileParamList");
+		// TODO 파일 삭제 처리
+		//fileManageDAO.deleteFileDetail(map);
+		// 대표이미지 있는지 확인
+		int iCnt = fileManageDAO.selectFileReprsntCnt(map);
+		System.out.println("[modGoods-대표이지미체크]iCnt:"+iCnt);
+		for(int i = 0 ; i < fileParamList.size() ; i++) {
+			Map<String, String> fileParam = (Map<String, String>)fileParamList.get(i);
+			if(iCnt == 0 && i == 0) {
+				fileParam.put("REPRSNT_AT", "Y");
 			}
-			
-			if(fileManageDAO.deleteFileDetail(param) > 0) {
-				fileManageDAO.insertFileDetail(param);
-			} else {
-				throw new Exception("파일 삭제 중 오류 발생");
-			}
-		} else {
-			throw new Exception("상품 수정 중 오류 발생");
+			fileManageDAO.insertFileDetail(fileParam);
+		}
+
+		// 상품 분류
+		List<Map<String, String>> clParamList = (List<Map<String, String>>)params.get("clParamList");
+		goodsClDAO.deleteGoodsCl(map);
+		for(Map<String, String> clParam : clParamList) {
+			clParam.put("GOODS_CODE", sGoodsCode);
+			goodsClDAO.insertGoodsCl(clParam);
 		}
 		
-		return cnt;
+		// 상품 일정
+		List<Map<String, String>> schdulParamList = (List<Map<String, String>>)params.get("schdulParamList");
+		goodsSchdulDAO.deleteGoodsSchdul(map);
+		for(Map<String, String> schdulParam : schdulParamList) {
+			schdulParam.put("GOODS_CODE", sGoodsCode);
+			goodsSchdulDAO.insertGoodsSchdul(schdulParam);
+		}
+		
+		// 상품 시간
+		List<Map<String, String>> timeParamList = (List<Map<String, String>>)params.get("timeParamList");
+		goodsTimeDAO.deleteGoodsTime(map);
+		for(Map<String, String> timeParam : timeParamList) {
+			timeParam.put("GOODS_CODE", sGoodsCode);
+			goodsTimeDAO.insertGoodsTime(timeParam);
+		}
+		
+		// 상품 인원
+		List<Map<String, String>> nmprParamList = (List<Map<String, String>>)params.get("nmprParamList");
+		goodsNmprDAO.deleteGoodsNmpr(map);
+		for(Map<String, String> nmprParam : nmprParamList) {
+			nmprParam.put("GOODS_CODE", sGoodsCode);
+			goodsNmprDAO.insertGoodsNmpr(nmprParam);
+		}
+		
+		return 0;
 	}
 
 	@Override

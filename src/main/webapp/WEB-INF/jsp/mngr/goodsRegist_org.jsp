@@ -12,6 +12,10 @@
 <script type="text/javascript" src="<c:url value='/js/Common.js'/>"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
+		
+		HTMLArea.init(); 
+		HTMLArea.onload = initEditor;
+		
 		var idxDe = 1;
 		$("#btnAddDate").click(function(){
 			idxDe++;

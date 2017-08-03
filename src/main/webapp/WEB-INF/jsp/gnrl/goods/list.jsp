@@ -26,12 +26,13 @@
 	}
 	
 	function fnSearch(cl_code) {
-		var form = $("form[id=frmDetail]");
+		var form = $("form[id=frmList]");
 		$("input:hidden[id=hidCategory]").val(cl_code);
 		$("input:hidden[id=hidPage]").val(1);
 		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
 		form.submit();
 	}	
+
 </script>
 <div align="center">
 	<div style="height:30px;" align="center">
@@ -40,13 +41,14 @@
 		</c:if>
 		<c:forEach var="result" items="${tourList}" varStatus="status">
 			<c:if test="${status.count > 1}"> - </c:if>
-			${result.CL_NM}
+			<a href="javascript:fnSearch('${result.CL_CODE}');">#${result.CL_NM}</a>
 		</c:forEach>
 	</div>
 	<form id="frmList" name="frmList" action="<c:url value='/goods/detail/'/>">
 	<input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
 	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode">
 	<input type="hidden" id="hidCategory" name="hidCategory" value="${hidCategory}">
+	<input type="hidden" id="hidCategoryNavi" name="hidCategoryNavi" value="${hidCategoryNavi}">
 	<table width="1024px" border="1" cellspacing="0" cellpadding="0" height="100%" style="border-collapse:collapse; border:1px gray solid;">
 		<tr>
 		<c:if test="${fn:length(goodsList) == 0}">

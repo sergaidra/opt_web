@@ -31,11 +31,8 @@
 
     <delete id="GoodsClDAO.deleteGoodsCl" parameterClass="hashMap">
     <![CDATA[
-        UPDATE TB_GOODS_CL
-           SET DELETE_AT = 'Y'
-             , UPDT_ID = #UPDT_ID#
-             , UPDT_DT = SYSDATE
-         WHERE CL_CODE = #CL_CODE#
+        DELETE TB_GOODS_CL
+         WHERE GOODS_CODE = #GOODS_CODE#
     ]]>
     </delete>
 

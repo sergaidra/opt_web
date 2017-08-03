@@ -23,5 +23,7 @@
 		<!-- json -->
 		<pattern>*Json/*</pattern>
 
+		<pattern>/html/*</pattern>
+
 	</excludes>
 </decorators>

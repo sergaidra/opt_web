@@ -14,6 +14,14 @@ public class GoodsServiceImpl implements GoodsService {
 	@Resource(name = "goodsDAO")
 	private GoodsDAO goodsDAO;
 
+    public String getTourClStayng(HashMap map) throws Exception {
+        return goodsDAO.selectTourClStayng(map);
+    }
+	
+    public List<HashMap> getTourClMain(HashMap map) throws Exception {
+        return goodsDAO.selectTourClMain(map);
+    }
+    
     public List<HashMap> getTourClList(HashMap map) throws Exception {
         return goodsDAO.selectTourClList(map);
     }

@@ -12,7 +12,11 @@ public class CartDAO extends EgovComAbstractDAO {
 	public List selectCartList(HashMap map) throws Exception {
 		return list("gnrl.cart.selectCartList", map);
 	}
-
+	
+	public List selectCartListBySearchSe(HashMap map) throws Exception {
+		return list("gnrl.cart.selectCartListBySearchSe", map);
+	}
+	
     public HashMap selectCartDetail(HashMap map) throws Exception {
         return (HashMap)selectByPk("gnrl.cart.selectCartDetail", map);
     }
@@ -25,6 +29,26 @@ public class CartDAO extends EgovComAbstractDAO {
         return (HashMap)selectByPk("gnrl.cart.selectCartValidCnfirm", map);
     }
 
+    public HashMap selectCartTimeValidCnfirm(HashMap map) throws Exception {
+        return (HashMap)selectByPk("gnrl.cart.selectCartTimeValidCnfirm", map);
+    }
+    
+    public HashMap selectCartFlightValidCnfirm(HashMap map) throws Exception {
+        return (HashMap)selectByPk("gnrl.cart.selectCartFlightValidCnfirm", map);
+    }    
+    
+    public List<HashMap> selectCartSameValidCnfirm(HashMap map) throws Exception {
+        return list("gnrl.cart.selectCartSameValidCnfirm", map);
+    }
+    
+    public List<HashMap> selectCartDplctValidCnfirm(HashMap map) throws Exception {
+        return list("gnrl.cart.selectCartDplctValidCnfirm", map);
+    }
+    
+    public List<HashMap> selectCartStayngValidCnfirm(HashMap map) throws Exception {
+        return list("gnrl.cart.selectCartStayngValidCnfirm", map);
+    }    
+    
     public long selectCartPayment(HashMap map) throws Exception{
         return (Long)selectByPk("gnrl.cart.selectCartPayment", map);
     }

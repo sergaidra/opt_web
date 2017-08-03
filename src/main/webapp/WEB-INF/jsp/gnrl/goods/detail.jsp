@@ -4,7 +4,6 @@
 <script type="text/javascript" src="<c:url value='/js/jquery.comiseo.daterangepicker.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/moment.min.js'/>"></script>
 <script type="text/javascript">
-
 	window.onload = function(){
 
 	}
@@ -36,39 +35,45 @@
 		var form = $("form[id=frmDetail]");
 
 		var payment = 0;
-		$("select[name=selNmprCo]").each(function() {
-			payment += $("input:hidden[id="+ this.id +"]").val() * this.value;
-		});
+		if("${stayngFcltyAt}" == "Y") {
+			$("select[name=selNmprCo]").each(function() {
+				payment += $("input:hidden[id="+ this.id +"]").val() * this.value;
+			});
+			payment = payment * parseInt($("#txtDateCount").val());
+		} else {
+			$("select[name=selNmprCo]").each(function() {
+				payment += $("input:hidden[id="+ this.id +"]").val() * this.value;
+			});
+		}
 
 		$("input:text[id=txtPay]").val("₩ "+payment);
 	}
 
 	function fnAddCart(){
-		
 		if("${stayngFcltyAt}" == "N") {
 			var strDate = $("input:text[id=txtDate]").val();
 			if(strDate.length!=10){
 				alert(strDate);
 				return;
-			}	
+			}
 		} else if("${stayngFcltyAt}" == "N") {
-			var strDate = $("input:text[id=txtChkinDe]").val();
+			var strDate = $("input:text[id=hidChkinDe]").val();
 			if(strDate.length!=10){
 				alert("체크인 날짜를 선택하세요.");
 				return;
 			}
-			
-			strDate = $("input:text[id=txtChcktDe]").val();
+
+			strDate = $("input:text[id=hidChcktDe]").val();
 			if(strDate.length!=10){
 				alert("체크아웃 날짜를 선택하세요.");
 				return;
 			}
-			
+
 			var chkTimeVal = $("input:radio[name=rdoTime]:checked").val();
 			if(!chkTimeVal) {
 				alert("시간을 선택하세요");
 				return;
-			}			
+			}
 		}
 
 		var totCo = 0;
@@ -79,7 +84,7 @@
 			alert("인원을 입력하세요");
 			return;
 		}
-		
+
 		var form_data = $("form[id=frmDetail]").serialize();
 
 		$.ajax({
@@ -93,10 +98,15 @@
 			},
 			success : function(json) {
 				if(json.result == "0") {
-					alert("장바구니에 추가되었습니다.");
-					fnCartList();
+					if(confirm("구매 조건이 수정되었습니다. 장바구니로 이동하시겠습니까?")) {
+						fnList();
+					} else {
+						fnCartList();
+					}
 				} else if(json.result == "-2") {
 					alert("로그인이 필요합니다.");
+				} else if(json.result == "9") {
+					alert(json.message);					
 				} else{
 					alert("작업을 실패하였습니다.");
 				}
@@ -116,6 +126,10 @@
 	<input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
 	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode" value="${goods_code}">
 	<input type="hidden" id="hidCategory" name="hidCategory" value="${hidCategory}">
+	<input type="hidden" id="hidCategoryNavi" name="hidCategoryNavi" value="${hidCategoryNavi}">
+	<input type="hidden" id="hidStayngFcltyAt" name="hidStayngFcltyAt" value="${stayngFcltyAt}">
+	<input type="hidden" id="hidWaitTime" name="hidWaitTime" value="${result.WAIT_TIME}">
+	<input type="hidden" id="hidMvmnTime" name="hidMvmnTime" value="${result.MVMN_TIME}">
 	<table width="1024px" border="1" cellspacing="0" cellpadding="0" height="100%" style="border-collapse:collapse; border:1px gray solid;">
 		<tr height="100px">
 			<td align="center" colspan="3">
@@ -140,8 +154,8 @@
 			</td>
 		</tr>
 		<tr height="450px">
-			<td align="center" colspan="3"> 
-			<iframe src="<c:url value='/mngr/gmap/'/>?la=${result.LA}&lo=${result.LO}" width="100%" height="100%"></iframe>
+			<td align="center" colspan="3">
+			<iframe src="<c:url value='/mngr/gmap/'/>?la=${result.ACT_LA}&lo=${result.ACT_LO}" width="100%" height="100%"></iframe>
 			</td>
 		</tr>
 		<tr height="200px">
@@ -171,37 +185,50 @@
 			<c:if test="${stayngFcltyAt ne 'N'}">
 			<td align="center" width="50%">
 				체크인/체크아웃 날짜<br><br>
-				<input type="hidden" name="txtChkinDe" id="txtChkinDe" style="width:250px;height:50px;text-align:center;font-size:25px;" value="날짜를 선택하세요" readonly onfocus="this.blur()">
-				<input type="hidden" name="txtChcktDe" id="txtChcktDe" style="width:250px;height:50px;text-align:center;font-size:25px;" value="날짜를 선택하세요" readonly onfocus="this.blur()">				
-				<input type="text" id="e1" name="e1">
+				<input type="hidden" name="hidChkinDe" id="hidChkinDe">
+				<input type="hidden" name="hidChcktDe" id="hidChcktDe">
+				<input type="text" id="txtDateRange" name="txtDateRange">
+				<input type="text" id="txtDateCount" name="txtDateCount" style="width:40px;height:27px;text-align:center;font-size:15px;border: 0px solid" readonly onfocus="this.blur()">
 				<script>
 					$(function() {
-						$("#e1").daterangepicker({
+						$("#txtDateRange").daterangepicker({
 							initialText : '기간을 선택하세요.',
 							applyButtonText: '선택', // use '' to get rid of the button
 							clearButtonText: '초기화', // use '' to get rid of the button
-							cancelButtonText: '취소', // use '' to get rid of the button		
+							cancelButtonText: '취소', // use '' to get rid of the button
 							dateFormat: 'yy-mm-dd',
 							presetRanges: [],
 							rangeSplitter: ' ~ ',
-							applyOnMenuSelect: false,		
+							applyOnMenuSelect: false,
 							datepickerOptions : {
 								numberOfMonths: 2,
 								minDate: "${today}",
 								maxDate: null
 							}
-						});	
-						
-						$("#e1").on('change', function(event) { 
-							var __val =  jQuery.parseJSON($("#e1").val());
-							$("#txtChkinDe").val(__val.start);
-							$("#txtChcktDe").val(__val.end);
+						});
+
+						$("#txtDateRange").on('change', function(event) {
+							var __val =  jQuery.parseJSON($("#txtDateRange").val());
+							$("#hidChkinDe").val(__val.start);
+							$("#hidChcktDe").val(__val.end);
+
+							var arr1 = __val.start.split('-');
+							var arr2 = __val.end.split('-');
+
+							var dat1 = new Date(parseInt(arr1[0]), parseInt(arr1[1])-1, parseInt(arr1[2]));
+							var dat2 = new Date(parseInt(arr2[0]), parseInt(arr2[1])-1, parseInt(arr2[2]));
+
+							var diff = dat2.getTime() - dat1.getTime() ;
+							var currDay = 24 * 60 * 60 * 1000;
+
+							$("#txtDateCount").val(diff/currDay + '박');
 							
-						});	
-					})
+							fnNmprChange();
+						});
+					});
 				</script>
 			</td>
-			</c:if>			
+			</c:if>
 			<td align="center" width="50%">
 				<c:forEach var="list" items="${nmprList}" varStatus="status">
 				${list.NMPR_CND} (₩ ${list.SETUP_AMOUNT})
