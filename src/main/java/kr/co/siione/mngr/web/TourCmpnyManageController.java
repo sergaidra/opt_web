@@ -80,7 +80,7 @@ public class TourCmpnyManageController {
 			e.printStackTrace();
 		}	
 
-        return "/mngr/tourCmpnyManage";	
+        return "/mngr/bak/tourCmpnyManage";	
 	}
     
     @RequestMapping(value="/mngr/tourCmpnyPopup/")
@@ -120,12 +120,12 @@ public class TourCmpnyManageController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
-        return "/mngr/tourCmpnyPopup";	
+        return "/mngr/bak/tourCmpnyPopup";	
 	}
     
     @RequestMapping(value="/mngr/tourCmpnyRegist/")
 	public String tourCmpnyRegist(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/mngr/tourCmpnyRegist";	
+        return "/mngr/bak/tourCmpnyRegist";	
 	}    
     
     @RequestMapping(value="/mngr/tourCmpnyModify/")
@@ -138,7 +138,7 @@ public class TourCmpnyManageController {
 			model.put("success", false);
 			e.printStackTrace();
 		}	
-        return "/mngr/tourCmpnyModify";	
+        return "/mngr/bak/tourCmpnyModify";	
 	}    
     
     @RequestMapping(value="/mngr/addTourCmpny/")

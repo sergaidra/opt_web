@@ -37,15 +37,10 @@ public class MngrManageController {
 	
 	private static final String ssUserId = "admin";
 	
-    @RequestMapping(value={"/mngr/", "/mngr/index/"})
-	public String mngrIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/mngr/mngrIndex";	
-	} 	
-
-    
+  
     @RequestMapping(value="/mngr/test/")
 	public String test(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	return "/mngr/test";		
+    	return "/mngr/bak/test";		
 	} 
     
     @RequestMapping(value="/mngr/gmap/")
@@ -58,17 +53,17 @@ public class MngrManageController {
     	
     	LOG.debug("[gmap-model] "+model);
     	
-    	return "/mngr/gmapMarker";	
+    	return "/mngr/bak/gmapMarker";	
 	} 	
     
     @RequestMapping(value="/mngr/gmap2/")
 	public String gmap2(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/mngr/gmapMarker";	
+        return "/mngr/bak/gmapMarker";	
 	}     
     
     @RequestMapping(value="/mngr/gmap3/")
 	public String gmap3(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/mngr/gmapDataLoad";	
+        return "/mngr/bak/gmapDataLoad";	
 	}   
     
 	/**
@@ -120,12 +115,12 @@ public class MngrManageController {
 			e.printStackTrace();
 		}
 
-        return "/mngr/mngrManage";	
+        return "/mngr/bak/mngrManage";	
 	}
     
     @RequestMapping(value="/mngr/mngrRegist/")
 	public String mngrRegist(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/mngr/mngrRegist";	
+        return "/mngr/bak/mngrRegist";	
 	}    
     
     @RequestMapping(value="/mngr/mngrModify/")
@@ -138,7 +133,7 @@ public class MngrManageController {
 			model.put("success", false);
 			e.printStackTrace();
 		}	
-        return "/mngr/mngrModify";	
+        return "/mngr/bak/mngrModify";	
 	}    
     
     @RequestMapping(value="/mngr/addMngr/")

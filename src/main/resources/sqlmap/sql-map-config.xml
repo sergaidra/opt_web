@@ -17,4 +17,6 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_schdul.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_time.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_nmpr.xml"/>
+	
+	<sqlMap resource="sqlmap/siione/mngr/menuinfo.xml"/>
 </sqlMapConfig>

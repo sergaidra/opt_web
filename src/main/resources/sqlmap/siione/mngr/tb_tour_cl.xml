@@ -10,12 +10,16 @@
         INSERT INTO TB_TOUR_CL( CL_CODE
                               , CL_NM
                               , DELETE_AT
+                              , UPPER_CL_CODE
+                              , SORT_ORDR
                               , WRITNG_ID
                               , WRITNG_DT 
                               , FILE_CODE )
                         VALUES( LPAD(SQ_CL_CODE.NEXTVAL, 5, '0')
                               , #CL_NM#
                               , 'N'
+                              , #UPPER_CL_CODE#
+                              , #SORT_ORDR#
                               , #WRITNG_ID#
                               , SYSDATE
                               , #FILE_CODE# )
@@ -23,14 +27,14 @@
     </insert>
 
     <update id="TourClDAO.updateTourCl" parameterClass="hashMap">
-    <![CDATA[
         UPDATE TB_TOUR_CL
-           SET CL_NM = #CL_NM#
-             , FILE_CODE = #FILE_CODE#
-             , UPDT_ID = #UPDT_ID#
+           SET UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
+             <isNotEmpty property="CL_NM">, CL_NM = <![CDATA[#CL_NM#]]></isNotEmpty>
+             <isNotEmpty property="FILE_CODE">, FILE_CODE = #FILE_CODE#</isNotEmpty>             
+             <isNotEmpty property="SORT_ORDR">, SORT_ORDR = #SORT_ORDR#</isNotEmpty>             
+             <isNotEmpty property="DELETE_AT">, DELETE_AT = #DELETE_AT#</isNotEmpty>             
          WHERE CL_CODE = #CL_CODE#
-    ]]>
     </update>
 
     <delete id="TourClDAO.deleteTourCl" parameterClass="hashMap">
@@ -48,6 +52,8 @@
         SELECT CL_CODE
              , CL_NM 
              , DELETE_AT
+             , UPPER_CL_CODE
+             , SORT_ORDR             
              , WRITNG_ID
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , UPDT_ID
@@ -64,6 +70,8 @@
              , CL_NM 
              , DELETE_AT
              , WRITNG_ID
+             , UPPER_CL_CODE
+             , SORT_ORDR              
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , DELETE_AT
              , UPDT_ID
@@ -78,4 +86,49 @@
          ORDER BY WRITNG_DT, CL_CODE
     </select>
 
+	<resultMap id="rmTourClTree" class="java.util.HashMap">
+		<result property="id"   column="CL_CODE" javaType="java.lang.String" />
+		<result property="text" column="CL_NM"   javaType="java.lang.String" />
+		<result property="leaf" column="CF_LEAF" javaType="java.lang.String" />
+	</resultMap>
+	
+    <select id="TourClDAO.selectTourClTree" parameterClass="hashMap" resultMap="rmTourClTree">
+    <![CDATA[
+		 SELECT CL_CODE
+		      , CL_NM
+		      , 'true' CF_LEAF
+		   FROM TB_TOUR_CL A
+		 WHERE UPPER_CL_CODE = #UPPER_CL_CODE#
+		 ORDER BY SORT_ORDR
+	]]>		 
+    </select>
+    
+	<select id="TourClDAO.selectTourClUpperList" parameterClass="hashMap" resultClass="hashMap">
+	<![CDATA[
+		 SELECT CL_CODE
+		      , CL_NM
+		      , DELETE_AT
+		      , SORT_ORDR
+		      , FILE_CODE
+		      , UPPER_CL_CODE
+		      , NVL((SELECT X.CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.UPPER_CL_CODE), '전체') UPPER_CL_NM
+		      , (SELECT FILE_NM FROM TB_FILE_DETAIL Y WHERE Y.FILE_CODE = A.FILE_CODE) FILE_NM
+		      , WRITNG_ID
+		      , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+		      , UPDT_ID
+		      , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
+		      , 'U' CRUD             
+		   FROM TB_TOUR_CL A
+		 WHERE UPPER_CL_CODE = #UPPER_CL_CODE#
+		 ORDER BY SORT_ORDR
+	]]>	
+	</select>
+	
+    <select id="TourClDAO.selectTourClFileCnt" parameterClass="hashMap" resultClass="int">
+    <![CDATA[
+		SELECT DECODE(FILE_CODE, NULL, 0, 1)
+		  FROM TB_TOUR_CL
+		 WHERE CL_CODE = #CL_CODE#  
+    ]]>
+    </select>
 </sqlMap>

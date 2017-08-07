@@ -1,334 +1,419 @@
+Ext.namespace("Ext.ux");
 
-/**
- * jquery-ui datepicker 한글
+var console = window.console || { log:function(){} };
+
+/*
+ * 콤보박스로 구성된 항목일 경우 화면에 명칭을 보여준다.
+ * @param   ComboBox 객체
+ * @return  Display Field 값
+ * 
  */
-$.datepicker.setDefaults({
-    dateFormat: 'yy-mm-dd',
-    prevText: '이전 달',
-    nextText: '다음 달',
-    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-    showMonthAfterYear: true,
-    yearSuffix: '년',
-    buttonImage: "button.png", 
-    buttonImageOnly: true     
+Ext.ux.comboBoxRenderer = function(combo) {
+	return function(value) {
+		var idx = combo.store.find(combo.valueField, value);
+		var rec = combo.store.getAt(idx);
+		return rec.get(combo.displayField);
+	};
+};
+
+/*
+ * Editable Grid에서 사용되는 editing 프러그인을 정의
+ */
+var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+    clicksToEdit: 1
 });
 
 /*
- * loading indicator show/hide
+ * Editable Grid에서 사용되는 editing 프러그인을 정의
  */
-function showLoading() {
-	$.blockUI({
-		overlayCSS:{
-			backgroundColor:'#ffe',
-			opacity: .5
-		},
-		css:{
-			border:'none',
-			opacity: .5,
-			width:'80px',
-			left:'45%'
-		},
-		message:"<img src='/images/loading_white.gif' width='80px'>"
-	});
+var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+    clicksToEdit: 1
+});
+
+/*
+ * 사용여부에 대한 콤보박스를 정의
+ */
+var comboUseYn = new Ext.create('Ext.form.ComboBox', {
+	store: new Ext.create('Ext.data.ArrayStore', {
+		fields:['code', 'name'],
+		data :[
+	        ['Y', '사용'],
+	        ['N', '사용안함']
+	    ]
+	}),
+	displayField: 'name',
+	valueField: 'code',
+	mode: 'local',
+	typeAhead: false,
+	triggerAction: 'all',
+	lazyRender: true,
+	emptyText: '선택'
+});
+
+/*
+ * 성별에 대한 콤보박스를 정의
+ */
+var comboSex = new Ext.create('Ext.form.ComboBox', {
+	store: new Ext.create('Ext.data.ArrayStore', {
+		fields:['code', 'name'],
+		data :[
+	        ['M', '남'],
+	        ['F', '여']
+	    ]
+	}),
+	displayField: 'name',
+	valueField: 'code',
+	mode: 'local',
+	typeAhead: false,
+	triggerAction: 'all',
+	lazyRender: true,
+	emptyText: '선택'
+});
+
+/*
+ * 성별에 대한 콤보박스를 정의
+ */
+var comboSexDstn = new Ext.create('Ext.form.ComboBox', {
+	store: new Ext.create('Ext.data.ArrayStore', {
+		fields:['code', 'name'],
+		data :[
+	        ['M', '남'],
+	        ['F', '여']
+	    ]
+	}),
+	displayField: 'name',
+	valueField: 'code',
+	mode: 'local',
+	typeAhead: false,
+	triggerAction: 'all',
+	lazyRender: true,
+	emptyText: '선택'
+});
+
+
+
+/*
+ * 날짜를 렌더링한다.
+ */
+function fn_renderDate(value) {
+	if(!value) return value;
+	value = value.replace(/-/gi, '');
+	if (value == null || value == '' || value.length < 8) return value;
+	return value.substr(0,4) + '-' + value.substr(4,2) + '-'+ value.substr(6,2); 
 }
 
-function hideLoading() {
-	$.unblockUI();
-}
-
-var timerChecker_01 = null;
-var timerChecker_02 = null;
 
 /**
- * 타이머 생성 01
- * @param iSecond
- * @param htmlID
- * @param showYn
- * @returns
- * @callback fnTimer_01_callback()
+ *	문자에 따른 남여 render
  */
-function fnTimer_01(iSecond, htmlID, showYn){
-	rMinute = parseInt(iSecond / 60);
-	rSecond = iSecond % 60;
-	if(iSecond > 0){
-		//타이머 표시
-		if(showYn=="Y")
-			$("#"+htmlID).html(fnLpad(rMinute, 2)+":"+fnLpad(rSecond, 2));   	
-		//카운트다운
-		iSecond--;
-		timerChecker_01 = setTimeout("fnTimer_01('"+iSecond+"','"+htmlID+"','"+showYn+"')", 1000); // 1초 간격으로 체크
-	}else{
-		//타이머 반복 종료
-		clearTimeout(timerChecker_01);
-		//타이머 종료 처리 콜백
-		fnTimer_01_callback();
-	}
-}
-
-/**
- * 타이머 생성 02
- * @param iSecond
- * @param htmlID
- * @param showYn
- * @returns
- * @callback fnTimer_02_callback()
- */
-function fnTimer_02(iSecond, htmlID, showYn){
-	rMinute = parseInt(iSecond / 60);
-	rSecond = iSecond % 60;
-	if(iSecond > 0){
-		//타이머 표시
-		if(showYn=="Y")
-			$("#"+htmlID).html(fnLpad(rMinute, 2)+":"+fnLpad(rSecond, 2));
-		//카운트다운
-		iSecond--;
-		timerChecker_02 = setTimeout("fnTimer_02('"+iSecond+"','"+htmlID+"','"+showYn+"')", 1000); // 1초 간격으로 체크
-	}else{
-		//타이머 반복 종료
-		clearTimeout(timerChecker_02);
-		//타이머 종료 처리 콜백
-		fnTimer_02_callback();
-	}
-}
-
-
-/**
- * 숫자 자릿수 맞춤
- * @param str
- * @param len
- * @returns
- */
-function fnLpad(str, len){
-	str = str + "";
-	while(str.length < len){
-		str = "0"+str;
-	}
-	return str;
-}
-
-
-function fnIsEmpty(inVal) {
-	if (new String(inVal).valueOf() == "undefined")
-		return true;
-	if (inVal == null)
-		return true;
-	if (inVal == 'null')
-		return true;
-
-	var v_ChkStr = new String(inVal);
-
-	if (v_ChkStr == null)
-		return true;
-	if (v_ChkStr.toString().length == 0)
-		return true;
-	return false;
-}
-
-function fnCalendarPopup(ctl, sDate, eDate) {		
-	var id = $("#"+ctl).attr('id');
-
-	$("#" + id).datepicker({});
-	/*$("#" + id).datepicker({
-		changeYear : true,
-		changeMonth : false,
-		showOtherMonths : true,
-		selectOtherMonths : false,
-		showOn : 'none'
-	});*/
-
-	if(sDate != "") $("#" + id).datepicker("option", "minDate", sDate);
-	if(eDate != "") $("#" + id).datepicker("option", "maxDate", eDate);
+function fn_renderSex(val){
+	var ret = '';
 	
-	$("#" + id).datepicker('show');	
+	if(val == '1') ret = '남';
+	else if(val == '2') ret = '여';
+	else if(val == 'M') ret = '남';
+	else if(val == 'F') ret = '여';
+	
+	return ret;
 }
 
+//생년월일에 '-'문자를 삽입한다.
+var fn_renderBirthDay = function(value) {
+	var year;
+	var month;
+	var day;
+	try {
+		value = value.replace(/-/gi,'');
+		if(value.length == 8) {
+			year = value.substring(0,4);
+			month = value.substring(4,6);
+			day = value.substring(6,8);
+			return year + '-' + month + '-' + day;
+		}
+	} catch(e) {
+		alert(e);
+	} finally {
+		year = null;
+		month = null;
+		day = null;
+	}
+};
 
-function fnCalendarReset(ctl) {
-	var id = $("#"+ctl).attr('id');
-	$("#" + id).val("");
-}
 
-
-/**
- * 숫자형식 검증
- */
-function fnNumberCheck(event){
-	event = event || window.event;
-	var keyID = (event.which) ? event.which : event.keyCode;
-	if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
-		return;
-	else
-		return false;
-}
-
-/**
- * 숫자외에 삭제
- */
-function fnRemoveChar(event) {
-	event = event || window.event;
-	var keyID = (event.which) ? event.which : event.keyCode;
-	if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
-		return;
-	else
-		event.target.value = event.target.value.replace(/[^0-9]/g, "");
-}
-
-/**
- * 바이트 문자 입력가능 문자수 체크
- * 
- * @param id : tag id 
- * @param title : tag title
- * @param maxLength : 최대 입력가능 수 (byte)
- * @returns {Boolean}
- */
-function fnCheckMaxLength(id, title, maxLength){
-     var obj = $("#"+id);
-     if(maxLength == null) {
-         maxLength = obj.attr("maxLength") != null ? obj.attr("maxLength") : 1000;
-     }
-     
-     if(Number(fnCheckByte(obj)) > Number(maxLength)) {
-         alert(title + "이(가) 입력가능문자수를 초과하였습니다("+Number(fnCheckByte(obj))+").\n(영문, 숫자, 일반 특수문자 : " + maxLength + " / 한글, 한자, 기타 특수문자 : " + parseInt(maxLength/2, 10) + ")");
-         obj.focus();
-         return false;
-     } else {
-         return true;
-    }
-}
- 
-/**
- * 바이트수 반환  
- * 
- * @param el : tag jquery object
- * @returns {Number}
- */
-function fnCheckByte(el){
-    var codeByte = 0;
-    for (var idx = 0; idx < el.val().length; idx++) {
-        var oneChar = escape(el.val().charAt(idx));
-        if ( oneChar.length == 1 ) {
-            codeByte ++;
-        } else if (oneChar.indexOf("%u") != -1) {
-            codeByte += 2;
-        } else if (oneChar.indexOf("%") != -1) {
-            codeByte ++;
+Ext.apply(Ext.form.field.VTypes, {
+    daterange : function(val, field) {
+        
+        var date = field.parseDate(val);
+        if(!date){
+            return;
         }
+        
+        if (field.startDateField && (!this.dateRangeMax || (date.getTime() != this.dateRangeMax.getTime()))) {
+            var start = Ext.getCmp(field.startDateField);
+            //start.setMaxValue(date);
+            //this.dateRangeMax = date;
+            //start.validate();
+        } 
+        else if (field.endDateField && (!this.dateRangeMin || (date.getTime() != this.dateRangeMin.getTime()))) {
+            var end = Ext.getCmp(field.endDateField);
+            //end.setMinValue(date);
+            //this.dateRangeMin = date;
+            //end.validate();
+        }
+        /*
+         * Always return true since we're only using this vtype to set the
+         * min/max allowed values (these are tested for after the vtype test)
+         */
+        return true;
     }
-    return codeByte;
-}
+});
+
 
 /**
- * input object 입력여부 체크  
- * 
- * @returns {Boolean}
+ * 서버오류 공통메시지 처리
+ * @param {} response
  */
-function fnCheckRequired() {
-	// TODO form 수 체크, input 외 다른 object 체크, 필수가 아닌 object 체크
-	var inputObjs = $("form input");
-	var bEmpty = true;
-	var focus;
-	
-	inputObjs.each(function(index){
-		if($(this).val() == '') {
-			focus = $(this);
-			bEmpty = false;
-			
-			alert($(this).attr('title') + "은(는) 필수입력항목입니다.");
-			focus.focus();
-			
-			return false;
+function fn_failureMessage(response){
+    var title = "";
+    var message = "";
+    var status = "";
+   
+    switch(response.status){
+        case -1:    message = '[' + response.status + ' ' + response.statusText + ']\n' +  "서버 응답시간 초과!";break;
+        case 0:  	message = '[' + response.status + ' ' + response.statusText + ']\n' + "서버접속에 장애가 발생하였습니다.\n잠시후 다시 시도해주시기 바랍니다.";break;
+        case 200:   message = '[알림]\n\n' + Ext.decode(response.responseText).message;break;
+        case 400:   message = '[' + response.status + ' ' + response.statusText + ']\n' + "인수정보가 올바르지 않습니다.\n잘못된 요청입니다";break;
+        case 404:   message = '[' + response.status + ' ' + response.statusText + ']\n' + "요청수행 서버를 찾을 수 없습니다\n잠시후 다시 시도해주시기 바랍니다";break;
+        case 405:   message = '[' + response.status + ' ' + response.statusText + ']\n' + "허용된 Method가 아닙니다";break;
+        case 500:   message = '[' + response.status + ' ' + response.statusText + ']\n' + "서버오류가 발생하였습니다\n잠시후 다시 시도해주시기 바랍니다";break;
+        default:	message = '[' + response.status + ' ' + response.statusText + ']\n' + response.responseText;break;
+    }
+    alert(message);
+}
+
+
+//▼ Toolbar Component
+/** 페이징 툴바****************************************************************************************************
+ * @name 		createPagingToolbarNoButton
+ * @comment		페이지 사이즈 콤보박스 - 페이징바에 사용될 콤보박스 생성
+ * @param 		store				(스토어)
+ * 				pageSizeComboBox	(페이징 콤보박스)
+ * 				pageId				(화면 아이디)
+ * 				page				(페이징 사이즈)
+ *****************************************************************************************************/
+function createPagingToolbarNoButton(store, pageId, size){
+	var comboStore	=	Ext.create('Ext.data.Store', {
+		fields		: ['code', 'name'],
+		data   		: [{code: 10, name : '10건'},
+						{code: 20, name : '20건'},
+						{code: 30, name : '30건'},
+						{code: 40, name : '40건'},
+						{code: 50, name : '50건'},
+						{code: 100, name : '100건'},
+						{code: 300, name : '300건'},
+						{code: 500, name : '500건'}
+						]
+	});
+	comboStore.load();
+	store.pageSize = size;
+	var searchResultPagingSize = {
+		xtype			:'combobox',
+		store			: comboStore,
+		width			: 70,
+		displayField	: 'name',
+		valueField		: 'code',
+		typeAhead		: true,
+		mode			: 'local',
+		readOnly 		: false,
+		editable 		: false,
+		triggerAction	: 'all',
+		selectOnFocus	: true,
+		value			: size,
+		listeners		:{
+			'select': function(combo, record, idx){
+				store.pageSize = combo.getValue('code');
+				if(store.getCount() > 0) {
+					var paramObj = store.proxy.extraParams;
+					//[2014.12.19] 기존 공통코드인 paramObj.start = 1; 로 고정시키는 것을 자동으로 기본 순번 계산법으로 하기 위해 주석처리한다. 
+					//[2014.12.19] 기존대로 모든 데이터를 계속 조회할려면 0으로 수정해야 한다. 현재 crims 쿼리는 start+1로 계산된다.
+//					paramObj.start = 0;
+					paramObj.limit = combo.getValue('code');
+					store.proxy.extraParams = paramObj;
+					store.loadPage(1);
+				}
+			}
+		}
+	};
+	var obj = Ext.create('Ext.PagingToolbar', {
+	    pageSize   : size,
+	    store      : store,
+	    displayInfo: true,
+	    displayMsg : '현재건수:<b><font color="green">{0} - {1}</font></b> /&nbsp;총건수: <b><font color="red">{2}</font></b>&nbsp;&nbsp;',
+	    emptyMsg   : "<b>해당자료가 없습니다.</b>",
+		items      : [
+						//'-', 
+						searchResultPagingSize
+						//'-',
+						//pageId,
+						//'-',
+						//new Ext.form.DisplayField()
+		],
+		listeners:{
+			'beforechange':function(toolbar, page, opt){
+				if(store.getCount() < 1){
+					Ext.Msg.alert("알림","조회 먼저 하셔야 합니다.");
+					return false;
+				}
+			}
 		}
 	});
+	return obj;
+}
+
+//주민번호 Vtype 생성 및 적용
+var juminNumberRegex = /^\d{6}\-?\d{7}$/;
+var juminNumberVType = {
+		juminNumber: function(val, field){
+			return juminNumberRegex.test(val);	
+		},
+		juminNumberText: '주민번호형식으로 입력해야 합니다.',
+		juminNumberMask: /^[0-9.]$/ 
+};
+
+//지문번호 Vtype 생성 및 적용
+var jimunNumberRegex = /^\d{5}\-?\d{5}$/;
+var jimunNumberVType = {
+		jimunNumber: function(val, field){
+			return jimunNumberRegex.test(val);	
+		},
+		jimunNumberText: '지문가치번호 형식으로 입력해야 합니다.',
+		jimunNumberMask: /^[0-9.]$/ 
+};
+
+//10자리 Vtype 생성 및 정용
+var tenNumberResex = /^\d{10}/;
+var tenNumberVType = {
+		tenNumber: function(val, field) {
+			return tenNumberResex.test(val); 
+		},
+		tenNumberText: '10자리로 입력해야 합니다.',
+		tenNumberMask: /^[0-9]$/ 
+};
+
+//6자리 Vtype 생성 및 적용
+var sixNumberResex = /^\d{6}/;
+var sixNumberVType = {
+		sixNumber: function(val, field) {
+			return sixNumberResex.test(val);
+		},
+		sixNumberText: '6자리로 입력해야 합니다.',
+		sixNumberMask: /^[0-9]$/
+};
+
+//6자리 Vtype 생성 및 적용
+var eightNumberResex = /^\d{8}/;
+var eightNumberVType = {
+		eightNumber: function(val, field) {
+			return eightNumberResex.test(val);
+		},
+		eightNumberText: '8자리로 입력해야 합니다.',
+		eightNumberMask: /^[0-9]$/
+};
+
+//4자리 Vtype 생성 및 적용
+var fourNumberResex = /^\d{4}/;
+var fourNumberVType = {
+		fourNumber: function(val, field) {
+			return fourNumberResex.test(val); 
+		},
+		fourNumberText: '4자리로 입력해야 합니다.',
+		fourNumberMask: /^[0-9]$/ 
+};
+
+/* 날짜형 VTYPE 선언 */
+var dateRegex = /^\d{4}\-?\d{2}\-?\d{2}$/;
+var dateVType = {
+		dateType: function(val, field){
+			return dateRegex.test(val);	
+		},
+		dateTypeText: 'YYYYmmdd형식으로 입력해야 합니다.',
+		dateTypeMask: /^[0-9]$/ 
+};
+
+//생년월일 Vtype 생성 및 적용
+var birthDayRegex = /^\d{4}\-?\d{2}\-?\d{2}$/;
+var birthDayVType = {
+		birthDay: function(val, field){
+			return birthDayRegex.test(val);	
+		},
+		birthDayText: '생년월일 형식으로 입력해야 합니다.',
+		birthDayMask: /^[0-9.]$/ 
+};
+
+/* VTYPE 등록 */
+Ext.apply(Ext.form.field.VTypes, tenNumberVType);
+Ext.apply(Ext.form.field.VTypes, juminNumberVType);
+Ext.apply(Ext.form.field.VTypes, sixNumberVType);
+Ext.apply(Ext.form.field.VTypes, fourNumberVType);
+Ext.apply(Ext.form.field.VTypes, eightNumberVType);
+Ext.apply(Ext.form.field.VTypes, jimunNumberVType);
+Ext.apply(Ext.form.field.VTypes, dateVType);
+Ext.apply(Ext.form.field.VTypes, birthDayVType);
+
+/**
+ * 성별 M, F로 가져온다.
+ * @param ihidnum
+ */
+function fn_getSexdstn(ihidnum) {
 	
-	if(!bEmpty) return;
-}
-
-/**
- * 이미지파일 확장자 체크
- * @param obj : 파일 object
- * @param ext : 확장자문자열 예)jpg,bmp
- * @returns {Boolean}
- */
-function fnCheckImg(obj, ext){
-	if(!$(obj).val()) {
-		return false;
+	if(ihidnum) {
+		ihidnum = ihidnum.replace(/-/gi);
+		
+		if(ihidnum.length == 13) {
+			var senventh = ihidnum.substring(6,7);
+			var sexdstn = 'M';
+			switch(senventh) {
+			case 1: sexdstn = 'M'; break;
+			case 2: sexdstn = 'F'; break;
+			case 3: sexdstn = 'M'; break;
+			case 4: sexdstn = 'F'; break;
+			case 5: sexdstn = 'M'; break;
+			case 6: sexdstn = 'F'; break;
+			case 7: sexdstn = 'M'; break;
+			case 8: sexdstn = 'F'; break;
+			}
+			
+			return sexdstn;
+		}
 	}
 	
-	var check = false;	
-	var extName = $(obj).val().substring($(obj).val().lastIndexOf(".")+1).toUpperCase();
-	var str = ext.split(",");
-	for (var i=0;i<str.length;i++) {
-		if ( extName == $.trim(str[i]) ) {
-			check = true; break;
-		} else
-			check = false;
-	}
-	if(!check){
-		alert("확장자가 "+ext+"인 파일을 업로드 하세요.");
-	}
-	return check;
+	return 'M';
 }
 
 /**
- * 첨부파일 용량 체크
- * @param obj : 파일 object
- * @param size : 첨부 최대크기
- * @returns {Boolean}
+ * 데이터 앞에 문자 추가
+ * @param value
+ * @param character
+ * @param maxCount
+ * @returns
  */
-function fnCheckImgSize(obj, size) {
-	var check = false;
-
-	if(window.ActiveXObject) {//IE용인데 IE8이하는 안됨...
-		var fso = new ActiveXObject("Scripting.FileSystemObject");
-		//var filepath = document.getElementById(obj).value;
-		var filepath = obj[0].value;
-		var thefile = fso.getFile(filepath);
-		sizeinbytes = thefile.size;
-	} else {//IE 외
-		//sizeinbytes = document.getElementById(obj).files[0].size;
-		sizeinbytes = obj[0].files[0].size;
+function fn_renderPreData(value, character, maxCount) {
+	if(!value) return value;
+	for(var i = value.length; i < maxCount; i++){
+		value = character + value;
 	}
-
-	var fSExt = new Array('Bytes', 'KB', 'MB', 'GB');
-	var i = 0;
-	var checkSize = size;
-
-	while(checkSize>900) {
-		checkSize/=1024;
-		i++;
-	}
-
-	checkSize = (Math.round(checkSize*100)/100)+' '+fSExt[i]; 
-
-	var fSize = sizeinbytes;
-	if(fSize > size) {
-		alert("첨부파일은 "+ checkSize + " 이하로 등록가능합니다.");
-		check = false;
-	} else {
-		check = true;
-	}
-
-	return check;
+	return value;
 }
+
 
 /**
- * 화면 중앙에 window.open
- * @param sUrl : 오픈할 url
- * @param sName : 팝업 이름
- * @param iWidth  : 팝업 가로 크기
- * @param iHeigth : 팝업 세로 크기
+ * container 각 필드 모두 초기화
+ * @param v
  */
-function fnOpenPopup(sUrl, sName, iWidth, iHeigth){
-    var sw = screen.width;
-    var sh = screen.height;
-    var x = (sw-iWidth)/2;
-    var y = (sh-iHeigth)/2;
-    var opts = "width="+iWidth+", height="+iHeigth+", left="+x+", top="+y+", scrollbars=yes, menubar=no, location=no";
-    window.open(sUrl, sName, opts).focus();
+function fn_resetContainer(v) {
+	v.items.each(function(f){
+		if(Ext.isFunction(f.reset)) {
+			f.reset();
+		}
+	});
 }
-
-

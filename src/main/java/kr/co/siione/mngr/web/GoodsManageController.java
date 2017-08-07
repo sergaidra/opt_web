@@ -49,6 +49,14 @@ public class GoodsManageController {
 	
 	private static final String ssUserId = "admin";
 	
+	
+	//InvstdsCmprInfoInitList
+	
+    @RequestMapping(value="/mngr/GoodsManager/")
+	public String GoodsManager(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "/mngr/GoodsManager";
+	}
+	
 	/**
 	 * 
 	 * <pre>
@@ -69,7 +77,7 @@ public class GoodsManageController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
-        return "/mngr/goodsManage";
+        return "/mngr/bak/goodsManage";
 	}
     
     @RequestMapping(value="/mngr/goodsRegist/")
@@ -81,7 +89,7 @@ public class GoodsManageController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	    	
-        return "/mngr/goodsRegist";	
+        return "/mngr/bak/goodsRegist";	
 	}    
     
     @RequestMapping(value="/mngr/goodsModify/")
@@ -112,7 +120,7 @@ public class GoodsManageController {
 			e.printStackTrace();
 		}	
 		
-        return "/mngr/goodsModify";	
+        return "/mngr/bak/goodsModify";	
 	}    
     
     @RequestMapping(value="/mngr/addGoods/")

@@ -71,6 +71,10 @@
 	<!-- JSON View -->
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
 	
+	<bean id="jsonFileView" class="net.sf.json.spring.web.servlet.view.JsonView">    	
+		<property name="contentType" value="text/html;charset=UTF-8"/>
+	</bean>
+	
 	<mvc:resources location="/resources/**" mapping="/resources/**"/>
 	<mvc:resources location="/js/**" mapping="/js/**"/>
 	<mvc:resources location="/css/**" mapping="/css/**"/>

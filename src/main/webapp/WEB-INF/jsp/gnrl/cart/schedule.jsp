@@ -11,7 +11,7 @@
 <script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/jquery-ui.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/jquery.blockUI.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/Common.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/siione.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/calendar.js'/>"></script>
 <script type="text/javascript">
 	function fnFlight() {

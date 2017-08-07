@@ -299,12 +299,38 @@
 			<version>2.4.2</version>
 		</dependency>
 
+		<!-- json start -->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib-ext-spring</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+		<!-- json end -->
+
 		<!-- siione 참조 -->
   		<dependency>
 		  <groupId>siione-lib</groupId>
 		  <artifactId>siione-dist</artifactId>
 		  <version>0.0.4-shkim</version>
-  		</dependency>  		
+  		</dependency>  
+  		
+				
 	</dependencies>
     <build>
         <plugins>

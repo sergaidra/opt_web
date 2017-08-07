@@ -1,6 +1,5 @@
 package kr.co.siione.mngr.dao;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +20,10 @@ public class FileManageDAO extends EgovComAbstractDAO {
 	
 	public Object insertFileDetail(Map<String, String> map) throws Exception {
 		return insert("FileManageDAO.insertFileDetail", map);
+	}
+	
+	public int updateFileDetail(Map<String, String> map) throws Exception {
+		return update("FileManageDAO.updateFileDetail", map);
 	}
 	
 	public int deleteFileDetailByPk(Map<String, String> map) throws Exception {

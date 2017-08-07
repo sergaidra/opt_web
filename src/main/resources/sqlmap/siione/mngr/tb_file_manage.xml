@@ -56,6 +56,21 @@
     ]]>
     </insert>
 
+    <update id="FileManageDAO.updateFileDetail" parameterClass="hashMap">
+        UPDATE TB_FILE_DETAIL
+           SET UPDT_ID = #UPDT_ID#
+             , UPDT_DT = SYSDATE
+             <isNotEmpty property="FILE_NM">, FILE_NM = #FILE_NM#</isNotEmpty>
+             <isNotEmpty property="FILE_PATH">, FILE_PATH = #FILE_PATH#</isNotEmpty>
+             <isNotEmpty property="FILE_DC">, FILE_DC = #FILE_DC#</isNotEmpty>
+             <isNotEmpty property="FIEL_SIZE">, FIEL_SIZE = #FILE_SIZE#</isNotEmpty>
+             <isNotEmpty property="FILE_CL">, FILE_CL = #FILE_CL#</isNotEmpty>
+             <isNotEmpty property="REPRSNT_AT">, REPRSNT_AT = #REPRSNT_AT#</isNotEmpty>
+             <isNotEmpty property="SORT_NO">, SORT_NO = #SORT_NO#</isNotEmpty>
+         WHERE FILE_CODE = #FILE_CODE#
+           AND FILE_SN = #FILE_SN#
+    </update>
+
     <delete id="FileManageDAO.deleteFileDetailByPk" parameterClass="hashMap">
 	<![CDATA[
         DELETE TB_FILE_DETAIL

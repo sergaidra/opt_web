@@ -4,7 +4,7 @@
 <html>
 <head>
 <script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/Common.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/siione.js'/>"></script>
 <script language='javascript'>
 
 	var default_sec = 1200;

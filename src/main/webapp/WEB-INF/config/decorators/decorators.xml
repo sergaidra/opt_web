@@ -11,6 +11,9 @@
 		<!-- 관리자 -->
 		<pattern>/mngr/*</pattern>
 
+		<!-- 관리자 -->
+		<pattern>/admin/*</pattern>
+
 		<!-- iframe -->
 		<pattern>*Iframe/*</pattern>
 
