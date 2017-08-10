@@ -27,11 +27,13 @@
     <update id="GoodsTimeDAO.updateGoodsTime" parameterClass="hashMap">
     <![CDATA[
         UPDATE TB_GOODS_TIME
-           SET CL_NM = #CL_NM#
-             , FILE_CODE = #FILE_CODE#
-             , UPDT_ID = #UPDT_ID#
+           SET UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
-         WHERE CL_CODE = #CL_CODE#
+             , BEGIN_TIME = #BEGIN_TIME#
+             , END_TIME = #END_TIME#
+             , DELETE_AT = #DELETE_AT#
+         WHERE GOODS_CODE = #GOODS_CODE#
+           AND TIME_SN = #TIME_SN#
     ]]>
     </update>
 
@@ -42,46 +44,51 @@
              , UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
          WHERE GOODS_CODE = #GOODS_CODE#
+           AND TIME_SN = #TIME_SN#
     ]]>
     </delete>
 
     <select id="GoodsTimeDAO.selectGoodsTimeByPk" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
-		SELECT GOODS_CODE
-		     , TIME_SN
-		     , BEGIN_TIME
-		     , SUBSTR(BEGIN_TIME, 1, 2) BEGIN_HH
-		     , SUBSTR(BEGIN_TIME, 3, 4) BEGIN_MI
-		     , END_TIME
-		     , SUBSTR(END_TIME, 1, 2) END_HH
-		     , SUBSTR(END_TIME, 3, 4) END_MI
-		     , DELETE_AT
-		     , WRITNG_ID
-		     , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
-		FROM TB_GOODS_TIME
-	   WHERE GOODS_CODE = #GOODS_CODE#
-		 AND TIME_SN = #TIME_SN#
+        SELECT GOODS_CODE
+             , TIME_SN
+             , BEGIN_TIME
+             , SUBSTR(BEGIN_TIME, 1, 2) BEGIN_HH
+             , SUBSTR(BEGIN_TIME, 3, 4) BEGIN_MI
+             , END_TIME
+             , SUBSTR(END_TIME, 1, 2) END_HH
+             , SUBSTR(END_TIME, 3, 4) END_MI
+             , DELETE_AT
+             , WRITNG_ID
+             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+        FROM TB_GOODS_TIME
+       WHERE GOODS_CODE = #GOODS_CODE#
+         AND TIME_SN = #TIME_SN#
     ]]>
     </select>
 
     <select id="GoodsTimeDAO.selectGoodsTimeList" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
-		SELECT GOODS_CODE
-		     , TIME_SN
-		     , BEGIN_TIME
-		     , SUBSTR(BEGIN_TIME, 1, 2) BEGIN_HH
-		     , SUBSTR(BEGIN_TIME, 3, 4) BEGIN_MI
-		     , END_TIME
-		     , SUBSTR(END_TIME, 1, 2) END_HH
-		     , SUBSTR(END_TIME, 3, 4) END_MI
-		     , DELETE_AT
-		     , WRITNG_ID
-		     , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
-		FROM TB_GOODS_TIME
-		WHERE GOODS_CODE = #GOODS_CODE#
-		AND DELETE_AT = 'N'
-		ORDER BY TIME_SN
-	]]>
+        SELECT GOODS_CODE
+             , TIME_SN
+             , BEGIN_TIME
+             , SUBSTR(BEGIN_TIME, 1, 2) BEGIN_HH
+             , SUBSTR(BEGIN_TIME, 3, 4) BEGIN_MI
+             , END_TIME
+             , SUBSTR(END_TIME, 1, 2) END_HH
+             , SUBSTR(END_TIME, 3, 4) END_MI
+             , DELETE_AT
+             , WRITNG_ID
+             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+        FROM TB_GOODS_TIME
+        WHERE GOODS_CODE = #GOODS_CODE#
+    ]]>
+        <isNotEmpty property="DELETE_AT">
+        <isEqual property="DELETE_AT" compareValue="N">
+          AND DELETE_AT = 'N'
+        </isEqual>
+        </isNotEmpty>
+        ORDER BY TIME_SN
     </select>
 
 </sqlMap>

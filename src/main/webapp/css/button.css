@@ -1,0 +1,92 @@
+@CHARSET "UTF-8";
+
+.x-fieldset-header-text {
+font: 13px/16px bold helvetica,arial,verdana,sans-serif;
+color: black;
+padding: 1px 0;
+}
+
+.icon-accept {
+    background-image: url(/images/extjs/icons/fam/accept.png) !important;
+}
+
+.icon-user {
+    background-image: url(/images/extjs/icons/fam/user.png) !important;
+}
+
+.icon-user-add {
+    background-image: url(/images/extjs/icons/fam/user_add.gif) !important;
+}
+
+.icon-save {
+    background-image: url(/images/extjs/icons/fam/save.gif) !important;
+}
+
+.icon-stop ,
+.icon-reset {
+    background-image: url(/images/extjs/icons/fam/stop.png) !important;
+}
+
+.icon-grid {
+    background-image: url(/images/extjs/icons/fam/grid.png) !important;
+}
+
+.icon-add {
+    background-image: url(/images/extjs/icons/fam/add.png) !important;
+}
+
+.icon-delete {
+    background-image: url(/images/extjs/icons/fam/delete.png) !important;
+}
+
+.icon-search {
+    background-image: url(/images/extjs/icons/fam/search.gif) !important;
+}
+
+.icon-excel {
+    background-image: url(/images/extjs/icons/fam/icon_excel.gif) !important;
+}
+
+.icon-close {
+    background-image: url(/images/extjs/icons/fam/close.gif) !important;
+}
+
+.icon-left-rotate    {	/*회전(좌)*/
+	/* border-style:none; background-image:none; background: url(/images/extjs/icons/fam/icon_left_rotate.png)  !important; width:22px; height:22px; */
+	background-image: url(/images/extjs/icons/fam/i_left_rotate.png)  !important;
+}
+
+.icon-right-rotate   {	/*회전(우)*/ 
+	/* border-style:none; background-image:none; background: url(/images/extjs/icons/fam/icon_right_rotate.png) !important; width:22px; height:22px; */
+	background-image: url(/images/extjs/icons/fam/i_right_rotate.png)  !important;
+}
+
+.icon-origin-rotate  {	/*회전(원본)*/
+	/* border-style:none; background-image:none; background: url(/images/extjs/icons/fam/icon_rotate_org.png)   !important; width:22px; height:22px; */
+	background-image: url(/images/extjs/icons/fam/i_rotate_org.png)  !important;
+}
+
+.icon-zoom-in   {	/*회전(원본)*/
+	/* border-style:none; background-image:none; background: url(/images/extjs/icons/fam/icon_zoom_in.png)   !important; width:22px; height:22px; */
+	background-image: url(/images/extjs/icons/fam/i_zoom_in.png)  !important;
+}
+
+.icon-zoom-out  {	/*회전(원본)*/
+	/* border-style:none; background-image:none; background: url(/images/extjs/icons/fam/icon_zoom_out.png)   !important; width:22px; height:22px; */
+	background-image: url(/images/extjs/icons/fam/i_zoom_out.png)  !important;
+}
+
+.icon-zoom-org  {
+	/* border-style:none; background-image:none; background: url(/images/extjs/icons/fam/icon_zoom_org.png)   !important; width:22px; height:22px; */
+	background-image: url(/images/extjs/icons/fam/i_zoom_org.png)  !important;
+}
+
+.icon-bright   {	/*밝게*/
+	/* border-style:none; background-image:none; background: url(/images/extjs/icons/fam/icon_light.png)   !important; width:22px; height:22px; */
+	background-image: url(/images/extjs/icons/fam/i_light.png)  !important;
+}
+
+.icon-darkness  {	/*어둡게*/
+	/* border-style:none; background-image:none; background: url(/images/extjs/icons/fam/icon_darkness.png)   !important; width:22px; height:22px; */
+	background-image: url(/images/extjs/icons/fam/i_darkness.png)  !important;
+}

@@ -1,11 +1,8 @@
 var formSave = Ext.create('Ext.form.Panel', {});
 
-var tourClCode = ""; // 대표이미지 등록시 사용
-var tourFileCode = ""; // 대표이미지 등록시 사용
-
 var storeTree = Ext.create('Ext.data.TreeStore', {
 	autoLoad: true,
-	fields: ['id', 'text', {name:'leaf', type: 'boolean'}],
+	fields: ['id', 'text', {name:'leaf', type: 'boolean'}, 'stayng_fclty_at'],
     root: {text: '전체', id: '00000', leaf: false},
     proxy: {
         type: 'ajax',
@@ -50,11 +47,7 @@ var tree = Ext.create('Ext.tree.Panel', {
 
 Ext.define('TourClInfo', {
     extend: 'Ext.data.Model',
-    fields: ['CL_CODE', 'CL_NM', 'SORT_ORDR', 'UPPER_CL_CODE', 'DELETE_AT', 'CRUD']
-});
-
-var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
-    clicksToEdit: 1
+    fields: ['CL_CODE', 'CL_NM', 'UPPER_CL_CODE', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'DELETE_AT', 'CRUD']
 });
 
 var combo = new Ext.create('Ext.form.ComboBox', {
@@ -63,6 +56,23 @@ var combo = new Ext.create('Ext.form.ComboBox', {
 		data :[
 	        ['N', '사용'],
 	        ['Y', '사용안함']
+	    ]
+	}),
+	displayField: 'name',
+	valueField: 'code',
+	mode: 'local',
+	typeAhead: false,
+	triggerAction: 'all',
+	lazyRender: true,
+	emptyText: '선택'
+});
+
+var comboStayng = new Ext.create('Ext.form.ComboBox', {
+	store: new Ext.create('Ext.data.ArrayStore', {
+		fields:['code', 'name'],
+		data :[
+	        ['N', '아니오'],
+	        ['Y', '예']
 	    ]
 	}),
 	displayField: 'name',
@@ -112,6 +122,13 @@ var grid = Ext.create('Ext.grid.Panel', {
         editor: {xtype:'textfield', allowBlank: true, maxLength: 25, fieldStyle: {'ime-mode':'active'}},
         dataIndex: 'CL_NM'
     },{
+        text: '숙박시설여부',
+        width: 100,
+        align: 'center',
+        editor: combo,
+        dataIndex: 'STAYNG_FCLTY_AT',
+        renderer: Ext.ux.comboBoxRenderer(comboStayng)        	
+    },{
         text: '정렬순서',
         width: 100,
         align: 'center',
@@ -145,11 +162,12 @@ var grid = Ext.create('Ext.grid.Panel', {
         	
         	var idx = store.getCount();
             var r = Ext.create('TourClInfo', {
-            	CL_CODE : '',
-            	CL_NM : '',
-            	SORT_ORDR : '',
-            	UPPER_CL_CODE : treeItem.get('id'),
-            	DELETE_AT : 'N',
+            	CL_CODE : '', 
+            	CL_NM : '', 
+            	UPPER_CL_CODE : treeItem.get('id'), 
+            	STAYNG_FCLTY_AT : treeItem.get('stayng_fclty_at'), 
+            	SORT_ORDR : '', 
+            	DELETE_AT : 'N', 
             	CRUD : 'I'
             });
             store.insert(idx, r);

@@ -72,19 +72,19 @@
     </update>
 
     <delete id="FileManageDAO.deleteFileDetailByPk" parameterClass="hashMap">
-	<![CDATA[
+    <![CDATA[
         DELETE TB_FILE_DETAIL
          WHERE FILE_CODE = #FILE_CODE#
            AND FILE_SN = #FILE_SN#
     ]]>
-	</delete>
+    </delete>
 
     <delete id="FileManageDAO.deleteFileDetail" parameterClass="hashMap">
-	<![CDATA[
+    <![CDATA[
         DELETE TB_FILE_DETAIL
          WHERE FILE_CODE = #FILE_CODE#
     ]]>
-	</delete>
+    </delete>
 
     <select id="FileManageDAO.selectFileDetailByPk" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
@@ -122,18 +122,37 @@
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , UPDT_ID
              , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
-          FROM TB_FILE_DETAIL
-         WHERE FILE_CODE = #FILE_CODE#
-         ORDER BY REPRSNT_AT DESC, FILE_SN         
-    ]]>
+          FROM TB_FILE_DETAIL A
+         WHERE 1 = 1 ]]>
+        <isNotEmpty property="FILE_CODE">
+           AND FILE_CODE = #FILE_CODE#
+        </isNotEmpty>
+        <isEmpty property="FILE_CODE">
+            <isNotEmpty property="GOODS_CODE">
+           AND A.FILE_CODE = (SELECT FILE_CODE FROM TB_GOODS X WHERE X.FILE_CODE = A.FILE_CODE AND X.GOODS_CODE = '0000000064')
+            </isNotEmpty>
+            <isEmpty property="GOODS_CODE">
+           AND 1 = 0
+            </isEmpty>
+        </isEmpty>
+         ORDER BY REPRSNT_AT DESC, SORT_NO
     </select>
-    
+
     <select id="FileManageDAO.selectFileReprsntCnt" parameterClass="hashMap" resultClass="int">
     <![CDATA[
         SELECT COUNT(FILE_SN)
-          FROM TB_FILE_DETAIL
-         WHERE FILE_CODE = #FILE_CODE#     
-           AND REPRSNT_AT = 'Y'    
-    ]]>
-    </select>
+          FROM TB_FILE_DETAIL A
+         WHERE REPRSNT_AT = 'Y' ]]>
+        <isNotEmpty property="FILE_CODE">
+           AND FILE_CODE = #FILE_CODE#
+        </isNotEmpty>
+        <isEmpty property="FILE_CODE">
+            <isNotEmpty property="GOODS_CODE">
+           AND A.FILE_CODE = (SELECT FILE_CODE FROM TB_GOODS X WHERE X.FILE_CODE = A.FILE_CODE AND X.GOODS_CODE = '0000000064')
+            </isNotEmpty>
+            <isEmpty property="GOODS_CODE">
+           AND 1 = 0
+            </isEmpty>
+        </isEmpty>
+     </select>
 </sqlMap>

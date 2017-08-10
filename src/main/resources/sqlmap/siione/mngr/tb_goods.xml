@@ -55,6 +55,7 @@
         INSERT INTO TB_GOODS( GOODS_CODE
                             , GOODS_NM
                             , GOODS_INTRCN
+                            , CL_CODE
                             , WAIT_TIME
                             , MVMN_TIME
                             , DELETE_AT
@@ -90,6 +91,7 @@
                       VALUES( #GOODS_CODE#
                             , #GOODS_NM#
                             , #GOODS_INTRCN:CLOB#
+                            , #CL_CODE#
                             , #WAIT_HH#||#WAIT_MI#
                             , #MVMN_HH#||#MVMN_MI#
                             , 'N'
@@ -125,44 +127,158 @@
     ]]>
     </insert>
 
+    <insert id="GoodsDAO.insertGoodsForBass" parameterClass="hashMap">
+    <selectKey keyProperty="GOODS_CODE" resultClass="string">
+        SELECT LPAD(SQ_GOODS_CODE.NEXTVAL, 10, '0') FROM DUAL
+    </selectKey>
+    <![CDATA[
+        INSERT INTO TB_GOODS( GOODS_CODE
+                            , GOODS_NM
+                            , GOODS_INTRCN
+                            , CL_CODE
+                            , WAIT_TIME
+                            , MVMN_TIME
+                            , FILE_CODE
+                            , ACT_LA
+                            , ACT_LO
+                            , STAYNG_FCLTY_AT
+                            , VOCHR_TICKET_TY
+                            , VOCHR_NTSS_REQRE_TIME
+                            , VOCHR_USE_MTH
+                            , INTRCN_GOODS_TY
+                            , INTRCN_USE_TIME
+                            , INTRCN_MEET_TIME
+                            , INTRCN_REQRE_TIME
+                            , INTRCN_PROVD_LANG
+                            , INTRCN_POSBL_AGE
+                            , INTRCN_PLACE
+                            , DELETE_AT
+                            , WRITNG_ID
+                            , WRITNG_DT )
+                      VALUES( #GOODS_CODE#
+                            , #GOODS_NM#
+                            , #GOODS_INTRCN:CLOB#
+                            , #CL_CODE#
+                            , LPAD(#WAIT_HOUR#, 2, '0')||LPAD(#WAIT_MINUTE#, 2, '0')
+                            , LPAD(#MVMN_HOUR#, 2, '0')||LPAD(#MVMN_MINUTE#, 2, '0')
+                            , #FILE_CODE#
+                            , #ACT_LA#
+                            , #ACT_LO#
+                            , #STAYNG_FCLTY_AT#
+                            , #VOCHR_TICKET_TY#
+                            , #VOCHR_NTSS_REQRE_TIME#
+                            , #VOCHR_USE_MTH#
+                            , #INTRCN_GOODS_TY#
+                            , #INTRCN_USE_TIME#
+                            , #INTRCN_MEET_TIME#
+                            , #INTRCN_REQRE_TIME#
+                            , #INTRCN_PROVD_LANG#
+                            , #INTRCN_POSBL_AGE#
+                            , #INTRCN_PLACE#
+                            , 'N'
+                            , #WRITNG_ID#
+                            , SYSDATE )
+    ]]>
+    </insert>
+
     <update id="GoodsDAO.updateGoods" parameterClass="hashMap">
     <![CDATA[
-		UPDATE TB_GOODS
-		   SET GOODS_NM                  =  #GOODS_NM#
-		     , GOODS_INTRCN              =  #GOODS_INTRCN:CLOB#
-		     , WAIT_TIME                 =  #WAIT_HH#||#WAIT_MI#
-		     , MVMN_TIME                 =  #MVMN_HH#||#MVMN_MI#
-		     , DELETE_AT                 =  'N'
-		     , ACT_LA                    =  #ACT_LA#
-		     , ACT_LO                    =  #ACT_LO#
-		     , FILE_CODE                 =  #FILE_CODE#
-		     , VOCHR_TICKET_TY           =  #VOCHR_TICKET_TY#
-		     , VOCHR_NTSS_REQRE_TIME     =  #VOCHR_NTSS_REQRE_TIME#
-		     , VOCHR_USE_MTH             =  #VOCHR_USE_MTH#
-		     , GUIDANCE_USE_TIME         =  #GUIDANCE_USE_TIME#
-		     , GUIDANCE_REQRE_TIME       =  #GUIDANCE_REQRE_TIME#
-		     , GUIDANCE_AGE_DIV          =  #GUIDANCE_AGE_DIV#
-		     , GUIDANCE_TOUR_SCHDUL      =  #GUIDANCE_TOUR_SCHDUL#
-		     , GUIDANCE_PRFPLC_LC        =  #GUIDANCE_PRFPLC_LC#
-		     , GUIDANCE_EDC_CRSE         =  #GUIDANCE_EDC_CRSE#
-		     , GUIDANCE_OPTN_MATTER      =  #GUIDANCE_OPTN_MATTER#
-		     , GUIDANCE_PICKUP           =  #GUIDANCE_PICKUP#
-		     , GUIDANCE_PRPARETG         =  #GUIDANCE_PRPARETG#
-		     , GUIDANCE_INCLS_MATTER     =  #GUIDANCE_INCLS_MATTER#
-		     , GUIDANCE_NOT_INCLS_MATTER =  #GUIDANCE_NOT_INCLS_MATTER#
-		     , ADIT_GUIDANCE             =  #ADIT_GUIDANCE#
-		     , ATENT_MATTER              =  #ATENT_MATTER#
-		     , CHANGE_REFND_REGLTN       =  #CHANGE_REFND_REGLTN#
-		     , INTRCN_GOODS_TY           =  #INTRCN_GOODS_TY#
-		     , INTRCN_USE_TIME           =  #INTRCN_USE_TIME#
-		     , INTRCN_MEET_TIME          =  #INTRCN_MEET_TIME#
-		     , INTRCN_REQRE_TIME         =  #INTRCN_REQRE_TIME#
-		     , INTRCN_PROVD_LANG         =  #INTRCN_PROVD_LANG#
-		     , INTRCN_POSBL_AGE          =  #INTRCN_POSBL_AGE#
-		     , INTRCN_PLACE              =  #INTRCN_PLACE#
-		     , UPDT_ID                   =  #WRITNG_ID#
-		     , UPDT_DT                   =  SYSDATE
-		 WHERE GOODS_CODE = #GOODS_CODE#
+        UPDATE TB_GOODS
+           SET GOODS_NM                  =  #GOODS_NM#
+             , GOODS_INTRCN              =  #GOODS_INTRCN:CLOB#
+             , WAIT_TIME                 =  #WAIT_HH#||#WAIT_MI#
+             , MVMN_TIME                 =  #MVMN_HH#||#MVMN_MI#
+             , DELETE_AT                 =  'N'
+             , ACT_LA                    =  #ACT_LA#
+             , ACT_LO                    =  #ACT_LO#
+             , FILE_CODE                 =  #FILE_CODE#
+             , VOCHR_TICKET_TY           =  #VOCHR_TICKET_TY#
+             , VOCHR_NTSS_REQRE_TIME     =  #VOCHR_NTSS_REQRE_TIME#
+             , VOCHR_USE_MTH             =  #VOCHR_USE_MTH#
+             , GUIDANCE_USE_TIME         =  #GUIDANCE_USE_TIME#
+             , GUIDANCE_REQRE_TIME       =  #GUIDANCE_REQRE_TIME#
+             , GUIDANCE_AGE_DIV          =  #GUIDANCE_AGE_DIV#
+             , GUIDANCE_TOUR_SCHDUL      =  #GUIDANCE_TOUR_SCHDUL#
+             , GUIDANCE_PRFPLC_LC        =  #GUIDANCE_PRFPLC_LC#
+             , GUIDANCE_EDC_CRSE         =  #GUIDANCE_EDC_CRSE#
+             , GUIDANCE_OPTN_MATTER      =  #GUIDANCE_OPTN_MATTER#
+             , GUIDANCE_PICKUP           =  #GUIDANCE_PICKUP#
+             , GUIDANCE_PRPARETG         =  #GUIDANCE_PRPARETG#
+             , GUIDANCE_INCLS_MATTER     =  #GUIDANCE_INCLS_MATTER#
+             , GUIDANCE_NOT_INCLS_MATTER =  #GUIDANCE_NOT_INCLS_MATTER#
+             , ADIT_GUIDANCE             =  #ADIT_GUIDANCE#
+             , ATENT_MATTER              =  #ATENT_MATTER#
+             , CHANGE_REFND_REGLTN       =  #CHANGE_REFND_REGLTN#
+             , INTRCN_GOODS_TY           =  #INTRCN_GOODS_TY#
+             , INTRCN_USE_TIME           =  #INTRCN_USE_TIME#
+             , INTRCN_MEET_TIME          =  #INTRCN_MEET_TIME#
+             , INTRCN_REQRE_TIME         =  #INTRCN_REQRE_TIME#
+             , INTRCN_PROVD_LANG         =  #INTRCN_PROVD_LANG#
+             , INTRCN_POSBL_AGE          =  #INTRCN_POSBL_AGE#
+             , INTRCN_PLACE              =  #INTRCN_PLACE#
+             , UPDT_ID                   =  #WRITNG_ID#
+             , UPDT_DT                   =  SYSDATE
+         WHERE GOODS_CODE = #GOODS_CODE#
+    ]]>
+    </update>
+
+    <update id="GoodsDAO.updateGoodsForBass" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GOODS
+           SET UPDT_ID               = #UPDT_ID#
+             , UPDT_DT               = SYSDATE
+             , GOODS_CODE            = #GOODS_CODE#
+             , GOODS_NM              = #GOODS_NM#
+             , CL_CODE               = #CL_CODE#
+             , GOODS_INTRCN          = #GOODS_INTRCN:CLOB#
+             , WAIT_TIME             = LPAD(#WAIT_HOUR#, 2, '0')||LPAD(#WAIT_MINUTE#, 2, '0')
+             , MVMN_TIME             = LPAD(#MVMN_HOUR#, 2, '0')||LPAD(#MVMN_MINUTE#, 2, '0')
+             , ACT_LA                = #ACT_LA#
+             , ACT_LO                = #ACT_LO#
+             , STAYNG_FCLTY_AT       = #STAYNG_FCLTY_AT#
+             , VOCHR_TICKET_TY       = #VOCHR_TICKET_TY#
+             , VOCHR_NTSS_REQRE_TIME = #VOCHR_NTSS_REQRE_TIME#
+             , VOCHR_USE_MTH         = #VOCHR_USE_MTH#
+             , INTRCN_GOODS_TY       = #INTRCN_GOODS_TY#
+             , INTRCN_USE_TIME       = #INTRCN_USE_TIME#
+             , INTRCN_MEET_TIME      = #INTRCN_MEET_TIME#
+             , INTRCN_REQRE_TIME     = #INTRCN_REQRE_TIME#
+             , INTRCN_PROVD_LANG     = #INTRCN_PROVD_LANG#
+             , INTRCN_POSBL_AGE      = #INTRCN_POSBL_AGE#
+             , INTRCN_PLACE          = #INTRCN_PLACE#
+         WHERE GOODS_CODE = #GOODS_CODE#
+    ]]>
+    </update>
+
+    <update id="GoodsDAO.updateGoodsForGuidance" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GOODS
+           SET UPDT_ID                   = #UPDT_ID#
+             , UPDT_DT                   = SYSDATE
+             , GUIDANCE_USE_TIME         = #GUIDANCE_USE_TIME#
+             , GUIDANCE_REQRE_TIME       = #GUIDANCE_REQRE_TIME#
+             , GUIDANCE_AGE_DIV          = #GUIDANCE_AGE_DIV#
+             , GUIDANCE_TOUR_SCHDUL      = #GUIDANCE_TOUR_SCHDUL#
+             , GUIDANCE_PRFPLC_LC        = #GUIDANCE_PRFPLC_LC#
+             , GUIDANCE_EDC_CRSE         = #GUIDANCE_EDC_CRSE#
+             , GUIDANCE_OPTN_MATTER      = #GUIDANCE_OPTN_MATTER#
+             , GUIDANCE_PICKUP           = #GUIDANCE_PICKUP#
+             , GUIDANCE_PRPARETG         = #GUIDANCE_PRPARETG#
+             , GUIDANCE_INCLS_MATTER     = #GUIDANCE_INCLS_MATTER#
+             , GUIDANCE_NOT_INCLS_MATTER = #GUIDANCE_NOT_INCLS_MATTER#
+         WHERE GOODS_CODE = #GOODS_CODE#
+    ]]>
+    </update>
+
+    <update id="GoodsDAO.updateGoodsForEtc" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GOODS
+           SET UPDT_ID             = #UPDT_ID#
+             , UPDT_DT             = SYSDATE
+             , ADIT_GUIDANCE       = #ADIT_GUIDANCE#
+             , ATENT_MATTER        = #ATENT_MATTER#
+             , CHANGE_REFND_REGLTN = #CHANGE_REFND_REGLTN#
+         WHERE GOODS_CODE = #GOODS_CODE#
     ]]>
     </update>
 
@@ -188,10 +304,12 @@
              , UPDT_ID
              , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
              , WAIT_TIME
-             , MVMN_TIME             
+             , MVMN_TIME
              , ACT_LA
              , ACT_LO
-             , (SELECT C.CL_CODE
+             , CL_CODE
+             , (SELECT C.CL_NM FROM TB_TOUR_CL C WHERE A.CL_CODE = C.CL_CODE) CL_NM
+           /*, (SELECT C.CL_CODE
                   FROM TB_GOODS_CL B, TB_TOUR_CL C
                  WHERE A.GOODS_CODE = B.GOODS_CODE
                    AND B.CL_CODE = C.CL_CODE
@@ -200,7 +318,7 @@
                   FROM TB_GOODS_CL B, TB_TOUR_CL C
                  WHERE A.GOODS_CODE = B.GOODS_CODE
                    AND B.CL_CODE = C.CL_CODE
-                   AND ROWNUM = 1) CL_NM
+                   AND ROWNUM = 1) CL_NM */
              , VOCHR_TICKET_TY
              , VOCHR_NTSS_REQRE_TIME
              , VOCHR_USE_MTH
@@ -236,25 +354,18 @@
              , A.GOODS_NM
              , A.GOODS_INTRCN
              , A.DELETE_AT
-             , A.FILE_CODE             
+             , A.FILE_CODE
              , A.WRITNG_ID
              , TO_CHAR(A.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , A.UPDT_ID
              , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DE
              , A.WAIT_TIME
-             , A.MVMN_TIME             
+             , A.MVMN_TIME
              , A.ACT_LA
              , A.ACT_LO
-             , (SELECT C.CL_CODE
-                  FROM TB_GOODS_CL B, TB_TOUR_CL C
-                 WHERE A.GOODS_CODE = B.GOODS_CODE
-                   AND B.CL_CODE = C.CL_CODE
-                   AND ROWNUM = 1) CL_CODE
-             , (SELECT C.CL_NM
-                  FROM TB_GOODS_CL B, TB_TOUR_CL C
-                 WHERE A.GOODS_CODE = B.GOODS_CODE
-                   AND B.CL_CODE = C.CL_CODE
-                   AND ROWNUM = 1) CL_NM
+             , A.CL_CODE
+             , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE AND X.UPPER_CL_CODE <> '00000') CL_NM
+             , STAYNG_FCLTY_AT
              , VOCHR_TICKET_TY
              , VOCHR_NTSS_REQRE_TIME
              , VOCHR_USE_MTH
@@ -286,5 +397,30 @@
         </isNotEmpty>
          ORDER BY WRITNG_DT, GOODS_CODE
     </select>
+
+    <select id="GoodsDAO.selectGoodsListForSearch" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT GOODS_CODE
+             , GOODS_NM
+             , CL_CODE
+             , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE AND X.UPPER_CL_CODE <> '00000') CL_NM
+             , STAYNG_FCLTY_AT
+             , SORT_ORDR
+             , FILE_CODE
+             , DELETE_AT
+             , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD') WRITNG_DE
+             , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DE
+          FROM TB_GOODS A
+         WHERE 1 = 1 ]]>
+        <isNotEmpty property="CL_CODE">
+           AND CL_CODE = #CL_CODE#
+        </isNotEmpty>
+        <isEmpty property="CL_CODE"><isNotEmpty property="UPPER_CL_CODE">
+           AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL
+                            WHERE UPPER_CL_CODE = #UPPER_CL_CODE#)
+        </isNotEmpty></isEmpty>
+         ORDER BY SORT_ORDR
+    </select>
+
 
 </sqlMap>

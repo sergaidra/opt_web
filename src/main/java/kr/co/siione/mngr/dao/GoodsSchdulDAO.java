@@ -17,10 +17,18 @@ public class GoodsSchdulDAO extends EgovComAbstractDAO {
 	public int updateGoodsSchdul(Map<String, String> map) throws Exception {
 		return update("GoodsSchdulDAO.updateGoodsSchdul", map);
 	}
+
+	public int updateGoodsSchdulInfos(Map<String, String> map) throws Exception {
+		return update("GoodsSchdulDAO.updateGoodsSchdulInfos", map);
+	}
 	
 	public int deleteGoodsSchdul(Map<String, String> map) throws Exception {
 		return delete("GoodsSchdulDAO.deleteGoodsSchdul", map);
 	}
+	
+	public int deleteGoodsSchdulInfos(Map<String, String> map) throws Exception {
+		return delete("GoodsSchdulDAO.deleteGoodsSchdulInfos", map);
+	}	
 
 	@SuppressWarnings("unchecked")
 	public Map<String, String> selectGoodsSchdulByPk(Map<String, String> param) throws Exception {

@@ -47,14 +47,14 @@ public class TourClManageController {
 	
 	private static final String ssUserId = "admin";
 	
-    @RequestMapping(value="/mngr/TourClUpperManager/")
-	public String TourClUpperManager(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/mngr/TourClUpperManager";
+    @RequestMapping(value="/mngr/TourClUpperManage/")
+	public String TourClUpperManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "/mngr/TourClUpperManage";
 	}
     
-    @RequestMapping(value="/mngr/TourClManager/")
-	public String TourClManager(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/mngr/TourClManager";
+    @RequestMapping(value="/mngr/TourClManage/")
+	public String TourClManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "/mngr/TourClManage";
 	}
     
     @RequestMapping(value="/mngr/selectTourClUpperList/")
@@ -142,7 +142,7 @@ public class TourClManageController {
     	param.put("UPDT_ID", ssUserId);
     	UserUtils.log("[file_upload_init]", param);
     	
-		InputStream is = null;
+		//InputStream is = null;
 		FileOutputStream fos = null;
     	
 		try {
@@ -186,7 +186,7 @@ public class TourClManageController {
 			mav.addObject("message", e.getMessage());
 		} finally {
     		try {
-	    		if (is != null) is.close();
+	    		//if (is != null) is.close();
 	    		if (fos != null) fos.close();
     		} catch (Exception e) {
     			LOG.error(e.getMessage());
