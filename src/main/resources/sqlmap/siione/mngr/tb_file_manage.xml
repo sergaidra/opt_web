@@ -60,18 +60,18 @@
         UPDATE TB_FILE_DETAIL
            SET UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
-             <isNotEmpty property="FILE_NM">, FILE_NM = #FILE_NM#</isNotEmpty>
-             <isNotEmpty property="FILE_PATH">, FILE_PATH = #FILE_PATH#</isNotEmpty>
-             <isNotEmpty property="FILE_DC">, FILE_DC = #FILE_DC#</isNotEmpty>
-             <isNotEmpty property="FIEL_SIZE">, FIEL_SIZE = #FILE_SIZE#</isNotEmpty>
-             <isNotEmpty property="FILE_CL">, FILE_CL = #FILE_CL#</isNotEmpty>
+             <isNotEmpty property="FILE_NM">, FILE_NM = <![CDATA[#FILE_NM#]]></isNotEmpty>
+             <isNotEmpty property="FILE_PATH">, FILE_PATH = <![CDATA[#FILE_PATH#]]></isNotEmpty>
+             <isNotEmpty property="FILE_DC">, FILE_DC = <![CDATA[#FILE_DC#]]></isNotEmpty>
+             <isNotEmpty property="FIEL_SIZE">, FIEL_SIZE = <![CDATA[#FILE_SIZE#]]></isNotEmpty>
+             <isNotEmpty property="FILE_CL">, FILE_CL = <![CDATA[#FILE_CL#]]></isNotEmpty>
              <isNotEmpty property="REPRSNT_AT">, REPRSNT_AT = #REPRSNT_AT#</isNotEmpty>
              <isNotEmpty property="SORT_NO">, SORT_NO = #SORT_NO#</isNotEmpty>
          WHERE FILE_CODE = #FILE_CODE#
            AND FILE_SN = #FILE_SN#
     </update>
 
-    <delete id="FileManageDAO.deleteFileDetailByPk" parameterClass="hashMap">
+    <delete id="FileManageDAO.deleteFileDetail" parameterClass="hashMap">
     <![CDATA[
         DELETE TB_FILE_DETAIL
          WHERE FILE_CODE = #FILE_CODE#
@@ -79,7 +79,7 @@
     ]]>
     </delete>
 
-    <delete id="FileManageDAO.deleteFileDetail" parameterClass="hashMap">
+    <delete id="FileManageDAO.deleteFileDetailInfos" parameterClass="hashMap">
     <![CDATA[
         DELETE TB_FILE_DETAIL
          WHERE FILE_CODE = #FILE_CODE#
@@ -129,7 +129,7 @@
         </isNotEmpty>
         <isEmpty property="FILE_CODE">
             <isNotEmpty property="GOODS_CODE">
-           AND A.FILE_CODE = (SELECT FILE_CODE FROM TB_GOODS X WHERE X.FILE_CODE = A.FILE_CODE AND X.GOODS_CODE = '0000000064')
+           AND A.FILE_CODE = (SELECT FILE_CODE FROM TB_GOODS X WHERE X.FILE_CODE = A.FILE_CODE AND X.GOODS_CODE = #GOODS_CODE#)
             </isNotEmpty>
             <isEmpty property="GOODS_CODE">
            AND 1 = 0
@@ -148,7 +148,7 @@
         </isNotEmpty>
         <isEmpty property="FILE_CODE">
             <isNotEmpty property="GOODS_CODE">
-           AND A.FILE_CODE = (SELECT FILE_CODE FROM TB_GOODS X WHERE X.FILE_CODE = A.FILE_CODE AND X.GOODS_CODE = '0000000064')
+           AND A.FILE_CODE = (SELECT FILE_CODE FROM TB_GOODS X WHERE X.FILE_CODE = A.FILE_CODE AND X.GOODS_CODE = #GOODS_CODE#)
             </isNotEmpty>
             <isEmpty property="GOODS_CODE">
            AND 1 = 0

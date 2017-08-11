@@ -86,7 +86,7 @@ Ext.onReady(function() {
 		    listeners: {
 		    	itemclick: function(tree, record, index, eOpts) {
 					fn_open_menu(record.get('id'), record.get('text'), record.get('url'));
-					//window.top.console.log('['+record.get('id')+']['+record.get('text')+']['+record.get('url')+']');
+					console.log('['+record.get('id')+']['+record.get('text')+']['+record.get('url')+']');
 		    	}
 			}
 		},{

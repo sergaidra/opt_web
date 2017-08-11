@@ -138,8 +138,11 @@
 
 	</c:when>
 	<c:otherwise>
-		<td width="350px" align="center" style="border: 1px solid #bcbcbc;">
+		<td width="300px" align="center" style="border: 1px solid #bcbcbc;">
 			<a href="<c:url value='javascript:fnLogin();'/>">로그인</a>
+		</td>
+		<td width="150px" align="center" style="border: 1px solid #bcbcbc;">
+			<a href="<c:url value='/mngr/'/>">관리자메뉴</a>
 		</td>
 
 <script type="text/javascript">

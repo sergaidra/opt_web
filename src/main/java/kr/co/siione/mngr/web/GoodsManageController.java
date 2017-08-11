@@ -159,178 +159,37 @@ public class GoodsManageController {
 
 		jsonView.render(result, request, response);
 	}
+	
+	@RequestMapping(value="/mngr/selectGoods/")
+	public void selectGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
+		
 
-	/*
-	@RequestMapping(value="/mngr/insertGoods/")
-	public ModelAndView insertGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception{
-		ModelAndView mav = new ModelAndView();
-		Map<String, String> fileParam = new HashMap<String, String>();
+		Map<String, String> results = new HashMap<String, String>();
+		Map<String, Object> result = new HashMap<String, Object>();
 
-		param.put("WRITNG_ID", ssUserId);
-
-		//로그인 객체 선언
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		//param.put("INQIRE_RESN", Util.convertText2Html(Util.nvl(param.get("INQIRE_RESN"))));
-
-		//InputStream is = null;
-		FileOutputStream fos = null;
+		LOG.debug("[selectGoods]param:"+param);
 
 		try {
-			UserUtils.log("[insertGoodsForBass]param", param);
+			results = goodsManageService.selectGoodsByPk(param);
+			
+			
+			UserUtils.log("[selectGoods]result", results);
+			
+			
+			
 
-			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
-			LOG.debug("@@@@@@@@@@@@@@@@@@ mRequest:"+mRequest);
-
-			MultipartFile file = mRequest.getFile("ATTACH_FLIE");
-			String fileName = file.getOriginalFilename();
-			LOG.debug("@@@@@@@@@@@@@@@@@@ fileName:"+fileName);
-
-			if(!fileName.equals("")) {
-				String saveFileNm = UserUtils.getDate("yyyyMMddHHmmss") + "_" + fileName;
-				LOG.debug("$$$$$$$$$$$$$$$$$$$$ 저장파일이름:"+saveFileNm);
-				LOG.debug("$$$$$$$$$$$$$$$$$$$$ getContentType:"+file.getContentType());
-
-				String storePath = EgovProperties.getProperty("Globals.fileStorePath") + "GOODS" + File.separator;
-				File f = new File(storePath);
-				if (!f.exists()) {
-					f.mkdirs();
-				}
-
-				fos = new FileOutputStream(storePath + saveFileNm);
-				fos.write(file.getBytes());
-
-				fileParam.put("REGIST_PATH", "상품");
-				fileParam.put("FILE_SN", "1");
-				fileParam.put("FILE_NM", fileName);
-				fileParam.put("FILE_PATH", storePath + saveFileNm);
-				fileParam.put("FILE_SIZE", String.valueOf(file.getSize()));
-				fileParam.put("FILE_CL", "I"); // I:이미지, M:동영상
-				fileParam.put("REPRSNT_AT", "Y");
-				fileParam.put("SORT_NO", "1");
-				fileParam.put("WRITNG_ID", param.get("WRITNG_ID"));
-			}
-
-			String sGoodsCode = goodsManageService.insertGoodsForBass(param, fileParam);
-
-			mav.addObject("success", true);
-			mav.addObject("message", "(1)저장 성공");
-			mav.addObject("GOODS_CODE", sGoodsCode);
+			result.put("rows", results.size());
+			result.put("data", results);
+			result.put("success", true);
 		} catch (Exception e) {
-			e.printStackTrace();
 			LOG.error(e.getMessage());
-			mav.addObject("success", false);
-			mav.addObject("message", e.getMessage());
+			result.put("message", e.getMessage());
+			result.put("success", false);
 		} finally {
-			try {
-				//if (is != null) is.close();
-				if (fos != null) fos.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				LOG.error(e.getMessage());
-				mav.addObject("success", false);
-				mav.addObject("message", e.getMessage());
-			}
+			jsonView.render(result, request, response);
 		}
-
-		mav.setViewName("jsonFileView");
-
-		return mav;
 	}
-
-	@RequestMapping(value="/mngr/updateGoods/")
-	public ModelAndView updateGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception{
-		param.put("WRITNG_ID", ssUserId);
-		param.put("UPDT_ID", ssUserId);
-
-		ModelAndView mav = new ModelAndView();
-		int iRe = 0;
-
-		//로그인 객체 선언
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		//param.put("INQIRE_RESN", Util.convertText2Html(Util.nvl(param.get("INQIRE_RESN"))));
-
-		Map<String, String> fileParam = new HashMap<String, String>();
-
-		//InputStream is = null;
-		FileOutputStream fos = null;
-
-		try {
-			UserUtils.log("[updateGoods]param", param);
-
-			if(UserUtils.nvl(param.get("UPDT_SE")).equals("U")) {
-
-				MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
-				LOG.debug("@@@@@@@@@@@@@@@@@@ mRequest:"+mRequest);
-
-				MultipartFile file = mRequest.getFile("ATTACH_FLIE");
-				String fileName = file.getOriginalFilename();
-				LOG.debug("@@@@@@@@@@@@@@@@@@ fileName:"+fileName);
-
-				if(!fileName.equals("")) {
-					String saveFileNm = UserUtils.getDate("yyyyMMddHHmmss") + "_" + fileName;
-					LOG.debug("$$$$$$$$$$$$$$$$$$$$ 저장파일이름:"+saveFileNm);
-					LOG.debug("$$$$$$$$$$$$$$$$$$$$ getContentType:"+file.getContentType());
-
-					String storePath = EgovProperties.getProperty("Globals.fileStorePath") + "GOODS" + File.separator;
-					File f = new File(storePath);
-					if (!f.exists()) {
-						f.mkdirs();
-					}
-
-					fos = new FileOutputStream(storePath + saveFileNm);
-					fos.write(file.getBytes());
-
-					fileParam.put("REGIST_PATH", "상품");
-					fileParam.put("FILE_SN", "1");
-					fileParam.put("FILE_NM", fileName);
-					fileParam.put("FILE_PATH", storePath + saveFileNm);
-					fileParam.put("FILE_SIZE", String.valueOf(file.getSize()));
-					fileParam.put("FILE_CL", "I"); // I:이미지, M:동영상
-					fileParam.put("REPRSNT_AT", "Y");
-					fileParam.put("SORT_NO", "1");
-					fileParam.put("WRITNG_ID", param.get("WRITNG_ID"));
-				}
-
-				iRe = goodsManageService.updateGoodsForBass(param, fileParam);
-			} else if(UserUtils.nvl(param.get("UPDT_SE")).equals("G")) {
-				iRe = goodsManageService.updateGoodsForGuidance(param);
-			} else if(UserUtils.nvl(param.get("UPDT_SE")).equals("E")) {
-				iRe = goodsManageService.updateGoodsForEtc(param);
-			} else {
-				iRe = -9;
-			}
-
-			if(iRe > 0 ) {
-				mav.addObject("success", true);
-				mav.addObject("message", "(2)수정 성공");
-			} else if(iRe == -9){
-				mav.addObject("success", false);
-				mav.addObject("message", "(2)UPDT_SE 전달 오류");
-			} else {
-				mav.addObject("success", false);
-				mav.addObject("message", "(2)수정 실패");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			LOG.error(e.getMessage());
-			mav.addObject("success", false);
-			mav.addObject("message", e.getMessage());
-		} finally {
-			try {
-				//if (is != null) is.close();
-				if (fos != null) fos.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				LOG.error(e.getMessage());
-				mav.addObject("success", false);
-				mav.addObject("message", e.getMessage());
-			}
-		}
-
-		mav.setViewName("jsonFileView");
-
-		return mav;
-	}*/
+	
 
 	@RequestMapping(value="/mngr/saveGoodsSchdul/")
 	public void saveGoodsSchdul(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
@@ -356,10 +215,6 @@ public class GoodsManageController {
 		List<Map<String,String>> results = null;
 
 		Map<String, Object> result = new HashMap<String, Object>();
-
-		// TODO 로그인 사용자 정보
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		param.put("USER_ID" , ssUserId);
 
 		LOG.debug("[selectGoodsSchdul]param:"+param);
 
@@ -405,10 +260,6 @@ public class GoodsManageController {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		// TODO 로그인 사용자 정보
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		param.put("USER_ID" , ssUserId);
-
 		LOG.debug("[selectGoodsTimeList]param:"+param);
 
 		try {
@@ -453,10 +304,6 @@ public class GoodsManageController {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		// TODO 로그인 사용자 정보
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		param.put("USER_ID" , ssUserId);
-
 		LOG.debug("[selectGoodsNmprList]param:"+param);
 
 		try {
@@ -474,15 +321,32 @@ public class GoodsManageController {
 		}
 	}
 
-	@RequestMapping(value="/mngr/selectGoodsFile/")
-	public void selectGoodsFile(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
-		List<Map<String,String>> results = null;
-
+	@RequestMapping(value="/mngr/saveGoodsFile/")
+	public void saveGoodsFile(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		// TODO 로그인 사용자 정보
 		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		param.put("USER_ID" , ssUserId);
+
+		UserUtils.log("[saveGoodsFile]param", param);
+
+		try {
+			result = goodsManageService.saveGoodsFile(param);
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			result.put("message", e.getMessage());
+			result.put("success", false);
+		}
+
+		jsonView.render(result, request, response);
+	}
+	
+	@RequestMapping(value="/mngr/selectGoodsFile/")
+	public void selectGoodsFile(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
+		List<Map<String,String>> results = null;
+
+		Map<String, Object> result = new HashMap<String, Object>();
 
 		LOG.debug("[selectGoodsFileList]param:"+param);
 
@@ -668,21 +532,6 @@ public class GoodsManageController {
 			String nmprCnd[] = request.getParameterValues("NMPR_CND");
 			String setupAmount[] = request.getParameterValues("SETUP_AMOUNT");
 
-			/*for(String str : clCode) System.out.println("[clCode] "+str);
-			for(String str : beginHh) System.out.println("[beginHh] "+str);
-			for(String str : beginMi) System.out.println("[beginMi] "+str);
-			for(String str : endHh) System.out.println("[endHh] "+str);
-			for(String str : endMi) System.out.println("[endMi] "+str);
-			for(String str : beginDe) System.out.println("[beginDe] "+str);
-			for(String str : endDe) System.out.println("[endDe] "+str);
-			for(String str : mon) System.out.println("[mon] "+str);
-			for(String str : tue) System.out.println("[tue] "+str);
-			for(String str : wed) System.out.println("[wed] "+str);
-			for(String str : thu) System.out.println("[thu] "+str);
-			for(String str : fri) System.out.println("[fri] "+str);
-			for(String str : sat) System.out.println("[sat] "+str);
-			for(String str : sun) System.out.println("[sun] "+str);*/
-
 			LOG.debug("################ Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
 			LOG.debug("################ File.separator:"+File.separator);
 
@@ -845,21 +694,6 @@ public class GoodsManageController {
 			String nmprCnd[] = request.getParameterValues("NMPR_CND");
 			String setupAmount[] = request.getParameterValues("SETUP_AMOUNT");
 
-			/*for(String str : clCode) System.out.println("[clCode] "+str);
-			for(String str : beginHh) System.out.println("[beginHh] "+str);
-			for(String str : beginMi) System.out.println("[beginMi] "+str);
-			for(String str : endHh) System.out.println("[endHh] "+str);
-			for(String str : endMi) System.out.println("[endMi] "+str);
-			for(String str : beginDe) System.out.println("[beginDe] "+str);
-			for(String str : endDe) System.out.println("[endDe] "+str);
-			for(String str : mon) System.out.println("[mon] "+str);
-			for(String str : tue) System.out.println("[tue] "+str);
-			for(String str : wed) System.out.println("[wed] "+str);
-			for(String str : thu) System.out.println("[thu] "+str);
-			for(String str : fri) System.out.println("[fri] "+str);
-			for(String str : sat) System.out.println("[sat] "+str);
-			for(String str : sun) System.out.println("[sun] "+str);*/
-
 			LOG.debug("################ Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
 			LOG.debug("################ File.separator:"+File.separator);
 
@@ -1015,7 +849,7 @@ public class GoodsManageController {
 
 		try {
 			int iCnt = fileManageService.deleteFileDetail(param);
-			System.out.println("[delFileDeatil]파일삭제 성공여부 iCnt:"+iCnt);
+			LOG.debug("[delFileDeatil]파일삭제 성공여부 iCnt:"+iCnt);
 
 			if(iCnt > 0) {
 				result.put("message", "파일을 삭제했습니다.");

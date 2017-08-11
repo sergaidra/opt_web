@@ -36,7 +36,7 @@ public class FileManageServiceImpl implements FileManageService {
 		File file = new File(UserUtils.nvl(mapFile.get("FILE_PATH")));
 		
 		if(file.delete()) {
-			return fileManageDAO.deleteFileDetailByPk(param);	
+			return fileManageDAO.deleteFileDetail(param);	
 		} else {
 			return 0;
 		}

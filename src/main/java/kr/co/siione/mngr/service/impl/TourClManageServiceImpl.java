@@ -53,7 +53,7 @@ public class TourClManageServiceImpl implements TourClManageService {
 				file.delete();
 			}
 			
-			if(fileManageDAO.deleteFileDetail(param) > 0) {
+			if(fileManageDAO.deleteFileDetailInfos(param) > 0) {
 				fileManageDAO.insertFileDetail(param);
 			} else {
 				throw new Exception("파일 삭제 중 오류 발생");
@@ -138,7 +138,7 @@ public class TourClManageServiceImpl implements TourClManageService {
 			}
 			
 			//iRe = fileManageDAO.updateFileDetail(param);
-			if(fileManageDAO.deleteFileDetail(param) > 0) {
+			if(fileManageDAO.deleteFileDetailInfos(param) > 0) {
 				fileManageDAO.insertFileDetail(param);
 				iRe = 1;
 			}			

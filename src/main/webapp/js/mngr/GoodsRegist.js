@@ -467,6 +467,133 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 	});
 }
 
+
+Ext.define('GoodsInfo', {
+	extend: 'Ext.data.Model',
+	fields: [ {name:'GOODS_CODE', type:'string'}
+			, {name:'GOODS_NM', type:'string'}
+			, {name:'GOODS_INTRCN', type:'string'}
+			, {name:'DELETE_AT', type:'string'}
+			, {name:'WRITNG_ID', type:'string'}
+			, {name:'UPDT_ID', type:'string'}
+			, {name:'FILE_CODE', type:'string'}
+			, {name:'WAIT_TIME', type:'string'}
+			, {name:'MVMN_TIME', type:'string'}
+			, {name:'WRITNG_DE', type:'string'}
+			, {name:'UPDT_DE', type:'string'}
+			, {name:'ACT_LA', type:'string'}
+			, {name:'ACT_LO', type:'string'}
+			, {name:'VOCHR_TICKET_TY', type:'string'}
+			, {name:'VOCHR_NTSS_REQRE_TIME', type:'string'}
+			, {name:'VOCHR_USE_MTH', type:'string'}
+			, {name:'GUIDANCE_USE_TIME', type:'string'}
+			, {name:'GUIDANCE_REQRE_TIME', type:'string'}
+			, {name:'GUIDANCE_AGE_DIV', type:'string'}
+			, {name:'GUIDANCE_TOUR_SCHDUL', type:'string'}
+			, {name:'GUIDANCE_PRFPLC_LC', type:'string'}
+			, {name:'GUIDANCE_EDC_CRSE', type:'string'}
+			, {name:'GUIDANCE_OPTN_MATTER', type:'string'}
+			, {name:'GUIDANCE_PICKUP', type:'string'}
+			, {name:'GUIDANCE_PRPARETG', type:'string'}
+			, {name:'GUIDANCE_INCLS_MATTER', type:'string'}
+			, {name:'GUIDANCE_NOT_INCLS_MATTER', type:'string'}
+			, {name:'ADIT_GUIDANCE', type:'string'}
+			, {name:'ATENT_MATTER', type:'string'}
+			, {name:'CHANGE_REFND_REGLTN', type:'string'}
+			, {name:'INTRCN_GOODS_TY', type:'string'}
+			, {name:'INTRCN_USE_TIME', type:'string'}
+			, {name:'INTRCN_MEET_TIME', type:'string'}
+			, {name:'INTRCN_REQRE_TIME', type:'string'}
+			, {name:'INTRCN_PROVD_LANG', type:'string'}
+			, {name:'INTRCN_POSBL_AGE', type:'string'}
+			, {name:'INTRCN_PLACE', type:'string'}
+			, {name:'UPPER_CL_CODE', type:'string'}
+			, {name:'CL_CODE', type:'string'}
+			, {name:'STAYNG_FCLTY_AT', type:'string'}
+			, {name:'SORT_ORDR', type:'string'}]
+});
+
+
+var storeGoods = Ext.create('Ext.data.JsonStore', {
+	autoLoad: false,
+    model: 'GoodsInfo',
+    proxy: {
+        type: 'ajax',
+        url: '../selectGoods/',
+        reader: {
+            type: 'json',
+            root: 'data',
+        }
+    },
+    listeners: {
+    	'beforeload': function( store, operation, eOpts ){
+    		Ext.getBody().mask('조회 중 입니다. 잠시만 기다려주세요...');
+    	},
+    	'load': function(store, records, successful, eOpts) {
+    		console.log(successful);
+//			if(!successful) {
+//				Ext.getBody().unmask();
+//				Ext.Msg.alert('확인', '조회 중 오류 발생');
+//			}
+    		
+    		console.log(store.data);
+    		
+			if(store.getCount()) {
+				frReg.getForm().loadRecord(store.getAt(0));
+				frReg2.getForm().loadRecord(store.getAt(0));
+				frReg3.getForm().loadRecord(store.getAt(0));
+	    	}
+			
+			storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+			storeTime.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+			storeNmpr.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+			storeFile.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+			
+			Ext.getBody().unmask();
+        }
+    }
+});				
+
+var frSearch = Ext.create('Ext.form.Panel', {
+	//title: '상품정보입력',
+	id: 'form-search',
+	region: 'north',
+	//width: 1500,
+	padding:'5 5 0 5',
+	items: [{
+		xtype: 'fieldcontainer',
+		layout: 'hbox',
+		items: [{
+			xtype: 'fieldset',
+			//title: '<span style="font-weight:bold;">이미지 등록</span>',
+			padding: '10 100 10 10',
+			items: [{
+				xtype: 'fieldcontainer',
+				layout: 'hbox',
+				items: [{
+					xtype: 'textfield',
+					id: 'form-reg-sch-goods-code',
+		    		name: 'SCH_GOODS_CODE',
+		    		fieldLabel: '상품코드',
+		    		labelAlign: 'right',
+		    		labelSeparator: ':',
+		    		labelWidth: 100,
+		    		allowBlank: false,
+		    		width: 250
+				},{
+					xtype: 'button',
+					text: '검색',
+					width: 60,
+					margin: '0 0 0 5',
+					handler: function() {
+						storeGoods.load({params:{GOODS_CODE:Ext.getCmp('form-reg-sch-goods-code').getValue()}});	
+					}
+				}]			
+			}]
+		}]
+	}]
+});
+
 /*
  * 상품정보입력 form 화면(1)
  */
@@ -1374,13 +1501,11 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
 					url: '../saveGoodsSchdul/',
 					params: {'data': Ext.JSON.encode(datas)},
 					success: function(form, action) {
-						alert('성공');
 						Ext.Msg.alert('알림', '저장되었습니다.', function(){
 							storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
 						});
 					},
 					failure: function(form, action) {
-						alert('실패');
 						fn_failureMessage(action.response);
 					}
 				});
@@ -1686,13 +1811,11 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 					url: '../saveGoodsNmpr/',
 					params: {'data': Ext.JSON.encode(datas)},
 					success: function(form, action) {
-						alert('성공');
 						Ext.Msg.alert('알림', '저장되었습니다.', function(){
 							storeNmpr.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
 						});
 					},
 					failure: function(form, action) {
-						alert('실패');
 						fn_failureMessage(action.response);
 					}
 				});
@@ -1775,7 +1898,7 @@ var frFile = Ext.create('Ext.form.Panel', {
  */
 Ext.define('GoodsFileInfo', {
 	extend: 'Ext.data.Model',
-	fields: [ {name:'GOODS_CODE', type:'string'}
+	fields: [ {name:'FILE_CODE', type:'string'}
 			, {name:'FILE_SN', type:'string'}
 			, {name:'FILE_NM', type:'string'}
 			, {name:'REPRSNT_AT', type:'string'}
@@ -1872,13 +1995,11 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 					url: '../saveGoodsFile/',
 					params: {'data': Ext.JSON.encode(datas)},
 					success: function(form, action) {
-						alert('성공');
 						Ext.Msg.alert('알림', '저장되었습니다.', function(){
 							storeFile.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
 						});
 					},
 					failure: function(form, action) {
-						alert('실패');
 						fn_failureMessage(action.response);
 					}
 				});
@@ -1889,7 +2010,7 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 	}]
 });
 
-var resultsPanel = Ext.create('Ext.panel.Panel', {
+var filePanel = Ext.create('Ext.panel.Panel', {
 	title: '이미지등록',
 	width: 600,
 	height: 400,
@@ -1916,23 +2037,20 @@ Ext.onReady(function(){
 		style: {
 			backgroundColor: '#FFFFFF'
 		},
-		items: [Ext.create('Ext.tab.Panel', {
+		items: [frSearch, Ext.create('Ext.tab.Panel', {
 			id: 'tabs',
-			activeTab: 6,
+			activeTab: 0,
 			layout: 'border',
 			region: 'center',
 			padding:'5 5 5 5',
 			style: {
 				backgroundColor: '#FFFFFF'
 			},
-			items: [frReg, frReg2, frReg3, gridNmpr, gridSchdul, gridTime, resultsPanel]
+			items: [frReg, frReg2, frReg3, gridNmpr, gridSchdul, gridTime, filePanel]
 		})]
 	});
 
-	Ext.getCmp('form-reg-goods-code').setValue('0000000064');
-	storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
-	storeTime.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
-	storeNmpr.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
-	storeFile.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+	//Ext.getCmp('form-reg-sch-goods-code').setValue('0000000064');
+	//Ext.getCmp('form-reg-goods-code').setValue('0000000064');
 });
 

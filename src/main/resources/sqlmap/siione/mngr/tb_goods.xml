@@ -15,6 +15,7 @@
         <result property="WRITNG_DE"                 column="WRITNG_DE"                 jdbcType="string" javaType="string"/>
         <result property="UPDT_ID"                   column="UPDT_ID"                   jdbcType="string" javaType="string"/>
         <result property="UPDT_DE"                   column="UPDT_DE"                   jdbcType="string" javaType="string"/>
+        <result property="UPPER_CL_CODE"             column="UPPER_CL_CODE"             jdbcType="string" javaType="string"/>
         <result property="CL_CODE"                   column="CL_CODE"                   jdbcType="string" javaType="string"/>
         <result property="CL_NM"                     column="CL_NM"                     jdbcType="string" javaType="string"/>
         <result property="WAIT_TIME"                 column="WAIT_TIME"                 jdbcType="string" javaType="string"/>
@@ -307,18 +308,9 @@
              , MVMN_TIME
              , ACT_LA
              , ACT_LO
+             , (SELECT UPPER_CL_CODE FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE) UPPER_CL_CODE
              , CL_CODE
              , (SELECT C.CL_NM FROM TB_TOUR_CL C WHERE A.CL_CODE = C.CL_CODE) CL_NM
-           /*, (SELECT C.CL_CODE
-                  FROM TB_GOODS_CL B, TB_TOUR_CL C
-                 WHERE A.GOODS_CODE = B.GOODS_CODE
-                   AND B.CL_CODE = C.CL_CODE
-                   AND ROWNUM = 1) CL_CODE
-             , (SELECT C.CL_NM
-                  FROM TB_GOODS_CL B, TB_TOUR_CL C
-                 WHERE A.GOODS_CODE = B.GOODS_CODE
-                   AND B.CL_CODE = C.CL_CODE
-                   AND ROWNUM = 1) CL_NM */
              , VOCHR_TICKET_TY
              , VOCHR_NTSS_REQRE_TIME
              , VOCHR_USE_MTH

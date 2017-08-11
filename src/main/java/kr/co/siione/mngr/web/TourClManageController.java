@@ -66,8 +66,6 @@ public class TourClManageController {
     	// TODO 로그인 사용자 정보
 		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		param.put("USER_ID" , ssUserId);
-		
-		LOG.debug("[selectTourClUpperList]param:"+param);
 
 		try {
 			results = tourClManageService.selectTourClUpperList(param);
@@ -97,8 +95,6 @@ public class TourClManageController {
 		if(!param.containsKey("UPPER_CL_CODE")) {
 			param.put("UPPER_CL_CODE", (String)param.get("node"));
 		}
-		
-		LOG.debug("[selectTourClTree]param:"+param);
 
 		try {
 			results = tourClManageService.selectTourClTree(param);
@@ -146,9 +142,7 @@ public class TourClManageController {
 		FileOutputStream fos = null;
     	
 		try {
-			LOG.debug("################Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
-			LOG.debug("################File.separator:"+File.separator);
-
+			
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 			MultipartFile file = mRequest.getFile("ATTACH_FLIE");
 			String fileName = file.getOriginalFilename();
@@ -195,7 +189,6 @@ public class TourClManageController {
     		}
 		}
 		
-		LOG.debug("[upload_tour_cl_file]mav:"+mav);
 		mav.setViewName("jsonFileView");
 		
 		return mav;
@@ -255,9 +248,7 @@ public class TourClManageController {
 		FileOutputStream fos = null;
     	
 		try {
-			LOG.debug("################Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
-			LOG.debug("################File.separator:"+File.separator);
-
+			
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 			MultipartFile file = mRequest.getFile("FILE_NM");
 			String fileName = file.getOriginalFilename();

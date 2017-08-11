@@ -26,12 +26,12 @@ public class FileManageDAO extends EgovComAbstractDAO {
 		return update("FileManageDAO.updateFileDetail", map);
 	}
 	
-	public int deleteFileDetailByPk(Map<String, String> map) throws Exception {
-		return delete("FileManageDAO.deleteFileDetailByPk", map);
-	}
-	
 	public int deleteFileDetail(Map<String, String> map) throws Exception {
 		return delete("FileManageDAO.deleteFileDetail", map);
+	}
+	
+	public int deleteFileDetailInfos(Map<String, String> map) throws Exception {
+		return delete("FileManageDAO.deleteFileDetailInfos", map);
 	}
 
 	@SuppressWarnings("unchecked")

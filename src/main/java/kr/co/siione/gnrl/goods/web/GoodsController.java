@@ -67,7 +67,6 @@ public class GoodsController {
 		for(String str:clArr){
 			if(!str.isEmpty()) clList.add(str);
 		}
-		System.out.println("[goods_list]clList:"+clList);
 		
     	HashMap map = new HashMap();
     	map.put("cl_code_arr", clList);

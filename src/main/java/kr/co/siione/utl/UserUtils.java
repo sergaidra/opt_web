@@ -7,8 +7,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class UserUtils {
 
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserUtils.class);
+	
 	public static String nvl(String str) {
 		if (str == null || str.toString().length() == 0 || str.toString().equals(" ") || str.toString().equals("null")) {
 			return "";
@@ -47,23 +53,23 @@ public class UserUtils {
 	}
 	
 	public static void log(Map<String, String> param) throws Exception  {
-		System.out.println("==================== log start ==============================");		
+		LOGGER.debug("==================== log start ==============================");		
 		Iterator<Map.Entry<String, String>> it = param.entrySet().iterator();
 		while(it.hasNext()) {
 			Map.Entry<String, String> entry = it.next();
-			System.out.println(rpad(entry.getKey(), 20, " ") + ": " + String.valueOf(entry.getValue()));
+			LOGGER.debug(rpad(entry.getKey(), 20, " ") + ": " + String.valueOf(entry.getValue()));
 		}
-		System.out.println("==================== log end ================================");
+		LOGGER.debug("==================== log end ================================");
 	}
 	
 	public static void log(String prefix, Map<String, String> param) throws Exception  {
-		System.out.println(prefix+" ==================== log start ==============================");
+		LOGGER.debug(prefix+" ==================== log start ==============================");
 		Iterator<Map.Entry<String, String>> it = param.entrySet().iterator();
 		while(it.hasNext()) {
 			Map.Entry<String, String> entry = it.next();
-			System.out.println(prefix+" "+ rpad(entry.getKey(), 20, " ") + ": " + String.valueOf(entry.getValue()));
+			LOGGER.debug(prefix+" "+ rpad(entry.getKey(), 20, " ") + ": " + String.valueOf(entry.getValue()));
 		}
-		System.out.println(prefix+" ==================== log end ================================");
+		LOGGER.debug(prefix+" ==================== log end ================================");
 	}
 	
 	public static void log(List<Map<String, String>> param) throws Exception  {

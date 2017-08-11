@@ -114,8 +114,6 @@
 		if(stayngList.size() > 0){
 			list_cnt += Integer.parseInt(stayngList.get(0).get("TOT_CNT").toString());
 		}
-		
-		System.out.println("[cart_list]list_cnt:"+list_cnt);
 
 		model.addAttribute("actList", actList);
 		model.addAttribute("stayngList", stayngList);
@@ -140,8 +138,6 @@
 		map.put("cart_sn", cart_sn);
 		HashMap result = cartService.getCartDetail(map);
 
-		System.out.println("[cart-detail]result:"+result);
-		
 		String goods_code = (String) result.get("GOODS_CODE");
 
 		map.put("goods_code", goods_code);
@@ -347,11 +343,6 @@
 								String w_time = hidWaitTime;
 								String m_time = hidMvmnTime;
 
-								System.out.println("[addCard]b_time:"+b_time);
-								System.out.println("[addCard]e_time:"+e_time);
-								System.out.println("[addCard]w_time:"+w_time);
-								System.out.println("[addCard]m_time:"+m_time);
-
 								double d_b_time = (Integer.parseInt(b_time.substring(0, 2)) - Integer.parseInt(w_time.substring(0, 2))) + ((Integer.parseInt(b_time.substring(2, 4)) - Integer.parseInt(w_time.substring(2, 4))) / 60.0);
 								double b_e_time = (Integer.parseInt(e_time.substring(0, 2)) + Integer.parseInt(m_time.substring(0, 2))) + ((Integer.parseInt(e_time.substring(2, 4)) + Integer.parseInt(m_time.substring(2, 4))) / 60.0);
 
@@ -359,11 +350,6 @@
 								String str2 = StringUtils.leftPad(String.valueOf((int)((d_b_time - Math.floor(d_b_time)) * 60)), 2, "0");
 								String str3 = StringUtils.leftPad(String.valueOf((int)Math.floor(b_e_time)), 2, "0");
 								String str4 = StringUtils.leftPad(String.valueOf((int)((b_e_time - Math.floor(b_e_time)) * 60)), 2, "0");
-
-								System.out.println("[addCard]str1:"+str1);
-								System.out.println("[addCard]str2:"+str2);
-								System.out.println("[addCard]str3:"+str3);
-								System.out.println("[addCard]str4:"+str4);
 
 								map.put("real_begin_time", str1+str2);
 								map.put("real_end_time", str3+str4);
@@ -514,12 +500,7 @@
 							String e_time = map.get("end_time").toString();
 							String w_time = hidWaitTime;
 							String m_time = hidMvmnTime;
-
-							System.out.println("[modCart]b_time:"+b_time);
-							System.out.println("[modCart]e_time:"+e_time);
-							System.out.println("[modCart]w_time:"+w_time);
-							System.out.println("[modCart]m_time:"+m_time);
-
+							
 							double d_b_time = (Integer.parseInt(b_time.substring(0, 2)) - Integer.parseInt(w_time.substring(0, 2))) + ((Integer.parseInt(b_time.substring(2, 4)) - Integer.parseInt(w_time.substring(2, 4))) / 60.0);
 							double b_e_time = (Integer.parseInt(e_time.substring(0, 2)) + Integer.parseInt(m_time.substring(0, 2))) + ((Integer.parseInt(e_time.substring(2, 4)) + Integer.parseInt(m_time.substring(2, 4))) / 60.0);
 
@@ -527,11 +508,6 @@
 							String str2 = StringUtils.leftPad(String.valueOf((int)((d_b_time - Math.floor(d_b_time)) * 60)), 2, "0");
 							String str3 = StringUtils.leftPad(String.valueOf((int)Math.floor(b_e_time)), 2, "0");
 							String str4 = StringUtils.leftPad(String.valueOf((int)((b_e_time - Math.floor(b_e_time)) * 60)), 2, "0");
-
-							System.out.println("str1:"+str1);
-							System.out.println("str2:"+str2);
-							System.out.println("str3:"+str3);
-							System.out.println("str4:"+str4);
 
 							map.put("real_begin_time", str1+str2);
 							map.put("real_end_time", str3+str4);

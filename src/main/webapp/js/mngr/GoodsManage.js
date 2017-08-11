@@ -5,7 +5,7 @@ var frSave = Ext.create('Ext.form.Panel', {});
 
 var cr = [{'CL_CODE': '', 'CL_NM': '전체'}];
 
-var combo1 = new Ext.create('Ext.form.ComboBox', {
+var comboUpperCl = new Ext.create('Ext.form.ComboBox', {
 	id: 'form-upper-cl-code',
 	name: 'UPPER_CL_CODE',
 	width: 220,
@@ -38,12 +38,12 @@ var combo1 = new Ext.create('Ext.form.ComboBox', {
 	listeners: {
 		change: function(combo, newValue, oldValue, eOpts ) {
 			Ext.getCmp('form-cl-code').setValue('');
-			combo2.getStore().load({params:{UPPER_CL_CODE:newValue}});
+			comboCl.getStore().load({params:{UPPER_CL_CODE:newValue}});
 		}
 	}
 });
 
-var combo2 = new Ext.create('Ext.form.ComboBox', {
+var comboCl = new Ext.create('Ext.form.ComboBox', {
 	id: 'form-cl-code',
 	name: 'CL_CODE',
 	width: 170,
@@ -87,10 +87,10 @@ var frCond = Ext.create('Ext.form.Panel', {
         items: [{
             xtype: 'fieldcontainer',
             layout: 'hbox',
-            items: [combo1, {
+            items: [comboUpperCl, {
     			xtype: 'label',
     			width: 5
-    		}, combo2, {
+    		}, comboCl, {
                 xtype: 'button',
                 margin: '0 0 0 10',
                 text: '조회',
@@ -139,7 +139,7 @@ var jsGoods = Ext.create('Ext.data.JsonStore', {
 });
 
 /*
- * 주민정정대상자료 목록을 화면에 표시하기 위한 grid 정의
+ * grid 정의
  */
 var grGoods = Ext.create('Ext.grid.Panel', {
 	id: 'grid-goods',
@@ -203,13 +203,17 @@ var grGoods = Ext.create('Ext.grid.Panel', {
         dataIndex: 'UPDT_DE'
     },{
     	flex: 1
-    }]
+    }],
     /*bbar: Ext.create('Ext.PagingToolbar', {
-        store: jsGoods,
-        displayInfo: true,
-        displayMsg	: '전체 {2}건 중 {0} - {1}',
-        emptyMsg	: "조회된 자료가 없습니다."
-    })*/
+    store: jsGoods,
+    displayInfo: true,
+    displayMsg	: '전체 {2}건 중 {0} - {1}',
+    emptyMsg	: "조회된 자료가 없습니다."
+	})*/      
+    listeners : {
+    	itemclick: function(grid, record, item, index, e, eOpts ) {
+    	}
+    }
 });
 
 /*

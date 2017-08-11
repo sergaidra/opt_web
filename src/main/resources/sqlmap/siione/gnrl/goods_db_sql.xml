@@ -96,7 +96,6 @@
 		TO_CHAR(TT.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE,
 		TT.UPDT_ID,
 		TO_CHAR(TT.UPDT_DT,'YYYY-MM-DD') UPDT_DE,
-		<!-- (SELECT COUNT(*) FROM TB_GOODS_CL TG WHERE TG.CL_CODE = TT.CL_CODE) AS GOODS_CNT -->
 		(SELECT COUNT(*) FROM TB_GOODS TG WHERE TG.CL_CODE = TT.CL_CODE) AS GOODS_CNT
 		FROM TB_TOUR_CL TT
 		WHERE TT.DELETE_AT = 'N'
@@ -139,19 +138,6 @@
 				FROM TB_GOODS TG
 				WHERE TG.DELETE_AT = 'N'
 				AND TG.CL_CODE = #cl_code#
-				<!-- 20170809 
-				AND EXISTS (
-				    SELECT * FROM TB_GOODS_CL TGC
-				    WHERE TGC.GOODS_CODE = TG.GOODS_CODE
-				    AND TGC.CL_CODE = #cl_code# -->
-				    <!-- 20170801 
-				    <isNotEmpty property="cl_code_arr" prepend="AND">
-						TGC.CL_CODE IN
-						<iterate property="cl_code_arr" open=" (" conjunction="," close=")">
-							#cl_code_arr[]#
-						</iterate>
-					</isNotEmpty> -->
-				<!-- 20170809 ) -->
 				ORDER BY TG.WRITNG_DT DESC		
 			) A	
 		) X

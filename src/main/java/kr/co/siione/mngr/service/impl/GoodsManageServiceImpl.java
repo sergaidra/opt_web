@@ -122,30 +122,6 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 		return newGoodsCode;
 	}
 
-	/*
-	@Override
-	public String insertGoodsForBass(Map<String, String> param, Map<String, String> paramFile) throws Exception {
-
-		String newGoodsCode = "";
-		String newFileCode = String.valueOf(fileManageDAO.insertFileManage(paramFile));
-
-		if(UserUtils.nvl(newFileCode).equals("")) {
-			throw new Exception("대표이미지 등록 중 오류 발생!");
-		} else {
-			paramFile.put("FILE_CODE", newFileCode);
-			fileManageDAO.insertFileDetail(paramFile);
-
-			param.put("FILE_CODE", newFileCode);
-			newGoodsCode = String.valueOf(goodsDAO.insertGoodsForBass(param));
-
-			if(UserUtils.nvl(newGoodsCode).equals("")) {
-				throw new Exception("상품 등록 중 오류 발생!");
-			}
-		}
-
-		return newGoodsCode;
-	}*/
-
 	@Override
 	public int updateGoods(Map<String, Object> params) throws Exception {
 		// 상품
@@ -162,10 +138,10 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 		// 파일
 		List<Map<String, String>> fileParamList = (List<Map<String, String>>)params.get("fileParamList");
 		// TODO 파일 삭제 처리
-		//fileManageDAO.deleteFileDetail(map);
+		//fileManageDAO.deleteFileDetailInfos(map);
 		// 대표이미지 있는지 확인
 		int iCnt = fileManageDAO.selectFileReprsntCnt(map);
-		System.out.println("[modGoods-대표이지미체크]iCnt:"+iCnt);
+		LOG.debug("[modGoods-대표이지미체크]iCnt:"+iCnt);
 		for(int i = 0 ; i < fileParamList.size() ; i++) {
 			Map<String, String> fileParam = (Map<String, String>)fileParamList.get(i);
 			if(iCnt == 0 && i == 0) {
@@ -219,19 +195,6 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 
 		return iRe;
 	}
-
-	/*@Override
-	public int updateGoodsForBass(Map<String, String> param, Map<String, String> paramFile) throws Exception {
-		int iRe = goodsDAO.updateGoodsForBass(param);
-
-		if(iRe == 0) {
-			throw new Exception("이용안내 수정 중 오류 발생!");
-		} else {
-			fileManageDAO.updateFileDetail(paramFile);
-		}
-
-		return iRe;
-	}*/
 
 	@Override
 	public int updateGoodsForGuidance(Map<String, String> param) throws Exception {
@@ -374,6 +337,42 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 		return result;
 	}
 
+	@Override
+	public Map<String, Object> saveGoodsFile(Map<String, String> map) throws Exception {
+
+		Map<String,Object> result = new HashMap<String,Object>();
+		UserJSONUtils userJSONUtils = new UserJSONUtils();
+
+		try {
+			JSONObject obj = userJSONUtils.convertMap2Json(map);
+
+			JSONArray arr = obj.getJSONArray("data");
+
+			for (int i = 0; i < arr.size(); i++) {
+				JSONObject o = arr.getJSONObject(i);
+				o.put("UPDT_ID", map.get("USER_ID"));
+
+				UserUtils.log("[saveGoodsNmpr]("+i+")", userJSONUtils.convertJson2Map(o));
+
+				if (o.getString("CRUD").equals("U")) fileManageDAO.updateFileDetail(userJSONUtils.convertJson2Map(o));
+				if (o.getString("CRUD").equals("D")) fileManageDAO.deleteFileDetail(userJSONUtils.convertJson2Map(o));
+			}
+
+			result.put("success", true);
+		} catch (SQLException se) {
+			LOG.error(se.getMessage());
+			result.put("success", false);
+			result.put("error"  , String.valueOf(se.getErrorCode()));
+			result.put("message", se.getLocalizedMessage());
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			result.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+		}
+
+		return result;
+	}
+	
 	@Override
 	public Map<String, String> selectGoodsByPk(Map<String, String> param) throws Exception {
 		return goodsDAO.selectGoodsByPk(param);

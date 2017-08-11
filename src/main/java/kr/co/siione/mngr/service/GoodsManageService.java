@@ -24,6 +24,8 @@ public interface GoodsManageService {
 	public Map<String, Object> saveGoodsTime(Map<String, String> param) throws Exception;
 	
 	public Map<String, Object> saveGoodsNmpr(Map<String, String> param) throws Exception;
+	
+	public Map<String, Object> saveGoodsFile(Map<String, String> param) throws Exception;
 
 	public Map<String, String> selectGoodsByPk(Map<String, String> param) throws Exception;
 
