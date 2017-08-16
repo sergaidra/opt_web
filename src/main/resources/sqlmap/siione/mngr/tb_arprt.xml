@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="mngr">
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="string" type="java.lang.String"/>
+
+    <insert id="ArprtDAO.insertArprt" parameterClass="hashMap">
+    <![CDATA[
+        INSERT INTO TB_ARPRT( ARPRT_CODE
+                            , ARPRT_NM
+                            , USE_AT
+                            , RM
+                            , REGIST_ID
+                            , REGIST_DT )
+                      VALUES( #ARPRT_CODE#
+                            , #ARPRT_NM#
+                            , NVL(#USE_AT#, 'Y')
+                            , #RM#
+                            , #REGIST_ID#
+                            , SYSDATE)
+    ]]>
+    </insert>
+
+    <update id="ArprtDAO.updateArprt" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_ARPRT
+           SET ARPRT_NM = #ARPRT_NM#
+             , USE_AT = #USE_AT#
+             , RM = #RM#
+             , UPDT_ID = #UPDT_ID#
+             , UPDT_DT = SYSDATE
+         WHERE ARPRT_CODE = #ARPRT_CODE#
+    ]]>
+    </update>
+
+    <delete id="ArprtDAO.deleteArprt" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_ARPRT
+           SET USE_AT = 'N'
+             , UPDT_ID = #UPDT_ID#
+             , UPDT_DT = SYSDATE
+         WHERE ARPRT_CODE = #ARPRT_CODE#
+    ]]>
+    </delete>
+
+    <select id="ArprtDAO.selectArprtByPk" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT ARPRT_CODE
+             , ARPRT_NM
+             , USE_AT
+             , RM
+             , TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DE
+             , REGIST_ID
+             , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
+             , UPDT_ID
+          FROM TB_ARPRT
+         WHERE ARPRT_CODE = #ARPRT_CODE#
+    ]]>
+    </select>
+
+    <select id="ArprtDAO.selectArprtList" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT ARPRT_CODE
+             , ARPRT_NM
+             , USE_AT
+             , RM
+             , TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DE
+             , REGIST_ID
+             , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
+             , UPDT_ID
+             , 'U' CRUD
+          FROM TB_ARPRT
+    ]]>
+        <isNotEmpty property="USE_AT">
+         WHERE USE_AT = #USE_AT#
+        </isNotEmpty>
+    </select>
+
+</sqlMap>

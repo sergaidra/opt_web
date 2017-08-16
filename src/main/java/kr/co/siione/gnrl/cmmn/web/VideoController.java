@@ -7,29 +7,30 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.RandomAccessFile;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kr.co.siione.gnrl.cmmn.service.VideoService;
 import kr.co.siione.dist.disk.Operation;
 import kr.co.siione.dist.ffmpeg.FFmpeg;
 import kr.co.siione.dist.ffmpeg.StreamView;
 import kr.co.siione.dist.utils.SimpleUtils;
+import kr.co.siione.gnrl.cmmn.service.VideoService;
 import kr.co.siione.utl.Utility;
-import twitter4j.internal.org.json.JSONObject;
+import net.sf.json.JSONObject;
 
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
