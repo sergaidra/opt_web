@@ -43,7 +43,7 @@
 </script>
 
 <div align="center">
-	<h1>숙박</h1>
+	<h2>숙박</h2>
 	<table width="1024px" border="1" cellspacing="0" cellpadding="0" height="100%" style="border-collapse:collapse; border:1px gray solid;">
 		<tr>
 		<c:if test="${fn:length(stayngList) == 0}">
@@ -100,7 +100,7 @@
 </div>
 
 <div align="center">
-	<h1>활동</h1>
+	<h2>활동</h2>
 	<table width="1024px" border="1" cellspacing="0" cellpadding="0" height="100%" style="border-collapse:collapse; border:1px gray solid;">
 		<tr>
 		<c:if test="${fn:length(actList) == 0}">

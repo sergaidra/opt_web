@@ -4,9 +4,15 @@ function fn_open_menu(menuNo, menuNm, menuURL) {
 	if (menuURL == 'dir')
 		return;
 
-	if (Ext.getCmp('center-panel').getComponent(dynamicPanelId) != null) {
-		Ext.getCmp('center-panel').setActiveTab(dynamicPanelId);
-		return;
+	if(menuNo != '00201') {
+		if (Ext.getCmp('center-panel').getComponent(dynamicPanelId) != null) {
+			Ext.getCmp('center-panel').setActiveTab(dynamicPanelId);
+			return;
+		}
+	} else {
+		if (Ext.getCmp('center-panel').getComponent(dynamicPanelId) != null) {
+			Ext.getCmp('center-panel').getComponent(dynamicPanelId).destroy();
+		}
 	}
 
 	var dynamicPanel = new Ext.Component({
@@ -29,7 +35,6 @@ function fn_open_menu(menuNo, menuNm, menuURL) {
 	Ext.getCmp('center-panel').setActiveTab(dynamicPanel.getId());
 }
 
-
 var storeTree = Ext.create('Ext.data.TreeStore', {
 	autoLoad: true,
 	fields: ['id', 'text', {name:'leaf', type: 'boolean'}, 'url'],
@@ -44,7 +49,7 @@ var storeTree = Ext.create('Ext.data.TreeStore', {
     }/*,
     listeners: {
     	load: function(store, records){
-    		alert(console.dir(store));
+    		console.log(console.dir(store));
     	}
     }*/
 });
@@ -108,5 +113,4 @@ Ext.onReady(function() {
 	});
 
 	Ext.getCmp('menu-panel').expandAll();
-
 });

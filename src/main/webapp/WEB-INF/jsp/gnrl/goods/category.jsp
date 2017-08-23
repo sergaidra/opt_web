@@ -26,35 +26,36 @@
 		}
 	}
 </script>
-<div align="center">
-	<div style="height:30px;" align="center">여러분이 원하는 모든것을 선택하세요. <a href="javascript:fnSearch();">검색</a></div>
-	<form id="frmCategory" name="frmCategory" action="<c:url value='/goods/list/'/>">
-	<input type="hidden" id="hidCategoryNavi" name="hidCategoryNavi">
-	<table width="1024px" border="1" cellspacing="0" cellpadding="0" height="100%" style="border-collapse:collapse; border:1px gray solid;">
-		<tr>
-		<c:forEach var="result" items="${tourList}" varStatus="status">
-			<td align="center">	
-				<table cellspacing="0" cellpadding="0">
-				<tr>
-					<td align="center">
-						<a href="javascript:fnCheck('${result.CL_CODE}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1" width="300" height="225px"></a>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" title="${result.CL_NM}">
-						<input type="checkbox" id="chkCategory" name="chkCategory" value="${result.CL_CODE}">
-						${fn:substring(result.CL_NM, 0, 20)}..
-					</td>
-				</tr>
-				</table>
-			</td>
-	<c:if test="${status.count%3 == 0}">
-		</tr>
-		<tr>
-	</c:if>	
-		</c:forEach>
-		</tr>
-	</table>
-	</form>
-	
+<div class="location">
+	<p class="loc_area">홈<span class="arrow_loc"></span>투어상품</p>
+</div>
+<div class="yellowbar_area">
+	<span class="yellowbar_txt">여러분이 원하는 모든것을 선택하세요.</span>
+	<span id="btn_ok">확인</span>
+	<div class="productlst_area">
+		<ul>
+			<c:forEach var="result" items="${tourList}" varStatus="status">
+			<c:if test="${status.count%4 == 0}"><li class="pr_right"></c:if><c:if test="${status.count%4 != 0}"><li></c:if>
+				<p class="pr_photo_area"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1" width="100%" height="100%"></p>
+				<p class="pr_txt">${result.DC}<br/><span class="pr_tit">${result.CL_NM}</span></p>
+				<p class="ch_box">
+					<span><img src="<c:url value='/images/chbox.gif'/>" onClick="this.src=(this.src=='<c:url value='/images/chbox.gif'/>')?'<c:url value='/images/chbox.gif'/>':'<c:url value='/images/chbox_hover.gif'/>'; document.getElementsByName('my_num')[4].checked=(this.src=='<c:url value='/images/chbox_hover.gif'/>')?true:false;"></span>
+				</p>
+			</li><c:if test="${status.count%4 == 0}">
+		</ul>
+		<ul>
+		</c:if></c:forEach>
+		</ul>
+	</div>
+</div>
+<div id="footer">
+	<div class="area_footer">
+		<ul class="f_nav">
+			<li class="m_first">개인정보취급방침</li>
+			<li>이용약관</li>
+			<li>여행자약관</li>
+			<li class="m_last">about onepasstour</li>
+		</ul>
+		<span class="txt_copyright">Copyright 2017 SⅡONE.CO.LTD. All Right Resesrved.</span>
+	</div>
 </div>

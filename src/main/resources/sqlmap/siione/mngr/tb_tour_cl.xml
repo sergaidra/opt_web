@@ -10,18 +10,20 @@
         INSERT INTO TB_TOUR_CL( CL_CODE
                               , CL_NM
                               , UPPER_CL_CODE
-                              , STAYNG_FCLTY_AT 
+                              , STAYNG_FCLTY_AT
                               , SORT_ORDR
-                              , DELETE_AT                              
+                              , DC
+                              , DELETE_AT
                               , WRITNG_ID
-                              , WRITNG_DT 
+                              , WRITNG_DT
                               , FILE_CODE )
                         VALUES( LPAD(SQ_CL_CODE.NEXTVAL, 5, '0')
                               , #CL_NM#
                               , #UPPER_CL_CODE#
                               , NVL(#STAYNG_FCLTY_AT#, 'N')
-                              , #SORT_ORDR#
-                              , 'N'                              
+                              , NVL(#SORT_ORDR#, (SELECT MAX(SORT_ORDR)+1 FROM TB_TOUR_CL WHERE UPPER_CL_CODE = #UPPER_CL_CODE#))
+                              , #DC#
+                              , 'N'
                               , #WRITNG_ID#
                               , SYSDATE
                               , #FILE_CODE# )
@@ -33,10 +35,11 @@
            SET UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
              <isNotEmpty property="CL_NM">, CL_NM = <![CDATA[#CL_NM#]]></isNotEmpty>
+             <isNotEmpty property="CL_NM">, DC = <![CDATA[#DC#]]></isNotEmpty>
              <isNotEmpty property="SORT_ORDR">, STAYNG_FCLTY_AT = #STAYNG_FCLTY_AT#</isNotEmpty>
-             <isNotEmpty property="FILE_CODE">, FILE_CODE = #FILE_CODE#</isNotEmpty>                          
-             <isNotEmpty property="SORT_ORDR">, SORT_ORDR = #SORT_ORDR#</isNotEmpty>             
-             <isNotEmpty property="DELETE_AT">, DELETE_AT = #DELETE_AT#</isNotEmpty>             
+             <isNotEmpty property="FILE_CODE">, FILE_CODE = #FILE_CODE#</isNotEmpty>
+             <isNotEmpty property="SORT_ORDR">, SORT_ORDR = #SORT_ORDR#</isNotEmpty>
+             <isNotEmpty property="DELETE_AT">, DELETE_AT = #DELETE_AT#</isNotEmpty>
          WHERE CL_CODE = #CL_CODE#
     </update>
 
@@ -49,43 +52,45 @@
          WHERE CL_CODE = #CL_CODE#
     ]]>
     </delete>
-    
+
     <select id="TourClDAO.selectTourClByPk" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
         SELECT CL_CODE
-             , CL_NM 
+             , CL_NM
              , UPPER_CL_CODE
              , NVL(STAYNG_FCLTY_AT, 'N') STAYNG_FCLTY_AT
              , SORT_ORDR
-             , DELETE_AT                          
+             , DELETE_AT
+             , DC
              , WRITNG_ID
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , UPDT_ID
              , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
-             , FILE_CODE  
-          FROM TB_TOUR_CL   
-         WHERE CL_CODE = #CL_CODE#      
+             , FILE_CODE
+          FROM TB_TOUR_CL
+         WHERE CL_CODE = #CL_CODE#
     ]]>
     </select>
 
     <select id="TourClDAO.selectTourClList" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
         SELECT CL_CODE
-             , CL_NM 
+             , CL_NM
              , UPPER_CL_CODE
-             , NVL(STAYNG_FCLTY_AT, 'N') STAYNG_FCLTY_AT             
+             , NVL(STAYNG_FCLTY_AT, 'N') STAYNG_FCLTY_AT
              , SORT_ORDR
-             , DELETE_AT             
-             , WRITNG_ID                           
+             , DELETE_AT
+             , DC
+             , WRITNG_ID
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , UPDT_ID
              , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
-             , FILE_CODE 
-          FROM TB_TOUR_CL   
+             , FILE_CODE
+          FROM TB_TOUR_CL
          WHERE 1 = 1
     ]]>
         <isNotEmpty property="DELETE_AT">
-          AND DELETE_AT = #DELETE_AT#        
+          AND DELETE_AT = #DELETE_AT#
         </isNotEmpty>
          ORDER BY WRITNG_DT, CL_CODE
     </select>
@@ -96,46 +101,54 @@
 		<result property="leaf" column="CF_LEAF" javaType="java.lang.String" />
 		<result property="stayng_fclty_at" column="STAYNG_FCLTY_AT" javaType="java.lang.String" />
 	</resultMap>
-	
+
     <select id="TourClDAO.selectTourClTree" parameterClass="hashMap" resultMap="rmTourClTree">
     <![CDATA[
 		 SELECT CL_CODE
-		      , CL_NM
+		      , CL_NM || DECODE(DELETE_AT, 'Y', ' (삭제됨)') CL_NM
 		      , 'true' CF_LEAF
 		      , STAYNG_FCLTY_AT
 		   FROM TB_TOUR_CL A
 		 WHERE UPPER_CL_CODE = #UPPER_CL_CODE#
 		 ORDER BY SORT_ORDR
-	]]>		 
+	]]>
     </select>
-    
+
 	<select id="TourClDAO.selectTourClUpperList" parameterClass="hashMap" resultClass="hashMap">
 	<![CDATA[
 		 SELECT CL_CODE
 		      , CL_NM
-		      , UPPER_CL_CODE		      
-		      , NVL((SELECT X.CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.UPPER_CL_CODE), '전체') UPPER_CL_NM		      
-		      , STAYNG_FCLTY_AT             
+		      , UPPER_CL_CODE
+		      , NVL((SELECT X.CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.UPPER_CL_CODE), '전체') UPPER_CL_NM
+		      , STAYNG_FCLTY_AT
 		      , FILE_CODE
 		      , (SELECT FILE_NM FROM TB_FILE_DETAIL Y WHERE Y.FILE_CODE = A.FILE_CODE) FILE_NM
 		      , SORT_ORDR
-		      , DELETE_AT		      
+		      , DELETE_AT
+		      , DC
 		      , WRITNG_ID
 		      , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
 		      , UPDT_ID
 		      , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
-		      , 'U' CRUD             
+		      , (SELECT COUNT(1) FROM TB_TOUR_CL Z WHERE A.CL_CODE = Z.UPPER_CL_CODE AND DELETE_AT = 'N') CF_CNT
+		      , 'U' CRUD
 		   FROM TB_TOUR_CL A
 		 WHERE UPPER_CL_CODE = #UPPER_CL_CODE#
+	]]>
+        <isNotEmpty property="DELETE_AT">
+		   AND DELETE_AT = #DELETE_AT#
 		 ORDER BY SORT_ORDR
-	]]>	
+        </isNotEmpty>
+        <isEmpty property="DELETE_AT">
+		 ORDER BY DELETE_AT, SORT_ORDR
+        </isEmpty>
 	</select>
-	
+
     <select id="TourClDAO.selectTourClFileCnt" parameterClass="hashMap" resultClass="int">
     <![CDATA[
 		SELECT DECODE(FILE_CODE, NULL, 0, 1)
 		  FROM TB_TOUR_CL
-		 WHERE CL_CODE = #CL_CODE#  
+		 WHERE CL_CODE = #CL_CODE#
     ]]>
     </select>
 </sqlMap>

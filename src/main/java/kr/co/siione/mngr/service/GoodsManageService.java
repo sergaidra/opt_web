@@ -42,4 +42,6 @@ public interface GoodsManageService {
 	public List<Map<String, String>> selectGoodsNmprList(Map<String, String> param) throws Exception;
 
 	public void uploadGoodsFile(Map<String, String> param) throws Exception;
+	
+	public void uploadGoodsFileMulti(Map<String, Object> param) throws Exception;
 }

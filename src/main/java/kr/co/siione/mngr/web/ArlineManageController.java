@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.co.siione.mngr.service.ArlineManageService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,28 +20,29 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 @Controller
 public class ArlineManageController {
+
+	protected Log log = LogFactory.getLog(this.getClass());
+
+	private static final String ssUserId = "admin";
+
 	@Inject
-    MappingJackson2JsonView jsonView;
-	
+	MappingJackson2JsonView jsonView;
+
 	@Resource(name = "ArlineManageService")
 	private ArlineManageService arlineManageService;
-	
-	private static final Logger LOG = LoggerFactory.getLogger(ArlineManageController.class);
-	
-	private static final String ssUserId = "admin";
-	
-    @RequestMapping(value="/mngr/ArlineManage/")
-	public String ArlineManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/mngr/ArlineManage";
-	}
-    
-    @RequestMapping(value="/mngr/selectArlineList/")
-    public void selectArlineList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
-    	List<Map<String,String>> results = null;
 
-    	Map<String, Object> result = new HashMap<String, Object>();
-    	
-    	// TODO 로그인 사용자 정보
+	@RequestMapping(value="/mngr/ArlineManage/")
+	public String ArlineManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return "/mngr/ArlineManage";
+	}
+
+	@RequestMapping(value="/mngr/selectArlineList/")
+	public void selectArlineList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
+		List<Map<String,String>> results = null;
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		// TODO 로그인 사용자 정보
 		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		param.put("USER_ID" , ssUserId);
 
@@ -52,32 +53,32 @@ public class ArlineManageController {
 			result.put("data", results);
 			result.put("success", true);
 		} catch (Exception e) {
-			LOG.error(e.getMessage());
+			log.error(e.getMessage());
 			result.put("message", e.getMessage());
 			result.put("success", false);
 		} finally {
 			jsonView.render(result, request, response);
 		}
-    }
-    
-    @RequestMapping(value="/mngr/saveArlineInfo/")
-    public void saveTourClInfo(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
-    	Map<String, Object> result = new HashMap<String, Object>();
+	}
 
-    	// TODO 로그인 사용자 정보
+	@RequestMapping(value="/mngr/saveArlineInfo/")
+	public void saveTourClInfo(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		// TODO 로그인 사용자 정보
 		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		param.put("USER_ID" , ssUserId);
-    	
-    	try {
-    		result = arlineManageService.saveArlineInfo(param);
-    	} catch (Exception e) {
-    		LOG.error(e.getMessage());
-    		result.put("message", e.getMessage());
-    		result.put("success", false);    		
-    	}
-    	
-    	jsonView.render(result, request, response);
-    } 
-    
+		
+		try {
+			result = arlineManageService.saveArlineInfo(param);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			result.put("message", e.getMessage());
+			result.put("success", false);    		
+		}
+		
+		jsonView.render(result, request, response);
+	} 
+
 
 }

@@ -12,6 +12,7 @@ public class MainController {
     
     @RequestMapping(value="/intro/")
     public String intro(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+    	model.addAttribute("main_yn", "Y");
         return "gnrl/main/intro";
     }
  

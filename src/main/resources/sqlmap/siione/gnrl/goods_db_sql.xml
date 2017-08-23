@@ -26,39 +26,21 @@
 	</select>
 
 	<select id="gnrl.goods.selectTourClMain" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
-		SELECT 1 CF_SORT
-		     , ROW_NUMBER() OVER(ORDER BY CL_NM) CF_ROW
-		     , 'XXXXX' CL_CODE
-		     , '숙박시설' CL_NM
-		     , FILE_CODE
-		     , DELETE_AT
-		     , WRITNG_ID
-		     , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
-		     , UPDT_ID
-		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
-		     , (SELECT COUNT(*) FROM TB_GOODS TG WHERE TG.CL_CODE = CL_CODE) AS GOODS_CNT
-		     , STAYNG_FCLTY_AT
-		  FROM TB_TOUR_CL
-		 WHERE DELETE_AT = 'N'
-		   AND STAYNG_FCLTY_AT = 'Y'
-		   AND ROWNUM = 1
-		 UNION ALL
-		SELECT 2 CF_SORT
-		     , ROW_NUMBER() OVER(ORDER BY CL_NM) CF_ROW
-		     , CL_CODE
+		SELECT CL_CODE
 		     , CL_NM
 		     , FILE_CODE
 		     , DELETE_AT
 		     , WRITNG_ID
-		     , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+		     , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE 
 		     , UPDT_ID
 		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
-		     , (SELECT COUNT(*) FROM TB_GOODS TG WHERE TG.CL_CODE = CL_CODE) AS GOODS_CNT
+		     , (SELECT COUNT(1) FROM TB_GOODS TG WHERE TG.CL_CODE = CL_CODE) AS GOODS_CNT
 		     , STAYNG_FCLTY_AT
+		     , DC
 		  FROM TB_TOUR_CL
-		 WHERE DELETE_AT = 'N'
-		   AND STAYNG_FCLTY_AT = 'N'
-		 ORDER BY CF_SORT, CF_ROW ASC
+		 WHERE UPPER_CL_CODE = '00000'
+		   AND DELETE_AT = 'N'
+		 ORDER BY SORT_ORDR
 	</select> 
 
 	<select id="gnrl.goods.selectTourClList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 

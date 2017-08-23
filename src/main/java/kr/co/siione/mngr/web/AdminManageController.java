@@ -22,41 +22,39 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 public class AdminManageController {
     
 	protected Log log = LogFactory.getLog(this.getClass());
-	
-	private static final String ssUserId = "admin";
-	
-    @Inject
-    MappingJackson2JsonView jsonView;
-    
+
+	@Inject
+	MappingJackson2JsonView jsonView;
+
 	@Resource(name = "adminManageService")
 	private AdminManageService adminManageService;
-    
-    @RequestMapping(value={"/mngr/index/"})
+
+	@RequestMapping(value={"/mngr/index/"})
 	public String mngrIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/mngr/bak/mngrIndex";	
+		return "/mngr/bak/mngrIndex";	
 	} 	
-    
-    @RequestMapping(value={"/mngr/", "/mngr/main/"})
+
+	@RequestMapping(value={"/mngr/", "/mngr/main/"})
 	public String mngrMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return "/mngr/MngrMain";	
+		return "/mngr/MngrMain";	
 	} 	
-    
-    @RequestMapping(value="/mngr/selectMenuTree/")
-    public void selectMenuTree(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
-    	Map<String, Object> result = new HashMap<String, Object>();
-    	
-    	try {
-    		List<Map<String,Object>> results = adminManageService.selectMenuTree(param);
-    		
-    		result.put("rows", results.size());
-    		result.put("data", results);
-    	} catch (Exception e) {
-    		log.error(e.getLocalizedMessage());
-    		result.put("success", false);
-    		result.put("message", e.getLocalizedMessage());
-    	}
-    	
-    	jsonView.render(result, request, response);
-    }
+
+	@RequestMapping(value="/mngr/selectMenuTree/")
+	public void selectMenuTree(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		try {
+			List<Map<String,Object>> results = adminManageService.selectMenuTree(param);
+			
+			result.put("rows", results.size());
+			result.put("data", results);
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+		}
+		
+		jsonView.render(result, request, response);
+	}
 
 }

@@ -1,6 +1,5 @@
 package kr.co.siione.mngr.service.impl;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +26,8 @@ import org.springframework.stereotype.Service;
 @Service("GoodsManageService")
 public class GoodsManageServiceImpl implements GoodsManageService {
 
+	private static final Logger LOG = LoggerFactory.getLogger(GoodsManageServiceImpl.class);
+
 	@Resource(name = "GoodsDAO")
 	private GoodsDAO goodsDAO;
 
@@ -44,8 +45,6 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 
 	@Resource(name = "FileManageDAO")
 	private FileManageDAO fileManageDAO;
-
-	private static final Logger LOG = LoggerFactory.getLogger(GoodsManageServiceImpl.class);
 
 	@Override
 	public void insertGoods(Map<String, Object> params) throws Exception {
@@ -375,6 +374,8 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 	
 	@Override
 	public Map<String, String> selectGoodsByPk(Map<String, String> param) throws Exception {
+		
+		LOG.debug("VVVVVVVVVVVVVVVVVVVVVVVV"+param);
 		return goodsDAO.selectGoodsByPk(param);
 	}
 
@@ -422,5 +423,45 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 		}
 
 		fileManageDAO.insertFileDetail(param);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void uploadGoodsFileMulti(Map<String, Object> params) throws Exception {
+		
+		Map<String, String> param = (Map<String, String>)params.get("param");
+		int cnt = fileManageDAO.selectFileReprsntCnt(param);
+
+		Map<String, String> map = goodsDAO.selectGoodsByPk(param);
+		
+		String sFileCode = "";
+		if(map != null) {
+			sFileCode = UserUtils.nvl(map.get("FILE_CODE"));
+		} else {
+			throw new Exception("파일 업로드 중 오류가 발생했습니다.");
+		}
+		
+		// 파일
+		List<Map<String, String>> fileParamList = (List<Map<String, String>>)params.get("fileParamList");
+		
+		for(int i = 0 ; i < fileParamList.size() ; i++) {
+			Map<String, String> fileParam = (Map<String, String>) fileParamList.get(i);
+
+			if(i == 0 && cnt == 0) {
+				fileParam.put("REPRSNT_AT", "Y");
+				fileParam.put("FILE_SN", String.valueOf(i+1));
+				fileParam.put("SORT_NO", String.valueOf(i+1));				
+			} else if(cnt == 0) {
+				fileParam.put("REPRSNT_AT", "N");
+				fileParam.put("FILE_SN", String.valueOf(i+1));
+				fileParam.put("SORT_NO", String.valueOf(i+1));				
+			} else {
+				fileParam.put("REPRSNT_AT", "N");
+			}
+			fileParam.put("FILE_CODE", sFileCode);
+
+			
+			fileManageDAO.insertFileDetail(fileParam);
+		}
 	}
 }

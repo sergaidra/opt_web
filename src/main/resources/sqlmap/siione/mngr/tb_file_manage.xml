@@ -49,7 +49,7 @@
                                   , #FILE_DC#
                                   , #FILE_SIZE#
                                   , #FILE_CL#
-                                  , #REPRSNT_AT#
+                                  , NVL(#REPRSNT_AT#, 'N')
                                   , NVL(#SORT_NO#, (SELECT NVL(MAX(SORT_NO), 0)+1 FROM TB_FILE_DETAIL WHERE FILE_CODE = #FILE_CODE#))
                                   , #WRITNG_ID#
                                   , SYSDATE)
@@ -118,6 +118,7 @@
              , FILE_CL
              , REPRSNT_AT
              , SORT_NO
+             , '/file/getImageThumb/?file_code='||FILE_CODE||CHR(38)||'file_sn='||FILE_SN AS FILE_URL
              , WRITNG_ID
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , UPDT_ID

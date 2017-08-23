@@ -71,28 +71,6 @@ var comboSex = new Ext.create('Ext.form.ComboBox', {
 });
 
 /*
- * 성별에 대한 콤보박스를 정의
- */
-var comboSexDstn = new Ext.create('Ext.form.ComboBox', {
-	store: new Ext.create('Ext.data.ArrayStore', {
-		fields:['code', 'name'],
-		data :[
-	        ['M', '남'],
-	        ['F', '여']
-	    ]
-	}),
-	displayField: 'name',
-	valueField: 'code',
-	mode: 'local',
-	typeAhead: false,
-	triggerAction: 'all',
-	lazyRender: true,
-	emptyText: '선택'
-});
-
-
-
-/*
  * 날짜를 렌더링한다.
  */
 function fn_renderDate(value) {
@@ -139,6 +117,36 @@ var fn_renderBirthDay = function(value) {
 	}
 };
 
+function fn_chkGridAllowBlank(store, allowObj){	//체크할 스토어, 필수항목 Object
+	
+	var modified = store.getUpdatedRecords();
+	var inserted = store.getNewRecords();
+	var objSize = Ext.Object.getSize(allowObj);
+	var keyArr = Ext.Object.getKeys(allowObj);
+	var valArr = Ext.Object.getValues(allowObj);
+	
+	if (modified.length + inserted.length  > 0) {
+		for (var i = 0; i < modified.length; i++) {
+			for(var j=0; j<objSize; j++){
+				if(modified[i].get(keyArr[j]) == '' || modified[i].get(keyArr[j]) == null){
+					alert(valArr[j] + '은(는) 필수입력입니다.');
+					return true;
+				}
+			}
+		}
+		
+		for (var i = 0; i < inserted.length; i++) {
+			for(var j=0; j<objSize; j++){
+				if(inserted[i].get(keyArr[j]) == '' || inserted[i].get(keyArr[j]) == null){
+					alert(valArr[j] + '은(는) 필수입력입니다.');
+					return true;
+				}
+			}
+		}
+	}
+	
+	return false;
+}
 
 Ext.apply(Ext.form.field.VTypes, {
     daterange : function(val, field) {

@@ -1,0 +1,1057 @@
+
+@CHARSET "UTF-8";
+
+.x-border-layout-ct {
+	background-color: #fff;
+}
+
+.x-grid-empty {
+	padding: 10px;
+	color: gray;
+	background-color: white;
+	font: normal 13px helvetica,arial,verdana,sans-serif;
+	text-align: center;
+}
+
+/* 패널 헤더 사이즈 줄임 */
+.x-panel-header-default-horizontal {
+	padding: 4px 10px 5px 10px;
+}
+
+.x-panel-header-default-horizontal-noborder {
+	padding: 4px 10px 6px 10px;
+}
+
+.x-panel-header-default-vertical {
+	padding: 10px 5px 10px 5px;
+}
+
+.x-panel-header-default-vertical-noborder {
+	padding: 10px 6px 10px 5px;
+}
+
+/* 손가락지문버튼에서 사용 */
+.f-btn-default-small {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+	padding: 3px 3px 3px 3px;
+	border-width: 1px;
+	border-style: solid;
+	background-image: none !important;
+	background-color: whiteSmoke;
+	background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#F6F6F6),color-stop(50%,whiteSmoke),color-stop(51%,#E8E8E8),color-stop(100%,whiteSmoke));
+	background-image: -webkit-linear-gradient(top,#F6F6F6,whiteSmoke 50%,#E8E8E8 51%,whiteSmoke);
+	background-image: -moz-linear-gradient(top,#F6F6F6,whiteSmoke 50%,#E8E8E8 51%,whiteSmoke);
+	background-image: -o-linear-gradient(top,#F6F6F6,whiteSmoke 50%,#E8E8E8 51%,whiteSmoke);
+	background-image: linear-gradient(top,#F6F6F6,whiteSmoke 50%,#E8E8E8 51%,whiteSmoke);
+}
+
+.f-btn-default-small {
+	border-color: #E1E1E1;
+}
+
+.f-btn-default-small-disabled {
+	filter : alpha(opacity=50);
+	opacity : 0.5;
+}
+
+.f-btn-default-small-over {
+	background-image: none;
+	background-color: #ebebeb;
+	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ededed), color-stop(50%, #ebebeb), color-stop(51%, #dfdfdf), color-stop(100%, #ebebeb));
+	background-image: -webkit-linear-gradient(top, #ededed, #ebebeb 50%, #dfdfdf 51%, #ebebeb);
+	background-image: -moz-linear-gradient(top, #ededed, #ebebeb 50%, #dfdfdf 51%, #ebebeb);
+	background-image: -o-linear-gradient(top, #ededed, #ebebeb 50%, #dfdfdf 51%, #ebebeb);
+	background-image: linear-gradient(top, #ededed, #ebebeb 50%, #dfdfdf 51%, #ebebeb);
+}
+
+.f-btn-default-small .f-btn-inner {
+	font-size: 12px;
+	font-weight: normal;
+	font-family: helvetica,arial,verdana,sans-serif;
+	color: #666;
+	/* padding: 0 5px; */
+}
+
+.f-btn-default-small-icon-text-left .f-btn-inner {
+	line-height: 16px;
+	padding-left: 21px;
+}
+
+.f-btn-default-small-menu-active,
+.f-btn-default-small-pressed {
+  	border-color: #C0B911;
+  	background-image: none;
+  	background-color: #F7F70C;;
+  	background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #b6cbe4), color-stop(48%, #bfd2e6), color-stop(52%, #8dc0f5), color-stop(100%, #98c5f5));
+  	background-image: -webkit-linear-gradient(top, #b6cbe4, #bfd2e6 48%, #8dc0f5 52%, #98c5f5);
+  	background-image: -moz-linear-gradient(top, #b6cbe4, #bfd2e6 48%, #8dc0f5 52%, #98c5f5);
+  	background-image: -o-linear-gradient(top, #b6cbe4, #bfd2e6 48%, #8dc0f5 52%, #98c5f5);
+  	background-image: -ms-linear-gradient(top, #b6cbe4, #bfd2e6 48%, #8dc0f5 52%, #98c5f5);
+  	background-image: linear-gradient(top, #b6cbe4, #bfd2e6 48%, #8dc0f5 52%, #98c5f5); 
+}
+
+.x-tab-bar-default {
+background-color: #fff;
+}
+
+
+
+/********************************** scale : small button ***************************************/
+.x-btn-default-small {
+  border-color: #CCCBCB;
+}
+
+.x-btn-default-small {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 3px 3px 3px 3px;
+  border-width: 1px;
+  border-style: solid;
+  background-image: none;
+  background-color: whiteSmoke;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, whiteSmoke), color-stop(50%, whiteSmoke), color-stop(51%, whiteSmoke), color-stop(100%, whiteSmoke));
+  background-image: -webkit-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -moz-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -o-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+}
+
+.x-btn-default-small-mc {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-fbg.gif);
+  background-position: 0 top;
+  background-color: whiteSmoke;
+}
+
+.x-nlg .x-btn-default-small {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-bg.gif);
+  background-position: 0 top;
+}
+
+.x-nbr .x-btn-default-small {
+  padding: 0 !important;
+  border-width: 0 !important;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  -o-border-radius: 0px;
+  border-radius: 0px;
+  background-color: transparent;
+  background-image: none;
+}
+
+.x-btn-default-small-tl,
+.x-btn-default-small-bl,
+.x-btn-default-small-tr,
+.x-btn-default-small-br,
+.x-btn-default-small-tc,
+.x-btn-default-small-bc,
+.x-btn-default-small-ml,
+.x-btn-default-small-mr {
+  zoom: 1;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-corners.gif);
+}
+
+.x-btn-default-small-ml,
+.x-btn-default-small-mr {
+  zoom: 1;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-sides.gif);
+}
+
+.x-btn-default-small:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, frame-bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-fbg.gif), bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-bg.gif), corners:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-corners.gif), sides:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-sides.gif)";
+}
+
+.x-btn-default-small .x-btn-inner {
+  font-size: 12px;
+  font-weight: bold;
+  font-family: helvetica, arial, verdana, sans-serif;
+  color: #666;
+  padding: 0 5px;
+}
+
+.x-btn-default-small .x-btn-arrow {
+  background-image: url(extjs/resources/ext-theme-gray/images/button/default-small-arrow.png);
+}
+
+.x-btn-default-small .x-btn-glyph {
+  font-size: 16px;
+  line-height: 16px;
+  color: white;
+  opacity: 0.5;
+}
+
+.x-ie8m .x-btn-default-small .x-btn-glyph {
+  color: #9bc8e9;
+}
+
+.x-btn-default-small-disabled {
+  border-color: whiteSmoke;
+}
+
+.x-btn-default-small-over {
+  border-color: #CCCBCB;
+  background-image: none;
+  background-color: #DBDBDB;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #DBDBDB), color-stop(50%, #DBDBDB), color-stop(51%, #DBDBDB), color-stop(100%, #DBDBDB));
+  background-image: -webkit-linear-gradient(top, #DBDBDB, #DBDBDB 50%, #DBDBDB 51%, #DBDBDB);
+  background-image: -moz-linear-gradient(top, #DBDBDB, #DBDBDB 50%, #DBDBDB 51%, #DBDBDB);
+  background-image: -o-linear-gradient(top, #DBDBDB, #DBDBDB 50%, #DBDBDB 51%, #DBDBDB);
+  background-image: linear-gradient(top, #DBDBDB, #DBDBDB 50%, #DBDBDB 51%, #DBDBDB);
+}
+
+.x-btn-default-small-focus {
+  border-color: #CCCBCB;
+  background-image: none;
+  background-color: whiteSmoke;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, whiteSmoke), color-stop(50%, whiteSmoke), color-stop(51%, whiteSmoke), color-stop(100%, whiteSmoke));
+  background-image: -webkit-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -moz-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -o-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+}
+
+.x-btn-default-small-menu-active,
+.x-btn-default-small-pressed {
+  border-color: #9EBAE1;
+  background-image: none;
+  background-color: #9EBAE1;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #9EBAE1), color-stop(50%, #9EBAE1), color-stop(51%, #9EBAE1), color-stop(100%, #9EBAE1));
+  background-image: -webkit-linear-gradient(top, #9EBAE1, #9EBAE1 50%, #9EBAE1 51%, #9EBAE1);
+  background-image: -moz-linear-gradient(top, #9EBAE1, #9EBAE1 50%, #9EBAE1 51%, #9EBAE1);
+  background-image: -o-linear-gradient(top, #9EBAE1, #9EBAE1 50%, #9EBAE1 51%, #9EBAE1);
+  background-image: linear-gradient(top, #9EBAE1, #9EBAE1 50%, #9EBAE1 51%, #9EBAE1);
+}
+
+.x-btn-default-small-over .x-frame-tl,
+.x-btn-default-small-over .x-frame-bl,
+.x-btn-default-small-over .x-frame-tr,
+.x-btn-default-small-over .x-frame-br,
+.x-btn-default-small-over .x-frame-tc,
+.x-btn-default-small-over .x-frame-bc {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-over-corners.gif);
+}
+.x-btn-default-small-over .x-frame-ml,
+.x-btn-default-small-over .x-frame-mr {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-over-sides.gif);
+}
+
+.x-btn-default-small-over .x-frame-mc {
+  background-color: #DBDBDB;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-over-fbg.gif);
+}
+
+.x-btn-default-small-focus .x-frame-tl,
+.x-btn-default-small-focus .x-frame-bl,
+.x-btn-default-small-focus .x-frame-tr,
+.x-btn-default-small-focus .x-frame-br,
+.x-btn-default-small-focus .x-frame-tc,
+.x-btn-default-small-focus .x-frame-bc {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-focus-corners.gif);
+}
+
+.x-btn-default-small-focus .x-frame-ml,
+.x-btn-default-small-focus .x-frame-mr {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-focus-sides.gif);
+}
+
+.x-btn-default-small-focus .x-frame-mc {
+  background-color: #DBDBDB;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-focus-fbg.gif);
+}
+
+.x-btn-default-small-menu-active .x-frame-tl,
+.x-btn-default-small-menu-active .x-frame-bl,
+.x-btn-default-small-menu-active .x-frame-tr,
+.x-btn-default-small-menu-active .x-frame-br,
+.x-btn-default-small-menu-active .x-frame-tc,
+.x-btn-default-small-menu-active .x-frame-bc,
+.x-btn-default-small-pressed .x-frame-tl,
+.x-btn-default-small-pressed .x-frame-bl,
+.x-btn-default-small-pressed .x-frame-tr,
+.x-btn-default-small-pressed .x-frame-br,
+.x-btn-default-small-pressed .x-frame-tc,
+.x-btn-default-small-pressed .x-frame-bc {
+  background-image: url(extjs/resources/ext-theme-classic/images/btn/btn-default-small-pressed-corners.gif);
+}
+
+.x-btn-default-small-menu-active .x-frame-ml,
+.x-btn-default-small-menu-active .x-frame-mr,
+.x-btn-default-small-pressed .x-frame-ml,
+.x-btn-default-small-pressed .x-frame-mr {
+  background-image: url(extjs/resources/ext-theme-classic/images/btn/btn-default-small-pressed-sides.gif);
+}
+
+.x-btn-default-small-menu-active .x-frame-mc,
+.x-btn-default-small-pressed .x-frame-mc {
+  background-color: #9EBAE1;
+  background-image: url(extjs/resources/ext-theme-classic/images/btn/btn-default-small-pressed-fbg.gif);
+}
+
+.x-btn-default-small-disabled .x-frame-tl,
+.x-btn-default-small-disabled .x-frame-bl,
+.x-btn-default-small-disabled .x-frame-tr,
+.x-btn-default-small-disabled .x-frame-br,
+.x-btn-default-small-disabled .x-frame-tc,
+.x-btn-default-small-disabled .x-frame-bc {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-disabled-corners.gif);
+}
+
+.x-btn-default-small-disabled .x-frame-ml,
+.x-btn-default-small-disabled .x-frame-mr {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-disabled-sides.gif);
+}
+
+.x-btn-default-small-disabled .x-frame-mc {
+  background-color: null;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-disabled-fbg.gif);
+}
+
+.x-nlg .x-btn-default-small-over {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-over-bg.gif);
+}
+
+.x-nlg .x-btn-default-small-focus {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-focus-bg.gif);
+}
+
+.x-nlg .x-btn-default-small-menu-active,
+.x-nlg .x-btn-default-small-pressed {
+  background-image: url(extjs/resources/ext-theme-classic/images/btn/btn-default-small-pressed-bg.gif);
+}
+
+.x-nlg .x-btn-default-small-disabled {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-disabled-bg.gif);
+}
+
+.x-nbr .x-btn-default-small {
+  background-image: none;
+}
+
+.x-btn-default-small .x-btn-split-right {
+  background-image: url(extjs/resources/ext-theme-gray/images/button/default-small-s-arrow.png);
+  padding-right: 23px;
+}
+
+.x-btn-default-small .x-btn-split-bottom {
+  background-image: url(extjs/resources/ext-theme-gray/images/button/default-small-s-arrow-b.png);
+  padding-bottom: 20px;
+}
+
+.x-btn-default-small-disabled {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+
+.x-btn-default-small-disabled .x-btn-inner {
+  color: #C4BFBF;
+}
+
+.x-btn-default-small-over:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, corners:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-over-corners.gif), sides:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-over-sides.gif), frame-bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-over-fbg.gif), bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-over-bg.gif)";
+}
+
+.x-btn-default-small-focus:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, corners:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-focus-corners.gif), sides:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-focus-sides.gif), frame-bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-focus-fbg.gif), bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-focus-bg.gif)";
+}
+
+.x-btn-default-small-pressed:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, corners:url(extjs/resources/ext-theme-classic/images/btn/btn-default-small-pressed-corners.gif), sides:url(extjs/resources/ext-theme-classic/images/btn/btn-default-small-pressed-sides.gif), frame-bg:url(extjs/resources/ext-theme-classic/images/btn/btn-default-small-pressed-fbg.gif), bg:url(extjs/resources/ext-theme-classic/images/btn/btn-default-small-pressed-bg.gif)";
+}
+
+.x-btn-default-small-disabled:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, corners:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-disabled-corners.gif), sides:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-disabled-sides.gif), frame-bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-disabled-fbg.gif), bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-small-disabled-bg.gif)";
+}
+
+
+
+/********************************** scale : medium button ***************************************/
+.x-btn-default-medium {
+  border-color: #CCCBCB;
+}
+
+.x-btn-default-medium {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 3px 3px 3px 3px;
+  border-width: 1px;
+  border-style: solid;
+  background-image: none;
+  background-color: whiteSmoke;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, whiteSmoke), color-stop(50%, whiteSmoke), color-stop(51%, whiteSmoke), color-stop(100%, whiteSmoke));
+  background-image: -webkit-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -moz-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -o-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+}
+
+.x-btn-default-medium-mc {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-fbg.gif);
+  background-position: 0 top;
+  background-color: whiteSmoke;
+}
+
+.x-nlg .x-btn-default-medium {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-bg.gif);
+  background-position: 0 top;
+}
+
+.x-nbr .x-btn-default-medium {
+  padding: 0 !important;
+  border-width: 0 !important;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  -o-border-radius: 0px;
+  border-radius: 0px;
+  background-color: transparent;
+  background-image: none;
+}
+
+.x-btn-default-medium-tl,
+.x-btn-default-medium-bl,
+.x-btn-default-medium-tr,
+.x-btn-default-medium-br,
+.x-btn-default-medium-tc,
+.x-btn-default-medium-bc,
+.x-btn-default-medium-ml,
+.x-btn-default-medium-mr {
+  zoom: 1;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-corners.gif);
+}
+
+.x-btn-default-medium-ml,
+.x-btn-default-medium-mr {
+  zoom: 1;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-sides.gif);
+}
+
+.x-btn-default-medium:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, frame-bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-fbg.gif), bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-bg.gif), corners:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-corners.gif), sides:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-sides.gif)";
+}
+
+.x-btn-default-medium .x-btn-inner {
+  font-size: 12px;
+  font-weight: bold;
+  font-family: helvetica, arial, verdana, sans-serif;
+  color: #666;
+  padding: 0 5px;
+}
+
+.x-btn-default-medium .x-btn-arrow {
+  background-image: url(extjs/resources/ext-theme-gray/images/button/default-medium-arrow.png);
+}
+
+.x-btn-default-medium .x-btn-glyph {
+  font-size: 16px;
+  line-height: 16px;
+  color: white;
+  opacity: 0.5;
+}
+
+.x-ie8m .x-btn-default-medium .x-btn-glyph {
+  color: #9bc8e9;
+}
+
+.x-btn-default-medium-disabled {
+  border-color: whiteSmoke;
+}
+
+.x-btn-default-medium-over {
+  border-color: #CCCBCB;
+  background-image: none;
+  background-color: #DBDBDB;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #DBDBDB), color-stop(50%, #DBDBDB), color-stop(51%, #DBDBDB), color-stop(100%, #DBDBDB));
+  background-image: -webkit-linear-gradient(top, #DBDBDB, #DBDBDB 50%, #DBDBDB 51%, #DBDBDB);
+  background-image: -moz-linear-gradient(top, #DBDBDB, #DBDBDB 50%, #DBDBDB 51%, #DBDBDB);
+  background-image: -o-linear-gradient(top, #DBDBDB, #DBDBDB 50%, #DBDBDB 51%, #DBDBDB);
+  background-image: linear-gradient(top, #DBDBDB, #DBDBDB 50%, #DBDBDB 51%, #DBDBDB);
+}
+
+.x-btn-default-medium-focus {
+  border-color: #CCCBCB;
+  background-image: none;
+  background-color: whiteSmoke;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, whiteSmoke), color-stop(50%, whiteSmoke), color-stop(51%, whiteSmoke), color-stop(100%, whiteSmoke));
+  background-image: -webkit-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -moz-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -o-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+}
+
+.x-btn-default-medium-menu-active,
+.x-btn-default-medium-pressed {
+  border-color: #9EBAE1;
+  background-image: none;
+  background-color: #9EBAE1;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #9EBAE1), color-stop(50%, #9EBAE1), color-stop(51%, #9EBAE1), color-stop(100%, #9EBAE1));
+  background-image: -webkit-linear-gradient(top, #9EBAE1, #9EBAE1 50%, #9EBAE1 51%, #9EBAE1);
+  background-image: -moz-linear-gradient(top, #9EBAE1, #9EBAE1 50%, #9EBAE1 51%, #9EBAE1);
+  background-image: -o-linear-gradient(top, #9EBAE1, #9EBAE1 50%, #9EBAE1 51%, #9EBAE1);
+  background-image: linear-gradient(top, #9EBAE1, #9EBAE1 50%, #9EBAE1 51%, #9EBAE1);
+}
+
+.x-btn-default-medium-over .x-frame-tl,
+.x-btn-default-medium-over .x-frame-bl,
+.x-btn-default-medium-over .x-frame-tr,
+.x-btn-default-medium-over .x-frame-br,
+.x-btn-default-medium-over .x-frame-tc,
+.x-btn-default-medium-over .x-frame-bc {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-over-corners.gif);
+}
+.x-btn-default-medium-over .x-frame-ml,
+.x-btn-default-medium-over .x-frame-mr {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-over-sides.gif);
+}
+
+.x-btn-default-medium-over .x-frame-mc {
+  background-color: #DBDBDB;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-over-fbg.gif);
+}
+
+.x-btn-default-medium-focus .x-frame-tl,
+.x-btn-default-medium-focus .x-frame-bl,
+.x-btn-default-medium-focus .x-frame-tr,
+.x-btn-default-medium-focus .x-frame-br,
+.x-btn-default-medium-focus .x-frame-tc,
+.x-btn-default-medium-focus .x-frame-bc {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-focus-corners.gif);
+}
+
+.x-btn-default-medium-focus .x-frame-ml,
+.x-btn-default-medium-focus .x-frame-mr {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-focus-sides.gif);
+}
+
+.x-btn-default-medium-focus .x-frame-mc {
+  background-color: #DBDBDB;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-focus-fbg.gif);
+}
+
+.x-btn-default-medium-menu-active .x-frame-tl,
+.x-btn-default-medium-menu-active .x-frame-bl,
+.x-btn-default-medium-menu-active .x-frame-tr,
+.x-btn-default-medium-menu-active .x-frame-br,
+.x-btn-default-medium-menu-active .x-frame-tc,
+.x-btn-default-medium-menu-active .x-frame-bc,
+.x-btn-default-medium-pressed .x-frame-tl,
+.x-btn-default-medium-pressed .x-frame-bl,
+.x-btn-default-medium-pressed .x-frame-tr,
+.x-btn-default-medium-pressed .x-frame-br,
+.x-btn-default-medium-pressed .x-frame-tc,
+.x-btn-default-medium-pressed .x-frame-bc {
+  background-image: url(extjs/resources/ext-theme-classic/images/btn/btn-default-medium-pressed-corners.gif);
+}
+
+.x-btn-default-medium-menu-active .x-frame-ml,
+.x-btn-default-medium-menu-active .x-frame-mr,
+.x-btn-default-medium-pressed .x-frame-ml,
+.x-btn-default-medium-pressed .x-frame-mr {
+  background-image: url(extjs/resources/ext-theme-classic/images/btn/btn-default-medium-pressed-sides.gif);
+}
+
+.x-btn-default-medium-menu-active .x-frame-mc,
+.x-btn-default-medium-pressed .x-frame-mc {
+  background-color: #9EBAE1;
+  background-image: url(extjs/resources/ext-theme-classic/images/btn/btn-default-medium-pressed-fbg.gif);
+}
+
+.x-btn-default-medium-disabled .x-frame-tl,
+.x-btn-default-medium-disabled .x-frame-bl,
+.x-btn-default-medium-disabled .x-frame-tr,
+.x-btn-default-medium-disabled .x-frame-br,
+.x-btn-default-medium-disabled .x-frame-tc,
+.x-btn-default-medium-disabled .x-frame-bc {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-corners.gif);
+}
+
+.x-btn-default-medium-disabled .x-frame-ml,
+.x-btn-default-medium-disabled .x-frame-mr {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-sides.gif);
+}
+
+.x-btn-default-medium-disabled .x-frame-mc {
+  background-color: null;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-fbg.gif);
+}
+
+.x-nlg .x-btn-default-medium-over {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-over-bg.gif);
+}
+
+.x-nlg .x-btn-default-medium-focus {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-focus-bg.gif);
+}
+
+.x-nlg .x-btn-default-medium-menu-active,
+.x-nlg .x-btn-default-medium-pressed {
+  background-image: url(extjs/resources/ext-theme-classic/images/btn/btn-default-medium-pressed-bg.gif);
+}
+
+.x-nlg .x-btn-default-medium-disabled {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-bg.gif);
+}
+
+.x-nbr .x-btn-default-medium {
+  background-image: none;
+}
+
+.x-btn-default-medium .x-btn-split-right {
+  background-image: url(extjs/resources/ext-theme-gray/images/button/default-medium-s-arrow.png);
+  padding-right: 23px;
+}
+
+.x-btn-default-medium .x-btn-split-bottom {
+  background-image: url(extjs/resources/ext-theme-gray/images/button/default-medium-s-arrow-b.png);
+  padding-bottom: 20px;
+}
+
+.x-btn-default-medium-disabled {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1; 
+}
+
+.x-btn-default-medium-disabled .x-btn-inner {
+  color: whiteSmoke;
+}
+
+.x-btn-default-medium-over:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, corners:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-over-corners.gif), sides:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-over-sides.gif), frame-bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-over-fbg.gif), bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-over-bg.gif)";
+}
+
+.x-btn-default-medium-focus:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, corners:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-focus-corners.gif), sides:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-focus-sides.gif), frame-bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-focus-fbg.gif), bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-focus-bg.gif)";
+}
+
+.x-btn-default-medium-pressed:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, corners:url(extjs/resources/ext-theme-classic/images/btn/btn-default-medium-pressed-corners.gif), sides:url(extjs/resources/ext-theme-classic/images/btn/btn-default-medium-pressed-sides.gif), frame-bg:url(extjs/resources/ext-theme-classic/images/btn/btn-default-medium-pressed-fbg.gif), bg:url(extjs/resources/ext-theme-classic/images/btn/btn-default-medium-pressed-bg.gif)";
+}
+
+.x-btn-default-medium-disabled:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, corners:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-corners.gif), sides:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-sides.gif), frame-bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-fbg.gif), bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-medium-bg.gif)";
+}
+
+
+
+/********************************** scale : large button ***************************************/
+.x-btn-default-large {
+  border-color: #CCCBCB;
+}
+
+.x-btn-default-large {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  padding: 3px 3px 3px 3px;
+  border-width: 1px;
+  border-style: solid;
+  background-image: none;
+  background-color: whiteSmoke;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, whiteSmoke), color-stop(50%, whiteSmoke), color-stop(51%, whiteSmoke), color-stop(100%, whiteSmoke));
+  background-image: -webkit-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -moz-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -o-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+}
+
+.x-btn-default-large-mc {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-fbg.gif);
+  background-position: 0 top;
+  background-color: whiteSmoke;
+}
+
+.x-nlg .x-btn-default-large {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-bg.gif);
+  background-position: 0 top;
+}
+
+.x-nbr .x-btn-default-large {
+  padding: 0 !important;
+  border-width: 0 !important;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -ms-border-radius: 0px;
+  -o-border-radius: 0px;
+  border-radius: 0px;
+  background-color: transparent;
+  background-image: none;
+}
+
+.x-btn-default-large-tl,
+.x-btn-default-large-bl,
+.x-btn-default-large-tr,
+.x-btn-default-large-br,
+.x-btn-default-large-tc,
+.x-btn-default-large-bc,
+.x-btn-default-large-ml,
+.x-btn-default-large-mr {
+  zoom: 1;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-corners.gif);
+}
+
+.x-btn-default-large-ml,
+.x-btn-default-large-mr {
+  zoom: 1;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-sides.gif);
+}
+
+.x-btn-default-large:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, frame-bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-fbg.gif), bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-bg.gif), corners:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-corners.gif), sides:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-sides.gif)";
+}
+
+.x-btn-default-large .x-btn-inner {
+  font-size: 12px;
+  font-weight: bold;
+  font-family: helvetica, arial, verdana, sans-serif;
+  color: #666;
+  padding: 0 5px;
+}
+
+.x-btn-default-large .x-btn-arrow {
+  background-image: url(extjs/resources/ext-theme-gray/images/button/default-large-arrow.png);
+}
+
+.x-btn-default-large .x-btn-glyph {
+  font-size: 16px;
+  line-height: 16px;
+  color: white;
+  opacity: 0.5;
+}
+
+.x-ie8m .x-btn-default-large .x-btn-glyph {
+  color: #9bc8e9;
+}
+
+.x-btn-default-large-disabled {
+  border-color: whiteSmoke;
+}
+
+.x-btn-default-large-over {
+  border-color: #CCCBCB;
+  background-image: none;
+  background-color: whiteSmoke;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, whiteSmoke), color-stop(50%, whiteSmoke), color-stop(51%, whiteSmoke), color-stop(100%, whiteSmoke));
+  background-image: -webkit-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -moz-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -o-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+}
+
+.x-btn-default-large-focus {
+  border-color: #CCCBCB;
+  background-image: none;
+  background-color: whiteSmoke;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, whiteSmoke), color-stop(50%, whiteSmoke), color-stop(51%, whiteSmoke), color-stop(100%, whiteSmoke));
+  background-image: -webkit-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -moz-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -o-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+}
+
+.x-btn-default-large-menu-active,
+.x-btn-default-large-pressed {
+  border-color: #CCCBCB;
+  background-image: none;
+  background-color: whiteSmoke;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, whiteSmoke), color-stop(50%, whiteSmoke), color-stop(51%, whiteSmoke), color-stop(100%, whiteSmoke));
+  background-image: -webkit-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -moz-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: -o-linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+  background-image: linear-gradient(top, whiteSmoke, whiteSmoke 50%, whiteSmoke 51%, whiteSmoke);
+}
+
+.x-btn-default-large-over .x-frame-tl,
+.x-btn-default-large-over .x-frame-bl,
+.x-btn-default-large-over .x-frame-tr,
+.x-btn-default-large-over .x-frame-br,
+.x-btn-default-large-over .x-frame-tc,
+.x-btn-default-large-over .x-frame-bc {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-corners.gif);
+}
+.x-btn-default-large-over .x-frame-ml,
+.x-btn-default-large-over .x-frame-mr {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-sides.gif);
+}
+
+.x-btn-default-large-over .x-frame-mc {
+  background-color: whiteSmoke;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-fbg.gif);
+}
+
+.x-btn-default-large-focus .x-frame-tl,
+.x-btn-default-large-focus .x-frame-bl,
+.x-btn-default-large-focus .x-frame-tr,
+.x-btn-default-large-focus .x-frame-br,
+.x-btn-default-large-focus .x-frame-tc,
+.x-btn-default-large-focus .x-frame-bc {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-corners.gif);
+}
+
+.x-btn-default-large-focus .x-frame-ml,
+.x-btn-default-large-focus .x-frame-mr {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-sides.gif);
+}
+
+.x-btn-default-large-focus .x-frame-mc {
+  background-color: whiteSmoke;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-fbg.gif);
+}
+
+.x-btn-default-large-menu-active .x-frame-tl,
+.x-btn-default-large-menu-active .x-frame-bl,
+.x-btn-default-large-menu-active .x-frame-tr,
+.x-btn-default-large-menu-active .x-frame-br,
+.x-btn-default-large-menu-active .x-frame-tc,
+.x-btn-default-large-menu-active .x-frame-bc,
+.x-btn-default-large-pressed .x-frame-tl,
+.x-btn-default-large-pressed .x-frame-bl,
+.x-btn-default-large-pressed .x-frame-tr,
+.x-btn-default-large-pressed .x-frame-br,
+.x-btn-default-large-pressed .x-frame-tc,
+.x-btn-default-large-pressed .x-frame-bc {
+  background-image: url(extjs/resources/ext-theme-classic/images/btn/btn-default-large-corners.gif);
+}
+
+.x-btn-default-large-menu-active .x-frame-ml,
+.x-btn-default-large-menu-active .x-frame-mr,
+.x-btn-default-large-pressed .x-frame-ml,
+.x-btn-default-large-pressed .x-frame-mr {
+  background-image: url(extjs/resources/ext-theme-classic/images/btn/btn-default-large-sides.gif);
+}
+
+.x-btn-default-large-menu-active .x-frame-mc,
+.x-btn-default-large-pressed .x-frame-mc {
+  background-color: whiteSmoke;
+  background-image: url(extjs/resources/ext-theme-classic/images/btn/btn-default-large-fbg.gif);
+}
+
+.x-btn-default-large-disabled .x-frame-tl,
+.x-btn-default-large-disabled .x-frame-bl,
+.x-btn-default-large-disabled .x-frame-tr,
+.x-btn-default-large-disabled .x-frame-br,
+.x-btn-default-large-disabled .x-frame-tc,
+.x-btn-default-large-disabled .x-frame-bc {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-corners.gif);
+}
+
+.x-btn-default-large-disabled .x-frame-ml,
+.x-btn-default-large-disabled .x-frame-mr {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-sides.gif);
+}
+
+.x-btn-default-large-disabled .x-frame-mc {
+  background-color: null;
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-fbg.gif);
+}
+
+.x-nlg .x-btn-default-large-over {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-bg.gif);
+}
+
+.x-nlg .x-btn-default-large-focus {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-bg.gif);
+}
+
+.x-nlg .x-btn-default-large-menu-active,
+.x-nlg .x-btn-default-large-pressed {
+  background-image: url(extjs/resources/ext-theme-classic/images/btn/btn-default-large-bg.gif);
+}
+
+.x-nlg .x-btn-default-large-disabled {
+  background-image: url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-bg.gif);
+}
+
+.x-nbr .x-btn-default-large {
+  background-image: none;
+}
+
+.x-btn-default-large .x-btn-split-right {
+  background-image: url(extjs/resources/ext-theme-gray/images/button/default-large-arrow.png);
+  padding-right: 23px;
+}
+
+.x-btn-default-large .x-btn-split-bottom {
+  background-image: url(extjs/resources/ext-theme-gray/images/button/default-large-arrow-b.png);
+  padding-bottom: 20px;
+}
+
+.x-btn-default-large-disabled {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+
+.x-btn-default-large-disabled .x-btn-inner {
+  color: #C4BFBF;
+}
+
+.x-btn-default-large-over:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, corners:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-corners.gif), sides:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-sides.gif), frame-bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-fbg.gif), bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-bg.gif)";
+}
+
+.x-btn-default-large-focus:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, corners:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-corners.gif), sides:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-sides.gif), frame-bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-fbg.gif), bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-bg.gif)";
+}
+
+.x-btn-default-large-pressed:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, corners:url(extjs/resources/ext-theme-classic/images/btn/btn-default-large-corners.gif), sides:url(extjs/resources/ext-theme-classic/images/btn/btn-default-large-sides.gif), frame-bg:url(extjs/resources/ext-theme-classic/images/btn/btn-default-pressed-fbg.gif), bg:url(extjs/resources/ext-theme-classic/images/btn/btn-default-large-bg.gif)";
+}
+
+.x-btn-default-large-disabled:after {
+  display: none;
+  content: "x-slicer:stretch:bottom, corners:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-corners.gif), sides:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-sides.gif), frame-bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-fbg.gif), bg:url(extjs/resources/ext-theme-gray/images/btn/btn-default-large-bg.gif)";
+}
+
+.x-tab-bar-default-horizontal {
+	height: 28px;
+}
+
+.x-tab-bar-default {
+	background-color: #157fcc;
+}
+
+.x-tab-default {
+	border-color: #157FCC;
+	margin: 0 1px 0 0;
+	cursor: pointer;
+}
+
+.x-tab-bar-default .x-tabbar-scroll-right {
+	background-image: url(extjs/resources/ext-theme-neptune/images/tab-bar/default-scroll-right-1.png);
+}
+
+.x-tab-bar-default .x-tabbar-scroll-left {
+	background-image: url(extjs/resources/ext-theme-neptune/images/tab-bar/default-scroll-left-1.png);
+}
+
+.x-tab-default-active {
+	background-color: #002f5d;
+}
+
+.x-tab-default-active .x-tab-inner {
+	color: #fff;
+}
+
+.x-tab-default-top {
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+	-moz-border-radius-bottomright: 0;
+	-webkit-border-bottom-right-radius: 0;
+	border-bottom-right-radius: 0;
+	-moz-border-radius-bottomleft: 0;
+	-webkit-border-bottom-left-radius: 0;
+	border-bottom-left-radius: 0;
+	padding: 3px 12px 4px 12px;
+	border-width: 0;
+	border-style: solid;
+}
+
+.x-tab-default-bottom {
+	-moz-border-radius-topleft: 0;
+	-webkit-border-top-left-radius: 0;
+	border-top-left-radius: 0;
+	-moz-border-radius-topright: 0;
+	-webkit-border-top-right-radius: 0;
+	border-top-right-radius: 0;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	padding: 3px 12px 4px 12px;
+	border-width: 0;
+	border-style: solid;
+}
+
+.x-tab-default-top-mc,
+.x-tab-default-bottom-mc {
+  padding: 2px 9px 2px 9px;
+}
+
+.x-tab-default-top-active .x-frame-mc,
+.x-tab-default-bottom-active .x-frame-mc,
+.x-tab-default-left-active .x-frame-mc,
+.x-tab-default-right-active .x-frame-mc {
+  background-color: #002f5d;
+}
+
+/*
+.x-tab-default-top-active .x-frame-tl,
+.x-tab-default-top-active .x-frame-bl,
+.x-tab-default-top-active .x-frame-tr,
+.x-tab-default-top-active .x-frame-br,
+.x-tab-default-top-active .x-frame-tc,
+.x-tab-default-top-active .x-frame-bc,
+.x-tab-default-left-active .x-frame-tl,
+.x-tab-default-left-active .x-frame-bl,
+.x-tab-default-left-active .x-frame-tr,
+.x-tab-default-left-active .x-frame-br,
+.x-tab-default-left-active .x-frame-tc,
+.x-tab-default-left-active .x-frame-bc,
+.x-tab-default-right-active .x-frame-tl,
+.x-tab-default-right-active .x-frame-bl,
+.x-tab-default-right-active .x-frame-tr,
+.x-tab-default-right-active .x-frame-br,
+.x-tab-default-right-active .x-frame-tc,
+.x-tab-default-right-active .x-frame-bc {
+  background-image: url(/crims/css/extjs/resources/ext-theme-neptune/images/tab/tab-default-top-active-corners.gif);
+}
+
+.x-tab-default-bottom-active .x-frame-tl,
+.x-tab-default-bottom-active .x-frame-bl,
+.x-tab-default-bottom-active .x-frame-tr,
+.x-tab-default-bottom-active .x-frame-br,
+.x-tab-default-bottom-active .x-frame-tc,
+.x-tab-default-bottom-active .x-frame-bc {
+  background-image: url(/crims/css/extjs/resources/ext-theme-neptune/images/tab/tab-default-bottom-active-corners.gif);
+}
+*/
+
+.x-tab-bar-default .x-tabbar-scroll-left,
+.x-tab-bar-default .x-tabbar-scroll-right {
+	height: 31px;
+	width: 23px;
+}
+
+.x-tree-panel .x-grid-cell-inner {
+	cursor: pointer;
+}
+
+#treecontainer .x-grid-cell {
+	background: 0;
+}
+
+.x-grid-row-selected .x-grid-cell, .x-grid-row-selected .x-grid-rowwrap-div {
+	border-style: dotted;
+	border-color: #DBD7D6;
+	background-color: #D9E8FB !important;
+}

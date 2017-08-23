@@ -1,4 +1,6 @@
-package kr.co.siione.utl.egov;
+package kr.co.siione.utl;
+
+import kr.co.siione.utl.egov.EgovProperties;
 
 import org.apache.commons.lang3.StringUtils;
 

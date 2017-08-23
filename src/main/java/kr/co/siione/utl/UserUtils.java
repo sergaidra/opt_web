@@ -1,6 +1,5 @@
 package kr.co.siione.utl;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,16 +13,12 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class UserUtils {
-
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserUtils.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UserUtils.class);
 	
 	public static String nvl(String str) {
 		if (str == null || str.toString().length() == 0 || str.toString().equals(" ") || str.toString().equals("null")) {
@@ -99,35 +94,35 @@ public class UserUtils {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List getOpenAPIData(StringBuilder sb) throws Exception {
-        JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(sb.toString());
-        
-        Map<String, Object> mapRoot     = UserUtils.toMap(jsonObject);
-        Map<String, Object> mapResponse = (Map<String, Object>)mapRoot.get("response");
-        Map<String, Object> mapBody     = (Map<String, Object>)mapResponse.get("body");
-        Map<String, Object> mapItems    = (Map<String, Object>)mapBody.get("items");
-        JSONArray list = (JSONArray)mapItems.get("item");
-        
-        return UserUtils.toList(list);
+		JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(sb.toString());
+		
+		Map<String, Object> mapRoot     = UserUtils.toMap(jsonObject);
+		Map<String, Object> mapResponse = (Map<String, Object>)mapRoot.get("response");
+		Map<String, Object> mapBody     = (Map<String, Object>)mapResponse.get("body");
+		Map<String, Object> mapItems    = (Map<String, Object>)mapBody.get("items");
+		JSONArray list = (JSONArray)mapItems.get("item");
+		
+		return UserUtils.toList(list);
 	}
 	
 	public static void log(Map<String, String> param) throws Exception  {
-		LOGGER.debug("==================== log start ==============================");		
+		LOG.debug("==================== log start ==============================");		
 		Iterator<Map.Entry<String, String>> it = param.entrySet().iterator();
 		while(it.hasNext()) {
 			Map.Entry<String, String> entry = it.next();
-			LOGGER.debug(rpad(entry.getKey(), 20, " ") + ": " + String.valueOf(entry.getValue()));
+			LOG.debug(rpad(entry.getKey(), 20, " ") + ": " + String.valueOf(entry.getValue()));
 		}
-		LOGGER.debug("==================== log end ================================");
+		LOG.debug("==================== log end ================================");
 	}
 	
 	public static void log(String prefix, Map<String, String> param) throws Exception  {
-		LOGGER.debug(prefix+" ==================== log start ==============================");
+		LOG.debug(prefix+" ==================== log start ==============================");
 		Iterator<Map.Entry<String, String>> it = param.entrySet().iterator();
 		while(it.hasNext()) {
 			Map.Entry<String, String> entry = it.next();
-			LOGGER.debug(prefix+" "+ rpad(entry.getKey(), 20, " ") + ": " + String.valueOf(entry.getValue()));
+			LOG.debug(prefix+" "+ rpad(entry.getKey(), 20, " ") + ": " + String.valueOf(entry.getValue()));
 		}
-		LOGGER.debug(prefix+" ==================== log end ================================");
+		LOG.debug(prefix+" ==================== log end ================================");
 	}
 	
 	public static void log(List<Map<String, String>> param) throws Exception  {

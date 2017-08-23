@@ -46,6 +46,8 @@
         <result property="INTRCN_PROVD_LANG"         column="INTRCN_PROVD_LANG"         jdbcType="string" javaType="string"/>
         <result property="INTRCN_POSBL_AGE"          column="INTRCN_POSBL_AGE"          jdbcType="string" javaType="string"/>
         <result property="INTRCN_PLACE"              column="INTRCN_PLACE"              jdbcType="string" javaType="string"/>
+        <result property="STAYNG_FCLTY_AT"           column="STAYNG_FCLTY_AT"           jdbcType="string" javaType="string"/>
+        <result property="SORT_ORDR"                 column="SORT_ORDR"                 jdbcType="string" javaType="string"/>
     </resultMap>
 
     <insert id="GoodsDAO.insertGoods" parameterClass="hashMap">
@@ -65,6 +67,7 @@
                             , WRITNG_ID
                             , WRITNG_DT
                             , FILE_CODE
+                            , SORT_ORDR
                             , VOCHR_TICKET_TY
                             , VOCHR_NTSS_REQRE_TIME
                             , VOCHR_USE_MTH
@@ -101,6 +104,7 @@
                             , #WRITNG_ID#
                             , SYSDATE
                             , #FILE_CODE#
+                            , NVL(#SORT_ORDR#, (SELECT MAX(SORT_ORDR)+1 FROM TB_GOODS WHERE CL_CODE = #CL_CODE#))
                             , #VOCHR_TICKET_TY#
                             , #VOCHR_NTSS_REQRE_TIME#
                             , #VOCHR_USE_MTH#
@@ -143,6 +147,7 @@
                             , ACT_LA
                             , ACT_LO
                             , STAYNG_FCLTY_AT
+                            , SORT_ORDR
                             , VOCHR_TICKET_TY
                             , VOCHR_NTSS_REQRE_TIME
                             , VOCHR_USE_MTH
@@ -165,11 +170,12 @@
                             , #FILE_CODE#
                             , #ACT_LA#
                             , #ACT_LO#
-                            , #STAYNG_FCLTY_AT#
-                            , #VOCHR_TICKET_TY#
+                            , NVL(#STAYNG_FCLTY_AT#, 'N')
+                            , NVL(#SORT_ORDR#, (SELECT MAX(SORT_ORDR)+1 FROM TB_GOODS WHERE CL_CODE = #CL_CODE#))
+                            , DECODE(#VOCHR_TICKET_TY#, '선택', '', #VOCHR_TICKET_TY#)
                             , #VOCHR_NTSS_REQRE_TIME#
                             , #VOCHR_USE_MTH#
-                            , #INTRCN_GOODS_TY#
+                            , DECODE(#INTRCN_GOODS_TY#, '선택', '', #INTRCN_GOODS_TY#)
                             , #INTRCN_USE_TIME#
                             , #INTRCN_MEET_TIME#
                             , #INTRCN_REQRE_TIME#
@@ -237,10 +243,11 @@
              , ACT_LA                = #ACT_LA#
              , ACT_LO                = #ACT_LO#
              , STAYNG_FCLTY_AT       = #STAYNG_FCLTY_AT#
-             , VOCHR_TICKET_TY       = #VOCHR_TICKET_TY#
+             , SORT_ORDR             = #SORT_ORDR#
+             , VOCHR_TICKET_TY       = DECODE(#VOCHR_TICKET_TY#, '선택', '', #VOCHR_TICKET_TY#)
              , VOCHR_NTSS_REQRE_TIME = #VOCHR_NTSS_REQRE_TIME#
              , VOCHR_USE_MTH         = #VOCHR_USE_MTH#
-             , INTRCN_GOODS_TY       = #INTRCN_GOODS_TY#
+             , INTRCN_GOODS_TY       = DECODE(#INTRCN_GOODS_TY#, '선택', '', #INTRCN_GOODS_TY#)
              , INTRCN_USE_TIME       = #INTRCN_USE_TIME#
              , INTRCN_MEET_TIME      = #INTRCN_MEET_TIME#
              , INTRCN_REQRE_TIME     = #INTRCN_REQRE_TIME#
@@ -311,6 +318,8 @@
              , (SELECT UPPER_CL_CODE FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE) UPPER_CL_CODE
              , CL_CODE
              , (SELECT C.CL_NM FROM TB_TOUR_CL C WHERE A.CL_CODE = C.CL_CODE) CL_NM
+             , STAYNG_FCLTY_AT
+             , SORT_ORDR
              , VOCHR_TICKET_TY
              , VOCHR_NTSS_REQRE_TIME
              , VOCHR_USE_MTH
@@ -402,6 +411,7 @@
              , DELETE_AT
              , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD') WRITNG_DE
              , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DE
+             , (SELECT COUNT(1) FROM TB_FILE_DETAIL X WHERE A.FILE_CODE = X.FILE_CODE) CF_FILE_CNT
           FROM TB_GOODS A
          WHERE 1 = 1 ]]>
         <isNotEmpty property="CL_CODE">
