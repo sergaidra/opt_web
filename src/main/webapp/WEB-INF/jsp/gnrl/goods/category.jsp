@@ -1,9 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<style type="text/css">
+.checkbox-wrap {
+	cursor: pointer;
+}
+
+.checkbox-wrap .check-icon {
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	background: url(/images/chbox.gif) left center no-repeat;
+	vertical-align: middle;
+	transition-duration: .3s;
+}
+
+.checkbox-wrap input[type=checkbox] {
+	display: none;
+}
+
+.checkbox-wrap input[type=checkbox]:checked+.check-icon {
+	background-image: url(/images/chbox_hover.gif);
+}
+</style>
 <script type="text/javascript">
-	function fnSearch() {
-		var form = $("form[id=frmCategory]");
+	function fnSearch() {7		var form = $("form[id=frmCategory]");2453
 		var cateList = "";
 		$("input:checkbox[id=chkCategory]:checked").each(function() {
 			if(this.value == 'XXXXX') {
@@ -48,6 +69,12 @@
 		</ul>
 	</div>
 </div>
+
+<label class="checkbox-wrap"><input type="checkbox" name="transportation[]" value="자가용"><i class="check-icon"></i> 자가용</label>
+<label class="checkbox-wrap"><input type="checkbox" name="transportation[]" value="대중교통"><i class="check-icon"></i> 대중교통</label>
+<label class="checkbox-wrap"><input type="checkbox" name="transportation[]" value="도보"><i class="check-icon"></i> 도보</label>
+
+
 <div id="footer">
 	<div class="area_footer">
 		<ul class="f_nav">
