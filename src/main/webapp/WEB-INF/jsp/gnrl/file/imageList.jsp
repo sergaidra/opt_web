@@ -1,79 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>Image Slider</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-
-	<link type="text/css" href="/css/swiper.css" rel="stylesheet" media="screen"/>
-
-    <style>
-    body {
-        background: #eee;
-        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        color:#000;
-        margin: 0;
-        padding: 0;
-    }
-    .swiper-container {
-        width: 1000px;
-        height: 400px;
-        margin: 0px auto;
-    }
-    .swiper-slide {
-        text-align: center;
-        font-size: 18px;
-        background: #eee;
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-    }
-    </style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/reset.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/viSimpleSlider.css'/>" />
+<script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/jquery.easing.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/vinyli.viSimpleSlider.js'/>"></script>
+<!--[if lt IE 9]>
+	<script src="src="<c:url value='/js/html5.js'/>""></script>
+<![endif]-->
+<!--[if lt IE 8]>
+	<script src="src="<c:url value='/js/respond.min.js'/>""></script>
+<![endif]-->
 </head>
 <body>
-    <!-- Swiper -->
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-			<c:if test="${fn:length(result) == 0}">
-	            <div class="swiper-slide">
-					<img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}" width="400px">
-				</div>
-			</c:if>
-			<c:forEach var="list" items="${result}" varStatus="status">
-            <div class="swiper-slide">
-				<img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}" width="500px" width="375px">
-			</div>
-			</c:forEach>
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-    </div>
+<div id="divPhotoSlider">
+	<ul>
+	<c:forEach var="list" items="${result}" varStatus="status">
+	    <li>
+			<img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}" width="100%" height="100%">
+		</li>
+	</c:forEach>
+	</ul>
+	<a href="#" class="arrowBtn prev"></a>
+	<a href="#" class="arrowBtn next"></a>
+</div>
+<script>
+$('#divPhotoSlider').viSimpleSlider({
+      ease : 'easeInOutQuart',
+      autoPlay : true,
+      indicate : true,
+      autoTime : 3000,
+      speed : 400 
+});
 
-	<script type="text/javascript" src="/js/swiper.js"></script>
-
-    <!-- Initialize Swiper -->
-    <script>
-    var swiper = new Swiper('.swiper-container', {
-        pagination: '.swiper-pagination',
-        slidesPerView: 2,
-        centeredSlides: true,
-        paginationClickable: true,
-        spaceBetween: 30,
-    });
-    </script>
+function fnSelPhoto(selIdx) {
+	$('.indicate a')[selIdx].click();
+}
+</script>
 </body>
 </html>

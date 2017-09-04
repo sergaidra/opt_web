@@ -125,7 +125,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 		text: '숙박시설여부',
 		width: 100,
 		align: 'center',
-		editor: comboStayngAt,
+		//editor: comboStayngAt,
 		dataIndex: 'STAYNG_FCLTY_AT',
 		renderer: Ext.ux.comboBoxRenderer(comboStayngAt)
 	},{

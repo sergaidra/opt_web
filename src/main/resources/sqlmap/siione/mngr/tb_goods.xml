@@ -300,9 +300,9 @@
     ]]>
     </delete>
 
-    <select id="GoodsDAO.selectGoodsByPk" parameterClass="hashMap" resultMap="rmGoods">
+    <sql id="sqlGoodsInfo">
     <![CDATA[
-        SELECT GOODS_CODE
+       SELECT GOODS_CODE
              , GOODS_NM
              , GOODS_INTRCN
              , DELETE_AT
@@ -345,56 +345,19 @@
              , INTRCN_POSBL_AGE
              , INTRCN_PLACE
           FROM TB_GOODS A
-         WHERE GOODS_CODE = #GOODS_CODE#
+         WHERE 1 = 1
     ]]>
+    </sql>
+
+    <select id="GoodsDAO.selectGoodsByPk" parameterClass="hashMap" resultMap="rmGoods">
+    <include refid="sqlGoodsInfo"/>
+           AND GOODS_CODE = #GOODS_CODE#
     </select>
 
     <select id="GoodsDAO.selectGoodsList" parameterClass="hashMap" resultMap="rmGoods">
-    <![CDATA[
-        SELECT A.GOODS_CODE
-             , A.GOODS_NM
-             , A.GOODS_INTRCN
-             , A.DELETE_AT
-             , A.FILE_CODE
-             , A.WRITNG_ID
-             , TO_CHAR(A.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
-             , A.UPDT_ID
-             , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DE
-             , A.WAIT_TIME
-             , A.MVMN_TIME
-             , A.ACT_LA
-             , A.ACT_LO
-             , A.CL_CODE
-             , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE AND X.UPPER_CL_CODE <> '00000') CL_NM
-             , STAYNG_FCLTY_AT
-             , VOCHR_TICKET_TY
-             , VOCHR_NTSS_REQRE_TIME
-             , VOCHR_USE_MTH
-             , GUIDANCE_USE_TIME
-             , GUIDANCE_REQRE_TIME
-             , GUIDANCE_AGE_DIV
-             , GUIDANCE_TOUR_SCHDUL
-             , GUIDANCE_PRFPLC_LC
-             , GUIDANCE_EDC_CRSE
-             , GUIDANCE_OPTN_MATTER
-             , GUIDANCE_PICKUP
-             , GUIDANCE_PRPARETG
-             , GUIDANCE_INCLS_MATTER
-             , GUIDANCE_NOT_INCLS_MATTER
-             , ADIT_GUIDANCE
-             , ATENT_MATTER
-             , CHANGE_REFND_REGLTN
-             , INTRCN_GOODS_TY
-             , INTRCN_USE_TIME
-             , INTRCN_MEET_TIME
-             , INTRCN_REQRE_TIME
-             , INTRCN_PROVD_LANG
-             , INTRCN_POSBL_AGE
-             , INTRCN_PLACE
-          FROM TB_GOODS A
-         WHERE 1 = 1 ]]>
+    <include refid="sqlGoodsInfo"/>
         <isNotEmpty property="DELETE_AT">
-          AND DELETE_AT = #DELETE_AT#
+           AND DELETE_AT = #DELETE_AT#
         </isNotEmpty>
          ORDER BY WRITNG_DT, GOODS_CODE
     </select>

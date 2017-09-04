@@ -608,6 +608,7 @@ var storeGoods = Ext.create('Ext.data.JsonStore', {
 					Ext.getCmp('btn-save1').disable();
 					Ext.getCmp('btn-save2').disable();
 					Ext.getCmp('btn-save3').disable();
+					//Ext.getCmp('btn-add').disable();
 					Ext.getCmp('btn-del').disable();
 
 					Ext.getCmp('btn-add-schdul').disable();
@@ -687,7 +688,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 		xtype: 'button',
 		id: 'btn-save1',
 		text: '저장',
-		margin: '0 0 0 475',
+		margin: '0 0 0 410',
 		width: 60,
 		handler: function() {
 			if(Ext.getCmp('form-reg-goods-code').getValue()) {
@@ -695,6 +696,46 @@ var frReg = Ext.create('Ext.form.Panel', {
 			} else {
 				fn_saveGoodsInfo('I', frReg);
 			}
+		}
+	}, {
+		xtype: 'button',
+		id: 'btn-add',
+		text: '신규',
+		margin: '0 0 0 5',
+		width: 60,
+		handler: function() {
+			Ext.Msg.confirm('확인', '작업을 중단하고 신규로 작성하시겠습니까?', function(btn) {			
+		    	 if(btn == 'yes') {
+					Ext.getCmp('btn-save1').enable();
+					Ext.getCmp('btn-save2').enable();
+					Ext.getCmp('btn-save3').enable();
+					Ext.getCmp('btn-del').enable();
+					
+					Ext.getCmp('btn-add-schdul').enable();
+					Ext.getCmp('btn-del-schdul').enable();
+					Ext.getCmp('btn-save-schdul').enable();
+					
+					Ext.getCmp('btn-add-time').enable();
+					Ext.getCmp('btn-del-time').enable();
+					Ext.getCmp('btn-save-time').enable();
+					
+					Ext.getCmp('btn-add-nmpr').enable();
+					Ext.getCmp('btn-del-nmpr').enable();
+					Ext.getCmp('btn-save-nmpr').enable();
+					
+					Ext.getCmp('btn-del-file').enable();
+					Ext.getCmp('btn-save-file').enable();
+					Ext.getCmp('btn-upload-file').enable();			
+					
+					frReg.getForm().reset();
+					frReg2.getForm().reset();
+					frReg3.getForm().reset();
+					storeSchdul.removeAll();
+					storeTime.removeAll();
+					storeNmpr.removeAll();
+					storeFile.removeAll();	
+		    	 }
+			});
 		}
 	}, {
 		xtype: 'button',

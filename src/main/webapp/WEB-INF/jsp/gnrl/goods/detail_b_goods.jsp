@@ -16,7 +16,7 @@
 
 	function fnSearch(cl_code) {
 		var form = $("form[id=frmDetail]");
-		$("input:hidden[id=hidCategory]").val(cl_code);
+		$("input:hidden[id=hidUpperClCode]").val(cl_code);
 		$("input:hidden[id=hidPage]").val(1);
 		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
 		form.submit();
@@ -125,8 +125,8 @@
 	<form id="frmDetail" name="frmDetail" method="post" action="<c:url value='/goods/list/'/>">
 	<input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
 	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode" value="${goods_code}">
-	<input type="hidden" id="hidCategory" name="hidCategory" value="${hidCategory}">
-	<input type="hidden" id="hidCategoryNavi" name="hidCategoryNavi" value="${hidCategoryNavi}">
+	<input type="hidden" id="hidUpperClCode" name="hidUpperClCode" value="${hidUpperClCode}">
+	<input type="hidden" id="hidUpperClCodeNavi" name="hidUpperClCodeNavi" value="${hidUpperClCodeNavi}">
 	<input type="hidden" id="hidStayngFcltyAt" name="hidStayngFcltyAt" value="${stayngFcltyAt}">
 	<input type="hidden" id="hidWaitTime" name="hidWaitTime" value="${result.WAIT_TIME}">
 	<input type="hidden" id="hidMvmnTime" name="hidMvmnTime" value="${result.MVMN_TIME}">

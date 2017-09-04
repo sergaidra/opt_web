@@ -82,5 +82,6 @@
 	<mvc:resources location="/fonts/**" mapping="/fonts/**"/>
 	<mvc:resources location="/codebase/**" mapping="/codebase/**"/>
 	<mvc:resources location="/html/**" mapping="/html/**"/>
+	<mvc:resources location="/upload/**" mapping="/upload/**"/>
 
 </beans>

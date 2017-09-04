@@ -2,8 +2,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
-
+<head>
 <script type="text/javascript">	
+	window.onload = function(){
+		$("#sboxClCode").change(function(){
+			if($(this).val() == "0") {
+				fnSearchUpperCl("${hidUpperClCode}");
+			} else {
+				fnSearchCl($(this).val());	
+			}
+		});
+	}
+
 	function fnPage() {
 		var form = $("form[id=frmList]");
 		$("input:hidden[id=hidPage]").val(1);
@@ -25,70 +35,115 @@
 		form.submit();
 	}
 	
-	function fnSearch(cl_code) {
+	function fnSearchUpperCl(cl_code) {
 		var form = $("form[id=frmList]");
-		$("input:hidden[id=hidCategory]").val(cl_code);
+		$("input:hidden[id=hidUpperClCode]").val(cl_code);
+		$("input:hidden[id=hidClCode]").val('');
 		$("input:hidden[id=hidPage]").val(1);
 		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
 		form.submit();
 	}	
 
+	function fnSearchCl(cl_code) {
+		var form = $("form[id=frmList]");
+		$("input:hidden[id=hidClCode]").val(cl_code);
+		$("input:hidden[id=hidPage]").val(1);
+		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
+		form.submit();
+	}	
 </script>
-<div align="center">
-	<div style="height:30px;" align="center">
-		<c:if test="${fn:length(tourList) == 0}">
-			전체
-		</c:if>
-		<c:forEach var="result" items="${tourList}" varStatus="status">
-			<c:if test="${status.count > 1}"> - </c:if>
-			<a href="javascript:fnSearch('${result.CL_CODE}');">#${result.CL_NM}</a>
-		</c:forEach>
+</head>
+<body>
+<form id="frmList" name="frmList" action="<c:url value='/goods/detail/'/>">
+<input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
+<input type="hidden" id="hidGoodsCode" name="hidGoodsCode">
+<input type="hidden" id="hidClCode" name="hidClCode" value="${hidClCode}">
+<input type="hidden" id="hidUpperClCode" name="hidUpperClCode" value="${hidUpperClCode}">
+<input type="hidden" id="hidUpperClCodeNavi" name="hidUpperClCodeNavi" value="${hidUpperClCodeNavi}">
+	<div class="location">
+		<p class="loc_area">
+			홈<span class="arrow_loc"></span>투어상품
+		</p>
 	</div>
-	<form id="frmList" name="frmList" action="<c:url value='/goods/detail/'/>">
-	<input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
-	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode">
-	<input type="hidden" id="hidCategory" name="hidCategory" value="${hidCategory}">
-	<input type="hidden" id="hidCategoryNavi" name="hidCategoryNavi" value="${hidCategoryNavi}">
-	<table width="1024px" border="1" cellspacing="0" cellpadding="0" height="100%" style="border-collapse:collapse; border:1px gray solid;">
-		<tr>
-		<c:if test="${fn:length(goodsList) == 0}">
-			<td height="100px" align="center">조회된 결과가 없습니다.</td>
-		</c:if>
-		<c:forEach var="result" items="${goodsList}" varStatus="status">
-			<td align="center">	
-				<table cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="200px" align="center" rowspan="3">
-						<a href="javascript:fnDetail('${result.GOODS_CODE}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="200px" height="150px"></a>
-					</td>
-					<td width="800px" align="center" title="${result.GOODS_NM}">
-						${fn:substring(result.GOODS_NM, 0, 15)}..
-					</td>
-				</tr>
-				<tr>
-					<td width="800px" align="center" title="${result.SCHDUL_LIST}">
-						${result.SCHDUL_LIST}
-					</td>
-				</tr>
-				<tr>
-					<td width="800px" align="center" title="${result.CL_LIST}">
-						${result.CL_LIST}
-					</td>
-				</tr>
-				</table>
-			</td>
-	<c:if test="${status.count%2 == 0}">
-		</tr>
-		<tr>
-	</c:if>	
+	<!--컨텐츠 시작-->
+	<div class="infor_area">
+		<!--result 탭시작-->
+		<div id="result_set_01">
+		<c:forEach var="result" items="${upperTourClList}" varStatus="status">
+			<c:if test="${result.CL_CODE eq hidUpperClCode}">
+			<p class="rtab_01">
+				<a href="javascript:fnSearchUpperCl('${result.CL_CODE}');">${result.CL_NM}</a>
+			</p>
+			</c:if><c:if test="${result.CL_CODE ne hidUpperClCode}">
+			<p>
+				<a href="javascript:fnSearchUpperCl('${result.CL_CODE}');">${result.CL_NM}</a>
+			</p>
+			</c:if>
 		</c:forEach>
-		</tr>
-	</table>
-	</form>
-</div>
+		<!--result 탭끝-->
+		</div>
+		<div class="whitebar">
+			<span class="wbar_txt">총 587개의 호텔이 검색되었습니다.</span>
+			<fieldset>
+				<select name="" class="wsh_sbox">
+					<option value="0">높은가격순</option>
+					<option value="1"></option>
+				</select>
+				<select name="" class="wsh_sbox">
+					<option value="0">정렬기준</option>
+					<option value="1"></option>
+				</select>
+				<select name="sboxClCode" id="sboxClCode" class="wsh_sbox">
+					<option value="0">상세분류</option>
+					<c:forEach var="result" items="${tourClList}" varStatus="status">
+					<option value="${result.CL_CODE}" <c:if test="${result.CL_CODE eq hidClCode}">selected</c:if>>#${result.CL_NM}</option>
+					</c:forEach>					
+				</select>					
+				<legend>검색</legend>
+				<div class="w_window">
+					<input name="searchWrd" title="검색어 입력" class="winput_txt" type="text" size="35" value="" maxlength="35" onkeypress="press(event)">
+				</div>
+				<button tabindex="3" title="검색" class="wsch_smit" type="submit">
+					<span class="blind"></span> <span class="ico_search_submit"></span>
+				</button>
+			</fieldset>
+		</div>
 
-<div style="height:100px;" align="center">
-	<p style="vertical-align:middle;">
-		<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="fnLinkPage"/>
-	</p>
-</div>
+		<!--rtab_01 시작-->
+		<div class="rtab_01_area">
+			<div class="resultlst_area">
+			<c:forEach var="result" items="${goodsList}" varStatus="status">
+				<c:if test="${status.index%2 == 0}"><ul></c:if>
+					<li <c:if test="${status.index%2 == 1}">class="pr2_right"</c:if>>
+						<p class="pr2_photo_area">
+							<a href="javascript:fnDetail('${result.GOODS_CODE}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="234" height="178"></a>
+						</p>
+						<div class="pr2_rtxt_area">
+							<p class="fl_left circle">A</p>
+							<dl>
+								<dt>
+									<span class="p_head"><a href="javascript:fnDetail('${result.GOODS_CODE}');">${result.GOODS_NM}</a></span>
+									<span class="p_like"><img src="/images/blt_wheart.gif" width="21" height="17"></span>
+									<span class="p_sub">Shangri-La Mactan Resort</span>
+									<div class="star_score_big">
+										<span class="point40"><span class="blind">4점</span></span>
+									</div>
+								</dt>
+								<dd>
+									<span class="price_blank">&nbsp;</span>
+									${result.CF_MIN_AMOUNT}<span class="txt_won">원</span>
+								</dd>
+							</dl>
+						</div>
+						<p class="category">${result.UPPER_CL_NM} > ${result.CL_NM}</p>
+					</li>
+				<c:if test="${status.index%2 == 1}"><ul></c:if>				
+			</c:forEach>				
+				
+			</div>
+		</div>
+		<!--rtab영역 끝-->
+	</div>
+	<!--컨텐츠 끝-->
+</form>	
+</body>          

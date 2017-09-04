@@ -2,30 +2,56 @@
 <!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
 <sqlMap namespace="gnrl">
 
-	<resultMap id="goodsDetail" class="java.util.HashMap">
-		<result property="GOODS_CODE" column="GOODS_CODE" jdbcType="string" javaType="string"/>
-		<result property="GOODS_NM" column="GOODS_NM" jdbcType="string" javaType="string"/>
-		<result property="GOODS_INTRCN" column="GOODS_INTRCN" javaType="String" jdbcType="CLOB"/>
-		<result property="DELETE_AT" column="DELETE_AT" jdbcType="string" javaType="string"/>
-		<result property="FILE_CODE" column="FILE_CODE" jdbcType="string" javaType="string"/>
-		<result property="WAIT_TIME" column="WAIT_TIME" jdbcType="string" javaType="string"/>
-		<result property="MVMN_TIME" column="MVMN_TIME" jdbcType="string" javaType="string"/>
-		<result property="WRITNG_ID" column="WRITNG_ID" jdbcType="string" javaType="string"/>
-		<result property="WRITNG_DE" column="WRITNG_DE" jdbcType="string" javaType="string"/>
-		<result property="UPDT_ID" column="UPDT_ID" jdbcType="string" javaType="string"/>
-		<result property="UPDT_DE" column="UPDT_DE" jdbcType="string" javaType="string"/>
-		<result property="ACT_LA" column="ACT_LA" jdbcType="string" javaType="string"/>
-		<result property="ACT_LO" column="ACT_LO" jdbcType="string" javaType="string"/>
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<resultMap id="goodsDetail" class="hashMap">
+        <result property="GOODS_CODE"                column="GOODS_CODE"                jdbcType="string" javaType="string"/>
+        <result property="GOODS_NM"                  column="GOODS_NM"                  jdbcType="string" javaType="string"/>
+        <result property="GOODS_INTRCN"              column="GOODS_INTRCN"              jdbcType="CLOB"   javaType="string"/>
+        <result property="DELETE_AT"                 column="DELETE_AT"                 jdbcType="string" javaType="string"/>
+        <result property="FILE_CODE"                 column="FILE_CODE"                 jdbcType="string" javaType="string"/>
+        <result property="WRITNG_ID"                 column="WRITNG_ID"                 jdbcType="string" javaType="string"/>
+        <result property="WRITNG_DE"                 column="WRITNG_DE"                 jdbcType="string" javaType="string"/>
+        <result property="UPDT_ID"                   column="UPDT_ID"                   jdbcType="string" javaType="string"/>
+        <result property="UPDT_DE"                   column="UPDT_DE"                   jdbcType="string" javaType="string"/>
+        <result property="UPPER_CL_CODE"             column="UPPER_CL_CODE"             jdbcType="string" javaType="string"/>
+        <result property="CL_CODE"                   column="CL_CODE"                   jdbcType="string" javaType="string"/>
+        <result property="CL_NM"                     column="CL_NM"                     jdbcType="string" javaType="string"/>
+        <result property="WAIT_TIME"                 column="WAIT_TIME"                 jdbcType="string" javaType="string"/>
+        <result property="MVMN_TIME"                 column="MVMN_TIME"                 jdbcType="string" javaType="string"/>
+        <result property="ACT_LA"                    column="ACT_LA"                    jdbcType="string" javaType="string"/>
+        <result property="ACT_LO"                    column="ACT_LO"                    jdbcType="string" javaType="string"/>
+        <result property="VOCHR_TICKET_TY"           column="VOCHR_TICKET_TY"           jdbcType="string" javaType="string"/>
+        <result property="VOCHR_NTSS_REQRE_TIME"     column="VOCHR_NTSS_REQRE_TIME"     jdbcType="string" javaType="string"/>
+        <result property="VOCHR_USE_MTH"             column="VOCHR_USE_MTH"             jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_USE_TIME"         column="GUIDANCE_USE_TIME"         jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_REQRE_TIME"       column="GUIDANCE_REQRE_TIME"       jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_AGE_DIV"          column="GUIDANCE_AGE_DIV"          jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_TOUR_SCHDUL"      column="GUIDANCE_TOUR_SCHDUL"      jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_PRFPLC_LC"        column="GUIDANCE_PRFPLC_LC"        jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_EDC_CRSE"         column="GUIDANCE_EDC_CRSE"         jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_OPTN_MATTER"      column="GUIDANCE_OPTN_MATTER"      jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_PICKUP"           column="GUIDANCE_PICKUP"           jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_PRPARETG"         column="GUIDANCE_PRPARETG"         jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_INCLS_MATTER"     column="GUIDANCE_INCLS_MATTER"     jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_NOT_INCLS_MATTER" column="GUIDANCE_NOT_INCLS_MATTER" jdbcType="string" javaType="string"/>
+        <result property="ADIT_GUIDANCE"             column="ADIT_GUIDANCE"             jdbcType="string" javaType="string"/>
+        <result property="ATENT_MATTER"              column="ATENT_MATTER"              jdbcType="string" javaType="string"/>
+        <result property="CHANGE_REFND_REGLTN"       column="CHANGE_REFND_REGLTN"       jdbcType="string" javaType="string"/>
+        <result property="INTRCN_GOODS_TY"           column="INTRCN_GOODS_TY"           jdbcType="string" javaType="string"/>
+        <result property="INTRCN_USE_TIME"           column="INTRCN_USE_TIME"           jdbcType="string" javaType="string"/>
+        <result property="INTRCN_MEET_TIME"          column="INTRCN_MEET_TIME"          jdbcType="string" javaType="string"/>
+        <result property="INTRCN_REQRE_TIME"         column="INTRCN_REQRE_TIME"         jdbcType="string" javaType="string"/>
+        <result property="INTRCN_PROVD_LANG"         column="INTRCN_PROVD_LANG"         jdbcType="string" javaType="string"/>
+        <result property="INTRCN_POSBL_AGE"          column="INTRCN_POSBL_AGE"          jdbcType="string" javaType="string"/>
+        <result property="INTRCN_PLACE"              column="INTRCN_PLACE"              jdbcType="string" javaType="string"/>
+        <result property="STAYNG_FCLTY_AT"           column="STAYNG_FCLTY_AT"           jdbcType="string" javaType="string"/>
+        <result property="SORT_ORDR"                 column="SORT_ORDR"                 jdbcType="string" javaType="string"/>
+        <result property="CF_MIN_BEGIN_DE"           column="CF_MIN_BEGIN_DE"           jdbcType="string" javaType="string"/>
+        <result property="CF_MAX_BEGIN_DE"           column="CF_MAX_BEGIN_DE"           jdbcType="string" javaType="string"/>
 	</resultMap>
 
-	<select id="gnrl.goods.selectTourClStayng" parameterClass="java.util.HashMap" resultClass="java.lang.String">
-		SELECT SUBSTR(XMLAGG(XMLELEMENT( X, '@' , CL_CODE ) ORDER BY CL_NM).EXTRACT('//text()'),2) STAYNG_CL_CODE
-		  FROM TB_TOUR_CL  
-		 WHERE DELETE_AT = 'N'
-		   AND STAYNG_FCLTY_AT = 'Y'   
-	</select>
-
-	<select id="gnrl.goods.selectTourClMain" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	<select id="gnrl.goods.selectUpperTourClMain" parameterClass="hashMap" resultClass="hashMap">
 		SELECT CL_CODE
 		     , CL_NM
 		     , FILE_CODE
@@ -34,149 +60,129 @@
 		     , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE 
 		     , UPDT_ID
 		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
-		     , (SELECT COUNT(1) FROM TB_GOODS TG WHERE TG.CL_CODE = CL_CODE) AS GOODS_CNT
+		     , (SELECT COUNT(1) FROM TB_GOODS X WHERE X.CL_CODE = A.CL_CODE) AS GOODS_CNT
 		     , STAYNG_FCLTY_AT
+		     , SORT_ORDR
 		     , DC
-		  FROM TB_TOUR_CL
-		 WHERE UPPER_CL_CODE = '00000'
-		   AND DELETE_AT = 'N'
-		 ORDER BY SORT_ORDR
-	</select> 
-
-	<select id="gnrl.goods.selectTourClList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
-		SELECT  
-		TT.CL_CODE,
-		TT.CL_NM,
-		TT.FILE_CODE,
-		TT.DELETE_AT,
-		TT.WRITNG_ID,
-		TO_CHAR(TT.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE,
-		TT.UPDT_ID,
-		TO_CHAR(TT.UPDT_DT,'YYYY-MM-DD') UPDT_DE,
-		(SELECT COUNT(*) FROM TB_GOODS TG WHERE TG.CL_CODE = TT.CL_CODE) AS GOODS_CNT
-		FROM TB_TOUR_CL TT
-		WHERE TT.DELETE_AT = 'N'
-	    <isEqual property="stayng_fclty_at" compareValue="Y" prepend="AND">
-	    	TT.STAYNG_FCLTY_AT = #stayng_fclty_at#
-	    </isEqual>
-	    <isNotEmpty property="cl_code_arr" prepend="AND">
-			TT.CL_CODE IN
-			<iterate property="cl_code_arr" open=" (" conjunction="," close=")">
-				#cl_code_arr[]#
-			</iterate>
+		  FROM TB_TOUR_CL A
+		 WHERE DELETE_AT = 'N'
+		<isNotEmpty property="upper_cl_code">
+		   AND UPPER_CL_CODE = #upper_cl_code#
 		</isNotEmpty>
-		ORDER BY TT.CL_NM ASC	
+		<isNotEmpty property="cl_code_arr">
+		   AND CL_CODE IN <iterate property="cl_code_arr" open=" (" conjunction="," close=")">#cl_code_arr[]#</iterate>
+		</isNotEmpty>
+		 ORDER BY SORT_ORDR
 	</select>
 
-	<select id="gnrl.goods.selectTourClDetail" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
-		SELECT  
-		TT.CL_CODE,
-		TT.CL_NM,
-		TT.FILE_CODE,
-		TT.DELETE_AT,
-		TT.WRITNG_ID,
-		TO_CHAR(TT.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE,
-		TT.UPDT_ID,
-		TO_CHAR(TT.UPDT_DT,'YYYY-MM-DD') UPDT_DE,
-		(SELECT COUNT(*) FROM TB_GOODS TG WHERE TG.CL_CODE = TT.CL_CODE) AS GOODS_CNT
-		FROM TB_TOUR_CL TT
-		WHERE TT.DELETE_AT = 'N'
-		AND TT.CL_CODE = #cl_code#
+	<select id="gnrl.goods.selectGoodsList" parameterClass="hashMap" resultClass="hashMap"> 
+		SELECT GOODS_CODE
+		     , GOODS_NM
+		     , DELETE_AT
+		     , FILE_CODE
+		     , WAIT_TIME
+		     , MVMN_TIME
+		     , FILE_CODE
+		     , CL_CODE
+		     , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE) CL_NM
+		     , (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00000' START WITH X.CL_CODE = A.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_CODE
+		     , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00000' START WITH X.CL_CODE = A.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_NM
+		     , COUNT(GOODS_CODE) OVER() AS TOT_CNT
+		     , (SELECT TO_CHAR(NVL(MIN(X.SETUP_AMOUNT), 0), 'FM9,999,999') FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = A.GOODS_CODE) CF_MIN_AMOUNT
+		  FROM TB_GOODS A
+		 WHERE DELETE_AT = 'N'
+		<isNotEmpty property="cl_code">
+		   AND CL_CODE = #cl_code#
+		</isNotEmpty>
+		<isEmpty property="cl_code">
+			<isNotEmpty property="upper_cl_code">
+		   AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = #upper_cl_code#)
+			</isNotEmpty>
+		</isEmpty>
+		 ORDER BY SORT_ORDR, GOODS_NM
 	</select>
 
-	<select id="gnrl.goods.selectGoodsList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap"> 
-		SELECT 
-		X.RN, 
-		X.TOT_CNT,
-		X.GOODS_CODE,
-		X.GOODS_NM,
-		X.DELETE_AT,
-		X.FILE_CODE,
-		X.WAIT_TIME,
-		X.MVMN_TIME,
-		X.WRITNG_ID,
-		X.WRITNG_DE,
-		X.UPDT_ID,
-		X.UPDT_DE,
-		FN_CL_LIST(X.GOODS_CODE) AS CL_LIST,
-		FN_SCHDUL_LIST(X.GOODS_CODE) AS SCHDUL_LIST
-		FROM 
-		(
-			SELECT A.*, 
-			ROWNUM AS RN, COUNT(*) OVER() AS TOT_CNT
-			FROM 
-			(
-				SELECT  
-				TG.GOODS_CODE,
-				TG.GOODS_NM,
-				TG.DELETE_AT,
-				TG.FILE_CODE,
-				TG.WAIT_TIME,
-				TG.MVMN_TIME,
-				TG.WRITNG_ID,
-				TO_CHAR(TG.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE,
-				TG.UPDT_ID,
-				TO_CHAR(TG.UPDT_DT,'YYYY-MM-DD') UPDT_DE
-				FROM TB_GOODS TG
-				WHERE TG.DELETE_AT = 'N'
-				AND TG.CL_CODE = #cl_code#
-				ORDER BY TG.WRITNG_DT DESC		
-			) A	
-		) X
-		WHERE (RN <![CDATA[ > ]]> #startRow# AND RN <![CDATA[ <= ]]> #endRow#)
-		ORDER BY RN ASC
+	<select id="gnrl.goods.selectGoodsDetail" parameterClass="hashMap" resultMap="goodsDetail"> 
+	<![CDATA[	
+	    SELECT GOODS_CODE
+             , GOODS_NM
+             , REPLACE(REPLACE(GOODS_INTRCN,CHR(10),'<BR>'),CHR(13),' ') GOODS_INTRCN
+             , DELETE_AT
+             , FILE_CODE
+             , WRITNG_ID
+             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+             , UPDT_ID
+             , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
+             , WAIT_TIME
+             , MVMN_TIME
+             , ACT_LA
+             , ACT_LO
+             , (SELECT UPPER_CL_CODE FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE) UPPER_CL_CODE
+             , CL_CODE
+             , (SELECT C.CL_NM FROM TB_TOUR_CL C WHERE A.CL_CODE = C.CL_CODE) CL_NM
+             , STAYNG_FCLTY_AT
+             , SORT_ORDR
+             , VOCHR_TICKET_TY
+             , VOCHR_NTSS_REQRE_TIME
+             , FN_CONVERT_BR(VOCHR_USE_MTH            ) VOCHR_USE_MTH
+             , FN_CONVERT_BR(GUIDANCE_USE_TIME        ) GUIDANCE_USE_TIME
+             , FN_CONVERT_BR(GUIDANCE_REQRE_TIME      ) GUIDANCE_REQRE_TIME
+             , FN_CONVERT_BR(GUIDANCE_AGE_DIV         ) GUIDANCE_AGE_DIV
+             , FN_CONVERT_BR(GUIDANCE_TOUR_SCHDUL     ) GUIDANCE_TOUR_SCHDUL
+             , FN_CONVERT_BR(GUIDANCE_PRFPLC_LC       ) GUIDANCE_PRFPLC_LC
+             , FN_CONVERT_BR(GUIDANCE_EDC_CRSE        ) GUIDANCE_EDC_CRSE
+             , FN_CONVERT_BR(GUIDANCE_OPTN_MATTER     ) GUIDANCE_OPTN_MATTER
+             , FN_CONVERT_BR(GUIDANCE_PICKUP          ) GUIDANCE_PICKUP
+             , FN_CONVERT_BR(GUIDANCE_PRPARETG        ) GUIDANCE_PRPARETG
+             , FN_CONVERT_BR(GUIDANCE_INCLS_MATTER    ) GUIDANCE_INCLS_MATTER
+             , FN_CONVERT_BR(GUIDANCE_NOT_INCLS_MATTER) GUIDANCE_NOT_INCLS_MATTER
+             , FN_CONVERT_BR(ADIT_GUIDANCE            ) ADIT_GUIDANCE
+             , FN_CONVERT_BR(ATENT_MATTER             ) ATENT_MATTER
+             , FN_CONVERT_BR(CHANGE_REFND_REGLTN      ) CHANGE_REFND_REGLTN
+             , INTRCN_GOODS_TY
+             , INTRCN_USE_TIME
+             , INTRCN_MEET_TIME
+             , INTRCN_REQRE_TIME
+             , INTRCN_PROVD_LANG
+             , INTRCN_POSBL_AGE
+             , INTRCN_PLACE
+             , (SELECT SUBSTR(MIN(BEGIN_DE),1,4) ||'-'|| SUBSTR(MIN(BEGIN_DE),5,2) ||'-'|| SUBSTR(MIN(BEGIN_DE),7,2) FROM TB_GOODS_SCHDUL X WHERE X.GOODS_CODE = A.GOODS_CODE) CF_MIN_BEGIN_DE
+             , (SELECT SUBSTR(MAX(END_DE),1,4) ||'-'|| SUBSTR(MAX(END_DE),5,2) ||'-'|| SUBSTR(MAX(END_DE),7,2) FROM TB_GOODS_SCHDUL X WHERE X.GOODS_CODE = A.GOODS_CODE) CF_MAX_BEGIN_DE             
+          FROM TB_GOODS A
+         WHERE DELETE_AT = 'N' 
+		   AND GOODS_CODE = #goods_code#
+	]]>		   
 	</select>
 
-	<select id="gnrl.goods.selectGoodsDetail" parameterClass="java.util.HashMap" resultMap="goodsDetail"> 
-		SELECT  
-			TG.GOODS_CODE,
-			TG.GOODS_NM,
-			TG.GOODS_INTRCN,
-			TG.DELETE_AT,
-			TG.FILE_CODE,
-			TG.WAIT_TIME,
-			TG.MVMN_TIME,		
-			TG.WRITNG_ID,
-			TO_CHAR(TG.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE,
-			TG.UPDT_ID,
-			TO_CHAR(TG.UPDT_DT,'YYYY-MM-DD') UPDT_DE,
-			NVL(TG.ACT_LA, 37.612579) ACT_LA,
-			NVL(TG.ACT_LO, 126.974806) ACT_LO
-		FROM TB_GOODS TG
-		WHERE TG.DELETE_AT = 'N'
-		AND TG.GOODS_CODE = #goods_code#
+	<select id="gnrl.goods.selectGoodsSchdulList" parameterClass="hashMap" resultClass="hashMap">
+		SELECT BEGIN_DE
+		     , END_DE 
+		     , SUBSTR(BEGIN_DE,1,4) ||'-'|| SUBSTR(BEGIN_DE,5,2) ||'-'|| SUBSTR(BEGIN_DE,7,2) AS BEGIN_CAL_DE
+		     , SUBSTR(END_DE,1,4) ||'-'|| SUBSTR(END_DE,5,2) ||'-'|| SUBSTR(END_DE,7,2) AS END_CAL_DE
+		  FROM TB_GOODS_SCHDUL GS
+		 WHERE DELETE_AT = 'N'
+		   AND GOODS_CODE = #goods_code#
+		 ORDER BY BEGIN_DE ASC
 	</select>
 
-	<select id="gnrl.goods.selectGoodsClList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
-        SELECT TC.CL_CODE, TC.CL_NM, TC.STAYNG_FCLTY_AT
-        FROM TB_GOODS GC
-        INNER JOIN TB_TOUR_CL TC ON GC.CL_CODE = TC.CL_CODE
-        WHERE GC.GOODS_CODE = #goods_code#
-        ORDER BY TC.CL_NM ASC
+	<select id="gnrl.goods.selectGoodsNmprList" parameterClass="hashMap" resultClass="hashMap">
+		SELECT NMPR_SN
+		     , NMPR_CND
+		     , SETUP_AMOUNT
+		  FROM TB_GOODS_NMPR GN
+		 WHERE DELETE_AT = 'N'
+		   AND GOODS_CODE = #goods_code#
+		 ORDER BY SORT_ORDR
 	</select>
 
-	<select id="gnrl.goods.selectGoodsSchdulList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
-        SELECT GS.BEGIN_DE, GS.END_DE, 
-        SUBSTR(GS.BEGIN_DE,1,4) ||'-'|| SUBSTR(GS.BEGIN_DE,5,2) ||'-'|| SUBSTR(GS.BEGIN_DE,7,2) AS BEGIN_CAL_DE,
-        SUBSTR(GS.END_DE,1,4) ||'-'|| SUBSTR(GS.END_DE,5,2) ||'-'|| SUBSTR(GS.END_DE,7,2) AS END_CAL_DE
-        FROM TB_GOODS_SCHDUL GS
-        WHERE GS.GOODS_CODE = #goods_code#
-        AND GS.DELETE_AT = 'N'
-        ORDER BY GS.BEGIN_DE ASC
+	<select id="gnrl.goods.selectGoodsTimeList" parameterClass="hashMap" resultClass="hashMap">
+		SELECT TIME_SN
+		     , BEGIN_TIME
+		     , END_TIME, BEGIN_TIME||END_TIME TOUR_TIME
+		  FROM TB_GOODS_TIME GT
+		 WHERE DELETE_AT = 'N'
+		   AND GOODS_CODE = #goods_code#
+		 ORDER BY BEGIN_TIME
 	</select>
-
-	<select id="gnrl.goods.selectGoodsNmprList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
-		SELECT GN.NMPR_SN, GN.NMPR_CND, GN.SETUP_AMOUNT
-		FROM TB_GOODS_NMPR GN
-		WHERE GN.DELETE_AT = 'N'
-		AND GN.GOODS_CODE = #goods_code#
-		ORDER BY GN.NMPR_SN ASC
-	</select>
-	<select id="gnrl.goods.selectGoodsTimeList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
-		SELECT GT.TIME_SN, GT.BEGIN_TIME, GT.END_TIME, GT.BEGIN_TIME||GT.END_TIME TOUR_TIME
-		FROM TB_GOODS_TIME GT
-		WHERE GT.DELETE_AT = 'N'
-		AND GT.GOODS_CODE = #goods_code#
-		ORDER BY GT.BEGIN_TIME
-	</select>	
+	
 </sqlMap>

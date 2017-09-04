@@ -38,6 +38,11 @@ public class FileController {
     	HashMap map = new HashMap();
     	map.put("file_code", file_code);
     	List<HashMap> result = fileService.getFileList(map);
+    	
+    	
+    	System.out.println("[이미지]result:"+result);
+    	
+    	
 
         model.addAttribute("result", result);
         return "gnrl/file/imageList";

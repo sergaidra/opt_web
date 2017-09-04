@@ -31,5 +31,6 @@
 
 		<pattern>/html/*</pattern>
 
+
 	</excludes>
 </decorators>

@@ -10,12 +10,8 @@ import kr.co.siione.utl.egov.EgovComAbstractDAO;
 @Repository
 public class GoodsDAO extends EgovComAbstractDAO {
 
-	public String selectTourClStayng(HashMap map) throws Exception{
-        return (String)selectByPk("gnrl.goods.selectTourClStayng", map);
-    }
-
-	public List selectTourClMain(HashMap map) throws Exception {
-		return list("gnrl.goods.selectTourClMain", map);
+	public List selectUpperTourClMain(HashMap map) throws Exception {
+		return list("gnrl.goods.selectUpperTourClMain", map);
 	}
 	
 	public List selectTourClList(HashMap map) throws Exception {

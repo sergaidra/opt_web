@@ -27,9 +27,12 @@ body {overflow-x: hidden;}
 
 /* header */
 #header {
+	left:0px;
+	top:0px;
 	clear:both; 
 	width: 100%;
 	height: 79px;  
+	background-color:#ffffff;
 	border-bottom: 1px solid #e1e1e1;
 }
 .area_head {
@@ -43,7 +46,7 @@ h1 {
 	display: inline-block;
 	width: 220px;
 	height: 53px;
-	background: url(images/h1.gif) no-repeat 0px 25px;
+	background: url(/images/h1.gif) no-repeat 0px 25px;
 	text-indent: -100000px;}
 
 
@@ -99,18 +102,24 @@ ul.nav_right .login {
 	width: 50px;
 	height: 20px;
 	margin: 0 7px 0 0;
-    background: url(images/icon_login.gif) no-repeat center 1px;
+    background: url(/images/icon_login.gif) no-repeat center 1px;
+}
+ul.nav_right .logout {
+	width: 50px;
+	height: 20px;
+	margin: 0 7px 0 0;
+    background: url(/images/icon_login.gif) no-repeat center 1px;
 }
 ul.nav_right .regi {
 	width: 50px;
 	height: 20px;
 	margin: 0 7px 0 0;
-    background: url(images/icon_user.gif) no-repeat center 0;
+    background: url(/images/icon_user.gif) no-repeat center 0;
 }
 ul.nav_right .cart {
 	width: 50px;
 	height: 20px;
-    background: url(images/icon_cart.gif) no-repeat center 1px;
+    background: url(/images/icon_cart.gif) no-repeat center 1px;
 }
 ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 	font: normal 12px/100% "돋움";
@@ -121,36 +130,39 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 #btn_my_reservation {
 	visibility: visible;
 	float:right;
-	position: absolute;
-	top: -2px; right: 0px; 
+	position: fixed;
+	top: 79px; right: 0px; 
 	width: 14px; height: 29px; 
-	background:#000 url(images/blt_show_mysch.gif) no-repeat 0 0;
+	background:#000 url(/images/blt_show_mysch.gif) no-repeat 0 0;
 	z-index: 6;
 }
 #btn_show_my_reservation {
 	visibility: visible;
+	display: none;
 	float:right;
 	position: fixed;
-	top: 79px; right: 272px;  
+	top: 79px; right: 255px;  
 	width: 14px; height: 29px; 
-	background:#000 url(images/blt_show_mysch.gif) no-repeat 0 0;
-	z-index: 10;
+	background:#000 url(/images/blt_show_mysch.gif) no-repeat 0 0;
+	z-index: 6;
 }
 #show_area_my_reservation {
 	visibility: visible;
 	float:right;
 	position: absolute;
-	top: -3px; right: 0px; 
-	display: block;
+	top: 80px; right: 0px; 
+	/*display: block;*/
+	display: none;
 	width: 255px; height: 100%; 
 	z-index: 6;
 }
 #show_area_my_reservation .show_area_my_res {
 	float: left;
 	position: fixed;
-	display: block;
+	/*display: block;*/
+	display: none;
 	width: 254px;
-	height: 1000px; 
+	height: 100%; 
 	background: #f7f8fa;
 	border-left: 1px solid #b6c0cd;
 	border-top: 1px solid #e1e1e1;
@@ -165,7 +177,7 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 	width: 217px;
 	height: 45px;
 	margin: 24px 0 0 18px;
-	background: url(images/my_rev_tit.gif) no-repeat 0 5px;
+	background: url(/images/my_rev_tit.gif) no-repeat 0 5px;
 	border-bottom: 1px solid #e1e7f0;
 }
 .btn_revert {
@@ -230,7 +242,7 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 	width: 74px;
 	height: 30px;
 	text-indent: -100000px;
-	background:url(images/mymenu_air.gif) no-repeat 0 0;
+	background:url(/images/mymenu_air.gif) no-repeat 0 0;
 }
 		
 #area_nav_myr #set_01 p.tab_01:focus, #area_nav_myr #set_01 p.tab_01:hover {
@@ -238,7 +250,7 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 	display:inline-block; 
 	width: 74px;
 	height: 30px;
-	background:url(images/mymenu_air_hover.gif) no-repeat 0 0;
+	background:url(/images/mymenu_air_hover.gif) no-repeat 0 0;
 }
 #area_nav_myr #set_01 p.tab_02 {
 	float:left;
@@ -246,7 +258,7 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 	width: 73px;
 	height: 30px;
 	text-indent: -100000px;
-	background:url(images/mymenu_hotel.gif) no-repeat 0 0;
+	background:url(/images/mymenu_hotel.gif) no-repeat 0 0;
 }
 		
 #area_nav_myr #set_01 p.tab_02:focus, #area_nav_myr #set_01 p.tab_02:hover {
@@ -254,7 +266,7 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 	display:inline-block; 
 	width: 73px;
 	height: 30px;
-	background:url(images/mymenu_hotel_hover.gif) no-repeat 0 0;
+	background:url(/images/mymenu_hotel_hover.gif) no-repeat 0 0;
 }
 #area_nav_myr #set_01 p.tab_03 {
 	float:left;
@@ -262,7 +274,7 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 	width: 70px;
 	height: 30px;
 	text-indent: -100000px;
-	background:url(images/mymenu_sch.gif) no-repeat 0 0;
+	background:url(/images/mymenu_sch.gif) no-repeat 0 0;
 }
 		
 #area_nav_myr #set_01 p.tab_03:focus, #area_nav_myr #set_01 p.tab_03:hover {
@@ -270,50 +282,50 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 	display:inline-block; 
 	width: 70px;
 	height: 30px;
-	background:url(images/mymenu_sch_hover.gif) no-repeat 0 0;
+	background:url(/images/mymenu_sch_hover.gif) no-repeat 0 0;
 }
 /*항공예약*/
-#area_nav_myr #set_01 #area_airset_01 {
+#area_nav_myr #set_01 .area_airset_01 {
 	float: left;
-	display: none;
+	display: block;
 	width: 100%;
 	margin: 8px 0 0 0;
-	background: url(images/air_bg.gif) repeat-y 0 0; 
+	background: url(/images/air_bg.gif) repeat-y 0 0; 
 }
-#area_nav_myr #set_01 #area_airset_01 p.air_areatit {
+#area_nav_myr #set_01 .area_airset_01 p.air_areatit {
 	float: left;
 	display: block;
 	width: 100%;
 	height: 33px;
-	background: url(images/air_bgtop.gif) no-repeat 0 0; 
+	background: url(/images/air_bgtop.gif) no-repeat 0 0; 
 }
-#area_nav_myr #set_01 #area_airset_01 p.air_areatit .air_from_tit {
+#area_nav_myr #set_01 .area_airset_01 p.air_areatit .air_from_tit {
 	float: left;
 	display: inline-block;
 	width: 190px;
 	height: 19px;
 	margin: 8px 0;
 	text-indent: -100000px;
-	background: url(images/mr_air_tit_departure.gif) no-repeat 12px 3px; 
+	background: url(/images/mr_air_tit_departure.gif) no-repeat 12px 3px; 
 }
-#area_nav_myr #set_01 #area_airset_01 p.air_areatit .air_to_tit {
+#area_nav_myr #set_01 .area_airset_01 p.air_areatit .air_to_tit {
 	float: left;
 	display: inline-block;
 	width: 190px;
 	height: 19px;
 	margin: 8px 0;
 	text-indent: -100000px;
-	background: url(images/mr_air_tit_arrival.gif) no-repeat 12px 3px; 
+	background: url(/images/mr_air_tit_arrival.gif) no-repeat 12px 3px; 
 }
-#area_nav_myr #set_01 #area_airset_01 p.air_areatit .setting {
+#area_nav_myr #set_01 .area_airset_01 p.air_areatit .setting {
 	float: left;
 	display: inline-block;
 	width: 19px;
 	height: 19px;
 	margin: 8px 0;
-	background: url(images/mymenu_btn_setting.gif) no-repeat 0px 0px; 
+	background: url(/images/mymenu_btn_setting.gif) no-repeat 0px 0px; 
 }
-#area_nav_myr #set_01 #area_airset_01 #sch_air {
+#area_nav_myr #set_01 .area_airset_01 #sch_air {
 	float: left;
 	display: block;
 	width: 209px;
@@ -346,32 +358,32 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 	color: #333333;
 	border-bottom: 1px solid #ebebeb; 
 }
-#area_nav_myr #set_01 #area_airset_01 p.air_bgbottom {
+#area_nav_myr #set_01 .area_airset_01 p.air_bgbottom {
 	float: left;
 	display: inline-block;
 	width: 217px;
 	height: 3px;
-	background: url(images/air_bgbottom.gif) no-repeat 0 0;
+	background: url(/images/air_bgbottom.gif) no-repeat 0 0;
 }
-#area_nav_myr #set_01 #area_airset_01 .pink { color: #ff3366;} 
-#area_nav_myr #set_01 #area_airset_01 .blue { color: #00b1f1;}
+#area_nav_myr #set_01 .area_airset_01 .pink { color: #ff3366;} 
+#area_nav_myr #set_01 .area_airset_01 .blue { color: #00b1f1;}
 
 /*호텔예약*/
-#area_nav_myr #set_01 #area_hotelset_01 {
+#area_nav_myr #set_01 .area_hotelset_01 {
 	float: left;
-	display: block;
+	display: none;
 	width: 100%;
 	margin: 8px 0 0 0;
-	background: url(images/air_bg.gif) repeat-y 0 0; 
+	background: url(/images/air_bg.gif) repeat-y 0 0; 
 }
-#area_nav_myr #set_01 #area_hotelset_01 p.hotel_areatit {
+#area_nav_myr #set_01 .area_hotelset_01 p.hotel_areatit {
 	float: left;
 	display: block;
 	width: 100%;
 	height: 33px;
-	background: url(images/air_bgtop.gif) no-repeat 0 0; 
+	background: url(/images/air_bgtop.gif) no-repeat 0 0; 
 }
-#area_nav_myr #set_01 #area_hotelset_01 p.hotel_areatit .hotel_tit {
+#area_nav_myr #set_01 .area_hotelset_01 p.hotel_areatit .hotel_tit {
 	float: left;
 	display: inline-block;
 	width: 177px;
@@ -381,15 +393,15 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 	color: #00b1f1;
 }
 
-#area_nav_myr #set_01 #area_hotelset_01 p.hotel_areatit .setting {
+#area_nav_myr #set_01 .area_hotelset_01 p.hotel_areatit .setting {
 	float: left;
 	display: inline-block;
 	width: 19px;
 	height: 19px;
 	margin: 8px 0;
-	background: url(images/mymenu_btn_setting.gif) no-repeat 0px 0px; 
+	background: url(/images/mymenu_btn_setting.gif) no-repeat 0px 0px; 
 }
-#area_nav_myr #set_01 #area_hotelset_01 #sch_hotel {
+#area_nav_myr #set_01 .area_hotelset_01 #sch_hotel {
 	float: left;
 	display: block;
 	width: 209px;
@@ -422,13 +434,96 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 	color: #333333;
 	border-bottom: 1px solid #ebebeb; 
 }
-#area_nav_myr #set_01 #area_hotelset_01 p.hotel_bgbottom {
+#area_nav_myr #set_01 .area_hotelset_01 p.hotel_bgbottom {
 	float: left;
 	display: inline-block;
 	width: 217px;
 	height: 3px;
-	background: url(images/air_bgbottom.gif) no-repeat 0 0;
+	background: url(/images/air_bgbottom.gif) no-repeat 0 0;
 }
-#area_nav_myr #set_01 #area_hotelset_01 .pink { color: #ff3366;} 
-#area_nav_myr #set_01 #area_hotelset_01 .blue { color: #00b1f1;}
+#area_nav_myr #set_01 .area_hotelset_01 .pink { color: #ff3366;} 
+#area_nav_myr #set_01 .area_hotelset_01 .blue { color: #00b1f1;}
 
+/*일정표*/
+#area_nav_myr #set_01 .area_schedulset_01 {
+	float: left;
+	display: none;
+	width: 100%;
+	margin: 8px 0 0 0;
+	background: url(/images/air_bg.gif) repeat-y 0 0; 
+}
+#area_nav_myr #set_01 .area_schedulset_01 p.schedul_areatit {
+	float: left;
+	display: block;
+	width: 100%;
+	height: 33px;
+	background: url(/images/air_bgtop.gif) no-repeat 0 0; 
+}
+#area_nav_myr #set_01 .area_schedulset_01 p.schedul_areatit .schedul_from_tit {
+	float: left;
+	display: inline-block;
+	width: 190px;
+	height: 19px;
+	margin: 8px 0;
+	text-indent: -100000px;
+	background: url(/images/mr_air_tit_departure.gif) no-repeat 12px 3px; 
+}
+#area_nav_myr #set_01 .area_schedulset_01 p.schedul_areatit .schedul_to_tit {
+	float: left;
+	display: inline-block;
+	width: 190px;
+	height: 19px;
+	margin: 8px 0;
+	text-indent: -100000px;
+	background: url(/images/mr_air_tit_arrival.gif) no-repeat 12px 3px; 
+}
+#area_nav_myr #set_01 .area_schedulset_01 p.schedul_areatit .setting {
+	float: left;
+	display: inline-block;
+	width: 19px;
+	height: 19px;
+	margin: 8px 0;
+	background: url(/images/mymenu_btn_setting.gif) no-repeat 0px 0px; 
+}
+#area_nav_myr #set_01 .area_schedulset_01 #sch_schedul {
+	float: left;
+	display: block;
+	width: 209px;
+	height: 100%;
+	margin: 0px 3px;
+	font: normal 12px "맑은고딕","나눔고딕",helvetica,arial,verdana,sans-serif;
+	background: #fff;
+	border-top: 1px solid #ebebeb; 
+	border-left: 1px solid #ebebeb; 
+	border-right: 1px solid #ebebeb; 
+}
+#sch_schedul dt {
+	float: left;
+	display: block;
+	width: 90px;
+	height: 12px; line-height: 12px;
+	padding: 7px 0px 8px 8px;
+	font: normal 12px "나눔고딕",helvetica,arial,verdana,sans-serif;
+	color: #485465;
+	border-bottom: 1px solid #ebebeb; 
+	border-right: 1px solid #ebebeb; 
+}
+#sch_schedul dd {
+	float: left;
+	display: block;
+	width: 100px;
+	height: 12px; line-height: 12px;
+	padding: 7px 0px 8px 10px;
+	font: normal 12px "나눔고딕",helvetica,arial,verdana,sans-serif;
+	color: #333333;
+	border-bottom: 1px solid #ebebeb; 
+}
+#area_nav_myr #set_01 .area_schedulset_01 p.schedul_bgbottom {
+	float: left;
+	display: inline-block;
+	width: 217px;
+	height: 3px;
+	background: url(/images/air_bgbottom.gif) no-repeat 0 0;
+}
+#area_nav_myr #set_01 .area_schedulset_01 .pink { color: #ff3366;} 
+#area_nav_myr #set_01 .area_schedulset_01 .blue { color: #00b1f1;}

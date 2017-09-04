@@ -1,0 +1,232 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display");
+@font-face {
+  font-family: 'NanumBarunGothic';
+  src: url(/font/NanumBarunGothic.eot);
+  src: local(※), url(/font/NanumBarunGothic.eot?#iefix) format("embedded-opentype"), url(/font/NanumBarunGothic.woff) format("woff"), url(/font/NanumBarunGothic.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: 'NanumMyeongjo';
+  src: url(/font/NanumMyeongjo.eot);
+  src: local(※), url(/font/NanumMyeongjo.eot?#iefix) format("embedded-opentype"), url(/font/NanumMyeongjo.woff) format("woff"), url(/font/NanumMyeongjo.ttf) format("truetype");
+}
+
+html, body {
+  font-family: 'NanumBarunGothic';
+  font-weight: normal;
+}
+
+h1 {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-weight: normal;
+  font-style: italic;
+  font-size: 48px;
+  padding: 20px;
+  color: #634bbc;
+}
+
+div.info {
+  font-size: 16px;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+div.info > dl > dt {
+  font-size: 18px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
+
+div.info > dl dd {
+  font-size: 13px;
+  padding-left: 20px;
+  color: #666;
+}
+
+div.info > dl dd p.html {
+  color: #fff;
+  background-color: #0ead3b;
+  padding: 10px;
+}
+
+div.info > dl dd p.js {
+  color: #fff;
+  background-color: #444;
+  padding: 10px;
+}
+
+div.info > dl dd > dl > dt {
+  font-size: 16px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  border-bottom: 1px dashed #ddd;
+  color: #ff4280;
+}
+
+div.info > dl dd > dl > dd {
+  padding-left: 0;
+}
+
+div.info > dl dd ul li {
+  margin-bottom: 10px;
+}
+
+.viSimpleSlider, #testDiv {
+  width: 100%;
+  background-color: #eee;
+  overflow: hidden;
+}
+
+.viSimpleSlider ul > li, #testDiv ul > li {
+  position: absolute;
+  font-size: 0;
+  line-height: 0;
+  /*.subtitle{
+                    position: absolute;
+                    z-index: 3;
+                    top: 10px;
+                    right: 20px;
+                    text-align: right;
+                    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+                    h3{
+                        font-weight: normal;
+                        font-size: 1.2rem;
+                        color: #fff;
+                        margin-bottom: 10px;
+                        line-height: 1.2;
+                    }
+                    p{
+                        font-size: 0.8rem;
+                        color: #fff;
+                        line-height: 1.2;
+                    }
+                }*/
+  /*@media screen and (min-width:900px){
+                    .subtitle{
+                        top: 40px;
+                        right: 40px;
+                        h3{
+                            font-size: 25px;
+                            color: #fff;
+                            margin-bottom: 20px;
+                        }
+                        p{
+                            font-size: 16px;
+                            color: #fff;
+                        }
+                    }
+                }*/
+}
+
+.viSimpleSlider ul > li img, #testDiv ul > li img {
+  width: 100%;
+  height: auto;
+}
+
+.viSimpleSlider ul > li .slideTo, #testDiv ul > li .slideTo {
+  background-color: #222;
+  color: #fff;
+}
+
+.viSimpleSlider ul > li .slideTo.active, #testDiv ul > li .slideTo.active {
+  background-color: green;
+}
+
+.viSimpleSlider ul > li .slideTo > div, #testDiv ul > li .slideTo > div {
+  font-size: 14px;
+  margin-top: -20px;
+}
+
+.viSimpleSlider ul > li .slideTo > img, #testDiv ul > li .slideTo > img {
+  vertical-align: top;
+}
+
+.viSimpleSlider ul > li span.indexNumber, #testDiv ul > li span.indexNumber {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  left: 80px;
+  top: 200px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.viSimpleSlider .indicate, #testDiv .indicate {
+  width: 100%;
+  bottom: 10px;
+  z-index: 120;
+  text-align: center;
+}
+
+.viSimpleSlider .indicate > a, #testDiv .indicate > a {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  margin-left: 10px;
+  margin-right: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+}
+
+.viSimpleSlider .indicate > a.active, #testDiv .indicate > a.active {
+  background-color: #eb0a1e;
+}
+
+.viSimpleSlider .indicate:after, #testDiv .indicate:after {
+  display: block;
+  visibility: hidden;
+  content: ".";
+  clear: both;
+  text-indent: -9999px;
+  height: 0;
+}
+
+.viSimpleSlider a.arrowBtn, #testDiv a.arrowBtn {
+  display: block;
+  position: absolute;
+  width: 30px;
+  top: 50%;
+  height: 30px;
+  margin-top: -15px;
+  z-index: 120;
+}
+
+.viSimpleSlider a.arrowBtn.prev, #testDiv a.arrowBtn.prev {
+  left: 10px;
+  background-image: url("/images/arrow_pre.png");
+  background-position: 50% 50%;
+  background-size: 24px;
+  background-repeat: no-repeat;
+}
+
+.viSimpleSlider a.arrowBtn.next, #testDiv a.arrowBtn.next {
+  right: 10px;
+  background-image: url("/images/arrow_next.png");
+  background-position: 50% 50%;
+  background-size: 24px;
+  background-repeat: no-repeat;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: #333;
+  text-align: center;
+}
+
+#footer a {
+  color: #ddd;
+  font-size: 11px;
+}

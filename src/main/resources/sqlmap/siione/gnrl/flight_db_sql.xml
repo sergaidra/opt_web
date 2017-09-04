@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap namespace="gnrl">
+
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+    <insert id="gnrl.cart.insertFlight" parameterClass="hashMap">
+    <![CDATA[
+        INSERT INTO TB_FLIGHT (
+             , ESNTL_ID
+             , FLIGHT_SN
+             , DTRMC_FLIGHT
+             , DTRMC_START_CTY
+             , DTRMC_START_DT
+             , DTRMC_ARVL_CTY
+             , DTRMC_ARVL_DT
+             , HMCMG_FLIGHT
+             , HMCMG_START_CTY
+             , HMCMG_START_DT
+             , HMCMG_ARVL_CTY
+             , HMCMG_ARVL_DT
+             , EXPRTN_AT
+             , WRITNG_ID
+             , WRITNG_DT
+        ) VALUES (
+             , #esntl_id#
+             , (SELECT NVL(MAX(FLIGHT_SN)+1, 1) FROM TB_FLIGHT WHERE ESNTL_ID = #esntl_id#)
+             , #dtrmc_flight#
+             , #dtrmc_start_cty#
+             , TO_DATE(#dtrmc_start_dt#, 'YYYYMMDDHH24MISS')
+             , #dtrmc_arvl_cty#
+             , TO_DATE(#dtrmc_arvl_dt#, 'YYYYMMDDHH24MISS')
+             , #hmcmg_flight#
+             , #hmcmg_start_cty#
+             , TO_DATE(#hmcmg_start_dt#, 'YYYYMMDDHH24MISS')
+             , #hmcmg_arvl_cty#
+             , TO_DATE(#hmcmg_arvl_dt#, 'YYYYMMDDHH24MISS')
+             , 'N'
+             , #esntl_id#
+             , SYSDATE )
+    ]]>
+    </insert>
+
+    <update id="gnrl.cart.updateFlight" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_FLIGHT SET
+             , DTRMC_FLIGHT = #dtrmc_flight#
+             , DTRMC_START_CTY = #dtrmc_start_cty#
+             , DTRMC_START_DT = TO_DATE(#dtrmc_start_dt#, 'YYYYMMDDHH24MISS')
+             , DTRMC_ARVL_CTY = #dtrmc_arvl_cty#
+             , DTRMC_ARVL_DT = TO_DATE(#dtrmc_arvl_dt#, 'YYYYMMDDHH24MISS')
+             , HMCMG_FLIGHT = #hmcmg_flight#
+             , HMCMG_START_CTY = #hmcmg_start_cty#
+             , HMCMG_START_DT = TO_DATE(#hmcmg_start_dt#, 'YYYYMMDDHH24MISS')
+             , HMCMG_ARVL_CTY = #hmcmg_arvl_cty#
+             , HMCMG_ARVL_DT = TO_DATE(#hmcmg_arvl_dt#, 'YYYYMMDDHH24MISS')
+             , UPDT_ID = #esntl_id#
+             , UPDT_DT = SYSDATE
+         WHERE ESNTL_ID = #esntl_id#
+           AND FLIGHT_SN = #flight_sn#
+    ]]>
+    </update>
+
+    <select id="gnrl.cart.selectFlightDetail" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT ESNTL_ID
+             , FLIGHT_SN
+             , DTRMC_FLIGHT
+             , DTRMC_START_CTY
+             , TO_CHAR(DTRMC_START_DT, 'YYYY-MM-DD HH24:MI') DTRMC_START_DT
+             , TO_CHAR(DTRMC_START_DT, 'YYYY/MM/DD(DY) HH24:MI') DTRMC_START_DT_2
+             , TO_CHAR(DTRMC_START_DT, 'YYYY-MM-DD') DTRMC_START_DE
+             , TO_CHAR(DTRMC_START_DT, 'HH24') DTRMC_START_HH
+             , TO_CHAR(DTRMC_START_DT, 'MI') DTRMC_START_MI
+             , TO_CHAR(DTRMC_START_DT, 'DY') DTRMC_START_DY
+             , DTRMC_ARVL_CTY
+             , TO_CHAR(DTRMC_ARVL_DT, 'YYYY-MM-DD HH24:MI') DTRMC_ARVL_DT
+             , TO_CHAR(DTRMC_ARVL_DT, 'YYYY/MM/DD(DY) HH24:MI') DTRMC_ARVL_DT_2
+             , TO_CHAR(DTRMC_ARVL_DT, 'YYYY-MM-DD') DTRMC_ARVL_DE
+             , TO_CHAR(DTRMC_ARVL_DT, 'HH24') DTRMC_ARVL_HH
+             , TO_CHAR(DTRMC_ARVL_DT, 'MI') DTRMC_ARVL_MI
+             , TO_CHAR(DTRMC_ARVL_DT, 'DY') DTRMC_ARVL_DY
+             , HMCMG_FLIGHT
+             , HMCMG_START_CTY
+             , TO_CHAR(HMCMG_START_DT, 'YYYY-MM-DD HH24:MI') HMCMG_START_DT
+             , TO_CHAR(HMCMG_START_DT, 'YYYY/MM/DD(DY) HH24:MI') HMCMG_START_DT_2
+             , TO_CHAR(HMCMG_START_DT, 'YYYY-MM-DD') HMCMG_START_DE
+             , TO_CHAR(HMCMG_START_DT, 'HH24') HMCMG_START_HH
+             , TO_CHAR(HMCMG_START_DT, 'MI') HMCMG_START_MI
+             , TO_CHAR(HMCMG_START_DT, 'DY') HMCMG_START_DY
+             , HMCMG_ARVL_CTY
+             , TO_CHAR(HMCMG_ARVL_DT, 'YYYY-MM-DD HH24:MI') HMCMG_ARVL_DT
+             , TO_CHAR(HMCMG_ARVL_DT, 'YYYY/MM/DD(DY) HH24:MI') HMCMG_ARVL_DT_2
+             , TO_CHAR(HMCMG_ARVL_DT, 'YYYY-MM-DD') HMCMG_ARVL_DE
+             , TO_CHAR(HMCMG_ARVL_DT, 'HH24') HMCMG_ARVL_HH
+             , TO_CHAR(HMCMG_ARVL_DT, 'MI') HMCMG_ARVL_MI
+             , TO_CHAR(HMCMG_ARVL_DT, 'DY') HMCMG_ARVL_DY
+             , EXPRTN_AT
+          FROM TB_FLIGHT
+         WHERE ESNTL_ID = #esntl_id#
+           AND EXPRTN_AT = 'N'
+    ]]>
+    </select>
+
+</sqlMap>

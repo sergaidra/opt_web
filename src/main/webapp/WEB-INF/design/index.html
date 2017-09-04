@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>메인</title>
+<link href="common.css" rel="stylesheet" type="text/css">
+<link href="form.css" rel="stylesheet" type="text/css">
+</head>
+<body style="overflow: hidden;">
+	<!--상단네비게이션 시작-->
+	<header id="header">
+		<div class="area_head">
+			<h1>ci</h1>
+			<nav id="nav">
+				<ul class="nav_left">
+					<li><a href="#">원패스투어</a></li>
+					<li><a href="#">투어상품</a></li>
+					<li><a href="#">여행후기</a></li>
+					<li class="noline"><a href="#">고객서비스</a></li>
+				</ul>
+
+				<ul class="nav_right">
+					<li class="login">로그인</li>
+					<li class="regi"><a href="#">회원가입</a></li>
+					<li class="cart"><a href="#">장바구니</a></li>
+				</ul>
+			</nav>
+
+		</div>
+	</header>
+	<!--상단네비게이션 끝-->
+	<!--하단 시작-->
+	<div id="container" style="height: 894px; background: #fff;">
+
+		<!--우측예약정보 시작-->
+		<p id="btn_my_reservation"></p>
+		<p id="btn_show_my_reservation"></p>
+		<div id="show_area_my_reservation">
+			<div class="show_area_my_res">
+				<div class="top_res">
+					<span><a href='#' class="btn_revert">초기화</a></span>
+				</div>
+				<!--예약정보 메뉴영역 시작-->
+				<div id="area_nav_myr">
+					<div id="set_01">
+						<p class="tab_01">항공편</p>
+						<p class="tab_02">호텔</p>
+						<p class="tab_03">일정표</p>
+						<!--항공예약시작-->
+						<div id="area_airset_01">
+							<p class="air_areatit">
+								<span class="air_from_tit">출발</span> <span class="setting"></span>
+							</p>
+							<dl id="sch_air">
+								<dt>출국일</dt>
+								<dd class="blue">09월 22일(목) 11: 40</dd>
+								<dt>도착일</dt>
+								<dd class="blue">09월 22일(목) 11: 40</dd>
+								<dt>출발지</dt>
+								<dd>인천</dd>
+								<dt>도착지</dt>
+								<dd class="pink">세부</dd>
+								<dt>직항/경유</dt>
+								<dd>직항</dd>
+								<dt>편명</dt>
+								<dd>진에어 LJ0215편</dd>
+								<dt>예약번호</dt>
+								<dd>8LQTRP</dd>
+							</dl>
+							<p class="air_bgbottom"></p>
+						</div>
+						<div id="area_airset_01">
+							<p class="air_areatit">
+								<span class="air_to_tit">도착</span>
+							</p>
+							<dl id="sch_air">
+								<dt>출국일</dt>
+								<dd class="blue">09월 22일(목) 11: 40</dd>
+								<dt>도착일</dt>
+								<dd class="blue">09월 22일(목) 11: 40</dd>
+								<dt>출발지</dt>
+								<dd>인천</dd>
+								<dt>도착지</dt>
+								<dd class="pink">세부</dd>
+								<dt>직항/경유</dt>
+								<dd>직항</dd>
+								<dt>편명</dt>
+								<dd>진에어 LJ0215편</dd>
+								<dt>예약번호</dt>
+								<dd>8LQTRP</dd>
+							</dl>
+							<p class="air_bgbottom"></p>
+						</div>
+						<!--항공예약 끝-->
+						<!--호텔예약시작-->
+						<div id="area_hotelset_01">
+							<p class="hotel_areatit">
+								<span class="hotel_tit">모멘틱 리조트</span> <span class="setting"></span>
+							</p>
+							<dl id="sch_hotel">
+								<dt>체크인</dt>
+								<dd>09월 22일(목) 11: 40</dd>
+								<dt>체크아웃</dt>
+								<dd>09월 22일(목) 11: 40</dd>
+								<dt>성인</dt>
+								<dd>1명</dd>
+								<dt>어린이</dt>
+								<dd>0명</dd>
+								<dt>유아</dt>
+								<dd>0명</dd>
+
+							</dl>
+							<p class="hotel_bgbottom"></p>
+						</div>
+
+						<!--호텔예약 끝-->
+					</div>
+				</div>
+				<!--예약정보 메뉴영역 끝-->
+			</div>
+		</div>
+		<!--우측예약정보 끝-->
+		<div class="area_photo">
+			<div class="area_search">
+				<h2>
+					<img src="images/main_headline.png">
+				</h2>
+				<fieldset>
+					<legend>검색</legend>
+					<div class="yellow_window">
+						<input name="searchWrd" title="검색어 입력" class="input_txt"
+							type="text" size="35" value="가고 싶은 투어, 여행지, 액티비티 검색어를 입력하세요"
+							maxlength="35" onkeypress="press(event)">
+					</div>
+					<button tabindex="3" title="검색" class="sch_smit" type="submit">
+						<span class="blind"></span> <span class="ico_search_submit"></span>
+					</button>
+					<!--<span><a href='#' class="sch_smit">성공</a></span>-->
+				</fieldset>
+
+			</div>
+		</div>
+
+		<div id="sub_nav">
+			<ul>
+				<li class="btn_left"></li>
+				<li>최상의 해안뷰 샹그릴라 리조트</li>
+				<li>핑크빛 로맨틱 추억</li>
+				<li>3박4일 무제한 골프여행</li>
+				<li><a href="#">캐리비안 호핑투어</a></li>
+				<li>캐리비안 호핑투어</li>
+				<li class="btn_right"></li>
+			</ul>
+
+		</div>
+
+		<div id="product_area">
+			<ul>
+				<li>
+					<dl>
+						<dt>
+							모멘픽리조트
+							<스톤마사지 +호핑선택> 4일/5일
+						</dt>
+						<dd>호핑선택시 스톤마사지 추가진행★</dd>
+					</dl>
+				</li>
+				<li>
+					<dl class="lst_second">
+						<dt>
+							가비/퍼시픽세부리조트
+							<스톤마사지 + 팡팡랜드> 4일/5일
+						</dt>
+						<dd>팡팡랜드 무료입장+전일정특식제공</dd>
+					</dl>
+				</li>
+				<li>
+					<dl class="lst_third">
+						<dt>
+							모멘픽리조트
+							<스톤마사지 +호핑선택> 4일/5일
+						</dt>
+						<dd>호핑선택시 스톤마사지 추가진행★</dd>
+					</dl>
+				</li>
+				<li class="lst_contact"><span class="txt_head">고객센터 대표번호
+						1588-0000<br />(해외 82-2-0000-0000)
+				</span><br /> <span class="txt_contact">서울시 종로구 평창 30길 27, 2F<br />
+						T. 070-7655-5003&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F.
+						070-7655-5003<br /> e-mail. customer@onepasstour.com
+				</span></li>
+			</ul>
+		</div>
+		<div id="footer">
+			<div class="area_footer">
+				<ul class="f_nav">
+					<li class="m_first">개인정보취급방침</li>
+					<li>이용약관</li>
+					<li>여행자약관</li>
+					<li class="m_last">about onepasstour</li>
+				</ul>
+				<span class="txt_copyright">Copyright 2017 SⅡONE.CO.LTD. All
+					Right Resesrved.</span>
+			</div>
+		</div>
+
+
+
+	</div>
+	<!--하단 끝-->
+</body>
+</html>

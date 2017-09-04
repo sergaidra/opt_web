@@ -1,3 +1,21 @@
+/**
+ * jquery-ui datepicker 한글
+ */
+$.datepicker.setDefaults({
+    dateFormat: 'yy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년',
+    buttonImage: "button.png", 
+    buttonImageOnly: true     
+});
+
 /*
  * loading indicator show/hide
  */
@@ -110,25 +128,6 @@ function fnIsEmpty(inVal) {
 }
 
 function fnCalendarPopup(ctl, sDate, eDate) {		
-	
-	/**
-	 * jquery-ui datepicker 한글
-	 */
-	$.datepicker.setDefaults({
-	    dateFormat: 'yy-mm-dd',
-	    prevText: '이전 달',
-	    nextText: '다음 달',
-	    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-	    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-	    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-	    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-	    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-	    showMonthAfterYear: true,
-	    yearSuffix: '년',
-	    buttonImage: "button.png", 
-	    buttonImageOnly: true     
-	});
-
 	var id = $("#"+ctl).attr('id');
 
 	$("#" + id).datepicker({});
@@ -151,7 +150,6 @@ function fnCalendarReset(ctl) {
 	var id = $("#"+ctl).attr('id');
 	$("#" + id).val("");
 }
-
 
 /**
  * 숫자형식 검증
@@ -331,4 +329,21 @@ function fnOpenPopup(sUrl, sName, iWidth, iHeigth){
     window.open(sUrl, sName, opts).focus();
 }
 
+
+//콤마찍기
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+ 
+//콤마풀기
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
+ 
+//값 입력시 콤마찍기
+function fnInputNumberFormat(obj) {
+    obj.value = comma(uncomma(obj.value));
+}
 

@@ -1,39 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<head>
 <style type="text/css">
-.checkbox-wrap {
-	cursor: pointer;
-}
-
-.checkbox-wrap .check-icon {
-	display: inline-block;
-	width: 18px;
-	height: 18px;
-	background: url(/images/chbox.gif) left center no-repeat;
-	vertical-align: middle;
-	transition-duration: .3s;
-}
-
-.checkbox-wrap input[type=checkbox] {
-	display: none;
-}
-
-.checkbox-wrap input[type=checkbox]:checked+.check-icon {
-	background-image: url(/images/chbox_hover.gif);
-}
+	.checkbox-wrap {
+		cursor: pointer;
+	}
+	.checkbox-wrap .check-icon {
+		display: inline-block;
+		width: 20px;
+		height: 19px;
+		background: url(/images/chbox.gif) left center no-repeat;
+		vertical-align: middle;
+		transition-duration: .3s;
+	}
+	.checkbox-wrap input[type=checkbox] {
+		display: none;
+	}
+	.checkbox-wrap input[type=checkbox]:checked+.check-icon {
+		background-image: url(/images/chbox_hover.gif);
+	}
 </style>
 <script type="text/javascript">
-	function fnSearch() {7		var form = $("form[id=frmCategory]");2453
+	function fnSearch() {
+		var form = $("form[id=frmCategory]");
 		var cateList = "";
 		$("input:checkbox[id=chkCategory]:checked").each(function() {
-			if(this.value == 'XXXXX') {
-				cateList += "${clCodeStayng}@";
-			} else {
-				cateList += this.value + "@";	
-			}
+			cateList += this.value + "@";	
 		});
-		$("input:hidden[id=hidCategoryNavi]").val(cateList);
+		$("input:hidden[id=hidUpperClCodeNavi]").val(cateList);
 		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
 		form.submit();
 	}
@@ -47,42 +42,35 @@
 		}
 	}
 </script>
+</head>
+<body>
 <div class="location">
-	<p class="loc_area">홈<span class="arrow_loc"></span>투어상품</p>
+	<p class="loc_area">
+		홈<span class="arrow_loc"></span>투어상품
+	</p>
 </div>
-<div class="yellowbar_area">
-	<span class="yellowbar_txt">여러분이 원하는 모든것을 선택하세요.</span>
-	<span id="btn_ok">확인</span>
-	<div class="productlst_area">
-		<ul>
-			<c:forEach var="result" items="${tourList}" varStatus="status">
-			<c:if test="${status.count%4 == 0}"><li class="pr_right"></c:if><c:if test="${status.count%4 != 0}"><li></c:if>
-				<p class="pr_photo_area"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1" width="100%" height="100%"></p>
-				<p class="pr_txt">${result.DC}<br/><span class="pr_tit">${result.CL_NM}</span></p>
-				<p class="ch_box">
-					<span><img src="<c:url value='/images/chbox.gif'/>" onClick="this.src=(this.src=='<c:url value='/images/chbox.gif'/>')?'<c:url value='/images/chbox.gif'/>':'<c:url value='/images/chbox_hover.gif'/>'; document.getElementsByName('my_num')[4].checked=(this.src=='<c:url value='/images/chbox_hover.gif'/>')?true:false;"></span>
-				</p>
-			</li><c:if test="${status.count%4 == 0}">
-		</ul>
-		<ul>
-		</c:if></c:forEach>
-		</ul>
+<div class="yellowbar">
+	<div class="yellowbar_area">
+		<span class="yellowbar_txt">여러분이 원하는 모든것을 선택하세요.</span> 
+		<a href="javascript:fnSearch();"><span id="btn_ok">확인</span></a>
 	</div>
 </div>
-
-<label class="checkbox-wrap"><input type="checkbox" name="transportation[]" value="자가용"><i class="check-icon"></i> 자가용</label>
-<label class="checkbox-wrap"><input type="checkbox" name="transportation[]" value="대중교통"><i class="check-icon"></i> 대중교통</label>
-<label class="checkbox-wrap"><input type="checkbox" name="transportation[]" value="도보"><i class="check-icon"></i> 도보</label>
-
-
-<div id="footer">
-	<div class="area_footer">
-		<ul class="f_nav">
-			<li class="m_first">개인정보취급방침</li>
-			<li>이용약관</li>
-			<li>여행자약관</li>
-			<li class="m_last">about onepasstour</li>
-		</ul>
-		<span class="txt_copyright">Copyright 2017 SⅡONE.CO.LTD. All Right Resesrved.</span>
-	</div>
+<form id="frmCategory" name="frmCategory" action="<c:url value='/goods/list/'/>">
+<input type="hidden" id="hidUpperClCodeNavi" name="hidUpperClCodeNavi">
+<div class="productlst_area">
+	<ul>
+	<c:forEach var="result" items="${upperTourClList}" varStatus="status">
+	<c:if test="${status.count%4 == 0}"><li class="pr_right"></c:if><c:if test="${status.count%4 != 0}"><li></c:if>
+		<p class="pr_photo_area"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1" width="100%" height="100%"></p>
+		<p class="pr_txt">${result.DC}<br/><span class="pr_tit">${result.CL_NM}</span></p>
+		<p class="ch_box">
+			<label class="checkbox-wrap"><input type="checkbox" id="chkCategory" name="chkCategory" value="${result.CL_CODE}"><i class="check-icon"></i></label>
+		</p>
+	</li><c:if test="${status.count%4 == 0}">
+	</ul>
+	<ul>
+	</c:if></c:forEach>
+	</ul>
 </div>
+</form>
+</body>

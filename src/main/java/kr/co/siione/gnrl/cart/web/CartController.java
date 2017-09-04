@@ -3,6 +3,7 @@
 	import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -98,6 +99,8 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 		HashMap map = new HashMap();
 		map.put("esntl_id", esntl_id);
 
+		try {
+		
 		long payment = cartService.getCartPayment(map);
 
 		int list_cnt = 0;
@@ -119,6 +122,8 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 		
 		model.addAttribute("payCount", list_cnt);
 		model.addAttribute("payment", payment);
+		
+		} catch(Exception e) {e.printStackTrace();}
 
 		return "gnrl/cart/list";
 	}
@@ -141,17 +146,17 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 		map.put("goods_code", goods_code);
 		List<HashMap> nmprList = cartService.getCartNmprList(map);
-		List<HashMap> clList = goodsService.getGoodsClList(map);
+		//List<HashMap> clList = goodsService.getGoodsClList(map);
 		List<HashMap> schdulList = goodsService.getGoodsSchdulList(map);
 		List<HashMap> timeList = goodsService.getGoodsTimeList(map);
 
 		String stayngFcltyAt = "N";
-		for(HashMap clMap : clList) {
-			if(UserUtils.nvl(clMap.get("STAYNG_FCLTY_AT")).equals("Y")) {
-				stayngFcltyAt = "Y";
-				break;
-			}
-		}
+//		for(HashMap clMap : clList) {
+//			if(UserUtils.nvl(clMap.get("STAYNG_FCLTY_AT")).equals("Y")) {
+//				stayngFcltyAt = "Y";
+//				break;
+//			}
+//		}
 
 		model.addAttribute("stayngFcltyAt", stayngFcltyAt);
 
@@ -159,7 +164,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 		model.addAttribute("cart_sn", cart_sn);
 
 		model.addAttribute("result", result);
-		model.addAttribute("clList", clList);
+		//model.addAttribute("clList", clList);
 		model.addAttribute("schdulList", schdulList);
 		model.addAttribute("nmprList", nmprList);
 		model.addAttribute("timeList", timeList);
@@ -168,14 +173,14 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 	}
 
 	@RequestMapping(value="/addAction/")
-	public ResponseEntity<String> addAction(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResponseEntity<String> addAction(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		ResponseEntity<String> entity = null;
 		JSONObject obj = new JSONObject();
-		//UserUtils.log("[addCart-param]", param);
+		UserUtils.log("[addCart-param]", param);
 /*		[addCart-param] ==================== log start ==============================
 		[addCart-param] hidPage             :
 		[addCart-param] hidGoodsCode        : 0000000022
-		[addCart-param] hidCategory         : 00006@
+		[addCart-param] hidUpperClCode         : 00006@
 		[addCart-param] hidStayngFcltyAt    : N
 		[addCart-param] txtDate             : 2017-07-14
 		[addCart-param] rdoTime             : 09001600
@@ -189,7 +194,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 /*		[addCart-param] ==================== log start ==============================
 		[addCart-param] hidPage             :
 		[addCart-param] hidGoodsCode        : 0000000002
-		[addCart-param] hidCategory         : 00005@00002@00004@00003@
+		[addCart-param] hidUpperClCode      : 00005@00002@00004@00003@
 		[addCart-param] hidStayngFcltyAt    : Y
 		[addCart-param] hidChkinDe          : 2017-08-21
 		[addCart-param] hidChcktDe          : 2017-08-31
@@ -202,6 +207,8 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 		[addCart-param] ==================== log end ================================*/
 
 
+		try { 
+		
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Content-Type","text/plain; charset=utf-8");
 
@@ -214,16 +221,16 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 		if(esntl_id.isEmpty()){
 			retValue = "-2";
 		}else{
-			String goods_code = UserUtils.nvl(request.getParameter("hidGoodsCode"));
-			String txtDate = UserUtils.nvl(request.getParameter("txtDate"));
-			String hidTime = UserUtils.nvl(request.getParameter("hidTime"));
+			String goods_code = UserUtils.nvl(param.get("hidGoodsCode"));
+			String txtDate = UserUtils.nvl(param.get("txtDate"));
+			String hidTime = UserUtils.nvl(param.get("hidTime"), UserUtils.nvl(param.get("rdoTime")));
 
-			String hidStayngFcltyAt = UserUtils.nvl(request.getParameter("hidStayngFcltyAt"), "N");
-			String hidChkinDe = UserUtils.nvl(request.getParameter("hidChkinDe"));
-			String hidChcktDe = UserUtils.nvl(request.getParameter("hidChcktDe"));
+			String hidStayngFcltyAt = UserUtils.nvl(param.get("hidStayngFcltyAt"), "N");
+			String hidChkinDe = UserUtils.nvl(param.get("hidChkinDe"));
+			String hidChcktDe = UserUtils.nvl(param.get("hidChcktDe"));
 
-			String hidWaitTime = UserUtils.nvl(request.getParameter("hidWaitTime"));
-			String hidMvmnTime = UserUtils.nvl(request.getParameter("hidMvmnTime"));
+			String hidWaitTime = UserUtils.nvl(param.get("hidWaitTime"));
+			String hidMvmnTime = UserUtils.nvl(param.get("hidMvmnTime"));
 
 			String[] selNmprCo = request.getParameterValues("selNmprCo");
 			String[] hidNmprSn = request.getParameterValues("hidNmprSn");
@@ -257,7 +264,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 				map.put("end_time", "");
 			}
 
-			//UserUtils.log("[addCard-map]", map);
+			UserUtils.log("[addCard-map]", map);
 /*			[addCard-map] ==================== log start ==============================
 			[addCard-map] chckt_de            :
 			[addCard-map] chkin_de            :
@@ -280,7 +287,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 			[addCard-map] ==================== log end ================================*/
 
 			// 숙박
-			if(UserUtils.nvl(request.getParameter("hidStayngFcltyAt")).equals("Y")) {
+			if(UserUtils.nvl(param.get("hidStayngFcltyAt")).equals("Y")) {
 				// 상품조건이 맞는지 확인
 				HashMap mapGoods = cartService.getCartValidCnfirm(map); // 일정
 				LOG.debug("[addCard][숙박-일정]mapGoods:"+mapGoods);
@@ -370,12 +377,15 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 				}
 			}
 		}
+		
 		LOG.debug("[addCard]retValue:"+retValue);
 		LOG.debug("[addCard]retMessage:"+retMessage);
 		obj.put("result", retValue);
 		obj.put("message", retMessage);
 		entity = new ResponseEntity<String>(obj.toString(), responseHeaders, HttpStatus.CREATED);
 
+		} catch(Exception e) {e.printStackTrace();}
+		
 		return entity;
 	}
 

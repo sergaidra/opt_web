@@ -39,7 +39,7 @@ table td textarea.txt_write {width: 600px; height: 100px; line-height: 20px; ove
 	width: 34px;
 	height: 58px; 
 	margin: 0 0 0 15px;	
-	background: url(images/arrow_pre.png) no-repeat 0 0;
+	background: url(/images/arrow_pre.png) no-repeat 0 0;
 }
 .a_next {
 	position: absolute;
@@ -48,10 +48,30 @@ table td textarea.txt_write {width: 600px; height: 100px; line-height: 20px; ove
 	width: 34px;
 	height: 58px; 
 	margin: 0 0 0 0;	
-	background: url(images/arrow_next.png) no-repeat 0 0;
+	background: url(/images/arrow_next.png) no-repeat 0 0;
 }
 .sky { color: #c2e7f8; font-weight: bold;}
 .yellow { color: #fbe45a;}
+.circle {
+	display: inline-block;
+	outline: none;
+	cursor: default;
+	text-align: center;
+	text-decoration: none;
+	font: bold 15px helvetica,arial,verdana,sans-serif ;
+	color: #daedff;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+	border: 1px solid #484f5a;
+	height: 8px; line-height: 8px;
+	padding: 8px 8px;
+	margin: 15px 0 0 15px;
+	background: #656d7a;
+}
+.light_blue {
+	color: #c2ddff;
+}
 /*
 .txt_head {
 	line-height: 22px;
@@ -202,7 +222,7 @@ table td textarea.txt_write {width: 600px; height: 100px; line-height: 20px; ove
   font: 13px/90% "나눔고딕",helvetica,arial,verdana,sans-serif ;
   padding: 0px 13px 0px 35px;
   border: 1px solid #a7b8b8; 
-  background: #f0f9f9 url(images/icon_file.png) no-repeat 10px 5px;
+  background: #f0f9f9 url(/images/icon_file.png) no-repeat 10px 5px;
   color: #333333;
   cursor: pointer;
   border-radius: 0px;
@@ -224,7 +244,7 @@ button.replace {    /*button tag 에 원하는 스타일 적용*/
   font: 13px/90% "나눔고딕",helvetica,arial,verdana,sans-serif ;
   padding: 0px 13px 0px 35px;
   border: 1px solid #a7b8b8; 
-  background: #f0f9f9 url(images/icon_file.png) no-repeat 10px 5px;
+  background: #f0f9f9 url(/images/icon_file.png) no-repeat 10px 5px;
   color: #333333;
   cursor: pointer;
   border-radius: 0px;
