@@ -48,7 +48,7 @@
         <result property="STAYNG_FCLTY_AT"           column="STAYNG_FCLTY_AT"           jdbcType="string" javaType="string"/>
         <result property="SORT_ORDR"                 column="SORT_ORDR"                 jdbcType="string" javaType="string"/>
         <result property="CF_MIN_BEGIN_DE"           column="CF_MIN_BEGIN_DE"           jdbcType="string" javaType="string"/>
-        <result property="CF_MAX_BEGIN_DE"           column="CF_MAX_BEGIN_DE"           jdbcType="string" javaType="string"/>
+        <result property="CF_MAX_END_DE"             column="CF_MAX_END_DE"             jdbcType="string" javaType="string"/>
 	</resultMap>
 
 	<select id="gnrl.goods.selectUpperTourClMain" parameterClass="hashMap" resultClass="hashMap">
@@ -147,10 +147,10 @@
              , INTRCN_POSBL_AGE
              , INTRCN_PLACE
              , (SELECT SUBSTR(MIN(BEGIN_DE),1,4) ||'-'|| SUBSTR(MIN(BEGIN_DE),5,2) ||'-'|| SUBSTR(MIN(BEGIN_DE),7,2) FROM TB_GOODS_SCHDUL X WHERE X.GOODS_CODE = A.GOODS_CODE) CF_MIN_BEGIN_DE
-             , (SELECT SUBSTR(MAX(END_DE),1,4) ||'-'|| SUBSTR(MAX(END_DE),5,2) ||'-'|| SUBSTR(MAX(END_DE),7,2) FROM TB_GOODS_SCHDUL X WHERE X.GOODS_CODE = A.GOODS_CODE) CF_MAX_BEGIN_DE             
+             , (SELECT SUBSTR(MAX(END_DE),1,4) ||'-'|| SUBSTR(MAX(END_DE),5,2) ||'-'|| SUBSTR(MAX(END_DE),7,2) FROM TB_GOODS_SCHDUL X WHERE X.GOODS_CODE = A.GOODS_CODE) CF_MAX_END_DE             
           FROM TB_GOODS A
          WHERE DELETE_AT = 'N' 
-		   AND GOODS_CODE = #goods_code#
+           AND GOODS_CODE = #goods_code#
 	]]>		   
 	</select>
 

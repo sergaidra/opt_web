@@ -21,7 +21,7 @@
                               , #CL_NM#
                               , #UPPER_CL_CODE#
                               , NVL(#STAYNG_FCLTY_AT#, 'N')
-                              , NVL(#SORT_ORDR#, (SELECT MAX(SORT_ORDR)+1 FROM TB_TOUR_CL WHERE UPPER_CL_CODE = #UPPER_CL_CODE#))
+                              , NVL(#SORT_ORDR#, (SELECT NVL(MAX(SORT_ORDR), 0)+1 FROM TB_TOUR_CL WHERE UPPER_CL_CODE = #UPPER_CL_CODE#))
                               , #DC#
                               , 'N'
                               , #WRITNG_ID#
@@ -49,7 +49,9 @@
            SET DELETE_AT = 'Y'
              , UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
-         WHERE CL_CODE = #CL_CODE#
+         WHERE DELETE_AT = 'N'
+           AND (CL_CODE = #CL_CODE#
+            OR UPPER_CL_CODE = #CL_CODE#)
     ]]>
     </delete>
 
@@ -95,11 +97,12 @@
          ORDER BY WRITNG_DT, CL_CODE
     </select>
 
-	<resultMap id="rmTourClTree" class="java.util.HashMap">
-		<result property="id"   column="CL_CODE" javaType="java.lang.String" />
-		<result property="text" column="CL_NM"   javaType="java.lang.String" />
-		<result property="leaf" column="CF_LEAF" javaType="java.lang.String" />
-		<result property="stayng_fclty_at" column="STAYNG_FCLTY_AT" javaType="java.lang.String" />
+	<resultMap id="rmTourClTree" class="hashMap">
+		<result property="id"   column="CL_CODE" javaType="string" />
+		<result property="text" column="CL_NM"   javaType="string" />
+		<result property="leaf" column="CF_LEAF" javaType="string" />
+		<result property="stayng_fclty_at" column="STAYNG_FCLTY_AT" javaType="string" />
+		<result property="delete_at" column="DELETE_AT" javaType="string" />
 	</resultMap>
 
     <select id="TourClDAO.selectTourClTree" parameterClass="hashMap" resultMap="rmTourClTree">
@@ -108,10 +111,14 @@
 		      , CL_NM || DECODE(DELETE_AT, 'Y', ' (삭제됨)') CL_NM
 		      , 'true' CF_LEAF
 		      , STAYNG_FCLTY_AT
+		      , DELETE_AT
 		   FROM TB_TOUR_CL A
 		 WHERE UPPER_CL_CODE = #UPPER_CL_CODE#
-		 ORDER BY DELETE_AT, SORT_ORDR
 	]]>
+        <isNotEmpty property="DELETE_AT">
+		   AND DELETE_AT = #DELETE_AT#
+        </isNotEmpty>
+		 ORDER BY DELETE_AT, SORT_ORDR
     </select>
 
 	<select id="TourClDAO.selectTourClUpperList" parameterClass="hashMap" resultClass="hashMap">

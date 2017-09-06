@@ -186,7 +186,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 		[addCart-param] rdoTime             : 09001600
 		[addCart-param] txtTime             : 09:00 ~ 16:00
 		[addCart-param] hidTime             : 09001600
-		[addCart-param] selNmprCo           : 2
+		[addCart-param] hidNmprCo           : 2
 		[addCart-param] hidPayment          : 55000
 		[addCart-param] hidNmprSn           : 1
 		[addCart-param] txtPay              : ₩ 110000
@@ -200,7 +200,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 		[addCart-param] hidChcktDe          : 2017-08-31
 		[addCart-param] txtDateRange        : {"start":"2017-08-21","end":"2017-08-31"}
 		[addCart-param] txtDateCount        : 10박
-		[addCart-param] selNmprCo           : 2
+		[addCart-param] hidNmprCo           : 2
 		[addCart-param] hidPayment          : 120000
 		[addCart-param] hidNmprSn           : 1
 		[addCart-param] txtPay              : ₩ 2400000
@@ -232,17 +232,17 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 			String hidWaitTime = UserUtils.nvl(param.get("hidWaitTime"));
 			String hidMvmnTime = UserUtils.nvl(param.get("hidMvmnTime"));
 
-			String[] selNmprCo = request.getParameterValues("selNmprCo");
+			String[] hidNmprCo = request.getParameterValues("hidNmprCo");
 			String[] hidNmprSn = request.getParameterValues("hidNmprSn");
 
 			List<HashMap> nmprList = new ArrayList<HashMap>();
-			for(int i=0;i< selNmprCo.length;i++){
+			for(int i=0;i< hidNmprCo.length;i++){
 				HashMap nmap = new HashMap();
-				nmap.put("nmpr_co", selNmprCo[i]);
+				nmap.put("nmpr_co", hidNmprCo[i]);
 				nmap.put("nmpr_sn", hidNmprSn[i]);
 
 				//인원수가 0보다 크면 추가
-				if(SimpleUtils.isStringInteger(selNmprCo[i]) && Integer.parseInt(selNmprCo[i]) > 0){
+				if(SimpleUtils.isStringInteger(hidNmprCo[i]) && Integer.parseInt(hidNmprCo[i]) > 0){
 					nmprList.add(nmap);
 				}
 			}

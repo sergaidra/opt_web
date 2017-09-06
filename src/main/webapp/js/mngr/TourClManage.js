@@ -1,9 +1,15 @@
 var formSave = Ext.create('Ext.form.Panel', {});
 
+function fn_search() {
+	storeTree.proxy.extraParams = Ext.getCmp('form-cond').getForm().getValues();
+	storeTree.load();
+	store.removeAll();
+}
+
 var storeTree = Ext.create('Ext.data.TreeStore', {
 	autoLoad: true,
-	fields: ['id', 'text', {name:'leaf', type: 'boolean'}, 'stayng_fclty_at'],
-	root: {text: '전체', id: '00000', leaf: false},
+	fields: ['id', 'text', {name:'leaf', type: 'boolean'}, 'stayng_fclty_at', 'delete_at'],
+	root: {text: '전체', id: '', leaf: false},
 	proxy: {
 		type: 'ajax',
 		url: '../selectTourClTree/',
@@ -34,13 +40,16 @@ var tree = Ext.create('Ext.tree.Panel', {
 	rootVisible: false,
 	listeners: {
 		itemclick: function(tree, record, item, index, e, eOpts ) {
-			store.proxy.extraParams = {UPPER_CL_CODE:record.data.id};
+			store.proxy.extraParams = {UPPER_CL_CODE:record.data.id, DELETE_AT:Ext.getCmp('radio-gubun').getValue().DELETE_AT};
 			store.load();
 		},
 		afterrender: function(tree, eOpts ) {
-			// TODO LKH 첫번째 노드를 클릭하는 이벤트 추가
-			//store.proxy.extraParams = {BOX_SN:tree.getRootNode().getChildAt(0).data.id};
-			//store.load();
+			/* first node click event (not work)
+			var root = storeTree.getRootNode();
+		    var selModel = tree.getSelectionModel();
+			selModel.select(root.firstChild);
+			tree.fireEvent('itemclick', root.firstChild);
+			*/
 		}
 	}
 });
@@ -82,6 +91,62 @@ var comboStayngAt = new Ext.create('Ext.form.ComboBox', {
 	triggerAction: 'all',
 	lazyRender: true,
 	emptyText: '선택'
+});
+
+var frCond = Ext.create('Ext.form.Panel', {
+	id: 'form-cond',
+	region: 'north',
+	height: 75,
+	items: [{
+		xtype: 'fieldset',
+		title: '검색조건',
+		padding: '10 20 10 10',
+		items: [{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+		    	xtype: 'radiogroup',
+		    	id: 'radio-gubun',
+		    	fieldLabel: '검색구분',
+		    	labelWidth: 80,
+		    	labelAlign: 'right',
+		    	border: false,
+		    	width: 400, 
+		    	items: [{ boxLabel: '전체(사용안함 포함)', id:'radio-delete-all', name: 'DELETE_AT', inputValue:''},
+		    			{ boxLabel: '사용', id:'radio-delete-n', name: 'DELETE_AT', inputValue:'N', checked: true }],
+		    	listeners: {
+		    		change : function(radio, newValue, oldValue, eOpts ) {
+		    			Ext.getCmp('btn-search').fireEvent('click');
+		    		}
+		    	}
+			}, {
+				xtype: 'hidden',
+				id: 'form-upper-cl-code',
+				name: 'UPPER_CL_CODE',
+				value: '00000'
+			}, {
+				xtype: 'button',
+				id: 'btn-search',
+				margin: '0 0 0 10',
+				text: '조회',
+				width: 60,
+				listeners: {
+					click: function() {
+						fn_search();
+					}
+				}
+			},{
+				xtype: 'button',
+				margin: '0 0 0 5',
+				text: '초기화',
+				width: 60,
+				handler: function(){
+					store.removeAll();					
+					storeTree.load({params:{DELETE_AT:'N', UPPER_CL_CODE:'00000'}});
+				}
+			}]
+		}]
+	}]
 });
 
 var store = Ext.create('Ext.data.JsonStore', {
@@ -127,6 +192,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 		align: 'center',
 		//editor: comboStayngAt,
 		dataIndex: 'STAYNG_FCLTY_AT',
+		hidden: true,
 		renderer: Ext.ux.comboBoxRenderer(comboStayngAt)
 	},{
 		text: '정렬순서',
@@ -144,20 +210,19 @@ var grid = Ext.create('Ext.grid.Panel', {
 	},{
 		flex: 1
 	}],
-	/*bbar: Ext.create('Ext.PagingToolbar', {
-		store: store,
-		displayInfo: true,
-		displayMsg: 'Displaying topics {0} - {1} of {2}',
-		emptyMsg: "No topics to display"
-	}),*/
 	tbar: ['->', {
 		text: '추가',
 		width: 60,
 		handler : function() {
 			var treeItem = tree.getSelectionModel().getLastSelected();
-
+			
 			if (!treeItem){
 				Ext.Msg.alert("알림", "상위분류를 선택하십시오.");
+				return;
+			}
+
+			if(treeItem.get('delete_at') == 'Y') {
+				Ext.Msg.alert("알림", "삭제된 상위분류에는 하위분류를 추가할 수 없습니다.");
 				return;
 			}
 
@@ -169,7 +234,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 				STAYNG_FCLTY_AT : treeItem.get('stayng_fclty_at'),
 				SORT_ORDR : '',
 				DELETE_AT : 'N',
-				CRUD : 'I'
+				CRUD : 'C'
 			});
 			store.insert(idx, r);
 			cellEditing.startEditByPosition({row: idx, column: 1});
@@ -179,10 +244,18 @@ var grid = Ext.create('Ext.grid.Panel', {
 		width: 60,
 		handler: function() {
 			var sm = grid.getSelectionModel();
-			store.remove(sm.getSelection());
-			/*if (store.getCount() > 0) {
-				sm.select(0);
-			}*/
+			if(sm.getSelection()[0].data.CRUD == 'U') {
+				if(sm.getSelection()[0].data.DELETE_AT == 'Y') {
+					Ext.Msg.alert('확인', '등록된 코드는 삭제 불가합니다.');	
+				} else {
+					Ext.Msg.alert('확인', '사용안함 처리를 하십시오.');
+				}
+			} else {
+				store.remove(sm.getSelection());
+                if (store.getCount() > 0) {
+                    sm.select(0);
+                }				
+			} 
 		}
 	}, {
 		text: '저장',
@@ -198,17 +271,22 @@ var grid = Ext.create('Ext.grid.Panel', {
 			var deleted = store.getRemovedRecords();
 
 			if (modified.length + inserted.length + deleted.length > 0) {
-				for (i = 0; i < modified.length; i++) {
-					modified[i].set('CRUD', 'U');
-					datas.push(modified[i].data);
+				for (var i = 0; i < modified.length; i++) {
+					if(modified[i].data.DELETE_AT == 'Y') {
+						modified[i].set('CRUD', 'D');
+						datas.push(modified[i].data);
+					} else {
+						modified[i].set('CRUD', 'U');
+						datas.push(modified[i].data);
+					}
 				}
 
-				for (i = 0; i < inserted.length; i++) {
+				for (var i = 0; i < inserted.length; i++) {
 					inserted[i].set('CRUD', 'C');
 					datas.push(inserted[i].data);
 				}
 
-				for (i = 0; i < deleted.length; i++) {
+				for (var i = 0; i < deleted.length; i++) {
 					deleted[i].set('CRUD', 'D');
 					datas.push(deleted[i].data);
 				}
@@ -237,10 +315,19 @@ var grid = Ext.create('Ext.grid.Panel', {
 Ext.onReady(function(){
 	Ext.create('Ext.Viewport', {
 		layout: 'border',
-		padding:'0 0 0 0',
+		padding:'5 10 5 10',
 		style: {
 			backgroundColor: '#FFFFFF'
 		},
-		items: [tree, grid]
+		items: [frCond, Ext.create('Ext.panel.Panel',{
+			layout: 'border',
+			region: 'center',
+			style: {
+				backgroundColor: '#FFFFFF',
+			},
+			items: [tree, grid]
+		})]
 	});
+	
+	fn_search();
 });

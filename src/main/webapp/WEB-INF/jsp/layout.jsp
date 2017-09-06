@@ -124,7 +124,7 @@
 <!-- 내용 끝 -->
 
 <script type="text/javascript">
-//장바구니에 담은 상품 목록
+//장바구니에 담은 상품 목록 (우측 일정표 조회)
 var fnCartList = function() {
 	$.ajax({
 		url : "<c:url value='/cart/getAction/'/>",

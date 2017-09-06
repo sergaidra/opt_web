@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <head>
 <script type="text/javascript" src="<c:url value='/js/jquery.comiseo.daterangepicker.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/moment.min.js'/>"></script>
@@ -40,63 +39,11 @@
 		$(".infor_productarea_right > ul li").click(function(){
 			iframeMainPhoto.fnSelPhoto($(this).index());
 		});
-		
-		$("#txtDateRange").daterangepicker({
-			initialText : '기간을 선택하세요.',
-			applyButtonText: '선택', // use '' to get rid of the button
-			clearButtonText: '초기화', // use '' to get rid of the button
-			cancelButtonText: '취소', // use '' to get rid of the button
-			dateFormat: 'yy-mm-dd',
-			presetRanges: [],
-			rangeSplitter: ' ~ ',
-			applyOnMenuSelect: false,
-			datepickerOptions : {
-				numberOfMonths: 2,
-				minDate: "${result.CF_MIN_BEGIN_DE}",
-				maxDate: "${result.CF_MAX_END_DE}"
-			}
-		});
-	
-		$("#txtDateRange").on('change', function(event) {
-			if($("#txtDateRange").val()) {
-				var __val =  jQuery.parseJSON($("#txtDateRange").val());
-				$("#hidChkinDe").val(__val.start);
-				$("#hidChcktDe").val(__val.end);
-
-				var arr1 = __val.start.split('-');
-				var arr2 = __val.end.split('-');
-
-				var dat1 = new Date(parseInt(arr1[0]), parseInt(arr1[1])-1, parseInt(arr1[2]));
-				var dat2 = new Date(parseInt(arr2[0]), parseInt(arr2[1])-1, parseInt(arr2[2]));
-
-				var diff = dat2.getTime() - dat1.getTime() ;
-				var currDay = 24 * 60 * 60 * 1000;
-
-				$("#hidDateCount").val(diff/currDay);
-				$("#hidNmprCo").val(diff/currDay);
-			} else {
-				$("#hidChkinDe").val('');
-				$("#hidChcktDe").val('');
-				$("#hidDateCount").val('0');
-				$("#hidNmprCo").val('0');
-			}
-			fnChangeNmprStay();
-		});
-		
-		$("#btn_op_calendar_range").click(function(){
-			$("#txtDateRange").daterangepicker("open");
-		});				
 	});
 
 	function fnList() {
 		var form = $("form[id=frmDetail]");
 		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
-		form.submit();
-	}
-	
-	function fnGoCartList() {
-		var form = $("form[id=frmDetail]");
-		form.attr({"method":"post","action":"<c:url value='/cart/list/'/>"});
 		form.submit();
 	}
 
@@ -113,12 +60,12 @@
 
 		var payment = 0;
 		if("${result.STAYNG_FCLTY_AT}" == "Y") {
-			$("select[name=hidNmprCo]").each(function() {
+			$("select[name=selNmprCo]").each(function() {
 				payment += $("input:hidden[id="+ this.id +"]").val() * this.value;
 			});
-			payment = payment * parseInt($("#hidDateCount").val());
+			payment = payment * parseInt($("#txtDateCount").val());
 		} else {
-			$("select[name=hidNmprCo]").each(function() {
+			$("select[name=selNmprCo]").each(function() {
 				payment += $("input:hidden[id="+ this.id +"]").val() * this.value;
 			});
 		}
@@ -130,45 +77,28 @@
 		var cnt = parseInt(uncomma($("#spanNmprSn_"+sn).text()), 10);
 		var sum = parseInt(uncomma($("#spanNmprAmount_"+sn).text()), 10);
 		var total = parseInt(uncomma($("#txtPay").val().replace("₩","")), 10);
+		var days = 1;
 		
-		if(cnt == 0 && div == '-') {
-			return;
-		} 
-		
+		if("${result.STAYNG_FCLTY_AT}" == 'Y'){
+			days = parseInt($("#txtDateCount").val(), 10);
+		}
+			
 		if(div == '+') {
 			cnt++;
-			sum += parseInt(amount, 10);
-			total += parseInt(amount, 10);
+			sum += parseInt(amount, 10) * days;
+			total += parseInt(amount, 10) * days;
 		} else {
 			cnt--;
-			sum -= parseInt(amount, 10);
-			total -= parseInt(amount, 10);
+			sum -= parseInt(amount, 10) * days;
+			total -= parseInt(amount, 10) * days;
 		}	
 		
-		$("#hidNmprCo_"+sn).val(cnt);
+		$("#txtNmprCo_"+sn).val(cnt);
 		$("#spanNmprSn_"+sn).html(comma(cnt));
 		$("#spanNmprAmount_"+sn).html(comma(sum));
-		$("#txtPay").val("₩"+comma(total));	
+		$("#txtPay").val("₩"+comma(total));
+
 	}
-	
-	function fnChangeNmprStay() {
-		var form = $("form[id=frmDetail]");
-		var days = parseInt($("input:hidden[name=hidDateCount]").val(), 10); 
-		var total = 0;
-		
-		$("select[name=selNmprSn]").each(function() {
-			if(this.value) {
-				var arr = this.value.split(","); // sn:arr[0], amount:arr[1]
-				
-				total = parseInt(arr[1], 10) * days;
-				
-				$("#txtPay").val("₩"+comma(total));
-				$("#hidNmprSn").val(arr[0]);
-			} else {
-				$("#txtPay").val("₩0");
-			}
-		});
-	}	
 
 	function fnAddCart(){
 		if("${result.STAYNG_FCLTY_AT}" == "N") {
@@ -177,41 +107,32 @@
 				alert(strDate);
 				return;
 			}
-			
-			var chkTimeVal = $("input:select[name=selTime]:checked").val();
-			if(!chkTimeVal) {
-				alert("시간을 선택하세요");
-				return;
-			}			
-		} else if("${result.STAYNG_FCLTY_AT}" == "Y") {
-			var strDate = $("input:hidden[id=hidChkinDe]").val();
+		} else if("${result.STAYNG_FCLTY_AT}" == "N") {
+			var strDate = $("input:text[id=hidChkinDe]").val();
 			if(strDate.length!=10){
-				alert("일정을 선택하세요.");
+				alert("체크인 날짜를 선택하세요.");
 				return;
 			}
 
-			strDate = $("input:hidden[id=hidChcktDe]").val();
+			strDate = $("input:text[id=hidChcktDe]").val();
 			if(strDate.length!=10){
-				alert("일정을 선택하세요.");
+				alert("체크아웃 날짜를 선택하세요.");
 				return;
 			}
-			
-			if(!$("#hidNmprSn").val()) {
-				alert("객실을 선택하세요.");
+
+			var chkTimeVal = $("input:radio[name=rdoTime]:checked").val();
+			if(!chkTimeVal) {
+				alert("시간을 선택하세요");
 				return;
 			}
 		}
 
 		var totCo = 0;
-		$("input:hidden[name=hidNmprCo]").each(function() {
+		$("input:hidden[name=selNmprCo]").each(function() {
 			totCo+=this.value
 		});
 		if(totCo < 1){
-			if("${result.STAYNG_FCLTY_AT}" == "N") {
-				alert("인원을 입력하세요.");
-			} else {
-				alert("일정을 선택하세요.");
-			}
+			alert("인원을 입력하세요");
 			return;
 		}
 
@@ -228,16 +149,13 @@
 			},
 			success : function(json) {
 				if(json.result == "0") {
-					//장바구니에 담은 상품 목록 (우측 일정표 조회)
-					fnCartList();
-					if(confirm("예약되었습니다. 장바구니로 이동하시겠습니까?")) {
-						fnGoCartList();
-					} else {
+					if(confirm("구매 조건이 수정되었습니다. 장바구니로 이동하시겠습니까?")) {
 						fnList();
+					} else {
+						fnCartList();
 					}
 				} else if(json.result == "-2") {
 					alert("로그인이 필요합니다.");
-					$(".login").click();
 				} else if(json.result == "9") {
 					alert(json.message);
 				} else{
@@ -297,7 +215,7 @@
 							<span class="btn_op_calendar" id="btn_op_calendar"></span>
 						</li>
 						<li class="num02">시간
-							<select name="selTime" id="selTime" class="time_sbox">
+							<select name="rdoTime" id="rdoTime" class="time_sbox">
 								<option value="">선택</option>
 							<c:forEach var="list" items="${timeList}" varStatus="status">
 								<option value="${list.TOUR_TIME}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~ ${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</option>
@@ -310,7 +228,7 @@
 							<span class="btn_arrow_down"></span>
 							<div id="num3_dropdown01">
 							<c:forEach var="list" items="${nmprList}" varStatus="status">
-							<input type="hidden" name="hidNmprCo" id="hidNmprCo_${list.NMPR_SN}" value="0">
+							<input type="hidden" name="selNmprCo" id="txtNmprCo_${list.NMPR_SN}" value="0">
 							<input type="hidden" name="hidNmprSn" id="hidNmprSn" value="${list.NMPR_SN}">
 							<p class="n3_lst">
 								${list.NMPR_CND} <span class="yellow"><span id="spanNmprSn_${list.NMPR_SN}">0</span></span>명 <span class="yellow"><span id="spanNmprAmount_${list.NMPR_SN}">0</span></span>원
@@ -323,27 +241,72 @@
 						</c:if>
 						<c:if test="${result.STAYNG_FCLTY_AT eq 'Y'}">
 						<li class="num01">날짜
-							<input type="text" name="txtDateRange" id="txtDateRange" class="input_datebox2" size="15">							
+							<input type="hidden" name="hidChkinDe" id="hidChkinDe" class="input_datebox2">
+							<input type="hidden" name="hidChcktDe" id="hidChcktDe" class="input_datebox2">
+							<input type="text" name="txtDateRange" id="txtDateRange" class="input_datebox2" size=15>
+							<input type="hidden" name="txtDateCount" id="txtDateCount" class="input_datebox2" readonly onfocus="this.blur()">
 							<span class="btn_op_calendar" id="btn_op_calendar_range"></span>
-							<input type="hidden" name="hidDateCount" id="hidDateCount" value="0">							
-							<input type="hidden" name="hidChkinDe" id="hidChkinDe">
-							<input type="hidden" name="hidChcktDe" id="hidChcktDe">
+							<script>
+								$(function() {
+
+									$("#txtDateRange").daterangepicker({
+										initialText : '기간을 선택하세요.',
+										applyButtonText: '선택', // use '' to get rid of the button
+										clearButtonText: '초기화', // use '' to get rid of the button
+										cancelButtonText: '취소', // use '' to get rid of the button
+										dateFormat: 'yy-mm-dd',
+										presetRanges: [],
+										rangeSplitter: ' ~ ',
+										applyOnMenuSelect: false,
+										datepickerOptions : {
+											numberOfMonths: 2,
+											minDate: "2017-08-29",
+											maxDate: null
+										}
+									});
+
+									$("#txtDateRange").on('change', function(event) {
+										var __val =  jQuery.parseJSON($("#txtDateRange").val());
+										$("#hidChkinDe").val(__val.start);
+										$("#hidChcktDe").val(__val.end);
+
+										var arr1 = __val.start.split('-');
+										var arr2 = __val.end.split('-');
+
+										var dat1 = new Date(parseInt(arr1[0]), parseInt(arr1[1])-1, parseInt(arr1[2]));
+										var dat2 = new Date(parseInt(arr2[0]), parseInt(arr2[1])-1, parseInt(arr2[2]));
+
+										var diff = dat2.getTime() - dat1.getTime() ;
+										var currDay = 24 * 60 * 60 * 1000;
+
+										$("#txtDateCount").val(diff/currDay + '박');
+
+										//fnNmprChange();
+									});
+								});
+							</script>
+
 						</li>
-						<li class="num02">객실
-							<select name="selNmprSn" id="selNmprSn" class="time_sbox" onchange="fnChangeNmprStay();">
-								<option value="">선택</option>
+						<li class="num02">인원 선택
+							<span class="btn_arrow_down"></span>
+							<div id="num2_dropdown01">
 							<c:forEach var="list" items="${nmprList}" varStatus="status">
-								<option value="${list.NMPR_SN},${list.SETUP_AMOUNT}">${list.NMPR_CND} (₩<fmt:formatNumber value="${list.SETUP_AMOUNT}" pattern="#,###,###" />)</option>
+							<input type="hidden" name="selNmprCo" id="txtNmprCo_${list.NMPR_SN}" value="0">
+							<input type="hidden" name="hidNmprSn" id="hidNmprSn" value="${list.NMPR_SN}">							
+							<p class="n2_lst">
+								${list.NMPR_CND} <span class="yellow"><span id="spanNmprSn_${list.NMPR_SN}">0</span></span>박 <span class="yellow"><span id="spanNmprAmount_${list.NMPR_SN}">0</span></span>원
+								<a href='#' onclick='fnChangeNmpr("+", "${list.NMPR_SN}", "${list.SETUP_AMOUNT}");return false;' class="btn_add_selected">+</a>
+								<a href="#" onclick='fnChangeNmpr("-", "${list.NMPR_SN}", "${list.SETUP_AMOUNT}");return false;' class="btn_add">-</a>
+							</p>
 							</c:forEach>
-							</select>
-							<input type="hidden" name="hidNmprSn" id="hidNmprSn">
-							<input type="hidden" name="hidNmprCo" id="hidNmprCo">
+							</div>
 						</li>
 						</c:if>
+
 						<!--
 						<li class="num04">픽업<span class="btn_arrow_down"></span></li>
 						<li class="num05">인원<span class="btn_arrow_down"></span></li>
-						-->
+						 -->
 					</ul>
 					<p id="price">
 					<input type="text" name="txtPay" id="txtPay" class="txt_price" value="₩0" readonly onfocus="this.blur()">&nbsp;&nbsp;

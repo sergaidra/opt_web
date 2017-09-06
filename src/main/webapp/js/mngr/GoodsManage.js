@@ -188,6 +188,7 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		text: '숙박시설',
 		width: 80,
 		align: 'center',
+		hidden: true,
 		dataIndex: 'STAYNG_FCLTY_AT'
 	},{
 		text: '정렬순서',

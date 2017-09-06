@@ -241,7 +241,7 @@ h2 {
 }
 .yellowbar_txt {
 	display: block;
-	width: 309px;
+	width: 320px;
 	height: 26px; line-height: 26px;
 	margin: 0 auto 0px auto;
 	padding: 15px 0 0 0;
@@ -368,7 +368,7 @@ h2 {
 #result_set_01 p a:link, #result_set_01 a:visited { 
 	font-size: 14px;
 	font-weight: bold;
-	color: #000;
+	/*color: #000;*/
 }
 #result_productarea {
 	float: left;
@@ -1085,7 +1085,7 @@ h3 {
 	float: left;
 	position: relative;
 	display: block;
-	width: 793px; height: 150px; line-height: 40px;
+	width: 793px; height: 50px; line-height: 40px;
 	margin: 0 0 0 0;
 	color: #000;
 }

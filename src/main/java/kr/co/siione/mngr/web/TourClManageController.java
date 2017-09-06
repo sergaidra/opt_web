@@ -64,6 +64,9 @@ public class TourClManageController {
 		// TODO 로그인 사용자 정보
 		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		param.put("USER_ID" , ssUserId);
+		
+		
+		UserUtils.log("[selectTourClUpperList]", param);
 
 		try {
 			results = tourClManageService.selectTourClUpperList(param);
@@ -89,10 +92,14 @@ public class TourClManageController {
 		// TODO 로그인 사용자 정보
 		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
 		param.put("USER_ID" , ssUserId);
+		
+		UserUtils.log("[selectTourClTree-1]", param);		
 
 		if(!param.containsKey("UPPER_CL_CODE")) {
 			param.put("UPPER_CL_CODE", (String)param.get("node"));
 		}
+		
+		UserUtils.log("[selectTourClTree-2]", param);			
 
 		try {
 			results = tourClManageService.selectTourClTree(param);
