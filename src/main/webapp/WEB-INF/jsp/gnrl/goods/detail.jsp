@@ -859,7 +859,7 @@
 		<div class="infor_productarea_right">
 			<ul class="photolst_area">
 			<c:forEach var="list" items="${fileList}" varStatus="status">
-			<li <c:if test="${status.count%5 == 0}">class="pright"</c:if>>
+			<li <c:if test="${status.count%6 == 0}">class="pright"</c:if>>
 				<img src="<c:url value='/file/getImageThumb/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}" width="43" height="43">
 			</li></c:forEach>
 			</ul>

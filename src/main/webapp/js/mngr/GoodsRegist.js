@@ -356,6 +356,81 @@ var comboEndTime = new Ext.create('Ext.form.ComboBox', {
 });
 
 /*
+ * 국가 코드 combo
+ */
+var comboNation = new Ext.create('Ext.form.ComboBox', {
+	id: 'form-reg-nation-code',
+	name: 'NATION_CODE',
+	width: 275,
+	fieldLabel: '도시코드',
+	labelAlign: 'right',
+	labelWidth: 100,
+	store: new Ext.create('Ext.data.JsonStore', {
+		autoLoad: true,
+		fields:['CTY_CODE', 'CTY_NM', 'USE_AT', 'NATION_CODE'],
+		proxy: {
+			type: 'ajax',
+			url: '../selectCtyList/?NATION_CODE=00000',
+			reader: {
+				type: 'json',
+				root: 'data',
+				totalProperty: 'rows'
+			}
+		}
+	}),
+	displayField: 'CTY_NM',
+	valueField: 'CTY_CODE',
+	queryMode: 'local',
+	typeAhead: true,
+	editable: false,
+	allowBlank: false,
+	value: '00001',
+	//forceSelection: true,
+	//emptyText: '선택',
+	listeners: {
+		afterrender: function(combo, eOpts ){
+			comboCty.getStore().load({params:{NATION_CODE:'00001'}});
+		},
+		change: function(combo, newValue, oldValue, eOpts ) {
+			var rec = combo.getStore().findRecord('CTY_CODE', newValue);
+			if(rec) {
+				Ext.getCmp('form-reg-cty-code').setValue('');
+				comboCty.getStore().load({params:{NATION_CODE:newValue}});
+			}
+		}
+	}
+});
+
+/*
+ * 도시 코드 combo
+ */
+var comboCty = new Ext.create('Ext.form.ComboBox', {
+	id: 'form-reg-cty-code',
+	name: 'CTY_CODE',
+	width: 170,
+	store: new Ext.create('Ext.data.JsonStore', {
+		autoLoad: false,
+		fields:['CTY_CODE', 'CTY_NM', 'USE_AT', 'NATION_CODE'],
+		proxy: {
+			type: 'ajax',
+			url: '../selectCtyList/',
+			reader: {
+				type: 'json',
+				root: 'data',
+				totalProperty: 'rows'
+			}
+		}
+	}),
+	displayField: 'CTY_NM',
+	valueField: 'CTY_CODE',
+	queryMode: 'local',
+	typeAhead: true,
+	allowBlank: false,
+	editable: false,
+	emptyText: '선택'
+});
+
+/*
  * 상위 상품 분류 combo
  */
 var comboUpperCl = new Ext.create('Ext.form.ComboBox', {
@@ -466,6 +541,19 @@ var comboCl = new Ext.create('Ext.form.ComboBox', {
 	)
 });
 
+function fn_activeNextTab() {
+	if(Ext.getCmp('form-reg-crud-se').getValue() == 'C') {
+		Ext.Msg.confirm('확인', '상품 내용을 계속 입력하시겠습니까?', function(btn) {
+			if(btn == 'yes') {
+			    var activeTab = Ext.getCmp('reg-tabs').getActiveTab();
+			    var activeTabIndex = Ext.getCmp('reg-tabs').items.findIndex('id', activeTab.id);
+			    var nextActiveTabIndex = activeTabIndex + 1;
+			    Ext.getCmp('reg-tabs').setActiveTab(nextActiveTabIndex);
+			}
+		});
+	}	
+};
+
 /**
  * 상품저장
  * @param sDiv (I:기본정보저장, G:이용안내저장, E:기타정보저장, D:상품삭제)
@@ -479,7 +567,7 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 
 	if(sDiv == 'D') {
 		sUrl = '../deleteGoods/';
-		sMsg = '삭제';
+		sMsg = '사용안함 처리';
 	} else if(sDiv != 'I') {
 		sUrl = '../updateGoods/';
 		stParams = {
@@ -508,6 +596,7 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 						Ext.Msg.alert('알림', action.result.message, function(){
 							if(sDiv == 'I') {
 								Ext.getCmp('form-reg-goods-code').setValue(action.result.GOODS_CODE);
+								Ext.getCmp('form-reg-crud-se').setValue('C');
 							} else if(sDiv == 'D') {
 								frReg.getForm().reset();
 								frReg2.getForm().reset();
@@ -517,6 +606,7 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 								storeNmpr.removeAll();
 								storeFile.removeAll();
 							}
+							fn_activeNextTab();
 						});
 					},
 					failure: function(form, action) {
@@ -573,7 +663,10 @@ Ext.define('GoodsInfo', {
 			, {name:'INTRCN_PLACE', type:'string'}
 			, {name:'UPPER_CL_CODE', type:'string'}
 			, {name:'CL_CODE', type:'string'}
+			, {name:'NATION_CODE', type:'string'}
+			, {name:'CTY_CODE', type:'string'}
 			, {name:'STAYNG_FCLTY_AT', type:'string'}
+			, {name:'CRUD_SE', type:'string'}
 			, {name:'SORT_ORDR', type:'string'}]
 });
 
@@ -688,7 +781,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 		xtype: 'button',
 		id: 'btn-save1',
 		text: '저장',
-		margin: '0 0 0 410',
+		margin: '0 0 0 390',
 		width: 60,
 		handler: function() {
 			if(Ext.getCmp('form-reg-goods-code').getValue()) {
@@ -740,9 +833,9 @@ var frReg = Ext.create('Ext.form.Panel', {
 	}, {
 		xtype: 'button',
 		id: 'btn-del',
-		text: '삭제',
+		text: '사용안함',
 		margin: '0 0 0 5',
-		width: 60,
+		width: 80,
 		handler: function() {
 			if(Ext.getCmp('form-reg-goods-code').getValue()) {
 				fn_saveGoodsInfo('D', frReg)
@@ -756,6 +849,13 @@ var frReg = Ext.create('Ext.form.Panel', {
 		title: '<span style="font-weight:bold;">상품 기본 정보</span>',
 		padding: '10 20 10 10',
 		items: [{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [comboNation, {
+				xtype: 'label',
+				width: 5
+			}, comboCty]
+		},{
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
 			items: [comboUpperCl, {
@@ -1128,7 +1228,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 	},{
 		xtype: 'fieldset',
 		title: 'Hidden Field',
-		//hidden: true,
+		hidden: true,
 		padding: '10 20 10 10',
 		items: [{
 			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',
@@ -1139,6 +1239,9 @@ var frReg = Ext.create('Ext.form.Panel', {
 		},{
 			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',
 			id: 'form-reg-delete-at', name: 'DELETE_AT', fieldLabel: 'DELETE_AT'
+		},{
+			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',   
+			id: 'form-reg-crud-se', name: 'CRUD_SE', fieldLabel: 'CRUD_SE'				
 		}]
 	}]
 });
@@ -1429,37 +1532,6 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 		width: 60,
 		handler: function() {
 			fn_saveGoodsInfo('E', frReg3);
-
-			Ext.Msg.show({
-				 title:'확인',
-				 msg: '저장하시겠습니까?',
-				 buttons: Ext.Msg.YESNO,
-				 icon: Ext.Msg.QUESTION,
-				 fn: function(btn){
-					if(btn == 'yes'){
-						frReg3.getForm().submit({
-							waitMsg: '저장중입니다...',
-							url: '../updateGoods/',
-							params: {
-								'GOODS_CODE': Ext.getCmp('form-reg-goods-code').getValue(),
-								'UPDT_SE': 'E'
-							},
-							success: function(form, action) {
-								Ext.Msg.alert('알림', action.result.message, function(){
-									//alert(action.result.GOODS_CODE);
-								});
-							},
-							failure: function(form, action) {
-								if(action.result.message) {
-									Ext.Msg.alert('알림', action.result.message);
-								} else {
-									Ext.Msg.alert('알림', '저장 중 오류가 발생하였습니다. 다시 시도하여 주십시오.');
-								}
-							}
-						});
-					}
-				 }
-			});
 		}
 	}],
 	items: [{
@@ -1563,6 +1635,7 @@ var storeSchdul = Ext.create('Ext.data.JsonStore', {
 
 var gridSchdul = Ext.create('Ext.grid.Panel', {
 	title: '구매가능날짜',
+	id: 'grid-schdul',
 	//region:'center',
 	store: storeSchdul,
 	border: true,
@@ -1679,6 +1752,7 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
 					success: function(form, action) {
 						Ext.Msg.alert('알림', '저장되었습니다.', function(){
 							storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+							fn_activeNextTab();
 						});
 					},
 					failure: function(form, action) {
@@ -1731,6 +1805,7 @@ var storeTime = Ext.create('Ext.data.JsonStore', {
 
 var gridTime = Ext.create('Ext.grid.Panel', {
 	title: '구매가능시각',
+	id: 'grid-time',
 	//region:'center',
 	store: storeTime,
 	border: true,
@@ -1839,6 +1914,7 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 					success: function(form, action) {
 						Ext.Msg.alert('알림', '저장되었습니다.', function(){
 							storeTime.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+							fn_activeNextTab();
 						});
 					},
 					failure: function(form, action) {
@@ -1888,6 +1964,7 @@ var storeNmpr = Ext.create('Ext.data.JsonStore', {
 
 var gridNmpr = Ext.create('Ext.grid.Panel', {
 	title: '금액옵션설정',
+	id: 'grid-nmpr',
 	//region:'center',
 	store: storeNmpr,
 	border: true,
@@ -1995,6 +2072,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 					success: function(form, action) {
 						Ext.Msg.alert('알림', '저장되었습니다.', function(){
 							storeNmpr.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+							fn_activeNextTab();
 						});
 					},
 					failure: function(form, action) {
@@ -2128,6 +2206,7 @@ var storeFile = Ext.create('Ext.data.JsonStore', {
 
 var gridFile = Ext.create('Ext.grid.Panel', {
 	//title: '이미지등록',
+	id: 'grid-file',
 	region:'center',
 	store: storeFile,
 	border: true,
@@ -2244,7 +2323,7 @@ var imageTpl = new Ext.XTemplate(
 	 '<div class="thumb-wrap" style="margin-bottom: 10px;">'
 	,'<table width="97%">'
 	,'<tpl for=".">'
-	,'{[xindex % 5 == 1 ? "<tr>" : ""]}'
+	,'{[xindex % 5 == 1 ? "<tr height=100 valign=top>" : ""]}'
 	,'<td width="20%"><img src="{FILE_URL}"/><br>{[xindex]}.{FILE_NM}</td>'
 	,'{[xindex % 5 == 0 ? "</tr>" : ""]}'
 	,'</tpl>'
@@ -2275,6 +2354,7 @@ var imagePanel = new Ext.create('Ext.panel.Panel', {
 
 var filePanel = Ext.create('Ext.panel.Panel', {
 	title: '이미지등록',
+	id: 'file-panel',
 	layout : 'border',
 	padding : '5 5 5 10',
 	style: {
@@ -2314,7 +2394,7 @@ Ext.onReady(function(){
 		},
 		//items: [frSearch, Ext.create('Ext.tab.Panel', {
 		items: [Ext.create('Ext.tab.Panel', {
-			id: 'tabs',
+			id: 'reg-tabs',
 			activeTab: 0,
 			layout: 'border',
 			region: 'center',

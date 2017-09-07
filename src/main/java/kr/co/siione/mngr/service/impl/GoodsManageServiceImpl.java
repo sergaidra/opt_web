@@ -223,6 +223,11 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 	}
 
 	@Override
+	public int deleteGoodsMulti(Map<String, Object> param) throws Exception {
+		return goodsDAO.deleteGoodsMulti(param);
+	}
+	
+	@Override
 	public Map<String, Object> saveGoodsSchdul(Map<String, String> map) throws Exception {
 
 		Map<String,Object> result = new HashMap<String,Object>();

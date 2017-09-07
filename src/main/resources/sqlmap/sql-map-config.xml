@@ -9,7 +9,8 @@
 	<sqlMap resource="sqlmap/siione/gnrl/cart_db_sql.xml"/>
 	<sqlMap resource="sqlmap/siione/gnrl/flight_db_sql.xml"/>
 
-	<sqlMap resource="sqlmap/siione/mngr/tb_file_manage.xml"/>	
+	<sqlMap resource="sqlmap/siione/mngr/tb_file_manage.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_cty.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_tour_cl.xml"/>
 	<!-- <sqlMap resource="sqlmap/siione/mngr/tb_tour_cmpny.xml"/> -->
 	<sqlMap resource="sqlmap/siione/mngr/tb_mngr.xml"/>

@@ -10,6 +10,7 @@
         <result property="GOODS_NM"                  column="GOODS_NM"                  jdbcType="string" javaType="string"/>
         <result property="GOODS_INTRCN"              column="GOODS_INTRCN"              jdbcType="CLOB"   javaType="string"/>
         <result property="DELETE_AT"                 column="DELETE_AT"                 jdbcType="string" javaType="string"/>
+        <result property="USE_AT"                    column="USE_AT"                    jdbcType="string" javaType="string"/>
         <result property="FILE_CODE"                 column="FILE_CODE"                 jdbcType="string" javaType="string"/>
         <result property="WRITNG_ID"                 column="WRITNG_ID"                 jdbcType="string" javaType="string"/>
         <result property="WRITNG_DE"                 column="WRITNG_DE"                 jdbcType="string" javaType="string"/>
@@ -18,6 +19,9 @@
         <result property="UPPER_CL_CODE"             column="UPPER_CL_CODE"             jdbcType="string" javaType="string"/>
         <result property="CL_CODE"                   column="CL_CODE"                   jdbcType="string" javaType="string"/>
         <result property="CL_NM"                     column="CL_NM"                     jdbcType="string" javaType="string"/>
+        <result property="NATION_CODE"               column="NATION_CODE"               jdbcType="string" javaType="string"/>
+        <result property="CTY_CODE"                  column="CTY_CODE"                  jdbcType="string" javaType="string"/>
+        <result property="CTY_NM"                    column="CTY_NM"                    jdbcType="string" javaType="string"/>
         <result property="WAIT_TIME"                 column="WAIT_TIME"                 jdbcType="string" javaType="string"/>
         <result property="MVMN_TIME"                 column="MVMN_TIME"                 jdbcType="string" javaType="string"/>
         <result property="ACT_LA"                    column="ACT_LA"                    jdbcType="string" javaType="string"/>
@@ -48,6 +52,7 @@
         <result property="INTRCN_PLACE"              column="INTRCN_PLACE"              jdbcType="string" javaType="string"/>
         <result property="STAYNG_FCLTY_AT"           column="STAYNG_FCLTY_AT"           jdbcType="string" javaType="string"/>
         <result property="SORT_ORDR"                 column="SORT_ORDR"                 jdbcType="string" javaType="string"/>
+        <result property="CRUD_SE"                   column="CRUD_SE"                   jdbcType="string" javaType="string"/>
     </resultMap>
 
     <insert id="GoodsDAO.insertGoods" parameterClass="hashMap">
@@ -59,6 +64,7 @@
                             , GOODS_NM
                             , GOODS_INTRCN
                             , CL_CODE
+                            , CTY_CODE
                             , WAIT_TIME
                             , MVMN_TIME
                             , DELETE_AT
@@ -96,6 +102,7 @@
                             , #GOODS_NM#
                             , #GOODS_INTRCN:CLOB#
                             , #CL_CODE#
+                            , #CTY_CODE#
                             , #WAIT_HH#||#WAIT_MI#
                             , #MVMN_HH#||#MVMN_MI#
                             , 'N'
@@ -141,6 +148,7 @@
                             , GOODS_NM
                             , GOODS_INTRCN
                             , CL_CODE
+                            , CTY_CODE
                             , WAIT_TIME
                             , MVMN_TIME
                             , FILE_CODE
@@ -165,6 +173,7 @@
                             , #GOODS_NM#
                             , #GOODS_INTRCN:CLOB#
                             , #CL_CODE#
+                            , #CTY_CODE#
                             , LPAD(#WAIT_HOUR#, 2, '0')||LPAD(#WAIT_MINUTE#, 2, '0')
                             , LPAD(#MVMN_HOUR#, 2, '0')||LPAD(#MVMN_MINUTE#, 2, '0')
                             , #FILE_CODE#
@@ -237,6 +246,7 @@
              , GOODS_CODE            = #GOODS_CODE#
              , GOODS_NM              = #GOODS_NM#
              , CL_CODE               = #CL_CODE#
+             , CTY_CODE              = #CTY_CODE#
              , GOODS_INTRCN          = #GOODS_INTRCN:CLOB#
              , WAIT_TIME             = LPAD(#WAIT_HOUR#, 2, '0')||LPAD(#WAIT_MINUTE#, 2, '0')
              , MVMN_TIME             = LPAD(#MVMN_HOUR#, 2, '0')||LPAD(#MVMN_MINUTE#, 2, '0')
@@ -296,16 +306,29 @@
            SET DELETE_AT = 'Y'
              , UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
-         WHERE GOODS_CODE = #GOODS_CODE#
+         WHERE DELETE_AT = 'N'
+           AND GOODS_CODE = #GOODS_CODE#
     ]]>
     </delete>
+    
+    <delete id="GoodsDAO.deleteGoodsMulti" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GOODS
+           SET DELETE_AT = 'Y'
+             , UPDT_ID = #UPDT_ID#
+             , UPDT_DT = SYSDATE
+         WHERE DELETE_AT = 'N' ]]>
+           AND GOODS_CODE IN <iterate property="GOODS_CODE_LIST" open="(" close=")" conjunction=",">#GOODS_CODE_LIST[]#</iterate>
+    </delete>
+    
 
     <sql id="sqlGoodsInfo">
     <![CDATA[
-       SELECT GOODS_CODE
+        SELECT GOODS_CODE
              , GOODS_NM
              , GOODS_INTRCN
              , DELETE_AT
+             , DECODE(DELETE_AT, 'N', 'Y', 'N') USE_AT
              , FILE_CODE
              , WRITNG_ID
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
@@ -318,6 +341,9 @@
              , (SELECT UPPER_CL_CODE FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE) UPPER_CL_CODE
              , CL_CODE
              , (SELECT C.CL_NM FROM TB_TOUR_CL C WHERE A.CL_CODE = C.CL_CODE) CL_NM
+             , (SELECT NATION_CODE FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE) NATION_CODE
+             , CTY_CODE
+             , (SELECT C.CTY_NM FROM TB_CTY C WHERE A.CTY_CODE = C.CTY_CODE) CTY_NM             
              , STAYNG_FCLTY_AT
              , SORT_ORDR
              , VOCHR_TICKET_TY
@@ -344,6 +370,7 @@
              , INTRCN_PROVD_LANG
              , INTRCN_POSBL_AGE
              , INTRCN_PLACE
+             , 'U' CRUD_SE
           FROM TB_GOODS A
          WHERE 1 = 1
     ]]>
@@ -368,15 +395,25 @@
              , GOODS_NM
              , CL_CODE
              , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE AND X.UPPER_CL_CODE <> '00000') CL_NM
+             , (SELECT X.CL_NM FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00000' START WITH X.CL_CODE = A.CL_CODE CONNECT BY PRIOR X.UPPER_CL_CODE = X.CL_CODE) UPPER_CL_NM
+             , CTY_CODE
+             , (SELECT X.CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE AND X.NATION_CODE <> '00000') CTY_NM             
              , STAYNG_FCLTY_AT
              , SORT_ORDR
              , FILE_CODE
              , DELETE_AT
+             , DECODE(DELETE_AT, 'N', 'Y', 'N') USE_AT 
              , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD') WRITNG_DE
              , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DE
              , (SELECT COUNT(1) FROM TB_FILE_DETAIL X WHERE A.FILE_CODE = X.FILE_CODE) CF_FILE_CNT
           FROM TB_GOODS A
          WHERE 1 = 1 ]]>
+        <isNotEmpty property="DELETE_AT">
+           AND DELETE_AT = #DELETE_AT#        
+        </isNotEmpty>
+        <isNotEmpty property="CTY_CODE">
+           AND CTY_CODE = #CTY_CODE#
+        </isNotEmpty>
         <isNotEmpty property="CL_CODE">
            AND CL_CODE = #CL_CODE#
         </isNotEmpty>

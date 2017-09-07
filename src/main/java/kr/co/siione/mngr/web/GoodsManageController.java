@@ -199,6 +199,52 @@ public class GoodsManageController {
 		jsonView.render(result, request, response);
 	}
 	
+	@RequestMapping(value="/mngr/deleteGoodsMulti/")
+	public void deleteGoodsMulti(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception{
+		param.put("UPDT_ID", ssUserId);
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		//로그인 객체 선언
+		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+		//param.put("INQIRE_RESN", Util.convertText2Html(Util.nvl(param.get("INQIRE_RESN"))));
+
+		
+		
+		
+		try {
+			UserUtils.log("[deleteGoodsMulti]param", param);
+			
+			
+			String[] str = UserUtils.nvl(param.get("GOODS_CODE_LIST")).split(",");
+			
+			for(String aa : str) {
+				System.out.println(">>  "+aa);
+			}
+			
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("GOODS_CODE_LIST", str);
+			
+			
+
+			int iRe = goodsManageService.deleteGoodsMulti(map);
+
+			if(iRe > 0) {
+				result.put("success", true);
+				result.put("message", "삭제 성공");
+			} else {
+				result.put("success", false);
+				result.put("message", "삭제 실패");
+			}
+		}  catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("error"  , e.getMessage());
+		}
+
+		jsonView.render(result, request, response);
+	}
+	
 	@RequestMapping(value="/mngr/selectGoods/")
 	public void selectGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
 		
@@ -494,8 +540,8 @@ public class GoodsManageController {
 				
 
 				// 상품 썸네일 이미지 저장
-				int scaledWidth = 1024/10;
-				int scaledHeight = 768/10;
+				int scaledWidth = 826/7;
+				int scaledHeight = 428/7;
 				ImageResizer.resize(storePath + saveFileNm, resizePath + resizeFileNm, scaledWidth, scaledHeight);
 				
 				Map<String, String> fileParam = new HashMap<String, String>();

@@ -224,6 +224,8 @@ var frCond = Ext.create('Ext.form.Panel', {
 
 					if (modified.length + inserted.length + deleted.length > 0) {
 						for (var i = 0; i < modified.length; i++) {
+							//modified[i].set('CRUD', 'U');
+							//datas.push(modified[i].data);							
 							if(modified[i].data.DELETE_AT == 'Y') {
 								modified[i].set('CRUD', 'D');
 								datas.push(modified[i].data);
