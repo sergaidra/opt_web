@@ -130,16 +130,6 @@
 		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
 		form.submit();
 	}
-	
-	/* selectbox로 대체 
-	function fnTimeClick(){
-		$("input:radio[name=rdoTime]").each(function() {
-			if($(this).is(":checked")) {
-				$("input:hidden[id=hidTime]").val($(this).val());
-				$("input:text[id=txtTime]").val($(this).val().substring(0,2) + ":" + $(this).val().substring(2,4) + " ~ " + $(this).val().substring(4,6) + ":" + $(this).val().substring(6,8));
-			}
-		});
-	} */
 
 	function fnNmprChange(){
 		var form = $("form[id=frmDetail]");
@@ -289,8 +279,6 @@
 								<option value="${list.TOUR_TIME}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~ ${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</option>
 							</c:forEach>
 							</select>
-							<input type="hidden" name="txtTime" id="txtTime" style="width:250px;height:50px;text-align:center;font-size:25px;" value="시간을 선택하세요" readonly onfocus="this.blur()">
-							<input type="hidden" name="hidTime" id="hidTime">
 						</li>
 						<li class="num03">인원
 							<span class="btn_arrow_down"></span>

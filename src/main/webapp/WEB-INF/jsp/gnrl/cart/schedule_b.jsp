@@ -6,7 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>일정표</title>
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery-ui.css'/>" />
 <style type="text/css">
 </style>
 <script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>

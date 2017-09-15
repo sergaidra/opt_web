@@ -1,6 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <script type="text/javascript">
+
+	$(document).ready(function(){
+		$("#txtPW").keydown(function(event){
+			if(event.keyCode == 13) {
+				login();
+			}
+		});	
+		
+	});
+
 	function login(){
 		frmLogin.action="<c:url value='/member/loginAction/'/>";
 		frmLogin.submit();

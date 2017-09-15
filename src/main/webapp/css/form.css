@@ -77,56 +77,71 @@ h2 {
 }
 /******************메인중앙 네비게이션******************/
 #sub_nav {
-	clear:both; 
-	display: block;
-	width: 100%;
-	height: 38px;
-	background: #f2f4f7;
-	border-bottom: 2px solid #3a4452;
+   clear:both; 
+   display: block;
+   width: 100%;
+   height: 38px;
+   background: #f2f4f7;
+   border-bottom: 2px solid #3a4452;
 }
 #sub_nav ul {
-	display: block;
-	width: 1186px;
-	margin: 0 auto;
+   display: block;
+   width: 1186px;
+   margin: 0 auto;
 }
 #sub_nav ul li {
-	float: left;
-	display: inline-block;
-	width: 219px;
-	height: 38px; line-height: 38px;
-	text-align: center;
-	letter-spacing: -1.5px;
-	font-size: 16px;
-	color: #666;
-	border-right: 1px solid #dee2eb;
-}
-#sub_nav ul li.btn_left {
-	float: left;
-	display: inline-block;
-	width: 40px;
-	height: 38px;
-	border-left: 1px solid #dee2eb;
-	border-right: 1px solid #dee2eb;
-	background: url(/images/main_blt_arrowleft.gif) no-repeat 15px 10px;
-}
-#sub_nav ul li.btn_right {
-	float: left;
-	display: inline-block;
-	width: 40px;
-	height: 38px;
-	border-right: 1px solid #dee2eb;
-	background: url(/images/main_blt_arrowright.gif) no-repeat 17px 10px;
+   float: left;
+   display: inline-block;
+   width: 219px;
+   height: 38px; line-height: 38px;
+   text-align: center;
+   letter-spacing: -1.5px;
+   font-size: 16px;
+   border-right: 1px solid #dee2eb;
 }
 #sub_nav ul li a {
-	float: left;
-	display: inline-block;
-	width: 219px;
-	height: 38px; line-height: 38px;
-	text-align: center;
-	letter-spacing: -1.5px;
-	font-size: 16px;
-	color: #fff;
-	background: #3a4452;
+   font-size: 16px;
+   color: #666;
+}
+#sub_nav ul li.banner, {
+   float: left;
+   display: inline-block;
+   width: 219px;
+   height: 38px; line-height: 38px;
+   text-align: center;
+   letter-spacing: -1.5px;
+   font-size: 16px;
+   color: #666;
+   border-right: 1px solid #dee2eb;
+}
+#sub_nav ul li.banner_selected, #sub_nav ul li.banner_selected a,  #sub_nav ul li.banner_selected a:hover,  #sub_nav ul li.banner_selected a:active {
+   float: left;
+   display: inline-block;
+   width: 219px;
+   height: 38px; line-height: 38px;
+   text-align: center;
+   letter-spacing: -1.5px;
+   font-size: 16px;
+   color: #fff;
+   background: #3a4452;
+}
+
+#sub_nav ul li.btn_left {
+   float: left;
+   display: inline-block;
+   width: 40px;
+   height: 38px;
+   border-left: 1px solid #dee2eb;
+   border-right: 1px solid #dee2eb;
+   background: url(/images/main_blt_arrowleft.gif) no-repeat 15px 10px;
+}
+#sub_nav ul li.btn_right {
+   float: left;
+   display: inline-block;
+   width: 40px;
+   height: 38px;
+   border-right: 1px solid #dee2eb;
+   background: url(/images/main_blt_arrowright.gif) no-repeat 17px 10px;
 }
 /******************메인하단영역******************/
 #product_area {

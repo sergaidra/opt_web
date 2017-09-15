@@ -1,7 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
+<head>
+<script type="text/javascript">
+	$(document).ready(function(){
+ 		$("#sub_nav > ul > li > a").hover(function(){
+			$("#sub_nav > ul > li").each(function(){
+				$(this).removeClass("banner_selected").addClass("banner");
+			});
+			$(this).parent().removeClass("banner").addClass("banner_selected");
+		});
+	});
+</script>
+</head>
 <body>
+<form id="frmList" name="frmList" action="<c:url value='/goods/detail/'/>">
+<input type="hidden" id="hidGoodsCode" name="hidGoodsCode">
+</form>
 <div class="area_photo">
 	<div class="area_search">
 		<h2>
@@ -23,43 +39,42 @@
 <div id="sub_nav">
 	<ul>
 		<li class="btn_left"></li>
-		<li>최상의 해안뷰 샹그릴라 리조트</li>
-		<li>핑크빛 로맨틱 추억</li>
-		<li>3박4일 무제한 골프여행</li>
-		<li><a href="#">캐리비안 호핑투어</a></li>
-		<li>캐리비안 호핑투어</li>
+		<c:forEach var="list" items="${expsrList1}" varStatus="status">
+		<c:choose>
+			<c:when test="${status.index == 0}">
+				<li class="banner_selected"><a href="javascript:fnGoGoodsDetail('<c:out value="${list.GOODS_CODE}" />');"><c:out value="${list.GOODS_NM}" /></a></li>
+			</c:when>
+			<c:when test="${status.index < 5}">
+				<li class="banner"><a href="javascript:fnGoGoodsDetail('<c:out value="${list.GOODS_CODE}" />');"><c:out value="${list.GOODS_NM}" /></a></li>
+			</c:when>
+		<c:otherwise>
+		</c:otherwise>
+		</c:choose>
+		</c:forEach>
+		<c:if test="${fn:length(expsrList1) < 5}">
+			<c:forEach begin="${4-fn:length(expsrList1)}" end="${fn:length(expsrList1)-1}" var="cnt">
+				<li class="banner"></li>
+			</c:forEach>
+		</c:if>
 		<li class="btn_right"></li>
 	</ul>
-
 </div>
-
 <div id="product_area">
 	<ul>
+		<c:forEach var="list" items="${expsrList2}" varStatus="status">
 		<li>
-			<dl>
+			<c:if test="${status.index == 0}"><dl></c:if>
+			<c:if test="${status.index == 1}"><dl class="lst_second"></c:if>
+			<c:if test="${status.index == 2}"><dl class="lst_third"></c:if>
 				<dt>
-					모멘픽리조트
-					<스톤마사지 +호핑선택> 4일/5일
+					<a href="javascript:fnGoGoodsDetail('<c:out value="${list.GOODS_CODE}" />');"><c:out value="${list.GOODS_NM}" /></a>
 				</dt>
-				<dd>호핑선택시 스톤마사지 추가진행★</dd>
+				<dd>
+					<c:out value="${fn:substring(list.GOODS_INTRCN, 0, 30)}" />
+				</dd>
 			</dl>
-		</li>
-		<li>
-			<dl class="lst_second">
-				<dt>
-					가비/퍼시픽세부리조트 <스톤마사지 + 팡팡랜드> 4일/5일
-				</dt>
-				<dd>팡팡랜드 무료입장+전일정특식제공</dd>
-			</dl>
-		</li>
-		<li>
-			<dl class="lst_third">
-				<dt>
-					모멘픽리조트 <스톤마사지 +호핑선택> 4일/5일
-				</dt>
-				<dd>호핑선택시 스톤마사지 추가진행★</dd>
-			</dl>
-		</li>
+		</li>	
+		</c:forEach>
 		<li class="lst_contact"><span class="txt_head">고객센터 대표번호
 				1588-0000<br />(해외 82-2-0000-0000)
 		</span><br /> <span class="txt_contact">서울시 종로구 평창 30길 27, 2F<br />

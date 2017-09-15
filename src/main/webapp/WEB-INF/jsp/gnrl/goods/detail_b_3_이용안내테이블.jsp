@@ -3,47 +3,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <head>
-<style type="text/css">
-.activity-description .intro_title {
-    color: #994ede;
-    font-size: 20px;
-    line-height: 28px;
-    font-weight: 500;
-    margin: 10px 0 10px 5px;
-}
-.activity-description .intro_caption {
-    color: #575757;
-    font-size: 14px;
-    line-height: 26px;
-    font-weight: 700;
-    height: 30px;
-    margin-right: 10px;
-    padding-left: 20px;
-    padding-top: 10px;
-    min-width: fit-content;
-    min-width: -webkit-fit-content;
-    min-width: -moz-fit-content;
-}
-.activity-description .intro_content {
-    color: #575757;
-    font-size: 12px;
-    line-height: 20px;
-    font-weight: 400;
-    margin-left: 30px;
-    padding-left: 20px;
-    padding-bottom: 20px;
-    padding-right: 20px;
-}
-.activity-description .intro_content2 {
-    color: #575757;
-    font-size: 12px;
-    line-height: 20px;
-    font-weight: 400;
-    padding-left: 20px;
-    padding-bottom: 20px;
-    padding-right: 20px;
-}
-</style>
 <script type="text/javascript" src="<c:url value='/js/jquery.comiseo.daterangepicker.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/moment.min.js'/>"></script>
 <script type="text/javascript">
@@ -81,7 +40,7 @@
 		$(".infor_productarea_right > ul li").click(function(){
 			iframeMainPhoto.fnSelPhoto($(this).index());
 		});
-
+		
 		$("#txtDateRange").daterangepicker({
 			initialText : '기간을 선택하세요.',
 			applyButtonText: '선택', // use '' to get rid of the button
@@ -97,7 +56,7 @@
 				maxDate: "${result.CF_MAX_END_DE}"
 			}
 		});
-
+	
 		$("#txtDateRange").on('change', function(event) {
 			if($("#txtDateRange").val()) {
 				var __val =  jQuery.parseJSON($("#txtDateRange").val());
@@ -123,10 +82,10 @@
 			}
 			fnChangeNmprStay();
 		});
-
+		
 		$("#btn_op_calendar_range").click(function(){
 			$("#txtDateRange").daterangepicker("open");
-		});
+		});				
 	});
 
 	function fnList() {
@@ -134,7 +93,7 @@
 		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
 		form.submit();
 	}
-
+	
 	function fnGoCartList() {
 		var form = $("form[id=frmDetail]");
 		form.attr({"method":"post","action":"<c:url value='/cart/list/'/>"});
@@ -171,11 +130,11 @@
 		var cnt = parseInt(uncomma($("#spanNmprSn_"+sn).text()), 10);
 		var sum = parseInt(uncomma($("#spanNmprAmount_"+sn).text()), 10);
 		var total = parseInt(uncomma($("#txtPay").val().replace("₩","")), 10);
-
+		
 		if(cnt == 0 && div == '-') {
 			return;
-		}
-
+		} 
+		
 		if(div == '+') {
 			cnt++;
 			sum += parseInt(amount, 10);
@@ -184,32 +143,32 @@
 			cnt--;
 			sum -= parseInt(amount, 10);
 			total -= parseInt(amount, 10);
-		}
-
+		}	
+		
 		$("#hidNmprCo_"+sn).val(cnt);
 		$("#spanNmprSn_"+sn).html(comma(cnt));
 		$("#spanNmprAmount_"+sn).html(comma(sum));
-		$("#txtPay").val("₩"+comma(total));
+		$("#txtPay").val("₩"+comma(total));	
 	}
-
+	
 	function fnChangeNmprStay() {
 		var form = $("form[id=frmDetail]");
-		var days = parseInt($("input:hidden[name=hidDateCount]").val(), 10);
+		var days = parseInt($("input:hidden[name=hidDateCount]").val(), 10); 
 		var total = 0;
-
+		
 		$("select[name=selNmprSn]").each(function() {
 			if(this.value) {
 				var arr = this.value.split(","); // sn:arr[0], amount:arr[1]
-
+				
 				total = parseInt(arr[1], 10) * days;
-
+				
 				$("#txtPay").val("₩"+comma(total));
 				$("#hidNmprSn").val(arr[0]);
 			} else {
 				$("#txtPay").val("₩0");
 			}
 		});
-	}
+	}	
 
 	function fnAddCart(){
 		if("${result.STAYNG_FCLTY_AT}" == "N") {
@@ -218,12 +177,12 @@
 				alert(strDate);
 				return;
 			}
-
-			var chkTimeVal = $("#selTime option:selected").val();
+			
+			var chkTimeVal = $("input:select[name=selTime]:checked").val();
 			if(!chkTimeVal) {
 				alert("시간을 선택하세요");
 				return;
-			}
+			}			
 		} else if("${result.STAYNG_FCLTY_AT}" == "Y") {
 			var strDate = $("input:hidden[id=hidChkinDe]").val();
 			if(strDate.length!=10){
@@ -236,7 +195,7 @@
 				alert("일정을 선택하세요.");
 				return;
 			}
-
+			
 			if(!$("#hidNmprSn").val()) {
 				alert("객실을 선택하세요.");
 				return;
@@ -364,9 +323,9 @@
 						</c:if>
 						<c:if test="${result.STAYNG_FCLTY_AT eq 'Y'}">
 						<li class="num01">날짜
-							<input type="text" name="txtDateRange" id="txtDateRange" class="input_datebox2" size="15">
+							<input type="text" name="txtDateRange" id="txtDateRange" class="input_datebox2" size="15">							
 							<span class="btn_op_calendar" id="btn_op_calendar_range"></span>
-							<input type="hidden" name="hidDateCount" id="hidDateCount" value="0">
+							<input type="hidden" name="hidDateCount" id="hidDateCount" value="0">							
 							<input type="hidden" name="hidChkinDe" id="hidChkinDe">
 							<input type="hidden" name="hidChcktDe" id="hidChcktDe">
 						</li>
@@ -421,7 +380,6 @@
 			<p class="txt_infor">
 				${result.GOODS_INTRCN}
 			</p>
-			<c:if test="${!empty result.INTRCN_GOODS_TY || !empty result.INTRCN_USE_TIME || !empty result.INTRCN_MEET_TIME || !empty result.INTRCN_REQRE_TIME || !empty result.INTRCN_PROVD_LANG || !empty result.INTRCN_POSBL_AGE || !empty result.INTRCN_PLACE}" >
 			<ul class="information7_area">
 			<c:if test="${!empty result.INTRCN_GOODS_TY}">
 				<li><img src="<c:url value='/images/picon_01.gif'/>" width="42" height="42" alt=""><span>상품유형</span>
@@ -446,190 +404,111 @@
 				<sapn class="infor7_txt">${result.INTRCN_PLACE}</span></li>
 			</c:if>
 			</ul>
-			</c:if>
 			<!--인포4 메뉴영역 시작-->
 			<div id="informenu4_set_01">
 				<p class="tab_01"><a href='#'>이용안내</a></p>
 				<p class="tab_02">추가안내 및 유의사항</p>
 				<p class="tab_03">변경 및 환불규정</p>
 				<p class="tab_04">위치안내</p>
+
 				<!--tab_01 테이블-->
 				<div class="tab_01_area">
-				<div class="activity-description">
-					<c:if test="${!empty result.VOCHR_TICKET_TY || !empty result.VOCHR_NTSS_REQRE_TIME || !empty result.VOCHR_USE_MTH}">
-					<div class="intro_title">
-						바우처
+					<div class="default_tablestyle">
+						<table summary="" cellpadding="0" cellspacing="0">
+							<caption>이용 안내</caption>
+							<colgroup>
+								<col width="120px">
+								<col width="673px">
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">구분</th>
+									<th scope="col">상품안내</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td nowrap="nowrap" class="line_right">바우처</td>
+									<td nowrap="nowrap" class="listleft">
+									    1. 티켓형태: <c:if test="${result.VOCHR_TICKET_TY eq 'V'}">E-바우처</c:if>
+													<c:if test="${result.VOCHR_TICKET_TY eq 'T'}">E-티켓(캡쳐가능)</c:if>
+													<c:if test="${result.VOCHR_TICKET_TY eq 'E'}">확정메일(캡쳐가능)</c:if>
+									    <br />
+										2. 발권소요시간: ${result.VOCHR_NTSS_REQRE_TIME}<br />
+										3. 사용방법<br />${result.VOCHR_USE_MTH}<br />
+									<!-- <br /> <span class="t_blue">※ 카톡확인 후 꼭 답장해주세요.</span><br />  -->
+									<br />
+
+									</td>
+								</tr>
+								<tr>
+									<td nowrap="nowrap" class="line_right">소요시간</td>
+									<td nowrap="nowrap" class="listleft">${result.GUIDANCE_REQRE_TIME}<br />
+										 <!-- <span class="t_blue">※ 호핑일정은 당일 기상에 따라
+											30분~1시간 정도로 유동성이 있습니다.<br /> &nbsp; &nbsp; 호핑 다음일정은 호텔 도착
+											후 넉넉하게 19:00PM으로 잡아주세요.시간 정도로 유동성이 있습니다.
+									</span>  -->
+
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-					<c:if test="${!empty result.VOCHR_TICKET_TY}">
-					<div class="intro_caption">
-						티켓형태
-					</div>
-					<div class="intro_content">
-					    <c:if test="${result.VOCHR_TICKET_TY eq 'V'}">E-바우처</c:if>
-						<c:if test="${result.VOCHR_TICKET_TY eq 'T'}">E-티켓(캡쳐가능)</c:if>
-						<c:if test="${result.VOCHR_TICKET_TY eq 'E'}">확정메일(캡쳐가능)</c:if>
-					</div>
-					</c:if>
-					<c:if test="${!empty result.VOCHR_NTSS_REQRE_TIME}">
-					<div class="intro_caption">
-						발권소요시간
-					</div>
-					<div class="intro_content">
-					    ${result.VOCHR_NTSS_REQRE_TIME}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.VOCHR_USE_MTH}">
-					<div class="intro_caption">
-						사용방법
-					</div>
-					<div class="intro_content">
-						${result.VOCHR_USE_MTH}
-					</div>
-					</c:if>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_USE_TIME  || !empty result.GUIDANCE_REQRE_TIME || !empty result.GUIDANCE_AGE_DIV || !empty result.GUIDANCE_TOUR_SCHDUL || !empty result.GUIDANCE_PRFPLC_LC || !empty result.GUIDANCE_EDC_CRSE || !empty result.GUIDANCE_OPTN_MATTER || !empty result.GUIDANCE_PICKUP || !empty result.GUIDANCE_PRPARETG || !empty result.GUIDANCE_INCLS_MATTER || !empty result.GUIDANCE_NOT_INCLS_MATTER}">
-					<div class="intro_title">
-						이용안내
-					</div>
-					</c:if>					
-					<c:if test="${!empty result.GUIDANCE_USE_TIME}">
-					<div class="intro_caption">
-						이용시간
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_USE_TIME}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_REQRE_TIME}">
-					<div class="intro_caption">
-						소요시간
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_REQRE_TIME}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_AGE_DIV}">
-					<div class="intro_caption">
-						연령구분
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_AGE_DIV}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_TOUR_SCHDUL}">
-					<div class="intro_caption">
-						 여행일정
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_TOUR_SCHDUL}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_PRFPLC_LC}">
-					<div class="intro_caption">
-						 공연장위치
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_PRFPLC_LC}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_EDC_CRSE}">
-					<div class="intro_caption">
-						 교육과정
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_EDC_CRSE}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_OPTN_MATTER}">
-					<div class="intro_caption">
-						 옵션사항
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_OPTN_MATTER}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_PICKUP}">
-					<div class="intro_caption">
-						 픽업
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_PICKUP}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_PRPARETG}">
-					<div class="intro_caption">
-						 준비물
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_PRPARETG}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_INCLS_MATTER}">
-					<div class="intro_caption">
-						 포함사항
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_INCLS_MATTER}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_NOT_INCLS_MATTER}">
-					<div class="intro_caption">
-						 불포함사항
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_NOT_INCLS_MATTER}
-					</div>
-					</c:if>
-					<c:if test="${empty result.VOCHR_TICKET_TY && empty result.VOCHR_NTSS_REQRE_TIME && empty result.VOCHR_USE_MTH && empty result.GUIDANCE_USE_TIME && empty result.GUIDANCE_REQRE_TIME && empty result.GUIDANCE_AGE_DIV && empty result.GUIDANCE_TOUR_SCHDUL && empty result.GUIDANCE_PRFPLC_LC && empty result.GUIDANCE_EDC_CRSE && empty result.GUIDANCE_OPTN_MATTER && empty result.GUIDANCE_PICKUP && empty result.GUIDANCE_PRPARETG && empty result.GUIDANCE_INCLS_MATTER && empty result.GUIDANCE_NOT_INCLS_MATTER}">
-					<div class="intro_content">
-					</div>
-					</c:if>
-				</div>
 				</div>
 				<!-- tab_01 테이블 끝 -->
 				<!-- tab_02 테이블-->
 				<div class="tab_02_area">
-					<div class="activity-description">
-					<c:if test="${!empty result.ADIT_GUIDANCE || !empty result.ATENT_MATTER}">
-					<c:if test="${!empty result.ADIT_GUIDANCE}">					
-					<div class="intro_title">
-						추가안내
-					</div>
-					<div class="intro_content2">
-						${result.ADIT_GUIDANCE}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.ATENT_MATTER}">
-					<div class="intro_title">
-						유의사항
-					</div>
-					<div class="intro_content2">
-						${result.ATENT_MATTER}
-					</div>
-					</c:if>
-					</c:if>
-					<c:if test="${empty result.ADIT_GUIDANCE && empty result.ATENT_MATTER}">
-					<div class="intro_content2">
-					</div>					
-					</c:if>
+					<div class="default_tablestyle">
+						<table summary="" cellpadding="0" cellspacing="0">
+							<caption>추가안내 및 유의사항</caption>
+							<colgroup>
+								<col width="120px">
+								<col width="673px">
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">구분</th>
+									<th scope="col">상품안내</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td nowrap="nowrap" class="line_right">추가안내</td>
+									<td nowrap="nowrap" class="listleft">${result.ADIT_GUIDANCE}</td>
+								</tr>
+								<tr>
+									<td nowrap="nowrap" class="line_right">유의사항</td>
+									<td nowrap="nowrap" class="listleft">${result.ATENT_MATTER}</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 				<!-- tab_02 테이블 끝 -->
 				<!-- tab_03 테이블-->
 				<div class="tab_03_area">
-					<div class="activity-description">
-					<c:if test="${!empty result.CHANGE_REFND_REGLTN}">					
-					<div class="intro_title">
-						변경/환불규정
-					</div>
-					<div class="intro_content2">
-						${result.CHANGE_REFND_REGLTN}
-					</div>
-					</c:if>
-					<c:if test="${empty result.CHANGE_REFND_REGLTN}">	
-					<div class="intro_content2">
-					</div>
-					</c:if>
+					<div class="default_tablestyle">
+						<table summary="" cellpadding="0" cellspacing="0">
+							<caption>변경 및 환불규경</caption>
+							<colgroup>
+								<col width="120px">
+								<col width="673px">
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">구분</th>
+									<th scope="col">상품안내</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td nowrap="nowrap" class="line_right">변경 및 환불규경</td>
+									<td nowrap="nowrap" class="listleft">${result.CHANGE_REFND_REGLTN}</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 				<!-- tab_03 테이블 끝 -->

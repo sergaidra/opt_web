@@ -61,7 +61,7 @@
 	<ul>
 	<c:forEach var="result" items="${upperTourClList}" varStatus="status">
 	<c:if test="${status.count%4 == 0}"><li class="pr_right"></c:if><c:if test="${status.count%4 != 0}"><li></c:if>
-		<p class="pr_photo_area"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1" width="100%" height="100%"></p>
+		<p class="pr_photo_area"><a href="javascript:fnCheck('${result.CL_CODE}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1" width="100%" height="100%"></a></p>
 		<p class="pr_txt">${result.DC}<br/><span class="pr_tit">${result.CL_NM}</span></p>
 		<p class="ch_box">
 			<label class="checkbox-wrap"><input type="checkbox" id="chkCategory" name="chkCategory" value="${result.CL_CODE}"><i class="check-icon"></i></label>

@@ -73,6 +73,11 @@ public class FileController {
     	}
     	HashMap result = fileService.getFileDetail(map);
 
+    	if(result == null){
+    		map.put("reprsnt_at", "N");
+    		result = fileService.getFileDetail(map);
+    	}
+    	
     	if(result != null){
         	realPath = SimpleUtils.default_set((String) result.get("FILE_PATH"));
         	fileName = SimpleUtils.default_set((String) result.get("FILE_NM"));

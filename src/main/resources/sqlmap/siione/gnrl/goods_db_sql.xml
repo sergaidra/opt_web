@@ -14,6 +14,8 @@
         <result property="WRITNG_DE"                 column="WRITNG_DE"                 jdbcType="string" javaType="string"/>
         <result property="UPDT_ID"                   column="UPDT_ID"                   jdbcType="string" javaType="string"/>
         <result property="UPDT_DE"                   column="UPDT_DE"                   jdbcType="string" javaType="string"/>
+        <result property="CTY_CODE"                  column="CTY_CODE"                  jdbcType="string" javaType="string"/>
+        <result property="CTY_NM"                    column="CTY_NM"                    jdbcType="string" javaType="string"/>
         <result property="UPPER_CL_CODE"             column="UPPER_CL_CODE"             jdbcType="string" javaType="string"/>
         <result property="CL_CODE"                   column="CL_CODE"                   jdbcType="string" javaType="string"/>
         <result property="CL_NM"                     column="CL_NM"                     jdbcType="string" javaType="string"/>
@@ -51,6 +53,32 @@
         <result property="CF_MAX_END_DE"             column="CF_MAX_END_DE"             jdbcType="string" javaType="string"/>
 	</resultMap>
 
+	<resultMap id="goodsDetailSub" class="hashMap">
+        <result property="GOODS_CODE"                column="GOODS_CODE"                jdbcType="string" javaType="string"/>
+        <result property="GOODS_NM"                  column="GOODS_NM"                  jdbcType="string" javaType="string"/>
+        <result property="GOODS_INTRCN"              column="GOODS_INTRCN"              jdbcType="CLOB"   javaType="string"/>
+	</resultMap>
+
+	<select id="gnrl.goods.selectGoodsExpsrList1" resultClass="hashMap">
+	<![CDATA[
+		SELECT GOODS_CODE, GOODS_NM 
+		  FROM TB_GOODS
+		 WHERE DELETE_AT = 'N'
+		   AND MAIN_EXPSR_AT_1 = 'Y'
+		   AND ROWNUM < 6		   
+	]]>
+	</select>
+	
+	<select id="gnrl.goods.selectGoodsExpsrList2" resultMap="goodsDetailSub">
+	<![CDATA[
+		SELECT GOODS_CODE, GOODS_NM, GOODS_INTRCN 
+		  FROM TB_GOODS
+		 WHERE DELETE_AT = 'N'
+		   AND MAIN_EXPSR_AT_2 = 'Y'
+		   AND ROWNUM < 4
+	]]>
+	</select>
+	
 	<select id="gnrl.goods.selectUpperTourClMain" parameterClass="hashMap" resultClass="hashMap">
 		SELECT CL_CODE
 		     , CL_NM
@@ -83,14 +111,21 @@
 		     , WAIT_TIME
 		     , MVMN_TIME
 		     , FILE_CODE
+		     , CTY_CODE
+		     , (SELECT CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE) CTY_NM
 		     , CL_CODE
 		     , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE) CL_NM
 		     , (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00000' START WITH X.CL_CODE = A.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_CODE
 		     , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00000' START WITH X.CL_CODE = A.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_NM
+		     , CTY_CODE
+		     , (SELECT CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE) CTY_NM
 		     , COUNT(GOODS_CODE) OVER() AS TOT_CNT
 		     , (SELECT TO_CHAR(NVL(MIN(X.SETUP_AMOUNT), 0), 'FM9,999,999') FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = A.GOODS_CODE) CF_MIN_AMOUNT
 		  FROM TB_GOODS A
 		 WHERE DELETE_AT = 'N'
+		<isNotEmpty property="cty_code">
+		   AND CTY_CODE = #cty_code#
+		</isNotEmpty>
 		<isNotEmpty property="cl_code">
 		   AND CL_CODE = #cl_code#
 		</isNotEmpty>
@@ -117,6 +152,8 @@
              , MVMN_TIME
              , ACT_LA
              , ACT_LO
+		     , CTY_CODE
+		     , (SELECT CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE) CTY_NM
              , (SELECT UPPER_CL_CODE FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE) UPPER_CL_CODE
              , CL_CODE
              , (SELECT C.CL_NM FROM TB_TOUR_CL C WHERE A.CL_CODE = C.CL_CODE) CL_NM
@@ -146,8 +183,8 @@
              , INTRCN_PROVD_LANG
              , INTRCN_POSBL_AGE
              , INTRCN_PLACE
-             , (SELECT SUBSTR(MIN(BEGIN_DE),1,4) ||'-'|| SUBSTR(MIN(BEGIN_DE),5,2) ||'-'|| SUBSTR(MIN(BEGIN_DE),7,2) FROM TB_GOODS_SCHDUL X WHERE X.GOODS_CODE = A.GOODS_CODE) CF_MIN_BEGIN_DE
-             , (SELECT SUBSTR(MAX(END_DE),1,4) ||'-'|| SUBSTR(MAX(END_DE),5,2) ||'-'|| SUBSTR(MAX(END_DE),7,2) FROM TB_GOODS_SCHDUL X WHERE X.GOODS_CODE = A.GOODS_CODE) CF_MAX_END_DE             
+             , (SELECT TO_CHAR(NVL(TO_DATE(MIN(BEGIN_DE), 'YYYYMMDD'), SYSDATE), 'YYYY-MM-DD') FROM TB_GOODS_SCHDUL X WHERE X.DELETE_AT = 'N' AND  X.GOODS_CODE = A.GOODS_CODE) CF_MIN_BEGIN_DE             
+             , (SELECT TO_CHAR(TO_DATE(MAX(END_DE), 'YYYYMMDD'), 'YYYY-MM-DD') FROM TB_GOODS_SCHDUL X WHERE X.DELETE_AT = 'N' AND  X.GOODS_CODE = A.GOODS_CODE) CF_MAX_END_DE                          
           FROM TB_GOODS A
          WHERE DELETE_AT = 'N' 
            AND GOODS_CODE = #goods_code#

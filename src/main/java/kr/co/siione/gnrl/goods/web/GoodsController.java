@@ -3,6 +3,7 @@ package kr.co.siione.gnrl.goods.web;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.co.siione.gnrl.cmmn.service.FileService;
 import kr.co.siione.gnrl.goods.service.GoodsService;
+import kr.co.siione.mngr.service.CtyManageService;
 import kr.co.siione.utl.UserUtils;
 
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,9 @@ public class GoodsController {
 	
 	@Resource
 	private FileService fileService;
+	
+	@Resource
+	private CtyManageService ctyManageService;
     
     @RequestMapping(value="/category/")
     public String category(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
@@ -46,12 +51,12 @@ public class GoodsController {
     	
     	try {
           	HashMap map = new HashMap();
-          	HashMap map2 = new HashMap();
         	UserUtils.log("[goods_list]param:", param);
         	
     		String hidUpperClCodeNavi = UserUtils.nvl(param.get("hidUpperClCodeNavi"));  // 선택한 여러개의 분류
     		String hidUpperClCode = UserUtils.nvl(param.get("hidUpperClCode")); // 첫번째 선택한 한개의 분류 OR 선택한 한개의 분류
     		String hidClCode = UserUtils.nvl(param.get("hidClCode")); // 첫번째 선택한 한개의 분류 OR 선택한 한개의 분류
+    		String hidCtyCode = UserUtils.nvl(param.get("hidCtyCode")); // 도시
 
     		String[] clArr = hidUpperClCodeNavi.split("@");
            	if(clArr != null && hidUpperClCode.equals("")) hidUpperClCode = clArr[0];
@@ -61,14 +66,20 @@ public class GoodsController {
     		for(String str:clArr){
     			if(!str.isEmpty()) clList.add(str);
     		}
-        	map2.put("cl_code_arr", clList);
-        	System.out.println("[상위 분류목록]map:"+map2);
-        	List<HashMap> upperTourClList = goodsService.getUpperTourClMain(map2);
+    		HashMap mapT = new HashMap();
+    		mapT.put("cl_code_arr", clList);
+        	System.out.println("[상위 분류목록]map:"+mapT);
+        	List<HashMap> upperTourClList = goodsService.getUpperTourClMain(mapT);
         	
         	// 상세 분류목록
         	map.put("upper_cl_code", hidUpperClCode);  
         	System.out.println("[상세 분류목록]map:"+map);
         	List<HashMap> tourClList = goodsService.getUpperTourClMain(map);
+        	
+        	// 도시 목록
+        	Map<String, String> mapT2 = new HashMap<String, String>();
+        	mapT2.put("NATION_CODE", "00001");
+        	List<Map<String,String>> ctyList = ctyManageService.selectCtyList(mapT2);
 
         	/********************* 페이징 start ****************************************/ 
             //현재 페이지 파라메타
@@ -91,6 +102,7 @@ public class GoodsController {
         	/********************* 페이징 end ******************************************/
 
     		// 상품목록
+        	map.put("cty_code", hidCtyCode);   
         	map.put("cl_code", hidClCode);   
         	System.out.println("[상품목록]map:"+map);
         	List<HashMap> list = goodsService.getGoodsList(map);
@@ -106,12 +118,14 @@ public class GoodsController {
             model.addAttribute("goods_list_yn", "Y");
             
             model.addAttribute("hidPage", hidPage);
+            model.addAttribute("hidCtyCode", hidCtyCode);
             model.addAttribute("hidClCode", hidClCode);
             model.addAttribute("hidUpperClCode", hidUpperClCode);
             model.addAttribute("hidUpperClCodeNavi", hidUpperClCodeNavi);
 
             model.addAttribute("upperTourClList", upperTourClList);
             model.addAttribute("tourClList", tourClList);
+            model.addAttribute("ctyList", ctyList);
             model.addAttribute("goodsList", list);    		
     	} catch(Exception e) {
     		e.printStackTrace();

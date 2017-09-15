@@ -12,6 +12,14 @@
 				fnSearchCl($(this).val());	
 			}
 		});
+
+		$("#sboxCtyCode").change(function(){
+			if($(this).children("option:selected").val() == "0") {
+				fnSearchCty("");
+			} else {
+				fnSearchCty($(this).children("option:selected").val());	
+			}
+		});
 	}
 
 	function fnPage() {
@@ -50,13 +58,23 @@
 		$("input:hidden[id=hidPage]").val(1);
 		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
 		form.submit();
-	}	
+	}
+	
+	function fnSearchCty(cty_code) {
+		var form = $("form[id=frmList]");
+		$("input:hidden[id=hidCtyCode]").val(cty_code);
+		$("input:hidden[id=hidPage]").val(1);
+		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
+		form.submit();
+		
+	}
 </script>
 </head>
 <body>
 <form id="frmList" name="frmList" action="<c:url value='/goods/detail/'/>">
 <input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
 <input type="hidden" id="hidGoodsCode" name="hidGoodsCode">
+<input type="hidden" id="hidCtyCode" name="hidCtyCode" value="${hidCtyCode}">
 <input type="hidden" id="hidClCode" name="hidClCode" value="${hidClCode}">
 <input type="hidden" id="hidUpperClCode" name="hidUpperClCode" value="${hidUpperClCode}">
 <input type="hidden" id="hidUpperClCodeNavi" name="hidUpperClCodeNavi" value="${hidUpperClCodeNavi}">
@@ -83,16 +101,19 @@
 		<!--result 탭끝-->
 		</div>
 		<div class="whitebar">
-			<span class="wbar_txt">총 587개의 호텔이 검색되었습니다.</span>
+			<span class="wbar_txt">총 ${fn:length(goodsList)}개의 호텔이 검색되었습니다.</span>
 			<fieldset>
 				<select name="" class="wsh_sbox">
-					<option value="0">높은가격순</option>
-					<option value="1"></option>
-				</select>
-				<select name="" class="wsh_sbox">
 					<option value="0">정렬기준</option>
-					<option value="1"></option>
+					<option value="ACOUNT_ASC">낮은가격순</option>
+					<option value="ACOUNT_DESC">높은가격순</option>
 				</select>
+				<select name="sboxCtyCode" id="sboxCtyCode" class="wsh_sbox">
+					<option value="0">도시선택</option>
+					<c:forEach var="result" items="${ctyList}" varStatus="status">
+					<option value="${result.CTY_CODE}" <c:if test="${result.CTY_CODE eq hidCtyCode}">selected</c:if>>#${result.CTY_NM}</option>
+					</c:forEach>					
+				</select>				
 				<select name="sboxClCode" id="sboxClCode" class="wsh_sbox">
 					<option value="0">상세분류</option>
 					<c:forEach var="result" items="${tourClList}" varStatus="status">
@@ -135,7 +156,7 @@
 								</dd>
 							</dl>
 						</div>
-						<p class="category">${result.UPPER_CL_NM} > ${result.CL_NM}</p>
+						<p class="category">${result.CTY_NM} > ${result.UPPER_CL_NM} > ${result.CL_NM}</p>
 					</li>
 				<c:if test="${status.index%2 == 1}"><ul></c:if>				
 			</c:forEach>				

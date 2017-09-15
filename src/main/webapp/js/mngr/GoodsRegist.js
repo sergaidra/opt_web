@@ -994,6 +994,33 @@ var frReg = Ext.create('Ext.form.Panel', {
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
 			items: [{
+				xtype: 'checkboxfield',
+				id: 'form-reg-main_expsr_at_1',
+				name: 'MAIN_EXPSR_AT_1',
+				width: 220,				
+	            fieldLabel: '메인노출여부',
+	            labelWidth: 100,
+				labelAlign: 'right',	            
+				boxLabel  : '첫 번째 노출',
+				inputValue: 'Y'
+			},{
+				xtype: 'label',
+				width: 5
+			},{		
+				xtype: 'checkboxfield',
+				id: 'form-reg-main_expsr_at_2',
+				name: 'MAIN_EXPSR_AT_2',
+				hideLabel: true,
+	            //fieldLabel: '메인노출여부',
+				//labelAlign: 'right',	            
+				boxLabel : '두 번째 노출',
+				width: 120,
+				inputValue: 'Y'				
+			}]	
+		},{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
 				xtype: 'textfield',
 				id: 'form-reg-sort-ordr',
 				name: 'SORT_ORDR',
@@ -1007,7 +1034,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
-			}]
+			}]		
 		}]
 	},{
 		xtype: 'fieldset',

@@ -2,6 +2,7 @@ package kr.co.siione.utl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -57,6 +58,52 @@ public class UserUtils {
 		return formatter.format(new Date());
 	}
 	
+	/**
+	 * 특정 날짜에 대하여 요일을 구함(일 ~ 토)
+	 * @param date
+	 * @param dateType
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getDateDay(String date, String dateType) throws Exception {
+		String day = "";
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat(dateType);
+		Date nDate = dateFormat.parse(date);
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(nDate);
+
+		int dayNum = cal.get(Calendar.DAY_OF_WEEK);
+
+		switch (dayNum) {
+		case 1:
+			day = "일";
+			break;
+		case 2:
+			day = "월";
+			break;
+		case 3:
+			day = "화";
+			break;
+		case 4:
+			day = "수";
+			break;
+		case 5:
+			day = "목";
+			break;
+		case 6:
+			day = "금";
+			break;
+		case 7:
+			day = "토";
+			break;
+
+		}
+
+		return day;
+	}
+	
 	public static Map<String, Object> toMap(JSONObject object) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		@SuppressWarnings("unchecked")
@@ -91,7 +138,6 @@ public class UserUtils {
 		return list;
 	}
 	
-	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List getOpenAPIData(StringBuilder sb) throws Exception {
 		JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(sb.toString());
@@ -99,10 +145,23 @@ public class UserUtils {
 		Map<String, Object> mapRoot     = UserUtils.toMap(jsonObject);
 		Map<String, Object> mapResponse = (Map<String, Object>)mapRoot.get("response");
 		Map<String, Object> mapBody     = (Map<String, Object>)mapResponse.get("body");
-		Map<String, Object> mapItems    = (Map<String, Object>)mapBody.get("items");
-		JSONArray list = (JSONArray)mapItems.get("item");
 		
-		return UserUtils.toList(list);
+		int cnt = 0;
+		
+		if(mapBody.containsKey("totalCount")) {
+			cnt = Integer.parseInt(UserUtils.nvl(mapBody.get("totalCount")));
+		} else {
+			cnt = 99999;
+		} 
+		
+		JSONArray list = null;
+		if(cnt > 0) {
+			Map<String, Object> mapItems = (Map<String, Object>)mapBody.get("items");			
+			list = (JSONArray)mapItems.get("item");
+			return UserUtils.toList(list);
+		} else {
+			return null;
+		}	
 	}
 	
 	public static void log(Map<String, String> param) throws Exception  {

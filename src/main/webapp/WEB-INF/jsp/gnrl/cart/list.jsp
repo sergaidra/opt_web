@@ -3,13 +3,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <script type="text/javascript">	
-	function fnDetail(cart_sn) {
-		var form = $("form[id=frmList]");
-		$("input:hidden[id=hidCartSn]").val(cart_sn);
-		form.attr({"method":"post","action":"<c:url value='/cart/detail/'/>"});
-		form.submit();
-	}
-
 	function fnDeleteCart(cart_sn) {
 		var form = $("form[id=frmList]");
 		$("input:hidden[id=hidCartSn]").val(cart_sn);
@@ -34,6 +27,7 @@
 	}
 	
 	function fnPurchase(){
+		alert('TODO 구매하기 작업중');
 	}
 	
 	function fnSearchGoods() {
@@ -54,10 +48,10 @@
 				<table cellspacing="0" cellpadding="0">
 				<tr>		
 					<td width="200px" align="center" rowspan="5">
-						<a href="javascript:fnDetail('${result.CART_SN}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="200px" height="150px"></a>
+						<a href="javascript:fnGoGoodsDetail('${result.GOODS_CODE}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="200px" height="150px"></a>
 					</td>
 					<td width="800px" align="center" title="${result.GOODS_NM}">
-						${fn:substring(result.GOODS_NM, 0, 15)}..
+						${result.GOODS_NM}
 					</td>
 				</tr>
 				<tr>
@@ -111,10 +105,10 @@
 				<table cellspacing="0" cellpadding="0">
 				<tr>		
 					<td width="200px" align="center" rowspan="5">
-						<a href="javascript:fnDetail('${result.CART_SN}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="200px" height="150px"></a>
+						<a href="javascript:fnGoGoodsDetail('${result.GOODS_CODE}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="200px" height="150px"></a>
 					</td>
 					<td width="800px" align="center" title="${result.GOODS_NM}">
-						${fn:substring(result.GOODS_NM, 0, 15)}..
+						${result.GOODS_NM}
 					</td>
 				</tr>
 				<tr>
@@ -182,6 +176,7 @@
 
 <form id="frmList" name="frmList" action="<c:url value='/cart/detail/'/>">
 	<input type="hidden" id="hidCartSn" name="hidCartSn">
+	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode">
 </form>		
 
 <form name="frmGoodsCategory" id="frmGoodsCategory" method="post" action="<c:url value='/goods/list/'/>">

@@ -75,6 +75,7 @@
         <isNotEmpty property="USE_AT">
          WHERE USE_AT = #USE_AT#
         </isNotEmpty>
+		ORDER BY ARPRT_NM        
     </select>
 
 </sqlMap>

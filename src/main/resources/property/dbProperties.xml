@@ -3,12 +3,10 @@
 <properties>
 	<comment>DB</comment>
 	<entry key="base.driver">oracle.jdbc.driver.OracleDriver</entry>
-	<entry key="base.url">jdbc:oracle:thin:@127.0.0.1:1521/orcl</entry>
+	<!-- <entry key="base.url">jdbc:oracle:thin:@127.0.0.1:1521/orcl</entry>
 	<entry key="base.username">opt_dev</entry>
-	<entry key="base.password">opt_dev</entry>
-	<!--
+	<entry key="base.password">opt_dev</entry> -->
 	<entry key="base.url">jdbc:oracle:thin:@192.168.10.10:1521/siione</entry>
 	<entry key="base.username">opt_dba</entry>
 	<entry key="base.password">opt_dba</entry>
-	-->
 </properties>

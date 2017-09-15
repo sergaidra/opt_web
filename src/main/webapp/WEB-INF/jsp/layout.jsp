@@ -71,9 +71,10 @@
 		});
 
 		$(".regi").click(function(){
-			alert('회원가입 화면');
+			alert('TODO 회원가입 화면');
 			//$(location).attr('href', "<c:url value='/cart/list/'/>");
 		});
+		
 	});
 
 </script>
@@ -83,15 +84,16 @@
 <!--상단네비게이션 시작-->
 <header id="header">
 	<div class="area_head">
-		<h1>ci</h1>
+		<a href="<c:url value='/'/>"><h1>ci</h1></a> 
 		<nav id="nav">
 			<ul class="nav_left">
-				<li><a href="#">원패스투어</a></li>
+				<li><a href="javascript:alert('원패스투어 설명');">원패스투어</a></li>
 				<li><a href="<c:url value='/goods/category/'/>">투어상품</a></li>
-				<li><a href="#">여행후기</a></li>
-				<li class="noline"><a href="#">고객서비스</a></li>
+				<li><a href="javascript:alert('여행후기');">여행후기</a></li>
+				<li class="noline"><a href="javascript:alert('고객서비스');">고객서비스</a></li>
 			</ul>
 			<ul class="nav_right">
+			${user_id}			
 			<c:choose>
 				<c:when test="${fn:length(esntl_id) > 0}">
 					<li class="logout">로그아웃</li>
@@ -192,9 +194,9 @@ var fnFlightInfo = function(){
 		success : function(json) {
 			if(json.result == "0") {
 				var flight = json.flight;
-				if(flight.FLIGHT_SN) {
+				if(flight) {
 					var str1= '<div class="area_airset_01">'+'<p class="air_areatit">'
-							+ '<span class="air_from_tit">출발</span><span class="setting"></span>'
+							+ '<span class="air_from_tit">출발</span><a href="javascript:fnFlightPopup();"><span class="setting"></span></a>'
 							+ '</p>'
 							+ '<dl id="sch_air">'
 							+ '<dt>출국일시</dt>'
@@ -228,6 +230,17 @@ var fnFlightInfo = function(){
 							+ '</dl>'
 							+ '<p class="air_bgbottom"></p></div>';
 					$("#area_airset_01_whole").append(str2);
+				} else {
+					var str1= '<div class="area_airset_01">'+'<p class="air_areatit">'
+					        + '<span class="air_from_tit">출발</span><a href="javascript:fnFlightPopup();"><span class="setting"></span></a>'	
+							+ '</p>'		
+							+ '<p class="air_bgbottom"></p></div>';
+					$("#area_airset_01_whole").html(str1);
+					var str2= '<div class="area_airset_01">'+'<p class="air_areatit">'
+							+ '<span class="air_to_tit">도착</span>'
+							+ '</p>'
+							+ '<p class="air_bgbottom"></p></div>';
+					$("#area_airset_01_whole").append(str2);					
 				}
 			} else if(json.result == "-2") {
 				//alert("로그인이 필요합니다.");
@@ -249,9 +262,17 @@ $(document).ready(function(){
 	fnFlightInfo();
 });
 
-function fnCartDetail(str) {
-	var form = $("form[id=frmCartDetail]");
+function fnGoCartDetail(str) {
+	var form = $("form[id=frmLayout]");
 	$("input:hidden[id=hidCartSn]").val(str);
+	form.attr({"method":"post","action":"<c:url value='/cart/detail/'/>"});	
+	form.submit();
+}
+
+function fnGoGoodsDetail(goods_code) {
+	var form = $("form[id=frmLayout]");
+	$("input:hidden[id=hidGoodsCode]").val(goods_code);
+	form.attr({"method":"post","action":"<c:url value='/goods/detail/'/>"});
 	form.submit();
 }
 
@@ -259,7 +280,7 @@ function fnFlightPopup() {
 	var sMsg = "항공편을 입력(수정)하시겠습니까?";
 	var sUrl = "<c:url value='/cart/flightPopup/'/>";
 	if(confirm(sMsg)){
-		fnOpenPopup(sUrl, "winFightPopup", 650, 450);
+		fnOpenPopup(sUrl, "winFightPopup", 750, 550);
 	}
 }
 </script>
@@ -330,7 +351,8 @@ function fnFlightPopup() {
 <form name="frmBannerCategory" id="frmBannerCategory" method="post" target="divLayoutBody" action="<c:url value='/goods/list/'/>">
 	<input type="hidden" id="hidStayngFcltyAt" name="hidStayngFcltyAt" value="Y">
 </form>
-<form name="frmCartDetail" id="frmCartDetail" method="post" action="<c:url value='/cart/detail/'/>">
+<form name="frmLayout" id="frmLayout" method="post">
+	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode">
 	<input type="hidden" id="hidCartSn" name="hidCartSn">
 </form>
 <input type="hidden" id="hidLayout" name="hidLayout" value="Y">

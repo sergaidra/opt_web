@@ -1,6 +1,6 @@
-	package kr.co.siione.gnrl.cart.web;
+package kr.co.siione.gnrl.cart.web;
 
-	import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import kr.co.siione.dist.utils.SimpleUtils;
 import kr.co.siione.gnrl.cart.service.CartService;
+import kr.co.siione.gnrl.cart.service.FlightService;
 import kr.co.siione.gnrl.goods.service.GoodsService;
+import kr.co.siione.mngr.service.ArprtManageService;
 import kr.co.siione.utl.UserUtils;
 import net.sf.json.JSONObject;
 
@@ -29,15 +31,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
-	@Controller
-	@RequestMapping(value = "/cart/")
-	public class CartController {
+@Controller
+@RequestMapping(value = "/cart/")
+public class CartController {
 
 	@Resource
 	private GoodsService goodsService;
 
 	@Resource
 	private CartService cartService;
+	
+	@Resource
+	private FlightService flightService;
+
+	@Resource
+	private ArprtManageService arprtManageService;
 
 	private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
 
@@ -177,20 +185,24 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 		ResponseEntity<String> entity = null;
 		JSONObject obj = new JSONObject();
 		UserUtils.log("[addCart-param]", param);
+
 /*		[addCart-param] ==================== log start ==============================
-		[addCart-param] hidPage             :
-		[addCart-param] hidGoodsCode        : 0000000022
-		[addCart-param] hidUpperClCode         : 00006@
+		[addCart-param] hidPage             : 
+		[addCart-param] hidGoodsCode        : 0000000092
+		[addCart-param] hidUpperClCode      : 00042
+		[addCart-param] hidUpperClCodeNavi  : 00042@
 		[addCart-param] hidStayngFcltyAt    : N
-		[addCart-param] txtDate             : 2017-07-14
-		[addCart-param] rdoTime             : 09001600
-		[addCart-param] txtTime             : 09:00 ~ 16:00
-		[addCart-param] hidTime             : 09001600
+		[addCart-param] hidWaitTime         : 0000
+		[addCart-param] hidMvmnTime         : 0000
+		[addCart-param] txtDate             : 2017-09-26
+		[addCart-param] selTime             : 05201540
+		[addCart-param] txtTime             : 시간을 선택하세요
+		[addCart-param] hidTime             : 
 		[addCart-param] hidNmprCo           : 2
-		[addCart-param] hidPayment          : 55000
 		[addCart-param] hidNmprSn           : 1
-		[addCart-param] txtPay              : ₩ 110000
-		[addCart-param] ==================== log end ================================*/
+		[addCart-param] txtPay              : ₩310,000
+		[addCart-param] ==================== log end ================================		
+*/		
 /*		[addCart-param] ==================== log start ==============================
 		[addCart-param] hidPage             :
 		[addCart-param] hidGoodsCode        : 0000000002
@@ -223,7 +235,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 		}else{
 			String goods_code = UserUtils.nvl(param.get("hidGoodsCode"));
 			String txtDate = UserUtils.nvl(param.get("txtDate"));
-			String hidTime = UserUtils.nvl(param.get("hidTime"), UserUtils.nvl(param.get("rdoTime")));
+			String selTime = UserUtils.nvl(param.get("selTime"));
 
 			String hidStayngFcltyAt = UserUtils.nvl(param.get("hidStayngFcltyAt"), "N");
 			String hidChkinDe = UserUtils.nvl(param.get("hidChkinDe"));
@@ -256,15 +268,33 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 			map.put("chkin_de", hidChkinDe.replace("-",""));
 			map.put("chckt_de", hidChcktDe.replace("-",""));
 			map.put("esntl_id", esntl_id);
-			if(hidTime.length() == 8) {
-				map.put("begin_time", hidTime.substring(0, 4));
-				map.put("end_time", hidTime.substring(4, 8));
+			if(selTime.length() == 8) {
+				map.put("begin_time", selTime.substring(0, 4));
+				map.put("end_time", selTime.substring(4, 8));
 			} else {
 				map.put("begin_time", "");
 				map.put("end_time", "");
 			}
 
 			UserUtils.log("[addCard-map]", map);
+			
+			cartService.addCart(map);
+			retValue = "0";
+			
+			
+/*			[addCard-map] ==================== log start ==============================
+			[addCard-map] chckt_de            : 
+			[addCard-map] chkin_de            : 
+			[addCard-map] nmpr_list           : [{nmpr_co=2, nmpr_sn=1}]
+			[addCard-map] begin_time          : 
+			[addCard-map] tour_de             : 20170926
+			[addCard-map] end_time            : 
+			[addCard-map] goods_code          : 0000000092
+			[addCard-map] opert_se            : I
+			[addCard-map] stayng_fclty_at     : N
+			[addCard-map] esntl_id            : GNRL0000000000000081
+			[addCard-map] ==================== log end ================================			
+*/			
 /*			[addCard-map] ==================== log start ==============================
 			[addCard-map] chckt_de            :
 			[addCard-map] chkin_de            :
@@ -285,8 +315,9 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 			[addCard-map] goods_code          : 0000000002
 			[addCard-map] esntl_id            : GNRL0000000000000081
 			[addCard-map] ==================== log end ================================*/
-
-			// 숙박
+			
+			// 2017-09-14 일정체크 안함
+			/* 숙박
 			if(UserUtils.nvl(param.get("hidStayngFcltyAt")).equals("Y")) {
 				// 상품조건이 맞는지 확인
 				HashMap mapGoods = cartService.getCartValidCnfirm(map); // 일정
@@ -375,7 +406,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 						}
 					}
 				}
-			}
+			}*/
 		}
 		
 		LOG.debug("[addCard]retValue:"+retValue);
@@ -453,6 +484,10 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 				map.put("end_time", "");
 			}
 
+			cartService.updateCart(map);
+			retValue = "0";
+			
+			/* 2017-09-14 일정체크 안함
 			// 숙박
 			if(UserUtils.nvl(request.getParameter("hidStayngFcltyAt")).equals("Y")) {
 				// 상품조건이 맞는지 확인
@@ -535,7 +570,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 						}
 					}
 				}
-			}
+			}*/
 		}
 
 		LOG.debug("[modCard]retValue:"+retValue);
@@ -587,6 +622,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 		}
 
 		obj.put("result", retValue);
+		System.out.println("cart_obj:"+obj);
 		entity = new ResponseEntity<String>(obj.toString(), responseHeaders, HttpStatus.CREATED);
 
 		return entity;
@@ -612,152 +648,12 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 		HashMap map = new HashMap();
 		map.put("esntl_id", esntl_id);
 
-		HashMap flight = cartService.getFlightDetail(map);
+		HashMap flight = flightService.getFlightDetail(map);
 		List<HashMap> cartList = cartService.getCartListForSchedule(map);
 
 		model.addAttribute("flight", flight);
 		model.addAttribute("cartList", cartList);
 
 		return "gnrl/cart/schedule";
-	}
-
-	@RequestMapping(value="/flightPopup/")
-	public String flight(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
-
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.add("Content-Type","text/plain; charset=utf-8");
-
-		String retValue = "-1";
-
-		HttpSession session = request.getSession();
-		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-
-		HashMap map = new HashMap();
-		map.put("esntl_id", esntl_id);
-
-		if(esntl_id.isEmpty()){
-			retValue = "-2";
-		} else {
-			map = cartService.getFlightDetail(map);
-		}
-
-		model.addAttribute("flight", map);
-
-		return "gnrl/cart/flight";
-	}
-
-
-	@RequestMapping(value="/addFlightAction/")
-	public ResponseEntity<String> addFlightAction(HttpServletRequest request, HttpServletResponse response, @RequestParam HashMap param) throws Exception {
-		ResponseEntity<String> entity = null;
-		JSONObject obj = new JSONObject();
-
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.add("Content-Type","text/plain; charset=utf-8");
-
-		String retValue = "-1";
-
-		HttpSession session = request.getSession();
-		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-
-		if(esntl_id.isEmpty()){
-			retValue = "-2";
-		}else{
-			HashMap<String, String> map = new HashMap();
-			map.put("esntl_id", esntl_id);
-			map.put("dtrmc_flight", UserUtils.nvl(param.get("DTRMC_FLIGHT")));
-			map.put("dtrmc_start_cty", UserUtils.nvl(param.get("DTRMC_START_CTY")));
-			map.put("dtrmc_start_dt", UserUtils.nvl(param.get("DTRMC_START_DE")).replace("-", "")+UserUtils.nvl(param.get("DTRMC_START_HH"))+UserUtils.nvl(param.get("DTRMC_START_MI")));
-			map.put("dtrmc_arvl_cty", UserUtils.nvl(param.get("DTRMC_ARVL_CTY")));
-			map.put("dtrmc_arvl_dt", UserUtils.nvl(param.get("DTRMC_ARVL_DE")).replace("-", "")+UserUtils.nvl(param.get("DTRMC_ARVL_HH"))+UserUtils.nvl(param.get("DTRMC_ARVL_MI")));
-			map.put("hmcmg_flight", UserUtils.nvl(param.get("HMCMG_FLIGHT")));
-			map.put("hmcmg_start_cty", UserUtils.nvl(param.get("HMCMG_START_CTY")));
-			map.put("hmcmg_start_dt", UserUtils.nvl(param.get("HMCMG_START_DE")).replace("-", "")+UserUtils.nvl(param.get("HMCMG_START_HH"))+UserUtils.nvl(param.get("HMCMG_START_MI")));
-			map.put("hmcmg_arvl_cty", UserUtils.nvl(param.get("HMCMG_ARVL_CTY")));
-			map.put("hmcmg_arvl_dt", UserUtils.nvl(param.get("HMCMG_ARVL_DE")).replace("-", "")+UserUtils.nvl(param.get("HMCMG_ARVL_HH"))+UserUtils.nvl(param.get("HMCMG_ARVL_MI")));
-
-			cartService.addFlight(map);
-			retValue = "0";
-		}
-
-		obj.put("result", retValue);
-		entity = new ResponseEntity<String>(obj.toString(), responseHeaders, HttpStatus.CREATED);
-
-		return entity;
-	}
-
-	@RequestMapping(value="/modFlightAction/")
-	public ResponseEntity<String> modFlightAction(HttpServletRequest request, HttpServletResponse response, @RequestParam HashMap param) throws Exception {
-		ResponseEntity<String> entity = null;
-		JSONObject obj = new JSONObject();
-
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.add("Content-Type","text/plain; charset=utf-8");
-
-		String retValue = "-1";
-
-		HttpSession session = request.getSession();
-		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		String flight_sn = param.get("hidFlightSn").toString();
-
-		if(esntl_id.isEmpty()){
-			retValue = "-2";
-		}else if(flight_sn.equals("") || flight_sn == null){
-			retValue = "-1";
-		}else{
-			HashMap<String, String> map = new HashMap();
-			map.put("esntl_id", esntl_id);
-			map.put("flight_sn", flight_sn);
-			map.put("dtrmc_flight", UserUtils.nvl(param.get("DTRMC_FLIGHT")));
-			map.put("dtrmc_start_cty", UserUtils.nvl(param.get("DTRMC_START_CTY")));
-			map.put("dtrmc_start_dt", UserUtils.nvl(param.get("DTRMC_START_DE")).replace("-", "")+UserUtils.nvl(param.get("DTRMC_START_HH"))+UserUtils.nvl(param.get("DTRMC_START_MI")));
-			map.put("dtrmc_arvl_cty", UserUtils.nvl(param.get("DTRMC_ARVL_CTY")));
-			map.put("dtrmc_arvl_dt", UserUtils.nvl(param.get("DTRMC_ARVL_DE")).replace("-", "")+UserUtils.nvl(param.get("DTRMC_ARVL_HH"))+UserUtils.nvl(param.get("DTRMC_ARVL_MI")));
-			map.put("hmcmg_flight", UserUtils.nvl(param.get("HMCMG_FLIGHT")));
-			map.put("hmcmg_start_cty", UserUtils.nvl(param.get("HMCMG_START_CTY")));
-			map.put("hmcmg_start_dt", UserUtils.nvl(param.get("HMCMG_START_DE")).replace("-", "")+UserUtils.nvl(param.get("HMCMG_START_HH"))+UserUtils.nvl(param.get("HMCMG_START_MI")));
-			map.put("hmcmg_arvl_cty", UserUtils.nvl(param.get("HMCMG_ARVL_CTY")));
-			map.put("hmcmg_arvl_dt", UserUtils.nvl(param.get("HMCMG_ARVL_DE")).replace("-", "")+UserUtils.nvl(param.get("HMCMG_ARVL_HH"))+UserUtils.nvl(param.get("HMCMG_ARVL_MI")));
-
-			cartService.updateFlight(map);
-
-			retValue = "0";
-		}
-
-		obj.put("result", retValue);
-		entity = new ResponseEntity<String>(obj.toString(), responseHeaders, HttpStatus.CREATED);
-
-		return entity;
-	}
-
-	@RequestMapping(value="/getFlightAction/")
-	public ResponseEntity<String> getFilightAction(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ResponseEntity<String> entity = null;
-		JSONObject obj = new JSONObject();
-
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.add("Content-Type","text/plain; charset=utf-8");
-
-		String retValue = "-1";
-
-		HttpSession session = request.getSession();
-		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-
-		if(esntl_id.isEmpty()){
-			retValue = "-2";
-		}else{
-			HashMap map = new HashMap();
-			map.put("esntl_id", esntl_id);
-
-			map = cartService.getFlightDetail(map);
-			obj.put("flight", map);
-
-			retValue = "0";
-		}
-
-		obj.put("result", retValue);
-		entity = new ResponseEntity<String>(obj.toString(), responseHeaders, HttpStatus.CREATED);
-
-		return entity;
-	}
-	}
+	}	
+}

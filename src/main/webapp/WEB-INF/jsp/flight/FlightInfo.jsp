@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>여객기정보</title>
+<title>인천공항</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
 </head>
