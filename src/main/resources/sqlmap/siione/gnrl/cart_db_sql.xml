@@ -82,12 +82,14 @@
 			ESNTL_ID,
 			CART_SN,
 			GOODS_CODE,
+			SETUP_SE,
 			NMPR_SN,
 			NMPR_CO
 		) VALUES(
 			#esntl_id#,
 			#cart_sn#,
 			#goods_code#,
+			#setup_se#,
 			#nmpr_sn#,
 			#nmpr_co#
 		)
@@ -212,7 +214,16 @@
 
 	<select id="gnrl.cart.selectCartPayment" parameterClass="hashMap" resultClass="long">
 	<![CDATA[
-		SELECT SUM(DECODE(FN_STAYNG_FCLTY_AT(A.GOODS_CODE), 'N', C.SETUP_AMOUNT * B.NMPR_CO, C.SETUP_AMOUNT * (TO_DATE(A.CHCKT_DE, 'YYYYMMDD') - TO_DATE(A.CHKIN_DE, 'YYYYMMDD')) )) AS PURCHS_AMOUNT
+		SELECT SUM(PURCHS_AMOUNT) AS PURCHS_AMOUNT
+		  FROM TB_CART_GOODS
+		 WHERE ESNTL_ID = #esntl_id#
+		   AND EXPRTN_AT = 'N'
+	]]>
+	</select>
+
+	<select id="gnrl.cart.selectCartPayment_bak" parameterClass="hashMap" resultClass="long">
+	<![CDATA[
+		SELECT nvl(SUM(DECODE(FN_STAYNG_FCLTY_AT(A.GOODS_CODE), 'N', C.SETUP_AMOUNT * B.NMPR_CO, C.SETUP_AMOUNT * (TO_DATE(A.CHCKT_DE, 'YYYYMMDD') - TO_DATE(A.CHKIN_DE, 'YYYYMMDD')) )), 0) AS PURCHS_AMOUNT
 		  FROM TB_CART_GOODS A
 		     , TB_CART_NMPR B
 		     , TB_GOODS_NMPR C
@@ -262,11 +273,12 @@
 		     , A.ESNTL_ID
 		     , A.CART_SN
 		     , A.GOODS_CODE
-		     , FN_PURCHS_AMOUNT(A.ESNTL_ID, A.CART_SN) AS PURCHS_AMOUNT
+		     , A.PURCHS_AMOUNT
 		     , A.TOUR_DE
 		     , A.BEGIN_TIME
 		     , A.END_TIME
 		     , X.GOODS_NM
+		     , X.CL_SE
 		     , X.FILE_CODE
 		     , X.WAIT_TIME
 		     , X.MVMN_TIME
@@ -275,6 +287,7 @@
 		     , A.CHKIN_DE
 		     , A.CHCKT_DE
 		     , DECODE(A.TOUR_DE, NULL, TO_DATE(A.CHCKT_DE, 'YYYYMMDD') - TO_DATE(A.CHKIN_DE, 'YYYYMMDD'), '', TO_DATE(A.CHCKT_DE, 'YYYYMMDD') - TO_DATE(A.CHKIN_DE, 'YYYYMMDD'), 0 ) DIFF_DAYS
+		     , DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE) SORT_DE
 		  FROM TB_CART_GOODS A
 		 INNER JOIN TB_GOODS X
 		    ON X.GOODS_CODE = A.GOODS_CODE
@@ -285,7 +298,7 @@
 	<isNotEmpty property="SEARCH_SE">
 		<isEqual property="SEARCH_SE" compareValue="A">
 		   AND A.TOUR_DE IS NOT NULL
-		 ORDER BY A.tour_de, A.BEGIN_TIME
+		 ORDER BY A.TOUR_DE, A.BEGIN_TIME
 		</isEqual>
 		<isEqual property="SEARCH_SE" compareValue="S">
 		   AND A.CHKIN_DE IS NOT NULL
@@ -295,7 +308,7 @@
 	</isNotEmpty>
 	<isEmpty property="SEARCH_SE">
 		   AND A.TOUR_DE IS NOT NULL
-		 ORDER BY A.TOUR_DE, A.BEGIN_TIME
+		 ORDER BY DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE), A.BEGIN_TIME
 	</isEmpty>
 	</select>
 
@@ -322,7 +335,7 @@
 	<![CDATA[
 		SELECT A.CART_SN
 		     , A.GOODS_CODE
-		     , FN_PURCHS_AMOUNT(A.ESNTL_ID, A.CART_SN) AS PURCHS_AMOUNT
+		     , A.PURCHS_AMOUNT
 		     , A.TOUR_DE
 		     , A.BEGIN_TIME
 		     , A.END_TIME

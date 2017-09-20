@@ -34,7 +34,7 @@ table, th, td {
 
 	function fnSaveFlight() {
 		
-		alert('TODO 필수입력 체크');
+		//alert('TODO 필수입력 체크');
 		
 		var form_data = $("form[id=frmSave]").serialize();
 		var sUrl = "<c:url value='/cart/addFlightAction/'/>";
@@ -84,7 +84,7 @@ table, th, td {
 			return;
 		}
 		
-		alert('TODO 픽업,드랍 서비스는 삭제 불가');
+		//alert('TODO 픽업,드랍 서비스는 삭제 불가');
 		
 		var form_data = $("form[id=frmSave]").serialize();
 		$.ajax({

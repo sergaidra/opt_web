@@ -8,7 +8,7 @@ function fn_search() {
 
 var storeTree = Ext.create('Ext.data.TreeStore', {
 	autoLoad: true,
-	fields: ['id', 'text', {name:'leaf', type: 'boolean'}, 'stayng_fclty_at', 'delete_at'],
+	fields: ['id', 'text', {name:'leaf', type: 'boolean'}, 'cl_se', 'delete_at'],
 	root: {text: '전체', id: '', leaf: false},
 	proxy: {
 		type: 'ajax',
@@ -56,7 +56,7 @@ var tree = Ext.create('Ext.tree.Panel', {
 
 Ext.define('TourClInfo', {
     extend: 'Ext.data.Model',
-    fields: ['CL_CODE', 'CL_NM', 'UPPER_CL_CODE', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'DELETE_AT', 'CRUD']
+    fields: ['CL_CODE', 'CL_NM', 'UPPER_CL_CODE', 'CL_SE', 'SORT_ORDR', 'DELETE_AT', 'CRUD']
 });
 
 var comboDeleteAt = new Ext.create('Ext.form.ComboBox', {
@@ -191,7 +191,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 		width: 100,
 		align: 'center',
 		//editor: comboStayngAt,
-		dataIndex: 'STAYNG_FCLTY_AT',
+		dataIndex: 'CL_SE',
 		hidden: true,
 		renderer: Ext.ux.comboBoxRenderer(comboStayngAt)
 	},{
@@ -231,7 +231,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 				CL_CODE : '',
 				CL_NM : '',
 				UPPER_CL_CODE : treeItem.get('id'),
-				STAYNG_FCLTY_AT : treeItem.get('stayng_fclty_at'),
+				CL_SE : treeItem.get('cl_se'),
 				SORT_ORDR : '',
 				DELETE_AT : 'N',
 				CRUD : 'C'

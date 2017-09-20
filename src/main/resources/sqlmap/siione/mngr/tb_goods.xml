@@ -50,8 +50,11 @@
         <result property="INTRCN_PROVD_LANG"         column="INTRCN_PROVD_LANG"         jdbcType="string" javaType="string"/>
         <result property="INTRCN_POSBL_AGE"          column="INTRCN_POSBL_AGE"          jdbcType="string" javaType="string"/>
         <result property="INTRCN_PLACE"              column="INTRCN_PLACE"              jdbcType="string" javaType="string"/>
+        <result property="CL_SE"                     column="CL_SE"                     jdbcType="string" javaType="string"/>
         <result property="STAYNG_FCLTY_AT"           column="STAYNG_FCLTY_AT"           jdbcType="string" javaType="string"/>
         <result property="SORT_ORDR"                 column="SORT_ORDR"                 jdbcType="string" javaType="string"/>
+        <result property="MAIN_EXPSR_AT_1"           column="MAIN_EXPSR_AT_1"           jdbcType="string" javaType="string"/>
+        <result property="MAIN_EXPSR_AT_2"           column="MAIN_EXPSR_AT_2"           jdbcType="string" javaType="string"/>
         <result property="CRUD_SE"                   column="CRUD_SE"                   jdbcType="string" javaType="string"/>
     </resultMap>
 
@@ -74,6 +77,8 @@
                             , WRITNG_DT
                             , FILE_CODE
                             , SORT_ORDR
+                            , MAIN_EXPSR_AT_1
+                            , MAIN_EXPSR_AT_2
                             , VOCHR_TICKET_TY
                             , VOCHR_NTSS_REQRE_TIME
                             , VOCHR_USE_MTH
@@ -112,6 +117,8 @@
                             , SYSDATE
                             , #FILE_CODE#
                             , NVL(#SORT_ORDR#, (SELECT MAX(SORT_ORDR)+1 FROM TB_GOODS WHERE CL_CODE = #CL_CODE#))
+                            , #MAIN_EXPSR_AT_1#
+                            , #MAIN_EXPSR_AT_2#
                             , #VOCHR_TICKET_TY#
                             , #VOCHR_NTSS_REQRE_TIME#
                             , #VOCHR_USE_MTH#
@@ -154,8 +161,11 @@
                             , FILE_CODE
                             , ACT_LA
                             , ACT_LO
+                            , CL_SE
                             , STAYNG_FCLTY_AT
                             , SORT_ORDR
+                            , MAIN_EXPSR_AT_1
+                            , MAIN_EXPSR_AT_2
                             , VOCHR_TICKET_TY
                             , VOCHR_NTSS_REQRE_TIME
                             , VOCHR_USE_MTH
@@ -179,8 +189,11 @@
                             , #FILE_CODE#
                             , #ACT_LA#
                             , #ACT_LO#
+                            , #CL_SE#
                             , NVL(#STAYNG_FCLTY_AT#, 'N')
                             , NVL(#SORT_ORDR#, (SELECT MAX(SORT_ORDR)+1 FROM TB_GOODS WHERE CL_CODE = #CL_CODE#))
+                            , NVL(#MAIN_EXPSR_AT_1#, 'N')
+                            , NVL(#MAIN_EXPSR_AT_2#, 'N')
                             , DECODE(#VOCHR_TICKET_TY#, '선택', '', #VOCHR_TICKET_TY#)
                             , #VOCHR_NTSS_REQRE_TIME#
                             , #VOCHR_USE_MTH#
@@ -252,8 +265,11 @@
              , MVMN_TIME             = LPAD(#MVMN_HOUR#, 2, '0')||LPAD(#MVMN_MINUTE#, 2, '0')
              , ACT_LA                = #ACT_LA#
              , ACT_LO                = #ACT_LO#
+             , CL_SE                 = #CL_SE#
              , STAYNG_FCLTY_AT       = #STAYNG_FCLTY_AT#
              , SORT_ORDR             = #SORT_ORDR#
+             , MAIN_EXPSR_AT_1       = NVL(#MAIN_EXPSR_AT_1#, 'N')
+             , MAIN_EXPSR_AT_2       = NVL(#MAIN_EXPSR_AT_2#, 'N')
              , VOCHR_TICKET_TY       = DECODE(#VOCHR_TICKET_TY#, '선택', '', #VOCHR_TICKET_TY#)
              , VOCHR_NTSS_REQRE_TIME = #VOCHR_NTSS_REQRE_TIME#
              , VOCHR_USE_MTH         = #VOCHR_USE_MTH#
@@ -345,7 +361,10 @@
              , CTY_CODE
              , (SELECT C.CTY_NM FROM TB_CTY C WHERE A.CTY_CODE = C.CTY_CODE) CTY_NM             
              , STAYNG_FCLTY_AT
+             , CL_SE
              , SORT_ORDR
+             , MAIN_EXPSR_AT_1
+             , MAIN_EXPSR_AT_2
              , VOCHR_TICKET_TY
              , VOCHR_NTSS_REQRE_TIME
              , VOCHR_USE_MTH
@@ -399,6 +418,7 @@
              , CTY_CODE
              , (SELECT X.CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE AND X.NATION_CODE <> '00000') CTY_NM             
              , STAYNG_FCLTY_AT
+             , CL_SE
              , SORT_ORDR
              , FILE_CODE
              , DELETE_AT

@@ -179,14 +179,14 @@ public class CartController {
 
 		return "gnrl/cart/detail";
 	}
-
+/*
 	@RequestMapping(value="/addAction/")
 	public ResponseEntity<String> addAction(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		ResponseEntity<String> entity = null;
 		JSONObject obj = new JSONObject();
 		UserUtils.log("[addCart-param]", param);
 
-/*		[addCart-param] ==================== log start ==============================
+		[addCart-param] ==================== log start ==============================
 		[addCart-param] hidPage             : 
 		[addCart-param] hidGoodsCode        : 0000000092
 		[addCart-param] hidUpperClCode      : 00042
@@ -202,8 +202,8 @@ public class CartController {
 		[addCart-param] hidNmprSn           : 1
 		[addCart-param] txtPay              : ₩310,000
 		[addCart-param] ==================== log end ================================		
-*/		
-/*		[addCart-param] ==================== log start ==============================
+		
+		[addCart-param] ==================== log start ==============================
 		[addCart-param] hidPage             :
 		[addCart-param] hidGoodsCode        : 0000000002
 		[addCart-param] hidUpperClCode      : 00005@00002@00004@00003@
@@ -216,7 +216,7 @@ public class CartController {
 		[addCart-param] hidPayment          : 120000
 		[addCart-param] hidNmprSn           : 1
 		[addCart-param] txtPay              : ₩ 2400000
-		[addCart-param] ==================== log end ================================*/
+		[addCart-param] ==================== log end ================================
 
 
 		try { 
@@ -282,7 +282,7 @@ public class CartController {
 			retValue = "0";
 			
 			
-/*			[addCard-map] ==================== log start ==============================
+			[addCard-map] ==================== log start ==============================
 			[addCard-map] chckt_de            : 
 			[addCard-map] chkin_de            : 
 			[addCard-map] nmpr_list           : [{nmpr_co=2, nmpr_sn=1}]
@@ -294,8 +294,8 @@ public class CartController {
 			[addCard-map] stayng_fclty_at     : N
 			[addCard-map] esntl_id            : GNRL0000000000000081
 			[addCard-map] ==================== log end ================================			
-*/			
-/*			[addCard-map] ==================== log start ==============================
+			
+			[addCard-map] ==================== log start ==============================
 			[addCard-map] chckt_de            :
 			[addCard-map] chkin_de            :
 			[addCard-map] nmpr_list           : [{nmpr_co=2, nmpr_sn=1}]
@@ -304,8 +304,8 @@ public class CartController {
 			[addCard-map] end_time            : 1600
 			[addCard-map] goods_code          : 0000000022
 			[addCard-map] esntl_id            : GNRL0000000000000081
-			[addCard-map] ==================== log end ================================*/
-/*			[addCard-map] ==================== log start ==============================
+			[addCard-map] ==================== log end ================================
+			[addCard-map] ==================== log start ==============================
 			[addCard-map] chckt_de            : 20170831
 			[addCard-map] chkin_de            : 20170821
 			[addCard-map] nmpr_list           : [{nmpr_co=2, nmpr_sn=1}]
@@ -314,10 +314,10 @@ public class CartController {
 			[addCard-map] end_time            :
 			[addCard-map] goods_code          : 0000000002
 			[addCard-map] esntl_id            : GNRL0000000000000081
-			[addCard-map] ==================== log end ================================*/
+			[addCard-map] ==================== log end ================================
 			
 			// 2017-09-14 일정체크 안함
-			/* 숙박
+			 숙박
 			if(UserUtils.nvl(param.get("hidStayngFcltyAt")).equals("Y")) {
 				// 상품조건이 맞는지 확인
 				HashMap mapGoods = cartService.getCartValidCnfirm(map); // 일정
@@ -406,7 +406,7 @@ public class CartController {
 						}
 					}
 				}
-			}*/
+			}
 		}
 		
 		LOG.debug("[addCard]retValue:"+retValue);
@@ -487,7 +487,7 @@ public class CartController {
 			cartService.updateCart(map);
 			retValue = "0";
 			
-			/* 2017-09-14 일정체크 안함
+			 2017-09-14 일정체크 안함
 			// 숙박
 			if(UserUtils.nvl(request.getParameter("hidStayngFcltyAt")).equals("Y")) {
 				// 상품조건이 맞는지 확인
@@ -570,7 +570,7 @@ public class CartController {
 						}
 					}
 				}
-			}*/
+			}
 		}
 
 		LOG.debug("[modCard]retValue:"+retValue);
@@ -582,7 +582,7 @@ public class CartController {
 		return entity;
 	}
 
-	@RequestMapping(value="/delAction/")
+*/	@RequestMapping(value="/delAction/")
 	public void delAction(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
@@ -622,7 +622,7 @@ public class CartController {
 		}
 
 		obj.put("result", retValue);
-		System.out.println("cart_obj:"+obj);
+		
 		entity = new ResponseEntity<String>(obj.toString(), responseHeaders, HttpStatus.CREATED);
 
 		return entity;

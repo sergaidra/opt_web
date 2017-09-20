@@ -9,7 +9,7 @@ function fn_search() {
 
 Ext.define('TourClInfo', {
     extend: 'Ext.data.Model',
-    fields: ['CL_CODE', 'CL_NM', 'UPPER_CL_CODE', 'STAYNG_FCLTY_AT', 'FILE_CODE', 'FILE_NM', 'SORT_ORDR', 'DELETE_AT', 'DC', 'WRITNG_DE', 'UPDT_DE', 'CF_CNT', 'CRUD']
+    fields: ['CL_CODE', 'CL_NM', 'UPPER_CL_CODE', 'CL_SE', 'FILE_CODE', 'FILE_NM', 'SORT_ORDR', 'DELETE_AT', 'DC', 'WRITNG_DE', 'UPDT_DE', 'CF_CNT', 'CRUD']
 });
 
 var comboDeleteAt = new Ext.create('Ext.form.ComboBox', {
@@ -29,13 +29,14 @@ var comboDeleteAt = new Ext.create('Ext.form.ComboBox', {
 	emptyText: '선택'
 });
 
-var comboStayngAt = new Ext.create('Ext.form.ComboBox', {
+var comboClSe = new Ext.create('Ext.form.ComboBox', {
 	store: new Ext.create('Ext.data.ArrayStore', {
 		fields:['code', 'name'],
 		data :[
-	        ['N', '아니오'],
-	        ['Y', '예']
-	    ]
+			['G', '일반상품'],
+			['S', '숙박'],
+			['P', '픽업/드랍']
+		]
 	}),
 	displayField: 'name',
 	valueField: 'code',
@@ -43,6 +44,7 @@ var comboStayngAt = new Ext.create('Ext.form.ComboBox', {
 	typeAhead: false,
 	triggerAction: 'all',
 	lazyRender: true,
+	editable: false,
 	emptyText: '선택'
 });
 
@@ -172,7 +174,7 @@ var frCond = Ext.create('Ext.form.Panel', {
 						CL_CODE : '',
 						CL_NM : '',
 						UPPER_CL_CODE : '00000',
-						STAYNG_FCLTY_AT : 'N',
+						CL_SE : 'G',
 						FILE_CODE : '',
 						FILE_NM : '',
 						SORT_ORDR : '',
@@ -321,12 +323,12 @@ var grid = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: false, maxLength: 23, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'DC'
 	},{
-		text: '숙박시설여부',
+		text: '분류구분',
 		width: 100,
 		align: 'center',
-		editor: comboStayngAt,
-		dataIndex: 'STAYNG_FCLTY_AT',
-		renderer: Ext.ux.comboBoxRenderer(comboStayngAt) 
+		editor: comboClSe,
+		dataIndex: 'CL_SE',
+		renderer: Ext.ux.comboBoxRenderer(comboClSe) 
 	},{
 		text: '정렬순서',
 		width: 100,

@@ -8,17 +8,25 @@
     <insert id="GoodsNmprDAO.insertGoodsNmpr" parameterClass="hashMap">
     <![CDATA[
         INSERT INTO TB_GOODS_NMPR( GOODS_CODE
+                                 , SETUP_SE
                                  , NMPR_SN
                                  , NMPR_CND
+                                 , FIXED_AT
                                  , SETUP_AMOUNT
+                                 , SETUP_RATE
+                                 , NMPR_CO
                                  , SORT_ORDR
                                  , DELETE_AT
                                  , WRITNG_ID
                                  , WRITNG_DT )
                            VALUES( #GOODS_CODE#
-                                 , (SELECT NVL(MAX(NMPR_SN), 0)+1 FROM TB_GOODS_NMPR WHERE GOODS_CODE = #GOODS_CODE#)
+                                 , #SETUP_SE#
+                                 , (SELECT NVL(MAX(NMPR_SN), 0)+1 FROM TB_GOODS_NMPR WHERE GOODS_CODE = #GOODS_CODE# AND SETUP_SE = #SETUP_SE#)
                                  , #NMPR_CND#
+                                 , NVL(#FIXED_AT#, 'Y')
                                  , REPLACE(#SETUP_AMOUNT#, ',', '')
+                                 , #SETUP_RATE# * 0.01
+                                 , #NMPR_CO#
                                  , #SORT_ORDR#
                                  , 'N'
                                  , #WRITNG_ID#
@@ -32,10 +40,13 @@
            SET UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
              , NMPR_CND = #NMPR_CND#
+             , FIXED_AT = #FIXED_AT#
              , SETUP_AMOUNT = #SETUP_AMOUNT#
+             , SETUP_RATE = #SETUP_RATE# * 0.01
              , SORT_ORDR = #SORT_ORDR#
              , DELETE_AT = #DELETE_AT#
          WHERE GOODS_CODE = #GOODS_CODE#
+           AND SETUP_SE = #SETUP_SE#  
            AND NMPR_SN = #NMPR_SN#
     ]]>
     </update>
@@ -47,6 +58,7 @@
              , UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
          WHERE GOODS_CODE = #GOODS_CODE#
+           AND SETUP_SE = #SETUP_SE#
            AND NMPR_SN = #NMPR_SN#
     ]]>
     </delete>
@@ -54,16 +66,22 @@
     <select id="GoodsNmprDAO.selectGoodsNmprByPk" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
         SELECT GOODS_CODE
+             , SETUP_SE
              , NMPR_SN
              , NMPR_CND
+             , FIXED_AT
              , SETUP_AMOUNT
-             , DELETE_AT
+             , SETUP_RATE * 100 SETUP_RATE
+             , NMPR_CO
              , SORT_ORDR
+             , DELETE_AT
              , WRITNG_ID
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+             , UPDT_ID
              , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
           FROM TB_GOODS_NMPR
          WHERE GOODS_CODE = #GOODS_CODE#
+           AND SETUP_SE = #SETUP_SE#
            AND NMPR_SN = #NMPR_SN#
     ]]>
     </select>
@@ -71,23 +89,25 @@
     <select id="GoodsNmprDAO.selectGoodsNmprList" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
         SELECT GOODS_CODE
+             , SETUP_SE
              , NMPR_SN
              , NMPR_CND
+             , FIXED_AT
              , SETUP_AMOUNT
-             , DELETE_AT
+             , SETUP_RATE * 100 SETUP_RATE
+             , NMPR_CO
              , SORT_ORDR
+             , DELETE_AT
              , WRITNG_ID
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+             , UPDT_ID
              , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
           FROM TB_GOODS_NMPR
          WHERE GOODS_CODE = #GOODS_CODE# ]]>
         <isNotEmpty property="DELETE_AT">
-        <isEqual property="DELETE_AT" compareValue="N">
-           AND DELETE_AT = 'N'
-        </isEqual>
+		   AND DELETE_AT = #DELETE_AT#
         </isNotEmpty>
-           AND DELETE_AT = 'N'
-         ORDER BY SORT_ORDR
+		 ORDER BY DELETE_AT, SETUP_SE DESC, SORT_ORDR        
     </select>
 
 </sqlMap>

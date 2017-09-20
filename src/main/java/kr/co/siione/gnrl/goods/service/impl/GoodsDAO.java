@@ -50,6 +50,10 @@ public class GoodsDAO extends EgovComAbstractDAO {
 		return list("gnrl.goods.selectGoodsNmprList", map);
 	}
 	
+	public List selectGoodsNmprBySetupSeList(HashMap map) throws Exception {
+		return list("gnrl.goods.selectGoodsNmprBySetupSeList", map);
+	}
+	
 	public List selectGoodsTimeList(HashMap map) throws Exception {
 		return list("gnrl.goods.selectGoodsTimeList", map);
 	}	

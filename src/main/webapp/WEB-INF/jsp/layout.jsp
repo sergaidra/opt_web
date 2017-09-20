@@ -194,6 +194,9 @@ var fnFlightInfo = function(){
 		success : function(json) {
 			if(json.result == "0") {
 				var flight = json.flight;
+				console.log(flight.FLIGHT_SN);
+				$('#frmLayout [name="hidFlightSn"]').val(flight.FLIGHT_SN);
+				
 				if(flight) {
 					var str1= '<div class="area_airset_01">'+'<p class="air_areatit">'
 							+ '<span class="air_from_tit">출발</span><a href="javascript:fnFlightPopup();"><span class="setting"></span></a>'
@@ -354,6 +357,7 @@ function fnFlightPopup() {
 <form name="frmLayout" id="frmLayout" method="post">
 	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode">
 	<input type="hidden" id="hidCartSn" name="hidCartSn">
+	<input type="hidden" id="hidFlightSn" name="hidFlightSn">
 </form>
 <input type="hidden" id="hidLayout" name="hidLayout" value="Y">
 </body>

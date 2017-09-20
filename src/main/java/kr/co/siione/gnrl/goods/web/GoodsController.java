@@ -150,8 +150,28 @@ public class GoodsController {
     	map.put("goods_code", goods_code);
     	HashMap result = goodsService.getGoodsDetail(map);
     	//List<HashMap> clList = goodsService.getGoodsClList(map);
+    	
+    	HashMap mapT = new HashMap();
+    	mapT.put("goods_code", goods_code);
+    	List<HashMap> nmprList = null;
+    	List<HashMap> roomList = null;
+    	List<HashMap> eatList = null;
+    	List<HashMap> checkList = null;
+    	
+    	if(UserUtils.nvl(result.get("CL_SE")).equals("S")) {
+    		mapT.put("setup_se", "R");
+    		roomList = goodsService.getGoodsNmprBySetupSeList(mapT);
+    		mapT.put("setup_se", "E");
+    		eatList = goodsService.getGoodsNmprBySetupSeList(mapT);
+    		mapT.put("setup_se", "C");
+    		checkList = goodsService.getGoodsNmprBySetupSeList(mapT);
+    	} else {
+    		mapT.put("setup_se", "P");
+    		nmprList = goodsService.getGoodsNmprBySetupSeList(mapT);
+    	}
+    	
+    	//List<HashMap> nmprList = goodsService.getGoodsNmprList(map);    	
     	List<HashMap> schdulList = goodsService.getGoodsSchdulList(map);
-    	List<HashMap> nmprList = goodsService.getGoodsNmprList(map);
     	List<HashMap> timeList = goodsService.getGoodsTimeList(map);
     	
     	map.put("file_code", result.get("FILE_CODE"));
@@ -169,9 +189,16 @@ public class GoodsController {
         model.addAttribute("result", result);
         //model.addAttribute("clList", clList);
         model.addAttribute("schdulList", schdulList);
-        model.addAttribute("nmprList", nmprList);
         model.addAttribute("timeList", timeList);
         model.addAttribute("fileList", fileList);
+        
+        if(UserUtils.nvl(result.get("CL_SE")).equals("S")) {
+        	model.addAttribute("roomList", roomList);
+        	model.addAttribute("eatList", eatList);
+        	model.addAttribute("checkList", checkList);
+        } else {
+        	model.addAttribute("nmprList", nmprList);
+        }
         
         model.addAttribute("today", UserUtils.getDate("yyyy-MM-dd"));
 

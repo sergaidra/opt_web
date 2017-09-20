@@ -66,7 +66,7 @@
 
 		// 날짜 선택
 		$(".btn_op_calendar").click(function(){
-			fnCalendarPopup('TOUR_DE', '${result.CF_MIN_BEGIN_DE}', '${result.CF_MAX_END_DE}');
+			fnCalendarPopup('txtDate', '${result.CF_MIN_BEGIN_DE}', '${result.CF_MAX_END_DE}');
 		});
 
 		// 금액 선택
@@ -82,7 +82,7 @@
 			iframeMainPhoto.fnSelPhoto($(this).index());
 		});
 
-		$("#TOUR_RANGE_DE").daterangepicker({
+		$("#txtDateRange").daterangepicker({
 			initialText : '기간을 선택하세요.',
 			applyButtonText: '선택', // use '' to get rid of the button
 			clearButtonText: '초기화', // use '' to get rid of the button
@@ -98,11 +98,11 @@
 			}
 		});
 
-		$("#TOUR_RANGE_DE").on('change', function(event) {
-			if($("#TOUR_RANGE_DE").val()) {
-				var __val =  jQuery.parseJSON($("#TOUR_RANGE_DE").val());
-				$("#CHKIN_DE").val(__val.start);
-				$("#CHCKT_DE").val(__val.end);
+		$("#txtDateRange").on('change', function(event) {
+			if($("#txtDateRange").val()) {
+				var __val =  jQuery.parseJSON($("#txtDateRange").val());
+				$("#hidChkinDe").val(__val.start);
+				$("#hidChcktDe").val(__val.end);
 
 				var arr1 = __val.start.split('-');
 				var arr2 = __val.end.split('-');
@@ -113,19 +113,19 @@
 				var diff = dat2.getTime() - dat1.getTime() ;
 				var currDay = 24 * 60 * 60 * 1000;
 
-				$("#DAYS_CO").val(diff/currDay);
+				$("#hidDateCount").val(diff/currDay);
+				$("#hidNmprCo").val(diff/currDay);
 			} else {
-				$("#CHKIN_DE").val('');
-				$("#CHCKT_DE").val('');
-				$("#DAYS_CO").val('0');
-				fnInitTour();
+				$("#hidChkinDe").val('');
+				$("#hidChcktDe").val('');
+				$("#hidDateCount").val('0');
+				$("#hidNmprCo").val('0');
 			}
-			
-			fnSetCart();
+			fnChangeNmprStay();
 		});
 
 		$("#btn_op_calendar_range").click(function(){
-			$("#TOUR_RANGE_DE").daterangepicker("open");
+			$("#txtDateRange").daterangepicker("open");
 		});
 	});
 
@@ -149,49 +149,111 @@
 		form.submit();
 	}
 
-	function fnAddCart(){
-		if($('#hidClSe').val() == 'S') {
-			if(!$('#TOUR_RANGE_DE').val()) {
-				alert('기간을 선택하세요.');
-				return;
-			}
-			
-			if($('#R_NMPR') && !$('#R_NMPR').val()) {
-				alert('객실을 선택하세요.');
-				return;				
-			}
+	/* function fnNmprChange(){
+		var form = $("form[id=frmDetail]");
+
+		var payment = 0;
+		if("${result.STAYNG_FCLTY_AT}" == "Y") {
+			$("select[name=hidNmprCo]").each(function() {
+				payment += $("input:hidden[id="+ this.id +"]").val() * this.value;
+			});
+			payment = payment * parseInt($("#hidDateCount").val());
 		} else {
-			if( !$('#TOUR_DE').val().replace('일정을 선택하세요.', '')) {
-				alert('일정을 선택하세요.');
+			$("select[name=hidNmprCo]").each(function() {
+				payment += $("input:hidden[id="+ this.id +"]").val() * this.value;
+			});
+		}
+
+		$("input:text[id=txtPay]").val("₩ "+payment);
+	} */
+
+	function fnChangeNmpr(div, sn, amount) {
+		var cnt = parseInt(uncomma($("#spanNmprSn_"+sn).text()), 10);
+		var sum = parseInt(uncomma($("#spanNmprAmount_"+sn).text()), 10);
+		var total = parseInt(uncomma($("#txtPay").val().replace("₩","")), 10);
+
+		if(cnt == 0 && div == '-') {
+			return;
+		}
+
+		if(div == '+') {
+			cnt++;
+			sum += parseInt(amount, 10);
+			total += parseInt(amount, 10);
+		} else {
+			cnt--;
+			sum -= parseInt(amount, 10);
+			total -= parseInt(amount, 10);
+		}
+
+		$("#hidNmprCo_"+sn).val(cnt);
+		$("#spanNmprSn_"+sn).html(comma(cnt));
+		$("#spanNmprAmount_"+sn).html(comma(sum));
+		$("#txtPay").val("₩"+comma(total));
+	}
+
+	function fnChangeNmprStay() {
+		var form = $("form[id=frmDetail]");
+		var days = parseInt($("input:hidden[name=hidDateCount]").val(), 10);
+		var total = 0;
+
+		$("select[name=selNmprSn]").each(function() {
+			if(this.value) {
+				var arr = this.value.split(","); // sn:arr[0], amount:arr[1]
+
+				total = parseInt(arr[1], 10) * days;
+
+				$("#txtPay").val("₩"+comma(total));
+				$("#hidNmprSn").val(arr[0]);
+			} else {
+				$("#txtPay").val("₩0");
+			}
+		});
+	}
+
+	function fnAddCart(){
+		if("${result.STAYNG_FCLTY_AT}" == "N") {
+			var strDate = $("input:text[id=txtDate]").val();
+			if(strDate.length!=10){
+				alert(strDate);
 				return;
-			}
-			
-			if($('#hidClSe').val() == 'P' && !$('#frmLayout [name="hidFlightSn"]').val()) {
-				if(confirm('픽업/드랍 서비스는 항공편을 반드시 입력해야 합니다.')) {
-					fnOpenPopup("<c:url value='/cart/flightPopup/'/>", "winFightPopup", 750, 550);
-					return;
-				}
-			}
-			
-			if(!$('#TOUR_TIME').val()) {
-				alert('시간을 선택하세요.');
-				return;				
 			}
 
-			var re = false;
-			$("input[name='CART_NMPR_CO']").each(function(i) {
-				var div = $(this).attr('id').substring(0, 1);
-				if(div == 'P') {
-					if($(this).val() > 0) {
-						re = true;
-					}				
-				}
-			});
-			
-			if(!re) {
-				alert('인원을 선택하세요.');
-				return;	
+			var chkTimeVal = $("#selTime option:selected").val();
+			if(!chkTimeVal) {
+				alert("시간을 선택하세요");
+				return;
 			}
+		} else if("${result.STAYNG_FCLTY_AT}" == "Y") {
+			var strDate = $("input:hidden[id=hidChkinDe]").val();
+			if(strDate.length!=10){
+				alert("일정을 선택하세요.");
+				return;
+			}
+
+			strDate = $("input:hidden[id=hidChcktDe]").val();
+			if(strDate.length!=10){
+				alert("일정을 선택하세요.");
+				return;
+			}
+
+			if(!$("#hidNmprSn").val()) {
+				alert("객실을 선택하세요.");
+				return;
+			}
+		}
+
+		var totCo = 0;
+		$("input:hidden[name=hidNmprCo]").each(function() {
+			totCo+=this.value
+		});
+		if(totCo < 1){
+			if("${result.STAYNG_FCLTY_AT}" == "N") {
+				alert("인원을 입력하세요.");
+			} else {
+				alert("일정을 선택하세요.");
+			}
+			return;
 		}
 
 		var form_data = $("form[id=frmDetail]").serialize();
@@ -231,115 +293,6 @@
 			}
 		});
 	}
-
-	function fnSetCart(){
-		var div = '';
-		var idx = '';  
-		var str = '';
-		var sum = 0;
-		var tot = 0;
-		$("input[name='CART_NMPR_CO']").each(function(i) {
-			if($("input[name='CART_NMPR_CO']").eq(i).val() > 0) {
-				var id = $("input[name='CART_NMPR_CO']").eq(i).attr('id');
-				div = id.substring(0, 1);
-				idx = id.substring(id.lastIndexOf('_')+1);
-	
-				if(div == 'P') {
-					sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#'+div+'_CART_NMPR_CO_'+idx).val(),10);
-	//				tot += sum;
-					str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' +  comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#'+div+'_CART_NMPR_CO_'+idx).val();
-	//					+ ' => ' + "₩"+comma(sum) 
-	//					+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a><br>';
-				} else if(div == 'R') {
-					$('#TEMP_NMPR_CO').val($('#'+div+'_GOODS_NMPR_CO_'+idx).val());
-					$('#TEMP_SETUP_AMOUNT').val($('#'+div+'_SETUP_AMOUNT_'+idx).val());
-					sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10); 
-					str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#DAYS_CO').val();
-				} else if(div == 'E') {
-					sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10) * parseInt($('#TEMP_NMPR_CO').val(), 10); 
-					str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#TEMP_NMPR_CO').val() + ' * ' + $('#DAYS_CO').val();
-				} else if(div == 'C') {
-					if($('#'+div+'_FIXED_AT_'+idx).val() == 'Y') {
-						sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10);
-						str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +')';					
-					} else {
-						sum = parseInt($('#TEMP_SETUP_AMOUNT').val(), 10) * parseFloat($('#'+div+'_SETUP_RATE_'+idx).val());
-						var tmp = parseFloat($('#'+div+'_SETUP_RATE_'+idx).val()) * 100;
-						console.log('비율 sum:'+sum);
-						str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#TEMP_SETUP_AMOUNT').val()) +') * ' + tmp + '%';					
-					}
-				}
-	
-				tot += sum;
-				str += ' => ' + "₩"+comma(sum) 
-					+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a><br>';
-			}
-	    });
-		
-		console.log('str:'+str);
-		$('#divCartDesc').html(str);
-		$('#PURCHS_AMOUNT').val("₩"+comma(tot));
-	}
-	
-	function fnAdd(div, objId){
-		var idx = $("#"+objId).val();
-		var cnt = parseInt($('#'+div+'_CART_NMPR_CO_'+idx).val(), 10) + 1;
-		$('#'+div+'_CART_NMPR_CO_'+idx).val(cnt);
-		fnSetCart();
-	}
-	
-	function fnMinus(div, idx) {
-		if(div != 'P') {
-			$('#'+div+'_NMPR').val('');
-		}	
-		
-		if(div == 'R') {
-			fnInitTour();
-		} else {
-			var cnt = parseInt($('#'+div+'_CART_NMPR_CO_'+idx).val(), 10) - 1;
-			$('#'+div+'_CART_NMPR_CO_'+idx).val(cnt);
-		}
-		
-		fnSetCart();
-	}
-	
-	function fnInitTour() {
-		$('#R_NMPR').val('');
-		$('#E_NMPR').val('');
-		$('#C_NMPR').val('');
-		
-		$("input[name='CART_NMPR_CO']").each(function(i) {
-			$(this).val('0');
-		});
-		
-		$('#TEMP_NMPR_CO').val('0');
-		$('#TEMP_SETUP_AMOUNT').val('0');
-	}
-	
-	function fnChange(div, objId) {
-		if($('#DAYS_CO').val() == '0') {
-			alert('기간을 선택하세요.');
-			$('#'+objId).val('');
-			return;
-		}
-		
-		if((div == 'E' || div == 'C') && $('#R_NMPR').val() == '') {
-			alert('객실을 선택하세요.');
-			$('#'+objId).val('');
-			return;
-		}
-	
-		$("input[name='CART_NMPR_CO']").each(function(i) {
-			if($(this).attr('id').substr(0, 2) == div+'_') {
-				$("input[name='CART_NMPR_CO']").eq(i).val('0');
-			}
-	    });
-		
-		var idx = $("#"+objId).val();
-		$('#'+div+'_CART_NMPR_CO_'+idx).val('1');
-		
-		fnSetCart();
-	}
 </script>
 </head>
 <body>
@@ -349,65 +302,8 @@
 <input type="hidden" id="hidUpperClCode" name="hidUpperClCode" value="${hidUpperClCode}">
 <input type="hidden" id="hidUpperClCodeNavi" name="hidUpperClCodeNavi" value="${hidUpperClCodeNavi}">
 <input type="hidden" id="hidStayngFcltyAt" name="hidStayngFcltyAt" value="${result.STAYNG_FCLTY_AT}">
-<input type="hidden" id="hidClSe" name="hidClSe" value="${result.CL_SE}">
 <input type="hidden" id="hidWaitTime" name="hidWaitTime" value="${result.WAIT_TIME}">
 <input type="hidden" id="hidMvmnTime" name="hidMvmnTime" value="${result.MVMN_TIME}">
-<br>
-<c:forEach var="list" items="${nmprList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
-</c:forEach>
-<c:forEach var="list" items="${roomList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
-</c:forEach>
-<c:forEach var="list" items="${eatList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
-</c:forEach>
-<c:forEach var="list" items="${checkList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
-</c:forEach>
-
-<c:if test="${result.CL_SE eq 'S'}">
-<input type="hidden" name="CHKIN_DE" id="CHKIN_DE">
-<input type="hidden" name="CHCKT_DE" id="CHCKT_DE">
-<input type="hidden" name="DAYS_CO" id="DAYS_CO" value="0">
-<input type="hidden" name="TEMP_NMPR_CO" id="TEMP_NMPR_CO" value="0">
-<input type="hidden" name="TEMP_SETUP_AMOUNT" id="TEMP_SETUP_AMOUNT" value="0">
-</c:if>
-
-
-
 <div class="location">
 	<p class="loc_area">
 		홈<span class="arrow_loc"></span>투어상품
@@ -436,60 +332,62 @@
 					</ul>
 					<span class="txt_ranking">8.8</span>
 					<ul id="num_area">
-						<c:if test="${result.CL_SE ne 'S'}">
+						<c:if test="${result.STAYNG_FCLTY_AT eq 'N'}">
 						<li class="num01">날짜
-							<input type="text" name="TOUR_DE" id="TOUR_DE" class="input_datebox" value="일정을 선택하세요." readonly onfocus="this.blur()">
+							<input type="text" name="txtDate" id="txtDate" class="input_datebox" value="일정을 선택하세요" readonly onfocus="this.blur()">
 							<span class="btn_op_calendar" id="btn_op_calendar"></span>
 						</li>
 						<li class="num02">시간
-							<select name="TOUR_TIME" id="TOUR_TIME" class="time_sbox">
+							<select name="selTime" id="selTime" class="time_sbox">
 								<option value="">선택</option>
 							<c:forEach var="list" items="${timeList}" varStatus="status">
 								<option value="${list.TOUR_TIME}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~ ${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</option>
 							</c:forEach>
 							</select>
+							<input type="hidden" name="txtTime" id="txtTime" style="width:150px;height:25px;text-align:center;font-size:13px;" value="시간을 선택하세요" readonly onfocus="this.blur()">
+							<input type="hidden" name="hidTime" id="hidTime">
 						</li>
-						<li class="num03">인원
-							<select name="P_NMPR" id="P_NMPR" class="time_sbox">
-								<option value="">선택</option><c:forEach var="list" items="${nmprList}" varStatus="status">
-								<option value="${status.index}">${list.NMPR_CND}</option>
-							</c:forEach></select>
-							<a href='#' onclick='fnAdd("P", "P_NMPR");return false;' class="btn_add_selected">+</a>
+						<li class="num03">인원 선택
+							<span class="btn_arrow_down"></span>
+							<div id="num3_dropdown01">
+							<c:forEach var="list" items="${nmprList}" varStatus="status">
+							<input type="hidden" name="hidNmprCo" id="hidNmprCo_${list.NMPR_SN}" value="0">
+							<input type="hidden" name="hidNmprSn" id="hidNmprSn" value="${list.NMPR_SN}">
+							<p class="n3_lst">
+								${list.NMPR_CND} <span class="yellow"><span id="spanNmprSn_${list.NMPR_SN}">0</span></span>명 <span class="yellow"><span id="spanNmprAmount_${list.NMPR_SN}">0</span></span>원
+								<a href='#' onclick='fnChangeNmpr("+", "${list.NMPR_SN}", "${list.SETUP_AMOUNT}");return false;' class="btn_add_selected">+</a>
+								<a href="#" onclick='fnChangeNmpr("-", "${list.NMPR_SN}", "${list.SETUP_AMOUNT}");return false;' class="btn_add">-</a>
+							</p>
+							</c:forEach>
+							</div>
 						</li>
 						</c:if>
-						<c:if test="${result.CL_SE eq 'S'}">
+						<c:if test="${result.STAYNG_FCLTY_AT eq 'Y'}">
 						<li class="num01">날짜
-							<input type="text" name="TOUR_RANGE_DE" id="TOUR_RANGE_DE" class="input_datebox2" size="15">
+							<input type="text" name="txtDateRange" id="txtDateRange" class="input_datebox2" size="15">
 							<span class="btn_op_calendar" id="btn_op_calendar_range"></span>
+							<input type="hidden" name="hidDateCount" id="hidDateCount" value="0">
+							<input type="hidden" name="hidChkinDe" id="hidChkinDe">
+							<input type="hidden" name="hidChcktDe" id="hidChcktDe">
 						</li>
 						<li class="num02">객실
-							<select name="R_NMPR" id="R_NMPR" class="time_sbox" onchange="fnChange('R', 'R_NMPR');this.blur();">
-								<option value="">선택</option><c:forEach var="list" items="${roomList}" varStatus="status">
-								<option value="${status.index}">${list.NMPR_CND}</option>
-							</c:forEach></select>
+							<select name="selNmprSn" id="selNmprSn" class="time_sbox" onchange="fnChangeNmprStay();">
+								<option value="">선택</option>
+							<c:forEach var="list" items="${nmprList}" varStatus="status">
+								<option value="${list.NMPR_SN},${list.SETUP_AMOUNT}">${list.NMPR_CND} (₩<fmt:formatNumber value="${list.SETUP_AMOUNT}" pattern="#,###,###" />)</option>
+							</c:forEach>
+							</select>
+							<input type="hidden" name="hidNmprSn" id="hidNmprSn">
+							<input type="hidden" name="hidNmprCo" id="hidNmprCo">
 						</li>
-						<c:if test="${fn:length(eatList) > 0}">
-						<li class="num03">식사
-							<select name="E_NMPR" id="E_NMPR" class="time_sbox" onchange="fnChange('E', 'E_NMPR');this.blur();">
-								<option value="">선택</option><c:forEach var="list" items="${eatList}" varStatus="status">
-								<option value="${status.index}">${list.NMPR_CND}</option>
-							</c:forEach></select>
-						</li></c:if>
-						<c:if test="${fn:length(checkList) > 0}">
-						<li class="num04">옵션
-							<select name="C_NMPR" id="C_NMPR" class="time_sbox" onchange="fnChange('C', 'C_NMPR');this.blur();">
-								<option value="">선택</option><c:forEach var="list" items="${checkList}" varStatus="status">
-								<option value="${status.index}">${list.NMPR_CND}</option>
-							</c:forEach></select>
-						</li></c:if>
 						</c:if>
-					<li>
-					<div id="divCartDesc">
-					</div>
-					</li>						
+						<!--
+						<li class="num04">픽업<span class="btn_arrow_down"></span></li>
+						<li class="num05">인원<span class="btn_arrow_down"></span></li>
+						-->
 					</ul>
 					<p id="price">
-						<input type="text" name="PURCHS_AMOUNT" id="PURCHS_AMOUNT" class="txt_price" value="₩0" readonly onfocus="this.blur()">&nbsp;&nbsp;
+					<input type="text" name="txtPay" id="txtPay" class="txt_price" value="₩0" readonly onfocus="this.blur()">&nbsp;&nbsp;
 					</p>
 					<p id="btn_save_reserv">예약하기</p>
 				</div>

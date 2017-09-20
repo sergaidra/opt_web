@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>OnePassTour</title>
+<title>관리자모드</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/extjs/resources/ext-theme-neptune/ext-theme-neptune-all.css' />">
 <script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>

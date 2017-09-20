@@ -48,7 +48,10 @@
         <result property="INTRCN_POSBL_AGE"          column="INTRCN_POSBL_AGE"          jdbcType="string" javaType="string"/>
         <result property="INTRCN_PLACE"              column="INTRCN_PLACE"              jdbcType="string" javaType="string"/>
         <result property="STAYNG_FCLTY_AT"           column="STAYNG_FCLTY_AT"           jdbcType="string" javaType="string"/>
+        <result property="CL_SE"                     column="CL_SE"                     jdbcType="string" javaType="string"/>
         <result property="SORT_ORDR"                 column="SORT_ORDR"                 jdbcType="string" javaType="string"/>
+        <result property="MAIN_EXPSR_AT_1"           column="MAIN_EXPSR_AT_1"           jdbcType="string" javaType="string"/>
+        <result property="MAIN_EXPSR_AT_2"           column="MAIN_EXPSR_AT_2"           jdbcType="string" javaType="string"/>
         <result property="CF_MIN_BEGIN_DE"           column="CF_MIN_BEGIN_DE"           jdbcType="string" javaType="string"/>
         <result property="CF_MAX_END_DE"             column="CF_MAX_END_DE"             jdbcType="string" javaType="string"/>
 	</resultMap>
@@ -139,7 +142,7 @@
 
 	<select id="gnrl.goods.selectGoodsDetail" parameterClass="hashMap" resultMap="goodsDetail"> 
 	<![CDATA[	
-	    SELECT GOODS_CODE
+        SELECT GOODS_CODE
              , GOODS_NM
              , REPLACE(REPLACE(GOODS_INTRCN,CHR(10),'<BR>'),CHR(13),' ') GOODS_INTRCN
              , DELETE_AT
@@ -157,8 +160,11 @@
              , (SELECT UPPER_CL_CODE FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE) UPPER_CL_CODE
              , CL_CODE
              , (SELECT C.CL_NM FROM TB_TOUR_CL C WHERE A.CL_CODE = C.CL_CODE) CL_NM
+             , CL_SE
              , STAYNG_FCLTY_AT
              , SORT_ORDR
+             , MAIN_EXPSR_AT_1
+             , MAIN_EXPSR_AT_2
              , VOCHR_TICKET_TY
              , VOCHR_NTSS_REQRE_TIME
              , FN_CONVERT_BR(VOCHR_USE_MTH            ) VOCHR_USE_MTH
@@ -203,14 +209,35 @@
 	</select>
 
 	<select id="gnrl.goods.selectGoodsNmprList" parameterClass="hashMap" resultClass="hashMap">
-		SELECT NMPR_SN
+		SELECT GOODS_CODE
+		     , SETUP_SE
+		     , NMPR_SN
 		     , NMPR_CND
+		     , FIXED_AT
 		     , SETUP_AMOUNT
+		     , SETUP_RATE
+		     , NMPR_CO
 		  FROM TB_GOODS_NMPR GN
 		 WHERE DELETE_AT = 'N'
 		   AND GOODS_CODE = #goods_code#
 		 ORDER BY SORT_ORDR
 	</select>
+	
+	<select id="gnrl.goods.selectGoodsNmprBySetupSeList" parameterClass="hashMap" resultClass="hashMap">
+		SELECT GOODS_CODE
+		     , SETUP_SE
+		     , NMPR_SN
+		     , NMPR_CND
+		     , FIXED_AT
+		     , SETUP_AMOUNT
+		     , SETUP_RATE
+		     , NMPR_CO
+		  FROM TB_GOODS_NMPR GN
+		 WHERE DELETE_AT = 'N'
+		   AND GOODS_CODE = #goods_code#
+		   AND SETUP_SE = #setup_se# 
+		 ORDER BY SORT_ORDR
+	</select>	
 
 	<select id="gnrl.goods.selectGoodsTimeList" parameterClass="hashMap" resultClass="hashMap">
 		SELECT TIME_SN

@@ -774,7 +774,7 @@ p.category {
 	background: #485465;
 }
 #window .area_option .option_box #num_area li .input_datebox {
-	width: 130px; 
+	width: 185px; 
 } 
 #window .area_option .option_box #num_area li .input_datebox2 {
 	width: 280px; 
@@ -785,7 +785,7 @@ p.category {
 	display: inline-block;
 	cursor: pointer;
 	text-align: center;
-	width: 219px;
+	width: 195px;
 	height: 28px; line-height: 28px; 
 	padding: 4px 0px 4px 8px;
 	margin: 0px 0px 0 8px;

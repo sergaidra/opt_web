@@ -1,5 +1,6 @@
-
 var formSave = Ext.create('Ext.form.Panel', {});
+
+var selGridNmprIdx = 0;
 
 var combo = new Ext.create('Ext.form.ComboBox', {
 	store: new Ext.create('Ext.data.ArrayStore', {
@@ -35,6 +36,86 @@ var comboYn = new Ext.create('Ext.form.ComboBox', {
 	lazyRender: true,
 	editable: false,
 	emptyText: '선택'
+});
+
+var storeSetupSe = new Ext.create('Ext.data.ArrayStore', {
+	fields:['code', 'name'],
+	data :[
+		['P', '단가(인원)'],
+		['R', '객실'],
+		['E', '식사'],
+		['C', '체크인/아웃']
+	]
+});
+
+var comboSetupSe = new Ext.create('Ext.form.ComboBox', {
+	id: 'combo-setup-se',
+	store: storeSetupSe,
+	displayField: 'name',
+	valueField: 'code',
+	mode: 'local',
+	typeAhead: false,
+	triggerAction: 'all',
+	lazyRender: true,
+	editable: false
+	//emptyText: '선택'
+	/*listeners: {
+		change : function(combo, newValue, oldValue, eOpts ) {
+			if(Ext.getCmp('form-reg-cl-se').getValue() == 'G' || Ext.getCmp('form-reg-cl-se').getValue() == 'P') {
+				if(newValue != 'P') {
+					Ext.Msg.alert('확인', '일반상품, 픽업서비스는 단가(인원)만 입력합니다.', function(){
+						combo.setValue('P');
+						return;
+					});
+				}
+			} else {
+				if(newValue == 'P') {
+					Ext.Msg.alert('확인', '숙박시설은 단가(인원)을 입력하지 않습니다.', function(){
+						combo.setValue('P');
+						return;
+					});
+				}
+			}
+		}
+	}*/
+});
+
+var comboFixedAt = new Ext.create('Ext.form.ComboBox', {
+	store: new Ext.create('Ext.data.ArrayStore', {
+		fields:['code', 'name'],
+		data :[
+			['Y', '정가'],
+			['N', '비율계산']
+		]
+	}),
+	displayField: 'name',
+	valueField: 'code',
+	mode: 'local',
+	typeAhead: false,
+	triggerAction: 'all',
+	lazyRender: true,
+	editable: false,
+	emptyText: '선택',
+	listeners: {
+		change : function(combo, newValue, oldValue, eOpts ) {
+			var sm = gridNmpr.getSelectionModel();
+			if(newValue == 'Y') {
+				//console.log('newValue:'+newValue+'/oldValue:'+oldValue);
+				sm.getSelection()[0].set('SETUP_RATE', '');
+				cellEditing3.startEditByPosition({row: selGridNmprIdx, column: 3});
+			} else {
+				if(sm.getSelection()[0].get('SETUP_SE') == 'C') {
+					sm.getSelection()[0].set('SETUP_AMOUNT', '');
+					cellEditing3.startEditByPosition({row: selGridNmprIdx, column: 4});
+				} else {
+					alert( '비율계산은 체크인/아웃만 설정 가능합니다.');
+					//Ext.Msg.alert('확인', '비율계산은 체크인/아웃만 설정 가능합니다.', function(){
+						combo.setValue(oldValue);
+					//});
+				}
+			}
+		}
+	}
 });
 
 var comboBeginTime = new Ext.create('Ext.form.ComboBox', {
@@ -442,7 +523,7 @@ var comboUpperCl = new Ext.create('Ext.form.ComboBox', {
 	labelWidth: 100,
 	store: new Ext.create('Ext.data.JsonStore', {
 		autoLoad: true,
-		fields:['CL_CODE', 'CL_NM', 'STAYNG_FCLTY_AT', 'DELETE_AT'],
+		fields:['CL_CODE', 'CL_NM', 'STAYNG_FCLTY_AT', 'CL_SE', 'DELETE_AT'],
 		proxy: {
 			type: 'ajax',
 			url: '../selectTourClUpperList/?UPPER_CL_CODE=00000',
@@ -472,7 +553,6 @@ var comboUpperCl = new Ext.create('Ext.form.ComboBox', {
 			'<div class="x-boundlist-item">{CL_NM}</div>',
 		'</tpl>',
 		'</tpl>'
-
 	),
 	// template for the content inside text field
 	displayTpl: Ext.create('Ext.XTemplate',
@@ -485,6 +565,7 @@ var comboUpperCl = new Ext.create('Ext.form.ComboBox', {
 			var rec = combo.getStore().findRecord('CL_CODE', newValue);
 			if(rec) {
 				Ext.getCmp('form-reg-stayng-fclty-at').setValue(rec.get('STAYNG_FCLTY_AT'));
+				Ext.getCmp('form-reg-cl-se').setValue(rec.get('CL_SE'));
 				Ext.getCmp('form-reg-cl-code').setValue('');
 				comboCl.getStore().load({params:{UPPER_CL_CODE:newValue}});
 			}
@@ -501,7 +582,7 @@ var comboCl = new Ext.create('Ext.form.ComboBox', {
 	width: 170,
 	store: new Ext.create('Ext.data.JsonStore', {
 		autoLoad: false,
-		fields:['CL_CODE', 'CL_NM', 'STAYNG_FCLTY_AT', 'DELETE_AT'],
+		fields:['CL_CODE', 'CL_NM', 'STAYNG_FCLTY_AT', 'CL_SE', 'DELETE_AT'],
 		proxy: {
 			type: 'ajax',
 			url: '../selectTourClUpperList/',
@@ -545,13 +626,13 @@ function fn_activeNextTab() {
 	if(Ext.getCmp('form-reg-crud-se').getValue() == 'C') {
 		Ext.Msg.confirm('확인', '상품 내용을 계속 입력하시겠습니까?', function(btn) {
 			if(btn == 'yes') {
-			    var activeTab = Ext.getCmp('reg-tabs').getActiveTab();
-			    var activeTabIndex = Ext.getCmp('reg-tabs').items.findIndex('id', activeTab.id);
-			    var nextActiveTabIndex = activeTabIndex + 1;
-			    Ext.getCmp('reg-tabs').setActiveTab(nextActiveTabIndex);
+				var activeTab = Ext.getCmp('reg-tabs').getActiveTab();
+				var activeTabIndex = Ext.getCmp('reg-tabs').items.findIndex('id', activeTab.id);
+				var nextActiveTabIndex = activeTabIndex + 1;
+				Ext.getCmp('reg-tabs').setActiveTab(nextActiveTabIndex);
 			}
 		});
-	}	
+	}
 };
 
 /**
@@ -665,11 +746,13 @@ Ext.define('GoodsInfo', {
 			, {name:'CL_CODE', type:'string'}
 			, {name:'NATION_CODE', type:'string'}
 			, {name:'CTY_CODE', type:'string'}
+			, {name:'CL_SE', type:'string'}
 			, {name:'STAYNG_FCLTY_AT', type:'string'}
-			, {name:'CRUD_SE', type:'string'}
-			, {name:'SORT_ORDR', type:'string'}]
+			, {name:'SORT_ORDR', type:'string'}
+			, {name:'MAIN_EXPSR_AT_1', type:'string'}
+			, {name:'MAIN_EXPSR_AT_2', type:'string'}
+			, {name:'CRUD_SE', type:'string'}]
 });
-
 
 var storeGoods = Ext.create('Ext.data.JsonStore', {
 	autoLoad: false,
@@ -687,7 +770,7 @@ var storeGoods = Ext.create('Ext.data.JsonStore', {
 			Ext.getBody().mask('조회 중 입니다. 잠시만 기다려주세요...');
 		},
 		'load': function(store, records, successful, eOpts) {
- 			if(store.getCount()) {
+			if(store.getCount()) {
 				frReg.getForm().loadRecord(store.getAt(0));
 				frReg2.getForm().loadRecord(store.getAt(0));
 				frReg3.getForm().loadRecord(store.getAt(0));
@@ -721,7 +804,6 @@ var storeGoods = Ext.create('Ext.data.JsonStore', {
 					Ext.getCmp('btn-upload-file').disable();
 				}
 			}
-
 			Ext.getBody().unmask();
 		}
 	}
@@ -747,13 +829,13 @@ var frSearch = Ext.create('Ext.form.Panel', {
 				items: [{
 					xtype: 'textfield',
 					id: 'form-reg-sch-goods-code',
-		    		name: 'SCH_GOODS_CODE',
-		    		fieldLabel: '상품코드',
-		    		labelAlign: 'right',
-		    		labelSeparator: ':',
-		    		labelWidth: 100,
-		    		allowBlank: false,
-		    		width: 250
+					name: 'SCH_GOODS_CODE',
+					fieldLabel: '상품코드',
+					labelAlign: 'right',
+					labelSeparator: ':',
+					labelWidth: 100,
+					allowBlank: false,
+					width: 250
 				},{
 					xtype: 'button',
 					text: '검색',
@@ -797,37 +879,37 @@ var frReg = Ext.create('Ext.form.Panel', {
 		margin: '0 0 0 5',
 		width: 60,
 		handler: function() {
-			Ext.Msg.confirm('확인', '작업을 중단하고 신규로 작성하시겠습니까?', function(btn) {			
-		    	 if(btn == 'yes') {
+			Ext.Msg.confirm('확인', '작업을 중단하고 신규로 작성하시겠습니까?', function(btn) {
+				 if(btn == 'yes') {
 					Ext.getCmp('btn-save1').enable();
 					Ext.getCmp('btn-save2').enable();
 					Ext.getCmp('btn-save3').enable();
 					Ext.getCmp('btn-del').enable();
-					
+
 					Ext.getCmp('btn-add-schdul').enable();
 					Ext.getCmp('btn-del-schdul').enable();
 					Ext.getCmp('btn-save-schdul').enable();
-					
+
 					Ext.getCmp('btn-add-time').enable();
 					Ext.getCmp('btn-del-time').enable();
 					Ext.getCmp('btn-save-time').enable();
-					
+
 					Ext.getCmp('btn-add-nmpr').enable();
 					Ext.getCmp('btn-del-nmpr').enable();
 					Ext.getCmp('btn-save-nmpr').enable();
-					
+
 					Ext.getCmp('btn-del-file').enable();
 					Ext.getCmp('btn-save-file').enable();
-					Ext.getCmp('btn-upload-file').enable();			
-					
+					Ext.getCmp('btn-upload-file').enable();
+
 					frReg.getForm().reset();
 					frReg2.getForm().reset();
 					frReg3.getForm().reset();
 					storeSchdul.removeAll();
 					storeTime.removeAll();
 					storeNmpr.removeAll();
-					storeFile.removeAll();	
-		    	 }
+					storeFile.removeAll();
+				}
 			});
 		}
 	}, {
@@ -896,6 +978,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 		},{
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
+			hidden: true,
 			items: [{
 				xtype: 'numberfield',
 				id: 'form-reg-wait-hour',
@@ -997,26 +1080,27 @@ var frReg = Ext.create('Ext.form.Panel', {
 				xtype: 'checkboxfield',
 				id: 'form-reg-main_expsr_at_1',
 				name: 'MAIN_EXPSR_AT_1',
-				width: 220,				
-	            fieldLabel: '메인노출여부',
-	            labelWidth: 100,
-				labelAlign: 'right',	            
+				width: 220,
+				fieldLabel: '메인노출여부',
+				labelWidth: 100,
+				labelAlign: 'right',
 				boxLabel  : '첫 번째 노출',
-				inputValue: 'Y'
+				inputValue: 'Y',
+				value: 'Y'
 			},{
 				xtype: 'label',
 				width: 5
-			},{		
+			},{
 				xtype: 'checkboxfield',
 				id: 'form-reg-main_expsr_at_2',
 				name: 'MAIN_EXPSR_AT_2',
 				hideLabel: true,
-	            //fieldLabel: '메인노출여부',
-				//labelAlign: 'right',	            
+				//fieldLabel: '메인노출여부',
+				//labelAlign: 'right',
 				boxLabel : '두 번째 노출',
 				width: 120,
-				inputValue: 'Y'				
-			}]	
+				inputValue: 'Y'
+			}]
 		},{
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
@@ -1034,7 +1118,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
-			}]		
+			}]
 		}]
 	},{
 		xtype: 'fieldset',
@@ -1241,21 +1325,21 @@ var frReg = Ext.create('Ext.form.Panel', {
 		padding: '10 20 10 10',
 		items: [{
 			xtype: 'filefield',
-    		name: 'ATTACH_FLIE_BAK',
-    		regex: /^.*\.(BMP|GIF|JPG|JPEG|PNG|bmp|gif|jpg|jpeg|png)$/,
-    		regexText: '이지미 파일을 선택하세요.',
-    		buttonText: '찾기...',
-    		fieldLabel: '첨부파일',
-    		labelAlign: 'right',
-    		labelSeparator: ':',
-    		labelWidth: 100,
-    		allowBlank: false,
-    		width: 600
+			name: 'ATTACH_FLIE_BAK',
+			regex: /^.*\.(BMP|GIF|JPG|JPEG|PNG|bmp|gif|jpg|jpeg|png)$/,
+			regexText: '이지미 파일을 선택하세요.',
+			buttonText: '찾기...',
+			fieldLabel: '첨부파일',
+			labelAlign: 'right',
+			labelSeparator: ':',
+			labelWidth: 100,
+			allowBlank: false,
+			width: 600
 		}]*/
 	},{
 		xtype: 'fieldset',
 		title: 'Hidden Field',
-		hidden: true,
+		hidden: false,
 		padding: '10 20 10 10',
 		items: [{
 			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',
@@ -1265,10 +1349,36 @@ var frReg = Ext.create('Ext.form.Panel', {
 			id: 'form-reg-stayng-fclty-at', name: 'STAYNG_FCLTY_AT', fieldLabel: 'STAYNG_FCLTY_AT'
 		},{
 			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',
+			id: 'form-reg-cl-se', name: 'CL_SE', fieldLabel: 'CL_SE',
+			listeners: {
+				change: function(tf, newValue, oldValue, eOpts ) {
+					if(newValue == 'S') {
+						storeSetupSe = new Ext.create('Ext.data.ArrayStore', {
+							fields:['code', 'name'],
+							data :[
+								['R', '객실'],
+								['E', '식사'],
+								['C', '체크인/아웃']
+							]
+						});
+					} else {
+						storeSetupSe = new Ext.create('Ext.data.ArrayStore', {
+							fields:['code', 'name'],
+							data :[
+								['P', '단가(인원)']							       
+							]
+						});
+					}
+					Ext.getCmp('combo-setup-se').getStore().removeAll();
+					Ext.getCmp('combo-setup-se').bindStore(storeSetupSe);
+				}
+			}
+		},{
+			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',
 			id: 'form-reg-delete-at', name: 'DELETE_AT', fieldLabel: 'DELETE_AT'
 		},{
-			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',   
-			id: 'form-reg-crud-se', name: 'CRUD_SE', fieldLabel: 'CRUD_SE'				
+			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',
+			id: 'form-reg-crud-se', name: 'CRUD_SE', fieldLabel: 'CRUD_SE'
 		}]
 	}]
 });
@@ -1966,9 +2076,13 @@ var cellEditing3 = Ext.create('Ext.grid.plugin.CellEditing', {
 Ext.define('GoodsNmprInfo', {
 	extend: 'Ext.data.Model',
 	fields: [ {name:'GOODS_CODE', type:'string'}
+			, {name:'SETUP_SE', type:'string'}
 			, {name:'NMPR_SN', type:'string'}
 			, {name:'NMPR_CND', type:'string'}
+			, {name:'FIXED_AT', type:'string'}
 			, {name:'SETUP_AMOUNT', type:'string'}
+			, {name:'SETUP_RATE', type:'string'}
+			, {name:'NMPR_CO', type:'string'}
 			, {name:'SORT_ORDR', type:'string'}
 			, {name:'DELETE_AT', type:'string'}
 			, {name:'CRUD', type:'string'}]
@@ -2000,21 +2114,51 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		emptyText: '등록된 자료가 없습니다.'
 	},
 	columns: [{
+		text: '설정구분',
+		width: 100,
+		align: 'center',
+		editor: comboSetupSe,
+		dataIndex: 'SETUP_SE',
+		renderer: Ext.ux.comboBoxRenderer(comboSetupSe)
+	},{
 		text: '조건',
-		width: 200,
+		width: 170,
 		align: 'center',
 		sortable: false,
 		menuDisabled: true,
 		editor: {xtype:'textfield', allowBlank: false, maxLength: 50, fieldStyle: {'ime-mode':'active'}, enforceMaxLength: true},
 		dataIndex: 'NMPR_CND'
 	},{
+		text: '정가구분',
+		width: 100,
+		align: 'center',
+		editor: comboFixedAt,
+		dataIndex: 'FIXED_AT',
+		renderer: Ext.ux.comboBoxRenderer(comboFixedAt)
+	},{
 		text: '금액',
-		width: 150,
+		width: 100,
 		align: 'center',
 		sortable: false,
 		menuDisabled: true,
-		editor: {xtype:'textfield', allowBlank: false, maxLength: 10, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 7, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
 		dataIndex: 'SETUP_AMOUNT'
+	},{
+		text: '비율(%)',
+		width: 100,
+		align: 'center',
+		sortable: false,
+		menuDisabled: true,
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 2, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
+		dataIndex: 'SETUP_RATE'
+	},{
+		text: '수용인원 수',
+		width: 100,
+		align: 'center',
+		sortable: false,
+		menuDisabled: true,
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 2, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
+		dataIndex: 'NMPR_CO'
 	},{
 		text: '정렬순서',
 		width: 100,
@@ -2041,11 +2185,22 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 				Ext.Msg.alert("알림", "선택한 상품이 없습니다.");
 			} else {
 				var idx = storeNmpr.getCount();
+				var tmpSetupSe = 'P';
+				if(Ext.getCmp('form-reg-cl-se').getValue() == 'S') {
+					tmpSetupSe = 'R';
+				}
+				if(idx > 0) {
+					tmpSetupSe = storeNmpr.getAt(idx-1).data.SETUP_SE;
+				}
 				var r = Ext.create('GoodsNmprInfo', {
 					GOODS_CODE : Ext.getCmp('form-reg-goods-code').getValue(),
+					SETUP_SE : tmpSetupSe,
 					NMPR_SN : '',
 					NMPR_CND : '',
+					FIXED_AT : 'Y',
 					SETUP_AMOUNT : '',
+					SETUP_RATE : '',
+					NMPR_CO : '',
 					SORT_ORDR: '',
 					DELETE_AT : 'N',
 					CRUD : 'I'
@@ -2111,7 +2266,12 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 			}
 		}
 	}],
-	plugins: [cellEditing3]
+	plugins: [cellEditing3],
+	listeners: {
+		cellclick: function(grid, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
+			selGridNmprIdx = rowIndex;
+		}
+	}
 });
 
 /*
@@ -2182,7 +2342,7 @@ var frFile = Ext.create('Ext.form.Panel', {
 									}
 								});
 							} else {
-								console.log('is not valid');
+								//console.log('is not valid');
 								Ext.Msg.alert('확인', '업로드할 파일(png,jpg)을 선택하십시오.');
 							}
 						}
@@ -2224,9 +2384,6 @@ var storeFile = Ext.create('Ext.data.JsonStore', {
 	listeners: {
 		load : function(st, records, successful, eOpts ) {
 			//alert(st.getCount());
-			console.log(st);
-			console.log(records);
-			console.log(successful);
 		}
 	}
 });
