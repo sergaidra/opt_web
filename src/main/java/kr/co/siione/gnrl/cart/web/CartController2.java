@@ -178,7 +178,6 @@ public class CartController2 {
 			String tour_de = UserUtils.nvl(request.getParameter("TOUR_DE"));
 			String hidTime = UserUtils.nvl(request.getParameter("TOUR_TIME"));
 
-			String hidStayngFcltyAt = UserUtils.nvl(request.getParameter("hidStayngFcltyAt"), "N");
 			String hidChkinDe = UserUtils.nvl(request.getParameter("CHKIN_DE"));
 			String hidChcktDe = UserUtils.nvl(request.getParameter("CHCKT_DE"));
 
@@ -205,7 +204,6 @@ public class CartController2 {
 			map.put("cart_sn", cart_sn);
 			map.put("goods_code", goods_code);
 			map.put("nmpr_list", nmprList);
-			map.put("stayng_fclty_at", hidStayngFcltyAt);
 			map.put("tour_de", tour_de.replace("-",""));
 			map.put("chkin_de", hidChkinDe.replace("-",""));
 			map.put("chckt_de", hidChcktDe.replace("-",""));

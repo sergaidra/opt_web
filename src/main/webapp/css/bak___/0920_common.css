@@ -151,6 +151,7 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 	float:right;
 	position: absolute;
 	top: 80px; right: 0px; 
+	/*display: block;*/
 	display: none;
 	width: 255px; height: 100%; 
 	z-index: 6;
@@ -158,6 +159,7 @@ ul.nav_right li a, ul.nav_right li a:active, ul.nav_right li a:hover {
 #show_area_my_reservation .show_area_my_res {
 	float: left;
 	position: fixed;
+	/*display: block;*/
 	display: none;
 	width: 254px;
 	height: 100%; 

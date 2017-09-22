@@ -66,10 +66,7 @@
 		<p class="ch_box">
 			<label class="checkbox-wrap"><input type="checkbox" id="chkCategory" name="chkCategory" value="${result.CL_CODE}"><i class="check-icon"></i></label>
 		</p>
-	</li><c:if test="${status.count%4 == 0}">
-	</ul>
-	<ul>
-	</c:if></c:forEach>
+	</li></c:forEach>
 	</ul>
 </div>
 </form>

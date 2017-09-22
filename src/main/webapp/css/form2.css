@@ -649,7 +649,7 @@ p.category {
 	position:relative;
 	display: block;
 	width: 348px;
-	height: 634px;	
+	height: 434px;	
 	background: #485465 url(/images/bg_optiontop.gif) repeat-x 0 0;
 }
 #window .area_option .option_box {
@@ -724,7 +724,6 @@ p.category {
 #window .area_option .option_box #num_area li.num05 {
 	background: url(/images/num_05.gif) no-repeat 0 0px;
 }
-#window .area_option .option_box #num_area li.list_empty {}
 #window .area_option .option_box #num_area .btn_op_calendar {
 	cursor: pointer;
 	float: right;
@@ -975,7 +974,7 @@ input.btn_review_write:hover, input.btn_review_write:active {
 /**/
 #price {
 	position: absolute;
-	top: 500px; left: 0; 
+	top: 300px; left: 0; 
 	display: inline-block;
 	width: 308px; height: 25px; line-height: 25px;
 	margin: 0 0 0 0 ;
@@ -1000,7 +999,7 @@ input.txt_price {
 	cursor: default;
 	display: block;
 	position: absolute;
-	top: 550px; left: 0;
+	top: 350px; left: 0;
 	width: 304px; height: 25px; line-height: 25px;  
 	padding: 12px 0 10px 0 ;
 	text-align: center;

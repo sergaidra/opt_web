@@ -238,38 +238,32 @@
 		var str = '';
 		var sum = 0;
 		var tot = 0;
-		
 		$("input[name='CART_NMPR_CO']").each(function(i) {
 			if($("input[name='CART_NMPR_CO']").eq(i).val() > 0) {
 				var id = $("input[name='CART_NMPR_CO']").eq(i).attr('id');
 				div = id.substring(0, 1);
 				idx = id.substring(id.lastIndexOf('_')+1);
-				
+	
 				if(div == 'P') {
 					sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#'+div+'_CART_NMPR_CO_'+idx).val(),10);
-					//str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' +  comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#'+div+'_CART_NMPR_CO_'+idx).val();
-					str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#'+div+'_CART_NMPR_CO_'+idx).val()+"</span>명 ";
+					str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' +  comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#'+div+'_CART_NMPR_CO_'+idx).val();
 				} else if(div == 'R') {
 					$('#TEMP_NMPR_CO').val($('#'+div+'_GOODS_NMPR_CO_'+idx).val());
 					$('#TEMP_SETUP_AMOUNT').val($('#'+div+'_SETUP_AMOUNT_'+idx).val());
 					sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10); 
-					//str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#DAYS_CO').val();
-					str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#DAYS_CO').val()+"</span>박 ";
+					str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#DAYS_CO').val();
 				} else if(div == 'E') {
 					sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10) * parseInt($('#TEMP_NMPR_CO').val(), 10); 
-					//str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#TEMP_NMPR_CO').val() + ' * ' + $('#DAYS_CO').val();
-					str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#TEMP_NMPR_CO').val()+"</span>인 <span class='yellow'>"+ $('#DAYS_CO').val()+'</span>박';
+					str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#TEMP_NMPR_CO').val() + ' * ' + $('#DAYS_CO').val();
 				} else if(div == 'C') {
 					if($('#'+div+'_FIXED_AT_'+idx).val() == 'Y') {
 						sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10);
-						//str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +')';					
-						str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val();
+						str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +')';					
 					} else {
 						sum = parseInt($('#TEMP_SETUP_AMOUNT').val(), 10) * parseFloat($('#'+div+'_SETUP_RATE_'+idx).val());
 						var tmp = parseFloat($('#'+div+'_SETUP_RATE_'+idx).val()) * 100;
 						console.log('비율 sum:'+sum);
-						//str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#TEMP_SETUP_AMOUNT').val()) +') * ' + tmp + '%';
-						str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val();
+						str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#TEMP_SETUP_AMOUNT').val()) +') * ' + tmp + '%';					
 					}
 				}
 				
@@ -278,38 +272,24 @@
 				
 				if(div == 'P') {
 					tot += sum;
-					//str += ' :  ' + "₩"+comma(sum) 
-					//	+ '<a onclick="fnAdd(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">+</a>'
-					//	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a><br>';
-					str += " <span class='yellow'>"+comma(sum)+"</span>원"
-				    	+ '<a onclick="fnAdd(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">+</a>'
-				    	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a></p>';			    	
+					str += ' :  ' + "₩"+comma(sum) 
+						+ '<a onclick="fnAdd(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">+</a>'
+						+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a><br>';
+						
+					
+					console.log('일반 str:'+str);
 				} else {
 					tot += sum;
-					str += " <span class='yellow'>"+comma(sum)+"</span>원"
-					    + '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a></p>';					    
-					//str += ' :  ' + "₩"+comma(sum) 
-					//	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a><br>';
+					str += ' :  ' + "₩"+comma(sum) 
+						+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a><br>';
+						
+					
+					console.log('숙소 str:'+str);
 				}
 			}
 	    });
-		
-		if(div == 'P') {
-			if(str) {
-				str = '<li><div id="num3_dropdown01">' + str + '</div></li>';	
-			} 
-		} else {
-			if(str) {
-				str = '<li>' + str + '</li>';	
-			}
-		}
-		
-		if(div == 'R') {
-			$('#divCartDesc').append(str);
-		} else {
-			$('#divCartDesc').html(str);
-		}
-		
+
+		$('#divCartDesc').html(str);
 		$('#PURCHS_AMOUNT').val("₩"+comma(tot));
 	}
 	
@@ -404,146 +384,72 @@
 		
 		fnSetCart();
 	}
-
-	var idxCart = 0;
-	function fnChangeStay(div, obj) {
-	    var divCardId = '';
-	    if(div == 'R') {
-			idxCart++;	 
-			divCardId = 'divTempStayOptions_' + idxCart;
-	    } else {
-	    	divCardId = $(obj).parents('div').attr('id');
-	    }
-	    
-	    console.log('idxCart:'+idxCart);
-	    console.log('divCardId:'+divCardId);
-
-		var idx = $(obj).val();
-		
-		console.log('idx:'+idx);
-		console.log('div:'+div);
-
-		
-
-		
-		var str = '';
-		var sum = 0;
-		var tot = 0;
-
-		// 객실 추가
-		if(div == 'R') {
-			var newTempStayOptions = "<div id='"+divCardId+"' style='display:none'>" + $("#divTempStayOptions").html() + "</div>";
-			$("#divCartDesc").append(newTempStayOptions);
-
-			$('#'+divCardId + ' #' + div+"_CART_NMPR_CO_" + idx).val(1);
-			
-			$('#TEMP_NMPR_CO').val($('#'+divCardId+' #'+div+'_GOODS_NMPR_CO_'+idx).val());
-			$('#TEMP_SETUP_AMOUNT').val($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val());
-			sum = parseInt($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10); 
-			str += "<p class='n3_lst'>"+$('#'+divCardId+' #'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#DAYS_CO').val()+"</span>박 ";
-			str += " <span class='yellow'>"+comma(sum)+"</span>원"
-	    	    + '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a></p>';	
-			$("#"+divCardId).before('<li>'+str+'</li>');
-			$('#'+divCardId).css('display', 'block');
-
-		} else if(div == 'E') {
-			sum = parseInt($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10) * parseInt($('#TEMP_NMPR_CO').val(), 10); 
-		} else if(div == 'C') {
-			if($('#'+divCardId+' #'+div+'_FIXED_AT_'+idx).val() == 'Y') {
-				sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10);
-		
-				//str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val();
-			} else {
-				sum = parseInt($('#TEMP_SETUP_AMOUNT').val(), 10) * parseFloat($('#'+divCardId+' #'+div+'_SETUP_RATE_'+idx).val());
-				//var tmp = parseFloat($('#'+div+'_SETUP_RATE_'+idx).val()) * 100;
-				console.log('비율 sum:'+sum);
-				//str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val();
-			}
-		}
-		
-		console.log('sum: '+sum);
-		console.log('str: '+str);
-
-
-		
-		//fnSetCartStay(div, divCardId);
 	
+	function fnChange2(div, objId) {
+		
+		$("input[name='CART_NMPR_CO']").each(function(i) {
+			if($(this).attr('id').substr(0, 2) == div+'_') {
+				$("input[name='CART_NMPR_CO']").eq(i).val('0');
+			}
+	    });
+		
+		var idx = $("#"+objId).val();
+		$('#'+div+'_CART_NMPR_CO_'+idx).val('1');		
+		
+		fnSetCart2();
+		
+		var newTempStayOptions = $("#divTempStayOptions").html();
+		$("#divAddCartDesc").append(newTempStayOptions);
 	}
 	
-	function fnSetCartStay(div, divCardId){
-		//var div = '';
+	function fnSetCart2(){
+		var div = '';
 		var idx = '';  
 		var str = '';
 		var sum = 0;
 		var tot = 0;
-		
-		console.log('div:'+div+"/divCardId:"+divCardId);
-		
 		$("input[name='CART_NMPR_CO']").each(function(i) {
 			if($("input[name='CART_NMPR_CO']").eq(i).val() > 0) {
 				var id = $("input[name='CART_NMPR_CO']").eq(i).attr('id');
+				div = id.substring(0, 1);
 				idx = id.substring(id.lastIndexOf('_')+1);
-				
-				if(div == 'R') {
-					$('#TEMP_NMPR_CO').val($('#'+divCardId+' #'+div+'_GOODS_NMPR_CO_'+idx).val());
-					$('#TEMP_SETUP_AMOUNT').val($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val());
-					sum = parseInt($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10); 
-					str += "<p class='n3_lst'>"+$('#'+divCardId+' #'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#DAYS_CO').val()+"</span>박 ";
-					str += " <span class='yellow'>"+comma(sum)+"</span>원"
-				    	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a></p>';					
-				} else if(div == 'E') {
+	
+				if(div == 'E') {
 					sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10) * parseInt($('#TEMP_NMPR_CO').val(), 10); 
-					//str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#TEMP_NMPR_CO').val()+"</span>인 <span class='yellow'>"+ $('#DAYS_CO').val()+'</span>박';
+					str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#TEMP_NMPR_CO').val() + ' * ' + $('#DAYS_CO').val();
 				} else if(div == 'C') {
 					if($('#'+div+'_FIXED_AT_'+idx).val() == 'Y') {
 						sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10);
-				
-						//str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val();
+						str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +')';					
 					} else {
 						sum = parseInt($('#TEMP_SETUP_AMOUNT').val(), 10) * parseFloat($('#'+div+'_SETUP_RATE_'+idx).val());
-						//var tmp = parseFloat($('#'+div+'_SETUP_RATE_'+idx).val()) * 100;
+						var tmp = parseFloat($('#'+div+'_SETUP_RATE_'+idx).val()) * 100;
 						console.log('비율 sum:'+sum);
-						//str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val();
+						str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#TEMP_SETUP_AMOUNT').val()) +') * ' + tmp + '%';					
 					}
 				}
 				
-				
-				console.log('fnSetCart > div: '+div);
-				
+				console.log('fnSetCart2 > div: '+div);
 				tot += sum;
-
+				str += ' :  ' + "₩"+comma(sum); 
+				console.log('숙소 str:'+str);
 			}
 	    });
-		
-		if(str) {
-			str = '<li>' + str + '</li>';	
-		} 
 
-		console.log(sum);
-		console.log(tot);
-		console.log(str);
-		
-		
-		if(div == 'R') {
-			$('#'+divCardId).before(str);
-			$('#'+divCardId).css('display', 'block');			
-		} else {
-			$('#'+divCardId).append(str);
-		}
-		
+		$('#divAddCartDesc').append(str);
 		$('#PURCHS_AMOUNT').val("₩"+comma(tot));
-	}
+	}	
 </script>
 </head>
 <body>
 <form id="frmDetail" name="frmDetail" method="post" action="<c:url value='/goods/list/'/>">
-<input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
-<input type="hidden" id="hidGoodsCode" name="hidGoodsCode" value="${goods_code}">
-<input type="hidden" id="hidUpperClCode" name="hidUpperClCode" value="${hidUpperClCode}">
-<input type="hidden" id="hidUpperClCodeNavi" name="hidUpperClCodeNavi" value="${hidUpperClCodeNavi}">
-<input type="hidden" id="hidClSe" name="hidClSe" value="${result.CL_SE}">
-<input type="hidden" id="hidWaitTime" name="hidWaitTime" value="${result.WAIT_TIME}">
-<input type="hidden" id="hidMvmnTime" name="hidMvmnTime" value="${result.MVMN_TIME}">
+<input type="text" id="hidPage" name="hidPage" value="${hidPage}">
+<input type="text" id="hidGoodsCode" name="hidGoodsCode" value="${goods_code}">
+<input type="text" id="hidUpperClCode" name="hidUpperClCode" value="${hidUpperClCode}">
+<input type="text" id="hidUpperClCodeNavi" name="hidUpperClCodeNavi" value="${hidUpperClCodeNavi}">
+<input type="text" id="hidClSe" name="hidClSe" value="${result.CL_SE}">
+<input type="text" id="hidWaitTime" name="hidWaitTime" value="${result.WAIT_TIME}">
+<input type="text" id="hidMvmnTime" name="hidMvmnTime" value="${result.MVMN_TIME}">
 <br>
 <c:forEach var="list" items="${nmprList}" varStatus="status">
 <input type="text" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
@@ -556,7 +462,7 @@
 <input type="text" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
 <br>
 </c:forEach>
-<%-- <c:forEach var="list" items="${roomList}" varStatus="status">
+<c:forEach var="list" items="${roomList}" varStatus="status">
 <input type="text" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
 <input type="text" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
 <input type="text" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
@@ -588,7 +494,7 @@
 <input type="text" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
 <input type="text" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
 <br>
-</c:forEach> --%>
+</c:forEach>
 
 <c:if test="${result.CL_SE eq 'S'}">
 <input type="text" name="CHKIN_DE" id="CHKIN_DE">
@@ -630,11 +536,11 @@
 					<ul id="num_area">
 						<c:if test="${result.CL_SE ne 'S'}">
 						<li class="num01">날짜
-							<input type="text" name="TOUR_DE" id="TOUR_DE" class="input_datebox2" value="일정을 선택하세요." readonly onfocus="this.blur()">
+							<input type="text" name="TOUR_DE" id="TOUR_DE" class="input_datebox" value="일정을 선택하세요." readonly onfocus="this.blur()">
 							<span class="btn_op_calendar" id="btn_op_calendar"></span>
 						</li>
 						<li class="num02">시간
-							<select name="TOUR_TIME" id="TOUR_TIME" class="time_sbox2">
+							<select name="TOUR_TIME" id="TOUR_TIME" class="time_sbox">
 								<option value="">선택</option>
 							<c:forEach var="list" items="${timeList}" varStatus="status">
 								<option value="${list.TOUR_TIME}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~ ${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</option>
@@ -642,27 +548,42 @@
 							</select>
 						</li>
 						<li class="num03">인원
-							<select name="P_NMPR" id="P_NMPR" class="time_sbox2" onchange='fnAddInit("P", "P_NMPR");this.blur();'>
+							<select name="P_NMPR" id="P_NMPR" class="time_sbox" onchange='fnAddInit("P", "P_NMPR");this.blur();'>
 								<option value="">선택</option><c:forEach var="list" items="${nmprList}" varStatus="status">
 								<option value="${status.index}">${list.NMPR_CND}</option>
 							</c:forEach></select>
 						</li>
-						</c:if><c:if test="${result.CL_SE eq 'S'}">
+						</c:if>
+						<c:if test="${result.CL_SE eq 'S'}">
 						<li class="num01">날짜
 							<input type="text" name="TOUR_RANGE_DE" id="TOUR_RANGE_DE" class="input_datebox2" size="15">
 							<span class="btn_op_calendar" id="btn_op_calendar_range"></span>
 						</li>
 						<li class="num02">객실
-							<select name="R_NMPR" id="R_NMPR" class="time_sbox2" onchange="fnChangeStay('R', this);this.blur();">
+							<select name="R_NMPR" id="R_NMPR" class="time_sbox" onchange="fnChange2('R', 'R_NMPR');this.blur();">
 								<option value="">선택</option><c:forEach var="list" items="${roomList}" varStatus="status">
 								<option value="${status.index}">${list.NMPR_CND}</option>
 							</c:forEach></select>
 						</li>
-						<!--  -->
+						</c:if> <!-- end -->
+					<li>
+					<div id="divCartDesc">
+					</div>
+					</li>
+					
+					<div id="divAddCartDesc">
+					</div>					
 
-						<!--  -->
 
-						<div id="divCartDesc"></div>
+
+	
+
+				
+
+
+					
+					
+											
 					</ul>
 					<p id="price">
 						<input type="text" name="PURCHS_AMOUNT" id="PURCHS_AMOUNT" class="txt_price" value="₩0" readonly onfocus="this.blur()">&nbsp;&nbsp;
@@ -1286,60 +1207,23 @@
 </div>
 <!--인포메이션 끝-->
 
-<c:if test="${result.CL_SE eq 'S'}">
-<div id="divTempStayOptions" style="display:none;">
+<div id="divTempStayOptions">
 <c:if test="${fn:length(eatList) > 0}">
 <li>옵션
-	<select name="E_NMPR" class="time_sbox2" onchange="fnChangeStay('E', this);this.blur();">
+	<select name="E_NMPR" id="E_NMPR" class="time_sbox" onchange="fnChange2('E', 'E_NMPR');this.blur();">
 		<option value="">선택</option><c:forEach var="list" items="${eatList}" varStatus="status">
-		<option value="${status.index}">${list.NMPR_CND} ₩<fmt:formatNumber value="${list.SETUP_AMOUNT}" pattern="#,###,###" /></option>
+		<option value="${status.index}">${list.NMPR_CND}</option>
 	</c:forEach></select>
 </li></c:if>
 <c:if test="${fn:length(checkList) > 0}">
-<c:if test="${fn:length(eatList) > 0}"><li>　　</c:if><c:if test="${fn:length(eatList) == 0}"><li class="num03">옵션</c:if>
-	<select name="C_NMPR" class="time_sbox2" onchange="fnChangeStay('C', this);this.blur();">
+<c:if test="${fn:length(eatList) == 0}"><li class="num03">옵션</c:if>
+<c:if test="${fn:length(eatList) > 0}"><li>　　</c:if>
+	<select name="C_NMPR" id="C_NMPR" class="time_sbox" onchange="fnChange2('C', 'C_NMPR');this.blur();">
 		<option value="">선택</option><c:forEach var="list" items="${checkList}" varStatus="status">
-		<option value="${status.index}">${list.NMPR_CND} <c:if test="${list.FIXED_AT == 'Y'}">₩<fmt:formatNumber value="${list.SETUP_AMOUNT}" pattern="#,###,###"/></c:if><c:if test="${list.FIXED_AT == 'N'}">(${list.SETUP_RATE * 100}%)</c:if></option>
+		<option value="${status.index}">${list.NMPR_CND}</option>
 	</c:forEach></select>
-</li></c:if>
-</c:if>
-<li>　　
-	<input type="text" class="input_datebox2">
-</li>
-<c:forEach var="list" items="${roomList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
-</c:forEach>
-<c:forEach var="list" items="${eatList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
-</c:forEach>
-<c:forEach var="list" items="${checkList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
-</c:forEach>
-</div>  
-</c:if>
+</li></c:if>	
+</div>
+
 </form>
 </body>

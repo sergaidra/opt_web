@@ -149,7 +149,6 @@ public class GoodsController {
     	HashMap map = new HashMap();
     	map.put("goods_code", goods_code);
     	HashMap result = goodsService.getGoodsDetail(map);
-    	//List<HashMap> clList = goodsService.getGoodsClList(map);
     	
     	HashMap mapT = new HashMap();
     	mapT.put("goods_code", goods_code);
@@ -158,19 +157,19 @@ public class GoodsController {
     	List<HashMap> eatList = null;
     	List<HashMap> checkList = null;
     	
-    	if(UserUtils.nvl(result.get("CL_SE")).equals("S")) {
-    		mapT.put("setup_se", "R");
+    	if(UserUtils.nvl(result.get("CL_SE")).equals("S")) { // > 숙박
+    		mapT.put("setup_se", "R"); // 객실(필수)
     		roomList = goodsService.getGoodsNmprBySetupSeList(mapT);
-    		mapT.put("setup_se", "E");
+    		mapT.put("setup_se", "E"); // 식사
     		eatList = goodsService.getGoodsNmprBySetupSeList(mapT);
-    		mapT.put("setup_se", "C");
+    		mapT.put("setup_se", "C"); // 체크인/아웃
     		checkList = goodsService.getGoodsNmprBySetupSeList(mapT);
     	} else {
-    		mapT.put("setup_se", "P");
+    		mapT.put("setup_se", "P"); // 가격/단가(필수) > 숙박 외
     		nmprList = goodsService.getGoodsNmprBySetupSeList(mapT);
     	}
     	
-    	//List<HashMap> nmprList = goodsService.getGoodsNmprList(map);    	
+   	
     	List<HashMap> schdulList = goodsService.getGoodsSchdulList(map);
     	List<HashMap> timeList = goodsService.getGoodsTimeList(map);
     	
@@ -187,7 +186,6 @@ public class GoodsController {
         model.addAttribute("goods_code", goods_code);
 
         model.addAttribute("result", result);
-        //model.addAttribute("clList", clList);
         model.addAttribute("schdulList", schdulList);
         model.addAttribute("timeList", timeList);
         model.addAttribute("fileList", fileList);

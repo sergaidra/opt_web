@@ -32,27 +32,6 @@ table td textarea.txt_write {width: 600px; height: 100px; line-height: 20px; ove
 	color: #fff;
 	background: #ff3366;	
 }
-.hotdeal1 {
-	position: absolute;
-	top: 0px; left: 0px;
-	width: 45px; height: 14px; line-height: 10px;
-	padding: 5px 6px 5px 6px;
-	font: normal 12px "돋움",helvetica,arial,verdana,sans-serif;
-	text-align: center;
-	color: #fff;
-	background: #ff3366;	
-}
-.hotdeal2 {
-	position: absolute;
-	top: 0px; left: 0px;
-	width: 35px; height: 10px; line-height: 10px;
-	padding: 4px 6px 5px 6px;
-	font: normal 11px "돋움",helvetica,arial,verdana,sans-serif;
-	text-align: center;
-	color: #fff;
-	background: #ff3366;	
-}
-
 .a_pre {
 	position: absolute;
 	display: block;
@@ -90,25 +69,8 @@ table td textarea.txt_write {width: 600px; height: 100px; line-height: 20px; ove
 	margin: 15px 0 0 15px;
 	background: #656d7a;
 }
-.t_blue {font: normal 12px "돋움",helvetica,arial,verdana,sans-serif; color: #6bacf9;}
 .light_blue {
 	color: #c2ddff;
-}
-.pink {
-	color: #ff3366;
-}
-.blt_box {
-	float: left;
-    display: inline-block;
-	height: 13px; line-height: 13px; 
-	margin: 0 8px 0 0;
-	padding: 2px 4px 2px 4px; 
-	letter-spacing: -1px; 
-	color: #9297a1; 
-	font: normal 11px "돋움",helvetica,arial,verdana,sans-serif; 
-	border: 1px solid #d3d9e1;
-	background: #f9fafc;
-	border-radius:3px;
 }
 /*
 .txt_head {

@@ -104,7 +104,7 @@
 	]]>
 	</delete>
 
-	<select id="gnrl.cart.selectCartSameValidCnfirm" parameterClass="hashMap" resultClass="hashMap">
+	<select id="gnrl.cart.selectCartSameValidCnfirm_BAK" parameterClass="hashMap" resultClass="hashMap">
 	<![CDATA[
 		SELECT CART_SN
 		  FROM TB_CART_GOODS
@@ -117,7 +117,7 @@
 	]]>
 	</select>
 
-	<select id="gnrl.cart.selectCartValidCnfirm" parameterClass="hashMap" resultClass="hashMap">
+	<select id="gnrl.cart.selectCartValidCnfirm_BAK" parameterClass="hashMap" resultClass="hashMap">
 	<![CDATA[
 		SELECT A.GOODS_NM
 		  FROM TB_GOODS A, TB_GOODS_SCHDUL B
@@ -135,7 +135,7 @@
 	]]>
 	</select>
 
-	<select id="gnrl.cart.selectCartTimeValidCnfirm" parameterClass="hashMap" resultClass="hashMap">
+	<select id="gnrl.cart.selectCartTimeValidCnfirm_BAK" parameterClass="hashMap" resultClass="hashMap">
 	<![CDATA[
 		SELECT GOODS_NM
 		  FROM TB_GOODS A
@@ -148,7 +148,7 @@
 	]]>
 	</select>
 
-	<select id="gnrl.cart.selectCartFlightValidCnfirm" parameterClass="hashMap" resultClass="hashMap">
+	<select id="gnrl.cart.selectCartFlightValidCnfirm_BAK" parameterClass="hashMap" resultClass="hashMap">
 		SELECT CF_START_DATE, CF_END_DATE
 		  FROM ( SELECT ROW_NUMBER() OVER(ORDER BY DTRMC_START_DT) AS ROWSEQ
 		              , TO_CHAR(DTRMC_ARVL_DT, 'YYYYMMDD')  CF_START_DATE
@@ -172,7 +172,7 @@
 		</isNotEmpty>
 	</select>
 
-	<select id="gnrl.cart.selectCartDplctValidCnfirm" parameterClass="hashMap" resultClass="hashMap">
+	<select id="gnrl.cart.selectCartDplctValidCnfirm_BAK" parameterClass="hashMap" resultClass="hashMap">
 	<![CDATA[
 		SELECT TOUR_DE
 		     , LPAD(TRUNC(CF_START_DATE), 2, '0')||LPAD((CF_START_DATE-TRUNC(CF_START_DATE))*60, 2, '0') CF_START_DT
@@ -197,7 +197,7 @@
 	]]>
 	</select>
 
-	<select id="gnrl.cart.selectCartStayngValidCnfirm" parameterClass="hashMap" resultClass="hashMap">
+	<select id="gnrl.cart.selectCartStayngValidCnfirm_BAK" parameterClass="hashMap" resultClass="hashMap">
 	<![CDATA[ 
 		SELECT A.CHKIN_DE, A.CHCKT_DE
 		  FROM TB_CART_GOODS A
@@ -221,7 +221,7 @@
 	]]>
 	</select>
 
-	<select id="gnrl.cart.selectCartPayment_bak" parameterClass="hashMap" resultClass="long">
+	<select id="gnrl.cart.selectCartPayment_BAK" parameterClass="hashMap" resultClass="long">
 	<![CDATA[
 		SELECT nvl(SUM(DECODE(FN_STAYNG_FCLTY_AT(A.GOODS_CODE), 'N', C.SETUP_AMOUNT * B.NMPR_CO, C.SETUP_AMOUNT * (TO_DATE(A.CHCKT_DE, 'YYYYMMDD') - TO_DATE(A.CHKIN_DE, 'YYYYMMDD')) )), 0) AS PURCHS_AMOUNT
 		  FROM TB_CART_GOODS A

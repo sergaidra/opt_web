@@ -47,7 +47,6 @@
         <result property="INTRCN_PROVD_LANG"         column="INTRCN_PROVD_LANG"         jdbcType="string" javaType="string"/>
         <result property="INTRCN_POSBL_AGE"          column="INTRCN_POSBL_AGE"          jdbcType="string" javaType="string"/>
         <result property="INTRCN_PLACE"              column="INTRCN_PLACE"              jdbcType="string" javaType="string"/>
-        <result property="STAYNG_FCLTY_AT"           column="STAYNG_FCLTY_AT"           jdbcType="string" javaType="string"/>
         <result property="CL_SE"                     column="CL_SE"                     jdbcType="string" javaType="string"/>
         <result property="SORT_ORDR"                 column="SORT_ORDR"                 jdbcType="string" javaType="string"/>
         <result property="MAIN_EXPSR_AT_1"           column="MAIN_EXPSR_AT_1"           jdbcType="string" javaType="string"/>
@@ -92,7 +91,6 @@
 		     , UPDT_ID
 		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
 		     , (SELECT COUNT(1) FROM TB_GOODS X WHERE X.CL_CODE = A.CL_CODE) AS GOODS_CNT
-		     , STAYNG_FCLTY_AT
 		     , SORT_ORDR
 		     , DC
 		  FROM TB_TOUR_CL A
@@ -161,7 +159,6 @@
              , CL_CODE
              , (SELECT C.CL_NM FROM TB_TOUR_CL C WHERE A.CL_CODE = C.CL_CODE) CL_NM
              , CL_SE
-             , STAYNG_FCLTY_AT
              , SORT_ORDR
              , MAIN_EXPSR_AT_1
              , MAIN_EXPSR_AT_2

@@ -158,15 +158,14 @@ public class CartController {
 		List<HashMap> schdulList = goodsService.getGoodsSchdulList(map);
 		List<HashMap> timeList = goodsService.getGoodsTimeList(map);
 
-		String stayngFcltyAt = "N";
-//		for(HashMap clMap : clList) {
-//			if(UserUtils.nvl(clMap.get("STAYNG_FCLTY_AT")).equals("Y")) {
-//				stayngFcltyAt = "Y";
-//				break;
-//			}
-//		}
-
-		model.addAttribute("stayngFcltyAt", stayngFcltyAt);
+		/*String stayngFcltyAt = "N";
+		for(HashMap clMap : clList) {
+			if(UserUtils.nvl(clMap.get("STAYNG_FCLTY_AT")).equals("Y")) {
+				stayngFcltyAt = "Y";
+				break;
+			}
+		}
+		model.addAttribute("stayngFcltyAt", stayngFcltyAt);*/
 
 		model.addAttribute("hidPage", hidPage);
 		model.addAttribute("cart_sn", cart_sn);

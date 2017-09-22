@@ -40,22 +40,8 @@
 	<ul>
 		<li class="btn_left"></li>
 		<c:forEach var="list" items="${expsrList1}" varStatus="status">
-		<c:choose>
-			<c:when test="${status.index == 0}">
-				<li class="banner_selected"><a href="javascript:fnGoGoodsDetail('<c:out value="${list.GOODS_CODE}" />');"><c:out value="${list.GOODS_NM}" /></a></li>
-			</c:when>
-			<c:when test="${status.index < 5}">
-				<li class="banner"><a href="javascript:fnGoGoodsDetail('<c:out value="${list.GOODS_CODE}" />');"><c:out value="${list.GOODS_NM}" /></a></li>
-			</c:when>
-		<c:otherwise>
-		</c:otherwise>
-		</c:choose>
+		<li><a href="javascript:fnGoGoodsDetail('<c:out value="${list.GOODS_CODE}" />');"><c:out value="${list.GOODS_NM}" /></a></li>
 		</c:forEach>
-		<c:if test="${fn:length(expsrList1) < 5}">
-			<c:forEach begin="${4-fn:length(expsrList1)}" end="${fn:length(expsrList1)-1}" var="cnt">
-				<li class="banner"></li>
-			</c:forEach>
-		</c:if>
 		<li class="btn_right"></li>
 	</ul>
 </div>

@@ -86,14 +86,15 @@
 	<!--컨텐츠 시작-->
 	<div class="infor_area">
 		<!--result 탭시작-->
-		<div id="result_set_01">
+		<div id="result_set_02">
 		<c:forEach var="result" items="${upperTourClList}" varStatus="status">
+			<p class="line-left"></p>
 			<c:if test="${result.CL_CODE eq hidUpperClCode}">
-			<p class="rtab_01">
+			<p class="rtab_selected">
 				<a href="javascript:fnSearchUpperCl('${result.CL_CODE}');">${result.CL_NM}</a>
 			</p>
 			</c:if><c:if test="${result.CL_CODE ne hidUpperClCode}">
-			<p>
+			<p class="rtab">
 				<a href="javascript:fnSearchUpperCl('${result.CL_CODE}');">${result.CL_NM}</a>
 			</p>
 			</c:if>
@@ -101,7 +102,7 @@
 		<!--result 탭끝-->
 		</div>
 		<div class="whitebar">
-			<span class="wbar_txt">총 ${fn:length(goodsList)}개의 호텔이 검색되었습니다.</span>
+			<span class="wbar_txt">총 ${fn:length(goodsList)}개의 상품이 검색되었습니다.</span>
 			<fieldset>
 				<select name="" class="wsh_sbox">
 					<option value="0">정렬기준</option>
@@ -129,7 +130,6 @@
 				</button>
 			</fieldset>
 		</div>
-
 		<!--rtab_01 시작-->
 		<div class="rtab_01_area">
 			<div class="resultlst_area">
@@ -137,7 +137,7 @@
 				<c:if test="${status.index%2 == 0}"><ul></c:if>
 					<li <c:if test="${status.index%2 == 1}">class="pr2_right"</c:if>>
 						<p class="pr2_photo_area">
-							<a href="javascript:fnDetail('${result.GOODS_CODE}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="234" height="178"></a>
+							<a href="javascript:fnDetail('${result.GOODS_CODE}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="200" height="160"></a>
 						</p>
 						<div class="pr2_rtxt_area">
 							<p class="fl_left circle">A</p>
@@ -160,7 +160,6 @@
 					</li>
 				<c:if test="${status.index%2 == 1}"><ul></c:if>				
 			</c:forEach>				
-				
 			</div>
 		</div>
 		<!--rtab영역 끝-->

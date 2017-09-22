@@ -523,7 +523,7 @@ var comboUpperCl = new Ext.create('Ext.form.ComboBox', {
 	labelWidth: 100,
 	store: new Ext.create('Ext.data.JsonStore', {
 		autoLoad: true,
-		fields:['CL_CODE', 'CL_NM', 'STAYNG_FCLTY_AT', 'CL_SE', 'DELETE_AT'],
+		fields:['CL_CODE', 'CL_NM', 'CL_SE', 'DELETE_AT'],
 		proxy: {
 			type: 'ajax',
 			url: '../selectTourClUpperList/?UPPER_CL_CODE=00000',
@@ -564,7 +564,6 @@ var comboUpperCl = new Ext.create('Ext.form.ComboBox', {
 		change: function(combo, newValue, oldValue, eOpts ) {
 			var rec = combo.getStore().findRecord('CL_CODE', newValue);
 			if(rec) {
-				Ext.getCmp('form-reg-stayng-fclty-at').setValue(rec.get('STAYNG_FCLTY_AT'));
 				Ext.getCmp('form-reg-cl-se').setValue(rec.get('CL_SE'));
 				Ext.getCmp('form-reg-cl-code').setValue('');
 				comboCl.getStore().load({params:{UPPER_CL_CODE:newValue}});
@@ -582,7 +581,7 @@ var comboCl = new Ext.create('Ext.form.ComboBox', {
 	width: 170,
 	store: new Ext.create('Ext.data.JsonStore', {
 		autoLoad: false,
-		fields:['CL_CODE', 'CL_NM', 'STAYNG_FCLTY_AT', 'CL_SE', 'DELETE_AT'],
+		fields:['CL_CODE', 'CL_NM', 'CL_SE', 'DELETE_AT'],
 		proxy: {
 			type: 'ajax',
 			url: '../selectTourClUpperList/',
@@ -747,7 +746,6 @@ Ext.define('GoodsInfo', {
 			, {name:'NATION_CODE', type:'string'}
 			, {name:'CTY_CODE', type:'string'}
 			, {name:'CL_SE', type:'string'}
-			, {name:'STAYNG_FCLTY_AT', type:'string'}
 			, {name:'SORT_ORDR', type:'string'}
 			, {name:'MAIN_EXPSR_AT_1', type:'string'}
 			, {name:'MAIN_EXPSR_AT_2', type:'string'}
@@ -1339,14 +1337,11 @@ var frReg = Ext.create('Ext.form.Panel', {
 	},{
 		xtype: 'fieldset',
 		title: 'Hidden Field',
-		hidden: false,
+		hidden: true,
 		padding: '10 20 10 10',
 		items: [{
 			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',
 			id: 'form-reg-goods-code', name: 'GOODS_CODE', fieldLabel: 'GOODS_CODE'
-		},{
-			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',
-			id: 'form-reg-stayng-fclty-at', name: 'STAYNG_FCLTY_AT', fieldLabel: 'STAYNG_FCLTY_AT'
 		},{
 			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',
 			id: 'form-reg-cl-se', name: 'CL_SE', fieldLabel: 'CL_SE',
