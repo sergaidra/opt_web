@@ -28,40 +28,7 @@
 	}
 	
 	function fnPurchase(){
-		$.ajax({
-			url : "<c:url value='/purchs/addAction/'/>",
-			dataType : "json",
-			type : "POST",
-			async : true,
-			data : form_data,
-			beforeSend:function(){
-				showLoading();
-			},
-			success : function(json) {
-				if(json.result == "0") {
-					//장바구니에 담은 상품 목록 (우측 일정표 조회)
-					fnCartList();
-					if(confirm("예약되었습니다. 장바구니로 이동하시겠습니까?")) {
-						fnGoCartList();
-					} else {
-						fnList();
-					}
-				} else if(json.result == "-2") {
-					alert("로그인이 필요합니다.");
-					$(".login").click();
-				} else if(json.result == "9") {
-					alert(json.message);
-				} else{
-					alert("작업을 실패하였습니다.");
-				}
-			},
-			complete:function() {
-				hideLoading();
-			},
-			error : function() {
-				alert("오류가 발생하였습니다.");
-			}
-		});
+		alert('결제');
 	}
 	
 	function fnSearchGoods() {
@@ -209,7 +176,8 @@
 					적립예정포인트<span class="pinkprice">3700<span class="txt_won">POINT</span></span>
 				</p>
 				<p class="total_point_area">
-					<a href="javascript:fnPurchase()">결제하기</a>				
+					<a href="javascript:fnPurchase()">결제하기</a>
+					<a href="javascript:fnSchedule()">일정표 보기</a>				
 				</p>
 				<p class="notibox_area">
 					<span class="notice_text">※ 결제금액은 결제 당일 환율을 기준으로 책정됩니다.

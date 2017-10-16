@@ -5,12 +5,8 @@ import java.util.Map;
 
 public interface GoodsManageService {
 	
-	public void insertGoods(Map<String, Object> param) throws Exception;
-
 	public String insertGoodsForBass(Map<String, String> param) throws Exception;
 	
-	public int updateGoods(Map<String, Object> param) throws Exception;
-
 	public int updateGoodsForBass(Map<String, String> param) throws Exception;
 
 	public int updateGoodsForGuidance(Map<String, String> param) throws Exception;
@@ -36,8 +32,6 @@ public interface GoodsManageService {
 	public List<Map<String, String>> selectGoodsListForSearch(Map<String, String> param) throws Exception;
 
 	public List<Map<String, String>> selectGoodsSchdulList(Map<String, String> param) throws Exception;
-	
-	public List<Map<String, String>> selectGoodsClList(Map<String, String> param) throws Exception;
 
 	public List<Map<String, String>> selectGoodsTimeList(Map<String, String> param) throws Exception;
 	

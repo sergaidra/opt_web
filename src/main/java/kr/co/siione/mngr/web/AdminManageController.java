@@ -42,7 +42,7 @@ public class AdminManageController {
 	@RequestMapping(value="/mngr/selectMenuTree/")
 	public void selectMenuTree(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
-		
+
 		try {
 			List<Map<String,Object>> results = adminManageService.selectMenuTree(param);
 			

@@ -17,9 +17,10 @@
 		SELECT MENU_CODE
 		     , MENU_NM
 		     , MENU_URL
-		     , 'true' MENU_LEAF
+		     , DECODE(MENU_URL, '', 'false', 'true') MENU_LEAF
 		  FROM TB_MENU
 		 WHERE USE_AT = 'Y'
+           AND UPPER_MENU_CODE = #node#	 
 		 ORDER BY SORT_ORDR
 	]]>
 	</select>

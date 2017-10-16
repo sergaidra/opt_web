@@ -38,7 +38,7 @@ function fn_open_menu(menuNo, menuNm, menuURL) {
 var storeTree = Ext.create('Ext.data.TreeStore', {
 	autoLoad: true,
 	fields: ['id', 'text', {name:'leaf', type: 'boolean'}, 'url'],
-    root: {expanded: true, text: 'root', id: '1'},
+    root: {expanded: true, text: 'root', id: '00000'},
     proxy: {
         type: 'ajax',
         url: './selectMenuTree/',

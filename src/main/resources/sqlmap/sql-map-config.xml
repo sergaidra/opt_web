@@ -13,10 +13,7 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_file_manage.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_cty.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_tour_cl.xml"/>
-	<!-- <sqlMap resource="sqlmap/siione/mngr/tb_tour_cmpny.xml"/> -->
-	<sqlMap resource="sqlmap/siione/mngr/tb_mngr.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods.xml"/>
-	<!-- <sqlMap resource="sqlmap/siione/mngr/tb_goods_cl.xml"/> -->
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_schdul.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_time.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_nmpr.xml"/>
