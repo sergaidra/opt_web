@@ -115,8 +115,9 @@
 <c:if test="${main_yn eq 'Y' }"><div id="container" style="height: 894px; background: #fff;"></c:if>
 <c:if test="${main_yn ne 'Y' }"><div id="container"></c:if>
 <!-- 상품상세설명 화면 -->
-<c:if test="${goods_detail_yn eq 'Y' }"><div class="container2"></c:if>
-<c:if test="${goods_list_yn eq 'Y' }"><div class="container3"></c:if>
+<c:if test="${goods_detail_yn eq 'Y'}"><div class="container2"></c:if>
+<c:if test="${cart_list_yn eq 'Y'}"><div class="container2"></c:if>
+<c:if test="${goods_list_yn eq 'Y'}"><div class="container3"></c:if>
 
 <!-- 내용 시작 -->
 <div id="divLayoutBody">
@@ -346,7 +347,10 @@ function fnFlightPopup() {
 		</div>
 	</div>
 
-<c:if test="${goods_detail_yn eq 'Y' }"></div></c:if>
+<c:if test="${goods_detail_yn eq 'Y'}"></div></c:if>
+<c:if test="${cart_list_yn eq 'Y'}"></div></c:if>
+<c:if test="${goods_list_yn eq 'Y'}"></div></c:if>
+
 </div>
 <!--하단 끝-->
 

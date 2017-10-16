@@ -773,9 +773,9 @@ var storeGoods = Ext.create('Ext.data.JsonStore', {
 				frReg2.getForm().loadRecord(store.getAt(0));
 				frReg3.getForm().loadRecord(store.getAt(0));
 
-				storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
-				storeTime.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
-				storeNmpr.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+				storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-schdul').getValue().DELETE_AT_SCHDUL}});
+				storeTime.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-time').getValue().DELETE_AT_TIME}});
+				storeNmpr.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-nmpr').getValue().DELETE_AT_NMPR}});
 				storeFile.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
 
 				if(store.getAt(0).data.DELETE_AT == 'Y') {
@@ -1804,9 +1804,37 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
 		flex: 1
 	}],
 	tbar: [{
+    	xtype: 'radiogroup',
+    	id: 'delete-at-schdul',
+    	fieldLabel: '사용여부',
+    	labelWidth: 60,
+    	labelAlign: 'right',
+    	border: false,
+    	width: 180, 
+    	items: [{ boxLabel: '전체', id:'schdul-delete-all', name: 'DELETE_AT_SCHDUL', inputValue:''},
+    			{ boxLabel: '사용', id:'schdul-delete-n', name: 'DELETE_AT_SCHDUL', inputValue:'N', checked: true }],
+    	listeners: {
+    		change : function(radio, newValue, oldValue, eOpts ) {
+    			//storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:newValue.DELETE_AT}});
+    			Ext.getCmp('btn-sch-schdul').fireEvent('click');
+    		}
+    	}		
+	}, {
+		text: '조회',
+		id: 'btn-sch-schdul',
+		width: 60,
+		listeners: {
+			click: function() {
+				if(!Ext.getCmp('form-reg-goods-code').getValue()) {
+					Ext.Msg.alert("알림", "선택한 상품이 없습니다.");
+				} else {
+					storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-schdul').getValue().DELETE_AT_SCHDUL}});
+				}
+			}
+		}		
+	}, {
 		text: '추가',
 		id: 'btn-add-schdul',
-		margin: '0 5 0 415',
 		width: 60,
 		handler : function() {
 			if(!Ext.getCmp('form-reg-goods-code').getValue()) {
@@ -1883,7 +1911,7 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
 					params: {'data': Ext.JSON.encode(datas)},
 					success: function(form, action) {
 						Ext.Msg.alert('알림', '저장되었습니다.', function(){
-							storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+							Ext.getCmp('btn-sch-schdul').fireEvent('click');
 							fn_activeNextTab();
 						});
 					},
@@ -1976,9 +2004,36 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 		emptyMsg: "No topics to display"
 	}),*/
 	tbar: [{
+    	xtype: 'radiogroup',
+    	id: 'delete-at-time',
+    	fieldLabel: '사용여부',
+    	labelWidth: 60,
+    	labelAlign: 'right',
+    	border: false,
+    	width: 180, 
+    	items: [{ boxLabel: '전체', id:'time-delete-all', name: 'DELETE_AT_TIME', inputValue:''},
+    			{ boxLabel: '사용', id:'time-delete-n', name: 'DELETE_AT_TIME', inputValue:'N', checked: true }],
+    	listeners: {
+    		change : function(radio, newValue, oldValue, eOpts ) {
+    			Ext.getCmp('btn-sch-time').fireEvent('click');
+    		}
+    	}		
+	}, {
+		text: '조회',
+		id: 'btn-sch-time',
+		width: 60,
+		listeners: {
+			click: function(){
+				if(!Ext.getCmp('form-reg-goods-code').getValue()) {
+					Ext.Msg.alert("알림", "선택한 상품이 없습니다.");
+				} else {
+					storeTime.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-time').getValue().DELETE_AT_TIME}});
+				}
+			}
+		}
+	}, {		
 		text: '추가',
 		id: 'btn-add-time',
-		margin: '0 5 0 415',
 		width: 60,
 		handler : function() {
 			if(!Ext.getCmp('form-reg-goods-code').getValue()) {
@@ -2045,7 +2100,7 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 					params: {'data': Ext.JSON.encode(datas)},
 					success: function(form, action) {
 						Ext.Msg.alert('알림', '저장되었습니다.', function(){
-							storeTime.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+							storeTime.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-time').getValue().DELETE_AT_TIME}});
 							fn_activeNextTab();
 						});
 					},
@@ -2171,9 +2226,36 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		flex: 1
 	}],
 	tbar: [{
+    	xtype: 'radiogroup',
+    	id: 'delete-at-nmpr',
+    	fieldLabel: '사용여부',
+    	labelWidth: 60,
+    	labelAlign: 'right',
+    	border: false,
+    	width: 180, 
+    	items: [{ boxLabel: '전체', id:'nmpr-delete-all', name: 'DELETE_AT_NMPR', inputValue:''},
+    			{ boxLabel: '사용', id:'nmpr-delete-n', name: 'DELETE_AT_NMPR', inputValue:'N', checked: true }],
+    	listeners: {
+    		change : function(radio, newValue, oldValue, eOpts ) {
+    			Ext.getCmp('btn-sch-nmpr').fireEvent('click');
+    		}
+    	}		
+	}, {
+		text: '조회',
+		id: 'btn-sch-nmpr',
+		width: 60,
+		listeners: {
+			click: function() {
+				if(!Ext.getCmp('form-reg-goods-code').getValue()) {
+					Ext.Msg.alert("알림", "선택한 상품이 없습니다.");
+				} else {
+					storeNmpr.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-nmpr').getValue().DELETE_AT_NMPR}});
+				}
+			}
+		}
+	}, {			
 		text: '추가',
 		id: 'btn-add-nmpr',
-		margin: '0 5 0 415',
 		width: 60,
 		handler : function() {
 			if(!Ext.getCmp('form-reg-goods-code').getValue()) {
@@ -2248,7 +2330,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 					params: {'data': Ext.JSON.encode(datas)},
 					success: function(form, action) {
 						Ext.Msg.alert('알림', '저장되었습니다.', function(){
-							storeNmpr.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+							Ext.getCmp('btn-sch-nmpr').fireEvent('click');
 							fn_activeNextTab();
 						});
 					},

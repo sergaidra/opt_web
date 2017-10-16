@@ -28,9 +28,15 @@
 		$("input:checkbox[id=chkCategory]:checked").each(function() {
 			cateList += this.value + "@";	
 		});
-		$("input:hidden[id=hidUpperClCodeNavi]").val(cateList);
-		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
-		form.submit();
+		
+		if(cateList) {
+			$("input:hidden[id=hidUpperClCodeNavi]").val(cateList);
+			form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
+			form.submit();	
+		} else {
+			alert('검색할 상품을 선택하세요.');
+			return;
+		}
 	}
 
 	function fnCheck(cl_code) {

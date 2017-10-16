@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <head>
 <style type="text/css">
 .activity-description .intro_title {
@@ -50,8 +49,8 @@
 	$(document).ready(function(){
 		// 상품소개 선택 init
 		$("#informenu4_set_01 .tab_01_area").css('visibility','visible').css('display','block');
-		$("#informenu4_set_01 .tab_01").wrapInner('<a href="#"/>');
-
+		$("#informenu4_set_01 .tab_01").wrapInner('<a href="#none"/>');
+		
 		// 상품소개 선택
 		$("#informenu4_set_01 > p").click(function(){
 			var pClass = $(this).attr("class");
@@ -61,8 +60,34 @@
 			$("#informenu4_set_01 > p").find("a").contents().unwrap();
 
 			$(divClass).css('visibility','visible').css('display','block');
-			$(this).wrapInner('<a href="#"/>');
+			$(this).wrapInner('<a href="#none"/>');
 		});
+
+		// 후기, Q&A 선택 init
+		$("#review_set_01 .rtab_01_area").css('visibility','visible').css('display','block');
+		$("#review_set_01 .rtab_01").wrapInner('<a/>');
+		$('#btn_qna_write').hide();
+
+		// 후기, Q&A 선택
+		$("#review_set_01 > p").click(function(){
+			var pClass = $(this).attr("class");
+			var divClass = ("#review_set_01 ." + pClass + "_area");
+
+			$("#review_set_01 > div").css('visibility','hidden').css('display','none');
+			$("#review_set_01 > p").find("a").contents().unwrap();
+
+			$(divClass).css('visibility','visible').css('display','block');
+			$(this).wrapInner('<a href="#none"/>');
+			
+			if(pClass == 'rtab_02') {
+				$('#btn_qna_write').show();
+			} else {
+				$('#btn_qna_write').hide();
+			}
+		});
+
+		
+
 
 		// 날짜 선택
 		$(".btn_op_calendar").click(function(){
@@ -238,7 +263,6 @@
 		var str = '';
 		var sum = 0;
 		var tot = 0;
-		
 		$("input[name='CART_NMPR_CO']").each(function(i) {
 			if($("input[name='CART_NMPR_CO']").eq(i).val() > 0) {
 				var id = $("input[name='CART_NMPR_CO']").eq(i).attr('id');
@@ -281,12 +305,12 @@
 					//str += ' :  ' + "₩"+comma(sum) 
 					//	+ '<a onclick="fnAdd(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">+</a>'
 					//	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a><br>';
-					str += " <span class='yellow'>"+comma(sum)+"</span>원"
+					str += "<span class='yellow'>"+comma(sum)+"</span>원"
 				    	+ '<a onclick="fnAdd(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">+</a>'
 				    	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a></p>';			    	
 				} else {
 					tot += sum;
-					str += " <span class='yellow'>"+comma(sum)+"</span>원"
+					str += "<span class='yellow'>"+comma(sum)+"</span>원"
 					    + '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a></p>';					    
 					//str += ' :  ' + "₩"+comma(sum) 
 					//	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a><br>';
@@ -303,13 +327,8 @@
 				str = '<li>' + str + '</li>';	
 			}
 		}
-		
-		if(div == 'R') {
-			$('#divCartDesc').append(str);
-		} else {
-			$('#divCartDesc').html(str);
-		}
-		
+			
+		$('#divCartDesc').html(str);
 		$('#PURCHS_AMOUNT').val("₩"+comma(tot));
 	}
 	
@@ -404,135 +423,6 @@
 		
 		fnSetCart();
 	}
-
-	var idxCart = 0;
-	function fnChangeStay(div, obj) {
-	    var divCardId = '';
-	    if(div == 'R') {
-			idxCart++;	 
-			divCardId = 'divTempStayOptions_' + idxCart;
-	    } else {
-	    	divCardId = $(obj).parents('div').attr('id');
-	    }
-	    
-	    console.log('idxCart:'+idxCart);
-	    console.log('divCardId:'+divCardId);
-
-		var idx = $(obj).val();
-		
-		console.log('idx:'+idx);
-		console.log('div:'+div);
-
-		
-
-		
-		var str = '';
-		var sum = 0;
-		var tot = 0;
-
-		// 객실 추가
-		if(div == 'R') {
-			var newTempStayOptions = "<div id='"+divCardId+"' style='display:none'>" + $("#divTempStayOptions").html() + "</div>";
-			$("#divCartDesc").append(newTempStayOptions);
-
-			$('#'+divCardId + ' #' + div+"_CART_NMPR_CO_" + idx).val(1);
-			
-			$('#TEMP_NMPR_CO').val($('#'+divCardId+' #'+div+'_GOODS_NMPR_CO_'+idx).val());
-			$('#TEMP_SETUP_AMOUNT').val($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val());
-			sum = parseInt($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10); 
-			str += "<p class='n3_lst'>"+$('#'+divCardId+' #'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#DAYS_CO').val()+"</span>박 ";
-			str += " <span class='yellow'>"+comma(sum)+"</span>원"
-	    	    + '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a></p>';	
-			$("#"+divCardId).before('<li>'+str+'</li>');
-			$('#'+divCardId).css('display', 'block');
-
-		} else if(div == 'E') {
-			sum = parseInt($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10) * parseInt($('#TEMP_NMPR_CO').val(), 10); 
-		} else if(div == 'C') {
-			if($('#'+divCardId+' #'+div+'_FIXED_AT_'+idx).val() == 'Y') {
-				sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10);
-		
-				//str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val();
-			} else {
-				sum = parseInt($('#TEMP_SETUP_AMOUNT').val(), 10) * parseFloat($('#'+divCardId+' #'+div+'_SETUP_RATE_'+idx).val());
-				//var tmp = parseFloat($('#'+div+'_SETUP_RATE_'+idx).val()) * 100;
-				console.log('비율 sum:'+sum);
-				//str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val();
-			}
-		}
-		
-		console.log('sum: '+sum);
-		console.log('str: '+str);
-
-
-		
-		//fnSetCartStay(div, divCardId);
-	
-	}
-	
-	function fnSetCartStay(div, divCardId){
-		//var div = '';
-		var idx = '';  
-		var str = '';
-		var sum = 0;
-		var tot = 0;
-		
-		console.log('div:'+div+"/divCardId:"+divCardId);
-		
-		$("input[name='CART_NMPR_CO']").each(function(i) {
-			if($("input[name='CART_NMPR_CO']").eq(i).val() > 0) {
-				var id = $("input[name='CART_NMPR_CO']").eq(i).attr('id');
-				idx = id.substring(id.lastIndexOf('_')+1);
-				
-				if(div == 'R') {
-					$('#TEMP_NMPR_CO').val($('#'+divCardId+' #'+div+'_GOODS_NMPR_CO_'+idx).val());
-					$('#TEMP_SETUP_AMOUNT').val($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val());
-					sum = parseInt($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10); 
-					str += "<p class='n3_lst'>"+$('#'+divCardId+' #'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#DAYS_CO').val()+"</span>박 ";
-					str += " <span class='yellow'>"+comma(sum)+"</span>원"
-				    	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a></p>';					
-				} else if(div == 'E') {
-					sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10) * parseInt($('#TEMP_NMPR_CO').val(), 10); 
-					//str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#TEMP_NMPR_CO').val()+"</span>인 <span class='yellow'>"+ $('#DAYS_CO').val()+'</span>박';
-				} else if(div == 'C') {
-					if($('#'+div+'_FIXED_AT_'+idx).val() == 'Y') {
-						sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10);
-				
-						//str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val();
-					} else {
-						sum = parseInt($('#TEMP_SETUP_AMOUNT').val(), 10) * parseFloat($('#'+div+'_SETUP_RATE_'+idx).val());
-						//var tmp = parseFloat($('#'+div+'_SETUP_RATE_'+idx).val()) * 100;
-						console.log('비율 sum:'+sum);
-						//str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val();
-					}
-				}
-				
-				
-				console.log('fnSetCart > div: '+div);
-				
-				tot += sum;
-
-			}
-	    });
-		
-		if(str) {
-			str = '<li>' + str + '</li>';	
-		} 
-
-		console.log(sum);
-		console.log(tot);
-		console.log(str);
-		
-		
-		if(div == 'R') {
-			$('#'+divCardId).before(str);
-			$('#'+divCardId).css('display', 'block');			
-		} else {
-			$('#'+divCardId).append(str);
-		}
-		
-		$('#PURCHS_AMOUNT').val("₩"+comma(tot));
-	}
 </script>
 </head>
 <body>
@@ -544,58 +434,58 @@
 <input type="hidden" id="hidClSe" name="hidClSe" value="${result.CL_SE}">
 <input type="hidden" id="hidWaitTime" name="hidWaitTime" value="${result.WAIT_TIME}">
 <input type="hidden" id="hidMvmnTime" name="hidMvmnTime" value="${result.MVMN_TIME}">
-<br>
+
 <c:forEach var="list" items="${nmprList}" varStatus="status">
-<input type="text" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="text" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="text" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="text" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="text" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="text" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="text" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="text" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
+<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
+<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
+<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
+<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
+<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
+<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
+<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
+<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+
 </c:forEach>
-<%-- <c:forEach var="list" items="${roomList}" varStatus="status">
-<input type="text" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="text" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="text" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="text" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="text" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="text" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="text" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="text" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
+<c:forEach var="list" items="${roomList}" varStatus="status">
+<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
+<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
+<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
+<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
+<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
+<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
+<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
+<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+
 </c:forEach>
 <c:forEach var="list" items="${eatList}" varStatus="status">
-<input type="text" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="text" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="text" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="text" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="text" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="text" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="text" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="text" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
+<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
+<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
+<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
+<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
+<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
+<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
+<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
+<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+
 </c:forEach>
 <c:forEach var="list" items="${checkList}" varStatus="status">
-<input type="text" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="text" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="text" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="text" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="text" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="text" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="text" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="text" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
-</c:forEach> --%>
+<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
+<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
+<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
+<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
+<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
+<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
+<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
+<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+
+</c:forEach>
 
 <c:if test="${result.CL_SE eq 'S'}">
-<input type="text" name="CHKIN_DE" id="CHKIN_DE">
-<input type="text" name="CHCKT_DE" id="CHCKT_DE">
-<input type="text" name="DAYS_CO" id="DAYS_CO" value="0">
-<input type="text" name="TEMP_NMPR_CO" id="TEMP_NMPR_CO" value="0">
-<input type="text" name="TEMP_SETUP_AMOUNT" id="TEMP_SETUP_AMOUNT" value="0">
+<input type="hidden" name="CHKIN_DE" id="CHKIN_DE">
+<input type="hidden" name="CHCKT_DE" id="CHCKT_DE">
+<input type="hidden" name="DAYS_CO" id="DAYS_CO" value="0">
+<input type="hidden" name="TEMP_NMPR_CO" id="TEMP_NMPR_CO" value="0">
+<input type="hidden" name="TEMP_SETUP_AMOUNT" id="TEMP_SETUP_AMOUNT" value="0">
 </c:if>
 
 
@@ -653,15 +543,26 @@
 							<span class="btn_op_calendar" id="btn_op_calendar_range"></span>
 						</li>
 						<li class="num02">객실
-							<select name="R_NMPR" id="R_NMPR" class="time_sbox2" onchange="fnChangeStay('R', this);this.blur();">
+							<select name="R_NMPR" id="R_NMPR" class="time_sbox2" onchange="fnChange('R', 'R_NMPR');this.blur();">
 								<option value="">선택</option><c:forEach var="list" items="${roomList}" varStatus="status">
 								<option value="${status.index}">${list.NMPR_CND}</option>
 							</c:forEach></select>
 						</li>
-						<!--  -->
-
-						<!--  -->
-
+						<c:if test="${fn:length(eatList) > 0}">
+						<li class="num03">옵션
+							<select name="E_NMPR" id="E_NMPR" class="time_sbox2" onchange="fnChange('E', 'E_NMPR');this.blur();">
+								<option value="">선택</option><c:forEach var="list" items="${eatList}" varStatus="status">
+								<option value="${status.index}">${list.NMPR_CND}</option>
+							</c:forEach></select>
+						</li></c:if>
+						<c:if test="${fn:length(checkList) > 0}">
+						<li>　　
+							<select name="C_NMPR" id="C_NMPR" class="time_sbox2" onchange="fnChange('C', 'C_NMPR');this.blur();">
+								<option value="">선택</option><c:forEach var="list" items="${checkList}" varStatus="status">
+								<option value="${status.index}">${list.NMPR_CND}</option>
+							</c:forEach></select>
+						</li></c:if>
+						</c:if>
 						<div id="divCartDesc"></div>
 					</ul>
 					<p id="price">
@@ -727,7 +628,7 @@
 			</c:if>
 			<!--인포4 메뉴영역 시작-->
 			<div id="informenu4_set_01">
-				<p class="tab_01"><a href='#'>이용안내</a></p>
+				<p class="tab_01"><a href="#none">이용안내</a></p>
 				<p class="tab_02">추가안내 및 유의사항</p>
 				<p class="tab_03">변경 및 환불규정</p>
 				<p class="tab_04">위치안내</p>
@@ -923,12 +824,12 @@
 
 			<div id="review_set_01">
 				<p class="rtab_01">
-					<a href='#'>상품평<span class="sky">(13건)</span></a>
+					<a href="#none">후기 (13건)</a>
 				</p>
-				<p>상품 Q&A</p>
-				<input type="button" value="글쓰기" class="btn_review_write" />
+				<p class="rtab_02">문의하기</p>
+				<input type="button" value="글쓰기" id="btn_qna_write" class="btn_review_write" />
 				<!--rtab_01 테이블(목록) 시작-->
-				<div class="rtab_01_area">
+				<%-- <div class="rtab_01_area">
 					<div class="review_tablestyle">
 						<table summary="" cellpadding="0" cellspacing="0">
 							<caption>게시판 템플릿 목록</caption>
@@ -1018,7 +919,7 @@
 						<li class="btn_nnext"><a href="#">마지막페이지</a></li>
 					</ul>
 
-				</div>
+				</div> --%>
 				<!-- rtab_01 테이블(목록) 끝 -->
 				<!--rtab_01 테이블(읽기) 시작-->
 				<div class="rtab_01_area">
@@ -1041,21 +942,21 @@
 									<th scope="col">평점</th>
 								</tr>
 							</thead>
-
 							<tbody>
 								<tr>
 									<td nowrap="nowrap">05</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
+									<td nowrap="nowrap" class="listleft" >생애 첫 호핑투어!</td>
 									<td nowrap="nowrap">honggildong</td>
 									<td nowrap="nowrap">2017.05.05</td>
 									<td nowrap="nowrap"><div class="star_score">
 											<span class="review_point40"><span class="blind">4점</span></span>
 										</div></td>
 								</tr>
+								<tr>
 								<td class="td_comment_view" colspan="5">
 									<div class="comment_view">
 										<dl>
-											<dt>상품구성(숙소/식사)</dt>
+											<!-- <dt>상품구성(숙소/식사)</dt>
 											<dd>
 												<div class="star_score_bgray">
 													<span class="review_point40"><span class="blind">4점</span></span>
@@ -1072,23 +973,22 @@
 												<div class="star_score_bgray">
 													<span class="review_point40"><span class="blind">4점</span></span>
 												</div>
-											</dd>
+											</dd> -->
 										</dl>
 										<div class="comment_view_txt">아이들 데리고 처음 가는 해외여행이라
 											걱정했는데.. 리조트까지 픽업서비스가 잘 되어있어서 별 무리없이 잘 다녀왔습니다.. 리조트의 경우
 											한국사람이 많아서인지 한국인까지 있어서 필요한걸 물어볼 수 있어서 좋았습니다. 감사합니다~</div>
-										<div class="btn_comment_area">
+										<!-- <div class="btn_comment_area">
 											<input type="button" value="수정" class="btn_comment_modify" /><input
 												type="button" value="삭제" class="btn_comment_delete" />
 										</div>
 										<div class="reply_area">
 											<div class="reply_txt">로그인 후 소중한 의견을 남겨주세요.</div>
 											<span class="btn_reply">댓글쓰기</span>
-										</div>
+										</div> -->
 
 									</div>
 								</td>
-								<tr>
 								</tr>
 								<tr>
 									<td nowrap="nowrap">04</td>
@@ -1096,7 +996,7 @@
 									<td nowrap="nowrap">honggildong</td>
 									<td nowrap="nowrap">2017.05.05</td>
 									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point40"><span class="blind">4점</span></span>
+											<span class="review_point30"><span class="blind">3점</span></span>
 										</div></td>
 								</tr>
 								<tr>
@@ -1105,7 +1005,7 @@
 									<td nowrap="nowrap">honggildong</td>
 									<td nowrap="nowrap">2017.05.05</td>
 									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point40"><span class="blind">4점</span></span>
+											<span class="review_point20"><span class="blind">2점</span></span>
 										</div></td>
 								</tr>
 								<tr>
@@ -1114,7 +1014,7 @@
 									<td nowrap="nowrap">honggildong</td>
 									<td nowrap="nowrap">2017.05.05</td>
 									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point40"><span class="blind">4점</span></span>
+											<span class="review_point10"><span class="blind">1점</span></span>
 										</div></td>
 								</tr>
 								<tr>
@@ -1123,7 +1023,7 @@
 									<td nowrap="nowrap">honggildong</td>
 									<td nowrap="nowrap">2017.05.05</td>
 									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point40"><span class="blind">4점</span></span>
+											<span class="review_point50"><span class="blind">5점</span></span>
 										</div></td>
 								</tr>
 
@@ -1134,7 +1034,7 @@
 				</div>
 				<!-- rtab_01 테이블(읽기) 끝 -->
 				<!--rtab_01 테이블(글쓰기) 시작-->
-				<div class="rtab_01_area">
+				<%-- <div class="rtab_01_area">
 					<div class="review_tablestyle">
 						<table summary="" cellpadding="0" cellspacing="0">
 							<caption>게시판 템플릿 목록</caption>
@@ -1239,11 +1139,82 @@
 					</div>
 
 
-				</div>
+				</div> --%>
 				<!-- rtab_01 테이블(글쓰기) 끝 -->
 				<!-- rtab_02 테이블-->
 				<div class="rtab_02_area">
-					<div class="default_tablestyle"></div>
+					<div class="default_tablestyle">
+						<table summary="" cellpadding="0" cellspacing="0">
+							<caption>게시판 템플릿 목록</caption>
+							<colgroup>
+								<col width="80px">
+								<col width="433px">
+								<col width="100px">
+								<col width="100px">
+								<col width="80px">
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">순번</th>
+									<th scope="col">제목</th>
+									<th scope="col">작성자</th>
+									<th scope="col">작성일</th>
+									<th scope="col">평점</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr>
+									<td nowrap="nowrap">99</td>
+									<td nowrap="nowrap" class="listleft">생애 첫dsdsdsdfsd 호핑투어!</td>
+									<td nowrap="nowrap">honggildong</td>
+									<td nowrap="nowrap">2017.05.05</td>
+									<td nowrap="nowrap"><div class="star_score">
+											<span class="review_point40"><span class="blind">4점</span></span>
+										</div></td>
+								</tr>
+								<tr>
+									<td nowrap="nowrap">04</td>
+									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
+									<td nowrap="nowrap">honggildong</td>
+									<td nowrap="nowrap">2017.05.05</td>
+									<td nowrap="nowrap"><div class="star_score">
+											<span class="review_point30"><span class="blind">3점</span></span>
+										</div></td>
+								</tr>
+								<tr>
+									<td nowrap="nowrap">03</td>
+									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
+									<td nowrap="nowrap">honggildong</td>
+									<td nowrap="nowrap">2017.05.05</td>
+									<td nowrap="nowrap"><div class="star_score">
+											<span class="review_point20"><span class="blind">2점</span></span>
+										</div></td>
+								</tr>
+								<tr>
+									<td nowrap="nowrap">02</td>
+									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
+									<td nowrap="nowrap">honggildong</td>
+									<td nowrap="nowrap">2017.05.05</td>
+									<td nowrap="nowrap"><div class="star_score">
+											<span class="review_point10"><span class="blind">1점</span></span>
+										</div></td>
+								</tr>
+								<tr>
+									<td nowrap="nowrap">01</td>
+									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
+									<td nowrap="nowrap">honggildong</td>
+									<td nowrap="nowrap">2017.05.05</td>
+									<td nowrap="nowrap"><div class="star_score">
+											<span class="review_point50"><span class="blind">5점</span></span>
+										</div></td>
+								</tr>
+
+
+							</tbody>
+						</table>
+
+					</div>
 				</div>
 				<!-- rtab_02 테이블 끝 -->
 
@@ -1285,61 +1256,5 @@
 	<!--컨텐츠 설명영역 끝-->
 </div>
 <!--인포메이션 끝-->
-
-<c:if test="${result.CL_SE eq 'S'}">
-<div id="divTempStayOptions" style="display:none;">
-<c:if test="${fn:length(eatList) > 0}">
-<li>옵션
-	<select name="E_NMPR" class="time_sbox2" onchange="fnChangeStay('E', this);this.blur();">
-		<option value="">선택</option><c:forEach var="list" items="${eatList}" varStatus="status">
-		<option value="${status.index}">${list.NMPR_CND} ₩<fmt:formatNumber value="${list.SETUP_AMOUNT}" pattern="#,###,###" /></option>
-	</c:forEach></select>
-</li></c:if>
-<c:if test="${fn:length(checkList) > 0}">
-<c:if test="${fn:length(eatList) > 0}"><li>　　</c:if><c:if test="${fn:length(eatList) == 0}"><li class="num03">옵션</c:if>
-	<select name="C_NMPR" class="time_sbox2" onchange="fnChangeStay('C', this);this.blur();">
-		<option value="">선택</option><c:forEach var="list" items="${checkList}" varStatus="status">
-		<option value="${status.index}">${list.NMPR_CND} <c:if test="${list.FIXED_AT == 'Y'}">₩<fmt:formatNumber value="${list.SETUP_AMOUNT}" pattern="#,###,###"/></c:if><c:if test="${list.FIXED_AT == 'N'}">(${list.SETUP_RATE * 100}%)</c:if></option>
-	</c:forEach></select>
-</li></c:if>
-</c:if>
-<li>　　
-	<input type="text" class="input_datebox2">
-</li>
-<c:forEach var="list" items="${roomList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
-</c:forEach>
-<c:forEach var="list" items="${eatList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
-</c:forEach>
-<c:forEach var="list" items="${checkList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-<br>
-</c:forEach>
-</div>  
-</c:if>
 </form>
 </body>

@@ -113,15 +113,23 @@
 				var diff = dat2.getTime() - dat1.getTime() ;
 				var currDay = 24 * 60 * 60 * 1000;
 
+				if($("#DAYS_CO").val() > 0) {
+					alert('일정이 변경되어 선택한 옵션이 초기화됩니다.');
+					$('#divCartDesc').html('');
+					$('#PURCHS_AMOUNT').val('₩0');
+					$('#R_NMPR').val('');				
+				}
+				
 				$("#DAYS_CO").val(diff/currDay);
 			} else {
 				$("#CHKIN_DE").val('');
 				$("#CHCKT_DE").val('');
 				$("#DAYS_CO").val('0');
-				fnInitCartStay();
+				
+				$('#divCartDesc').html('');
+				$('#PURCHS_AMOUNT').val('₩0');
+				$('#R_NMPR').val('');				
 			}
-			
-			fnSetCart();
 		});
 
 		$("#btn_op_calendar_range").click(function(){
@@ -238,6 +246,7 @@
 		var str = '';
 		var sum = 0;
 		var tot = 0;
+		
 		$("input[name='CART_NMPR_CO']").each(function(i) {
 			if($("input[name='CART_NMPR_CO']").eq(i).val() > 0) {
 				var id = $("input[name='CART_NMPR_CO']").eq(i).attr('id');
@@ -280,12 +289,12 @@
 					//str += ' :  ' + "₩"+comma(sum) 
 					//	+ '<a onclick="fnAdd(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">+</a>'
 					//	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a><br>';
-					str += "<span class='yellow'>"+comma(sum)+"</span>원"
+					str += " <span class='yellow'>"+comma(sum)+"</span>원"
 				    	+ '<a onclick="fnAdd(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">+</a>'
 				    	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a></p>';			    	
 				} else {
 					tot += sum;
-					str += "<span class='yellow'>"+comma(sum)+"</span>원"
+					str += " <span class='yellow'>"+comma(sum)+"</span>원"
 					    + '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a></p>';					    
 					//str += ' :  ' + "₩"+comma(sum) 
 					//	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a><br>';
@@ -302,8 +311,13 @@
 				str = '<li>' + str + '</li>';	
 			}
 		}
-			
-		$('#divCartDesc').html(str);
+		
+		if(div == 'R') {
+			$('#divCartDesc').append(str);
+		} else {
+			$('#divCartDesc').html(str);
+		}
+		
 		$('#PURCHS_AMOUNT').val("₩"+comma(tot));
 	}
 	
@@ -398,6 +412,80 @@
 		
 		fnSetCart();
 	}
+
+	// 숙박시설
+	var idxCart = 0;
+	function fnChangeStay(div, obj) {
+	    var divCardId = '';
+		var idx = $(obj).val();
+	    if(div == 'R') {
+			$('#R_NMPR').val('');
+			idxCart++;	 
+			divCardId = 'divTempStayOptions_' + idxCart;
+	    } else {
+	    	divCardId = $(obj).parents('div').attr('id');
+	    }
+	    
+	    console.log('idxCart:'+idxCart);
+	    console.log('divCardId:'+divCardId);
+
+	    console.log('idx:'+idx);
+		console.log('div:'+div);
+
+		var str = '';
+		var sum = 0;
+		var sub_tot = 0;
+		var tot = parseInt(uncomma($('#PURCHS_AMOUNT').val()), 10);
+		
+		console.log('#'+divCardId + ' #' + div+"_CART_NMPR_CO_" + idx);
+
+		// 객실 추가
+		if(div == 'R') {
+			var newTempStayOptions = "<div id='"+divCardId+"' style='display:none'>" + $("#divTempStayOptions").html() + "</div>";
+			$("#divCartDesc").append(newTempStayOptions);
+			$('#'+divCardId + ' #' + div+"_CART_NMPR_CO_" + idx).val(1);  // 선택
+			$('#TEMP_NMPR_CO').val($('#'+divCardId+' #'+div+'_GOODS_NMPR_CO_'+idx).val());
+			$('#TEMP_SETUP_AMOUNT').val($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val());
+			sum = parseInt($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10);
+			str += "<p class='n3_lst'>"+$('#'+divCardId+' #'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#DAYS_CO').val()+"</span>박 ";
+			str += " <span class='yellow'>"+comma(sum)+"</span>원"
+	    	    + '<a onclick="fnMinusStay(\''+divCardId+'\');return false;" class="btn_add_selected">-</a></p>';	
+			$("#"+divCardId).prepend('<li>'+str+'</li>');
+			$('#'+divCardId).css('display', 'block');
+			sub_tot = sum;
+			tot += sum;
+		} else if(div == 'E') {
+			$('#'+divCardId + ' #' + div+"_CART_NMPR_CO_" + idx).val(1);  // 선택
+			sum = parseInt($('#'+divCardId+' #'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10) * parseInt($('#TEMP_NMPR_CO').val(), 10);
+			sub_tot = parseInt(uncomma($('#'+divCardId+' input[name=SUB_AMOUNT]').val()), 10) + sum;
+			tot += sum;
+		} else if(div == 'C') {
+			$('#'+divCardId + ' #' + div+"_CART_NMPR_CO_" + idx).val(1);  // 선택
+			if($('#'+divCardId+' #'+div+'_FIXED_AT_'+idx).val() == 'Y') {
+				sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10);
+			} else {
+				sum = parseInt($('#TEMP_SETUP_AMOUNT').val(), 10) * parseFloat($('#'+divCardId+' #'+div+'_SETUP_RATE_'+idx).val());
+				console.log('비율 sum:'+sum);
+			}
+			sub_tot = parseInt(uncomma($('#'+divCardId+' input[name=SUB_AMOUNT]').val()), 10) + sum;
+			tot += sum;
+		}
+		
+		console.log('sum: '+sum);
+		console.log('str: '+str);
+		console.log('tot: '+tot);
+
+		$('#'+divCardId+' input[name=SUB_AMOUNT]').val('₩'+comma(sub_tot));
+		$('#PURCHS_AMOUNT').val("₩"+comma(tot));
+	}
+
+	function fnMinusStay(divCardId) {
+		var tot = parseInt(uncomma($('#PURCHS_AMOUNT').val()), 10);
+		var sub_tot = parseInt(uncomma($('#'+divCardId+' input[name=SUB_AMOUNT]').val()), 10);
+		tot = tot - sub_tot;
+		$('#PURCHS_AMOUNT').val('₩'+comma(tot));
+		$('#'+divCardId).remove();
+	}
 </script>
 </head>
 <body>
@@ -409,58 +497,58 @@
 <input type="hidden" id="hidClSe" name="hidClSe" value="${result.CL_SE}">
 <input type="hidden" id="hidWaitTime" name="hidWaitTime" value="${result.WAIT_TIME}">
 <input type="hidden" id="hidMvmnTime" name="hidMvmnTime" value="${result.MVMN_TIME}">
-
+<br>
 <c:forEach var="list" items="${nmprList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-
+<input type="text" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
+<input type="text" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
+<input type="text" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
+<input type="text" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
+<input type="text" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
+<input type="text" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
+<input type="text" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
+<input type="text" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+<br>
 </c:forEach>
-<c:forEach var="list" items="${roomList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-
+<%-- <c:forEach var="list" items="${roomList}" varStatus="status">
+<input type="text" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
+<input type="text" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
+<input type="text" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
+<input type="text" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
+<input type="text" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
+<input type="text" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
+<input type="text" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
+<input type="text" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+<br>
 </c:forEach>
 <c:forEach var="list" items="${eatList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-
+<input type="text" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
+<input type="text" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
+<input type="text" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
+<input type="text" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
+<input type="text" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
+<input type="text" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
+<input type="text" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
+<input type="text" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+<br>
 </c:forEach>
 <c:forEach var="list" items="${checkList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-
-</c:forEach>
+<input type="text" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
+<input type="text" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
+<input type="text" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
+<input type="text" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
+<input type="text" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
+<input type="text" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
+<input type="text" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
+<input type="text" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+<br>
+</c:forEach> --%>
 
 <c:if test="${result.CL_SE eq 'S'}">
-<input type="hidden" name="CHKIN_DE" id="CHKIN_DE">
-<input type="hidden" name="CHCKT_DE" id="CHCKT_DE">
-<input type="hidden" name="DAYS_CO" id="DAYS_CO" value="0">
-<input type="hidden" name="TEMP_NMPR_CO" id="TEMP_NMPR_CO" value="0">
-<input type="hidden" name="TEMP_SETUP_AMOUNT" id="TEMP_SETUP_AMOUNT" value="0">
+<input type="text" name="CHKIN_DE" id="CHKIN_DE">
+<input type="text" name="CHCKT_DE" id="CHCKT_DE">
+<input type="text" name="DAYS_CO" id="DAYS_CO" value="0">
+<input type="text" name="TEMP_NMPR_CO" id="TEMP_NMPR_CO" value="0">
+<input type="text" name="TEMP_SETUP_AMOUNT" id="TEMP_SETUP_AMOUNT" value="0">
 </c:if>
 
 
@@ -518,26 +606,15 @@
 							<span class="btn_op_calendar" id="btn_op_calendar_range"></span>
 						</li>
 						<li class="num02">객실
-							<select name="R_NMPR" id="R_NMPR" class="time_sbox2" onchange="fnChange('R', 'R_NMPR');this.blur();">
+							<select name="R_NMPR" id="R_NMPR" class="time_sbox2" onchange="fnChangeStay('R', this);this.blur();">
 								<option value="">선택</option><c:forEach var="list" items="${roomList}" varStatus="status">
 								<option value="${status.index}">${list.NMPR_CND}</option>
 							</c:forEach></select>
-						</li>
-						<c:if test="${fn:length(eatList) > 0}">
-						<li class="num03">옵션
-							<select name="E_NMPR" id="E_NMPR" class="time_sbox2" onchange="fnChange('E', 'E_NMPR');this.blur();">
-								<option value="">선택</option><c:forEach var="list" items="${eatList}" varStatus="status">
-								<option value="${status.index}">${list.NMPR_CND}</option>
-							</c:forEach></select>
 						</li></c:if>
-						<c:if test="${fn:length(checkList) > 0}">
-						<li>　　
-							<select name="C_NMPR" id="C_NMPR" class="time_sbox2" onchange="fnChange('C', 'C_NMPR');this.blur();">
-								<option value="">선택</option><c:forEach var="list" items="${checkList}" varStatus="status">
-								<option value="${status.index}">${list.NMPR_CND}</option>
-							</c:forEach></select>
-						</li></c:if>
-						</c:if>
+						<!--  -->
+
+						<!--  -->
+
 						<div id="divCartDesc"></div>
 					</ul>
 					<p id="price">
@@ -1161,5 +1238,60 @@
 	<!--컨텐츠 설명영역 끝-->
 </div>
 <!--인포메이션 끝-->
+
+<c:if test="${result.CL_SE eq 'S'}">
+<div id="divTempStayOptions" style="display:none;">
+<c:if test="${fn:length(eatList) > 0}">
+<li>옵션
+	<select name="E_NMPR" class="time_sbox2" onchange="fnChangeStay('E', this);this.blur();">
+		<option value="">선택</option><c:forEach var="list" items="${eatList}" varStatus="status">
+		<option value="${status.index}">${list.NMPR_CND} ₩<fmt:formatNumber value="${list.SETUP_AMOUNT}" pattern="#,###,###" /></option>
+	</c:forEach></select>
+</li></c:if>
+<c:if test="${fn:length(checkList) > 0}">
+<c:if test="${fn:length(eatList) > 0}"><li>　　</c:if><c:if test="${fn:length(eatList) == 0}"><li class="num03">옵션</c:if>
+	<select name="C_NMPR" class="time_sbox2" onchange="fnChangeStay('C', this);this.blur();">
+		<option value="">선택</option><c:forEach var="list" items="${checkList}" varStatus="status">
+		<option value="${status.index}">${list.NMPR_CND} <c:if test="${list.FIXED_AT == 'Y'}">₩<fmt:formatNumber value="${list.SETUP_AMOUNT}" pattern="#,###,###"/></c:if><c:if test="${list.FIXED_AT == 'N'}">(${list.SETUP_RATE * 100}%)</c:if></option>
+	</c:forEach></select>
+</li></c:if>
+<li>　　
+	<input type="text" name="SUB_AMOUNT" class="input_datebox2" value="">
+</li>
+<c:forEach var="list" items="${roomList}" varStatus="status">
+<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
+<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
+<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
+<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
+<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
+<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
+<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
+<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+<br>
+</c:forEach>
+<c:forEach var="list" items="${eatList}" varStatus="status">
+<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
+<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
+<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
+<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
+<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
+<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
+<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
+<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+<br>
+</c:forEach>
+<c:forEach var="list" items="${checkList}" varStatus="status">
+<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
+<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
+<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
+<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
+<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
+<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
+<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
+<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+<br>
+</c:forEach>
+</div>  
+</c:if>
 </form>
 </body>

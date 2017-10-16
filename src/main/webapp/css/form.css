@@ -649,7 +649,7 @@ p.category {
 	position:relative;
 	display: block;
 	width: 348px;
-	height: 634px;	
+	height: 434px;	
 	background: #485465 url(/images/bg_optiontop.gif) repeat-x 0 0;
 }
 #window .area_option .option_box {
@@ -975,7 +975,7 @@ input.btn_review_write:hover, input.btn_review_write:active {
 /**/
 #price {
 	position: absolute;
-	top: 500px; left: 0; 
+	top: 300px; left: 0; 
 	display: inline-block;
 	width: 308px; height: 25px; line-height: 25px;
 	margin: 0 0 0 0 ;
@@ -1000,7 +1000,7 @@ input.txt_price {
 	cursor: default;
 	display: block;
 	position: absolute;
-	top: 550px; left: 0;
+	top: 350px; left: 0;
 	width: 304px; height: 25px; line-height: 25px;  
 	padding: 12px 0 10px 0 ;
 	text-align: center;
@@ -1264,7 +1264,7 @@ h3 {
 
 
 /* 이용후기 메뉴2 탭 영역 */
-
+/* 20171012 start
 #review_set_01 {
 	float: left;
 	display: block;
@@ -1310,6 +1310,7 @@ h3 {
 	border-right: 1px solid #3a4452;
 	border-bottom: 1px solid #3a4452;
 }
+20171012 end */
 
 /*
 #review_set_01 p {
@@ -1351,6 +1352,74 @@ h3 {
 	border-bottom: 1px solid #3a4452;
 }
 */
+
+/* 상품정보 메뉴2 탭 영역 */
+
+#review_set_01 {
+	float: left;
+	display: block;
+	width: 793px;
+	margin: 0 0 40px 0;
+	background: url(/images/bg_review_tab.gif) repeat-x 0 1px;
+}
+
+#review_set_01 p.rtab_01, #review_set_01 p.rtab_02, #review_set_01 p.rtab_03, #review_set_01 p.rtab_04 {
+	float:left;
+	display:inline-block; 
+	width: 130px;
+	height: 39px; line-height: 39px;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	color: #000;
+	background: url(/images/bg_pattern_bgray.gif) repeat 0 0;
+	border-top: 1px solid #d3d8e4;
+	border-right: 1px solid #d3d8e4;
+	border-bottom: 1px solid #3a4452;
+}
+		
+#review_set_01 p.rtab_01 a, #review_set_01 p.rtab_01 a:hover,  #review_set_01 p.rtab_01 a:active, #review_set_01 p.rtab_02 a, #review_set_01 p.rtab_02 a:hover,  #review_set_01 p.rtab_02 a:active, #review_set_01 p.rtab_03 a, #review_set_01 p.rtab_03 a:hover,  #review_set_01 p.rtab_03 a:active, #review_set_01 p.rtab_04 a, #review_set_01 p.rtab_04 a:hover,  #review_set_01 p.rtab_04 a:active {
+	float:left;
+	display:inline-block; 
+	width: 130px;
+	height: 38px; line-height: 38px;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	color: #fff;
+	background: #3a4452;
+	border-top: 1px solid #3a4452;
+	border-right: 1px solid #3a4452;
+	border-bottom: 1px solid #3a4452;
+}
+.rtab_01_area {
+	float: left;
+	display: block;
+	visibility: visible;
+	margin: 4px 0 50px 0;
+}
+.rtab_02_area {
+	float: left;
+	display: none;
+	visibility: hidden;
+	margin: 4px 0 50px 0;
+}
+.rtab_03_area {
+	float: left;
+	display: none;
+	visibility: hidden;
+	margin: 4px 0 50px 0;
+}
+.rtab_04_area {
+	float: left;
+	display: none;
+	visibility: hidden;
+	width: 791px;
+	height: 300px;
+	margin: 4px 0 50px 0;
+	border: 1px solid #e9e9e9;
+}
+
 input.btn_review_write {
 	float: right;
 	position: relative;
