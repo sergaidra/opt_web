@@ -16,6 +16,9 @@
 
 		<!-- 항공API정보 -->
 		<pattern>/flight/*</pattern>
+		
+		<!-- gmap -->
+		<pattern>/gmap/*</pattern>
 
 		<!-- iframe -->
 		<pattern>*Iframe/*</pattern>

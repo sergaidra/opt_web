@@ -814,7 +814,7 @@
 				<!-- tab_03 테이블 끝 -->
 				<!-- tab_04 지도-->
 				<div class="tab_04_area">
-					<iframe src="<c:url value='/mngr/gmap/'/>?la=${result.ACT_LA}&lo=${result.ACT_LO}" width="100%" height="100%"></iframe>
+					<iframe src="<c:url value='/gmap/location/'/>?la=${result.ACT_LA}&lo=${result.ACT_LO}" width="100%" height="100%"></iframe>
 				</div>
 				<!-- tab_04 지도 끝 -->
 			</div>
