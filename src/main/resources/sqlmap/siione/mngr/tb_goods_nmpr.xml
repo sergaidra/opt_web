@@ -11,6 +11,7 @@
                                  , SETUP_SE
                                  , NMPR_SN
                                  , NMPR_CND
+                                 , NMPR_CND_ENG
                                  , FIXED_AT
                                  , SETUP_AMOUNT
                                  , SETUP_RATE
@@ -23,6 +24,7 @@
                                  , #SETUP_SE#
                                  , (SELECT NVL(MAX(NMPR_SN), 0)+1 FROM TB_GOODS_NMPR WHERE GOODS_CODE = #GOODS_CODE# AND SETUP_SE = #SETUP_SE#)
                                  , #NMPR_CND#
+                                 , #NMPR_CND_ENG#
                                  , NVL(#FIXED_AT#, 'Y')
                                  , REPLACE(#SETUP_AMOUNT#, ',', '')
                                  , #SETUP_RATE# * 0.01
@@ -40,6 +42,7 @@
            SET UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
              , NMPR_CND = #NMPR_CND#
+             , NMPR_CND_ENG = #NMPR_CND_ENG#
              , FIXED_AT = #FIXED_AT#
              , SETUP_AMOUNT = #SETUP_AMOUNT#
              , SETUP_RATE = #SETUP_RATE# * 0.01
@@ -70,6 +73,7 @@
              , SETUP_SE
              , NMPR_SN
              , NMPR_CND
+             , NMPR_CND_ENG
              , FIXED_AT
              , SETUP_AMOUNT
              , SETUP_RATE * 100 SETUP_RATE
@@ -93,6 +97,7 @@
              , SETUP_SE
              , NMPR_SN
              , NMPR_CND
+             , NMPR_CND_ENG
              , FIXED_AT
              , SETUP_AMOUNT
              , SETUP_RATE * 100 SETUP_RATE

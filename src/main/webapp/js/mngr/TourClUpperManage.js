@@ -9,7 +9,7 @@ function fn_search() {
 
 Ext.define('TourClInfo', {
     extend: 'Ext.data.Model',
-    fields: ['CL_CODE', 'CL_NM', 'UPPER_CL_CODE', 'CL_SE', 'FILE_CODE', 'FILE_NM', 'SORT_ORDR', 'DELETE_AT', 'DC', 'WRITNG_DE', 'UPDT_DE', 'CF_CNT', 'CRUD']
+    fields: ['CL_CODE', 'CL_NM', 'CL_NM_ENG', 'UPPER_CL_CODE', 'CL_SE', 'FILE_CODE', 'FILE_NM', 'SORT_ORDR', 'DELETE_AT', 'DC', 'DC_ENG', 'WRITNG_DE', 'UPDT_DE', 'CF_CNT', 'CRUD']
 });
 
 var comboDeleteAt = new Ext.create('Ext.form.ComboBox', {
@@ -173,6 +173,7 @@ var frCond = Ext.create('Ext.form.Panel', {
 					var r = Ext.create('TourClInfo', {
 						CL_CODE : '',
 						CL_NM : '',
+						CL_NM_ENG : '',
 						UPPER_CL_CODE : '00000',
 						CL_SE : 'G',
 						FILE_CODE : '',
@@ -180,6 +181,7 @@ var frCond = Ext.create('Ext.form.Panel', {
 						SORT_ORDR : '',
 						DELETE_AT : 'N',
 						DC : '',
+						DC_ENG : '',
 						WRITNG_DE : '',
 						UPDT_DE : '',
 						CF_CNT : '0',
@@ -316,12 +318,26 @@ var grid = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: false, maxLength: 23, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'CL_NM'
 	},{
+		text: '분류명(영문)',
+		width: 170,
+		style: 'text-align:center',
+		align: 'left',
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 40, enforceMaxLength: true, fieldStyle: {'ime-mode':'disabled'}, maskRe: /^[a-zA-Z0-9]+$/},
+		dataIndex: 'CL_NM_ENG'			
+	},{
 		text: '설명',
 		width: 300,
 		style: 'text-align:center',
 		align: 'left',
 		editor: {xtype:'textfield', allowBlank: false, maxLength: 23, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'DC'
+	},{
+		text: '설명(영문)',
+		width: 300,
+		style: 'text-align:center',
+		align: 'left',
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 40, enforceMaxLength: true, fieldStyle: {'ime-mode':'disabled'}, maskRe: /^[a-zA-Z0-9]+$/},
+		dataIndex: 'DC_ENG'			
 	},{
 		text: '분류구분',
 		width: 100,

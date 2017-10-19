@@ -6,55 +6,79 @@
     <typeAlias alias="string" type="java.lang.String"/>
 
     <resultMap id="rmGoods" class="hashMap">
-        <result property="GOODS_CODE"                column="GOODS_CODE"                jdbcType="string" javaType="string"/>
-        <result property="GOODS_NM"                  column="GOODS_NM"                  jdbcType="string" javaType="string"/>
-        <result property="GOODS_INTRCN"              column="GOODS_INTRCN"              jdbcType="CLOB"   javaType="string"/>
-        <result property="DELETE_AT"                 column="DELETE_AT"                 jdbcType="string" javaType="string"/>
-        <result property="USE_AT"                    column="USE_AT"                    jdbcType="string" javaType="string"/>
-        <result property="FILE_CODE"                 column="FILE_CODE"                 jdbcType="string" javaType="string"/>
-        <result property="WRITNG_ID"                 column="WRITNG_ID"                 jdbcType="string" javaType="string"/>
-        <result property="WRITNG_DE"                 column="WRITNG_DE"                 jdbcType="string" javaType="string"/>
-        <result property="UPDT_ID"                   column="UPDT_ID"                   jdbcType="string" javaType="string"/>
-        <result property="UPDT_DE"                   column="UPDT_DE"                   jdbcType="string" javaType="string"/>
-        <result property="UPPER_CL_CODE"             column="UPPER_CL_CODE"             jdbcType="string" javaType="string"/>
-        <result property="CL_CODE"                   column="CL_CODE"                   jdbcType="string" javaType="string"/>
-        <result property="CL_NM"                     column="CL_NM"                     jdbcType="string" javaType="string"/>
-        <result property="NATION_CODE"               column="NATION_CODE"               jdbcType="string" javaType="string"/>
-        <result property="CTY_CODE"                  column="CTY_CODE"                  jdbcType="string" javaType="string"/>
-        <result property="CTY_NM"                    column="CTY_NM"                    jdbcType="string" javaType="string"/>
-        <result property="WAIT_TIME"                 column="WAIT_TIME"                 jdbcType="string" javaType="string"/>
-        <result property="MVMN_TIME"                 column="MVMN_TIME"                 jdbcType="string" javaType="string"/>
-        <result property="ACT_LA"                    column="ACT_LA"                    jdbcType="string" javaType="string"/>
-        <result property="ACT_LO"                    column="ACT_LO"                    jdbcType="string" javaType="string"/>
-        <result property="VOCHR_TICKET_TY"           column="VOCHR_TICKET_TY"           jdbcType="string" javaType="string"/>
-        <result property="VOCHR_NTSS_REQRE_TIME"     column="VOCHR_NTSS_REQRE_TIME"     jdbcType="string" javaType="string"/>
-        <result property="VOCHR_USE_MTH"             column="VOCHR_USE_MTH"             jdbcType="string" javaType="string"/>
-        <result property="GUIDANCE_USE_TIME"         column="GUIDANCE_USE_TIME"         jdbcType="string" javaType="string"/>
-        <result property="GUIDANCE_REQRE_TIME"       column="GUIDANCE_REQRE_TIME"       jdbcType="string" javaType="string"/>
-        <result property="GUIDANCE_AGE_DIV"          column="GUIDANCE_AGE_DIV"          jdbcType="string" javaType="string"/>
-        <result property="GUIDANCE_TOUR_SCHDUL"      column="GUIDANCE_TOUR_SCHDUL"      jdbcType="string" javaType="string"/>
-        <result property="GUIDANCE_PRFPLC_LC"        column="GUIDANCE_PRFPLC_LC"        jdbcType="string" javaType="string"/>
-        <result property="GUIDANCE_EDC_CRSE"         column="GUIDANCE_EDC_CRSE"         jdbcType="string" javaType="string"/>
-        <result property="GUIDANCE_OPTN_MATTER"      column="GUIDANCE_OPTN_MATTER"      jdbcType="string" javaType="string"/>
-        <result property="GUIDANCE_PICKUP"           column="GUIDANCE_PICKUP"           jdbcType="string" javaType="string"/>
-        <result property="GUIDANCE_PRPARETG"         column="GUIDANCE_PRPARETG"         jdbcType="string" javaType="string"/>
-        <result property="GUIDANCE_INCLS_MATTER"     column="GUIDANCE_INCLS_MATTER"     jdbcType="string" javaType="string"/>
-        <result property="GUIDANCE_NOT_INCLS_MATTER" column="GUIDANCE_NOT_INCLS_MATTER" jdbcType="string" javaType="string"/>
-        <result property="ADIT_GUIDANCE"             column="ADIT_GUIDANCE"             jdbcType="string" javaType="string"/>
-        <result property="ATENT_MATTER"              column="ATENT_MATTER"              jdbcType="string" javaType="string"/>
-        <result property="CHANGE_REFND_REGLTN"       column="CHANGE_REFND_REGLTN"       jdbcType="string" javaType="string"/>
-        <result property="INTRCN_GOODS_TY"           column="INTRCN_GOODS_TY"           jdbcType="string" javaType="string"/>
-        <result property="INTRCN_USE_TIME"           column="INTRCN_USE_TIME"           jdbcType="string" javaType="string"/>
-        <result property="INTRCN_MEET_TIME"          column="INTRCN_MEET_TIME"          jdbcType="string" javaType="string"/>
-        <result property="INTRCN_REQRE_TIME"         column="INTRCN_REQRE_TIME"         jdbcType="string" javaType="string"/>
-        <result property="INTRCN_PROVD_LANG"         column="INTRCN_PROVD_LANG"         jdbcType="string" javaType="string"/>
-        <result property="INTRCN_POSBL_AGE"          column="INTRCN_POSBL_AGE"          jdbcType="string" javaType="string"/>
-        <result property="INTRCN_PLACE"              column="INTRCN_PLACE"              jdbcType="string" javaType="string"/>
-        <result property="CL_SE"                     column="CL_SE"                     jdbcType="string" javaType="string"/>
-        <result property="SORT_ORDR"                 column="SORT_ORDR"                 jdbcType="string" javaType="string"/>
-        <result property="MAIN_EXPSR_AT_1"           column="MAIN_EXPSR_AT_1"           jdbcType="string" javaType="string"/>
-        <result property="MAIN_EXPSR_AT_2"           column="MAIN_EXPSR_AT_2"           jdbcType="string" javaType="string"/>
-        <result property="CRUD_SE"                   column="CRUD_SE"                   jdbcType="string" javaType="string"/>
+        <result property="GOODS_CODE"                    column="GOODS_CODE"                    jdbcType="string" javaType="string"/>
+        <result property="GOODS_NM"                      column="GOODS_NM"                      jdbcType="string" javaType="string"/>
+        <result property="GOODS_INTRCN"                  column="GOODS_INTRCN"                  jdbcType="CLOB"   javaType="string"/>
+        <result property="DELETE_AT"                     column="DELETE_AT"                     jdbcType="string" javaType="string"/>
+        <result property="USE_AT"                        column="USE_AT"                        jdbcType="string" javaType="string"/>
+        <result property="FILE_CODE"                     column="FILE_CODE"                     jdbcType="string" javaType="string"/>
+        <result property="WRITNG_ID"                     column="WRITNG_ID"                     jdbcType="string" javaType="string"/>
+        <result property="WRITNG_DE"                     column="WRITNG_DE"                     jdbcType="string" javaType="string"/>
+        <result property="UPDT_ID"                       column="UPDT_ID"                       jdbcType="string" javaType="string"/>
+        <result property="UPDT_DE"                       column="UPDT_DE"                       jdbcType="string" javaType="string"/>
+        <result property="UPPER_CL_CODE"                 column="UPPER_CL_CODE"                 jdbcType="string" javaType="string"/>
+        <result property="CL_CODE"                       column="CL_CODE"                       jdbcType="string" javaType="string"/>
+        <result property="CL_NM"                         column="CL_NM"                         jdbcType="string" javaType="string"/>
+        <result property="NATION_CODE"                   column="NATION_CODE"                   jdbcType="string" javaType="string"/>
+        <result property="CTY_CODE"                      column="CTY_CODE"                      jdbcType="string" javaType="string"/>
+        <result property="CTY_NM"                        column="CTY_NM"                        jdbcType="string" javaType="string"/>
+        <result property="WAIT_TIME"                     column="WAIT_TIME"                     jdbcType="string" javaType="string"/>
+        <result property="MVMN_TIME"                     column="MVMN_TIME"                     jdbcType="string" javaType="string"/>
+        <result property="ACT_LA"                        column="ACT_LA"                        jdbcType="string" javaType="string"/>
+        <result property="ACT_LO"                        column="ACT_LO"                        jdbcType="string" javaType="string"/>
+        <result property="VOCHR_TICKET_TY"               column="VOCHR_TICKET_TY"               jdbcType="string" javaType="string"/>
+        <result property="VOCHR_NTSS_REQRE_TIME"         column="VOCHR_NTSS_REQRE_TIME"         jdbcType="string" javaType="string"/>
+        <result property="VOCHR_USE_MTH"                 column="VOCHR_USE_MTH"                 jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_USE_TIME"             column="GUIDANCE_USE_TIME"             jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_REQRE_TIME"           column="GUIDANCE_REQRE_TIME"           jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_AGE_DIV"              column="GUIDANCE_AGE_DIV"              jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_TOUR_SCHDUL"          column="GUIDANCE_TOUR_SCHDUL"          jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_PRFPLC_LC"            column="GUIDANCE_PRFPLC_LC"            jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_EDC_CRSE"             column="GUIDANCE_EDC_CRSE"             jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_OPTN_MATTER"          column="GUIDANCE_OPTN_MATTER"          jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_PICKUP"               column="GUIDANCE_PICKUP"               jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_PRPARETG"             column="GUIDANCE_PRPARETG"             jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_INCLS_MATTER"         column="GUIDANCE_INCLS_MATTER"         jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_NOT_INCLS_MATTER"     column="GUIDANCE_NOT_INCLS_MATTER"     jdbcType="string" javaType="string"/>
+        <result property="ADIT_GUIDANCE"                 column="ADIT_GUIDANCE"                 jdbcType="string" javaType="string"/>
+        <result property="ATENT_MATTER"                  column="ATENT_MATTER"                  jdbcType="string" javaType="string"/>
+        <result property="CHANGE_REFND_REGLTN"           column="CHANGE_REFND_REGLTN"           jdbcType="string" javaType="string"/>
+        <result property="INTRCN_GOODS_TY"               column="INTRCN_GOODS_TY"               jdbcType="string" javaType="string"/>
+        <result property="INTRCN_USE_TIME"               column="INTRCN_USE_TIME"               jdbcType="string" javaType="string"/>
+        <result property="INTRCN_MEET_TIME"              column="INTRCN_MEET_TIME"              jdbcType="string" javaType="string"/>
+        <result property="INTRCN_REQRE_TIME"             column="INTRCN_REQRE_TIME"             jdbcType="string" javaType="string"/>
+        <result property="INTRCN_PROVD_LANG"             column="INTRCN_PROVD_LANG"             jdbcType="string" javaType="string"/>
+        <result property="INTRCN_POSBL_AGE"              column="INTRCN_POSBL_AGE"              jdbcType="string" javaType="string"/>
+        <result property="INTRCN_PLACE"                  column="INTRCN_PLACE"                  jdbcType="string" javaType="string"/>
+        <result property="CL_SE"                         column="CL_SE"                         jdbcType="string" javaType="string"/>
+        <result property="SORT_ORDR"                     column="SORT_ORDR"                     jdbcType="string" javaType="string"/>
+        <result property="MAIN_EXPSR_AT_1"               column="MAIN_EXPSR_AT_1"               jdbcType="string" javaType="string"/>
+        <result property="MAIN_EXPSR_AT_2"               column="MAIN_EXPSR_AT_2"               jdbcType="string" javaType="string"/>
+        <result property="CRUD_SE"                       column="CRUD_SE"                       jdbcType="string" javaType="string"/>
+        <result property="GOODS_NM_ENG"                  column="GOODS_NM_ENG"                  jdbcType="string" javaType="string"/><!-- 영문 컬럼 -->
+        <result property="GOODS_INTRCN_ENG"              column="GOODS_INTRCN_ENG"              jdbcType="CLOB"   javaType="string"/>
+        <result property="VOCHR_NTSS_REQRE_TIME_ENG"     column="VOCHR_NTSS_REQRE_TIME_ENG"     jdbcType="string" javaType="string"/>
+        <result property="VOCHR_USE_MTH_ENG"             column="VOCHR_USE_MTH_ENG"             jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_USE_TIME_ENG"         column="GUIDANCE_USE_TIME_ENG"         jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_REQRE_TIME_ENG"       column="GUIDANCE_REQRE_TIME_ENG"       jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_AGE_DIV_ENG"          column="GUIDANCE_AGE_DIV_ENG"          jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_TOUR_SCHDUL_ENG"      column="GUIDANCE_TOUR_SCHDUL_ENG"      jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_PRFPLC_LC_ENG"        column="GUIDANCE_PRFPLC_LC_ENG"        jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_EDC_CRSE_ENG"         column="GUIDANCE_EDC_CRSE_ENG"         jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_OPTN_MATTER_ENG"      column="GUIDANCE_OPTN_MATTER_ENG"      jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_PICKUP_ENG"           column="GUIDANCE_PICKUP_ENG"           jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_PRPARETG_ENG"         column="GUIDANCE_PRPARETG_ENG"         jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_INCLS_MATTER_ENG"     column="GUIDANCE_INCLS_MATTER_ENG"     jdbcType="string" javaType="string"/>
+        <result property="GUIDANCE_NOT_INCLS_MATTER_ENG" column="GUIDANCE_NOT_INCLS_MATTER_ENG" jdbcType="string" javaType="string"/>
+        <result property="ADIT_GUIDANCE_ENG"             column="ADIT_GUIDANCE_ENG"             jdbcType="string" javaType="string"/>
+        <result property="ATENT_MATTER_ENG"              column="ATENT_MATTER_ENG"              jdbcType="string" javaType="string"/>
+        <result property="CHANGE_REFND_REGLTN_ENG"       column="CHANGE_REFND_REGLTN_ENG"       jdbcType="string" javaType="string"/>
+        <result property="INTRCN_USE_TIME_ENG"           column="INTRCN_USE_TIME_ENG"           jdbcType="string" javaType="string"/>
+        <result property="INTRCN_MEET_TIME_ENG"          column="INTRCN_MEET_TIME_ENG"          jdbcType="string" javaType="string"/>
+        <result property="INTRCN_REQRE_TIME_ENG"         column="INTRCN_REQRE_TIME_ENG"         jdbcType="string" javaType="string"/>
+        <result property="INTRCN_PROVD_LANG_ENG"         column="INTRCN_PROVD_LANG_ENG"         jdbcType="string" javaType="string"/>
+        <result property="INTRCN_POSBL_AGE_ENG"          column="INTRCN_POSBL_AGE_ENG"          jdbcType="string" javaType="string"/>
+        <result property="INTRCN_PLACE_ENG"              column="INTRCN_PLACE_ENG"              jdbcType="string" javaType="string"/>
     </resultMap>
 
     <insert id="GoodsDAO.insertGoods" parameterClass="hashMap">
@@ -62,6 +86,8 @@
         SELECT LPAD(SQ_GOODS_CODE.NEXTVAL, 10, '0') FROM DUAL
     </selectKey>
     <![CDATA[
+    DECLARE
+    BEGIN    
         INSERT INTO TB_GOODS( GOODS_CODE
                             , GOODS_NM
                             , GOODS_INTRCN
@@ -141,7 +167,63 @@
                             , #INTRCN_REQRE_TIME#
                             , #INTRCN_PROVD_LANG#
                             , #INTRCN_POSBL_AGE#
-                            , #INTRCN_PLACE# )
+                            , #INTRCN_PLACE# );
+
+		INSERT INTO TB_GOODS_ENG ( GOODS_NM_ENG
+		                         , GOODS_INTRCN_ENG
+		                         , VOCHR_NTSS_REQRE_TIME_ENG
+		                         , VOCHR_USE_MTH_ENG
+		                         , GUIDANCE_USE_TIME_ENG
+		                         , GUIDANCE_REQRE_TIME_ENG
+		                         , GUIDANCE_AGE_DIV_ENG
+		                         , GUIDANCE_TOUR_SCHDUL_ENG
+		                         , GUIDANCE_PRFPLC_LC_ENG
+		                         , GUIDANCE_EDC_CRSE_ENG
+		                         , GUIDANCE_OPTN_MATTER_ENG
+		                         , GUIDANCE_PICKUP
+		                         , GUIDANCE_PRPARETG_ENG
+		                         , GUIDANCE_INCLS_MATTER_ENG
+		                         , GUIDANCE_NOT_INCLS_MATTER
+		                         , ADIT_GUIDANCE_ENG
+		                         , ATENT_MATTER_ENG
+		                         , CHANGE_REFND_REGLTN_ENG
+		                         , INTRCN_GOODS_TY
+		                         , INTRCN_USE_TIME_ENG
+		                         , INTRCN_MEET_TIME
+		                         , INTRCN_REQRE_TIME_ENG
+		                         , INTRCN_PROVD_LANG_ENG
+		                         , INTRCN_POSBL_AGE_ENG
+		                         , INTRCN_PLACE_ENG
+		                         , WRITNG_ID
+		                         , WRITNG_DT ) 
+		                  VALUES ( #GOODS_NM_ENG#
+		                         , #GOODS_INTRCN_ENG#
+		                         , #VOCHR_NTSS_REQRE_TIME_ENG#
+		                         , #VOCHR_USE_MTH_ENG#
+		                         , #GUIDANCE_USE_TIME_ENG#
+		                         , #GUIDANCE_REQRE_TIME_ENG#
+		                         , #GUIDANCE_AGE_DIV_ENG#
+		                         , #GUIDANCE_TOUR_SCHDUL_ENG#
+		                         , #GUIDANCE_PRFPLC_LC_ENG#
+		                         , #GUIDANCE_EDC_CRSE_ENG#
+		                         , #GUIDANCE_OPTN_MATTER_ENG#
+		                         , #GUIDANCE_PICKUP#
+		                         , #GUIDANCE_PRPARETG_ENG#
+		                         , #GUIDANCE_INCLS_MATTER_ENG#
+		                         , #GUIDANCE_NOT_INCLS_MATTER#
+		                         , #ADIT_GUIDANCE_ENG#
+		                         , #ATENT_MATTER_ENG#
+		                         , #CHANGE_REFND_REGLTN_ENG#
+		                         , #INTRCN_GOODS_TY#
+		                         , #INTRCN_USE_TIME_ENG#
+		                         , #INTRCN_MEET_TIME#
+		                         , #INTRCN_REQRE_TIME_ENG#
+		                         , #INTRCN_PROVD_LANG_ENG#
+		                         , #INTRCN_POSBL_AGE_ENG#
+		                         , #INTRCN_PLACE_ENG#
+		                         , #WRITNG_ID#
+		                         , SYSDATE );                            
+    END; 
     ]]>
     </insert>
 
@@ -150,6 +232,8 @@
         SELECT LPAD(SQ_GOODS_CODE.NEXTVAL, 10, '0') FROM DUAL
     </selectKey>
     <![CDATA[
+    DECLARE
+    BEGIN
         INSERT INTO TB_GOODS( GOODS_CODE
                             , GOODS_NM
                             , GOODS_INTRCN
@@ -203,7 +287,35 @@
                             , #INTRCN_PLACE#
                             , 'N'
                             , #WRITNG_ID#
-                            , SYSDATE )
+                            , SYSDATE );
+
+		INSERT INTO TB_GOODS_ENG( GOODS_CODE
+                            , GOODS_NM_ENG
+                            , GOODS_INTRCN_ENG
+                            , VOCHR_NTSS_REQRE_TIME_ENG
+                            , VOCHR_USE_MTH_ENG
+                            , INTRCN_USE_TIME_ENG
+                            , INTRCN_MEET_TIME_ENG
+                            , INTRCN_REQRE_TIME_ENG
+                            , INTRCN_PROVD_LANG_ENG
+                            , INTRCN_POSBL_AGE_ENG
+                            , INTRCN_PLACE_ENG
+                            , WRITNG_ID
+                            , WRITNG_DT )
+                      VALUES( #GOODS_CODE#
+                            , #GOODS_NM_ENG#
+                            , #GOODS_INTRCN_ENG:CLOB#
+                            , #VOCHR_NTSS_REQRE_TIME_ENG#
+                            , #VOCHR_USE_MTH_ENG#
+                            , #INTRCN_USE_TIME_ENG#
+                            , #INTRCN_MEET_TIME_ENG#
+                            , #INTRCN_REQRE_TIME_ENG#
+                            , #INTRCN_PROVD_LANG_ENG#
+                            , #INTRCN_POSBL_AGE_ENG#
+                            , #INTRCN_PLACE_ENG#
+                            , #WRITNG_ID#
+                            , SYSDATE );                              
+    END;
     ]]>
     </insert>
 
@@ -253,7 +365,6 @@
         UPDATE TB_GOODS
            SET UPDT_ID               = #UPDT_ID#
              , UPDT_DT               = SYSDATE
-             , GOODS_CODE            = #GOODS_CODE#
              , GOODS_NM              = #GOODS_NM#
              , CL_CODE               = #CL_CODE#
              , CTY_CODE              = #CTY_CODE#
@@ -277,7 +388,26 @@
              , INTRCN_POSBL_AGE      = #INTRCN_POSBL_AGE#
              , INTRCN_PLACE          = #INTRCN_PLACE#
          WHERE GOODS_CODE = #GOODS_CODE#
-    ]]>
+	]]>
+    </update>
+    
+    <update id="GoodsDAO.updateGoodsEngForBass" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GOODS_ENG
+           SET UPDT_ID               = #UPDT_ID#
+             , UPDT_DT               = SYSDATE
+             , GOODS_NM_ENG              = #GOODS_NM_ENG#
+             , GOODS_INTRCN_ENG          = #GOODS_INTRCN_ENG:CLOB#
+             , VOCHR_NTSS_REQRE_TIME_ENG = #VOCHR_NTSS_REQRE_TIME_ENG#
+             , VOCHR_USE_MTH_ENG         = #VOCHR_USE_MTH_ENG#
+             , INTRCN_USE_TIME_ENG       = #INTRCN_USE_TIME_ENG#
+             , INTRCN_MEET_TIME_ENG      = #INTRCN_MEET_TIME_ENG#
+             , INTRCN_REQRE_TIME_ENG     = #INTRCN_REQRE_TIME_ENG#
+             , INTRCN_PROVD_LANG_ENG     = #INTRCN_PROVD_LANG_ENG#
+             , INTRCN_POSBL_AGE_ENG      = #INTRCN_POSBL_AGE_ENG#
+             , INTRCN_PLACE_ENG          = #INTRCN_PLACE_ENG#
+         WHERE GOODS_CODE = #GOODS_CODE#
+	]]>
     </update>
 
     <update id="GoodsDAO.updateGoodsForGuidance" parameterClass="hashMap">
@@ -299,6 +429,26 @@
          WHERE GOODS_CODE = #GOODS_CODE#
     ]]>
     </update>
+    
+    <update id="GoodsDAO.updateGoodsEngForGuidance" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GOODS_ENG
+           SET UPDT_ID                   = #UPDT_ID#
+             , UPDT_DT                   = SYSDATE
+             , GUIDANCE_USE_TIME_ENG         = #GUIDANCE_USE_TIME_ENG#
+             , GUIDANCE_REQRE_TIME_ENG       = #GUIDANCE_REQRE_TIME_ENG#
+             , GUIDANCE_AGE_DIV_ENG          = #GUIDANCE_AGE_DIV_ENG#
+             , GUIDANCE_TOUR_SCHDUL_ENG      = #GUIDANCE_TOUR_SCHDUL_ENG#
+             , GUIDANCE_PRFPLC_LC_ENG        = #GUIDANCE_PRFPLC_LC_ENG#
+             , GUIDANCE_EDC_CRSE_ENG         = #GUIDANCE_EDC_CRSE_ENG#
+             , GUIDANCE_OPTN_MATTER_ENG      = #GUIDANCE_OPTN_MATTER_ENG#
+             , GUIDANCE_PICKUP_ENG           = #GUIDANCE_PICKUP_ENG#
+             , GUIDANCE_PRPARETG_ENG         = #GUIDANCE_PRPARETG_ENG#
+             , GUIDANCE_INCLS_MATTER_ENG     = #GUIDANCE_INCLS_MATTER_ENG#
+             , GUIDANCE_NOT_INCLS_MATTER_ENG = #GUIDANCE_NOT_INCLS_MATTER_ENG#
+         WHERE GOODS_CODE = #GOODS_CODE#
+    ]]>
+    </update>    
 
     <update id="GoodsDAO.updateGoodsForEtc" parameterClass="hashMap">
     <![CDATA[
@@ -308,6 +458,18 @@
              , ADIT_GUIDANCE       = #ADIT_GUIDANCE#
              , ATENT_MATTER        = #ATENT_MATTER#
              , CHANGE_REFND_REGLTN = #CHANGE_REFND_REGLTN#
+         WHERE GOODS_CODE = #GOODS_CODE#
+    ]]>
+    </update>
+
+    <update id="GoodsDAO.updateGoodsEngForEtc" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GOODS_ENG
+           SET UPDT_ID             = #UPDT_ID#
+             , UPDT_DT             = SYSDATE
+             , ADIT_GUIDANCE_ENG       = #ADIT_GUIDANCE_ENG#
+             , ATENT_MATTER_ENG        = #ATENT_MATTER_ENG#
+             , CHANGE_REFND_REGLTN_ENG = #CHANGE_REFND_REGLTN_ENG#
          WHERE GOODS_CODE = #GOODS_CODE#
     ]]>
     </update>
@@ -332,75 +494,99 @@
          WHERE DELETE_AT = 'N' ]]>
            AND GOODS_CODE IN <iterate property="GOODS_CODE_LIST" open="(" close=")" conjunction=",">#GOODS_CODE_LIST[]#</iterate>
     </delete>
-    
 
     <sql id="sqlGoodsInfo">
     <![CDATA[
-        SELECT GOODS_CODE
-             , GOODS_NM
-             , GOODS_INTRCN
-             , DELETE_AT
-             , DECODE(DELETE_AT, 'N', 'Y', 'N') USE_AT
-             , FILE_CODE
-             , WRITNG_ID
-             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
-             , UPDT_ID
-             , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
-             , WAIT_TIME
-             , MVMN_TIME
-             , ACT_LA
-             , ACT_LO
+        SELECT A.GOODS_CODE
+             , A.GOODS_NM
+             , A.GOODS_INTRCN
+             , A.DELETE_AT
+             , DECODE(A.DELETE_AT, 'N', 'Y', 'N') USE_AT
+             , A.FILE_CODE
+             , A.WRITNG_ID
+             , TO_CHAR(A.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+             , A.UPDT_ID
+             , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DE
+             , A.WAIT_TIME
+             , A.MVMN_TIME
+             , A.ACT_LA
+             , A.ACT_LO
              , (SELECT UPPER_CL_CODE FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE) UPPER_CL_CODE
-             , CL_CODE
+             , A.CL_CODE
              , (SELECT C.CL_NM FROM TB_TOUR_CL C WHERE A.CL_CODE = C.CL_CODE) CL_NM
              , (SELECT NATION_CODE FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE) NATION_CODE
-             , CTY_CODE
+             , A.CTY_CODE
              , (SELECT C.CTY_NM FROM TB_CTY C WHERE A.CTY_CODE = C.CTY_CODE) CTY_NM             
-             , CL_SE
-             , SORT_ORDR
-             , MAIN_EXPSR_AT_1
-             , MAIN_EXPSR_AT_2
-             , VOCHR_TICKET_TY
-             , VOCHR_NTSS_REQRE_TIME
-             , VOCHR_USE_MTH
-             , GUIDANCE_USE_TIME
-             , GUIDANCE_REQRE_TIME
-             , GUIDANCE_AGE_DIV
-             , GUIDANCE_TOUR_SCHDUL
-             , GUIDANCE_PRFPLC_LC
-             , GUIDANCE_EDC_CRSE
-             , GUIDANCE_OPTN_MATTER
-             , GUIDANCE_PICKUP
-             , GUIDANCE_PRPARETG
-             , GUIDANCE_INCLS_MATTER
-             , GUIDANCE_NOT_INCLS_MATTER
-             , ADIT_GUIDANCE
-             , ATENT_MATTER
-             , CHANGE_REFND_REGLTN
-             , INTRCN_GOODS_TY
-             , INTRCN_USE_TIME
-             , INTRCN_MEET_TIME
-             , INTRCN_REQRE_TIME
-             , INTRCN_PROVD_LANG
-             , INTRCN_POSBL_AGE
-             , INTRCN_PLACE
+             , A.CL_SE
+             , A.SORT_ORDR
+             , A.MAIN_EXPSR_AT_1
+             , A.MAIN_EXPSR_AT_2
+             , A.VOCHR_TICKET_TY
+             , A.VOCHR_NTSS_REQRE_TIME
+             , A.VOCHR_USE_MTH
+             , A.GUIDANCE_USE_TIME
+             , A.GUIDANCE_REQRE_TIME
+             , A.GUIDANCE_AGE_DIV
+             , A.GUIDANCE_TOUR_SCHDUL
+             , A.GUIDANCE_PRFPLC_LC
+             , A.GUIDANCE_EDC_CRSE
+             , A.GUIDANCE_OPTN_MATTER
+             , A.GUIDANCE_PICKUP
+             , A.GUIDANCE_PRPARETG
+             , A.GUIDANCE_INCLS_MATTER
+             , A.GUIDANCE_NOT_INCLS_MATTER
+             , A.ADIT_GUIDANCE
+             , A.ATENT_MATTER
+             , A.CHANGE_REFND_REGLTN
+             , A.INTRCN_GOODS_TY
+             , A.INTRCN_USE_TIME
+             , A.INTRCN_MEET_TIME
+             , A.INTRCN_REQRE_TIME
+             , A.INTRCN_PROVD_LANG
+             , A.INTRCN_POSBL_AGE
+             , A.INTRCN_PLACE
              , 'U' CRUD_SE
+             , B.GOODS_NM_ENG
+             , B.GOODS_INTRCN_ENG
+             , B.VOCHR_NTSS_REQRE_TIME_ENG
+             , B.VOCHR_USE_MTH_ENG
+             , B.GUIDANCE_USE_TIME_ENG
+             , B.GUIDANCE_REQRE_TIME_ENG
+             , B.GUIDANCE_AGE_DIV_ENG
+             , B.GUIDANCE_TOUR_SCHDUL_ENG
+             , B.GUIDANCE_PRFPLC_LC_ENG
+             , B.GUIDANCE_EDC_CRSE_ENG
+             , B.GUIDANCE_OPTN_MATTER_ENG
+             , B.GUIDANCE_PICKUP_ENG
+             , B.GUIDANCE_PRPARETG_ENG
+             , B.GUIDANCE_INCLS_MATTER_ENG
+             , B.GUIDANCE_NOT_INCLS_MATTER_ENG
+             , B.ADIT_GUIDANCE_ENG
+             , B.ATENT_MATTER_ENG
+             , B.CHANGE_REFND_REGLTN_ENG
+             , B.INTRCN_USE_TIME_ENG
+             , B.INTRCN_MEET_TIME_ENG
+             , B.INTRCN_REQRE_TIME_ENG
+             , B.INTRCN_PROVD_LANG_ENG
+             , B.INTRCN_POSBL_AGE_ENG
+             , B.INTRCN_PLACE_ENG             
           FROM TB_GOODS A
-         WHERE 1 = 1
+             , TB_GOODS_ENG B
+         WHERE A.GOODS_CODE = B.GOODS_CODE(+)
     ]]>
     </sql>
 
     <select id="GoodsDAO.selectGoodsByPk" parameterClass="hashMap" resultMap="rmGoods">
     <include refid="sqlGoodsInfo"/>
-           AND GOODS_CODE = #GOODS_CODE#
+           AND A.GOODS_CODE = #GOODS_CODE#
     </select>
 
     <select id="GoodsDAO.selectGoodsList" parameterClass="hashMap" resultMap="rmGoods">
     <include refid="sqlGoodsInfo"/>
         <isNotEmpty property="DELETE_AT">
-           AND DELETE_AT = #DELETE_AT#
+           AND A.DELETE_AT = #DELETE_AT#
         </isNotEmpty>
-         ORDER BY WRITNG_DT, GOODS_CODE
+         ORDER BY A.WRITNG_DT, A.GOODS_CODE
     </select>
 
     <select id="GoodsDAO.selectGoodsListForSearch" parameterClass="hashMap" resultClass="hashMap">
@@ -437,6 +623,5 @@
         </isNotEmpty></isEmpty>
          ORDER BY SORT_ORDR
     </select>
-
 
 </sqlMap>

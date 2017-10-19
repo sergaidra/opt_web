@@ -23,15 +23,21 @@ public class GoodsDAO extends EgovComAbstractDAO {
 	}
 	
 	public int updateGoodsForBass(Map<String, String> map) throws Exception {
-		return update("GoodsDAO.updateGoodsForBass", map);
+		int iRe = update("GoodsDAO.updateGoodsForBass", map);
+		iRe += update("GoodsDAO.updateGoodsEngForBass", map);
+		return iRe;
 	}
 	
 	public int updateGoodsForGuidance(Map<String, String> map) throws Exception {
-		return update("GoodsDAO.updateGoodsForGuidance", map);
+		int iRe = update("GoodsDAO.updateGoodsForGuidance", map);
+		iRe += update("GoodsDAO.updateGoodsEngForGuidance", map);
+		return iRe;
 	}	
 	
 	public int updateGoodsForEtc(Map<String, String> map) throws Exception {
-		return update("GoodsDAO.updateGoodsForEtc", map);
+		int iRe = update("GoodsDAO.updateGoodsForEtc", map);
+		iRe += update("GoodsDAO.updateGoodsEngForEtc", map);
+		return iRe;
 	}	
 	
 	public int deleteGoods(Map<String, String> map) throws Exception {

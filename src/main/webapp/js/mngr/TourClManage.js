@@ -56,7 +56,7 @@ var tree = Ext.create('Ext.tree.Panel', {
 
 Ext.define('TourClInfo', {
     extend: 'Ext.data.Model',
-    fields: ['CL_CODE', 'CL_NM', 'UPPER_CL_CODE', 'CL_SE', 'SORT_ORDR', 'DELETE_AT', 'CRUD']
+    fields: ['CL_CODE', 'CL_NM', 'CL_NM_ENG', 'UPPER_CL_CODE', 'CL_SE', 'SORT_ORDR', 'DELETE_AT', 'CRUD']
 });
 
 var comboDeleteAt = new Ext.create('Ext.form.ComboBox', {
@@ -186,6 +186,13 @@ var grid = Ext.create('Ext.grid.Panel', {
 		align: 'left',
 		editor: {xtype:'textfield', allowBlank: false, maxLength: 23, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'CL_NM'
+	},{
+		text: '분류명(영문)',
+		width: 200,
+		style: 'text-align:center',
+		align: 'left',
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 23, enforceMaxLength: true, fieldStyle: {'ime-mode':'disabled'}, maskRe: /^[a-zA-Z0-9]+$/},
+		dataIndex: 'CL_NM_ENG'		
 	},{
 		text: '숙박시설여부',
 		width: 100,

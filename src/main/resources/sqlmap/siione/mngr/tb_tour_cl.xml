@@ -9,20 +9,24 @@
     <![CDATA[
         INSERT INTO TB_TOUR_CL( CL_CODE
                               , CL_NM
+                              , CL_NM_ENG
                               , UPPER_CL_CODE
                               , CL_SE
                               , SORT_ORDR
                               , DC
+                              , DC_ENG
                               , DELETE_AT
                               , WRITNG_ID
                               , WRITNG_DT
                               , FILE_CODE )
                         VALUES( LPAD(SQ_CL_CODE.NEXTVAL, 5, '0')
                               , #CL_NM#
+                              , #CL_NM_ENG#
                               , #UPPER_CL_CODE#
                               , #CL_SE#
                               , NVL(#SORT_ORDR#, (SELECT NVL(MAX(SORT_ORDR), 0)+1 FROM TB_TOUR_CL WHERE UPPER_CL_CODE = #UPPER_CL_CODE#))
                               , #DC#
+                              , #DC_ENG#
                               , 'N'
                               , #WRITNG_ID#
                               , SYSDATE
@@ -35,8 +39,10 @@
            SET UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
              <isNotEmpty property="CL_NM">, CL_NM = <![CDATA[#CL_NM#]]></isNotEmpty>
-             <isNotEmpty property="CL_NM">, DC = <![CDATA[#DC#]]></isNotEmpty>
-             <isNotEmpty property="DC">, CL_SE = #CL_SE#</isNotEmpty>
+             , CL_NM_ENG = <![CDATA[#CL_NM_ENG#]]>
+             <isNotEmpty property="DC">, DC = <![CDATA[#DC#]]></isNotEmpty>
+             , DC_ENG = <![CDATA[#DC_ENG#]]>
+             <isNotEmpty property="CL_SE">, CL_SE = #CL_SE#</isNotEmpty>
              <isNotEmpty property="SORT_ORDR">, SORT_ORDR = #SORT_ORDR#</isNotEmpty>
              <isNotEmpty property="FILE_CODE">, FILE_CODE = #FILE_CODE#</isNotEmpty>
              <isNotEmpty property="DELETE_AT">, DELETE_AT = #DELETE_AT#</isNotEmpty>
@@ -59,11 +65,13 @@
     <![CDATA[
         SELECT CL_CODE
              , CL_NM
+             , CL_NM_ENG
              , UPPER_CL_CODE
              , CL_SE
              , SORT_ORDR
              , DELETE_AT
              , DC
+             , DC_ENG
              , WRITNG_ID
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , UPDT_ID
@@ -78,11 +86,13 @@
     <![CDATA[
         SELECT CL_CODE
              , CL_NM
+             , CL_NM_ENG
              , UPPER_CL_CODE
              , CL_SE
              , SORT_ORDR
              , DELETE_AT
              , DC
+             , DC_ENG
              , WRITNG_ID
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , UPDT_ID
@@ -125,6 +135,7 @@
 	<![CDATA[
 		 SELECT CL_CODE
 		      , CL_NM
+		      , CL_NM_ENG
 		      , UPPER_CL_CODE
 		      , NVL((SELECT X.CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.UPPER_CL_CODE), '전체') UPPER_CL_NM
 		      , CL_SE
@@ -133,6 +144,7 @@
 		      , SORT_ORDR
 		      , DELETE_AT
 		      , DC
+		      , DC_ENG
 		      , WRITNG_ID
 		      , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
 		      , UPDT_ID
