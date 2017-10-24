@@ -8,8 +8,10 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.co.siione.mngr.service.ArprtManageService;
+import kr.co.siione.utl.UserUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,8 +24,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 public class ArprtManageController {
 	
 	protected Log log = LogFactory.getLog(this.getClass());
-	
-	private static final String ssUserId = "admin";
 
 	@Inject
 	MappingJackson2JsonView jsonView;
@@ -42,9 +42,9 @@ public class ArprtManageController {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		// TODO 로그인 사용자 정보
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		param.put("REGIST_ID" , ssUserId);
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("REGIST_ID", esntl_id);
 
 		try {
 			results = arprtManageService.selectArprtList(param);
@@ -65,9 +65,9 @@ public class ArprtManageController {
 	public void saveTourClInfo(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		// TODO 로그인 사용자 정보
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		param.put("USER_ID" , ssUserId);
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("USER_ID", esntl_id);
 		
 		try {
 			result = arprtManageService.saveArprtInfo(param);

@@ -69,6 +69,7 @@ public class LoginController {
 
             	session.setAttribute("user_id", result.get("USER_ID"));
             	session.setAttribute("user_nm", result.get("USER_NM"));
+            	session.setAttribute("author_cl", result.get("AUTHOR_CL"));            	
             	session.setAttribute("esntl_id", esntl_id);
             	//timeout 30분
             	session.setMaxInactiveInterval(1800);

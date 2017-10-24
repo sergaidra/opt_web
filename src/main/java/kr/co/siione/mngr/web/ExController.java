@@ -28,8 +28,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 public class ExController {
     
 	protected Log log = LogFactory.getLog(this.getClass());
-	
-	private static final String ssUserId = "admin";
 
     @Inject
     MappingJackson2JsonView jsonView;
@@ -51,7 +49,7 @@ public class ExController {
 	public ModelAndView uploadfiles(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		ModelAndView mav = new ModelAndView();
 
-		param.put("WRITNG_ID", ssUserId);
+		param.put("WRITNG_ID", "admin");
 
 		param.put("GOODS_CODE", "0000000062");
 		

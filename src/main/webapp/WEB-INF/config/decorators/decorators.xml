@@ -11,9 +11,6 @@
 		<!-- 관리자 -->
 		<pattern>/mngr/*</pattern>
 
-		<!-- 관리자 -->
-		<pattern>/admin/*</pattern>
-
 		<!-- 항공API정보 -->
 		<pattern>/flight/*</pattern>
 		
@@ -33,7 +30,6 @@
 		<pattern>*Json/*</pattern>
 
 		<pattern>/html/*</pattern>
-
 
 	</excludes>
 </decorators>

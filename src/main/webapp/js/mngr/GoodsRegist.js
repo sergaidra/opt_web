@@ -1776,7 +1776,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 700,
+				maxLength: 500,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1818,7 +1818,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 700,
+				maxLength: 500,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1860,7 +1860,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 700,
+				maxLength: 500,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1902,7 +1902,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 70,
+				maxLength: 100,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1915,7 +1915,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-guidance-pickup-eng',
 				name: 'GUIDANCE_PICKUP_ENG',
 				width: 300,
-				fieldLabel: '픽업(영문)<br>(100자)',
+				fieldLabel: '픽업(영문)<br>(200자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -1924,7 +1924,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 100,
+				maxLength: 200,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1945,7 +1945,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 70,
+				maxLength: 100,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1957,7 +1957,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-prparetg-eng',
 				name: 'GUIDANCE_PRPARETG_ENG',
-				fieldLabel: '준비물(영문)<br>(100자)',
+				fieldLabel: '준비물(영문)<br>(200자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -1966,7 +1966,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 100,
+				maxLength: 200,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1987,7 +1987,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 80,
-				maxLength: 150,
+				maxLength: 250,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2029,7 +2029,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 80,
-				maxLength: 150,
+				maxLength: 250,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2041,7 +2041,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-not-incls-matter-eng',
 				name: 'GUIDANCE_NOT_INCLS_MATTER_ENG',
-				fieldLabel: '불포함사항(영문)<br>(250자)',
+				fieldLabel: '불포함사항(영문)<br>(500자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2050,7 +2050,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 80,
-				maxLength: 250,
+				maxLength: 500,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2098,7 +2098,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 700,
+				maxLength: 500,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2140,7 +2140,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 700,
+				maxLength: 500,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2182,7 +2182,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 700,
+				maxLength: 500,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -3141,7 +3141,7 @@ Ext.onReady(function(){
 		//items: [frSearch, Ext.create('Ext.tab.Panel', {
 		items: [Ext.create('Ext.tab.Panel', {
 			id: 'reg-tabs',
-			activeTab: 3,
+			activeTab: 0,
 			layout: 'border',
 			region: 'center',
 			//padding:'0 0 0 5',

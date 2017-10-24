@@ -1,5 +1,7 @@
 package kr.co.siione.utl;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,12 +12,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import kr.co.siione.utl.egov.EgovProperties;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 public class UserUtils {
 	
@@ -163,6 +167,73 @@ public class UserUtils {
 			return null;
 		}	
 	}
+	
+	/**
+	 * 
+	 * <pre>
+	 * 1. 메소드명 : getFileInfo
+	 * 2. 설명 : 
+	 * 3. 작성일 : 2017. 10. 20.
+	 * </pre>
+	 * @param file
+	 * @param sDirName : 중간폴더 명
+	 * @param isThumb : 썸네일 이미지 저장 여부
+	 * @return
+	 * @throws Exception
+	 */
+	public static HashMap<String, String> getFileInfo(MultipartFile file, String sDirName, boolean isThumb) throws Exception {
+		FileOutputStream fos = null;
+		HashMap<String, String> fileParam = new HashMap<String, String>();
+		
+		try {
+			LOG.debug("################Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
+			LOG.debug("################File.separator:"+File.separator);			
+			
+			String fileName = file.getOriginalFilename();
+			String saveFileNm = UserUtils.getDate("yyyyMMddHHmmss") + "_" + fileName;
+
+			String storePath  = EgovProperties.getProperty("Globals.fileStorePath") + sDirName + File.separator;
+			File f = new File(storePath);
+			if (!f.exists()) {
+				f.mkdirs();
+			}
+			fos = new FileOutputStream(storePath + saveFileNm);
+			fos.write(file.getBytes());
+			
+			// 상품 썸네일 이미지 저장
+			if(isThumb) {
+				String resizeFileNm = UserUtils.getDate("yyyyMMddHHmmss") + "_" + fileName.substring(0, fileName.lastIndexOf(".")) + "_resize" + fileName.substring(fileName.lastIndexOf("."));				
+				String resizePath = EgovProperties.getProperty("Globals.fileStorePath") + sDirName + File.separator + "thumb" + File.separator;				
+				File f2 = new File(resizePath);
+				if (!f2.exists()) {
+					f2.mkdirs();
+				}
+				int scaledWidth = 826/7;
+				int scaledHeight = 428/7;
+				ImageResizer.resize(storePath + saveFileNm, resizePath + resizeFileNm, scaledWidth, scaledHeight);
+			}
+			
+			//param.put("REGIST_PATH", "상품");
+			//param.put("FILE_SN", "1");
+			if(sDirName.equals("MAIN")) {
+				fileParam.put("IMAGE_NM", fileName);
+				fileParam.put("IMAGE_PATH", storePath + saveFileNm);
+				fileParam.put("IMAGE_SIZE", String.valueOf(file.getSize()));
+			} else {
+				fileParam.put("FILE_NM", fileName);
+				fileParam.put("FILE_PATH", storePath + saveFileNm);
+				fileParam.put("FILE_SIZE", String.valueOf(file.getSize()));
+				fileParam.put("FILE_CL", ((file.getContentType().indexOf("image") > -1)?"I":"M")); // I:이미지, M:동영상
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(fos != null) fos.close();
+		}		
+		return fileParam;
+	}
+	
 	
 	public static void log(Map<String, String> param) throws Exception  {
 		LOG.debug("==================== log start ==============================");		

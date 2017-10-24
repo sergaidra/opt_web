@@ -17,8 +17,11 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_schdul.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_time.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_nmpr.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_main_image.xml"/>
 	
 	<sqlMap resource="sqlmap/siione/mngr/menuinfo.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_arline.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_arprt.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_group.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_dta_initl.xml"/>
 </sqlMapConfig>

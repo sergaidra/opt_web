@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import kr.co.siione.mngr.service.CtyManageService;
+import kr.co.siione.mngr.service.GroupManageService;
 import kr.co.siione.utl.UserUtils;
 
 import org.apache.commons.logging.Log;
@@ -21,23 +21,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 @Controller
-public class CtyManageController {
+public class GroupManageController {
 	
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	@Inject
 	MappingJackson2JsonView jsonView;
 
-	@Resource(name = "CtyManageService")
-	private CtyManageService ctyManageService;
+	@Resource(name = "GroupManageService")
+	private GroupManageService groupManageService;
 
-	@RequestMapping(value="/mngr/CtyManage/")
-	public String CtyManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return "/mngr/CtyManage";
+	@RequestMapping(value="/mngr/GroupManage/")
+	public String GroupManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return "/mngr/GroupManage";
 	}
 
-	@RequestMapping(value="/mngr/selectCtyList/")
-	public void selectCtyList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
+	@RequestMapping(value="/mngr/selectGroupList/")
+	public void selectGroupList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
 		List<Map<String,String>> results = null;
 
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -47,7 +47,7 @@ public class CtyManageController {
 		param.put("REGIST_ID", esntl_id);
 
 		try {
-			results = ctyManageService.selectCtyList(param);
+			results = groupManageService.selectGroupList(param);
 		
 			result.put("rows", results.size());
 			result.put("data", results);
@@ -61,7 +61,7 @@ public class CtyManageController {
 		}
 	}
 
-	@RequestMapping(value="/mngr/saveCtyInfo/")
+	@RequestMapping(value="/mngr/saveGroupInfo/")
 	public void saveTourClInfo(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
 
@@ -70,7 +70,7 @@ public class CtyManageController {
 		param.put("USER_ID", esntl_id);
 		
 		try {
-			result = ctyManageService.saveCtyInfo(param);
+			result = groupManageService.saveGroupInfo(param);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			result.put("message", e.getMessage());
@@ -79,5 +79,6 @@ public class CtyManageController {
 		
 		jsonView.render(result, request, response);
 	} 
+
 
 }

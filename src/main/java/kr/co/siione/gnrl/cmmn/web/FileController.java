@@ -115,33 +115,50 @@ public class FileController {
         HttpHeaders responseHeaders = new HttpHeaders();
         entity = new ResponseEntity(HttpStatus.BAD_REQUEST);
 
-        String file_code = SimpleUtils.default_set(request.getParameter("file_code"));
-        String file_sn = SimpleUtils.default_set(request.getParameter("file_sn"));
-
     	String noImagePath = request.getSession().getServletContext().getRealPath("/") + NO_IMAGE_PATH;
     	String realPath = noImagePath;
     	String fileName = NO_IMAGE_NAME;
-        
-    	HashMap map = new HashMap();
-    	map.put("file_code", file_code);    	
-    	map.put("file_cl", "I");
+
+        String file_code = SimpleUtils.default_set(request.getParameter("file_code"));
+
+        if(!file_code.equals("")) {
+        	// 상품 이미지        	
+            String file_sn = SimpleUtils.default_set(request.getParameter("file_sn"));
+            
+        	HashMap map = new HashMap();
+        	map.put("file_code", file_code);    	
+        	map.put("file_cl", "I");
+        	
+        	//파일번호 없으면 대표이미지 조회
+        	if(file_sn.isEmpty()){
+            	map.put("reprsnt_at", "Y");
+        	}else{
+            	map.put("file_sn", file_sn);
+        	}
+        	HashMap result = fileService.getFileDetail(map);	
+        	
+        	if(result != null){
+            	realPath = SimpleUtils.default_set((String) result.get("FILE_PATH"));
+            	// 썸네일이미지 가져오기
+            	realPath = StringUtils.replace(realPath, "GOODS", "GOODS\\thumb");
+            	realPath = realPath.substring(0, realPath.lastIndexOf(".")) + "_resize" + realPath.substring(realPath.lastIndexOf("."));
+            	fileName = SimpleUtils.default_set((String) result.get("FILE_NM"));
+        	}        	
+        } else {
+        	// 메인 이미지
+        	HashMap map = new HashMap();
+        	map.put("image_sn", SimpleUtils.default_set(request.getParameter("image_sn")));
+        	HashMap result = fileService.getMainImage(map);
+        	
+        	if(result != null){
+            	realPath = SimpleUtils.default_set((String) result.get("IMAGE_PATH"));
+            	// 썸네일이미지 가져오기
+            	realPath = StringUtils.replace(realPath, "MAIN", "MAIN\\thumb");
+            	realPath = realPath.substring(0, realPath.lastIndexOf(".")) + "_resize" + realPath.substring(realPath.lastIndexOf("."));
+            	fileName = SimpleUtils.default_set((String) result.get("IMAGE_NM"));
+        	}
+        }
     	
-    	//파일번호 없으면 대표이미지 조회
-    	if(file_sn.isEmpty()){
-        	map.put("reprsnt_at", "Y");
-    	}else{
-        	map.put("file_sn", file_sn);
-    	}
-    	HashMap result = fileService.getFileDetail(map);
-
-    	if(result != null){
-        	realPath = SimpleUtils.default_set((String) result.get("FILE_PATH"));
-        	// 썸네일이미지 가져오기
-        	realPath = StringUtils.replace(realPath, "GOODS", "GOODS\\thumb");
-        	realPath = realPath.substring(0, realPath.lastIndexOf(".")) + "_resize" + realPath.substring(realPath.lastIndexOf("."));
-        	fileName = SimpleUtils.default_set((String) result.get("FILE_NM"));
-    	}
-
         FileInputStream fileStream = null;  
 
         try {

@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -29,17 +27,13 @@ public class SessionCheck extends HandlerInterceptorAdapter {
 
 		if(uri.contains("/mngr/")){
 			//관리자
-			ArrayList<String> freeAccessUrls = new ArrayList<String>();
-			freeAccessUrls.add("/mngr/로그인필요한페이지/");
-	
-			if (freeAccessUrls.contains(uri)) {
-				if (request.getSession().getAttribute("esntl_id") == null) {
-					response.sendRedirect("/mngr/로그인페이지/");
-					return false;
-				} else {
-					return true;
-				}
-			}
+			if (request.getSession().getAttribute("author_cl") == null || UserUtils.nvl(request.getSession().getAttribute("author_cl")).equals("G")) {
+				//response.sendRedirect("/mngr/로그인페이지/");
+				response.sendRedirect("/member/login/?result=mngr");
+				return false;
+			} else {
+				return true;   
+			}			
 		}else{
 			//일반사용자
 			ArrayList<String> freeAccessUrls = new ArrayList<String>();

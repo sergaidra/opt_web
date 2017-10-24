@@ -10,6 +10,7 @@
 	String esntl_id = SimpleUtils.default_set((String)session.getAttribute("esntl_id"));
 	String user_id = SimpleUtils.default_set((String)session.getAttribute("user_id"));
 	String user_nm = SimpleUtils.default_set((String)session.getAttribute("user_nm"));
+	String author_cl = SimpleUtils.default_set((String)session.getAttribute("author_cl"));
 	String result = SimpleUtils.default_set(request.getParameter("result"));
 %>
 <!DOCTYPE html>
@@ -75,6 +76,11 @@
 			//$(location).attr('href', "<c:url value='/cart/list/'/>");
 		});
 		
+		<c:if test="${author_cl == 'A' || author_cl == 'M' }">
+		$(".mngr").click(function(){
+			$(location).attr('href', "<c:url value='/mngr/'/>");
+		});
+		</c:if>
 	});
 
 </script>
@@ -93,7 +99,6 @@
 				<li class="noline"><a href="javascript:alert('고객서비스');">고객서비스</a></li>
 			</ul>
 			<ul class="nav_right">
-			${user_id}			
 			<c:choose>
 				<c:when test="${fn:length(esntl_id) > 0}">
 					<li class="logout">로그아웃</li>
@@ -104,6 +109,10 @@
 					<li class="regi">회원가입</li>
 				</c:otherwise>
 			</c:choose>
+			<c:if test="${author_cl == 'A' || author_cl == 'M' }">
+				<li class="mngr">관리자</li>
+			</c:if>
+			${user_id}			
 			</ul>
 		</nav>
 	</div>

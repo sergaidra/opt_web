@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.co.siione.mngr.service.FileManageService;
 import kr.co.siione.mngr.service.GoodsManageService;
@@ -34,8 +35,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 public class GoodsManageController {
 	
 	protected Log log = LogFactory.getLog(this.getClass());
-	
-	private static final String ssUserId = "admin";
 
     @Inject
     MappingJackson2JsonView jsonView;
@@ -66,10 +65,10 @@ public class GoodsManageController {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		// TODO 로그인 사용자 정보
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		param.put("USER_ID" , ssUserId);
-
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("USER_ID", esntl_id);
+		
 		log.debug("[selectGoodsListForSearch]param:"+param);
 
 		try {
@@ -89,13 +88,12 @@ public class GoodsManageController {
 
 	@RequestMapping(value="/mngr/insertGoods/")
 	public void insertGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception{
-		param.put("WRITNG_ID", ssUserId);
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		//로그인 객체 선언
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		//param.put("INQIRE_RESN", Util.convertText2Html(Util.nvl(param.get("INQIRE_RESN"))));
-
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("WRITNG_ID", esntl_id);
+		
 		try {
 			UserUtils.log("[insertGoodsForBass]param", param);
 
@@ -115,18 +113,15 @@ public class GoodsManageController {
 
 	@RequestMapping(value="/mngr/updateGoods/")
 	public void updateGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception{
-		param.put("WRITNG_ID", ssUserId);
-		param.put("UPDT_ID", ssUserId);
 		Map<String, Object> result = new HashMap<String, Object>();
 		int iRe = 0;
-
-		//로그인 객체 선언
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		//param.put("INQIRE_RESN", Util.convertText2Html(Util.nvl(param.get("INQIRE_RESN"))));
+		
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("WRITNG_ID", esntl_id);
+		param.put("UPDT_ID", esntl_id);
 
 		try {
-
-			UserUtils.log("[updateGoods]param", param);
 			String str = "";
 
 			if(UserUtils.nvl(param.get("UPDT_SE")).equals("U")) {
@@ -164,16 +159,13 @@ public class GoodsManageController {
 	
 	@RequestMapping(value="/mngr/deleteGoods/")
 	public void deleteGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception{
-		param.put("UPDT_ID", ssUserId);
 		Map<String, Object> result = new HashMap<String, Object>();
-
-		//로그인 객체 선언
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		//param.put("INQIRE_RESN", Util.convertText2Html(Util.nvl(param.get("INQIRE_RESN"))));
+		
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("UPDT_ID", esntl_id);
 
 		try {
-			UserUtils.log("[deleteGoods]param", param);
-
 			int iRe = goodsManageService.deleteGoods(param);
 
 			if(iRe > 0) {
@@ -194,28 +186,17 @@ public class GoodsManageController {
 	
 	@RequestMapping(value="/mngr/deleteGoodsMulti/")
 	public void deleteGoodsMulti(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception{
-		param.put("UPDT_ID", ssUserId);
 		Map<String, Object> result = new HashMap<String, Object>();
-
-		//로그인 객체 선언
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		//param.put("INQIRE_RESN", Util.convertText2Html(Util.nvl(param.get("INQIRE_RESN"))));
+		
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("UPDT_ID", esntl_id);
 		
 		try {
-			UserUtils.log("[deleteGoodsMulti]param", param);
-			
-			
 			String[] str = UserUtils.nvl(param.get("GOODS_CODE_LIST")).split(",");
-			
-			for(String aa : str) {
-				System.out.println(">>  "+aa);
-			}
-			
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("GOODS_CODE_LIST", str);
-			
-			
 
 			int iRe = goodsManageService.deleteGoodsMulti(map);
 
@@ -259,10 +240,10 @@ public class GoodsManageController {
 	@RequestMapping(value="/mngr/saveGoodsSchdul/")
 	public void saveGoodsSchdul(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
 		Map<String, Object> result = new HashMap<String, Object>();
-
-		// TODO 로그인 사용자 정보
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		param.put("USER_ID" , ssUserId);
+		
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("USER_ID", esntl_id);
 
 		try {
 			result = goodsManageService.saveGoodsSchdul(param);
@@ -280,8 +261,6 @@ public class GoodsManageController {
 		List<Map<String,String>> results = null;
 
 		Map<String, Object> result = new HashMap<String, Object>();
-
-		log.debug("[selectGoodsSchdul]param:"+param);
 
 		try {
 			results = goodsManageService.selectGoodsSchdulList(param);
@@ -302,11 +281,9 @@ public class GoodsManageController {
 	public void saveGoodsTime(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		// TODO 로그인 사용자 정보
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		param.put("USER_ID" , ssUserId);
-
-		UserUtils.log("[saveGoodsSchdul]param", param);
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("USER_ID", esntl_id);
 
 		try {
 			result = goodsManageService.saveGoodsTime(param);
@@ -324,8 +301,6 @@ public class GoodsManageController {
 		List<Map<String,String>> results = null;
 
 		Map<String, Object> result = new HashMap<String, Object>();
-
-		log.debug("[selectGoodsTimeList]param:"+param);
 
 		try {
 			results = goodsManageService.selectGoodsTimeList(param);
@@ -345,12 +320,10 @@ public class GoodsManageController {
 	@RequestMapping(value="/mngr/saveGoodsNmpr/")
 	public void saveGoodsNmpr(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
 		Map<String, Object> result = new HashMap<String, Object>();
-
-		// TODO 로그인 사용자 정보
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		param.put("USER_ID" , ssUserId);
-
-		UserUtils.log("[saveGoodsNmpr]param", param);
+		
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("USER_ID", esntl_id);
 
 		try {
 			result = goodsManageService.saveGoodsNmpr(param);
@@ -368,8 +341,6 @@ public class GoodsManageController {
 		List<Map<String,String>> results = null;
 
 		Map<String, Object> result = new HashMap<String, Object>();
-
-		log.debug("[selectGoodsNmprList]param:"+param);
 
 		try {
 			results = goodsManageService.selectGoodsNmprList(param);
@@ -390,11 +361,9 @@ public class GoodsManageController {
 	public void saveGoodsFile(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		// TODO 로그인 사용자 정보
-		//LoginVO loginVO = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-		param.put("USER_ID" , ssUserId);
-
-		UserUtils.log("[saveGoodsFile]param", param);
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("USER_ID", esntl_id);
 
 		try {
 			result = goodsManageService.saveGoodsFile(param);
@@ -412,8 +381,6 @@ public class GoodsManageController {
 		List<Map<String,String>> results = null;
 
 		Map<String, Object> result = new HashMap<String, Object>();
-
-		log.debug("[selectGoodsFileList]param:"+param);
 
 		try {
 			results = fileManageService.selectFileDetailList(param);
@@ -433,38 +400,22 @@ public class GoodsManageController {
 	@RequestMapping(value="/mngr/uploadGoodsFile/")
 	public ModelAndView uploadGoodsFile(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		ModelAndView mav = new ModelAndView();
-
-		param.put("WRITNG_ID", ssUserId);
+		
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("WRITNG_ID", esntl_id);		
 
 		//InputStream is = null;
 		FileOutputStream fos = null;
+		HashMap<String, String> fileParam = new HashMap<String, String>();
 
 		try {
-			log.debug("################Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
-			log.debug("################File.separator:"+File.separator);
-
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 			MultipartFile file = mRequest.getFile("ATTACH_FLIE");
-			String fileName = file.getOriginalFilename();
-			String saveFileNm = UserUtils.getDate("yyyyMMddHHmmss") + "_" + fileName;
-
-			String storePath = EgovProperties.getProperty("Globals.fileStorePath") + "GOODS" + File.separator;
-			File f = new File(storePath);
-			if (!f.exists()) {
-				f.mkdirs();
-			}
-
-			fos = new FileOutputStream(storePath + saveFileNm);
-			fos.write(file.getBytes());
-
-			//param.put("REGIST_PATH", "상품");
-			//param.put("FILE_SN", "1");
-			param.put("FILE_NM", fileName);
-			param.put("FILE_PATH", storePath + saveFileNm);
-			param.put("FILE_SIZE", String.valueOf(file.getSize()));
-			param.put("FILE_CL", ((file.getContentType().indexOf("image") > -1)?"I":"M")); // I:이미지, M:동영상
-			param.put("REPRSNT_AT", "N");
-			//param.put("SORT_NO", "1");
+			
+			fileParam = UserUtils.getFileInfo(file, "GOODS", true);
+			fileParam.put("REPRSNT_AT", "N");
+			fileParam.putAll(param);
 
 			goodsManageService.uploadGoodsFile(param);
 
@@ -494,7 +445,9 @@ public class GoodsManageController {
 	public ModelAndView uploadGoodsFiles(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		ModelAndView mav = new ModelAndView();
 
-		param.put("WRITNG_ID", ssUserId);
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("WRITNG_ID", esntl_id);
 
 		//InputStream is = null;
 		FileOutputStream fos = null;
@@ -506,44 +459,15 @@ public class GoodsManageController {
 		List<Map<String, String>> fileParamList = new ArrayList<Map<String, String>>();
 
 		try {
-			log.debug("################Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
-			log.debug("################File.separator:"+File.separator);
-
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 			//MultipartFile file = mRequest.getFile("ATTACH_FLIE");
 			List<MultipartFile> filelist = mRequest.getFiles("ATTACH_FLIE");
 			
 			for(MultipartFile file : filelist) {
-				String fileName = file.getOriginalFilename();
-				String saveFileNm = UserUtils.getDate("yyyyMMddHHmmss") + "_" + fileName;
-				String resizeFileNm = UserUtils.getDate("yyyyMMddHHmmss") + "_" + fileName.substring(0, fileName.lastIndexOf(".")) + "_resize" + fileName.substring(fileName.lastIndexOf("."));
-
-				String storePath  = EgovProperties.getProperty("Globals.fileStorePath") + "GOODS" + File.separator;
-				String resizePath = EgovProperties.getProperty("Globals.fileStorePath") + "GOODS" + File.separator + "thumb" + File.separator;
-				File f = new File(storePath);
-				if (!f.exists()) {
-					f.mkdirs();
-				}
-
-				fos = new FileOutputStream(storePath + saveFileNm);
-				fos.write(file.getBytes());
-				
-
-				// 상품 썸네일 이미지 저장
-				int scaledWidth = 826/7;
-				int scaledHeight = 428/7;
-				ImageResizer.resize(storePath + saveFileNm, resizePath + resizeFileNm, scaledWidth, scaledHeight);
-				
 				Map<String, String> fileParam = new HashMap<String, String>();
-				//param.put("REGIST_PATH", "상품");
-				//param.put("FILE_SN", "1");
-				fileParam.put("FILE_NM", fileName);
-				fileParam.put("FILE_PATH", storePath + saveFileNm);
-				fileParam.put("FILE_SIZE", String.valueOf(file.getSize()));
-				fileParam.put("FILE_CL", ((file.getContentType().indexOf("image") > -1)?"I":"M")); // I:이미지, M:동영상
+				fileParam = UserUtils.getFileInfo(file, "GOODS", true);
 				fileParam.put("REPRSNT_AT", "N");
-				fileParam.put("WRITNG_ID", ssUserId);
-				//param.put("SORT_NO", "1");
+				fileParam.put("WRITNG_ID", esntl_id);
 
 				fileParamList.add(fileParam);
 			}

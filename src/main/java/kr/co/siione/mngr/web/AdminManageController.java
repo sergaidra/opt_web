@@ -29,11 +29,6 @@ public class AdminManageController {
 	@Resource(name = "adminManageService")
 	private AdminManageService adminManageService;
 
-	@RequestMapping(value={"/mngr/index/"})
-	public String mngrIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return "/mngr/bak/mngrIndex";	
-	} 	
-
 	@RequestMapping(value={"/mngr/", "/mngr/main/"})
 	public String mngrMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return "/mngr/MngrMain";	

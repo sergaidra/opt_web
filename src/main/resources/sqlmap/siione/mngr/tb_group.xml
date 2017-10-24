@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="mngr">
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="string" type="java.lang.String"/>
+
+    <insert id="GroupDAO.insertGroup" parameterClass="hashMap">
+    <![CDATA[
+        INSERT INTO TB_GROUP( GROUP_CODE
+                            , GROUP_NM  
+                            , GROUP_DC  
+                            , USE_AT    
+                            , REGIST_ID 
+                            , REGIST_DT )
+                      VALUES( #GROUP_CODE#
+                            , #GROUP_NM#
+                            , #GROUP_DC#  
+                            , NVL(#USE_AT#, 'Y')
+                            , #REGIST_ID#
+                            , SYSDATE )
+    ]]>
+    </insert>
+
+    <update id="GroupDAO.updateGroup" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GROUP
+           SET GROUP_NM = #GROUP_NM#
+             , GROUP_DC = #GROUP_DC#
+             , USE_AT = #USE_AT#
+             , UPDT_ID = #UPDT_ID#
+             , UPDT_DT = SYSDATE
+         WHERE GROUP_CODE = #GROUP_CODE#
+    ]]>
+    </update>
+
+    <delete id="GroupDAO.deleteGroup" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GROUP
+           SET USE_AT = 'N'
+             , UPDT_ID = #UPDT_ID#
+             , UPDT_DT = SYSDATE
+         WHERE GROUP_CODE = #GROUP_CODE#
+    ]]>
+    </delete>
+
+    <select id="GroupDAO.selectGroupByPk" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+		SELECT GROUP_CODE
+		     , GROUP_NM
+		     , GROUP_DC
+		     , USE_AT
+		     , REGIST_ID
+		     , TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DT
+		     , UPDT_ID
+		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
+		  FROM TB_GROUP
+         WHERE GROUP_CODE = #GROUP_CODE#
+    ]]>
+    </select>
+
+    <select id="GroupDAO.selectGroupList" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+		SELECT GROUP_CODE
+		     , GROUP_NM
+		     , GROUP_DC
+		     , USE_AT
+		     , REGIST_ID
+		     , TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DT
+		     , UPDT_ID
+		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
+		     , 'U' CRUD
+		  FROM TB_GROUP
+    ]]>
+        <isNotEmpty property="USE_AT">
+         WHERE USE_AT = #USE_AT#
+        </isNotEmpty>
+    </select>
+
+</sqlMap>

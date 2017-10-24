@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="mngr">
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="string" type="java.lang.String"/>
+
+    <select id="DtaInitDAO.selectDtaInitList" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT TABLE_NM
+             , TABLE_DC
+             , TO_CHAR(RECENT_INIT_DT, 'YYYY-MM-DD HH24:MI:SS') RECENT_INIT_DT
+             , RECENT_INIT_ID
+             , (SELECT USER_NM FROM TB_USER WHERE ESNTL_ID = RECENT_INIT_ID) RECENT_INIT_NM
+          FROM TB_DTA_INIT
+    ]]>
+    </select>
+
+    <update id="DtaInitDAO.updateDtaInit" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_DTA_INIT
+           SET RECENT_INIT_DT = SYSDATE
+             , RECENT_INIT_ID = NVL(#RECENT_INIT_ID#, #INIT_ID#)
+         WHERE TABLE_NM = #TABLE_NM#
+    ]]>
+    </update>
+
+    <delete id="DtaInitDAO.initDtaForMainImage" parameterClass="hashMap">
+    <![CDATA[
+    DECLARE
+    BEGIN
+        INSERT INTO TB_MAIN_IMAGE_HIST ( IMAGE_SN
+                                       , INIT_DT
+                                       , IMAGE_NM
+                                       , IMAGE_PATH
+                                       , IMAGE_SIZE
+                                       , SORT_ORDR
+                                       , BEGIN_DE
+                                       , END_DE
+                                       , USE_AT
+                                       , REGIST_ID
+                                       , REGIST_DT
+                                       , UPDT_ID
+                                       , UPDT_DT
+                                       , INIT_ID )
+                                  SELECT IMAGE_SN
+                                       , SYSDATE
+                                       , IMAGE_NM
+                                       , IMAGE_PATH
+                                       , IMAGE_SIZE
+                                       , SORT_ORDR
+                                       , BEGIN_DE
+                                       , END_DE
+                                       , USE_AT
+                                       , REGIST_ID
+                                       , REGIST_DT
+                                       , UPDT_ID
+                                       , UPDT_DT
+                                       , #INIT_ID#
+                                    FROM TB_MAIN_IMAGE;
+
+        DELETE FROM TB_MAIN_IMAGE;
+    END;
+    ]]>
+    </delete>
+
+    <delete id="DtaInitDAO.initDtaForTourCl" parameterClass="hashMap">
+    <![CDATA[
+    DECLARE
+    BEGIN
+        INSERT INTO TB_TOUR_CL_HIST ( CL_CODE
+                                    , INIT_DT
+                                    , CL_NM
+                                    , CL_NM_ENG
+                                    , UPPER_CL_CODE
+                                    , DC
+                                    , DC_ENG
+                                    , CL_SE
+                                    , DELETE_AT
+                                    , FILE_CODE
+                                    , SORT_ORDR
+                                    , WRITNG_ID
+                                    , WRITNG_DT
+                                    , UPDT_ID
+                                    , UPDT_DT
+                                    , INIT_ID )
+                               SELECT CL_CODE
+                                    , SYSDATE
+                                    , CL_NM
+                                    , CL_NM_ENG
+                                    , UPPER_CL_CODE
+                                    , DC
+                                    , DC_ENG
+                                    , CL_SE
+                                    , DELETE_AT
+                                    , FILE_CODE
+                                    , SORT_ORDR
+                                    , WRITNG_ID
+                                    , WRITNG_DT
+                                    , UPDT_ID
+                                    , UPDT_DT
+                                    , #INIT_ID#
+                                 FROM TB_TOUR_CL;
+
+        DELETE FROM TB_TOUR_CL;
+    END;
+    ]]>
+    </delete>
+
+    <delete id="DtaInitDAO.initDtaForGoods" parameterClass="hashMap">
+    <![CDATA[
+    DECLARE
+    BEGIN
+        INSERT INTO TB_GOODS_HIST ( GOODS_CODE
+                                  , INIT_DT
+                                  , GOODS_NM
+                                  , GOODS_INTRCN
+                                  , CL_CODE
+                                  , CTY_CODE
+                                  , CL_SE
+                                  , FILE_CODE
+                                  , SORT_ORDR
+                                  , WAIT_TIME
+                                  , MVMN_TIME
+                                  , ACT_LA
+                                  , ACT_LO
+                                  , MAIN_EXPSR_AT_1
+                                  , MAIN_EXPSR_AT_2
+                                  , VOCHR_TICKET_TY
+                                  , VOCHR_NTSS_REQRE_TIME
+                                  , VOCHR_USE_MTH
+                                  , GUIDANCE_USE_TIME
+                                  , GUIDANCE_REQRE_TIME
+                                  , GUIDANCE_AGE_DIV
+                                  , GUIDANCE_TOUR_SCHDUL
+                                  , GUIDANCE_PRFPLC_LC
+                                  , GUIDANCE_EDC_CRSE
+                                  , GUIDANCE_OPTN_MATTER
+                                  , GUIDANCE_PICKUP
+                                  , GUIDANCE_PRPARETG
+                                  , GUIDANCE_INCLS_MATTER
+                                  , GUIDANCE_NOT_INCLS_MATTER
+                                  , ADIT_GUIDANCE
+                                  , ATENT_MATTER
+                                  , CHANGE_REFND_REGLTN
+                                  , INTRCN_GOODS_TY
+                                  , INTRCN_USE_TIME
+                                  , INTRCN_MEET_TIME
+                                  , INTRCN_REQRE_TIME
+                                  , INTRCN_PROVD_LANG
+                                  , INTRCN_POSBL_AGE
+                                  , INTRCN_PLACE
+                                  , DELETE_AT
+                                  , WRITNG_ID
+                                  , WRITNG_DT
+                                  , UPDT_ID
+                                  , UPDT_DT
+                                  , INIT_ID )
+                             SELECT GOODS_CODE
+                                  , SYSDATE
+                                  , GOODS_NM
+                                  , GOODS_INTRCN
+                                  , CL_CODE
+                                  , CTY_CODE
+                                  , CL_SE
+                                  , FILE_CODE
+                                  , SORT_ORDR
+                                  , WAIT_TIME
+                                  , MVMN_TIME
+                                  , ACT_LA
+                                  , ACT_LO
+                                  , MAIN_EXPSR_AT_1
+                                  , MAIN_EXPSR_AT_2
+                                  , VOCHR_TICKET_TY
+                                  , VOCHR_NTSS_REQRE_TIME
+                                  , VOCHR_USE_MTH
+                                  , GUIDANCE_USE_TIME
+                                  , GUIDANCE_REQRE_TIME
+                                  , GUIDANCE_AGE_DIV
+                                  , GUIDANCE_TOUR_SCHDUL
+                                  , GUIDANCE_PRFPLC_LC
+                                  , GUIDANCE_EDC_CRSE
+                                  , GUIDANCE_OPTN_MATTER
+                                  , GUIDANCE_PICKUP
+                                  , GUIDANCE_PRPARETG
+                                  , GUIDANCE_INCLS_MATTER
+                                  , GUIDANCE_NOT_INCLS_MATTER
+                                  , ADIT_GUIDANCE
+                                  , ATENT_MATTER
+                                  , CHANGE_REFND_REGLTN
+                                  , INTRCN_GOODS_TY
+                                  , INTRCN_USE_TIME
+                                  , INTRCN_MEET_TIME
+                                  , INTRCN_REQRE_TIME
+                                  , INTRCN_PROVD_LANG
+                                  , INTRCN_POSBL_AGE
+                                  , INTRCN_PLACE
+                                  , DELETE_AT
+                                  , WRITNG_ID
+                                  , WRITNG_DT
+                                  , UPDT_ID
+                                  , UPDT_DT
+                                  , #INIT_ID#
+                               FROM TB_GOODS;
+
+        DELETE FROM TB_GOODS;
+    END;
+    ]]>
+    </delete>
+
+    <delete id="DtaInitDAO.initDtaForGoodsEng" parameterClass="hashMap">
+    <![CDATA[
+    DECLARE
+    BEGIN
+        INSERT INTO TB_GOODS_ENG_HIST ( GOODS_CODE
+                                      , INIT_DT
+                                      , GOODS_NM_ENG
+                                      , GOODS_INTRCN_ENG
+                                      , VOCHR_NTSS_REQRE_TIME_ENG
+                                      , VOCHR_USE_MTH_ENG
+                                      , GUIDANCE_USE_TIME_ENG
+                                      , GUIDANCE_REQRE_TIME_ENG
+                                      , GUIDANCE_AGE_DIV_ENG
+                                      , GUIDANCE_TOUR_SCHDUL_ENG
+                                      , GUIDANCE_PRFPLC_LC_ENG
+                                      , GUIDANCE_EDC_CRSE_ENG
+                                      , GUIDANCE_OPTN_MATTER_ENG
+                                      , GUIDANCE_PICKUP_ENG
+                                      , GUIDANCE_PRPARETG_ENG
+                                      , GUIDANCE_INCLS_MATTER_ENG
+                                      , GUIDANCE_NOT_INCLS_MATTER_ENG
+                                      , ADIT_GUIDANCE_ENG
+                                      , ATENT_MATTER_ENG
+                                      , CHANGE_REFND_REGLTN_ENG
+                                      , INTRCN_USE_TIME_ENG
+                                      , INTRCN_MEET_TIME_ENG
+                                      , INTRCN_REQRE_TIME_ENG
+                                      , INTRCN_PROVD_LANG_ENG
+                                      , INTRCN_POSBL_AGE_ENG
+                                      , INTRCN_PLACE_ENG
+                                      , WRITNG_ID
+                                      , WRITNG_DT
+                                      , UPDT_ID
+                                      , UPDT_DT
+                                      , INIT_ID )
+                                 SELECT GOODS_CODE
+                                      , SYSDATE
+                                      , GOODS_NM_ENG
+                                      , GOODS_INTRCN_ENG
+                                      , VOCHR_NTSS_REQRE_TIME_ENG
+                                      , VOCHR_USE_MTH_ENG
+                                      , GUIDANCE_USE_TIME_ENG
+                                      , GUIDANCE_REQRE_TIME_ENG
+                                      , GUIDANCE_AGE_DIV_ENG
+                                      , GUIDANCE_TOUR_SCHDUL_ENG
+                                      , GUIDANCE_PRFPLC_LC_ENG
+                                      , GUIDANCE_EDC_CRSE_ENG
+                                      , GUIDANCE_OPTN_MATTER_ENG
+                                      , GUIDANCE_PICKUP_ENG
+                                      , GUIDANCE_PRPARETG_ENG
+                                      , GUIDANCE_INCLS_MATTER_ENG
+                                      , GUIDANCE_NOT_INCLS_MATTER_ENG
+                                      , ADIT_GUIDANCE_ENG
+                                      , ATENT_MATTER_ENG
+                                      , CHANGE_REFND_REGLTN_ENG
+                                      , INTRCN_USE_TIME_ENG
+                                      , INTRCN_MEET_TIME_ENG
+                                      , INTRCN_REQRE_TIME_ENG
+                                      , INTRCN_PROVD_LANG_ENG
+                                      , INTRCN_POSBL_AGE_ENG
+                                      , INTRCN_PLACE_ENG
+                                      , WRITNG_ID
+                                      , WRITNG_DT
+                                      , UPDT_ID
+                                      , UPDT_DT
+                                      , #INIT_ID#
+                                   FROM TB_GOODS_ENG;
+
+        DELETE FROM TB_GOODS_ENG;
+    END;
+    ]]>
+    </delete>
+
+    <delete id="DtaInitDAO.initDtaForGoodsNmpr" parameterClass="hashMap">
+    <![CDATA[
+    DECLARE
+    BEGIN
+        INSERT INTO TB_GOODS_NMPR_HIST ( GOODS_CODE
+                                       , SETUP_SE
+                                       , NMPR_SN
+                                       , INIT_DT
+                                       , NMPR_CND
+                                       , NMPR_CND_ENG
+                                       , FIXED_AT
+                                       , SETUP_AMOUNT
+                                       , SETUP_RATE
+                                       , NMPR_CO
+                                       , SORT_ORDR
+                                       , DELETE_AT
+                                       , WRITNG_ID
+                                       , WRITNG_DT
+                                       , UPDT_ID
+                                       , UPDT_DT
+                                       , INIT_ID )
+                                  SELECT GOODS_CODE
+                                       , SETUP_SE
+                                       , NMPR_SN
+                                       , SYSDATE
+                                       , NMPR_CND
+                                       , NMPR_CND_ENG
+                                       , FIXED_AT
+                                       , SETUP_AMOUNT
+                                       , SETUP_RATE
+                                       , NMPR_CO
+                                       , SORT_ORDR
+                                       , DELETE_AT
+                                       , WRITNG_ID
+                                       , WRITNG_DT
+                                       , UPDT_ID
+                                       , UPDT_DT
+                                       , #INIT_ID#
+                               FROM TB_GOODS_NMPR;
+
+        DELETE FROM TB_GOODS_NMPR;
+    END;
+    ]]>
+    </delete>
+
+    <delete id="DtaInitDAO.initDtaForGoodsSchdul" parameterClass="hashMap">
+    <![CDATA[
+    DECLARE
+    BEGIN
+        INSERT INTO TB_GOODS_SCHDUL_HIST ( GOODS_CODE
+                                         , SCHDUL_SN
+                                         , INIT_DT
+                                         , BEGIN_DE
+                                         , END_DE
+                                         , MONDAY_POSBL_AT
+                                         , TUSDAY_POSBL_AT
+                                         , WDNSDY_POSBL_AT
+                                         , THRSDAY_POSBL_AT
+                                         , FRIDAY_POSBL_AT
+                                         , SATDAY_POSBL_AT
+                                         , SUNDAY_POSBL_AT
+                                         , DELETE_AT
+                                         , WRITNG_ID
+                                         , WRITNG_DT
+                                         , UPDT_ID
+                                         , UPDT_DT
+                                         , INIT_ID )
+                                    SELECT GOODS_CODE
+                                         , SCHDUL_SN
+                                         , SYSDATE
+                                         , BEGIN_DE
+                                         , END_DE
+                                         , MONDAY_POSBL_AT
+                                         , TUSDAY_POSBL_AT
+                                         , WDNSDY_POSBL_AT
+                                         , THRSDAY_POSBL_AT
+                                         , FRIDAY_POSBL_AT
+                                         , SATDAY_POSBL_AT
+                                         , SUNDAY_POSBL_AT
+                                         , DELETE_AT
+                                         , WRITNG_ID
+                                         , WRITNG_DT
+                                         , UPDT_ID
+                                         , UPDT_DT
+                                         , #INIT_ID#
+                                      FROM TB_GOODS_SCHDUL;
+
+        DELETE FROM TB_GOODS_SCHDUL;
+    END;
+    ]]>
+    </delete>
+
+    <delete id="DtaInitDAO.initDtaForGoodsTime" parameterClass="hashMap">
+    <![CDATA[
+    DECLARE
+    BEGIN
+        INSERT INTO TB_GOODS_TIME_HIST ( GOODS_CODE
+                                       , TIME_SN
+                                       , INIT_DT
+                                       , BEGIN_TIME
+                                       , END_TIME
+                                       , DELETE_AT
+                                       , WRITNG_ID
+                                       , WRITNG_DT
+                                       , UPDT_ID
+                                       , UPDT_DT
+                                       , INIT_ID )
+                                  SELECT GOODS_CODE
+                                       , TIME_SN
+                                       , SYSDATE
+                                       , BEGIN_TIME
+                                       , END_TIME
+                                       , DELETE_AT
+                                       , WRITNG_ID
+                                       , WRITNG_DT
+                                       , UPDT_ID
+                                       , UPDT_DT
+                                       , #INIT_ID#
+                                    FROM TB_GOODS_TIME;
+
+        DELETE FROM TB_GOODS_TIME;
+    END;
+    ]]>
+    </delete>
+
+</sqlMap>
