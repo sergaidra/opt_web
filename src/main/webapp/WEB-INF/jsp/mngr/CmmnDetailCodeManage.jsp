@@ -3,22 +3,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>관리자모드</title>
+<title>공통상세코드관리</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/extjs/resources/ext-theme-neptune/ext-theme-neptune-all.css' />">
-<script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/common-extjs.css' />">
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/button-extjs.css' />">
 <script type="text/javascript" src="<c:url value='/js/extjs/ext-all.js' />"></script>
+<script type="text/javascript" src="<c:url value='/js/extjs/locale/ext-lang-ko.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/extjs/ext-theme-neptune.js' />"></script>
-<script>
-var ssAuthorCl = '${ssAuthorCl}';
-</script>
-<script type="text/javascript" src="<c:url value='/js/mngr/MngrMain.js' />"></script>
+<script type="text/javascript" src="<c:url value='/js/Common.js' />"></script>
+<script type="text/javascript" src="<c:url value='/js/mngr/CmmnDetailCodeManage.js' />"></script>
 </head>
 <body>
-<div id="north" class="x-hide-display">
-	<h1 title="OnePassTour"><a href="<c:url value="/mngr/"/>">OnePassTour 관리자화면</a></h1>
-</div>		
-<div id="center">
-</div>	
 </body>
 </html>

@@ -206,8 +206,8 @@ var gridFile = Ext.create('Ext.grid.Panel', {
     	xtype: 'rownumberer'
 	},{
 		text: '이미지명',
-		//width: 200,
 		flex: 1,
+		minWidth: 170,		
 		style: 'text-align:center',
 		sortable: false,
 		menuDisabled: true,

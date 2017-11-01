@@ -48,7 +48,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 		text: '그룹 코드',
 		width: 100,
 		align: 'center',
-		editor: {xtype:'textfield', allowBlank: false, maxLength: 1, enforceMaxLength: true, fieldStyle: {'ime-mode':'disabled'}},
+		editor: {xtype:'textfield', allowBlank: false, length: 6, maxLength: 6, enforceMaxLength: true, fieldStyle: {'ime-mode':'disabled'}},
 		dataIndex: 'GROUP_CODE'
 	},{
 		text: '그룹 명',
@@ -145,7 +145,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 					params: {'data': Ext.JSON.encode(datas)},
 					success: function(form, action) {
 						Ext.Msg.alert('알림', '저장되었습니다.', function(){
-							store.load();
+							store.reload();
 						});
 					},
 					failure: function(form, action) {

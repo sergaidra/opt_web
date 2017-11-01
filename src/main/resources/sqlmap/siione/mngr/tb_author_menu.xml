@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="mngr">
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="string" type="java.lang.String"/>
+
+    <insert id="AuthorMenuDAO.insertAuthorMenu" parameterClass="hashMap">
+    <![CDATA[
+        INSERT INTO TB_AUTHOR_MENU( AUTHOR_CL
+                            , MENU_CODE
+                            , REGIST_ID
+                            , REGIST_DT )
+                      VALUES( #AUTHOR_CL#
+                            , #MENU_CODE#
+                            , #REGIST_ID#
+                            , SYSDATE )
+    ]]>
+    </insert>
+
+    <delete id="AuthorMenuDAO.deleteAuthorMenu" parameterClass="hashMap">
+    <![CDATA[
+        DELETE FROM TB_AUTHOR_MENU
+         WHERE AUTHOR_CL = #AUTHOR_CL#
+    ]]>
+    </delete>
+
+    <select id="AuthorMenuDAO.selectAuthorMenuByPk" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+		SELECT AUTHOR_MENU_CODE
+		     , AUTHOR_MENU_NM
+		     , AUTHOR_MENU_DC
+		     , USE_AT
+		     , REGIST_ID
+		     , TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DT
+		     , UPDT_ID
+		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
+		  FROM TB_AUTHOR_MENU
+		 WHERE AUTHOR_MENU_CODE = #AUTHOR_MENU_CODE#
+    ]]>
+    </select>
+
+    <select id="AuthorMenuDAO.selectAuthorMenuList" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+		SELECT AUTHOR_MENU_CODE
+		     , AUTHOR_MENU_NM
+		     , AUTHOR_MENU_DC
+		     , USE_AT
+		     , REGIST_ID
+		     , TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DT
+		     , UPDT_ID
+		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
+		     , 'U' CRUD
+		  FROM TB_AUTHOR_MENU
+    ]]>
+        <isNotEmpty property="USE_AT">
+		 WHERE USE_AT = #USE_AT#
+        </isNotEmpty>
+    </select>
+
+	<resultMap id="rmAuthorMenuTree" class="java.util.HashMap">
+		<result property="id" column="MENU_CODE" javaType="java.lang.String" />
+		<result property="text" column="MENU_NM" javaType="java.lang.String" />
+		<result property="leaf" column="CF_LEAF" javaType="java.lang.String" />
+		<result property="checked" column="CF_CHECKED" javaType="java.lang.String" />
+	</resultMap>
+
+	<select id="AuthorMenuDAO.selectAuthorMenuTree" parameterClass="hashMap" resultMap="rmAuthorMenuTree">
+	<isEmpty property="AUTHOR_CL">
+		SELECT '' MENU_CODE
+		     , '' MENU_NM
+		     , 'false' CF_LEAF
+		     , 'false' CF_CHECKED
+		     , 'false' CF_EXPANDED
+		  FROM DUAL
+		 WHERE 1 = 0
+	</isEmpty>
+	<isNotEmpty property="AUTHOR_CL">
+	<![CDATA[
+		SELECT A.MENU_CODE
+		     , A.MENU_NM
+		     , DECODE(A.MENU_URL, '', 'false', 'true') CF_LEAF
+		     , DECODE(B.MENU_CODE, NULL, 'false', '', 'false', 'true') CF_CHECKED
+		     , 'true' AS CF_EXPANDED
+		  FROM TB_MENU A
+		     , (SELECT X.* FROM TB_AUTHOR_MENU X WHERE X.AUTHOR_CL = #AUTHOR_CL#) B
+		 WHERE A.MENU_CODE = B.MENU_CODE (+)
+		   AND A.UPPER_MENU_CODE = #node#
+		   AND A.USE_AT = 'Y'
+		 ORDER BY SORT_ORDR
+	]]>
+	</isNotEmpty>
+	</select>
+
+	<resultMap id="rmMainMenuTree" class="java.util.HashMap">
+		<result property="id" column="MENU_CODE" javaType="java.lang.String" />
+		<result property="text" column="MENU_NM" javaType="java.lang.String" />
+		<result property="url" column="MENU_URL" javaType="java.lang.String" />
+		<result property="leaf" column="CF_LEAF" javaType="java.lang.String" />
+	</resultMap>
+	
+	<select id="AuthorMenuDAO.selectMainMenuTree" parameterClass="hashMap" resultMap="rmMainMenuTree">
+	<![CDATA[
+		SELECT A.MENU_CODE
+		     , A.MENU_NM
+		     , A.MENU_URL
+		     , DECODE(A.MENU_URL, '', 'false', 'true') CF_LEAF
+		  FROM TB_MENU A
+		     , TB_AUTHOR_MENU B
+		 WHERE A.MENU_CODE = B.MENU_CODE (+)
+		   AND A.UPPER_MENU_CODE = #node#
+		   AND A.USE_AT = 'Y'
+		   AND B.AUTHOR_CL = #AUTHOR_CL#
+		 ORDER BY SORT_ORDR
+	]]>
+	</select>
+
+</sqlMap>

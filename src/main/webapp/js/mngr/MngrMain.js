@@ -1,7 +1,7 @@
 function fn_open_menu(menuNo, menuNm, menuURL) {
 	var dynamicPanelId = 'tab-iframe-' + menuNo;
 
-	if (menuURL == 'dir')
+	if (!menuURL)
 		return;
 
 	if(menuNo != '00201') {
@@ -41,7 +41,7 @@ var storeTree = Ext.create('Ext.data.TreeStore', {
     root: {expanded: true, text: 'root', id: '00000'},
     proxy: {
         type: 'ajax',
-        url: './selectMenuTree/',
+        url: './selectMainMenuTree/?AUTHOR_CL='+ssAuthorCl,
         reader: {
             type: 'json',
             root: 'data'

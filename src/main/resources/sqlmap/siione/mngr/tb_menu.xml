@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="admin">
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+
+	<resultMap id="rmMenuTree" class="java.util.HashMap">
+		<result property="id"     column="MENU_CODE" javaType="java.lang.String" />
+		<result property="text"   column="MENU_NM"   javaType="java.lang.String" />
+		<result property="leaf"   column="MENU_LEAF" javaType="java.lang.String" />
+		<result property="url"    column="MENU_URL"  javaType="java.lang.String" />
+		<result property="use_at" column="USE_AT"    javaType="java.lang.String" />
+	</resultMap>
+
+	<insert id="MenuDAO.insertMenu" parameterClass="hashMap" >
+	<![CDATA[
+		INSERT INTO TB_MENU( MENU_CODE
+		                   , MENU_NM
+		                   , MENU_URL
+		                   , MENU_DC
+		                   , UPPER_MENU_CODE
+		                   , SORT_ORDR
+		                   , USE_AT
+		                   , REGIST_ID
+		                   , REGIST_DT )
+		             VALUES( (SELECT LPAD(TO_NUMBER(NVL(MAX(MENU_CODE), TO_NUMBER(#UPPER_MENU_CODE#)))+1, 5, '0') FROM TB_MENU WHERE UPPER_MENU_CODE = #UPPER_MENU_CODE#) 
+		                   , #MENU_NM#
+		                   , #MENU_URL#
+		                   , #MENU_DC#
+		                   , #UPPER_MENU_CODE#
+		                   , NVL(#SORT_ORDR#, (SELECT NVL(MAX(SORT_ORDR), 1)+1 FROM TB_MENU WHERE UPPER_MENU_CODE = #UPPER_MENU_CODE#))
+		                   , NVL(#USE_AT#, 'Y')
+		                   , #REGIST_ID#
+		                   , SYSDATE )
+	]]>
+	</insert>
+
+	<update id="MenuDAO.updateMenu" parameterClass="hashMap" >
+	<![CDATA[
+		UPDATE TB_MENU
+		   SET MENU_NM = #MENU_NM#
+		     , MENU_URL = #MENU_URL#
+		     , MENU_DC = #MENU_DC#
+		     , UPPER_MENU_CODE = #UPPER_MENU_CODE#
+		     , SORT_ORDR = #SORT_ORDR#
+		     , USE_AT = #USE_AT#
+		     , UPDT_ID = #UPDT_ID#
+		     , UPDT_DT = SYSDATE
+		 WHERE MENU_CODE = #MENU_CODE#
+	]]>
+	</update>
+
+	<select id="MenuDAO.selectMenuList" parameterClass="hashMap" resultClass="hashMap">
+	<![CDATA[
+		SELECT MENU_CODE
+		     , MENU_NM
+		     , MENU_URL
+		     , MENU_DC
+		     , UPPER_MENU_CODE
+		     , SORT_ORDR
+		     , USE_AT
+		     , TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+		     , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+		     , 'U' CRUD
+		  FROM TB_MENU
+		 WHERE UPPER_MENU_CODE = #UPPER_MENU_CODE#
+	]]>
+		<isNotEmpty property="USE_AT">
+		   AND USE_AT = #USE_AT#
+		</isNotEmpty>
+		 ORDER BY SORT_ORDR
+	</select>
+
+	<select id="MenuDAO.selectUpperMenuTree" parameterClass="hashMap" resultMap="rmMenuTree">
+	<![CDATA[
+		SELECT MENU_CODE
+		     , MENU_NM
+		     , MENU_URL
+		     , 'true' MENU_LEAF
+		     , USE_AT
+		  FROM TB_MENU
+		 WHERE UPPER_MENU_CODE = #UPPER_MENU_CODE#
+	]]>
+		<isNotEmpty property="USE_AT">
+		   AND USE_AT = #USE_AT#
+		</isNotEmpty>
+		 ORDER BY SORT_ORDR
+	</select>
+
+	<select id="MenuDAO.selectMenuTree" parameterClass="hashMap" resultMap="rmMenuTree">
+	<![CDATA[
+		SELECT MENU_CODE
+		     , MENU_NM
+		     , MENU_URL
+		     , DECODE(MENU_URL, '', 'false', 'true') MENU_LEAF
+		     , USE_AT
+		  FROM TB_MENU
+		 WHERE UPPER_MENU_CODE = #node#
+	]]>
+		<isNotEmpty property="USE_AT">
+		   AND USE_AT = #USE_AT#
+		</isNotEmpty>
+		 ORDER BY SORT_ORDR
+	</select>
+
+</sqlMap>

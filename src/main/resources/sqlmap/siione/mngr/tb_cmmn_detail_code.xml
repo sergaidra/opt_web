@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="mngr">
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="string" type="java.lang.String"/>
+
+    <insert id="CmmnDetailCodeDAO.insertCmmnDetailCode" parameterClass="hashMap">
+    <![CDATA[
+        INSERT INTO TB_CMMN_DETAIL_CODE( CODE_ID
+                            , CODE  
+                            , CODE_NM  
+                            , CODE_NM_ENG  
+                            , CODE_DC  
+                            , SORT_ORDR
+                            , USE_AT    
+                            , REGIST_ID 
+                            , REGIST_DT )
+                      VALUES( #CODE_ID#
+                            , #CODE#
+                            , #CODE_NM#
+                            , #CODE_NM_ENG#
+                            , #CODE_DC#  
+                            , #SORT_ORDR#  
+                            , NVL(#USE_AT#, 'Y')
+                            , #REGIST_ID#
+                            , SYSDATE )
+    ]]>
+    </insert>
+
+    <update id="CmmnDetailCodeDAO.updateCmmnDetailCode" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_CMMN_DETAIL_CODE
+           SET CODE_NM = #CODE_NM#
+             , CODE_NM_ENG = #CODE_NM_ENG#
+             , CODE_DC = #CODE_DC#
+             , SORT_ORDR = #SORT_ORDR#
+             , USE_AT = #USE_AT#
+             , UPDT_ID = #UPDT_ID#
+             , UPDT_DT = SYSDATE
+         WHERE CODE_ID = #CODE_ID#
+           AND CODE = NVL(#PK_CODE#, #CODE#)
+    ]]>
+    </update>
+
+    <delete id="CmmnDetailCodeDAO.deleteCmmnDetailCode" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_CMMN_DETAIL_CODE
+           SET USE_AT = 'N'
+             , UPDT_ID = #UPDT_ID#
+             , UPDT_DT = SYSDATE
+         WHERE CODE_ID = #CODE_ID#
+           AND CODE = NVL(#PK_CODE#, #CODE#)
+    ]]>
+    </delete>
+
+    <select id="CmmnDetailCodeDAO.selectCmmnDetailCodeByPk" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+		SELECT CODE_ID
+		     , CODE
+		     , CODE_NM
+		     , CODE_NM_ENG
+		     , CODE_DC
+		     , SORT_ORDR
+		     , USE_AT
+		     , REGIST_ID
+		     , TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DT
+		     , UPDT_ID
+		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
+		  FROM TB_CMMN_DETAIL_CODE
+         WHERE CODE_ID = #CODE_ID#
+           AND CODE = #CODE#
+    ]]>
+    </select>
+
+    <select id="CmmnDetailCodeDAO.selectCmmnDetailCodeList" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+		SELECT CODE_ID
+		     , CODE
+		     , CODE_NM
+		     , CODE_NM_ENG
+		     , CODE_DC
+		     , SORT_ORDR
+		     , USE_AT
+		     , REGIST_ID
+		     , TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DT
+		     , UPDT_ID
+		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
+		     , 'U' CRUD
+		     , CODE AS PK_CODE
+		  FROM TB_CMMN_DETAIL_CODE
+		 WHERE CODE_ID = #CODE_ID#
+    ]]>
+        <isNotEmpty property="USE_AT">
+           AND USE_AT = #USE_AT#
+        </isNotEmpty>
+         ORDER BY SORT_ORDR        
+    </select>
+
+
+	<resultMap id="rmCmmnDetailCodeTree" class="java.util.HashMap">
+		<result property="id"   column="CODE"    javaType="java.lang.String" />
+		<result property="text" column="CODE_NM" javaType="java.lang.String" />
+		<result property="leaf" column="CF_LEAF" javaType="java.lang.String" />
+	</resultMap>
+
+    <select id="CmmnDetailCodeDAO.selectCmmnDetailCodeTree" parameterClass="hashMap" resultMap="rmCmmnDetailCodeTree">
+    <![CDATA[
+		SELECT CODE
+		     , CODE_NM
+		     , 'true' CF_LEAF
+		  FROM TB_CMMN_DETAIL_CODE
+		 WHERE CODE_ID = #CODE_ID#
+    ]]>
+        <isNotEmpty property="USE_AT">
+		   AND USE_AT = #USE_AT#
+        </isNotEmpty>
+         ORDER BY SORT_ORDR
+    </select>
+
+
+
+
+
+
+
+</sqlMap>
