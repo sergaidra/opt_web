@@ -1,6 +1,7 @@
 package kr.co.siione.mngr.service.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import javax.annotation.Resource;
 
 import kr.co.siione.mngr.dao.CmmnCodeDAO;
 import kr.co.siione.mngr.service.CmmnCodeManageService;
+import kr.co.siione.utl.MailManager;
 import kr.co.siione.utl.UserJSONUtils;
 import kr.co.siione.utl.UserUtils;
 import net.sf.json.JSONArray;

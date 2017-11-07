@@ -203,10 +203,10 @@ var fnFlightInfo = function(){
 		success : function(json) {
 			if(json.result == "0") {
 				var flight = json.flight;
-				console.log(flight.FLIGHT_SN);
-				$('#frmLayout [name="hidFlightSn"]').val(flight.FLIGHT_SN);
-				
 				if(flight) {
+					console.log(flight.FLIGHT_SN);
+					$('#frmLayout [name="hidFlightSn"]').val(flight.FLIGHT_SN);
+
 					var str1= '<div class="area_airset_01">'+'<p class="air_areatit">'
 							+ '<span class="air_from_tit">출발</span><a href="javascript:fnFlightPopup();"><span class="setting"></span></a>'
 							+ '</p>'

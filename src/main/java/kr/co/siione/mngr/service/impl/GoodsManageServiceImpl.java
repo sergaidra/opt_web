@@ -1,6 +1,7 @@
 package kr.co.siione.mngr.service.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import javax.annotation.Resource;
 
 import kr.co.siione.mngr.dao.FileManageDAO;
 import kr.co.siione.mngr.dao.GoodsDAO;
+import kr.co.siione.mngr.dao.GoodsKwrdDAO;
 import kr.co.siione.mngr.dao.GoodsNmprDAO;
 import kr.co.siione.mngr.dao.GoodsSchdulDAO;
 import kr.co.siione.mngr.dao.GoodsTimeDAO;
@@ -18,6 +20,7 @@ import kr.co.siione.utl.UserUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -39,6 +42,9 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 	@Resource(name = "GoodsNmprDAO")
 	private GoodsNmprDAO goodsNmprDAO;
 
+	@Resource(name = "GoodsKwrdDAO")
+	private GoodsKwrdDAO goodsKwrdDAO;
+	
 	@Resource(name = "FileManageDAO")
 	private FileManageDAO fileManageDAO;
 
@@ -54,9 +60,22 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 
 		param.put("FILE_CODE", newFileCode);
 		String newGoodsCode = String.valueOf(goodsDAO.insertGoodsForBass(param));
-
+		
 		if(UserUtils.nvl(newGoodsCode).equals("")) {
 			throw new Exception("상품 등록 중 오류 발생!!");
+		}
+		
+		//키워드		
+		String emptyText = "쉼표(,)로 구분하여 입력하세요";
+		if(!StringUtils.trimToEmpty(param.get("KEYWORDS")).contains(emptyText)) {
+			String[] arr = StringUtils.split(StringUtils.trimToEmpty(param.get("KEYWORDS")), ',');
+			for(String str : arr) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("GOODS_CODE", newGoodsCode);
+				map.put("KWRD", str);			
+				map.put("WRITNG_ID", param.get("WRITNG_ID"));
+				goodsKwrdDAO.insertGoodsKwrd(map);			
+			}
 		}
 
 		return newGoodsCode;
@@ -68,6 +87,21 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 
 		if(iRe == 0) {
 			throw new Exception("기본정보 수정 중 오류 발생!");
+		}
+		
+		//키워드
+		goodsKwrdDAO.deleteGoodsKwrdInfos(param);
+		
+		String emptyText = "쉼표(,)로 구분하여 입력하세요";
+		if(!StringUtils.trimToEmpty(param.get("KEYWORDS")).contains(emptyText)) {
+			String[] arr = StringUtils.split(StringUtils.trimToEmpty(param.get("KEYWORDS")), ',');
+			for(String str : arr) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("GOODS_CODE", param.get("GOODS_CODE"));
+				map.put("KWRD", str);			
+				map.put("WRITNG_ID", param.get("WRITNG_ID"));
+				goodsKwrdDAO.insertGoodsKwrd(map);			
+			}
 		}
 
 		return iRe;

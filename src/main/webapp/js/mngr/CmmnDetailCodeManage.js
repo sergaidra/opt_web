@@ -301,6 +301,4 @@ Ext.onReady(function(){
 			items: [tree, grid]
 		})]
 	});
-	
-	fn_search();
 });

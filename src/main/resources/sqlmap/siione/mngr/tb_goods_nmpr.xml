@@ -16,6 +16,7 @@
                                  , SETUP_AMOUNT
                                  , SETUP_RATE
                                  , NMPR_CO
+                                 , MAX_NMPR_CO
                                  , SORT_ORDR
                                  , DELETE_AT
                                  , WRITNG_ID
@@ -29,6 +30,7 @@
                                  , REPLACE(#SETUP_AMOUNT#, ',', '')
                                  , #SETUP_RATE# * 0.01
                                  , #NMPR_CO#
+                                 , NVL(#MAX_NMPR_CO#, #NMPR_CO#)
                                  , #SORT_ORDR#
                                  , 'N'
                                  , #WRITNG_ID#
@@ -47,6 +49,7 @@
              , SETUP_AMOUNT = #SETUP_AMOUNT#
              , SETUP_RATE = #SETUP_RATE# * 0.01
              , NMPR_CO = #NMPR_CO#
+             , MAX_NMPR_CO = #MAX_NMPR_CO#
              , SORT_ORDR = #SORT_ORDR#
              , DELETE_AT = #DELETE_AT#
          WHERE GOODS_CODE = #GOODS_CODE#
@@ -78,6 +81,7 @@
              , SETUP_AMOUNT
              , SETUP_RATE * 100 SETUP_RATE
              , NMPR_CO
+             , MAX_NMPR_CO
              , SORT_ORDR
              , DELETE_AT
              , WRITNG_ID
@@ -102,6 +106,7 @@
              , SETUP_AMOUNT
              , SETUP_RATE * 100 SETUP_RATE
              , NMPR_CO
+             , MAX_NMPR_CO
              , SORT_ORDR
              , DELETE_AT
              , WRITNG_ID

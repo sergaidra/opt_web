@@ -41,10 +41,6 @@ public class CmmnCodeManageController {
 		List<Map<String,String>> results = null;
 
 		Map<String, Object> result = new HashMap<String, Object>();
-		
-		HttpSession session = request.getSession();
-		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		param.put("REGIST_ID", esntl_id);
 
 		try {
 			results = cmmnCodeManageService.selectCmmnCodeList(param);
@@ -77,6 +73,7 @@ public class CmmnCodeManageController {
 			log.error(e.getMessage());
 			result.put("message", e.getMessage());
 			result.put("success", false);
+			e.printStackTrace();
 		} finally {
 			jsonView.render(result, request, response);
 		}
@@ -100,6 +97,4 @@ public class CmmnCodeManageController {
 		
 		jsonView.render(result, request, response);
 	} 
-
-
 }

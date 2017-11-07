@@ -72,6 +72,7 @@ public class EgovProperties {
 			
 			value = props.getProperty(keyName).trim();
 			value = RELATIVE_PATH_PREFIX + "egovprops" + System.getProperty("file.separator") + value;
+
 		} catch (FileNotFoundException fne) {
 			LOGGER.debug("Property file not found.", fne);
 			throw new RuntimeException("Property file not found", fne);
@@ -81,7 +82,7 @@ public class EgovProperties {
 		} finally {
 			EgovResourceCloseHelper.close(fis);
 		}
-		
+
 		return value;
 	}
 
@@ -115,7 +116,7 @@ public class EgovProperties {
 		} finally {
 			EgovResourceCloseHelper.close(fis);
 		}
-		
+
 		return value;
 	}
 

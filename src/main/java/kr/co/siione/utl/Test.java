@@ -1,14 +1,41 @@
 package kr.co.siione.utl;
 
-import kr.co.siione.utl.egov.EgovProperties;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 
 public class Test {
 
 	public static void main(String[] args) {
+		
+		// mail test start
+		System.out.println("Send test mail now : "+UserUtils.getDate("yyyy-MM-dd HH:mm:ss"));
+		
+		MailManager email = new MailManager();
+		
+		String subject = "[TEST] 에스투원에서 보내는 테스트 메일입니다.";
+		String content = "<font color='red'>중요!!!!</font> 메일 내용 테스트<br>";
+		String to = "ss9832@hanmail.net";
+		
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		Map<String, String> file1 = new HashMap<String, String>();
+		file1.put("imgPath", "C:\\tmpkh\\opt_img\\분류_리조트.jpg");
+		list.add(file1);
+		Map<String, String> file2 = new HashMap<String, String>();
+		file2.put("imgPath", "C:\\tmpkh\\opt_img\\pr_img_01.jpg");
+		list.add(file2);
 
-		String str = EgovProperties.class.getResource("").getPath().substring(0, EgovProperties.class.getResource("").getPath().lastIndexOf("kr"));
+		Map<String, Object> attachMap = new HashMap<String, Object>();
+		attachMap.put("images", list);
+		
+		boolean re = email.sendMail(subject, content, to, attachMap);
+		System.out.println("메일 발송 결과  : "+ re);
+		// mail test end
+		
+
+		/*String str = EgovProperties.class.getResource("").getPath().substring(0, EgovProperties.class.getResource("").getPath().lastIndexOf("kr"));
 		System.out.println(EgovProperties.class.getResource("").getPath());
 		System.out.println(str);
 		System.out.println(str+   "property" + "/" + "globals.properties");
@@ -107,6 +134,6 @@ public class Test {
 		System.out.println("a1:"+a1);
 		System.out.println("b1:"+b1);
 		System.out.println("c1:"+c1);
-		System.out.println("d1:"+d1);
+		System.out.println("d1:"+d1);*/
 	}
 }

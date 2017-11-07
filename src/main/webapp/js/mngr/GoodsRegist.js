@@ -774,6 +774,9 @@ Ext.define('GoodsInfo', {
 			, {name:'INTRCN_PROVD_LANG_ENG', type:'string'}
 			, {name:'INTRCN_POSBL_AGE_ENG', type:'string'}
 			, {name:'INTRCN_PLACE_ENG', type:'string'}
+			, {name:'VIDEO_URL', type:'string'}
+			, {name:'VIDEO_MAIN_EXPSR_AT', type:'string'}
+			, {name:'KEYWORDS', type:'string'}
 			]
 });
 
@@ -1032,6 +1035,23 @@ var frReg = Ext.create('Ext.form.Panel', {
 		},{
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
+			items: [{
+				xtype: 'textfield',
+				id: 'form-reg-keywords',
+				name: 'KEYWORDS',
+				width: 630,
+				fieldLabel: '검색키워드',
+				fieldStyle: {'ime-mode':'active'},
+				labelWidth: 100,
+				labelAlign: 'right',
+				emptyText: '쉼표(,)로 구분하여 입력하세요.',
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
+			}]			
+		},{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
 			hidden: true,
 			items: [{
 				xtype: 'numberfield',
@@ -1138,7 +1158,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				fieldLabel: '메인노출여부',
 				labelWidth: 100,
 				labelAlign: 'right',
-				boxLabel  : '첫 번째 노출',
+				boxLabel  : '핫딜여행',
 				inputValue: 'Y',
 				value: 'Y'
 			},{
@@ -1151,7 +1171,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				hideLabel: true,
 				//fieldLabel: '메인노출여부',
 				//labelAlign: 'right',
-				boxLabel : '두 번째 노출',
+				boxLabel : '추천여행',
 				width: 120,
 				inputValue: 'Y'
 			}]
@@ -1525,6 +1545,44 @@ var frReg = Ext.create('Ext.form.Panel', {
 			allowBlank: false,
 			width: 600
 		}]*/
+	},{
+		xtype: 'fieldset',
+		title: '<span style="font-weight:bold;">라이브뷰 홍보</span>',
+		padding: '10 20 10 10',
+		items: [{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'textfield',
+				id: 'form-reg-video-url',
+				name: 'VIDEO_URL',
+				width: 630,
+				fieldLabel: '동영상 URL',
+				fieldStyle: {'ime-mode':'active'},
+				labelSeparator: ':',
+				labelWidth: 100,
+				labelAlign: 'right',
+				maxLength: 100,
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
+			}]
+		},{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'checkboxfield',
+				id: 'form-reg-video-main-expsr-at',
+				name: 'VIDEO_MAIN_EXPSR_AT',
+				width: 220,
+				fieldLabel: '메인노출여부',
+				labelWidth: 100,
+				labelAlign: 'right',
+				boxLabel  : '',
+				inputValue: 'Y',
+				value: 'Y'
+			}]
+		}]		
 	},{
 		xtype: 'fieldset',
 		title: 'Hidden Field',
@@ -2609,6 +2667,7 @@ Ext.define('GoodsNmprInfo', {
 			, {name:'SETUP_AMOUNT', type:'string'}
 			, {name:'SETUP_RATE', type:'string'}
 			, {name:'NMPR_CO', type:'string'}
+			, {name:'MAX_NMPR_CO', type:'string'}
 			, {name:'SORT_ORDR', type:'string'}
 			, {name:'DELETE_AT', type:'string'}
 			, {name:'CRUD', type:'string'}]
@@ -2686,13 +2745,21 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 2, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
 		dataIndex: 'SETUP_RATE'
 	},{
-		text: '수용인원 수',
-		width: 100,
+		text: '정원',
+		width: 80,
 		align: 'center',
 		sortable: false,
 		menuDisabled: true,
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 2, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
 		dataIndex: 'NMPR_CO'
+	},{
+		text: '최대정원',
+		width: 80,
+		align: 'center',
+		sortable: false,
+		menuDisabled: true,
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 2, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
+		dataIndex: 'MAX_NMPR_CO'
 	},{
 		text: '정렬순서',
 		width: 100,
@@ -2763,6 +2830,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 					SETUP_AMOUNT : '',
 					SETUP_RATE : '',
 					NMPR_CO : '',
+					MAX_NMPR_CO : '',
 					SORT_ORDR: '',
 					DELETE_AT : 'N',
 					CRUD : 'I'

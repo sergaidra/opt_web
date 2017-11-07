@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="mngr">
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="string" type="java.lang.String"/>
+    
+    <insert id="GoodsKwrdDAO.insertGoodsKwrd" parameterClass="hashMap">
+    <![CDATA[
+        INSERT INTO TB_GOODS_KWRD( GOODS_CODE
+                                 , KWRD_SN
+                                 , KWRD
+                                 , WRITNG_ID
+                                 , WRITNG_DT )
+                           VALUES( #GOODS_CODE#
+                                 , (SELECT NVL(MAX(KWRD_SN), 0)+1 FROM TB_GOODS_KWRD WHERE GOODS_CODE = #GOODS_CODE#)
+                                 , #KWRD#
+                                 , #WRITNG_ID#
+                                 , SYSDATE )
+    ]]>
+    </insert>
+
+    <update id="GoodsKwrdDAO.updateGoodsKwrd" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GOODS_KWRD
+           SET KWRD = #KWRD#
+         WHERE GOODS_CODE = #GOODS_CODE#
+           AND KWRD_SN = #KWRD_SN#
+    ]]>
+    </update>
+
+    <delete id="GoodsKwrdDAO.deleteGoodsKwrd" parameterClass="hashMap">
+    <![CDATA[
+        DELETE TB_GOODS_KWRD
+         WHERE GOODS_CODE = #GOODS_CODE#
+           AND KWRD_SN = #KWRD_SN#
+    ]]>
+    </delete>
+
+    <delete id="GoodsKwrdDAO.deleteGoodsKwrdInfos" parameterClass="hashMap">
+    <![CDATA[
+        DELETE TB_GOODS_KWRD
+         WHERE GOODS_CODE = #GOODS_CODE#
+    ]]>
+    </delete>
+
+    <select id="GoodsKwrdDAO.selectGoodsKwrdByPk" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT GOODS_CODE
+             , KWRD_SN
+             , KWRD
+             , WRITNG_ID
+             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+          FROM TB_GOODS_KWRD
+         WHERE GOODS_CODE = #GOODS_CODE#
+           AND KWRD_SN = #KWRD_SN#
+    ]]>
+    </select>
+
+    <select id="GoodsKwrdDAO.selectGoodsKwrdList" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT GOODS_CODE
+             , KWRD_SN
+             , KWRD
+             , WRITNG_ID
+             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+        FROM TB_GOODS_KWRD
+        WHERE GOODS_CODE = #GOODS_CODE#
+        ORDER BY KWRD_SN        
+    ]]>
+    </select>
+
+</sqlMap>

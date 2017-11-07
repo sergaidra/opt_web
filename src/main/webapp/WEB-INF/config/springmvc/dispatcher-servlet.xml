@@ -27,7 +27,6 @@
 		</property>
 	</bean>
 
-
 	<bean class="kr.co.siione.utl.ImagePaginationRenderer" id="imageRenderer"/>
 	<bean class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager" id="paginationManager">
 		<property name="rendererType">
@@ -38,13 +37,13 @@
 	</bean>
 
 	<bean id="loginCheckInterceptor" class="kr.co.siione.utl.SessionCheck" />
-	
+
 	<!-- 세션을 이용한 Locale 이용시-->
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
 	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
 		<property name="paramName" value="language"/>
 	</bean>
-	
+
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
 		<property name="interceptors">
 			<list>
@@ -56,25 +55,25 @@
 	</bean>
 
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
-		
+
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 		<property name="order">
 			<value>1</value>
 		</property>
-	</bean>	
-		
-	<!-- for JFile -->	  
+	</bean>
+
+	<!-- for JFile -->
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
-	
+
 	<!-- JSON View -->
 	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
-	
-	<bean id="jsonFileView" class="net.sf.json.spring.web.servlet.view.JsonView">    	
+
+	<bean id="jsonFileView" class="net.sf.json.spring.web.servlet.view.JsonView">
 		<property name="contentType" value="text/html;charset=UTF-8"/>
 	</bean>
-	
+
 	<mvc:resources location="/resources/**" mapping="/resources/**"/>
 	<mvc:resources location="/js/**" mapping="/js/**"/>
 	<mvc:resources location="/css/**" mapping="/css/**"/>

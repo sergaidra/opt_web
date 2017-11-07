@@ -1,6 +1,5 @@
 package kr.co.siione.mngr.web;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import kr.co.siione.mngr.service.FileManageService;
 import kr.co.siione.mngr.service.TourClManageService;
 import kr.co.siione.utl.UserUtils;
-import kr.co.siione.utl.egov.EgovProperties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

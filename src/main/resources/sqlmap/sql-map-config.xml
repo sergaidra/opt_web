@@ -17,10 +17,10 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_schdul.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_time.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_nmpr.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_goods_kwrd.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_main_image.xml"/>
 	
 	<sqlMap resource="sqlmap/siione/mngr/tb_menu.xml"/>
-	<sqlMap resource="sqlmap/siione/mngr/tb_group.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_author_menu.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_cmmn_code.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_cmmn_detail_code.xml"/>

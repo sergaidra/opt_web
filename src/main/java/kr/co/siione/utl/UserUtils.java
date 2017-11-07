@@ -185,29 +185,28 @@ public class UserUtils {
 		FileOutputStream fos = null;
 		HashMap<String, String> fileParam = new HashMap<String, String>();
 		
+		String sFileStorePath = EgovProperties.getProperty("Globals.fileStorePath");
+		String sFileSeparator = File.separator;
+		String sPreFix = UserUtils.getDate("yyyyMMddHHmmss");
+		
 		try {
-			LOG.debug("################Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
-			LOG.debug("################File.separator:"+File.separator);			
-			
 			String fileName = file.getOriginalFilename();
-			String saveFileNm = UserUtils.getDate("yyyyMMddHHmmss") + "_" + fileName;
+			String saveFileNm = sPreFix + "_" + fileName;
 
-			String storePath  = EgovProperties.getProperty("Globals.fileStorePath") + sDirName + File.separator;
+			String storePath  = sFileStorePath + sDirName + sFileSeparator;
 			File f = new File(storePath);
-			if (!f.exists()) {
-				f.mkdirs();
-			}
+			if (!f.exists()) f.mkdirs();
+			
 			fos = new FileOutputStream(storePath + saveFileNm);
 			fos.write(file.getBytes());
 			
 			// 상품 썸네일 이미지 저장
 			if(isThumb) {
-				String resizeFileNm = UserUtils.getDate("yyyyMMddHHmmss") + "_" + fileName.substring(0, fileName.lastIndexOf(".")) + "_resize" + fileName.substring(fileName.lastIndexOf("."));				
-				String resizePath = EgovProperties.getProperty("Globals.fileStorePath") + sDirName + File.separator + "thumb" + File.separator;				
+				String resizeFileNm = sPreFix + "_" + fileName.substring(0, fileName.lastIndexOf(".")) + "_resize" + fileName.substring(fileName.lastIndexOf("."));				
+				String resizePath = sFileStorePath + sDirName + sFileSeparator + "thumb" + sFileSeparator;				
 				File f2 = new File(resizePath);
-				if (!f2.exists()) {
-					f2.mkdirs();
-				}
+				if (!f2.exists()) f2.mkdirs();
+				
 				int scaledWidth = 826/7;
 				int scaledHeight = 428/7;
 				ImageResizer.resize(storePath + saveFileNm, resizePath + resizeFileNm, scaledWidth, scaledHeight);

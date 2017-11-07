@@ -211,7 +211,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 		width: 300,
 		style: 'text-align:center',
 		align: 'left',
-		editor: {xtype:'textfield', allowBlank: true, maxLength: 10, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 50, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'CODE_ID_DC'
 	},{
 		text: '정렬순서',

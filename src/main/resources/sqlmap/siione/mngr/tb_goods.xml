@@ -79,6 +79,9 @@
         <result property="INTRCN_PROVD_LANG_ENG"         column="INTRCN_PROVD_LANG_ENG"         jdbcType="string" javaType="string"/>
         <result property="INTRCN_POSBL_AGE_ENG"          column="INTRCN_POSBL_AGE_ENG"          jdbcType="string" javaType="string"/>
         <result property="INTRCN_PLACE_ENG"              column="INTRCN_PLACE_ENG"              jdbcType="string" javaType="string"/>
+        <result property="VIDEO_URL"                     column="VIDEO_URL"                     jdbcType="string" javaType="string"/>
+        <result property="VIDEO_MAIN_EXPSR_AT"           column="VIDEO_MAIN_EXPSR_AT"           jdbcType="string" javaType="string"/>
+        <result property="KEYWORDS"                      column="KEYWORDS"                      jdbcType="string" javaType="string"/>
     </resultMap>
 
     <insert id="GoodsDAO.insertGoods" parameterClass="hashMap">
@@ -87,7 +90,7 @@
     </selectKey>
     <![CDATA[
     DECLARE
-    BEGIN    
+    BEGIN
         INSERT INTO TB_GOODS( GOODS_CODE
                             , GOODS_NM
                             , GOODS_INTRCN
@@ -127,7 +130,9 @@
                             , INTRCN_REQRE_TIME
                             , INTRCN_PROVD_LANG
                             , INTRCN_POSBL_AGE
-                            , INTRCN_PLACE )
+                            , INTRCN_PLACE
+                            , VIDEO_URL
+                            , VIDEO_MAIN_EXPSR_AT )
                       VALUES( #GOODS_CODE#
                             , #GOODS_NM#
                             , #GOODS_INTRCN:CLOB#
@@ -167,7 +172,9 @@
                             , #INTRCN_REQRE_TIME#
                             , #INTRCN_PROVD_LANG#
                             , #INTRCN_POSBL_AGE#
-                            , #INTRCN_PLACE# );
+                            , #INTRCN_PLACE#
+                            , #VIDEO_URL#
+                            , #VIDEO_MAIN_EXPSR_AT# );
 
 		INSERT INTO TB_GOODS_ENG ( GOODS_NM_ENG
 		                         , GOODS_INTRCN_ENG
@@ -195,7 +202,7 @@
 		                         , INTRCN_POSBL_AGE_ENG
 		                         , INTRCN_PLACE_ENG
 		                         , WRITNG_ID
-		                         , WRITNG_DT ) 
+		                         , WRITNG_DT )
 		                  VALUES ( #GOODS_NM_ENG#
 		                         , #GOODS_INTRCN_ENG#
 		                         , #VOCHR_NTSS_REQRE_TIME_ENG#
@@ -222,8 +229,8 @@
 		                         , #INTRCN_POSBL_AGE_ENG#
 		                         , #INTRCN_PLACE_ENG#
 		                         , #WRITNG_ID#
-		                         , SYSDATE );                            
-    END; 
+		                         , SYSDATE );
+    END;
     ]]>
     </insert>
 
@@ -258,6 +265,8 @@
                             , INTRCN_PROVD_LANG
                             , INTRCN_POSBL_AGE
                             , INTRCN_PLACE
+                            , VIDEO_URL
+                            , VIDEO_MAIN_EXPSR_AT
                             , DELETE_AT
                             , WRITNG_ID
                             , WRITNG_DT )
@@ -285,11 +294,13 @@
                             , #INTRCN_PROVD_LANG#
                             , #INTRCN_POSBL_AGE#
                             , #INTRCN_PLACE#
+                            , #VIDEO_URL#
+                            , NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
                             , 'N'
                             , #WRITNG_ID#
                             , SYSDATE );
 
-		INSERT INTO TB_GOODS_ENG( GOODS_CODE
+        INSERT INTO TB_GOODS_ENG( GOODS_CODE
                             , GOODS_NM_ENG
                             , GOODS_INTRCN_ENG
                             , VOCHR_NTSS_REQRE_TIME_ENG
@@ -314,7 +325,7 @@
                             , #INTRCN_POSBL_AGE_ENG#
                             , #INTRCN_PLACE_ENG#
                             , #WRITNG_ID#
-                            , SYSDATE );                              
+                            , SYSDATE );
     END;
     ]]>
     </insert>
@@ -354,6 +365,8 @@
              , INTRCN_PROVD_LANG         =  #INTRCN_PROVD_LANG#
              , INTRCN_POSBL_AGE          =  #INTRCN_POSBL_AGE#
              , INTRCN_PLACE              =  #INTRCN_PLACE#
+             , VIDEO_URL                 = #VIDEO_URL#
+             , VIDEO_MAIN_EXPSR_AT       = NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
              , UPDT_ID                   =  #WRITNG_ID#
              , UPDT_DT                   =  SYSDATE
          WHERE GOODS_CODE = #GOODS_CODE#
@@ -387,15 +400,17 @@
              , INTRCN_PROVD_LANG     = #INTRCN_PROVD_LANG#
              , INTRCN_POSBL_AGE      = #INTRCN_POSBL_AGE#
              , INTRCN_PLACE          = #INTRCN_PLACE#
+             , VIDEO_URL             = #VIDEO_URL#
+             , VIDEO_MAIN_EXPSR_AT   = NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
          WHERE GOODS_CODE = #GOODS_CODE#
 	]]>
     </update>
-    
+
     <update id="GoodsDAO.updateGoodsEngForBass" parameterClass="hashMap">
     <![CDATA[
         UPDATE TB_GOODS_ENG
-           SET UPDT_ID               = #UPDT_ID#
-             , UPDT_DT               = SYSDATE
+           SET UPDT_ID                   = #UPDT_ID#
+             , UPDT_DT                   = SYSDATE
              , GOODS_NM_ENG              = #GOODS_NM_ENG#
              , GOODS_INTRCN_ENG          = #GOODS_INTRCN_ENG:CLOB#
              , VOCHR_NTSS_REQRE_TIME_ENG = #VOCHR_NTSS_REQRE_TIME_ENG#
@@ -429,12 +444,12 @@
          WHERE GOODS_CODE = #GOODS_CODE#
     ]]>
     </update>
-    
+
     <update id="GoodsDAO.updateGoodsEngForGuidance" parameterClass="hashMap">
     <![CDATA[
         UPDATE TB_GOODS_ENG
-           SET UPDT_ID                   = #UPDT_ID#
-             , UPDT_DT                   = SYSDATE
+           SET UPDT_ID                       = #UPDT_ID#
+             , UPDT_DT                       = SYSDATE
              , GUIDANCE_USE_TIME_ENG         = #GUIDANCE_USE_TIME_ENG#
              , GUIDANCE_REQRE_TIME_ENG       = #GUIDANCE_REQRE_TIME_ENG#
              , GUIDANCE_AGE_DIV_ENG          = #GUIDANCE_AGE_DIV_ENG#
@@ -448,7 +463,7 @@
              , GUIDANCE_NOT_INCLS_MATTER_ENG = #GUIDANCE_NOT_INCLS_MATTER_ENG#
          WHERE GOODS_CODE = #GOODS_CODE#
     ]]>
-    </update>    
+    </update>
 
     <update id="GoodsDAO.updateGoodsForEtc" parameterClass="hashMap">
     <![CDATA[
@@ -484,7 +499,7 @@
            AND GOODS_CODE = #GOODS_CODE#
     ]]>
     </delete>
-    
+
     <delete id="GoodsDAO.deleteGoodsMulti" parameterClass="hashMap">
     <![CDATA[
         UPDATE TB_GOODS
@@ -516,7 +531,7 @@
              , (SELECT C.CL_NM FROM TB_TOUR_CL C WHERE A.CL_CODE = C.CL_CODE) CL_NM
              , (SELECT NATION_CODE FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE) NATION_CODE
              , A.CTY_CODE
-             , (SELECT C.CTY_NM FROM TB_CTY C WHERE A.CTY_CODE = C.CTY_CODE) CTY_NM             
+             , (SELECT C.CTY_NM FROM TB_CTY C WHERE A.CTY_CODE = C.CTY_CODE) CTY_NM
              , A.CL_SE
              , A.SORT_ORDR
              , A.MAIN_EXPSR_AT_1
@@ -569,7 +584,10 @@
              , B.INTRCN_REQRE_TIME_ENG
              , B.INTRCN_PROVD_LANG_ENG
              , B.INTRCN_POSBL_AGE_ENG
-             , B.INTRCN_PLACE_ENG             
+             , B.INTRCN_PLACE_ENG
+             , A.VIDEO_URL
+             , A.VIDEO_MAIN_EXPSR_AT
+             , (SELECT SUBSTR(XMLAGG(XMLELEMENT(X,',', KWRD) ORDER BY KWRD_SN).EXTRACT('//text()'),2) FROM TB_GOODS_KWRD X WHERE X.GOODS_CODE = A.GOODS_CODE) KEYWORDS
           FROM TB_GOODS A
              , TB_GOODS_ENG B
          WHERE A.GOODS_CODE = B.GOODS_CODE(+)
@@ -597,19 +615,19 @@
              , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE AND X.UPPER_CL_CODE <> '00000') CL_NM
              , (SELECT X.CL_NM FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00000' START WITH X.CL_CODE = A.CL_CODE CONNECT BY PRIOR X.UPPER_CL_CODE = X.CL_CODE) UPPER_CL_NM
              , CTY_CODE
-             , (SELECT X.CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE AND X.NATION_CODE <> '00000') CTY_NM             
+             , (SELECT X.CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE AND X.NATION_CODE <> '00000') CTY_NM
              , CL_SE
              , SORT_ORDR
              , FILE_CODE
              , DELETE_AT
-             , DECODE(DELETE_AT, 'N', 'Y', 'N') USE_AT 
+             , DECODE(DELETE_AT, 'N', 'Y', 'N') USE_AT
              , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD') WRITNG_DE
              , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DE
              , (SELECT COUNT(1) FROM TB_FILE_DETAIL X WHERE A.FILE_CODE = X.FILE_CODE) CF_FILE_CNT
           FROM TB_GOODS A
          WHERE 1 = 1 ]]>
         <isNotEmpty property="DELETE_AT">
-           AND DELETE_AT = #DELETE_AT#        
+           AND DELETE_AT = #DELETE_AT#
         </isNotEmpty>
         <isNotEmpty property="CTY_CODE">
            AND CTY_CODE = #CTY_CODE#

@@ -45,6 +45,16 @@ public class ExController {
         return "/mngr/image";	
 	} 
     
+    @RequestMapping(value="/mngr/gmapGeocoding/")
+	public String gmapGeocoding(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "/gmap/gmapGeocoding";	
+	} 
+    
+    @RequestMapping(value="/mngr/gmapPagination/")
+	public String gmapPagination(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "/gmap/gmapPagination";	
+	}     
+    
 	@RequestMapping(value="/mngr/uploadfiles/")
 	public ModelAndView uploadfiles(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		ModelAndView mav = new ModelAndView();
