@@ -51,8 +51,6 @@ public class MainImageManageController {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		log.debug("[selectMainImageList]param:"+param);
-
 		try {
 			results = mainImageManageService.selectMainImageList(param);
 
@@ -74,7 +72,7 @@ public class MainImageManageController {
 		
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		param.put("WRITNG_ID", esntl_id);
+		param.put("REGIST_ID", esntl_id);
 		
 		//InputStream is = null;
 		FileOutputStream fos = null;
@@ -153,7 +151,7 @@ public class MainImageManageController {
 			
 			for(MultipartFile file : filelist) {
 				Map<String, String> fileParam = UserUtils.getFileInfo(file, "MAIN", true);
-				fileParam.put("WRITNG_ID", esntl_id);
+				fileParam.put("REGIST_ID", esntl_id);
 				fileParamList.add(fileParam);
 			}
 			

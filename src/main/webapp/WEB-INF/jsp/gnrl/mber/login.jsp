@@ -40,7 +40,7 @@
 		</tr>
 		<tr>
 			<th align="left">비밀번호</th>
-			<td align="left"><input type="text" id="txtPW" name="txtPW"></td>
+			<td align="left"><input type="password" id="txtPW" name="txtPW"></td>
 		</tr>
 		<tr>
 			<th align="center" colspan="2"><a href="javascript:login();">로그인</a></th>

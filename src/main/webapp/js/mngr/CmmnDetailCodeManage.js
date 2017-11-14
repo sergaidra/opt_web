@@ -158,21 +158,21 @@ var grid = Ext.create('Ext.grid.Panel', {
 		width: 200,
 		style: 'text-align:center',
 		align: 'left',
-		editor: {xtype:'textfield', allowBlank: false, maxLength: 10, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
+		editor: {xtype:'textfield', allowBlank: false, maxLength: 35, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'CODE_NM'
 	},{
 		text: '코드명(영문)',
 		width: 200,
 		style: 'text-align:center',
 		align: 'left',
-		editor: {xtype:'textfield', allowBlank: true, maxLength: 30, enforceMaxLength: true, fieldStyle: {'ime-mode':'disabled'}},
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 50, enforceMaxLength: true, fieldStyle: {'ime-mode':'disabled'}},
 		dataIndex: 'CODE_NM_ENG'		
 	},{
 		text: '설명',
 		width: 200,
 		style: 'text-align:center',
 		align: 'left',
-		editor: {xtype:'textfield', allowBlank: true, maxLength: 10, enforceMaxLength: true, fieldStyle: {'ime-mode':'disabled'}},
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 35, enforceMaxLength: true, fieldStyle: {'ime-mode':'disabled'}},
 		dataIndex: 'CODE_DC'			
 	},{
 		text: '정렬순서',

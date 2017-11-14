@@ -41,10 +41,6 @@ public class CmmnDetailCodeManageController {
 		List<Map<String,String>> results = null;
 
 		Map<String, Object> result = new HashMap<String, Object>();
-		
-		HttpSession session = request.getSession();
-		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		param.put("REGIST_ID", esntl_id);
 
 		try {
 			results = cmmnDetailCodeManageService.selectCmmnDetailCodeList(param);

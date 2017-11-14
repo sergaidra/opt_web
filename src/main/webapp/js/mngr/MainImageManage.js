@@ -127,6 +127,7 @@ var frFile = Ext.create('Ext.form.Panel', {
 									method: 'POST',
 									success: function(form, action) {
 										Ext.Msg.alert('알림', '저장되었습니다.', function(){
+											frFile.getForm().reset();
 											storeFile.load();
 											frFile.down("filefield").fileInputEl.set({
 												multiple:'multiple'

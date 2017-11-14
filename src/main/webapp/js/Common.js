@@ -188,7 +188,7 @@ function fn_failureMessage(response){
    
     switch(response.status){
         case -1:    message = '[' + response.status + ' ' + response.statusText + ']\n' +  "서버 응답시간 초과!";break;
-        case 0:  	message = '[' + response.status + ' ' + response.statusText + ']\n' + "서버접속에 장애가 발생하였습니다.\n잠시후 다시 시도해주시기 바랍니다.";break;
+        case 0:     message = '[' + response.status + ' ' + response.statusText + ']\n' + "서버접속에 장애가 발생하였습니다.\n잠시후 다시 시도해주시기 바랍니다.";break;
         case 200:   message = '[알림]\n\n' + Ext.decode(response.responseText).message;break;
         case 400:   message = '[' + response.status + ' ' + response.statusText + ']\n' + "인수정보가 올바르지 않습니다.\n잘못된 요청입니다";break;
         case 404:   message = '[' + response.status + ' ' + response.statusText + ']\n' + "요청수행 서버를 찾을 수 없습니다\n잠시후 다시 시도해주시기 바랍니다";break;

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="admin">
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+
+	<update id="UserDAO.updateUser" parameterClass="hashMap" >
+	<![CDATA[
+		UPDATE TB_USER
+		   SET USER_NM = #USER_NM# ]]>
+		     <isNotEmpty property="AUTHOR_CL">, AUTHOR_CL = #AUTHOR_CL# </isNotEmpty>
+	<![CDATA[		     
+		     , MOBLPHON_NO = #MOBLPHON_NO#
+		     , CRTFC_AT = #CRTFC_AT#
+		     , EMAIL_RECPTN_AT = #EMAIL_RECPTN_AT#
+		     , USE_AT = #USE_AT#
+		     , UPDT_ID = #UPDT_ID#
+		     , UPDT_DT = SYSDATE
+		 WHERE ESNTL_ID = #ESNTL_ID#
+	]]>
+	</update>
+	
+	<sql id="UserDAO.whereForSelectUserList">
+		<isEmpty property="USE_AT">
+		 WHERE USE_AT = 'Y'
+		</isEmpty>
+		<isNotEmpty property="USE_AT">
+		 WHERE USE_AT = #USE_AT#
+		</isNotEmpty>
+		<isNotEmpty property="CRTFC_AT">
+		   AND CRTFC_AT = #CRTFC_AT#
+		</isNotEmpty>
+		<isNotEmpty property="EMAIL_RECPTN_AT">
+		   AND EMAIL_RECPTN_AT = #EMAIL_RECPTN_AT#
+		</isNotEmpty>
+		<isNotEmpty property="AUTHOR_CL">
+		   AND AUTHOR_CL = #AUTHOR_CL#
+		</isNotEmpty>
+		<isNotEmpty property="AUTHOR_CL_NOT">
+		   AND AUTHOR_CL <![CDATA[<>]]> #AUTHOR_CL_NOT#
+		</isNotEmpty>
+		<isNotEmpty property="USER_ID">
+		   AND USER_ID LIKE #USER_ID#||'%'
+		</isNotEmpty>
+		<isNotEmpty property="USER_NM">
+		   AND USER_NM LIKE #USER_NM#||'%'
+		</isNotEmpty>
+	</sql>
+	
+	<select id="UserDAO.selectUserListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
+		SELECT COUNT(ESNTL_ID)
+		  FROM TB_USER
+		<include refid="UserDAO.whereForSelectUserList"/>
+	</select>
+
+	<select id="UserDAO.selectUserList" parameterClass="hashMap" resultClass="hashMap">
+	<![CDATA[
+	  SELECT T.* FROM (
+		SELECT ROW_NUMBER() OVER(ORDER BY USER_NM) AS ROWSEQ
+		     , ESNTL_ID
+		     , USER_ID
+		     , USER_NM
+		     , PASSWORD
+		     , AUTHOR_CL
+		     , MOBLPHON_NO
+		     , NVL(CRTFC_AT, 'N') CRTFC_AT
+		     , NVL(EMAIL_RECPTN_AT, 'N') EMAIL_RECPTN_AT
+		     , NVL(USE_AT, 'Y') USE_AT
+		     , WRITNG_ID
+		     , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD HH24:MI:SS') WRITNG_DT
+		     , UPDT_ID
+		     , TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') UPDT_DT
+		  FROM TB_USER ]]>
+		<include refid="UserDAO.whereForSelectUserList"/>
+	  ) T WHERE ROWSEQ BETWEEN #start# + 1 AND #page# * #limit#
+	</select>
+
+</sqlMap>
