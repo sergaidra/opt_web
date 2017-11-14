@@ -22,4 +22,13 @@ public class UserDAO extends EgovComAbstractDAO {
 	public int selectUserListCount(Map<String, String> param) throws Exception {
 		return (Integer)selectByPk("UserDAO.selectUserListCount", param);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> selectUserLogList(Map<String, String> param) throws Exception {
+		return list("UserDAO.selectUserLogList", param);
+	}
+	
+	public int selectUserLogListCount(Map<String, String> param) throws Exception {
+		return (Integer)selectByPk("UserDAO.selectUserLogListCount", param);
+	}
 }

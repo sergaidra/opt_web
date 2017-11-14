@@ -5,10 +5,18 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="string" type="java.lang.String"/>
 	
+	<sql id="PointDAO.pagingQueryStart">
+	  SELECT TT.* FROM (	
+	</sql>
+	
+	<sql id="PointDAO.pagingQueryEnd">
+	  ) TT WHERE ROWSEQ BETWEEN #start# + 1 AND #page# * #limit#
+	</sql>	
+	
 	<sql id="PointDAO.whereForSelectPointList">
 		 WHERE ESNTL_ID = #ESNTL_ID#
 		<isNotEmpty property="FR_ACCML_DT">
-		  AND TRUNC(ACCML_DT) BETWEEN TO_DATE(#FR_ACCML_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_ACCML_DT#, 'YYYY-MM-DD')
+		   AND ACCML_DT BETWEEN TO_DATE(#FR_ACCML_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_ACCML_DT#, 'YYYY-MM-DD')+0.99999
 		</isNotEmpty>		  
 	</sql>
 	
@@ -19,8 +27,9 @@
 	</select>
 
 	<select id="PointDAO.selectPointList" parameterClass="hashMap" resultClass="hashMap">
-	<![CDATA[
-		SELECT ESNTL_ID
+		<include refid="PointDAO.pagingQueryStart"/><![CDATA[
+		SELECT ROW_NUMBER() OVER(ORDER BY ACCML_DT DESC, POINT_SN DESC) AS ROWSEQ
+		     , ESNTL_ID
 		     , POINT_SN
 		     , POINT
 		     , ABS(POINT) POINT_ABS
@@ -31,7 +40,7 @@
 		     , TO_CHAR(VALID_DT, 'YYYY-MM-DD') VALID_DT
 		  FROM TB_POINT A ]]>
 		<include refid="PointDAO.whereForSelectPointList"/>
-		ORDER BY ACCML_DT DESC, POINT_SN DESC
+		<include refid="PointDAO.pagingQueryEnd"/>
 	</select>
 
 </sqlMap>

@@ -20,6 +20,13 @@
 		   AND USE_AT = 'Y'
 	</select>
 	
+	<insert id="gnrl.mber.insertUserLog">
+	<![CDATA[
+		INSERT INTO TB_USER_CONECT_HIST (CONECT_SN, ESNTL_ID, CONECT_IP, CONECT_DT)
+		                         VALUES (SQ_CONECT_SN.NEXTVAL, #esntl_id#, #conect_ip#, SYSDATE)	
+	]]>
+	</insert>
+	
 
 
 

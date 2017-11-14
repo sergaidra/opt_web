@@ -33,4 +33,14 @@ public class UserManageServiceImpl implements UserManageService {
 	public int selectUserListCount(Map<String, String> param) throws Exception {
 		return userDAO.selectUserListCount(param);
 	}
+	
+	@Override
+	public List<Map<String, Object>> selectUserLogList(Map<String, String> param) throws Exception {
+		return userDAO.selectUserLogList(param);
+	}
+	
+	public int selectUserLogListCount(Map<String, String> param) throws Exception {
+		return userDAO.selectUserLogListCount(param);
+	}
+	
 }

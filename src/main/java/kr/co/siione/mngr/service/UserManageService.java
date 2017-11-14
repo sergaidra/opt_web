@@ -10,4 +10,9 @@ public interface UserManageService {
 	public List<Map<String, Object>> selectUserList(Map<String, String> param) throws Exception;
 
 	public int selectUserListCount(Map<String, String> param) throws Exception;
+	
+	public List<Map<String, Object>> selectUserLogList(Map<String, String> param) throws Exception;
+	
+	public int selectUserLogListCount(Map<String, String> param) throws Exception;
+	
 }

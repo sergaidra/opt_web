@@ -31,9 +31,9 @@ public class PointManageController {
 	@Resource(name = "PointManageService")
 	private PointManageService pointManageService;
 
-	@RequestMapping(value="/mngr/PointManage/")
-	public String PointManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return "/mngr/PointManage";
+	@RequestMapping(value="/mngr/UserPointManage/")
+	public String UserPointManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return "/mngr/UserPointManage";
 	}
 	
 	@RequestMapping(value="/mngr/selectPointList/")

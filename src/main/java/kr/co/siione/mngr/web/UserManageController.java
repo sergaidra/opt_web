@@ -41,6 +41,11 @@ public class UserManageController {
 		return "/mngr/UserManage";
 	}
 	
+	@RequestMapping(value="/mngr/UserLogManage/")
+	public String UserLogManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return "/mngr/UserLogManage";
+	}	
+	
 	@RequestMapping(value="/mngr/selectUserList/")
 	public void selectUserList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -87,4 +92,22 @@ public class UserManageController {
 		jsonView.render(result, request, response);
 	}
 
+	@RequestMapping(value="/mngr/selectUserLogList/")
+	public void selectUserLogList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		UserUtils.log(param);
+		try {
+			int cnt = userManageService.selectUserLogListCount(param);
+			List<Map<String,Object>> results = userManageService.selectUserLogList(param);
+			
+			result.put("rows", cnt);
+			result.put("data", results);
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+		}
+		
+		jsonView.render(result, request, response);
+	}	
 }
