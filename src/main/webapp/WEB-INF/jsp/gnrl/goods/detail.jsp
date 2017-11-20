@@ -2,1259 +2,975 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <head>
-<style type="text/css">
-.activity-description .intro_title {
-    color: #994ede;
-    font-size: 20px;
-    line-height: 28px;
-    font-weight: 500;
-    margin: 10px 0 10px 5px;
-}
-.activity-description .intro_caption {
-    color: #575757;
-    font-size: 14px;
-    line-height: 26px;
-    font-weight: 700;
-    height: 30px;
-    margin-right: 10px;
-    padding-left: 20px;
-    padding-top: 10px;
-    min-width: fit-content;
-    min-width: -webkit-fit-content;
-    min-width: -moz-fit-content;
-}
-.activity-description .intro_content {
-    color: #575757;
-    font-size: 12px;
-    line-height: 20px;
-    font-weight: 400;
-    margin-left: 30px;
-    padding-left: 20px;
-    padding-bottom: 20px;
-    padding-right: 20px;
-}
-.activity-description .intro_content2 {
-    color: #575757;
-    font-size: 12px;
-    line-height: 20px;
-    font-weight: 400;
-    padding-left: 20px;
-    padding-bottom: 20px;
-    padding-right: 20px;
-}
+	<!-- Link Swiper's CSS -->
+	<link rel="stylesheet" href="<c:url value='/jq/swiper/dist/css/swiper.min.css'/>">
+	
+	<!--달력-->
+	<link rel="stylesheet" href="<c:url value='/jq/calendar/css/normalize.css'/>">
+	<link rel="stylesheet" href="<c:url value='/jq/calendar/css/style.css'/>">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,100,100italic' rel='stylesheet' type='text/css'>
+	<!--//달력-->
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> --> 
+
+<style>
+#map { height: 550px; }
 </style>
-<script type="text/javascript" src="<c:url value='/js/jquery.comiseo.daterangepicker.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/moment.min.js'/>"></script>
-<script type="text/javascript">
-	$(document).ready(function(){
-		// 상품소개 선택 init
-		$("#informenu4_set_01 .tab_01_area").css('visibility','visible').css('display','block');
-		$("#informenu4_set_01 .tab_01").wrapInner('<a href="#none"/>');
+<script>
+$(document).ready(function(){
+	  $(".photo_btn1").click(function(){
+        $(".photo_box").show();
+		$(".map_box").hide();
 		
-		// 상품소개 선택
-		$("#informenu4_set_01 > p").click(function(){
-			var pClass = $(this).attr("class");
-			var divClass = ("#informenu4_set_01 ." + pClass + "_area");
-
-			$("#informenu4_set_01 > div").css('visibility','hidden').css('display','none');
-			$("#informenu4_set_01 > p").find("a").contents().unwrap();
-
-			$(divClass).css('visibility','visible').css('display','block');
-			$(this).wrapInner('<a href="#none"/>');
-		});
-
-		// 후기, Q&A 선택 init
-		$("#review_set_01 .rtab_01_area").css('visibility','visible').css('display','block');
-		$("#review_set_01 .rtab_01").wrapInner('<a/>');
-		$('#btn_qna_write').hide();
-
-		// 후기, Q&A 선택
-		$("#review_set_01 > p").click(function(){
-			var pClass = $(this).attr("class");
-			var divClass = ("#review_set_01 ." + pClass + "_area");
-
-			$("#review_set_01 > div").css('visibility','hidden').css('display','none');
-			$("#review_set_01 > p").find("a").contents().unwrap();
-
-			$(divClass).css('visibility','visible').css('display','block');
-			$(this).wrapInner('<a href="#none"/>');
-			
-			if(pClass == 'rtab_02') {
-				$('#btn_qna_write').show();
-			} else {
-				$('#btn_qna_write').hide();
-			}
-		});
-
-		
-
-
-		// 날짜 선택
-		$(".btn_op_calendar").click(function(){
-			fnCalendarPopup('TOUR_DE', '${result.CF_MIN_BEGIN_DE}', '${result.CF_MAX_END_DE}');
-		});
-
-		// 금액 선택
-		$("#num2_dropdown01 ul").on("click", ".init", function() {
-		    $(this).closest("ul").children('li:not(.init)').toggle();
-		});
-
-		$("#btn_save_reserv").click(function(){
-			fnAddCart();
-		});
-
-		$(".infor_productarea_right > ul li").click(function(){
-			iframeMainPhoto.fnSelPhoto($(this).index());
-		});
-
-		$("#TOUR_RANGE_DE").daterangepicker({
-			initialText : '기간을 선택하세요.',
-			applyButtonText: '선택', // use '' to get rid of the button
-			clearButtonText: '초기화', // use '' to get rid of the button
-			cancelButtonText: '취소', // use '' to get rid of the button
-			dateFormat: 'yy-mm-dd',
-			presetRanges: [],
-			rangeSplitter: ' ~ ',
-			applyOnMenuSelect: false,
-			datepickerOptions : {
-				numberOfMonths: 2,
-				minDate: "${result.CF_MIN_BEGIN_DE}",
-				maxDate: "${result.CF_MAX_END_DE}"
-			}
-		});
-
-		$("#TOUR_RANGE_DE").on('change', function(event) {
-			if($("#TOUR_RANGE_DE").val()) {
-				var __val =  jQuery.parseJSON($("#TOUR_RANGE_DE").val());
-				$("#CHKIN_DE").val(__val.start);
-				$("#CHCKT_DE").val(__val.end);
-
-				var arr1 = __val.start.split('-');
-				var arr2 = __val.end.split('-');
-
-				var dat1 = new Date(parseInt(arr1[0]), parseInt(arr1[1])-1, parseInt(arr1[2]));
-				var dat2 = new Date(parseInt(arr2[0]), parseInt(arr2[1])-1, parseInt(arr2[2]));
-
-				var diff = dat2.getTime() - dat1.getTime() ;
-				var currDay = 24 * 60 * 60 * 1000;
-
-				$("#DAYS_CO").val(diff/currDay);
-			} else {
-				$("#CHKIN_DE").val('');
-				$("#CHCKT_DE").val('');
-				$("#DAYS_CO").val('0');
-				fnInitCartStay();
-			}
-			
-			fnSetCart();
-		});
-
-		$("#btn_op_calendar_range").click(function(){
-			$("#TOUR_RANGE_DE").daterangepicker("open");
-		});
+    });
+   $(".photo_btn2").click(function(){
+        $(".photo_box").hide();
+		$(".map_box").show();
+		initMap();
 	});
 
-	function fnList() {
-		var form = $("form[id=frmDetail]");
-		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
-		form.submit();
-	}
+	  $(".tab_btn1").click(function(){
+	        $(".review_box").show();
+			$(".qa_box").hide();
+			
+	    });
+	   $(".tab_btn2").click(function(){
+	        $(".review_box").hide();
+			$(".qa_box").show();
+	    });
 
-	function fnGoCartList() {
-		var form = $("form[id=frmDetail]");
-		form.attr({"method":"post","action":"<c:url value='/cart/list/'/>"});
-		form.submit();
-	}
+});
 
-	function fnSearch(cl_code) {
-		var form = $("form[id=frmDetail]");
-		$("input:hidden[id=hidUpperClCode]").val(cl_code);
-		$("input:hidden[id=hidPage]").val(1);
-		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
-		form.submit();
-	}
+var lstNmpr = [];
+var roomInfo = { "days" : 0, "room" : null, "eat" : null, "check" : null};
+var selectDt = { "startDt" : null, "endDt" : null };
 
-	function fnAddCart(){
+$(function() {
+	$("#reservation").click(function () {
+		// 예약
+		var purchs_amount = 0;
+		var tour_de = "";
+		var tour_tiem = "";
+		var chkin_de = "";
+		var chckt_de = "";
+		var setup_se = "";
+		var nmpr_sn = "";
+		var cart_nmpr_co = "";
+
+		// 밸리데이션 체크	
 		if($('#hidClSe').val() == 'S') {
-			if(!$('#TOUR_RANGE_DE').val()) {
-				alert('기간을 선택하세요.');
-				return;
+			if(roomInfo.days == 0) {
+				alert("기간을 선택하세요.");
+				return false;
+			}
+			if(roomInfo.room == null) {
+				alert("객실을 선택하세요.");
+				return false;
 			}
 			
-			if($('#R_NMPR') && !$('#R_NMPR').val()) {
-				alert('객실을 선택하세요.');
-				return;				
-			}
-		} else {
-			if( !$('#TOUR_DE').val().replace('일정을 선택하세요.', '')) {
-				alert('일정을 선택하세요.');
-				return;
-			}
-			
-			if($('#hidClSe').val() == 'P' && !$('#frmLayout [name="hidFlightSn"]').val()) {
-				if(confirm('픽업/드랍 서비스는 항공편을 반드시 입력해야 합니다.')) {
-					fnOpenPopup("<c:url value='/cart/flightPopup/'/>", "winFightPopup", 750, 550);
-					return;
-				}
-			}
-			
-			if(!$('#TOUR_TIME').val()) {
-				alert('시간을 선택하세요.');
-				return;				
-			}
+			//for(var cnt )
 
-			var re = false;
-			$("input[name='CART_NMPR_CO']").each(function(i) {
-				var div = $(this).attr('id').substring(0, 1);
-				if(div == 'P') {
-					if($(this).val() > 0) {
-						re = true;
-					}				
-				}
-			});
+		} else {
 			
-			if(!re) {
-				alert('인원을 선택하세요.');
-				return;	
+		}
+		
+		
+			var url = "<c:url value='/cart/addAction'/>";
+			var param = {};
+			param.hidGoodsCode = "${goods_code}";
+			param.PURCHS_AMOUNT = "";
+			param.TOUR_DE = "";
+			param.TOUR_TIME = "";
+			param.CHKIN_DE = "";
+			param.CHCKT_DE = "";
+			param.SETUP_SE = "";
+			param.NMPR_SN = "";
+			param.CART_NMPR_CO = "";
+			
+			$.ajax({
+		        url : url,
+		        type: "post",
+		        dataType : "json",
+		        async: "true",
+		        contentType: "application/json; charset=utf-8",
+		        data : JSON.stringify( param ),
+		        //data : "hidUpperClCode=00411",
+		        success : function(data,status,request){
+		        },
+		        error : function(request,status,error) {
+		        	alert(error);
+		        },
+			});			
+
+	});
+	
+	$("#cmbNmpr").change(function () {
+		if($("#cmbNmpr option:selected").val() == "")
+			return false;
+		
+		var text = $("#cmbNmpr option:selected").text();
+		var nmpr_sn = $("#cmbNmpr option:selected").attr("nmpr_sn");
+		var setup_amount = $("#cmbNmpr option:selected").attr("setup_amount");
+		var nmpr_co = $("#cmbNmpr option:selected").attr("nmpr_co");
+		
+		var isFind = false;
+		for(var cnt = 0; cnt < lstNmpr.length; cnt++) {
+			if(lstNmpr[cnt].nmpr_sn == nmpr_sn) {
+				lstNmpr[cnt].nmprCnt++;
+				isFind = true;
+				break;
 			}
+		}
+		if(isFind == false) {
+			var item = { "text" : text, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co, "nmprCnt" : 1 };
+			lstNmpr.push(item);
+		}
+		
+		$("#cmbNmpr").val("");
+		displayNmpr();
+	});
+	
+	$("#cmbRoom").change(function () {
+		if($("#cmbRoom option:selected").val() == "") {
+			removeRoom();
+		} else {
+			if(roomInfo.days == 0) {
+				alert("기간을 선택하세요.");
+				$("#cmbRoom").val("");
+				return false;
+			}
+			var text = $("#cmbRoom option:selected").text();
+			var nmpr_sn = $("#cmbRoom option:selected").attr("nmpr_sn");
+			var setup_amount = $("#cmbRoom option:selected").attr("setup_amount");
+			var nmpr_co = $("#cmbRoom option:selected").attr("nmpr_co");
+
+			var item = { "text" : text, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co };
+			roomInfo.room = item;		
+			displayRoom();
+		}
+	});
+
+	$("#cmbEat").change(function () {
+		if($("#cmbEat option:selected").val() == "") {
+			removeEat();
+		} else {
+			if(roomInfo.days == 0) {
+				alert("기간을 선택하세요.");
+				$("#cmbEat").val("");
+				return false;
+			}
+			if(roomInfo.room == null) {
+				alert("객실을 선택하세요.");
+				$("#cmbEat").val("");
+				return false;
+			}
+			var text = $("#cmbEat option:selected").text();
+			var nmpr_sn = $("#cmbEat option:selected").attr("nmpr_sn");
+			var setup_amount = $("#cmbEat option:selected").attr("setup_amount");
+			var nmpr_co = $("#cmbEat option:selected").attr("nmpr_co");
+
+			var item = { "text" : text, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co };
+			roomInfo.eat = item;		
+			displayRoom();
 		}
 
-		var form_data = $("form[id=frmDetail]").serialize();
+	});
 
-		$.ajax({
-			url : "<c:url value='/cart/addAction/'/>",
-			dataType : "json",
-			type : "POST",
-			async : true,
-			data : form_data,
-			beforeSend:function(){
-				showLoading();
-			},
-			success : function(json) {
-				if(json.result == "0") {
-					//장바구니에 담은 상품 목록 (우측 일정표 조회)
-					fnCartList();
-					if(confirm("예약되었습니다. 장바구니로 이동하시겠습니까?")) {
-						fnGoCartList();
-					} else {
-						fnList();
-					}
-				} else if(json.result == "-2") {
-					alert("로그인이 필요합니다.");
-					$(".login").click();
-				} else if(json.result == "9") {
-					alert(json.message);
-				} else{
-					alert("작업을 실패하였습니다.");
-				}
-			},
-			complete:function() {
-				hideLoading();
-			},
-			error : function() {
-				alert("오류가 발생하였습니다.");
+	$("#cmbCheck").change(function () {
+		if($("#cmbCheck option:selected").val() == "") {
+			removeCheck();
+		} else {
+			if(roomInfo.days == 0) {
+				alert("기간을 선택하세요.");
+				$("#cmbCheck").val("");
+				return false;
 			}
-		});
+			if(roomInfo.room == null) {
+				alert("객실을 선택하세요.");
+				$("#cmbCheck").val("");
+				return false;
+			}
+			var text = $("#cmbCheck option:selected").text();
+			var nmpr_sn = $("#cmbCheck option:selected").attr("nmpr_sn");
+			var setup_amount = $("#cmbCheck option:selected").attr("setup_amount");
+			var nmpr_co = $("#cmbCheck option:selected").attr("nmpr_co");
+
+			var item = { "text" : text, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co };
+			roomInfo.check = item;		
+			displayRoom();
+		}
+	});
+});
+
+function setDateRange() {
+	if(selectDt.startDt == null || selectDt.endDt == null) {
+		roomInfo.days = 0;
+	} else {
+		var startDt = selectDt.startDt.split("-");
+		var endDt = selectDt.endDt.split("-");
+		var days = (new Date(endDt[0], endDt[1] - 1, endDt[2]) - new Date(startDt[0], startDt[1] - 1, startDt[2]).getTime())/1000/60/60/24;
+		roomInfo.days = days;
+	}
+	displayRoom();
+}
+
+function displayRoom() {
+	$("#purchInfo").empty();
+	var totalprice = 0;
+		
+	if(roomInfo.days != 0) {
+		if(roomInfo.room != null) {
+			var nmpr_sn = roomInfo.room.nmpr_sn;
+			var minus = $("<span onclick='removeRoom(" + nmpr_sn + ");'>-</span>");
+			var price = roomInfo.days * roomInfo.room.setup_amount;
+
+			var html = $("<div class='um_box'></div>");
+			var fl_text = $("<div class='fl_text'>" + roomInfo.room.text + "</div>");
+			var fl_total = $("<div class='fl_total'><em>" + roomInfo.days + "</em>박 <em>\\ " + numberWithCommas(price) + "</em></div>");
+			$(fl_text).append(fl_total);
+			var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeRoom(" + nmpr_sn + ");'>-</div></div>");
+			
+			roomInfo.room.price = price;
+			
+			$(html).append(fl_text);
+			$(html).append(fr_updown);
+			
+			$("#purchInfo").append($(html));
+			totalprice += price;
+		}
+
+		if(roomInfo.eat != null) {
+			var nmpr_sn = roomInfo.eat.nmpr_sn;
+			var minus = $("<span onclick='removeEat(" + nmpr_sn + ");'>-</span>");
+			var price = roomInfo.eat.nmpr_co * roomInfo.days * roomInfo.eat.setup_amount;
+			
+			var html = $("<div class='um_box'></div>");
+			var fl_text = $("<div class='fl_text'>" + roomInfo.eat.text + "</div>");
+			var fl_total = $("<div class='fl_total'><em>" + roomInfo.eat.nmpr_co + "</em>인 <em>" + roomInfo.days + "</em>박 <em>\\ " + numberWithCommas(price) + "</em></div>");
+			$(fl_text).append(fl_total);
+			var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeRoom(" + nmpr_sn + ");'>-</div></div>");
+
+			roomInfo.eat.price = price;
+
+			$(html).append(fl_text);
+			$(html).append(fr_updown);
+			
+			$("#purchInfo").append($(html));
+			totalprice += price;
+		}
+		
+		if(roomInfo.check != null) {
+			var nmpr_sn = roomInfo.check.nmpr_sn;
+			var minus = $("<span onclick='removeCheck(" + nmpr_sn + ");'>-</span>");
+			var price = roomInfo.check.setup_amount * 1;
+			
+			var html = $("<div class='um_box'></div>");
+			var fl_text = $("<div class='fl_text'></div>");
+			var fl_total = $("<div class='fl_total'><em>" + roomInfo.check.text + "</em> <em>\\ " + numberWithCommas(price) + "</em></div>");
+			$(fl_text).append(fl_total);
+			var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeRoom(" + nmpr_sn + ");'>-</div></div>");
+
+			roomInfo.check.price = price;
+
+			$(html).append(fl_text);
+			$(html).append(fr_updown);
+			
+			$("#purchInfo").append($(html));
+			totalprice += price;
+		}
 	}
 
-	function fnSetCart(){
-		var div = '';
-		var idx = '';  
-		var str = '';
-		var sum = 0;
-		var tot = 0;
-		$("input[name='CART_NMPR_CO']").each(function(i) {
-			if($("input[name='CART_NMPR_CO']").eq(i).val() > 0) {
-				var id = $("input[name='CART_NMPR_CO']").eq(i).attr('id');
-				div = id.substring(0, 1);
-				idx = id.substring(id.lastIndexOf('_')+1);
-				
-				if(div == 'P') {
-					sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#'+div+'_CART_NMPR_CO_'+idx).val(),10);
-					//str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' +  comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#'+div+'_CART_NMPR_CO_'+idx).val();
-					str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#'+div+'_CART_NMPR_CO_'+idx).val()+"</span>명 ";
-				} else if(div == 'R') {
-					$('#TEMP_NMPR_CO').val($('#'+div+'_GOODS_NMPR_CO_'+idx).val());
-					$('#TEMP_SETUP_AMOUNT').val($('#'+div+'_SETUP_AMOUNT_'+idx).val());
-					sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10); 
-					//str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#DAYS_CO').val();
-					str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#DAYS_CO').val()+"</span>박 ";
-				} else if(div == 'E') {
-					sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10) * parseInt($('#DAYS_CO').val(),10) * parseInt($('#TEMP_NMPR_CO').val(), 10); 
-					//str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +') * ' + $('#TEMP_NMPR_CO').val() + ' * ' + $('#DAYS_CO').val();
-					str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val()+"<span class='yellow'> "+$('#TEMP_NMPR_CO').val()+"</span>인 <span class='yellow'>"+ $('#DAYS_CO').val()+'</span>박';
-				} else if(div == 'C') {
-					if($('#'+div+'_FIXED_AT_'+idx).val() == 'Y') {
-						sum = parseInt($('#'+div+'_SETUP_AMOUNT_'+idx).val(), 10);
-						//str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#'+div+'_SETUP_AMOUNT_'+idx).val()) +')';					
-						str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val();
-					} else {
-						sum = parseInt($('#TEMP_SETUP_AMOUNT').val(), 10) * parseFloat($('#'+div+'_SETUP_RATE_'+idx).val());
-						var tmp = parseFloat($('#'+div+'_SETUP_RATE_'+idx).val()) * 100;
-						console.log('비율 sum:'+sum);
-						//str += $('#'+div+'_NMPR_CND_'+idx).val() + '(₩' + comma($('#TEMP_SETUP_AMOUNT').val()) +') * ' + tmp + '%';
-						str += "<p class='n3_lst'>"+$('#'+div+'_NMPR_CND_'+idx).val();
-					}
-				}
-				
-				
-				console.log('fnSetCart > div: '+div);
-				
-				if(div == 'P') {
-					tot += sum;
-					//str += ' :  ' + "₩"+comma(sum) 
-					//	+ '<a onclick="fnAdd(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">+</a>'
-					//	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a><br>';
-					str += "<span class='yellow'>"+comma(sum)+"</span>원"
-				    	+ '<a onclick="fnAdd(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">+</a>'
-				    	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a></p>';			    	
-				} else {
-					tot += sum;
-					str += "<span class='yellow'>"+comma(sum)+"</span>원"
-					    + '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a></p>';					    
-					//str += ' :  ' + "₩"+comma(sum) 
-					//	+ '<a onclick="fnMinus(\''+div+'\', \''+idx+'\');return false;" class="btn_add_selected">-</a><br>';
-				}
-			}
-	    });
+	$("#totalprice").text("￦ " + numberWithCommas(totalprice));
+}
+
+function removeRoom() {
+	roomInfo.room = null;
+	roomInfo.eat = null;
+	roomInfo.check = null;
+	$("#cmbRoom").val("");
+	$("#cmbEat").val("");
+	$("#cmbCheck").val("");
+	displayRoom();
+}
+
+function removeEat() {
+	roomInfo.eat = null;
+	$("#cmbEat").val("");
+	displayRoom();
+}
+
+function removeCheck() {
+	roomInfo.check = null;
+	$("#cmbCheck").val("");
+	displayRoom();
+}
+
+function displayNmpr() {
+	$("#purchInfo").empty();
+	var totalprice = 0;
+	for(var cnt = 0; cnt < lstNmpr.length; cnt++) {
+		var nmpr_sn = lstNmpr[cnt].nmpr_sn;
+		var plus = $("<span onclick='plusNmpr(" + nmpr_sn + ");'>+</span>");
+		var minus = $("<span onclick='minusNmpr(" + nmpr_sn + ");'>-</span>");
+		var price = lstNmpr[cnt].nmprCnt * lstNmpr[cnt].setup_amount;
+
+		var html = $("<div class='um_box'></div>");
+		var fl_text = $("<div class='fl_text'></div>");
+		var fl_total = $("<div class='fl_total'>" + lstNmpr[cnt].text + " <em>" + lstNmpr[cnt].nmprCnt + "</em>명 <em>\\ " + numberWithCommas(price) + "</em></div>");
+		$(fl_text).append(fl_total);
+		var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusNmpr(" + nmpr_sn + ");'>-</div><div class='um_input'><input type='text' value='" + lstNmpr[cnt].nmprCnt + "' readonly></div><div class='um_d' onclick='plusNmpr(" + nmpr_sn + ");'>+</div></div>");
 		
-		if(div == 'P') {
-			if(str) {
-				str = '<li><div id="num3_dropdown01">' + str + '</div></li>';	
-			} 
-		} else {
-			if(str) {
-				str = '<li>' + str + '</li>';	
-			}
-		}
-			
-		$('#divCartDesc').html(str);
-		$('#PURCHS_AMOUNT').val("₩"+comma(tot));
+		lstNmpr[cnt].price = price;
+
+		$(html).append(fl_text);
+		$(html).append(fr_updown);
+
+		$("#purchInfo").append($(html));
+		totalprice += price;
 	}
 	
-	function fnAddInit(div, objId){
-		var idx = $("#"+objId).val();
-		var cnt = parseInt($('#'+div+'_CART_NMPR_CO_'+idx).val(), 10) + 1;
-		$('#'+div+'_CART_NMPR_CO_'+idx).val(cnt);
-		fnSetCart();
-	}
-	
-	function fnAdd(div, idx){
-		if(div != 'P') {
-			$('#'+div+'_NMPR').val('');
-		}	
-		
-		if(div == 'R') {
-			fnInitCartStay();
-		} else {
-			var cnt = parseInt($('#'+div+'_CART_NMPR_CO_'+idx).val(), 10) + 1;
-			$('#'+div+'_CART_NMPR_CO_'+idx).val(cnt);
-		}
-		
-		fnSetCart();
-	}
-	
-	function fnMinus(div, idx) {
-		if(div != 'P') {
-			$('#'+div+'_NMPR').val('');
-		}	
-		
-		if(div == 'R') {
-			fnInitCartStay();
-		} else {
-			var cnt = parseInt($('#'+div+'_CART_NMPR_CO_'+idx).val(), 10) - 1;
-			$('#'+div+'_CART_NMPR_CO_'+idx).val(cnt);
-			
-			if(div == 'P' && cnt == 0) {
-				fnInitCartGoods();
-			}
-		}
-		
-		fnSetCart();
-	}
-	
-	function fnInitCartGoods() {
-		var re = false;
-		$("input[name='CART_NMPR_CO']").each(function(i) {
-			if($(this).val() > 0) {
-				re = true;
-			}
-		});
-		
-		if(!re) {
-			$('#P_NMPR').val('');
+	$("#totalprice").text("￦ " + numberWithCommas(totalprice));
+}
+
+function plusNmpr(nmpr_sn) {
+	for(var cnt = 0; cnt < lstNmpr.length; cnt++) {
+		if(lstNmpr[cnt].nmpr_sn == nmpr_sn) {
+			lstNmpr[cnt].nmprCnt++;
+			break;
 		}
 	}
-	
-	function fnInitCartStay() {
-		$('#R_NMPR').val('');
-		$('#E_NMPR').val('');
-		$('#C_NMPR').val('');
-		
-		$("input[name='CART_NMPR_CO']").each(function(i) {
-			$(this).val('0');
-		});
-		
-		$('#TEMP_NMPR_CO').val('0');
-		$('#TEMP_SETUP_AMOUNT').val('0');
-	}
-	
-	function fnChange(div, objId) {
-		if($('#DAYS_CO').val() == '0') {
-			alert('기간을 선택하세요.');
-			$('#'+objId).val('');
-			return;
+	displayNmpr();
+}
+function minusNmpr(nmpr_sn) {
+	for(var cnt = 0; cnt < lstNmpr.length; cnt++) {
+		if(lstNmpr[cnt].nmpr_sn == nmpr_sn) {
+			lstNmpr[cnt].nmprCnt--;
+			if(lstNmpr[cnt].nmprCnt == 0)
+				lstNmpr.splice(cnt, 1);
+			break;
 		}
-		
-		if((div == 'E' || div == 'C') && $('#R_NMPR').val() == '') {
-			alert('객실을 선택하세요.');
-			$('#'+objId).val('');
-			return;
-		}
-	
-		$("input[name='CART_NMPR_CO']").each(function(i) {
-			if($(this).attr('id').substr(0, 2) == div+'_') {
-				$("input[name='CART_NMPR_CO']").eq(i).val('0');
-			}
-	    });
-		
-		var idx = $("#"+objId).val();
-		$('#'+div+'_CART_NMPR_CO_'+idx).val('1');
-		
-		fnSetCart();
-	}
+	}	
+	displayNmpr();
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+var isMap = false;
+function initMap() {
+	if(isMap == true)
+		return false;
+	var lat = Number($("#ACT_LA").val());
+	var lng = Number($("#ACT_LO").val());
+  var uluru = { "lat": lat, "lng": lng}; //{lat: -25.363, lng: 131.044};
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 16,
+    center: uluru
+  });
+  var marker = new google.maps.Marker({
+    position: uluru,
+    map: map
+  });
+  isMap = true;
+}
+
 </script>
+	
 </head>
+
 <body>
-<form id="frmDetail" name="frmDetail" method="post" action="<c:url value='/goods/list/'/>">
-<input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
-<input type="hidden" id="hidGoodsCode" name="hidGoodsCode" value="${goods_code}">
-<input type="hidden" id="hidUpperClCode" name="hidUpperClCode" value="${hidUpperClCode}">
-<input type="hidden" id="hidUpperClCodeNavi" name="hidUpperClCodeNavi" value="${hidUpperClCodeNavi}">
-<input type="hidden" id="hidClSe" name="hidClSe" value="${result.CL_SE}">
-<input type="hidden" id="hidWaitTime" name="hidWaitTime" value="${result.WAIT_TIME}">
-<input type="hidden" id="hidMvmnTime" name="hidMvmnTime" value="${result.MVMN_TIME}">
 
-<c:forEach var="list" items="${nmprList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+<input type="hidden" id="ACT_LA" value="${result.ACT_LA}">
+<input type="hidden" id="ACT_LO" value="${result.ACT_LO}">
+<input type="hidden" id="hidClSe" value="${result.CL_SE}">
 
-</c:forEach>
-<c:forEach var="list" items="${roomList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
+<form id="">
 
-</c:forEach>
-<c:forEach var="list" items="${eatList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-
-</c:forEach>
-<c:forEach var="list" items="${checkList}" varStatus="status">
-<input type="hidden" name="SETUP_SE"       id="${list.SETUP_SE}_SETUP_SE_${status.index}"       value="${list.SETUP_SE}">
-<input type="hidden" name="NMPR_SN"        id="${list.SETUP_SE}_NMPR_SN_${status.index}"        value="${list.NMPR_SN}">
-<input type="hidden" name="NMPR_CND"       id="${list.SETUP_SE}_NMPR_CND_${status.index}"       value="${list.NMPR_CND}">
-<input type="hidden" name="FIXED_AT"       id="${list.SETUP_SE}_FIXED_AT_${status.index}"       value="${list.FIXED_AT}">
-<input type="hidden" name="SETUP_AMOUNT"   id="${list.SETUP_SE}_SETUP_AMOUNT_${status.index}"   value="${list.SETUP_AMOUNT}">
-<input type="hidden" name="SETUP_RATE"     id="${list.SETUP_SE}_SETUP_RATE_${status.index}"     value="${list.SETUP_RATE}">
-<input type="hidden" name="GOODS_NMPR_CO"  id="${list.SETUP_SE}_GOODS_NMPR_CO_${status.index}"  value="${list.NMPR_CO}">
-<input type="hidden" name="CART_NMPR_CO"   id="${list.SETUP_SE}_CART_NMPR_CO_${status.index}"   value="0">
-
-</c:forEach>
-
-<c:if test="${result.CL_SE eq 'S'}">
-<input type="hidden" name="CHKIN_DE" id="CHKIN_DE">
-<input type="hidden" name="CHCKT_DE" id="CHCKT_DE">
-<input type="hidden" name="DAYS_CO" id="DAYS_CO" value="0">
-<input type="hidden" name="TEMP_NMPR_CO" id="TEMP_NMPR_CO" value="0">
-<input type="hidden" name="TEMP_SETUP_AMOUNT" id="TEMP_SETUP_AMOUNT" value="0">
-</c:if>
-
-
-
-<div class="location">
-	<p class="loc_area">
-		홈<span class="arrow_loc"></span>투어상품
-	</p>
-</div>
-<div class="infor_area">
-	<!--윈도우시작-->
-	<div id="window">
-		<p class="hotdeal">★핫딜</p>
-		<!-- <p class="a_pre"></p>
-		<p class="a_next"></p> -->
-		<p class="main_photo">
-			<iframe id="iframeMainPhoto" src="<c:url value='/file/imageListIframe/'/>?file_code=${result.FILE_CODE}" width="824" height="428" scrolling="no" frameborder="0"></iframe>
-		</p>
-		<!--옵션박스영역시작-->
-		<div class="area_option">
-			<div class="option_box">
-				<span class="txt_reserv">RESERVATION</span>
-				<div class="area_star">
-					<ul>
-						<li><img src="<c:url value='/images/star_yellow.png'/>" width="13" height="15"></li>
-						<li><img src="<c:url value='/images/star_yellow.png'/>" width="13" height="15"></li>
-						<li><img src="<c:url value='/images/star_yellow.png'/>" width="13" height="15"></li>
-						<li></li>
-						<li></li>
-					</ul>
-					<span class="txt_ranking">8.8</span>
-					<ul id="num_area">
-						<c:if test="${result.CL_SE ne 'S'}">
-						<li class="num01">날짜
-							<input type="text" name="TOUR_DE" id="TOUR_DE" class="input_datebox2" value="일정을 선택하세요." readonly onfocus="this.blur()">
-							<span class="btn_op_calendar" id="btn_op_calendar"></span>
-						</li>
-						<li class="num02">시간
-							<select name="TOUR_TIME" id="TOUR_TIME" class="time_sbox2">
-								<option value="">선택</option>
-							<c:forEach var="list" items="${timeList}" varStatus="status">
-								<option value="${list.TOUR_TIME}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~ ${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</option>
-							</c:forEach>
-							</select>
-						</li>
-						<li class="num03">인원
-							<select name="P_NMPR" id="P_NMPR" class="time_sbox2" onchange='fnAddInit("P", "P_NMPR");this.blur();'>
-								<option value="">선택</option><c:forEach var="list" items="${nmprList}" varStatus="status">
-								<option value="${status.index}">${list.NMPR_CND}</option>
-							</c:forEach></select>
-						</li>
-						</c:if><c:if test="${result.CL_SE eq 'S'}">
-						<li class="num01">날짜
-							<input type="text" name="TOUR_RANGE_DE" id="TOUR_RANGE_DE" class="input_datebox2" size="15">
-							<span class="btn_op_calendar" id="btn_op_calendar_range"></span>
-						</li>
-						<li class="num02">객실
-							<select name="R_NMPR" id="R_NMPR" class="time_sbox2" onchange="fnChange('R', 'R_NMPR');this.blur();">
-								<option value="">선택</option><c:forEach var="list" items="${roomList}" varStatus="status">
-								<option value="${status.index}">${list.NMPR_CND}</option>
-							</c:forEach></select>
-						</li>
-						<c:if test="${fn:length(eatList) > 0}">
-						<li class="num03">옵션
-							<select name="E_NMPR" id="E_NMPR" class="time_sbox2" onchange="fnChange('E', 'E_NMPR');this.blur();">
-								<option value="">선택</option><c:forEach var="list" items="${eatList}" varStatus="status">
-								<option value="${status.index}">${list.NMPR_CND}</option>
-							</c:forEach></select>
-						</li></c:if>
-						<c:if test="${fn:length(checkList) > 0}">
-						<li>　　
-							<select name="C_NMPR" id="C_NMPR" class="time_sbox2" onchange="fnChange('C', 'C_NMPR');this.blur();">
-								<option value="">선택</option><c:forEach var="list" items="${checkList}" varStatus="status">
-								<option value="${status.index}">${list.NMPR_CND}</option>
-							</c:forEach></select>
-						</li></c:if>
-						</c:if>
-						<div id="divCartDesc"></div>
-					</ul>
-					<p id="price">
-						<input type="text" name="PURCHS_AMOUNT" id="PURCHS_AMOUNT" class="txt_price" value="₩0" readonly onfocus="this.blur()">&nbsp;&nbsp;
-					</p>
-					<p id="btn_save_reserv">예약하기</p>
-				</div>
-			</div>
-		</div>
-		<!--옵션박스영역끝-->
-	</div>
-	<!--윈도우끝-->
-	<!--컨텐츠 설명영역시작-->
-	<div id="infor_productarea">
-		<!--좌측-->
-		<div class="infor_productarea_left">
-			<div class="tit_area">
-				<h3>${result.GOODS_NM}</h3>
-				<p class="heart_area">25</p>
-			</div>
-			<div class="subtit_area">
-				<!-- TODO 주소 -->
-				<!-- Punta Engaño Road, Lapu-Lapu City, Cebu, 6015 Mactan, Philippine -->
-				<ul class="btnarea_qna">
-					<li class="pbtn_left"></li>
-					<li>1:1문의</li>
-					<li class="pbtn_right"></li>
-				</ul>
-				<ul class="btnarea_sns">
-					<li class="pbtn_left"></li>
-					<li>공유하기</li>
-					<li class="pbtn_right"></li>
-				</ul>
-			</div>
-			<p class="txt_infor">
-				${result.GOODS_INTRCN}
-			</p>
-			<c:if test="${!empty result.INTRCN_GOODS_TY || !empty result.INTRCN_USE_TIME || !empty result.INTRCN_MEET_TIME || !empty result.INTRCN_REQRE_TIME || !empty result.INTRCN_PROVD_LANG || !empty result.INTRCN_POSBL_AGE || !empty result.INTRCN_PLACE}" >
-			<ul class="information7_area">
-			<c:if test="${!empty result.INTRCN_GOODS_TY}">
-				<li><img src="<c:url value='/images/picon_01.gif'/>" width="42" height="42" alt=""><span>상품유형</span>
-				<sapn class="infor7_txt"><c:if test="${result.INTRCN_GOODS_TY eq 'G'}">단체투어</c:if><c:if test="${result.INTRCN_GOODS_TY eq 'P'}">프라이빗투어</c:if></span></li>
-			</c:if><c:if test="${!empty result.INTRCN_USE_TIME}">
-				<li><img src="<c:url value='/images/picon_02.gif'/>" width="42" height="42" alt=""><span>이용시간</span>
-				<sapn class="infor7_txt">${result.INTRCN_USE_TIME}</span></li>
-			</c:if><c:if test="${!empty result.INTRCN_MEET_TIME}">
-				<li><img src="<c:url value='/images/picon_03.gif'/>" width="42" height="42" alt=""><span>집합시간</span>
-				<sapn class="infor7_txt">${result.INTRCN_MEET_TIME}</span></li>
-			</c:if><c:if test="${!empty result.INTRCN_REQRE_TIME}">
-				<li><img src="<c:url value='/images/picon_03.gif'/>" width="42" height="42" alt=""><span>소요시간</span>
-				<sapn class="infor7_txt">${result.INTRCN_REQRE_TIME}</span></li>
-			</c:if><c:if test="${!empty result.INTRCN_PROVD_LANG}">
-				<li><img src="<c:url value='/images/picon_03.gif'/>" width="42" height="42" alt=""><span>제공언어</span>
-				<sapn class="infor7_txt">${result.INTRCN_PROVD_LANG}</span></li>
-			</c:if><c:if test="${!empty result.INTRCN_POSBL_AGE}">
-				<li><img src="<c:url value='/images/picon_03.gif'/>" width="42" height="42" alt=""><span>가능연령</span>
-				<sapn class="infor7_txt">${result.INTRCN_POSBL_AGE}</span></li>
-			</c:if><c:if test="${!empty result.INTRCN_PLACE}">
-				<li><img src="<c:url value='/images/picon_03.gif'/>" width="42" height="42" alt=""><span>장소</span>
-				<sapn class="infor7_txt">${result.INTRCN_PLACE}</span></li>
-			</c:if>
-			</ul>
-			</c:if>
-			<!--인포4 메뉴영역 시작-->
-			<div id="informenu4_set_01">
-				<p class="tab_01"><a href="#none">이용안내</a></p>
-				<p class="tab_02">추가안내 및 유의사항</p>
-				<p class="tab_03">변경 및 환불규정</p>
-				<p class="tab_04">위치안내</p>
-				<!--tab_01 테이블-->
-				<div class="tab_01_area">
-				<div class="activity-description">
-					<c:if test="${!empty result.VOCHR_TICKET_TY || !empty result.VOCHR_NTSS_REQRE_TIME || !empty result.VOCHR_USE_MTH}">
-					<div class="intro_title">
-						바우처
-					</div>
-					<c:if test="${!empty result.VOCHR_TICKET_TY}">
-					<div class="intro_caption">
-						티켓형태
-					</div>
-					<div class="intro_content">
-					    <c:if test="${result.VOCHR_TICKET_TY eq 'V'}">E-바우처</c:if>
-						<c:if test="${result.VOCHR_TICKET_TY eq 'T'}">E-티켓(캡쳐가능)</c:if>
-						<c:if test="${result.VOCHR_TICKET_TY eq 'E'}">확정메일(캡쳐가능)</c:if>
-					</div>
-					</c:if>
-					<c:if test="${!empty result.VOCHR_NTSS_REQRE_TIME}">
-					<div class="intro_caption">
-						발권소요시간
-					</div>
-					<div class="intro_content">
-					    ${result.VOCHR_NTSS_REQRE_TIME}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.VOCHR_USE_MTH}">
-					<div class="intro_caption">
-						사용방법
-					</div>
-					<div class="intro_content">
-						${result.VOCHR_USE_MTH}
-					</div>
-					</c:if>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_USE_TIME  || !empty result.GUIDANCE_REQRE_TIME || !empty result.GUIDANCE_AGE_DIV || !empty result.GUIDANCE_TOUR_SCHDUL || !empty result.GUIDANCE_PRFPLC_LC || !empty result.GUIDANCE_EDC_CRSE || !empty result.GUIDANCE_OPTN_MATTER || !empty result.GUIDANCE_PICKUP || !empty result.GUIDANCE_PRPARETG || !empty result.GUIDANCE_INCLS_MATTER || !empty result.GUIDANCE_NOT_INCLS_MATTER}">
-					<div class="intro_title">
-						이용안내
-					</div>
-					</c:if>					
-					<c:if test="${!empty result.GUIDANCE_USE_TIME}">
-					<div class="intro_caption">
-						이용시간
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_USE_TIME}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_REQRE_TIME}">
-					<div class="intro_caption">
-						소요시간
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_REQRE_TIME}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_AGE_DIV}">
-					<div class="intro_caption">
-						연령구분
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_AGE_DIV}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_TOUR_SCHDUL}">
-					<div class="intro_caption">
-						 여행일정
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_TOUR_SCHDUL}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_PRFPLC_LC}">
-					<div class="intro_caption">
-						 공연장위치
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_PRFPLC_LC}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_EDC_CRSE}">
-					<div class="intro_caption">
-						 교육과정
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_EDC_CRSE}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_OPTN_MATTER}">
-					<div class="intro_caption">
-						 옵션사항
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_OPTN_MATTER}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_PICKUP}">
-					<div class="intro_caption">
-						 픽업
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_PICKUP}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_PRPARETG}">
-					<div class="intro_caption">
-						 준비물
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_PRPARETG}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_INCLS_MATTER}">
-					<div class="intro_caption">
-						 포함사항
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_INCLS_MATTER}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.GUIDANCE_NOT_INCLS_MATTER}">
-					<div class="intro_caption">
-						 불포함사항
-					</div>
-					<div class="intro_content">
-					    ${result.GUIDANCE_NOT_INCLS_MATTER}
-					</div>
-					</c:if>
-					<c:if test="${empty result.VOCHR_TICKET_TY && empty result.VOCHR_NTSS_REQRE_TIME && empty result.VOCHR_USE_MTH && empty result.GUIDANCE_USE_TIME && empty result.GUIDANCE_REQRE_TIME && empty result.GUIDANCE_AGE_DIV && empty result.GUIDANCE_TOUR_SCHDUL && empty result.GUIDANCE_PRFPLC_LC && empty result.GUIDANCE_EDC_CRSE && empty result.GUIDANCE_OPTN_MATTER && empty result.GUIDANCE_PICKUP && empty result.GUIDANCE_PRPARETG && empty result.GUIDANCE_INCLS_MATTER && empty result.GUIDANCE_NOT_INCLS_MATTER}">
-					<div class="intro_content">
-					</div>
-					</c:if>
-				</div>
-				</div>
-				<!-- tab_01 테이블 끝 -->
-				<!-- tab_02 테이블-->
-				<div class="tab_02_area">
-					<div class="activity-description">
-					<c:if test="${!empty result.ADIT_GUIDANCE || !empty result.ATENT_MATTER}">
-					<c:if test="${!empty result.ADIT_GUIDANCE}">					
-					<div class="intro_title">
-						추가안내
-					</div>
-					<div class="intro_content2">
-						${result.ADIT_GUIDANCE}
-					</div>
-					</c:if>
-					<c:if test="${!empty result.ATENT_MATTER}">
-					<div class="intro_title">
-						유의사항
-					</div>
-					<div class="intro_content2">
-						${result.ATENT_MATTER}
-					</div>
-					</c:if>
-					</c:if>
-					<c:if test="${empty result.ADIT_GUIDANCE && empty result.ATENT_MATTER}">
-					<div class="intro_content2">
-					</div>					
-					</c:if>
-					</div>
-				</div>
-				<!-- tab_02 테이블 끝 -->
-				<!-- tab_03 테이블-->
-				<div class="tab_03_area">
-					<div class="activity-description">
-					<c:if test="${!empty result.CHANGE_REFND_REGLTN}">					
-					<div class="intro_title">
-						변경/환불규정
-					</div>
-					<div class="intro_content2">
-						${result.CHANGE_REFND_REGLTN}
-					</div>
-					</c:if>
-					<c:if test="${empty result.CHANGE_REFND_REGLTN}">	
-					<div class="intro_content2">
-					</div>
-					</c:if>
-					</div>
-				</div>
-				<!-- tab_03 테이블 끝 -->
-				<!-- tab_04 지도-->
-				<div class="tab_04_area">
-					<iframe src="<c:url value='/gmap/location/'/>?la=${result.ACT_LA}&lo=${result.ACT_LO}" width="100%" height="100%"></iframe>
-				</div>
-				<!-- tab_04 지도 끝 -->
-			</div>
-
-			<!--인포4 메뉴영역 끝-->
-			<!--이용후기영역 시작-->
-
-			<div id="review_set_01">
-				<p class="rtab_01">
-					<a href="#none">후기 (13건)</a>
-				</p>
-				<p class="rtab_02">문의하기</p>
-				<input type="button" value="글쓰기" id="btn_qna_write" class="btn_review_write" />
-				<!--rtab_01 테이블(목록) 시작-->
-				<%-- <div class="rtab_01_area">
-					<div class="review_tablestyle">
-						<table summary="" cellpadding="0" cellspacing="0">
-							<caption>게시판 템플릿 목록</caption>
-							<colgroup>
-								<col width="80px">
-								<col width="433px">
-								<col width="100px">
-								<col width="100px">
-								<col width="80px">
-							</colgroup>
-							<thead>
-								<tr>
-									<th scope="col">No.</th>
-									<th scope="col">제목</th>
-									<th scope="col">작성자</th>
-									<th scope="col">작성일</th>
-									<th scope="col">평점</th>
-								</tr>
-							</thead>
-
-							<tbody>
-								<tr>
-									<td nowrap="nowrap">05</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point40"><span class="blind">4점</span></span>
-										</div></td>
-								</tr>
-								<tr>
-									<td nowrap="nowrap">04</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point30"><span class="blind">3점</span></span>
-										</div></td>
-								</tr>
-								<tr>
-									<td nowrap="nowrap">03</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point20"><span class="blind">2점</span></span>
-										</div></td>
-								</tr>
-								<tr>
-									<td nowrap="nowrap">02</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point10"><span class="blind">1점</span></span>
-										</div></td>
-								</tr>
-								<tr>
-									<td nowrap="nowrap">01</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point50"><span class="blind">5점</span></span>
-										</div></td>
-								</tr>
-
-
-							</tbody>
-						</table>
-					</div>
-
-					<ul class="paging">
-						<li class="btn_pprev"><a href="#">첫페이지</a></li>
-						<li class="btn_prev"><a href="#">이전페이지</a></li>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#">6</a></li>
-						<li><a href="#">7</a></li>
-						<li><a href="#">8</a></li>
-						<li><a href="#">9</a></li>
-						<li><a href="#">10</a></li>
-						<li class="btn_next"><a href="#">다음페이지</a></li>
-						<li class="btn_nnext"><a href="#">마지막페이지</a></li>
-					</ul>
-
-				</div> --%>
-				<!-- rtab_01 테이블(목록) 끝 -->
-				<!--rtab_01 테이블(읽기) 시작-->
-				<div class="rtab_01_area">
-					<div class="review_tablestyle">
-						<table summary="" cellpadding="0" cellspacing="0">
-							<caption>게시판 템플릿 목록</caption>
-							<colgroup>
-								<col width="80px">
-								<col width="433px">
-								<col width="100px">
-								<col width="100px">
-								<col width="80px">
-							</colgroup>
-							<thead>
-								<tr>
-									<th scope="col">No.</th>
-									<th scope="col">제목</th>
-									<th scope="col">작성자</th>
-									<th scope="col">작성일</th>
-									<th scope="col">평점</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td nowrap="nowrap">05</td>
-									<td nowrap="nowrap" class="listleft" >생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point40"><span class="blind">4점</span></span>
-										</div></td>
-								</tr>
-								<tr>
-								<td class="td_comment_view" colspan="5">
-									<div class="comment_view">
-										<dl>
-											<!-- <dt>상품구성(숙소/식사)</dt>
-											<dd>
-												<div class="star_score_bgray">
-													<span class="review_point40"><span class="blind">4점</span></span>
-												</div>
-											</dd>
-											<dt>일정구성</dt>
-											<dd>
-												<div class="star_score_bgray">
-													<span class="review_point40"><span class="blind">4점</span></span>
-												</div>
-											</dd>
-											<dt>상품안내</dt>
-											<dd>
-												<div class="star_score_bgray">
-													<span class="review_point40"><span class="blind">4점</span></span>
-												</div>
-											</dd> -->
-										</dl>
-										<div class="comment_view_txt">아이들 데리고 처음 가는 해외여행이라
-											걱정했는데.. 리조트까지 픽업서비스가 잘 되어있어서 별 무리없이 잘 다녀왔습니다.. 리조트의 경우
-											한국사람이 많아서인지 한국인까지 있어서 필요한걸 물어볼 수 있어서 좋았습니다. 감사합니다~</div>
-										<!-- <div class="btn_comment_area">
-											<input type="button" value="수정" class="btn_comment_modify" /><input
-												type="button" value="삭제" class="btn_comment_delete" />
-										</div>
-										<div class="reply_area">
-											<div class="reply_txt">로그인 후 소중한 의견을 남겨주세요.</div>
-											<span class="btn_reply">댓글쓰기</span>
-										</div> -->
-
-									</div>
-								</td>
-								</tr>
-								<tr>
-									<td nowrap="nowrap">04</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point30"><span class="blind">3점</span></span>
-										</div></td>
-								</tr>
-								<tr>
-									<td nowrap="nowrap">03</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point20"><span class="blind">2점</span></span>
-										</div></td>
-								</tr>
-								<tr>
-									<td nowrap="nowrap">02</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point10"><span class="blind">1점</span></span>
-										</div></td>
-								</tr>
-								<tr>
-									<td nowrap="nowrap">01</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point50"><span class="blind">5점</span></span>
-										</div></td>
-								</tr>
-
-
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<!-- rtab_01 테이블(읽기) 끝 -->
-				<!--rtab_01 테이블(글쓰기) 시작-->
-				<%-- <div class="rtab_01_area">
-					<div class="review_tablestyle">
-						<table summary="" cellpadding="0" cellspacing="0">
-							<caption>게시판 템플릿 목록</caption>
-							<colgroup>
-								<col width="115px">
-								<col width="143px">
-								<col width="535px">
-							</colgroup>
-							<tbody>
-							<thead></thead>
-							<tr>
-								<th scope="col" class="listleft lineright">구매상품정보</th>
-								<td scope="col" colspan="2" class="listleft"># 세부
-									날루수안&힐루뚱안 호핑투어</td>
-							</tr>
-							<tr>
-								<th scope="col" class="listleft lineright" rowspan="3">만족도
-									평가</th>
-								<td scope="col" class="listleft lineright ss_head">상품구성(숙소/식사)</td>
-								<td scope="col" class="listleft">
-									<ul class="ss_write_area">
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point50"><span class="blind">5점</span></span></li>
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point40"><span class="blind">4점</span></span></li>
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point30"><span class="blind">3점</span></span></li>
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point20"><span class="blind">2점</span></span></li>
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point10"><span class="blind">1점</span></span></li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td scope="col" class="listleft lineright ss_head">일정구성</td>
-								<td scope="col" class="listleft">
-									<ul class="ss_write_area">
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point50"><span class="blind">5점</span></span></li>
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point40"><span class="blind">4점</span></span></li>
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point30"><span class="blind">3점</span></span></li>
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point20"><span class="blind">2점</span></span></li>
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point10"><span class="blind">1점</span></span></li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<td scope="col" class="listleft lineright ss_head">상품안내</td>
-								<td scope="col" class="listleft">
-									<ul class="ss_write_area">
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point50"><span class="blind">5점</span></span></li>
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point40"><span class="blind">4점</span></span></li>
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point30"><span class="blind">3점</span></span></li>
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point20"><span class="blind">2점</span></span></li>
-										<li><input name="" type="radio" value="">
-										<div class="sscore_bgray">
-												<span class="review_point10"><span class="blind">1점</span></span></li>
-									</ul>
-								</td>
-							</tr>
-							<tr>
-								<th scope="col" class="listleft lineright">제목</th>
-								<td scope="col" class="listleft" colspan="2"><input
-									type="text" class="input_tit" /></td>
-							</tr>
-							<tr>
-								<th scope="col" class="listleft lineright">내용</th>
-								<td scope="col" class="listleft" colspan="2"><textarea
-										class="txt_write"></textarea><br /> <span class="small_txt">상품평과
-										상관없는 홍보글 또는 비방글 등은 사전 통보없이 관리자에 의해 삭제될 수 있습니다.</span> <span
-									class="small_txt2">글자수 10자 이상 작성가능</span></td>
-							</tr>
-
-
-
-							</tbody>
-						</table>
-
-					</div>
-
-
-				</div> --%>
-				<!-- rtab_01 테이블(글쓰기) 끝 -->
-				<!-- rtab_02 테이블-->
-				<div class="rtab_02_area">
-					<div class="default_tablestyle">
-						<table summary="" cellpadding="0" cellspacing="0">
-							<caption>게시판 템플릿 목록</caption>
-							<colgroup>
-								<col width="80px">
-								<col width="433px">
-								<col width="100px">
-								<col width="100px">
-								<col width="80px">
-							</colgroup>
-							<thead>
-								<tr>
-									<th scope="col">순번</th>
-									<th scope="col">제목</th>
-									<th scope="col">작성자</th>
-									<th scope="col">작성일</th>
-									<th scope="col">평점</th>
-								</tr>
-							</thead>
-
-							<tbody>
-								<tr>
-									<td nowrap="nowrap">99</td>
-									<td nowrap="nowrap" class="listleft">생애 첫dsdsdsdfsd 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point40"><span class="blind">4점</span></span>
-										</div></td>
-								</tr>
-								<tr>
-									<td nowrap="nowrap">04</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point30"><span class="blind">3점</span></span>
-										</div></td>
-								</tr>
-								<tr>
-									<td nowrap="nowrap">03</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point20"><span class="blind">2점</span></span>
-										</div></td>
-								</tr>
-								<tr>
-									<td nowrap="nowrap">02</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point10"><span class="blind">1점</span></span>
-										</div></td>
-								</tr>
-								<tr>
-									<td nowrap="nowrap">01</td>
-									<td nowrap="nowrap" class="listleft">생애 첫 호핑투어!</td>
-									<td nowrap="nowrap">honggildong</td>
-									<td nowrap="nowrap">2017.05.05</td>
-									<td nowrap="nowrap"><div class="star_score">
-											<span class="review_point50"><span class="blind">5점</span></span>
-										</div></td>
-								</tr>
-
-
-							</tbody>
-						</table>
-
-					</div>
-				</div>
-				<!-- rtab_02 테이블 끝 -->
-
-
-
-			</div>
-
-			<!--이용후기영역 끝-->
-		</div>
-		<!--좌측 끝-->
-		<!--우측-->
-		<div class="infor_productarea_right">
-			<ul class="photolst_area">
-			<c:forEach var="list" items="${fileList}" varStatus="status">
-			<li <c:if test="${status.count%6 == 0}">class="pright"</c:if>>
-				<img src="<c:url value='/file/getImageThumb/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}" width="43" height="43">
-			</li></c:forEach>
-			</ul>
-			<p class="btn_review_right">이용후기 보러가기</p>
-			<div class="right_qna">
-				<p class="rtit">온라인 문의</p>
-				<dl>
-					<dt>직통전화:</dt>
-					<dd>02-3479-4248</dd>
-					<dt>이메일:</dt>
-					<dd>ssyeon224@interpark.com</dd>
-					<dt>팩스번호:</dt>
-					<dd>070-4850-8262</dd>
-
-					<dt class="w100">상담시간안내</dt>
-					<dd>평일 09:00 ~ 18:00 주말 / 공휴일 09:00 ~ 17:00</dd>
-				</dl>
-
-
-			</div>
-		</div>
-		<!--우측 끝-->
-	</div>
-	<!--컨텐츠 설명영역 끝-->
-</div>
-<!--인포메이션 끝-->
 </form>
+<section>
+
+<div id="container">
+  <div class="sp_50 pc_view"></div>
+  <div class="sp_10 mobile_view"></div>
+  <div class="inner2_2">
+    <div class="good_detail">
+      <div class="fl_left"> 
+        <div class="photo_box">
+          <div class="ov_btn">
+            <div class="ov_on photo_btn1"><i class="material-icons">&#xE3B0;</i><span>PHOTO VIEW</span></div>
+            <div class="ov_off photo_btn2"><i class="material-icons">&#xE55F;</i><span>MAP</span></div>
+          </div>
+          <div class="sp-black">
+            <div class="slider_text">
+              <div class="slider_t1">${result.GOODS_NM}</div>
+              <div class="slider_t2"><!-- 바다의 젠틀맨 고래상어와 함께 수영을 하는 흔치 않은 경험이 가능한 오슬롭!!! 스페인 시절의 흔적이 남아있는 유적지, 
+                깊은 산속에 숨어있는 시원한 폭포 그리고 한적한 비치 리조트에서 점심을 즐기실 수 있는 투어입니다. --> </div>
+            </div>
+          </div>
+          <div class="hit_box"><i class="material-icons">&#xE87E;</i><span>25</span></div>
+          <div class="share_box"><i class="material-icons">&#xE80D;</i></div>
+          <div class="qa_btn"><a href="#" data-featherlight="#pa_popup2">1:1문의하기</a></div>
+          <!-- Swiper -->
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+				<c:forEach var="result" items="${lstFile}" varStatus="status">
+	              <div class="swiper-slide"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="100%" alt=""/></div>
+				</c:forEach>
+            </div>
+            <!-- Add Pagination 
+        <div class="swiper-pagination"></div>--> 
+            <!-- Add Navigation -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+          
+          <!-- jQuery 
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <!-- Swiper JS --> 
+          <script src="/jq/swiper/dist/js/swiper.jquery.min.js"></script> 
+          
+          <!-- Initialize Swiper --> 
+          <script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev'
+    });
+    </script> 
+        </div>
+        <div class="map_box" style="display: none">
+			<div class="ov_btn">
+				<div class="ov_off photo_btn1"><i class="material-icons">&#xE3B0;</i><span>PHOTO VIEW</span></div>
+				<div class="ov_on photo_btn2"><i class="material-icons">&#xE55F;</i><span>MAP</span></div>
+			</div>
+			<div class="comf t_center ">
+			    <div id="map"></div>
+			    <script async defer
+			    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA88oWHhxjR6HD5RqCg2lvXAkp0fj_Vatc">
+			    </script>
+				<!-- <iframe src="<c:url value='/gmap/location/'/>?la=${result.ACT_LA}&lo=${result.ACT_LO}" width="100%" height="100%"></iframe> -->
+			</div>
+        </div>
+        <!--아이콘 설명-->
+		<c:if test="${!empty result.INTRCN_GOODS_TY || !empty result.INTRCN_USE_TIME || !empty result.INTRCN_MEET_TIME || !empty result.INTRCN_REQRE_TIME || !empty result.INTRCN_PROVD_LANG || !empty result.INTRCN_POSBL_AGE || !empty result.INTRCN_PLACE}" >
+	        <div class="icon_info">
+	          <ul>
+				<c:if test="${!empty result.INTRCN_GOODS_TY}">
+	            <li>
+	              <div class="icon_b">
+	                <div class="icon_in"><img src="/images/sub/detail_icon01.png" alt=""/></div>
+	                <div class="tx1">상품유형</div>
+	                <div class="tx2"><c:if test="${result.INTRCN_GOODS_TY eq 'G'}">단체투어</c:if><c:if test="${result.INTRCN_GOODS_TY eq 'P'}">프라이빗투어</c:if></div>
+	              </div>
+	            </li>
+	            </c:if>
+	            <c:if test="${!empty result.INTRCN_USE_TIME}">
+	            <li>
+	              <div class="icon_b">
+	                <div class="icon_in"><img src="/images/sub/detail_icon02.png" alt=""/></div>
+	                <div class="tx1">이용시간</div>
+	                <div class="tx2">${result.INTRCN_USE_TIME}</div>
+	              </div>
+	            </li>
+	            </c:if>
+	            <c:if test="${!empty result.INTRCN_MEET_TIME}">
+	            <li>
+	              <div class="icon_b">
+	                <div class="icon_in"><img src="/images/sub/detail_icon03.png" alt=""/></div>
+	                <div class="tx1">집합시간</div>
+	                <div class="tx2">${result.INTRCN_MEET_TIME}</div>
+	              </div>
+	            </li>
+	            </c:if>
+	            <c:if test="${!empty result.INTRCN_REQRE_TIME}">
+	            <li>
+	              <div class="icon_b">
+	                <div class="icon_in"><img src="/images/sub/detail_icon04.png" alt=""/></div>
+	                <div class="tx1">소요시간</div>
+	                <div class="tx2">${result.INTRCN_REQRE_TIME}</div>
+	              </div>
+	            </li>
+	            </c:if>
+	            <c:if test="${!empty result.INTRCN_PROVD_LANG}">
+	            <li>
+	              <div class="icon_b">
+	                <div class="icon_in"><img src="/images/sub/detail_icon05.png" alt=""/></div>
+	                <div class="tx1">제공언어</div>
+	                <div class="tx2">${result.INTRCN_PROVD_LANG}</div>
+	              </div>
+	            </li>
+	            </c:if>
+	            <c:if test="${!empty result.INTRCN_POSBL_AGE}">
+	            <li>
+	              <div class="icon_b">
+	                <div class="icon_in"><img src="/images/sub/detail_icon06.png" alt=""/></div>
+	                <div class="tx1">가능연령</div>
+	                <div class="tx2">${result.INTRCN_POSBL_AGE}</div>
+	              </div>
+	            </li>
+	            </c:if>
+	            <c:if test="${!empty result.INTRCN_PLACE}">
+	            <li>
+	              <div class="icon_b">
+	                <div class="icon_in"><img src="/images/sub/detail_icon07.png" alt=""/></div>
+	                <div class="tx1">장소</div>
+	                <div class="tx2">${result.INTRCN_PLACE}</div>
+	              </div>
+	            </li>
+	            </c:if>
+	          </ul>
+	        </div>
+		</c:if>
+        <!--바우처-->
+        <c:if test="${fn:length(lstVoucher) > 0 }">
+			<div class="text_info">
+				<div class="fl_tx tw_500">바우처 </div>
+				<div class="fr_tx">
+				<c:forEach var="item" items="${lstVoucher}" varStatus="status">
+					<c:if test="${fn:length(lstVoucher) != status.index + 1 }">
+		            <div class="tx_line">
+					</c:if>
+					<c:if test="${fn:length(lstVoucher) == status.index + 1 }">
+		            <div class="tx_noline">
+					</c:if>
+		              <div class="fl_intx tw_400">${item.text}</div>
+		              <div class="fr_intx">${item.value}</div>
+		            </div>
+				</c:forEach>
+				</div>
+			</div>
+        </c:if>
+		
+        <!--이용안내 -->
+        <c:if test="${fn:length(lstOpGuide) > 0 }">
+			<div class="text_info">
+				<div class="fl_tx tw_500">이용안내 </div>
+				<div class="fr_tx">
+				<c:forEach var="item" items="${lstOpGuide}" varStatus="status">
+					<c:if test="${fn:length(lstOpGuide) != status.index + 1 }">
+		            <div class="tx_line">
+					</c:if>
+					<c:if test="${fn:length(lstOpGuide) == status.index + 1 }">
+		            <div class="tx_noline">
+					</c:if>
+		              <div class="fl_intx tw_400">${item.text}</div>
+		              <div class="fr_intx">${item.value}</div>
+		            </div>
+				</c:forEach>
+				</div>
+			</div>
+        </c:if>
+
+        <!--기타정보 -->
+        <c:if test="${fn:length(lstEtcInfo) > 0 }">
+			<div class="text_info">
+				<div class="fl_tx tw_500">기타정보 </div>
+				<div class="fr_tx">
+				<c:forEach var="item" items="${lstEtcInfo}" varStatus="status">
+					<c:if test="${fn:length(lstEtcInfo) != status.index + 1 }">
+		            <div class="tx_line">
+					</c:if>
+					<c:if test="${fn:length(lstEtcInfo) == status.index + 1 }">
+		            <div class="tx_noline">
+					</c:if>
+		              <div class="fl_intx tw_400">${item.text}</div>
+		              <div class="fr_intx">${item.value}</div>
+		            </div>
+				</c:forEach>
+				</div>
+			</div>
+        </c:if>
+        <!----> 
+        
+        <div class="review_box"> 
+          <!--탭-->
+          <div class="tab_box">
+            <ul>
+              <li class="on tab_btn1">후기(13건)</li>
+              <li class="off tab_btn2">문의하기</li>
+            </ul>
+          </div>
+          <!--//탭-->
+          <div class="title_box">
+            <div class="title tw_500">이용후기</div>
+            <div class="star_um">총<em>10명</em></div>
+            <div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div>
+            <a  href="#" data-featherlight="#review_popup">
+            <input type="button" class="btn" value="후기쓰기">
+            </a> </div>
+          <div class="tb_01_box"> 
+            <!--//pc 테블 일때 -->
+            <table width="100%"  class="tb_01 pc_view comf">
+              <col width="5%">
+              <col width="">
+              <col width="15%">
+              <col width="15%">
+              <col width="15%">
+              <tbody>
+                <tr>
+                  <td class="t_center">2</td>
+                  <td>생애 첫dsdsdsdfsd 호핑투어</td>
+                  <td>아이디 닉네임</td>
+                  <td>2016-09-30</td>
+                  <td><div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
+                </tr>
+              </tbody>
+            </table>
+            <!--//pc 테블 일때 --> 
+            <!--모바일  일때 -->
+            <table width="100%"  class="tb_01 mobile_view">
+              <col width="5%">
+              <col width="">
+              <tbody>
+                <tr>
+                  <td class="t_center">2</td>
+                  <td><span class="tb_font1">2016-09-30 [아이디 닉네임]</span><br>
+                    생애 첫dsdsdsdfsd 호핑투어<br>
+                    <div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
+                </tr>
+                <tr>
+                  <td class="t_center">2</td>
+                  <td><span class="tb_font1">2016-09-30 [아이디 닉네임]</span><br>
+                    생애 첫dsdsdsdfsd 호핑투어<br>
+                    <div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
+                </tr>
+              </tbody>
+            </table>
+            <!--모바일  일때 --> 
+            
+          </div>
+        <!--하단버튼/ 페이징 -->
+        <div class="bbs_bottom"> 
+          <!-- 페이징 -->
+          <div class="paginate">
+            <div class="number"><a href="#" class="pre_end">← First</a><a href="#" class="pre">이전</a><a href="#">11</a><a href="#" class="on">12</a><a href="#">13</a><a href="#">14</a><a href="#">15</a><a href="#">16</a><a href="#">17</a><a href="#">18</a><a href="#">19</a><a href="#">20</a><a href="#" class="next">다음</a><a href="#" class="next_end">Last → </a> </div>
+          </div>
+          <!-- /페이징 -->
+          
+        </div>
+        <!--//하단버튼/ 페이징 --> 
+        </div>
+        <!--//리뷰 --> 
+        <!--상품문의 -->
+        <div class="qa_box" style="display: none"> 
+          <!--탭-->
+          <div class="tab_box">
+            <ul>
+              <li class="off tab_btn1">후기(13건)</li>
+              <li class="on tab_btn2">문의하기</li>
+            </ul>
+          </div>
+          <!--//탭-->
+          <div class="title_box">
+            <div class="title tw_500">문의하기</div>
+            <div class="star_um">총<em>10명</em></div>
+            <a  href="#" data-featherlight="#pa_popup">
+            <input type="button" class="btn" value="문의하기">
+            </a> </div>
+          <div class="tb_01_box"> 
+            <!--pc 테블릿 일때 -->
+            <table width="100%"  class="tb_01 pc_view">
+              <col width="5%">
+              <col width="">
+              <col width="15%">
+              <col width="15%">
+              <tbody>
+                <tr>
+                  <td class="t_center">2</td>
+                  <td>생애 첫dsdsdsdfsd 호핑투어</td>
+                  <td>아이디 닉네임</td>
+                  <td>2016-09-30</td>
+                </tr>
+                <tr>
+                  <td class="t_center">2</td>
+                  <td>생애 첫dsdsdsdfsd 호핑투어</td>
+                  <td>아이디 닉네임</td>
+                  <td>2016-09-30</td>
+                </tr>
+                <tr>
+                  <td class="t_center">2</td>
+                  <td>생애 첫dsdsdsdfsd 호핑투어</td>
+                  <td>아이디 닉네임</td>
+                  <td>2016-09-30</td>
+                </tr>
+              </tbody>
+            </table>
+            <!--pc 테블릿 일때 --> 
+            <!--모바일  일때 -->
+            <table width="100%"  class="tb_01 mobile_view">
+              <col width="5%">
+              <col width="">
+              <tbody>
+                <tr>
+                  <td class="t_center">2</td>
+                  <td><span class="tb_font1">2016-09-30 [아이디 닉네임]</span><br>
+                    생애 첫dsdsdsdfsd 호핑투어<br>
+                    <div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
+                </tr>
+                <tr>
+                  <td class="t_center">2</td>
+                  <td><span class="tb_font1">2016-09-30 [아이디 닉네임]</span><br>
+                    생애 첫dsdsdsdfsd 호핑투어<br>
+                    <div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
+                </tr>
+              </tbody>
+            </table>
+            <!--모바일  일때 --> 
+          </div>
+        <!--하단버튼/ 페이징 -->
+        <div class="bbs_bottom"> 
+          <!-- 페이징 -->
+          <div class="paginate">
+            <div class="number"><a href="#" class="pre_end">← First</a><a href="#" class="pre">이전</a><a href="#">11</a><a href="#" class="on">12</a><a href="#">13</a><a href="#">14</a><a href="#">15</a><a href="#">16</a><a href="#">17</a><a href="#">18</a><a href="#">19</a><a href="#">20</a><a href="#" class="next">다음</a><a href="#" class="next_end">Last → </a> </div>
+          </div>
+          <!-- /페이징 -->
+          
+        </div>
+        <!--//하단버튼/ 페이징 --> 
+        </div>
+        <!--//상품문의 --> 
+        
+      </div>
+      <div class="fl_right">
+        <div class="day_box">
+          <div class="title">RESERVATION
+            <div class="star_box">
+              <div class="star_i"><i class="material-icons off">star_rate</i> <i class="material-icons off">star_rate</i> <i class="material-icons off">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> </div>
+            </div>
+            <div class="um">8.8</div>
+          </div>
+        </div>
+        <div class="day_box2">
+			<c:if test="${result.CL_SE ne 'S'}">
+				<div id="c">
+					<div id="disp">
+						<div id="prev" class="nav">&larr;</div>
+						<div id="month">Hello world</div>
+						<div id="next" class="nav">&rarr;</div>
+					</div>
+					<div id="cal" ></div>
+					<div id="calHelp">
+						<div class="first active"><i>일정</i> <b id="sel1text">날짜선택</b></div>
+					</div>
+				</div>
+				<!-- /#c --> 
+				<!-- <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script> --> 
+				<script src="/jq/calendar/js/index2.js"></script>
+			</c:if>
+			<c:if test="${result.CL_SE eq 'S'}">
+				<div id="c">
+					<div id="disp">
+						<div id="prev" class="nav">&larr;</div>
+						<div id="month">Hello world</div>
+						<div id="next" class="nav">&rarr;</div>
+					</div>
+					<div id="cal" ></div>
+					<div id="calHelp">
+						<div class="first active"><i>출발</i> <b id="sel1text">날짜선택</b></div>
+						<div class="disabled"><i>도착</i> <b id="sel2text">날짜선택</b></div>
+					</div>
+				</div>
+				<!-- /#c --> 
+				<!-- <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script> --> 
+				<script src="/jq/calendar/js/index.js"></script>
+			</c:if> 
+		</div>
+        <div class="day_box3 ">
+        	<c:if test="${result.CL_SE ne 'S'}">
+				<div class="input_box">
+					<div class="tx1">시간</div>
+					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+						<select class="w_100p">
+							<option value="">시간선택</option>
+							<c:forEach var="list" items="${lstTime}" varStatus="status">
+								<option value="${list.TOUR_TIME}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~ ${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</option>
+							</c:forEach>							
+						</select>
+						<!--//기본 셀렉트 박스 -->
+					</div>
+				</div>
+				<div class="input_box">
+					<div class="tx1">인원</div>
+					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+						<select class="w_100p" id="cmbNmpr">
+							<option value="">인원선택</option>
+							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
+								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}">${list.NMPR_CND}</option>
+							</c:forEach>							
+						</select>
+						<!--//기본 셀렉트 박스 -->
+					</div>
+				</div>
+        	</c:if>
+        	<c:if test="${result.CL_SE eq 'S'}">
+				<div class="input_box">
+					<div class="tx1">객실선택</div>
+					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+						<select class="w_100p" id="cmbRoom">
+							<option value="">객실선택</option>
+							<c:forEach var="list" items="${lstRoom}" varStatus="status">
+								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}">${list.NMPR_CND}</option>
+							</c:forEach>							
+						</select>
+						<!--//기본 셀렉트 박스 -->
+					</div>
+				</div>
+	        	<c:if test="${fn:length(lstEat) > 0}">
+				<div class="input_box">
+					<div class="tx1">옵션선택</div>
+					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+						<select class="w_100p" id="cmbEat">
+							<option value="">옵션선택</option>
+							<c:forEach var="list" items="${lstEat}" varStatus="status">
+								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}">${list.NMPR_CND}</option>
+							</c:forEach>							
+						</select>
+						<!--//기본 셀렉트 박스 -->
+					</div>
+				</div>
+	        	</c:if>
+	        	<c:if test="${fn:length(lstCheck) > 0}">
+				<div class="input_box">
+					<div class="tx1"></div>
+					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+						<select class="w_100p" id="cmbCheck">
+							<option value="">선택</option>
+							<c:forEach var="list" items="${lstCheck}" varStatus="status">
+								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}">${list.NMPR_CND}</option>
+							</c:forEach>							
+						</select>
+						<!--//기본 셀렉트 박스 -->
+					</div>
+				</div>
+	        	</c:if>
+        	</c:if>
+ 		</div>
+		<!--개수추가 -->
+		<div class="day_box4" id="purchInfo">
+		</div>
+		<!---->
+		<div class="day_box3 ">        	
+			<div class="total_box">
+				<div class="tx1">\ 28,227 </div>
+				<div class="tx2" id="totalprice">￦ 10,000 <em>/ 1인</em> </div>
+				<div class="icon"><img src="/images/sub/icon_sale.png" alt=""/> </div>
+			</div>
+        	<div class="btn_box" id="reservation">예약하기</div>
+      	</div>
+    </div>
+  </div>
+  <div class="sp_50 pc_view"></div>
+  <div class="sp_10 mobile_view"></div>
+</div>
+</section>
+
+<!-- //본문 --> 
+<!--팝업 : 이용후기 -->
+<div class="lightbox" id="review_popup">
+  <div class="popup_com">
+    <div class="title">이용후기</div>
+    <div class="popup_cont">
+      <div class="tb_01_box">
+        <table width="100%"  class="tb_01">
+          <col width="20%">
+          <col width="">
+          <tbody>
+            <tr>
+              <th >이름</th>
+              <td><input type="text" placeholder="" class="w_100p input_st"></td>
+            </tr>
+            <tr>
+              <th >비밀번호</th>
+              <td><input type="text" placeholder="" class="w_100p input_st"></td>
+            </tr>
+            <tr>
+              <th >이메일</th>
+              <td><input type="text" placeholder="형식에 맞게 적어주세요 (예:test@asdf.com)" class="w_100p input_st"></td>
+            </tr>
+            <tr>
+              <th >점수</th>
+              <td><div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
+            </tr>
+            <tr>
+              <th >내용쓰기</th>
+              <td><textarea name="textarea" id="textarea" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="popup_btn"><a href="#">등록하기</a></div>
+    </div>
+  </div>
+</div>
+<!--팝업--> 
+
+<!--팝업 : 문의하기-->
+<div class="lightbox" id="pa_popup">
+  <div class="popup_com">
+    <div class="title">문의하기 </div>
+    <div class="popup_cont">
+      <div class="tb_01_box">
+        <table width="100%"  class="tb_01">
+          <col width="20%">
+          <col width="">
+          <tbody>
+            <tr>
+              <th >이름</th>
+              <td><input type="text" placeholder="" class="w_100p input_st"></td>
+            </tr>
+            <tr>
+              <th >비밀번호</th>
+              <td><input type="text" placeholder="" class="w_100p input_st"></td>
+            </tr>
+            <tr>
+              <th >이메일</th>
+              <td><input type="text" placeholder="형식에 맞게 적어주세요 (예:test@asdf.com)" class="w_100p input_st"></td>
+            </tr>
+            <tr>
+              <th >내용쓰기</th>
+              <td><textarea name="textarea" id="textarea" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="popup_btn"><a href="#">등록하기</a></div>
+    </div>
+  </div>
+</div>
+<!--팝업-->
+<!--팝업 : 1:1문의하기-->
+<div class="lightbox" id="pa_popup2">
+  <div class="popup_com">
+    <div class="title">1:1문의하기 </div>
+    <div class="popup_cont">
+      <div class="tb_01_box">
+        <table width="100%"  class="tb_01">
+          <col width="20%">
+          <col width="">
+          <tbody>
+            <tr>
+              <th >이름</th>
+              <td><input type="text" placeholder="" class="w_100p input_st"></td>
+            </tr>
+            <tr>
+              <th >비밀번호</th>
+              <td><input type="text" placeholder="" class="w_100p input_st"></td>
+            </tr>
+            <tr>
+              <th >이메일</th>
+              <td><input type="text" placeholder="형식에 맞게 적어주세요 (예:test@asdf.com)" class="w_100p input_st"></td>
+            </tr>
+            <tr>
+              <th >내용쓰기</th>
+              <td><textarea name="textarea" id="textarea" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="popup_btn"><a href="#">등록하기</a></div>
+    </div>
+  </div>
+</div>
+<!--팝업-->
 </body>

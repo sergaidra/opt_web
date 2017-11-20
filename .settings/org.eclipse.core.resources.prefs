@@ -2,3 +2,7 @@ eclipse.preferences.version=1
 encoding//src/main/webapp/WEB-INF/jsp/gnrl/cmm/youtubePlayer.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/gnrl/file/imageList.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/layout.jsp=UTF-8
+encoding//src/main/webapp/include/bottom.jsp=UTF-8
+encoding//src/main/webapp/include/sub_top.jsp=UTF-8
+encoding//src/main/webapp/include/top.jsp=UTF-8
+encoding//src/main/webapp/include/topmenu.jsp=UTF-8

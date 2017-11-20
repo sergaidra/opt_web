@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
                 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
 	<context:component-scan base-package="*">
@@ -9,13 +16,17 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository" />
 	</context:component-scan>
 
+	<mvc:annotation-driven>
+	</mvc:annotation-driven>
+	
+
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="webBindingInitializer">
 			<bean class="kr.co.siione.utl.egov.EgovBindingInitializer"/>
 		</property>
 	</bean>
 
-	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<!-- <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="defaultErrorView" value="errorPage" />
 		<property name="exceptionMappings">
 			<props>
@@ -25,8 +36,8 @@
 				<prop key="org.springframework.security.AccessDeniedException">errorPage</prop>
 			</props>
 		</property>
-	</bean>
-
+	</bean> -->
+	
 	<bean class="kr.co.siione.utl.ImagePaginationRenderer" id="imageRenderer"/>
 	<bean class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager" id="paginationManager">
 		<property name="rendererType">
@@ -82,5 +93,6 @@
 	<mvc:resources location="/codebase/**" mapping="/codebase/**"/>
 	<mvc:resources location="/html/**" mapping="/html/**"/>
 	<mvc:resources location="/upload/**" mapping="/upload/**"/>
+	<mvc:resources location="/jq/**" mapping="/jq/**"/> 
 
 </beans>

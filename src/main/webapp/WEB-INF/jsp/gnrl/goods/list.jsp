@@ -2,168 +2,222 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
+
 <head>
-<script type="text/javascript">	
-	window.onload = function(){
-		$("#sboxClCode").change(function(){
-			if($(this).val() == "0") {
-				fnSearchUpperCl("${hidUpperClCode}");
-			} else {
-				fnSearchCl($(this).val());	
+
+<script type="text/javascript">
+$(function(){	
+	$(".list_tab li").click(function(){
+		if(!$(this).hasClass("on")) {
+			$(".list_tab li").removeClass("on");
+			$(this).addClass("on");
+			var upper_cl_code = $(this).find("#cl_code").val();
+			//$("#tabresult").empty();
+			$(".panelTab").hide();
+			if($("#divPan" + upper_cl_code).length > 0) {
+				$("#divPan" + upper_cl_code).show();
+				return false;				
 			}
-		});
 
-		$("#sboxCtyCode").change(function(){
-			if($(this).children("option:selected").val() == "0") {
-				fnSearchCty("");
-			} else {
-				fnSearchCty($(this).children("option:selected").val());	
+			var url = "<c:url value='/goods/getClInfo'/>";
+			$.ajax({
+		        url : url,
+		        type: "post",
+		        dataType : "json",
+		        async: "true",
+		        contentType: "application/json; charset=utf-8",
+		        data : JSON.stringify({ "hidUpperClCode" : upper_cl_code } ),
+		        //data : "hidUpperClCode=00411",
+		        success : function(data,status,request){
+					var search = $("#pan").clone();
+					$(search).attr("id", "divPan" + upper_cl_code);
+					
+					var html_upper_cl_code = "<input type='hidden' id='upper_cl_code' name='upper_cl_code' value='" + upper_cl_code + "' >";
+					$(search).append(html_upper_cl_code);
+					
+					var html1 = "", html2 = "";
+		        	for(var cnt = 0; cnt < data.tourClList.length; cnt++) {
+		        		html1 += "<option value='" + data.tourClList[cnt].CL_CODE + "'>#" + data.tourClList[cnt].CL_NM + "</option>";
+		        	}
+		        	for(var cnt = 0; cnt < data.ctyList.length; cnt++) {
+		        		html2 += "<option value='" + data.ctyList[cnt].CTY_CODE + "'>#" + data.ctyList[cnt].CTY_NM + "</option>";
+		        	}
+		        	
+		        	$(search).find("#sboxClCode").append(html1);
+		        	$(search).find("#sboxCtyCode").append(html2);
+					$(search).show();
+					
+					$("#tabresult").append(search);
+										
+					$(search).find("#btnSearch").trigger("click");
+		        },
+		        error : function(request,status,error) {
+		        	alert(error);
+		        },
+			});			
+			
+		}
+	});
+	
+	$(document).on("change", "select", function() {
+		fnSearch($(this));
+	});
+	
+	$(document).on("click", "#btnSearch", function() {
+		fnSearch($(this));
+	});
+
+	$("#tabresult").on("click", "li", function() {
+		fnDetail($(this));
+	});
+	//$(search).find("select").change(function () {
+	//});
+
+	
+	$(".list_tab li:eq(0)").trigger("click");
+	
+});
+
+function fnSearch(obj) {
+	var list_search = $(obj).closest(".panelTab");
+	var param = {};
+	param.hidClCode = $(list_search).find("#sboxClCode").val();
+	param.hidCtyCode = $(list_search).find("#sboxCtyCode").val();
+	param.hidUpperClCode = $(list_search).find("#upper_cl_code").val();
+	param.hidSortOrd = $(list_search).find("#sboxSortOrd").val();
+	param.hidKeyword = $(list_search).find("#sboxKeyword").val();
+	var ul = list_search.find("ul");
+	$(ul).empty();
+
+	var url = "<c:url value='/goods/getGoodsList'/>";
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify(param ),
+        success : function(data,status,request){
+        	$(list_search).find("span[name='totalcount']").text(data.length).closest("div").show();
+        	
+			for(var cnt = 0; cnt < data.length; cnt++) {
+				var item = $("#liItem").clone();
+				$(item).attr("id", "");
+				
+				$(item).find("span[name='cty_nm']").text(data[cnt].CTY_NM);
+				$(item).find("span[name='upper_cl_nm']").text(data[cnt].UPPER_CL_NM);
+				$(item).find("span[name='cl_nm']").text(data[cnt].CL_NM);
+				$(item).find("span[name='cf_min_amount']").text(data[cnt].CF_MIN_AMOUNT);				
+				$(item).find("span[name='goods_nm']").text(data[cnt].GOODS_NM);		
+				$(item).find("span[name='goods_nm_title']").text(data[cnt].GOODS_NM);	
+				$(item).find("span[name='favorite']").text("favorite_border");
+				$(item).find("input[name='goods_code']").val(data[cnt].GOODS_CODE);
+				$(item).find("img[name='imgFile']").attr("src", "<c:url value='/file/getImage/'/>?file_code=" + data[cnt].FILE_CODE);
+				//$(item).find("span[name='favorite']").text("favorite");	
+				
+				$(item).show();
+				ul.append(item);
 			}
-		});
-	}
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});
+}
 
-	function fnPage() {
-		var form = $("form[id=frmList]");
-		$("input:hidden[id=hidPage]").val(1);
-		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
-		form.submit();
-	}
-	
-	function fnDetail(goods_code) {
-		var form = $("form[id=frmList]");
-		$("input:hidden[id=hidGoodsCode]").val(goods_code);
-		form.attr({"method":"post","action":"<c:url value='/goods/detail/'/>"});
-		form.submit();
-	}
-	
-	function fnLinkPage(page){
-		var form = $("form[id=frmList]");
-		$("input:hidden[id=hidPage]").val(page);
-		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
-		form.submit();
-	}
-	
-	function fnSearchUpperCl(cl_code) {
-		var form = $("form[id=frmList]");
-		$("input:hidden[id=hidUpperClCode]").val(cl_code);
-		$("input:hidden[id=hidClCode]").val('');
-		$("input:hidden[id=hidPage]").val(1);
-		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
-		form.submit();
-	}	
-
-	function fnSearchCl(cl_code) {
-		var form = $("form[id=frmList]");
-		$("input:hidden[id=hidClCode]").val(cl_code);
-		$("input:hidden[id=hidPage]").val(1);
-		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
-		form.submit();
-	}
-	
-	function fnSearchCty(cty_code) {
-		var form = $("form[id=frmList]");
-		$("input:hidden[id=hidCtyCode]").val(cty_code);
-		$("input:hidden[id=hidPage]").val(1);
-		form.attr({"method":"post","action":"<c:url value='/goods/list/'/>"});
-		form.submit();
-		
-	}
+function fnDetail(obj) {
+	var goods_code = $(obj).find("input[name='goods_code']").val();
+	var form = $("form[id=frmList]");
+	$("input:hidden[id=hidGoodsCode]").val(goods_code);
+	form.attr({"method":"post","action":"<c:url value='/goods/detail'/>"});
+	form.submit();		
+}
 </script>
 </head>
+
 <body>
-<form id="frmList" name="frmList" action="<c:url value='/goods/detail/'/>">
-<input type="hidden" id="hidPage" name="hidPage" value="${hidPage}">
-<input type="hidden" id="hidGoodsCode" name="hidGoodsCode">
-<input type="hidden" id="hidCtyCode" name="hidCtyCode" value="${hidCtyCode}">
-<input type="hidden" id="hidClCode" name="hidClCode" value="${hidClCode}">
-<input type="hidden" id="hidUpperClCode" name="hidUpperClCode" value="${hidUpperClCode}">
-<input type="hidden" id="hidUpperClCodeNavi" name="hidUpperClCodeNavi" value="${hidUpperClCodeNavi}">
-	<div class="location">
-		<p class="loc_area">
-			홈<span class="arrow_loc"></span>투어상품
-		</p>
+
+<form id="frmList" name="frmList" action="<c:url value='/goods/detail'/>">
+	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode">
+	<input type="hidden" id="category" name="category" value="${category}">
+</form>
+
+<!-- 본문 -->
+<section>
+<div id="container">
+<div class="sp_50 pc_view"></div>
+<div class="sp_20 mobile_view"></div>
+ <div class="inner2">
+   <div class="list_tab">
+   	<ul>
+	<c:forEach var="result" items="${upperTourClList}" varStatus="status">
+   		<li>${result.CL_NM}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"></li>
+	</c:forEach>
+   	</ul>
+   </div>
+
+	<div id="tabresult" style="min-height:700px;">
 	</div>
-	<!--컨텐츠 시작-->
-	<div class="infor_area">
-		<!--result 탭시작-->
-		<div id="result_set_02">
-		<c:forEach var="result" items="${upperTourClList}" varStatus="status">
-			<p class="line-left"></p>
-			<c:if test="${result.CL_CODE eq hidUpperClCode}">
-			<p class="rtab_selected">
-				<a href="javascript:fnSearchUpperCl('${result.CL_CODE}');">${result.CL_NM}</a>
-			</p>
-			</c:if><c:if test="${result.CL_CODE ne hidUpperClCode}">
-			<p class="rtab">
-				<a href="javascript:fnSearchUpperCl('${result.CL_CODE}');">${result.CL_NM}</a>
-			</p>
-			</c:if>
-		</c:forEach>
-		<!--result 탭끝-->
-		</div>
-		<div class="whitebar">
-			<span class="wbar_txt">총 ${fn:length(goodsList)}개의 상품이 검색되었습니다.</span>
-			<fieldset>
-				<select name="" class="wsh_sbox">
-					<option value="0">정렬기준</option>
-					<option value="ACOUNT_ASC">낮은가격순</option>
-					<option value="ACOUNT_DESC">높은가격순</option>
+
+ </div>
+<div class="sp_50 pc_view"></div>
+	<div class="sp_20 mobile_view"></div>
+</div>
+</section>
+
+	<!--패널-->
+	<div id="pan" class="panelTab" style="display:none;">
+	    <div class="list_search">
+	      <div class="info_text" style="display:none;">총 <em><span name="totalcount"> </span>개</em>의 상품이 검색되었습니다.</div>
+		  <div class="inputbox">
+		    <div class="search_input"><input name="sboxKeyword" id="sboxKeyword" type="text">
+		      <div id="btnSearch" class="btn" ><i class="material-icons">&#xE8B6;</i></div>
+		    </div>
+		    <div class="search_select"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+					<select name="sboxClCode" id="sboxClCode"  class="w_100p">
+						<option value="">상세분류</option>
+					</select>
+				
+	<!--//기본 셀렉트 박스 --></div>
+			   <div class="search_select"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+					<select name="sboxCtyCode" id="sboxCtyCode" class="w_100p">
+						<option value="">도시선택</option>
 				</select>
-				<select name="sboxCtyCode" id="sboxCtyCode" class="wsh_sbox">
-					<option value="0">도시선택</option>
-					<c:forEach var="result" items="${ctyList}" varStatus="status">
-					<option value="${result.CTY_CODE}" <c:if test="${result.CTY_CODE eq hidCtyCode}">selected</c:if>>#${result.CTY_NM}</option>
-					</c:forEach>					
-				</select>				
-				<select name="sboxClCode" id="sboxClCode" class="wsh_sbox">
-					<option value="0">상세분류</option>
-					<c:forEach var="result" items="${tourClList}" varStatus="status">
-					<option value="${result.CL_CODE}" <c:if test="${result.CL_CODE eq hidClCode}">selected</c:if>>#${result.CL_NM}</option>
-					</c:forEach>					
-				</select>					
-				<legend>검색</legend>
-				<div class="w_window">
-					<input name="searchWrd" title="검색어 입력" class="winput_txt" type="text" size="35" value="" maxlength="35" onkeypress="press(event)">
-				</div>
-				<button tabindex="3" title="검색" class="wsch_smit" type="submit">
-					<span class="blind"></span> <span class="ico_search_submit"></span>
-				</button>
-			</fieldset>
-		</div>
-		<!--rtab_01 시작-->
-		<div class="rtab_01_area">
-			<div class="resultlst_area">
-			<c:forEach var="result" items="${goodsList}" varStatus="status">
-				<c:if test="${status.index%2 == 0}"><ul></c:if>
-					<li <c:if test="${status.index%2 == 1}">class="pr2_right"</c:if>>
-						<p class="pr2_photo_area">
-							<a href="javascript:fnDetail('${result.GOODS_CODE}');"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="200" height="160"></a>
-						</p>
-						<div class="pr2_rtxt_area">
-							<p class="fl_left circle">A</p>
-							<dl>
-								<dt>
-									<span class="p_head"><a href="javascript:fnDetail('${result.GOODS_CODE}');">${result.GOODS_NM}</a></span>
-									<span class="p_like"><img src="/images/blt_wheart.gif" width="21" height="17"></span>
-									<span class="p_sub">Shangri-La Mactan Resort</span>
-									<div class="star_score_big">
-										<span class="point40"><span class="blind">4점</span></span>
-									</div>
-								</dt>
-								<dd>
-									<span class="price_blank">&nbsp;</span>
-									${result.CF_MIN_AMOUNT}<span class="txt_won">원</span>
-								</dd>
-							</dl>
-						</div>
-						<p class="category">${result.CTY_NM} > ${result.UPPER_CL_NM} > ${result.CL_NM}</p>
-					</li>
-				<c:if test="${status.index%2 == 1}"><ul></c:if>				
-			</c:forEach>				
-			</div>
-		</div>
-		<!--rtab영역 끝-->
-	</div>
-	<!--컨텐츠 끝-->
-</form>	
-</body>          
+				
+	<!--//기본 셀렉트 박스 --></div>
+			   <div class="search_select"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+					<select name="sboxSortOrd" id="sboxSortOrd" class="w_100p">
+						<option>정렬기준</option>
+						<option value="L">낮은가격순</option>
+						<option value="H">높은가격순</option>
+					</select>
+				
+	<!--//기본 셀렉트 박스 --></div>
+	      </div>
+	    </div>
+	    <div class='list_box02'>
+	    	<ul>
+	    	</ul>
+	    </div>
+    </div>
+    <!-- 검색 끝 -->
+    
+    <!-- 아이템 -->
+	<li id="liItem" style="display:none;">
+		<input type="hidden" name="goods_code">
+	  <div class="fl_photo"><img src="/images/sub/ex2.png"  alt="" name="imgFile"/></div>
+		<div class="fr_info">
+		  <div class="in">
+		    <div class="tx1"><span name="goods_nm"></span></div>
+			   <div class="tx2"><span name="goods_nm_title"></span></div>
+			   <div class="hit_on"><i class="material-icons"><span name="favorite"></span></i>
+
+				   </div>
+			    <div class="total"><span name="cf_min_amount"></span><em>원</em></div>
+		  </div>
+			<div class="ar_text"><span name="cty_nm"></span>  >  <span name="upper_cl_nm"></span>  >  <span name="cl_nm"></span></div>
+        </div>
+    </li>
+	<!-- 아이템 끝 -->
+        
+</body>
