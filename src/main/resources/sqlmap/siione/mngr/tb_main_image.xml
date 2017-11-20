@@ -40,7 +40,7 @@
              , SORT_ORDR
              , TO_CHAR(TO_DATE(BEGIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') BEGIN_DE
              , TO_CHAR(TO_DATE(END_DE, 'YYYYMMDD'), 'YYYY-MM-DD') END_DE
-             , '/file/getImageThumb/?image_sn='||IMAGE_SN AS IMAGE_URL
+             , '/file/getImageThumb/'||CHR(63)||'image_sn='||IMAGE_SN AS IMAGE_URL
              , USE_AT
              , CASE WHEN BEGIN_DE <= TO_CHAR(SYSDATE, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD') <= END_DE THEN 'A'
                     WHEN TO_CHAR(SYSDATE, 'YYYYMMDD') < BEGIN_DE THEN 'B'             

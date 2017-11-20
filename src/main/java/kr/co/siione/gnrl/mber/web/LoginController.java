@@ -66,7 +66,17 @@ public class LoginController {
             	if(loginManager.isUsing(esntl_id)){
             	    loginManager.removeSession(esntl_id);
             	}
-
+            	
+            	// 로그인 이력
+            	HashMap map2 = new HashMap();
+            	map2.put("esntl_id", esntl_id);
+            	String ip = request.getHeader("X-FORWARDED-FOR");
+        		if (ip == null) {
+        			ip = request.getRemoteAddr();
+        		}
+            	map2.put("conect_ip", ip);
+            	loginService.userLog(map2);
+            	
             	session.setAttribute("user_id", result.get("USER_ID"));
             	session.setAttribute("user_nm", result.get("USER_NM"));
             	session.setAttribute("author_cl", result.get("AUTHOR_CL"));            	

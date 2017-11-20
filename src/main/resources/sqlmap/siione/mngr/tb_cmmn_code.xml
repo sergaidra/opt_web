@@ -86,6 +86,7 @@
         <isNotEmpty property="USE_AT">
          WHERE USE_AT = #USE_AT#
         </isNotEmpty>
+         ORDER BY SORT_ORDR
     </select>
 
 	<resultMap id="rmCmmnCodeTree" class="java.util.HashMap">
