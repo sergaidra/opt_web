@@ -136,14 +136,17 @@ var frLog = Ext.create('Ext.form.Panel', {
 				width: 60,
 				listeners: {
 					click: function() {
-						if(!Ext.getCmp('sch-ds-esntl-id').getValue()) {
+						stLog.proxy.extraParams = Ext.getCmp('form-sch').getForm().getValues();
+						stLog.loadPage(1);
+						
+						/*if(!Ext.getCmp('sch-ds-esntl-id').getValue()) {
 							Ext.Msg.alert('확인', '사용자를 선택하세요.', function(){
 								Ext.getCmp('btn-search-user').fireEvent('click');
 							});
 						} else {
 							stLog.proxy.extraParams = Ext.getCmp('form-sch').getForm().getValues();
 							stLog.loadPage(1);							
-						}
+						}*/
 					}
 				}
 			},{

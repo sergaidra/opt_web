@@ -170,6 +170,7 @@ var frUser = Ext.create('Ext.form.Panel', {
 	    	    id: 'sch-value',
 	            width: 150,
 	            margin: '0 0 0 5',
+	            fieldStyle: {'ime-mode':'active'},	            
 	            allowBlank: true,
 				enableKeyEvents: true,
 				listeners: {

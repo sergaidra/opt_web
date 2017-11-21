@@ -85,7 +85,12 @@
 	</select>
 
 	<sql id="UserDAO.whereForSelectUserLogList">
+		<isEmpty property="ESNTL_ID">
+		 WHERE 1 = 1
+		</isEmpty>	
+		<isNotEmpty property="ESNTL_ID">
 		 WHERE ESNTL_ID = #ESNTL_ID#
+		</isNotEmpty>		 
 		<isNotEmpty property="FR_CONECT_DT">
 		   AND CONECT_DT BETWEEN TO_DATE(#FR_CONECT_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_CONECT_DT#, 'YYYY-MM-DD')+0.99999
 		</isNotEmpty>

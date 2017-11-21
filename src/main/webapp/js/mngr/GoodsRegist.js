@@ -1,3 +1,5 @@
+Ext.tip.QuickTipManager.init();  // enable tooltips
+
 var formSave = Ext.create('Ext.form.Panel', {});
 
 var selGridNmprIdx = 0;
@@ -998,6 +1000,20 @@ var frReg = Ext.create('Ext.form.Panel', {
 			enforceMaxLength: true,
 			allowBlank: true,
 			enableKeyEvents: true
+		/*},{
+	        xtype: 'htmleditor',
+			id: 'form-reg-goods-intrcn-tmp',
+			name: 'GOODS_INTRCN_TMP',
+	        fieldLabel: '테스트<br>(4000자)',
+	        labelSeparator: ':',
+			labelWidth: 100,
+			labelAlign: 'right',	        
+	        width: 630,
+	        height: 300,
+	        frame: true*/
+	        //layout: 'fit',
+	        //enableColors: false,
+	        //enableAlignments: false
 		},{
 			xtype: 'textareafield',
 			id: 'form-reg-goods-intrcn',
@@ -2729,9 +2745,10 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		dataIndex: 'FIXED_AT',
 		renderer: Ext.ux.comboBoxRenderer(comboFixedAt)
 	},{
-		text: '금액',
+		text: '금액(단위:원)',
 		width: 100,
-		align: 'center',
+		style: 'text-align:center',
+		align: 'right',		
 		sortable: false,
 		menuDisabled: true,
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 7, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
