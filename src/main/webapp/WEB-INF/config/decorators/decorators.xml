@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<decorators defaultdir="/WEB-INF/jsp/">
+<decorators defaultdir="/WEB-INF/jsp/decorators">
 
-	<decorator name="layout" page="layout.jsp">
+	<decorator name="mainlayout" page="mainlayout.jsp">
+		<pattern>/main/intro/*</pattern>
+	</decorator>
+	<decorator name="sublayout" page="sublayout.jsp">
 		<pattern>/*</pattern>
 	</decorator>
 
@@ -31,5 +34,7 @@
 
 		<pattern>/html/*</pattern>
 
+
+		<pattern>/member/login*</pattern>
 	</excludes>
 </decorators>

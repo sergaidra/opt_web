@@ -122,6 +122,7 @@
 		     , (SELECT CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE) CTY_NM
 		     , COUNT(GOODS_CODE) OVER() AS TOT_CNT
 		     , (SELECT TO_CHAR(NVL(MIN(X.SETUP_AMOUNT), 0), 'FM9,999,999') FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = A.GOODS_CODE) CF_MIN_AMOUNT
+		     , (SELECT NVL(MIN(X.SETUP_AMOUNT), 0) FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = A.GOODS_CODE) MIN_AMOUNT
 		  FROM TB_GOODS A
 		 WHERE DELETE_AT = 'N'
 		<isNotEmpty property="cty_code">
@@ -135,7 +136,20 @@
 		   AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = #upper_cl_code#)
 			</isNotEmpty>
 		</isEmpty>
+		<isNotEmpty property="keyword">
+		   AND UPPER(GOODS_NM) LIKE '%' || UPPER(#keyword#) || '%'
+		</isNotEmpty>
+		<isNotEmpty property="sortOrd">
+			<isEqual property="sortOrd" compareValue="L">
+				ORDER BY MIN_AMOUNT, GOODS_NM
+			</isEqual>
+			<isEqual property="sortOrd" compareValue="H">
+				ORDER BY MIN_AMOUNT DESC, GOODS_NM
+			</isEqual>
+		</isNotEmpty>
+		<isEmpty property="sortOrd">
 		 ORDER BY SORT_ORDR, GOODS_NM
+		</isEmpty>
 	</select>
 
 	<select id="gnrl.goods.selectGoodsDetail" parameterClass="hashMap" resultMap="goodsDetail"> 

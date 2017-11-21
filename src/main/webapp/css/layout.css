@@ -1,0 +1,585 @@
+@charset "utf-8";
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(https://cdn.rawgit.com/theeluwin/NotoSansKR-Hestia/master/stylesheets/NotoSansKR-Hestia.css);
+@import url('https://fonts.googleapis.com/css?family=Lato:700');
+
+
+
+
+
+
+/* 초기화 */
+html {overflow-y:scroll}
+body {margin:0;padding:0;font-family:'Nanum Square', 'Nanum Gothic', 'Malgun Gothic','Noto Sans Korean', 'Noto Sans KR',"NanumBarunGothic", nbg, dotum, sans-serif;}
+html, h1, h2, h3, h4, h5, h6, form, fieldset, img {margin:0;padding:0;border:0}
+h1, h2, h3, h4, h5, h6 {font-size:1em}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block}
+header ul, nav ul, footer ul {margin:0;padding:0;list-style:none}
+legend {position:absolute;font-size:0;line-height:0;text-indent:-9999em;overflow:hidden}
+label, input, button, select, img {vertical-align:middle;}
+input, button {margin:0;padding:0;font-size:1em;}
+button,input[type=submit]{cursor:pointer;}
+input[type=text], input[type=password], input[type=submit], input[type=image], button {border-radius:0;font-size:1em;-webkit-appearance:none}
+textarea, select {font-size:1em;font-family:dotum}
+textarea {border-radius:0;-webkit-appearance:none}
+p {margin:0;padding:0;word-break:break-all}
+hr {display:none}
+pre {overflow-x:scroll;font-size:1.1em}
+a:link, a:visited {color:#000;text-decoration:none}
+ol,ul,li{list-style:none;padding:0;margin:0;}
+
+
+
+#head_home, .menu, .allmenu, .myinfo, a.toplogo, .left_icon, .inline{
+			transition: all 0.5s;
+			-moz-transition: all 0.5s; /* Firefox 4 */
+			-webkit-transition: all 0.5s; /* Safari and Chrome */
+			-o-transition: all 0.5s; /* Opera */
+		}
+
+
+
+
+/* 메인메뉴 */
+
+/**** pc ****/
+@media only all and (min-width:1301px) {
+	
+#head_home {width:100% ; float:left; background:#fff; height:90px;   position:fixed ; z-index:9999}
+#head_home .inner{margin:0px auto; position:relative;left:0px; }
+#head_home_m { display:none}
+
+	
+#head_home {width:100% ; float:left; background:#fff; height:90px;   position:fixed ; z-index:9999; border-bottom: 1px solid #fff}
+
+#head_home .inner a.toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; display: table-cell;  vertical-align: middle; height: 90px; background-position: center left}
+#head_home .inner .menu{ position: absolute;  left:20%; top: 40px}
+#head_home .inner .menu ul li{float:left; font-size:20px; text-align: center; margin-right: 50px }
+/**** 대메뉴 폰트수정 /jq/q_menu/****/
+
+#head_home .inner .myinfo{  position:absolute; right:100px; top:20px; }
+#head_home .inner .myinfo .name{ float: left; margin-right: 30px }
+#head_home .inner .myinfo .name .photo{ float: left; width:50px; height: 50px;  border-radius: 200px; border: 1px solid #ddd;overflow:hidden; margin-right: 10px }
+#head_home .inner .myinfo .name .photo img{ float: left; width:100%; }
+#head_home .inner .myinfo .name .name_tx{ float: left; color: #333; font-size: 15px; margin-top: 15px }
+
+#head_home .inner .myinfo .name .gomy{ float: right; margin-left: 10px; margin-top: 12px }	
+#head_home .inner .myinfo .name .gomy a{ float: left;  padding: 5px 5px; border: 1px solid #ccc; color: #333; background-color: #f7f7f7; font-size: 11px}	
+#head_home .inner .myinfo .name  .gomy a:hover{ float: left;  padding: 5px 5px; border: 1px solid #333; color: #333; background-color: #f7f7f7; font-size: 11px}	
+	
+#head_home .inner .allmenu{   position:absolute; right: 0px;  height: 90px; border-left: 1px solid #ddd; padding: 0px 30px}
+#head_home .inner .allmenu i{  font-size: 40px; color: #333; line-height: 90px}
+	
+	
+	
+header.large #head_home {width:100% ; float:left; background:#fff; height:90px;   position:fixed ; z-index:9999; border-bottom: 1px solid #fff}
+
+header.large #head_home .inner a.toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; display: table-cell;  vertical-align: middle; height: 90px; background-position: center left}
+header.large #head_home .inner .menu{ position: absolute;  left:20%; top: 40px}
+header.large #head_home .inner .menu ul li{float:left; font-size:20px; text-align: center; margin-right: 50px }
+/**** 대메뉴 폰트수정 /jq/q_menu/****/
+
+header.large #head_home .inner .myinfo{  position:absolute; right:100px; top:20px; }
+header.large #head_home .inner .myinfo .name{ float: left; margin-right: 30px }
+header.large #head_home .inner .myinfo .name .photo{ float: left; width:50px; height: 50px;  border-radius: 200px; border: 1px solid #ddd;overflow:hidden; margin-right: 10px }
+header.large #head_home .inner .myinfo .name .photo img{ float: left; width:100%; }
+header.large #head_home .inner .myinfo .name .name_tx{ float: left; color: #333; font-size: 15px; margin-top: 15px  }
+header.large #head_home  .inner .myinfo .name .gomy{ float: right; margin-left: 10px; margin-top: 12px }	
+header.large #head_home  .inner .myinfo .name .gomy a{ float: left;  padding: 5px 5px; border: 1px solid #ccc; color: #333; background-color: #f7f7f7; font-size: 11px}	
+header.large #head_home .inner .myinfo .name  .gomy a:hover{ float: left;  padding: 5px 5px; border: 1px solid #333; color: #333; background-color: #f7f7f7; font-size: 11px}	
+	
+	
+header.large #head_home .inner .allmenu{   position:absolute; right: 0px;  height: 90px; border-left: 1px solid #ddd; padding: 0px 30px}
+header.large #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-height: 90px}
+	
+	
+
+header.small #head_home {width:100% ; float:left; background:#fff;   height:70px;   position:fixed ; z-index:9999; border-bottom: 1px solid #ccc}	
+	
+header.small #head_home .inner a.toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; display: table-cell;  vertical-align: middle; height: 70px; background-position: center left}
+header.small #head_home .inner .menu{ position: absolute;  left:20%; top: 30px}
+header.small #head_home .inner .menu ul li{float:left; font-size:20px; text-align: center; margin-right: 50px }
+/**** 대메뉴 폰트수정 /jq/q_menu/****/
+
+header.small #head_home .inner .myinfo{  position:absolute; right:100px; top:10px; }
+header.small #head_home .inner .myinfo .name{ float: left; margin-right: 30px }
+header.small #head_home .inner .myinfo .name .photo{ float: left; width:50px; height: 50px;  border-radius: 200px; border: 1px solid #ddd;overflow:hidden; margin-right: 10px }
+header.small #head_home .inner .myinfo .name .photo img{ float: left; width:100%; }
+header.small #head_home .inner .myinfo .name .name_tx{ float: left; color: #333; font-size: 15px; margin-top: 15px  }
+
+	
+header.small #head_home .inner .allmenu{   position:absolute; right: 0px;  height: 70px; border-left: 1px solid #ddd; padding: 0px 20px}
+header.small #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-height: 70px}
+
+
+#head_home .inner .myinfo .icon1{ display: none}
+#head_home .inner .myinfo .icon2{ display: none}
+#head_home .inner .left_icon{display: none}
+#head_home .inner .left_icon i{color: #fff; font-size: 50px}
+	
+#head_home .inner .right_icon{display: none}
+#head_home .inner .right_icon i{color: #fff; font-size: 50px}
+
+
+
+}
+	
+	
+/**** 테블릿 ****/
+@media all and (max-width:1300px) and (min-width:1001px) {
+#head_home {width:100% ; float:left; background:#fff; height:90px;   position:fixed ; z-index:9999}
+#head_home .inner{margin:0px auto; position:relative;left:0px; }
+#head_home_m { display:none}
+
+	
+#head_home {width:100% ; float:left; background:#fff; height:90px;   position:fixed ; z-index:9999; border-bottom: 1px solid #fff}
+
+#head_home .inner a.toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; display: table-cell;  vertical-align: middle; height: 90px; background-position: center left}
+#head_home .inner .menu{ position: absolute;  left:20%; top: 40px}
+#head_home .inner .menu ul li{float:left; font-size:20px; text-align: center; margin-right: 30px }
+/**** 대메뉴 폰트수정 /jq/q_menu/****/
+
+#head_home .inner .myinfo{  position:absolute; right:100px; top:20px; }
+#head_home .inner .myinfo .name{ float: left; margin-right: 30px }
+#head_home .inner .myinfo .name .photo{ float: left; width:50px; height: 50px;  border-radius: 200px; border: 1px solid #ddd;overflow:hidden; margin-right: 10px ; display: none }
+#head_home .inner .myinfo .name .photo img{ float: left; width:100%; }
+#head_home .inner .myinfo .name .name_tx{ float: left; color: #333; font-size: 16px; margin-top: 7px ; display: none}
+#head_home .inner .myinfo .name  .gomy{ float: right; margin-left: 10px; margin-top: 15px }	
+#head_home .inner .myinfo .name  .gomy a{ float: left;  padding: 5px 5px; border: 1px solid #ccc; color: #333; background-color: #f7f7f7; font-size: 11px}	
+#head_home .inner .myinfo .name .gomy a:hover{ float: left;  padding: 5px 5px; border: 1px solid #333; color: #333; background-color: #f7f7f7; font-size: 11px}	
+	
+	
+#head_home .inner .allmenu{   position:absolute; right: 0px;  height: 90px; border-left: 1px solid #ddd; padding: 0px 30px}
+#head_home .inner .allmenu i{  font-size: 40px; color: #333; line-height: 90px}
+	
+	
+	
+header.large #head_home {width:100% ; float:left; background:#fff; height:90px;   position:fixed ; z-index:9999; border-bottom: 1px solid #fff}
+
+header.large #head_home .inner a.toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; display: table-cell;  vertical-align: middle; height: 90px; background-position: center left}
+header.large #head_home .inner .menu{ position: absolute;  left:20%; top: 40px}
+header.large #head_home .inner .menu ul li{float:left; font-size:20px; text-align: center; margin-right: 50px }
+/**** 대메뉴 폰트수정 /jq/q_menu/****/
+
+header.large #head_home .inner .myinfo{  position:absolute; right:100px; top:20px; }
+header.large #head_home .inner .myinfo .name{ float: left; margin-right: 30px }
+header.large #head_home .inner .myinfo .name .photo{ float: left; width:50px; height: 50px;  border-radius: 200px; border: 1px solid #ddd;overflow:hidden; margin-right: 10px }
+header.large #head_home .inner .myinfo .name .photo img{ float: left; width:100%; }
+header.large #head_home .inner .myinfo .name .name_tx{ float: left; color: #333; font-size: 16px; margin-top: 7px }
+	
+header.large #head_home .inner .allmenu{   position:absolute; right: 0px;  height: 90px; border-left: 1px solid #ddd; padding: 0px 30px}
+header.large #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-height: 90px}
+	
+	
+
+header.small #head_home {width:100% ; float:left; background:#fff;   height:70px;   position:fixed ; z-index:9999; border-bottom: 1px solid #ccc}	
+	
+header.small #head_home .inner a.toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; display: table-cell;  vertical-align: middle; height: 70px; background-position: center left}
+header.small #head_home .inner .menu{ position: absolute;  left:20%; top: 30px}
+header.small #head_home .inner .menu ul li{float:left; font-size:20px; text-align: center; margin-right: 50px }
+/**** 대메뉴 폰트수정 /jq/q_menu/****/
+
+header.small #head_home .inner .myinfo{  position:absolute; right:100px; top:10px; }
+header.small #head_home .inner .myinfo .name{ float: left; margin-right: 30px }
+header.small #head_home .inner .myinfo .name .photo{ float: left; width:50px; height: 50px;  border-radius: 200px; border: 1px solid #ddd;overflow:hidden; margin-right: 10px }
+header.small #head_home .inner .myinfo .name .photo img{ float: left; width:100%; }
+header.small #head_home .inner .myinfo .name .name_tx{ float: left; color: #333; font-size: 16px; margin-top: 7px }
+	
+header.small #head_home .inner .allmenu{   position:absolute; right: 0px;  height: 70px; border-left: 1px solid #ddd; padding: 0px 20px}
+header.small #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-height: 70px}
+
+
+#head_home .inner .myinfo .icon1{ display: none}
+#head_home .inner .myinfo .icon2{ display: none}
+#head_home .inner .left_icon{display: none}
+#head_home .inner .left_icon i{color: #fff; font-size: 50px}
+
+}
+
+
+/**** 모바일 ****/
+@media only all and (max-width:1000px) {
+#head_home {width:100% ; float:left; background:#fff; height:50px;   position:fixed ; z-index:9999; border-bottom: 1px solid #ddd}
+#head_home .inner{margin:0px auto; position:relative;left:0px; }
+#head_home_m { display:none}
+	
+#head_home .inner a.toplogo{ width:100% ;float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:140px; display: table-cell;  vertical-align: middle; height: 50px; background-position: center left; left:50%; margin-left: -70px; position: absolute }
+#head_home .inner .menu{ display: none }
+#head_home .inner .menu ul li{float:left; color:#fff; font-size:16px; text-align: center; margin-right: 20px }
+#head_home .inner .menu ul li a{color:#fff;}
+#head_home .inner .menu ul li a:hover{color:#F33;}
+#head_home .inner .search{  position:absolute; right:50px; top:9px; width:70px}
+#head_home .inner .search input{ width:100px; border:none; background:#181818; color:#666; font-size:12px ; padding-left:35px}
+#head_home .inner .search i{  position:absolute; right:0px; color:#fff; font-size:18px}
+#head_home .inner .search img{  position:absolute; left:0px; color:#fff; font-size:18px; top:-5px}
+#head_home .inner .myinfo{  position:absolute; right:20px; top:40px; }
+#head_home .inner .myinfo .name{ display: none}
+#head_home .inner .myinfo .name .photo{ float: left; width:40px; height: 40px;  border-radius: 200px; border: 1px solid #fff;overflow:hidden; margin-right: 10px }
+#head_home .inner .myinfo .name .photo img{ float: left; width:100%; }
+#head_home .inner .myinfo .name .name_tx{ float: left; color: #fff; font-size: 18px; margin-top: 7px }
+
+#head_home .inner .myinfo a.btn_manager{ display: none}
+#head_home .inner .myinfo a.btn_manager img{ width:80px; }	
+
+#head_home .inner .myinfo .icon1{float: left; margin-right: 15px}
+#head_home .inner .myinfo .icon2{float: left;}
+#head_home .inner .left_icon{position:absolute; left:15px; top:13px;}
+#head_home .inner .left_icon i{color: #333; font-size: 25px}
+#head_home .inner .right_icon{position:absolute; right:15px; top:13px;}
+#head_home .inner .right_icon i{color: #333; font-size: 25px}
+		
+
+#head_home .inner .allmenu{ display: none }
+header.large #head_home_main {width:100% ; float:left; background:rgba(0, 0, 0, 0.0); height:137px;   position:fixed ; z-index:9999}
+
+header.small #head_home_main {width:100% ; float:left; background:#ff7065; height:137px;   position:fixed ; z-index:9999}
+
+}
+
+
+
+/*---------------------- 본문영역 ----------------------*/
+/**** pc ****/
+@media only all and (min-width:1301px) {
+#container{ width: 100%; float: left; box-sizing: border-box; padding: 0px; margin: 0px; min-height: calc(100vh - 600px); background-color: #f5f5f5  }
+}
+/**** 테블릿 ****/
+@media all and (max-width:1300px) and (min-width:769px) {
+#container{ width: 100%; float: left ;box-sizing: border-box; padding: 0px;background-color: #f5f5f5   }
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+#container{ width: 100%; float: left; box-sizing: border-box; padding: 0px;  margin: 0px; background-color: #f5f5f5   }
+}
+
+/*---------------------- 본문영역 ----------------------*/
+/**** pc ****/
+@media only all and (min-width:1301px) {
+#cont_body{ width: 100%; float: left; box-sizing: border-box;  }
+.m_com_pd{ padding: 0px; box-sizing: border-box }
+.m_com_pd2{ padding: 0px; box-sizing: border-box }
+.pc_top_pd{ width: 100%;float: left; height: 50px }
+}
+/**** 테블릿 ****/
+@media all and (max-width:1300px) and (min-width:769px) {
+#cont_body{ width: 100%; float: left ;box-sizing: border-box;  }
+.m_com_pd{ padding: 15px; box-sizing: border-box }
+.m_com_pd2{ padding: 0px 15px; box-sizing: border-box }
+.pc_top_pd{ width: 100%;float: left; height: 30px }
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+#cont_body{ width: 100%; float: left; box-sizing: border-box;  }
+.m_com_pd{ padding: 15px; box-sizing: border-box }
+.m_com_pd2{ padding: 0px 15px; box-sizing: border-box }
+.pc_top_pd{ width: 100%;float: left; height: 0px  }
+}
+
+
+
+/** 하단 영역 **/
+/**** pc ****/
+@media only all and (min-width:1025px) {
+footer{ width: 100%; float: left; box-sizing: border-box; padding: 45px 0px; background-color: #2f2f34}
+.bt_left{ width: 80%; float: left;}	
+.bt_left .bottom_gomenu{ width:100%; float: left; padding-bottom: 20px; border-bottom: 1px solid #616161; margin-bottom: 20px}	
+.bt_left .bottom_gomenu ul li{ width:25%; float: left; }	
+.bt_left .bottom_gomenu ul li .img{ width:90px; float: left; text-align: center }
+.bt_left .bottom_gomenu ul li .img img{ width:55px; }
+.bt_left .bottom_gomenu ul li .t_box{ width: calc(100% - 90px); float: left;  font-size: 12px; font-weight: 300; color: #eee}
+.bt_left .bottom_gomenu ul li .t_box em{  width:100%;  font-size: 18px; font-weight: 500; color: #fff;font-family:'Noto Sans Korean', 'Noto Sans KR';}
+
+.bt_left .bottom_smenu{ width:100%; float: left; font-size: 15px; font-weight: 300; color: #fff;font-family:'Noto Sans Korean', 'Noto Sans KR'; margin-bottom: 10px; margin-left: -5px}
+.bt_left .bottom_smenu a{font-size: 15px; font-weight: 300; color: #fff;font-family:'Noto Sans Korean', 'Noto Sans KR'; margin:0px 5px}	
+.bt_left .bottom_copy{ width:100%; float: left; font-size: 12px; color: #999}	
+	
+.bt_right{ width: 20%; float: right;}		
+.bt_right .tx1{ width: 100%; float: left; font-size: 14px; color: #ccc; text-align: right; }	
+.bt_right .tx2{ width: 100%; float: left; font-size: 30px; color: #fff;font-weight: 500;  font-family:'Noto Sans Korean', 'Noto Sans KR'; text-align: right; margin-bottom: 5px}
+.bt_right .tx3{ width: 100%; float: left; font-size: 12px; color: #ccc; text-align: right; margin-bottom: 10px}		
+.bt_right .sns{ width: 100%; float: left;  text-align: right; margin-bottom: 20px}	
+.bt_right .sns img{ float:right; margin-left: 5px  }	
+}
+/**** 테블릿 ****/
+@media all and (max-width:1024px) and (min-width:769px) {
+footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; background-color: #2f2f34}
+.bt_left{ width: 75%; float: left;}	
+.bt_left .bottom_gomenu{ width:100%; float: left; padding-bottom: 20px; border-bottom: 1px solid #616161; margin-bottom: 20px}	
+.bt_left .bottom_gomenu ul li{ width:25%; float: left; }	
+.bt_left .bottom_gomenu ul li .img{ width:30px; float: left; text-align: center }
+.bt_left .bottom_gomenu ul li .img img{ width:30px; }
+.bt_left .bottom_gomenu ul li .t_box{ width: calc(100% - 30px); float: left;  font-size: 11px; font-weight: 300; color: #999;}
+.bt_left .bottom_gomenu ul li .t_box em{  width:100%;  font-size: 14px; font-weight: 500; color: #fff;font-family:'Noto Sans Korean', 'Noto Sans KR';}
+
+.bt_left .bottom_smenu{ width:100%; float: left; font-size: 13px; font-weight: 300; color: #fff;font-family:'Noto Sans Korean', 'Noto Sans KR'; margin-bottom: 10px; margin-left: -5px}
+.bt_left .bottom_smenu a{font-size: 13px; font-weight: 300; color: #fff;font-family:'Noto Sans Korean', 'Noto Sans KR'; margin:0px 5px}	
+.bt_left .bottom_copy{ width:100%; float: left; font-size: 12px; color: #999}	
+	
+.bt_right{ width: 25%; float: right;}		
+.bt_right .tx1{ width: 100%; float: left; font-size: 14px; color: #ccc; text-align: right; }	
+.bt_right .tx2{ width: 100%; float: left; font-size: 30px; color: #fff;font-weight: 500;  font-family:'Noto Sans Korean', 'Noto Sans KR'; text-align: right; margin-bottom: 5px}
+.bt_right .tx3{ width: 100%; float: left; font-size: 12px; color: #ccc; text-align: right; margin-bottom: 10px}		
+.bt_right .sns{ width: 100%; float: left;  text-align: right; margin-bottom: 20px}	
+.bt_right .sns img{ float:right; margin-left: 5px  }	
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; background-color: #2f2f34}
+.bt_left{ width: 100%; float: right;}	
+.bt_left .bottom_gomenu{ width:100%; float: left; padding-bottom: 20px; border-bottom: 1px solid #616161; margin-bottom: 20px; border-top: 1px solid #616161; padding-top: 20px}	
+.bt_left .bottom_gomenu ul li{ width:50%; float: left;  margin-bottom: 10px}	
+.bt_left .bottom_gomenu ul li .img{ width:30px; float: left; text-align: center }
+.bt_left .bottom_gomenu ul li .img img{ width:30px; }
+.bt_left .bottom_gomenu ul li .t_box{ width: calc(100% - 30px); float: left;  font-size: 11px; font-weight: 300; color: #999}
+.bt_left .bottom_gomenu ul li .t_box em{  width:100%;  font-size: 15px; font-weight: 500; color: #fff;font-family:'Noto Sans Korean', 'Noto Sans KR';}
+
+.bt_left .bottom_smenu{ width:100%; float: left; font-size: 12px; font-weight: 300; color: #fff;font-family:'Noto Sans Korean', 'Noto Sans KR'; margin-bottom: 10px; margin-left: -5px; text-align: center}
+.bt_left .bottom_smenu a{font-size: 12px; font-weight: 300; color: #fff;font-family:'Noto Sans Korean', 'Noto Sans KR'; margin:0px 5px}	
+.bt_left .bottom_copy{ width:100%; float: left; font-size: 11px; color: #999}	
+	
+.bt_right{ width:100%; float: left;}		
+.bt_right .tx1{ width: 100%; float: left; font-size: 14px; color: #ccc; text-align: center; }	
+.bt_right .tx2{ width: 100%; float: left; font-size: 30px; color: #fff;font-weight: 500;  font-family:'Noto Sans Korean', 'Noto Sans KR'; text-align: center; margin-bottom: 5px}
+.bt_right .tx3{ width: 100%; float: left; font-size: 12px; color: #ccc; text-align:center; margin-bottom: 10px}		
+.bt_right .sns{ width: 100%; float: left;  text-align: right; margin-bottom: 20px; text-align:center; }	
+.bt_right .sns img{  margin-left: 5px  }	
+}
+
+
+
+
+
+/*---------------------- 3d메뉴: tab ----------------------*/
+/**** pc ****/
+@media only all and (min-width:1301px) {
+
+}
+/**** 테블릿 ****/
+@media all and (max-width:1300px) and (min-width:769px) {
+.quick_info{ width: 100%; float: left; background-color: #ff6000; height: 205px;  position: relative }	
+.quick_info .info_my{ margin-top: 30px; text-align: center; overflow: hidden;width: 100%; float: left }	
+.quick_info .info_my .photo{ width:60px; height: 60px;  border-radius: 200px; overflow:hidden; display: inline-block; vertical-align: middle; margin-bottom: 5px}
+.quick_info .info_my .photo img{ width:100%; }
+.quick_info .info_my .name{ width:100%; text-align: center; font-size: 15px; color: #fff ; margin-bottom: 10px}
+.quick_info .info_btn{ width: 100%;  text-align: center; overflow: hidden;}
+.quick_info .info_btn  a.info{  display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #f8bb50; color: #fff; font-size: 14px;  border-radius: 200px; margin: 0px 5px}
+.quick_info .info_btn  a.logout{ display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #e6e6e6; color: #666; font-size: 14px;  border-radius: 200px; margin: 0px 5px}
+
+.quick_info .info_btn  a.login{ display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #5ecfcd; color: #666; font-size: 14px;  border-radius: 200px; margin: 0px 5px}
+	
+	
+.quick_info .close{ position: absolute; top: 10px ; right: 10px;  }	
+.quick_info .close i{ color: #fff; font-size: 30px }	
+	
+.quick_kko{ width: 100%; float: left; background-color: #f4f4f4; padding: 20px 15px;  }	
+.quick_kko img{ width: 100%;   }	
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+.quick_info{ width: 100%; float: left;  background-color: #ff6000; height: 205px;  position: relative }	
+.quick_info .info_my{ margin-top: 30px; text-align: center; overflow: hidden;width: 100%; float: left }	
+.quick_info .info_my .photo{ width:60px; height: 60px;  border-radius: 200px; overflow:hidden; display: inline-block; vertical-align: middle; margin-bottom: 5px}
+.quick_info .info_my .photo img{ width:100%; }
+.quick_info .info_my .name{ width:100%; text-align: center; font-size: 15px; color: #fff ; margin-bottom: 10px}
+.quick_info .info_btn{ width: 100%;  text-align: center; overflow: hidden;}
+.quick_info .info_btn  a.info{  display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #f8bb50; color: #fff; font-size: 12px;  border-radius: 200px; margin: 0px 5px}
+.quick_info .info_btn  a.logout{ display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #e6e6e6; color: #666; font-size: 12px;  border-radius: 200px; margin: 0px 5px}
+
+.quick_info .info_btn  a.login{ display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #5ecfcd; color: #666; font-size: 12px;  border-radius: 200px; margin: 0px 5px}
+	
+	
+.quick_info .close{ position: absolute; top: 10px ; right: 10px;  }	
+.quick_info .close i{ color: #fff; font-size: 30px }	
+	
+.quick_kko{ width: 100%; float: left; background-color: #f4f4f4; padding: 20px 15px;  }	
+.quick_kko img{ width: 100%;   }	
+}
+
+
+/*---------------------- 3d메뉴: tab ----------------------*/
+/**** pc ****/
+@media only all and (min-width:1301px) {
+
+}
+/**** 테블릿 ****/
+@media all and (max-width:1300px) and (min-width:769px) {
+.quick_search{ width: 100%; float: left; position: relative; padding: 0px 7px ;box-sizing: border-box; margin-top: 10px }	
+.quick_search input{ width: 100%; float: left; border-radius: 50px;background-color: #333!important; border: none; height: 35px !important; padding: 0px 10px !important; box-sizing: border-box; line-height: 35px; border: none!important }		
+.quick_search .icon{ position: absolute ; right: 15px; top: 5px}
+.quick_search .icon i{color: #fff; font-size: 25px}	
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+.quick_search{ width: 100%; float: left; position: relative; padding: 0px 7px ;box-sizing: border-box; margin-top: 10px }	
+.quick_search input{ width: 100%; float: left; border-radius: 50px;background-color: #333!important; border: none; height: 35px !important; padding: 0px 10px !important; box-sizing: border-box; line-height: 35px; border: none!important }		
+.quick_search .icon{ position: absolute ; right: 15px; top: 5px}
+.quick_search .icon i{color: #fff; font-size: 25px}	
+
+}
+
+/*---------------------- 본문영역 ----------------------*/
+/**** pc ****/
+@media only all and (min-width:1301px) {
+.subtop01{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop01 .inner2{ position: relative; }
+	
+.subtop02{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop02 .inner2{ position: relative; }
+
+.subtop03{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop03 .inner2{ position: relative; }
+	
+.subtop04{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop04 .inner2{ position: relative; }
+	
+.subtop05{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop05 .inner2{ position: relative; }
+	
+.subtop06{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop06 .inner2{ position: relative; }
+	
+.subtop07{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop07 .inner2{ position: relative; }
+	
+.subtop08{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop08 .inner2{ position: relative; }
+	
+	
+}
+/**** 테블릿 ****/
+@media all and (max-width:1300px) and (min-width:769px) {
+.subtop01{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop01 .inner2{ position: relative; }
+	
+.subtop02{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop02 .inner2{ position: relative; }
+	
+.subtop03{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop03 .inner2{ position: relative; }
+	
+.subtop04{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop04 .inner2{ position: relative; }
+	
+.subtop05{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop05 .inner2{ position: relative; }
+	
+.subtop06{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop06 .inner2{ position: relative; }
+	
+.subtop07{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop07 .inner2{ position: relative; }
+	
+.subtop08{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop08 .inner2{ position: relative; }
+	
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+.subtop01{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop01 .inner2{ position: relative; }
+
+.subtop02{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop02 .inner2{ position: relative; }
+	
+.subtop03{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop03 .inner2{ position: relative; }
+	
+.subtop04{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop04 .inner2{ position: relative; }
+	
+.subtop05{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop05 .inner2{ position: relative; }
+	
+.subtop06{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop06 .inner2{ position: relative; }
+	
+.subtop07{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop07 .inner2{ position: relative; }
+
+.subtop08{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop08 .inner2{ position: relative; }
+}
+
+
+
+/** 상단 이미지 영역 **/
+/**** pc ****/
+@media only all and (min-width:1025px) {
+
+
+.b_title{ width: 40%; float: left; padding-top: 50px }
+.b_title .tx1{ width: 100%; float: left; font-size: 30px; color: #fff; font-weight: 500; margin-bottom: 5px;font-family:'Noto Sans Korean', 'Noto Sans KR';  }
+.b_title .route_t{ width: 100%; float: left; font-size: 12px;  color: #fff; font-weight: 300  }
+.search_box{ width: 310px; float: right;  position: relative; margin-top: 50px }
+.search_box input{ width: 100%; background-color: rgba(255, 255, 255, 0.7) !important;  height:55px !important; border: none  }
+.search_box .btn_icon{ position: absolute; top: 10px; right: 10px}
+.copy_text{position: absolute; top: 60px; right: 350px; color: #fff; font-size: 20px; font-weight: 200 ;
+;font-family:'Noto Sans Korean', 'Noto Sans KR';}
+.copy_text em{font-weight: 500; text-transform: uppercase }
+}
+/**** 테블릿 ****/
+@media all and (max-width:1024px) and (min-width:769px) {
+
+.b_title{ width: 40%; float: left; padding-top: 50px }
+.b_title .tx1{ width: 100%; float: left; font-size: 30px; color: #fff; font-weight: 500; margin-bottom: 5px;font-family:'Noto Sans Korean', 'Noto Sans KR';  }
+.b_title .route_t{ width: 100%; float: left; font-size: 12px;  color: #fff; font-weight: 300  }
+.search_box{ width: 310px; float: right;  position: relative; margin-top: 50px }
+.search_box input{ width: 100%; background-color: rgba(255, 255, 255, 0.7) !important;  height:58px  }
+.search_box .btn_icon{ position: absolute; top: 10px; right: 10px}
+.copy_text{position: absolute; top: 60px; right: 350px; color: #fff; font-size: 20px; font-weight: 200 ;
+;font-family:'Noto Sans Korean', 'Noto Sans KR'; display: none}
+.copy_text em{font-weight: 500; text-transform: uppercase }
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+
+.b_title{ width: 100%; float: left; padding-top: 25px }
+.b_title .tx1{ width: 100%; float: left; font-size: 20px; color: #fff; font-weight: 500; margin-bottom: 5px;font-family:'Noto Sans Korean', 'Noto Sans KR';  }
+.b_title .route_t{ width: 100%; float: left; font-size: 12px;  color: #fff; font-weight: 300  }
+.search_box{ width: 310px; float: right;  position: relative; margin-top: 50px; display: none }
+.search_box input{ width: 100%;  height:58px  }
+.search_box .btn_icon{ position: absolute; top: 10px; right: 10px}
+.copy_text{position: absolute; top: 60px; right: 350px; color: #fff; font-size: 20px; font-weight: 200 ;
+;font-family:'Noto Sans Korean', 'Noto Sans KR'; display: none}
+.copy_text em{font-weight: 500; text-transform: uppercase }
+}
+
+
+/*---------------------- 본문영역 ----------------------*/
+/**** pc ****/
+@media only all and (min-width:1301px) {
+.ri_box{ width: 100%; float: left; box-sizing: border-box; padding:50px 20px; box-sizing: border-box  }
+.ri_box .title{ width: 100%; float: left; font-size: 20px; color: #333; padding-bottom: 10px;  }
+.ri_box .title .reset{float:right; font-size: 12px; color: #333; padding: 7px 10px; border: 1px solid #ccc; border-radius: 50px}
+
+.ri_box .ri_tab{ width: 100%; float: left; margin-bottom: 10px }
+.ri_box .ri_tab ul li{ width: calc(33% - 1px); float: left; border: 1px solid #ccc; text-align: center; font-size: 12px; color: #999; margin-left: -1px; position: relative; padding: 10px 0px}
+.ri_box .ri_tab ul li.on{ width:  calc(33% - 1px);  float: left; border: 1px solid #333; text-align: center; font-size: 12px; color: #333; margin-left: -1px; position: relative; padding: 10px 0px; z-index: 99; background-color: #fff }
+.ri_box .ri_tb{ width: 100%; float: left; }
+}
+/**** 테블릿 ****/
+@media all and (max-width:1300px) and (min-width:769px) {
+.ri_box{ width: 100%; float: left; box-sizing: border-box; padding:50px 20px; box-sizing: border-box  }
+.ri_box .title{ width: 100%; float: left; font-size: 20px; color: #333; padding-bottom: 10px;  }
+.ri_box .title .reset{float:right; font-size: 12px; color: #333; padding: 7px 10px; border: 1px solid #ccc; border-radius: 50px}
+
+.ri_box .ri_tab{ width: 100%; float: left; margin-bottom: 10px }
+.ri_box .ri_tab ul li{ width: calc(33% - 1px); float: left; border: 1px solid #ccc; text-align: center; font-size: 12px; color: #999; margin-left: -1px; position: relative; padding: 10px 0px}
+.ri_box .ri_tab ul li.on{ width:  calc(33% - 1px);  float: left; border: 1px solid #333; text-align: center; font-size: 12px; color: #333; margin-left: -1px; position: relative; padding: 10px 0px; z-index: 99; background-color: #fff }
+.ri_box .ri_tb{ width: 100%; float: left; }
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+.mobile_close{  position: absolute ; top: -5px; right: 10px; color: #000}
+.mobile_close i{ color: #000; font-size: 30px}
+.ri_box{ width: 100%; float: left; box-sizing: border-box; padding:50px 20px; box-sizing: border-box  }
+.ri_box .title{ width: 100%; float: left; font-size: 20px; color: #333; padding-bottom: 10px;  }
+.ri_box .title .reset{float:right; font-size: 12px; color: #333; padding: 7px 10px; border: 1px solid #ccc; border-radius: 50px}
+
+.ri_box .ri_tab{ width: 100%; float: left; margin-bottom: 10px }
+.ri_box .ri_tab ul li{ width: calc(33% - 1px); float: left; border: 1px solid #ccc; text-align: center; font-size: 12px; color: #999; margin-left: -1px; position: relative; padding: 10px 0px}
+.ri_box .ri_tab ul li.on{ width:  calc(33% - 1px);  float: left; border: 1px solid #333; text-align: center; font-size: 12px; color: #333; margin-left: -1px; position: relative; padding: 10px 0px; z-index: 99; background-color: #fff }
+.ri_box .ri_tb{ width: 100%; float: left; }
+}
+
