@@ -50,6 +50,7 @@ public class LoginController {
         HttpSession session = request.getSession();
         String user_id = SimpleUtils.default_set(request.getParameter("txtID"));
         String user_pw = SimpleUtils.default_set(request.getParameter("txtPW"));
+        String adminYn = SimpleUtils.default_set(request.getParameter("adminYn"));
 
     	HashMap map = new HashMap();
     	map.put("user_id", user_id);
@@ -86,7 +87,16 @@ public class LoginController {
 
             	//새로운 접속(세션) 생성
             	loginManager.setSession(session, esntl_id);
-            	response.sendRedirect("/main/indexAction/");
+            	
+            	if(adminYn.equals("Y")) { // 2017-11-21 임시(관리자모드에서 로그인하는 경우)
+            		if(!result.get("AUTHOR_CL").equals("G")) {
+            			response.sendRedirect("/mngr/");	
+            		} else {
+            			response.sendRedirect("/main/indexAction/");
+            		}
+            	} else {
+            		response.sendRedirect("/main/indexAction/");	
+            	}
         	}else{
                 response.sendRedirect("/member/login/?result=fail");
         	}
