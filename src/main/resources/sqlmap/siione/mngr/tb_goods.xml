@@ -53,6 +53,8 @@
         <result property="INTRCN_PLACE"                  column="INTRCN_PLACE"                  jdbcType="string" javaType="string"/>
         <result property="CL_SE"                         column="CL_SE"                         jdbcType="string" javaType="string"/>
         <result property="SORT_ORDR"                     column="SORT_ORDR"                     jdbcType="string" javaType="string"/>
+        <result property="HOTDEAL_AT"                    column="HOTDEAL_AT"                    jdbcType="string" javaType="string"/>
+        <result property="RECOMEND_AT"                   column="RECOMEND_AT"                   jdbcType="string" javaType="string"/>
         <result property="MAIN_EXPSR_AT_1"               column="MAIN_EXPSR_AT_1"               jdbcType="string" javaType="string"/>
         <result property="MAIN_EXPSR_AT_2"               column="MAIN_EXPSR_AT_2"               jdbcType="string" javaType="string"/>
         <result property="CRUD_SE"                       column="CRUD_SE"                       jdbcType="string" javaType="string"/>
@@ -108,6 +110,8 @@
                             , WRITNG_DT
                             , FILE_CODE
                             , SORT_ORDR
+                            , HOTDEAL_AT
+                            , RECOMEND_AT
                             , MAIN_EXPSR_AT_1
                             , MAIN_EXPSR_AT_2
                             , VOCHR_TICKET_TY
@@ -151,9 +155,11 @@
                             , SYSDATE
                             , #FILE_CODE#
                             , NVL(#SORT_ORDR#, (SELECT MAX(SORT_ORDR)+1 FROM TB_GOODS WHERE CL_CODE = #CL_CODE#))
+                            , #HOTDEAL_AT#
+                            , #RECOMEND_AT#
                             , #MAIN_EXPSR_AT_1#
                             , #MAIN_EXPSR_AT_2#
-                            , #VOCHR_TICKET_TY#
+                            , 'V'
                             , #VOCHR_NTSS_REQRE_TIME#
                             , #VOCHR_USE_MTH#
                             , #GUIDANCE_USE_TIME#
@@ -260,7 +266,9 @@
                             , ACT_LO
                             , CL_SE
                             , SORT_ORDR
-                            , MAIN_EXPSR_AT_1
+                            , HOTDEAL_AT
+                            , RECOMEND_AT
+                            , MAIN_EXPSR_AT_1                            
                             , MAIN_EXPSR_AT_2
                             , VOCHR_TICKET_TY
                             , VOCHR_NTSS_REQRE_TIME
@@ -290,9 +298,11 @@
                             , #ACT_LO#
                             , #CL_SE#
                             , NVL(#SORT_ORDR#, (SELECT MAX(SORT_ORDR)+1 FROM TB_GOODS WHERE CL_CODE = #CL_CODE#))
+                            , DECODE(#MAIN_EXPSR_AT_1#, 'Y', 'Y', NVL(#HOTDEAL_AT#, 'N'))
+                            , DECODE(#MAIN_EXPSR_AT_2#, 'Y', 'Y', NVL(#RECOMEND_AT#, 'N'))
                             , NVL(#MAIN_EXPSR_AT_1#, 'N')
                             , NVL(#MAIN_EXPSR_AT_2#, 'N')
-                            , DECODE(#VOCHR_TICKET_TY#, '선택', '', #VOCHR_TICKET_TY#)
+                            , 'V'
                             , #VOCHR_NTSS_REQRE_TIME#
                             , #VOCHR_USE_MTH#
                             , DECODE(#INTRCN_GOODS_TY#, '선택', '', #INTRCN_GOODS_TY#)
@@ -400,9 +410,11 @@
              , ACT_LO                = #ACT_LO#
              , CL_SE                 = #CL_SE#
              , SORT_ORDR             = #SORT_ORDR#
+             , HOTDEAL_AT            = DECODE(#MAIN_EXPSR_AT_1#, 'Y', 'Y', NVL(#HOTDEAL_AT#, 'N'))
+             , RECOMEND_AT           = DECODE(#MAIN_EXPSR_AT_2#, 'Y', 'Y', NVL(#RECOMEND_AT#, 'N'))
              , MAIN_EXPSR_AT_1       = NVL(#MAIN_EXPSR_AT_1#, 'N')
              , MAIN_EXPSR_AT_2       = NVL(#MAIN_EXPSR_AT_2#, 'N')
-             , VOCHR_TICKET_TY       = DECODE(#VOCHR_TICKET_TY#, '선택', '', #VOCHR_TICKET_TY#)
+             , VOCHR_TICKET_TY       = 'V'
              , VOCHR_NTSS_REQRE_TIME = #VOCHR_NTSS_REQRE_TIME#
              , VOCHR_USE_MTH         = #VOCHR_USE_MTH#
              , INTRCN_GOODS_TY       = DECODE(#INTRCN_GOODS_TY#, '선택', '', #INTRCN_GOODS_TY#)
@@ -548,6 +560,8 @@
              , (SELECT C.CTY_NM FROM TB_CTY C WHERE A.CTY_CODE = C.CTY_CODE) CTY_NM
              , A.CL_SE
              , A.SORT_ORDR
+             , A.HOTDEAL_AT
+             , A.RECOMEND_AT
              , A.MAIN_EXPSR_AT_1
              , A.MAIN_EXPSR_AT_2
              , A.VOCHR_TICKET_TY

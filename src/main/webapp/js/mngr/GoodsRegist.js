@@ -794,6 +794,8 @@ Ext.define('GoodsInfo', {
 			, {name:'CTY_CODE', type:'string'}
 			, {name:'CL_SE', type:'string'}
 			, {name:'SORT_ORDR', type:'string'}
+			, {name:'HOTDEAL_AT', type:'string'}
+			, {name:'RECOMEND_AT', type:'string'}
 			, {name:'MAIN_EXPSR_AT_1', type:'string'}
 			, {name:'MAIN_EXPSR_AT_2', type:'string'}
 			, {name:'CRUD_SE', type:'string'}
@@ -1248,13 +1250,13 @@ var frReg = Ext.create('Ext.form.Panel', {
 			layout: 'hbox',
 			items: [{
 				xtype: 'checkboxfield',
-				id: 'form-reg-main_expsr_at_1',
-				name: 'MAIN_EXPSR_AT_1',
-				width: 220,
-				fieldLabel: '메인노출여부',
+				id: 'form-reg-hotdeal-at',
+				name: 'HOTDEAL_AT',
+				width: 200,
+				fieldLabel: '핫딜상품',
 				labelWidth: 100,
 				labelAlign: 'right',
-				boxLabel  : '핫딜여행',
+				boxLabel: '핫딜여부',
 				inputValue: 'Y',
 				value: 'Y'
 			},{
@@ -1262,15 +1264,39 @@ var frReg = Ext.create('Ext.form.Panel', {
 				width: 5
 			},{
 				xtype: 'checkboxfield',
-				id: 'form-reg-main_expsr_at_2',
-				name: 'MAIN_EXPSR_AT_2',
+				id: 'form-reg-main-expsr-at-1',
+				name: 'MAIN_EXPSR_AT_1',
 				hideLabel: true,
-				//fieldLabel: '메인노출여부',
-				//labelAlign: 'right',
-				boxLabel : '추천여행',
-				width: 120,
+				boxLabel: '핫딜상품 메인노출여부',
+				width: 220,
 				inputValue: 'Y'
 			}]
+		},{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'checkboxfield',
+				id: 'form-reg-recomend-at',
+				name: 'RECOMEND_AT',
+				width: 200,
+				fieldLabel: '추천상품',
+				labelWidth: 100,
+				labelAlign: 'right',
+				boxLabel: '추천여부',
+				inputValue: 'Y',
+				value: 'Y'
+			},{
+				xtype: 'label',
+				width: 5
+			},{
+				xtype: 'checkboxfield',
+				id: 'form-reg-main-expsr-at-2',
+				name: 'MAIN_EXPSR_AT_2',
+				hideLabel: true,
+				boxLabel: '추천상품 메인노출여부',
+				width: 220,
+				inputValue: 'Y'
+			}]		
 		},{
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
@@ -1526,6 +1552,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				xtype: 'combobox',
 				id: 'form-reg-vochr-ticket-ty',
 				name: 'VOCHR_TICKET_TY',
+				hidden: true,
 				store: new Ext.create('Ext.data.ArrayStore', {
 					fields:['code', 'name'],
 					data :[
