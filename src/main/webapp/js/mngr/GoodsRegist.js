@@ -467,12 +467,12 @@ var comboNation = new Ext.create('Ext.form.ComboBox', {
 	typeAhead: true,
 	editable: false,
 	allowBlank: false,
-	value: '00001',
+	value: '00100',
 	//forceSelection: true,
 	//emptyText: '선택',
 	listeners: {
 		afterrender: function(combo, eOpts ){
-			comboCty.getStore().load({params:{NATION_CODE:'00001'}});
+			comboCty.getStore().load({params:{NATION_CODE:'00100'}});
 		},
 		change: function(combo, newValue, oldValue, eOpts ) {
 			var rec = combo.getStore().findRecord('CTY_CODE', newValue);
@@ -636,13 +636,30 @@ function fn_activeNextTab() {
 	}
 };
 
+function fn_getByteLength(s) {
+	var b, i, c;
+	for(b=i=0;c=s.charCodeAt(i++);b+=c>>11?2:c>>7?2:1); return b;
+}
+
+function fn_checkValue(objId) {
+	var len = Ext.getCmp(objId).maxLength;
+	if(fn_getByteLength(Ext.getCmp(objId).getValue()) > len) {
+		Ext.Msg.alert('알림', '입력 글자수(한글기준 '+(len/2)+'자)를 초과하였습니다.', function(){Ext.getCmp(objId).focus();});
+		return false;
+	} else if(fn_getByteLength(Ext.getCmp(objId+'-eng').getValue()) > len) {
+		Ext.Msg.alert('알림', '입력 글자수(영문기준 '+len+'자)를 초과하였습니다.', function(){Ext.getCmp(objId+'-eng').focus();});
+		return false;
+	} else {
+		return true;
+	}
+}
+
 /**
  * 상품저장
  * @param sDiv (I:기본정보저장, G:이용안내저장, E:기타정보저장, D:상품삭제)
  * @param frSave
  */
 function fn_saveGoodsInfo(sDiv, frSave) {
-
 	var sUrl = '../insertGoods/';
 	var stParams = {};
 	var sMsg = '저장';
@@ -658,17 +675,44 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 		};
 	}
 
-	if(!frSave.getForm().isValid()) {
-		alert('입력값 오류');
-		return;
+	if(sDiv != 'D') {
+		if(!frSave.getForm().isValid()) {
+			alert('입력값 오류');
+			return;
+		}
+
+		if(!fn_checkValue('form-reg-goods-nm')) return;
+		if(!fn_checkValue('form-reg-goods-intrcn-simpl')) return;
+		if(!fn_checkValue('form-reg-vochr-ntss-reqre-time')) return;
+		if(!fn_checkValue('form-reg-vochr-use-mth')) return;
+		if(!fn_checkValue('form-reg-guidance-use-time')) return;
+		if(!fn_checkValue('form-reg-guidance-reqre-time')) return;
+		if(!fn_checkValue('form-reg-guidance-age-div')) return;
+		if(!fn_checkValue('form-reg-guidance-tour-schdul')) return;
+		if(!fn_checkValue('form-reg-guidance-prfplc-lc')) return;
+		if(!fn_checkValue('form-reg-guidance-edc-crse')) return;
+		if(!fn_checkValue('form-reg-guidance-optn-matter')) return;
+		if(!fn_checkValue('form-reg-guidance-pickup')) return;
+		if(!fn_checkValue('form-reg-guidance-prparetg')) return;
+		if(!fn_checkValue('form-reg-guidance-incls-matter')) return;
+		if(!fn_checkValue('form-reg-guidance-not-incls-matter')) return;
+		if(!fn_checkValue('form-reg-adit-guidance')) return;
+		if(!fn_checkValue('form-reg-atent-matter')) return;
+		if(!fn_checkValue('form-reg-change-refnd-regltn')) return;
+		if(!fn_checkValue('form-reg-intrcn-use-time')) return;
+		if(!fn_checkValue('form-reg-intrcn-meet-time')) return;
+		if(!fn_checkValue('form-reg-intrcn-reqre-time')) return;
+		if(!fn_checkValue('form-reg-intrcn-provd-lang')) return;
+		if(!fn_checkValue('form-reg-intrcn-posbl-age')) return;
+		if(!fn_checkValue('form-reg-intrcn-place')) return;
 	}
 
 	Ext.Msg.show({
-		 title:'확인',
-		 msg: sMsg+'하시겠습니까?',
-		 buttons: Ext.Msg.YESNO,
-		 icon: Ext.Msg.QUESTION,
-		 fn: function(btn){
+		title:'확인',
+		msg: sMsg+'하시겠습니까?',
+		buttons: Ext.Msg.YESNO,
+		icon: Ext.Msg.QUESTION,
+		fn: function(btn){
 			if(btn == 'yes'){
 				frSave.getForm().submit({
 					waitMsg: sMsg+'중입니다...',
@@ -709,6 +753,7 @@ Ext.define('GoodsInfo', {
 	fields: [ {name:'GOODS_CODE', type:'string'}
 			, {name:'GOODS_NM', type:'string'}
 			, {name:'GOODS_INTRCN', type:'string'}
+			, {name:'GOODS_INTRCN_SIMPL', type:'string'}
 			, {name:'DELETE_AT', type:'string'}
 			, {name:'WRITNG_ID', type:'string'}
 			, {name:'UPDT_ID', type:'string'}
@@ -754,6 +799,7 @@ Ext.define('GoodsInfo', {
 			, {name:'CRUD_SE', type:'string'}
 			, {name:'GOODS_NM_ENG', type:'string'}  // 영문 컬럼
 			, {name:'GOODS_INTRCN_ENG', type:'string'}
+			, {name:'GOODS_INTRCN_SIMPL_ENG', type:'string'}
 			, {name:'VOCHR_NTSS_REQRE_TIME_ENG', type:'string'}
 			, {name:'VOCHR_USE_MTH_ENG', type:'string'}
 			, {name:'GUIDANCE_USE_TIME_ENG', type:'string'}
@@ -982,7 +1028,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			labelWidth: 100,
 			labelAlign: 'right',
 			width: 630,
-			maxLength: 100,
+			maxLength: 200,
 			enforceMaxLength: true,
 			allowBlank: false,
 			enableKeyEvents: true
@@ -996,29 +1042,29 @@ var frReg = Ext.create('Ext.form.Panel', {
 			labelWidth: 100,
 			labelAlign: 'right',
 			width: 630,
-			maxLength: 100,
+			maxLength: 200,
 			enforceMaxLength: true,
 			allowBlank: true,
 			enableKeyEvents: true
 		/*},{
-	        xtype: 'htmleditor',
+			xtype: 'htmleditor',
 			id: 'form-reg-goods-intrcn-tmp',
 			name: 'GOODS_INTRCN_TMP',
-	        fieldLabel: '테스트<br>(4000자)',
-	        labelSeparator: ':',
+			fieldLabel: '테스트<br>(4000자)',
+			labelSeparator: ':',
 			labelWidth: 100,
-			labelAlign: 'right',	        
-	        width: 630,
-	        height: 300,
-	        frame: true*/
-	        //layout: 'fit',
-	        //enableColors: false,
-	        //enableAlignments: false
+			labelAlign: 'right',
+			width: 630,
+			height: 300,
+			frame: true*/
+			//layout: 'fit',
+			//enableColors: false,
+			//enableAlignments: false
 		},{
 			xtype: 'textareafield',
 			id: 'form-reg-goods-intrcn',
 			name: 'GOODS_INTRCN',
-			fieldLabel: '상품설명<br>(4000자)',
+			fieldLabel: '상품설명',
 			fieldStyle: {'ime-mode':'active'},
 			labelSeparator: ':',
 			labelWidth: 100,
@@ -1035,7 +1081,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			xtype: 'textareafield',
 			id: 'form-reg-goods-intrcn-eng',
 			name: 'GOODS_INTRCN_ENG',
-			fieldLabel: '상품설명(영문)<br>(4000자)',
+			fieldLabel: '상품설명(영문)',
 			fieldStyle: {'ime-mode':'disabled'},
 			labelSeparator: ':',
 			labelWidth: 100,
@@ -1046,6 +1092,40 @@ var frReg = Ext.create('Ext.form.Panel', {
 			width: 630,
 			//maxLength: 100,
 			//enforceMaxLength: true,
+			allowBlank: true,
+			enableKeyEvents: true
+		},{
+			xtype: 'textareafield',
+			id: 'form-reg-goods-intrcn-simpl',
+			name: 'GOODS_INTRCN_SIMPL',
+			fieldLabel: '간단설명<br>(150자)',
+			fieldStyle: {'ime-mode':'active'},
+			labelSeparator: ':',
+			labelWidth: 100,
+			labelAlign: 'right',
+			grow: false,
+			isFocus: false,
+			height: 100,
+			width: 630,
+			maxLength: 300,
+			enforceMaxLength: true,
+			allowBlank: false,
+			enableKeyEvents: true
+		},{
+			xtype: 'textareafield',
+			id: 'form-reg-goods-intrcn-simpl-eng',
+			name: 'GOODS_INTRCN_SIMPL_ENG',
+			fieldLabel: '간단설명(영문)<br>(300자)',
+			fieldStyle: {'ime-mode':'disabled'},
+			labelSeparator: ':',
+			labelWidth: 100,
+			labelAlign: 'right',
+			grow: false,
+			isFocus: false,
+			height: 100,
+			width: 630,
+			maxLength: 300,
+			enforceMaxLength: true,
 			allowBlank: true,
 			enableKeyEvents: true
 		},{
@@ -1064,7 +1144,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
-			}]			
+			}]
 		},{
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
@@ -1481,7 +1561,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 100,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 30,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1495,7 +1575,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 130,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 30,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1516,7 +1596,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 250,
+				maxLength: 1000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1537,7 +1617,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 250,
+				maxLength: 1000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1598,7 +1678,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				inputValue: 'Y',
 				value: 'Y'
 			}]
-		}]		
+		}]
 	},{
 		xtype: 'fieldset',
 		title: 'Hidden Field',
@@ -1682,7 +1762,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 70,
+				maxLength: 100,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1724,7 +1804,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 70,
+				maxLength: 100,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1766,7 +1846,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 150,
+				maxLength: 200,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1808,7 +1888,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 700,
+				maxLength: 1000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1850,7 +1930,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 500,
+				maxLength: 1000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1892,7 +1972,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 500,
+				maxLength: 1000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1934,7 +2014,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 500,
+				maxLength: 1000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1976,7 +2056,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 100,
+				maxLength: 200,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2019,7 +2099,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 100,
+				maxLength: 200,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2061,7 +2141,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 80,
-				maxLength: 250,
+				maxLength: 500,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2172,7 +2252,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 500,
+				maxLength: 1000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2214,7 +2294,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 500,
+				maxLength: 1000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2256,7 +2336,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 500,
+				maxLength: 1000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2339,35 +2419,39 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
 		align: 'center',
 		sortable: false,
 		menuDisabled: true,
-		renderer: Ext.util.Format.dateRenderer('Y-m-d'),    //, autoCreate		: { tag: 'input', type: 'text', maxLength: '10' },
+		renderer: Ext.util.Format.dateRenderer('Y-m-d'),	//, autoCreate		: { tag: 'input', type: 'text', maxLength: '10' },
 		editor: {xtype:'datefield', format: 'Y-m-d', maskRe: /[0-9]/, maxLength: 10, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
 		dataIndex: 'END_DE'
 	},{
 		text: '사용여부',
 		width: 100,
 		align: 'center',
+		sortable: false,
+		menuDisabled: true,
 		editor: combo,
 		dataIndex: 'DELETE_AT',
 		renderer: Ext.ux.comboBoxRenderer(combo)
 	},{
+		sortable: false,
+		menuDisabled: true,
 		flex: 1
 	}],
 	tbar: [{
-    	xtype: 'radiogroup',
-    	id: 'delete-at-schdul',
-    	fieldLabel: '사용여부',
-    	labelWidth: 60,
-    	labelAlign: 'right',
-    	border: false,
-    	width: 180,
-    	items: [{ boxLabel: '전체', id:'schdul-delete-all', name: 'DELETE_AT_SCHDUL', inputValue:''},
-    			{ boxLabel: '사용', id:'schdul-delete-n', name: 'DELETE_AT_SCHDUL', inputValue:'N', checked: true }],
-    	listeners: {
-    		change : function(radio, newValue, oldValue, eOpts ) {
-    			//storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:newValue.DELETE_AT}});
-    			Ext.getCmp('btn-sch-schdul').fireEvent('click');
-    		}
-    	}
+		xtype: 'radiogroup',
+		id: 'delete-at-schdul',
+		fieldLabel: '사용여부',
+		labelWidth: 60,
+		labelAlign: 'right',
+		border: false,
+		width: 180,
+		items: [{ boxLabel: '전체', id:'schdul-delete-all', name: 'DELETE_AT_SCHDUL', inputValue:''},
+				{ boxLabel: '사용', id:'schdul-delete-n', name: 'DELETE_AT_SCHDUL', inputValue:'N', checked: true }],
+		listeners: {
+			change : function(radio, newValue, oldValue, eOpts ) {
+				//storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:newValue.DELETE_AT}});
+				Ext.getCmp('btn-sch-schdul').fireEvent('click');
+			}
+		}
 	}, {
 		text: '조회',
 		id: 'btn-sch-schdul',
@@ -2480,7 +2564,7 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
  * 구매가능시각 입력 grid
  */
 var cellEditing2 = Ext.create('Ext.grid.plugin.CellEditing', {
-    clicksToEdit: 1
+	clicksToEdit: 1
 });
 
 Ext.define('GoodsTimeInfo', {
@@ -2526,6 +2610,8 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 		text: '시작시각',
 		width: 150,
 		align: 'center',
+		sortable: false,
+		menuDisabled: true,
 		editor: comboBeginTime,
 		dataIndex: 'BEGIN_TIME',
 		renderer: Ext.ux.comboBoxRenderer(comboBeginTime)
@@ -2533,6 +2619,8 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 		text: '종료시각',
 		width: 150,
 		align: 'center',
+		sortable: false,
+		menuDisabled: true,
 		editor: comboEndTime,
 		dataIndex: 'END_TIME',
 		renderer: Ext.ux.comboBoxRenderer(comboEndTime)
@@ -2540,10 +2628,14 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 		text: '사용여부',
 		width: 100,
 		align: 'center',
+		sortable: false,
+		menuDisabled: true,
 		editor: combo,
 		dataIndex: 'DELETE_AT',
 		renderer: Ext.ux.comboBoxRenderer(combo)
 	},{
+		sortable: false,
+		menuDisabled: true,
 		flex: 1
 	}],
 	/*bbar: Ext.create('Ext.PagingToolbar', {
@@ -2553,20 +2645,20 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 		emptyMsg: "No topics to display"
 	}),*/
 	tbar: [{
-    	xtype: 'radiogroup',
-    	id: 'delete-at-time',
-    	fieldLabel: '사용여부',
-    	labelWidth: 60,
-    	labelAlign: 'right',
-    	border: false,
-    	width: 180,
-    	items: [{ boxLabel: '전체', id:'time-delete-all', name: 'DELETE_AT_TIME', inputValue:''},
-    			{ boxLabel: '사용', id:'time-delete-n', name: 'DELETE_AT_TIME', inputValue:'N', checked: true }],
-    	listeners: {
-    		change : function(radio, newValue, oldValue, eOpts ) {
-    			Ext.getCmp('btn-sch-time').fireEvent('click');
-    		}
-    	}
+		xtype: 'radiogroup',
+		id: 'delete-at-time',
+		fieldLabel: '사용여부',
+		labelWidth: 60,
+		labelAlign: 'right',
+		border: false,
+		width: 180,
+		items: [{ boxLabel: '전체', id:'time-delete-all', name: 'DELETE_AT_TIME', inputValue:''},
+				{ boxLabel: '사용', id:'time-delete-n', name: 'DELETE_AT_TIME', inputValue:'N', checked: true }],
+		listeners: {
+			change : function(radio, newValue, oldValue, eOpts ) {
+				Ext.getCmp('btn-sch-time').fireEvent('click');
+			}
+		}
 	}, {
 		text: '조회',
 		id: 'btn-sch-time',
@@ -2669,7 +2761,7 @@ var gridTime = Ext.create('Ext.grid.Panel', {
  * 금액옵션설정 입력 grid
  */
 var cellEditing3 = Ext.create('Ext.grid.plugin.CellEditing', {
-    clicksToEdit: 1
+	clicksToEdit: 1
 });
 
 Ext.define('GoodsNmprInfo', {
@@ -2684,6 +2776,7 @@ Ext.define('GoodsNmprInfo', {
 			, {name:'SETUP_RATE', type:'string'}
 			, {name:'NMPR_CO', type:'string'}
 			, {name:'MAX_NMPR_CO', type:'string'}
+			, {name:'ADIT_NMPR_AMOUNT', type:'string'}
 			, {name:'SORT_ORDR', type:'string'}
 			, {name:'DELETE_AT', type:'string'}
 			, {name:'CRUD', type:'string'}]
@@ -2718,6 +2811,8 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		text: '설정구분',
 		width: 100,
 		align: 'center',
+		sortable: false,
+		menuDisabled: true,
 		editor: comboSetupSe,
 		dataIndex: 'SETUP_SE',
 		renderer: Ext.ux.comboBoxRenderer(comboSetupSe)
@@ -2741,14 +2836,18 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		text: '정가구분',
 		width: 100,
 		align: 'center',
+		sortable: false,
+		menuDisabled: true,
 		editor: comboFixedAt,
 		dataIndex: 'FIXED_AT',
+		menuDisabled: true,
+		hidden: true,
 		renderer: Ext.ux.comboBoxRenderer(comboFixedAt)
 	},{
 		text: '금액(단위:원)',
 		width: 100,
 		style: 'text-align:center',
-		align: 'right',		
+		align: 'right',
 		sortable: false,
 		menuDisabled: true,
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 7, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
@@ -2759,6 +2858,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		align: 'center',
 		sortable: false,
 		menuDisabled: true,
+		hidden: true,
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 2, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
 		dataIndex: 'SETUP_RATE'
 	},{
@@ -2778,36 +2878,51 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 2, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
 		dataIndex: 'MAX_NMPR_CO'
 	},{
+		text: '추가인원금액(원)',
+		width: 120,
+		style: 'text-align:center',
+		align: 'right',
+		sortable: false,
+		menuDisabled: true,
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 7, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
+		dataIndex: 'ADIT_NMPR_AMOUNT'
+	},{
 		text: '정렬순서',
 		width: 100,
 		align: 'center',
+		sortable: false,
+		menuDisabled: true,
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 3, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
 		dataIndex: 'SORT_ORDR'
 	},{
 		text: '사용여부',
 		width: 100,
 		align: 'center',
+		sortable: false,
+		menuDisabled: true,
 		editor: combo,
 		dataIndex: 'DELETE_AT',
 		renderer: Ext.ux.comboBoxRenderer(combo)
 	},{
+		sortable: false,
+		menuDisabled: true,
 		flex: 1
 	}],
 	tbar: [{
-    	xtype: 'radiogroup',
-    	id: 'delete-at-nmpr',
-    	fieldLabel: '사용여부',
-    	labelWidth: 60,
-    	labelAlign: 'right',
-    	border: false,
-    	width: 180,
-    	items: [{ boxLabel: '전체', id:'nmpr-delete-all', name: 'DELETE_AT_NMPR', inputValue:''},
-    			{ boxLabel: '사용', id:'nmpr-delete-n', name: 'DELETE_AT_NMPR', inputValue:'N', checked: true }],
-    	listeners: {
-    		change : function(radio, newValue, oldValue, eOpts ) {
-    			Ext.getCmp('btn-sch-nmpr').fireEvent('click');
-    		}
-    	}
+		xtype: 'radiogroup',
+		id: 'delete-at-nmpr',
+		fieldLabel: '사용여부',
+		labelWidth: 60,
+		labelAlign: 'right',
+		border: false,
+		width: 180,
+		items: [{ boxLabel: '전체', id:'nmpr-delete-all', name: 'DELETE_AT_NMPR', inputValue:''},
+				{ boxLabel: '사용', id:'nmpr-delete-n', name: 'DELETE_AT_NMPR', inputValue:'N', checked: true }],
+		listeners: {
+			change : function(radio, newValue, oldValue, eOpts ) {
+				Ext.getCmp('btn-sch-nmpr').fireEvent('click');
+			}
+		}
 	}, {
 		text: '조회',
 		id: 'btn-sch-nmpr',
@@ -2848,6 +2963,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 					SETUP_RATE : '',
 					NMPR_CO : '',
 					MAX_NMPR_CO : '',
+					ADIT_NMPR_AMOUNT : '',
 					SORT_ORDR: '',
 					DELETE_AT : 'N',
 					CRUD : 'I'
@@ -2942,16 +3058,16 @@ var frFile = Ext.create('Ext.form.Panel', {
 				layout: 'hbox',
 				items: [{
 					xtype: 'filefield',
-		    		name: 'ATTACH_FLIE',
-		    		regex: /^.*\.(BMP|GIF|JPG|JPEG|PNG|bmp|gif|jpg|jpeg|png)$/,
-		    		regexText: '이지미 파일을 선택하세요.',
-		    		buttonText: '찾기...',
-		    		fieldLabel: '첨부파일',
-		    		labelAlign: 'right',
-		    		labelSeparator: ':',
-		    		labelWidth: 70,
-		    		allowBlank: false,
-		    		width: 400,
+					name: 'ATTACH_FLIE',
+					regex: /^.*\.(BMP|GIF|JPG|JPEG|PNG|bmp|gif|jpg|jpeg|png)$/,
+					regexText: '이지미 파일을 선택하세요.',
+					buttonText: '찾기...',
+					fieldLabel: '첨부파일',
+					labelAlign: 'right',
+					labelSeparator: ':',
+					labelWidth: 70,
+					allowBlank: false,
+					width: 400,
 					listeners:{
 						afterrender : function(ff, eOpts ){
 							//파일태그옵션에 multiple이라는 옵션을 정의
@@ -3163,10 +3279,10 @@ var imageTpl = new Ext.XTemplate(
 );
 
 var imageView = Ext.create('Ext.view.View', {
-    store: storeFile,
-    tpl: imageTpl,
-    itemSelector: 'div.thumb-wrap',
-    emptyText: '&nbsp;&nbsp;&nbsp;&nbsp;이미지가 없습니다.<br>&nbsp;&nbsp;&nbsp;'
+	store: storeFile,
+	tpl: imageTpl,
+	itemSelector: 'div.thumb-wrap',
+	emptyText: '&nbsp;&nbsp;&nbsp;&nbsp;이미지가 없습니다.<br>&nbsp;&nbsp;&nbsp;'
 });
 
 var imagePanel = new Ext.create('Ext.panel.Panel', {
@@ -3201,16 +3317,16 @@ var filePanel = Ext.create('Ext.panel.Panel', {
 		items: [frFile, gridFile]
 	}), Ext.create('Ext.panel.Panel', {
 		title: '이미지 미리보기',
-    	region: 'center',
-    	autoScroll: true,
-    	flex: 1,
+		region: 'center',
+		autoScroll: true,
+		flex: 1,
 		//layout: 'border',
-    	padding : '5 5 5 5',
-    	style: {
+		padding : '5 5 5 5',
+		style: {
 			backgroundColor: '#FFFFFF'
 		},
-    	items: [imagePanel]
-    })]
+		items: [imagePanel]
+	})]
 });
 
 /*

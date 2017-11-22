@@ -7,7 +7,7 @@ var cr = [{'CL_CODE': '', 'CL_NM': '전체'}];
 
 function fn_search() {
 	jsGoods.proxy.extraParams = Ext.getCmp('form-cond').getForm().getValues();
-	jsGoods.load();	
+	jsGoods.load();
 }
 
 /*
@@ -19,7 +19,7 @@ var comboNation = new Ext.create('Ext.form.ComboBox', {
 	width: 120,
 	fieldLabel: '도시',
 	labelAlign: 'right',
-	labelWidth: 40,	
+	labelWidth: 40,
 	store: new Ext.create('Ext.data.JsonStore', {
 		autoLoad: true,
 		fields:['CTY_CODE', 'CTY_NM', 'USE_AT', 'NATION_CODE'],
@@ -39,12 +39,12 @@ var comboNation = new Ext.create('Ext.form.ComboBox', {
 	typeAhead: true,
 	editable: false,
 	allowBlank: false,
-	value: '00001',
+	value: '00100',
 	//forceSelection: true,
 	//emptyText: '선택',
 	listeners: {
 		afterrender: function(combo, eOpts ){
-			comboCty.getStore().load({params:{NATION_CODE:'00001'}});
+			comboCty.getStore().load({params:{NATION_CODE:'00100'}});
 		},
 		change: function(combo, newValue, oldValue, eOpts ) {
 			var rec = combo.getStore().findRecord('CTY_CODE', newValue);
@@ -91,7 +91,7 @@ var comboUpperCl = new Ext.create('Ext.form.ComboBox', {
 	width: 160,
 	fieldLabel: '분류',
 	labelAlign: 'right',
-	labelWidth: 40,	
+	labelWidth: 40,
 	store: new Ext.create('Ext.data.JsonStore', {
 		//autoLoad: true,
 		fields:['CL_CODE', 'CL_NM'],
@@ -167,28 +167,28 @@ var frCond = Ext.create('Ext.form.Panel', {
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
 			items: [{
-		    	xtype: 'radiogroup',
-		    	id: 'radio-gubun',
-		    	fieldLabel: '사용여부',
-		    	labelWidth: 60,
-		    	labelAlign: 'right',
-		    	border: false,
-		    	width: 180, 
-		    	items: [{ boxLabel: '전체', id:'radio-delete-all', name: 'DELETE_AT', inputValue:''},
-		    			{ boxLabel: '사용', id:'radio-delete-n', name: 'DELETE_AT', inputValue:'N', checked: true }],
-		    	listeners: {
-		    		change : function(radio, newValue, oldValue, eOpts ) {
-		    			Ext.getCmp('form-upper-cl-code').setValue('');
-		    			Ext.getCmp('form-cl-code').setValue('');
-		    			comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000', DELETE_AT:newValue.DELETE_AT}});
-		    		}
-		    	}
+				xtype: 'radiogroup',
+				id: 'radio-gubun',
+				fieldLabel: '사용여부',
+				labelWidth: 60,
+				labelAlign: 'right',
+				border: false,
+				width: 180,
+				items: [{ boxLabel: '전체', id:'radio-delete-all', name: 'DELETE_AT', inputValue:''},
+						{ boxLabel: '사용', id:'radio-delete-n', name: 'DELETE_AT', inputValue:'N', checked: true }],
+				listeners: {
+					change : function(radio, newValue, oldValue, eOpts ) {
+						Ext.getCmp('form-upper-cl-code').setValue('');
+						Ext.getCmp('form-cl-code').setValue('');
+						comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000', DELETE_AT:newValue.DELETE_AT}});
+					}
+				}
 			}, comboNation, {
 				xtype: 'label',
 				width: 5
 			}, comboCty, {
 				xtype: 'label',
-				width: 5				
+				width: 5
 			}, comboUpperCl, {
 				xtype: 'label',
 				width: 5
@@ -206,7 +206,7 @@ var frCond = Ext.create('Ext.form.Panel', {
 				text: '신규',
 				width: 60,
 				handler: function(){
-					parent.fn_open_menu('00201','여행상품등록','/mngr/GoodsRegist/');
+					parent.fn_open_menu('01004','여행상품등록','/mngr/GoodsRegist/');
 				}
 			},{
 				xtype: 'button',
@@ -216,49 +216,49 @@ var frCond = Ext.create('Ext.form.Panel', {
 				handler: function(){
 					if(confirm('상품을 "사용안함" 처리하시겠습니까?')) {
 						var selections = grGoods.getSelectionModel().getSelection();
-						
+
 						if(!selections.length) {
 							alert('선택된 항목이 없습니다.');
 							return;
 						}
 
 						var codes = '';
-						
-			            for(var i = 0; i < selections.length; i++){
-			            	if(selections[i].get('DELETE_AT') == 'N') {
-			            		codes += ''+selections[i].get('GOODS_CODE') + ',';
-			            	} 
-			            }
-			            
-			            if(!codes) {
-			            	alert('이미 사용안함 처리한 상품입니다.');
-			            }
-			            
-			            if(codes) {
-			            	Ext.Ajax.request({
-			            		url:'../deleteGoodsMulti/',
-			            		method:'POST',
-			            		timeout:360000,
-			            		params: {
-			            			'GOODS_CODE_LIST':codes
-			            		},
-			            		success:function(response){
-			            			var json = Ext.decode(response.responseText);
-			            			if(json.success){
-			            				Ext.Msg.alert('확인', '사용안함 처리하였습니다.', function(){
-			            					fn_search();	
-			            				});
-			            			}else{
-			            				fn_failureMessage(response);
-			            			}
-			            		},
-			            		failure: function(response){
-			            			fn_failureMessage(response);  
-			            		}       
-			            	});
-			            }
+
+						for(var i = 0; i < selections.length; i++){
+							if(selections[i].get('DELETE_AT') == 'N') {
+								codes += ''+selections[i].get('GOODS_CODE') + ',';
+							}
+						}
+
+						if(!codes) {
+							alert('이미 사용안함 처리한 상품입니다.');
+						}
+
+						if(codes) {
+							Ext.Ajax.request({
+								url:'../deleteGoodsMulti/',
+								method:'POST',
+								timeout:360000,
+								params: {
+									'GOODS_CODE_LIST':codes
+								},
+								success:function(response){
+									var json = Ext.decode(response.responseText);
+									if(json.success){
+										Ext.Msg.alert('확인', '사용안함 처리하였습니다.', function(){
+											fn_search();
+										});
+									}else{
+										fn_failureMessage(response);
+									}
+								},
+								failure: function(response){
+									fn_failureMessage(response);
+								}
+							});
+						}
 					}
-				}			
+				}
 			},{
 				xtype: 'button',
 				margin: '0 0 0 5',
@@ -274,8 +274,8 @@ var frCond = Ext.create('Ext.form.Panel', {
 });
 
 Ext.define('GoodsInfo', {
-    extend: 'Ext.data.Model',
-    fields: ['GOODS_CODE', 'CL_NM', 'UPPER_CL_NM', 'GOODS_NM', 'CTY_NM', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'DELETE_AT', 'USE_AT', 'WRITNG_DE', 'UPDT_DE', 'FILE_CODE', 'CF_FILE_CNT']
+	extend: 'Ext.data.Model',
+	fields: ['GOODS_CODE', 'CL_NM', 'UPPER_CL_NM', 'GOODS_NM', 'CTY_NM', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'DELETE_AT', 'USE_AT', 'WRITNG_DE', 'UPDT_DE', 'FILE_CODE', 'CF_FILE_CNT']
 });
 
 var jsGoods = Ext.create('Ext.data.JsonStore', {
@@ -330,7 +330,7 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		width: 150,
 		style: 'text-align:center',
 		align: 'left',
-		dataIndex: 'UPPER_CL_NM'			
+		dataIndex: 'UPPER_CL_NM'
 	},{
 		text: '상세분류',
 		width: 150,
@@ -370,12 +370,12 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		 text: '사진수',
 		 width: 80,
 		 align: 'center',
-		 dataIndex: 'CF_FILE_CNT'     
+		 dataIndex: 'CF_FILE_CNT'
 	},{
 		 text: '작성일자',
 		 width: 100,
 		 align: 'center',
-		 dataIndex: 'WRITNG_DE'     
+		 dataIndex: 'WRITNG_DE'
 	},{
 		text: '수정일자',
 		width: 100,
@@ -386,7 +386,7 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		width: 100,
 		align: 'center',
 		hidden: true,
-		dataIndex: 'FILE_CODE'        	
+		dataIndex: 'FILE_CODE'
 	},{
 		flex: 1
 	}],
@@ -395,10 +395,10 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 	displayInfo: true,
 	displayMsg	: '전체 {2}건 중 {0} - {1}',
 	emptyMsg	: "조회된 자료가 없습니다."
-	})*/      
+	})*/
 	listeners : {
 		celldblclick: function(grid, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
-			parent.fn_open_menu('00201','여행상품등록','/mngr/GoodsRegist/?GOODS_CODE='+record.data.GOODS_CODE);
+			parent.fn_open_menu('01004','여행상품등록','/mngr/GoodsRegist/?GOODS_CODE='+record.data.GOODS_CODE);
 		}
 	}
 });
@@ -406,7 +406,7 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 /*
  * 화면 레이아웃을 구성한다.
  */
-Ext.onReady(function(){    
+Ext.onReady(function(){
 	Ext.create('Ext.Viewport', {
 		layout: 'border',
 		padding:'5 10 5 10',

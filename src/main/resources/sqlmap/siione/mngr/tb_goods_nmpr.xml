@@ -17,6 +17,7 @@
                                  , SETUP_RATE
                                  , NMPR_CO
                                  , MAX_NMPR_CO
+                                 , ADIT_NMPR_AMOUNT
                                  , SORT_ORDR
                                  , DELETE_AT
                                  , WRITNG_ID
@@ -31,6 +32,7 @@
                                  , #SETUP_RATE# * 0.01
                                  , #NMPR_CO#
                                  , NVL(#MAX_NMPR_CO#, #NMPR_CO#)
+                                 , REPLACE(#ADIT_NMPR_AMOUNT#, ',', '')
                                  , #SORT_ORDR#
                                  , 'N'
                                  , #WRITNG_ID#
@@ -50,10 +52,11 @@
              , SETUP_RATE = #SETUP_RATE# * 0.01
              , NMPR_CO = #NMPR_CO#
              , MAX_NMPR_CO = #MAX_NMPR_CO#
+             , ADIT_NMPR_AMOUNT = #ADIT_NMPR_AMOUNT#
              , SORT_ORDR = #SORT_ORDR#
              , DELETE_AT = #DELETE_AT#
          WHERE GOODS_CODE = #GOODS_CODE#
-           AND SETUP_SE = #SETUP_SE#  
+           AND SETUP_SE = #SETUP_SE#
            AND NMPR_SN = #NMPR_SN#
     ]]>
     </update>
@@ -82,6 +85,7 @@
              , SETUP_RATE * 100 SETUP_RATE
              , NMPR_CO
              , MAX_NMPR_CO
+             , ADIT_NMPR_AMOUNT
              , SORT_ORDR
              , DELETE_AT
              , WRITNG_ID
@@ -107,6 +111,7 @@
              , SETUP_RATE * 100 SETUP_RATE
              , NMPR_CO
              , MAX_NMPR_CO
+             , ADIT_NMPR_AMOUNT
              , SORT_ORDR
              , DELETE_AT
              , WRITNG_ID
@@ -116,9 +121,9 @@
           FROM TB_GOODS_NMPR
          WHERE GOODS_CODE = #GOODS_CODE# ]]>
         <isNotEmpty property="DELETE_AT">
-		   AND DELETE_AT = #DELETE_AT#
+           AND DELETE_AT = #DELETE_AT#
         </isNotEmpty>
-		 ORDER BY DELETE_AT, SETUP_SE DESC, SORT_ORDR        
+         ORDER BY DELETE_AT, SETUP_SE DESC, SORT_ORDR
     </select>
 
 </sqlMap>

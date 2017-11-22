@@ -9,15 +9,13 @@
 <script type="text/javascript" src="<c:url value='/js/jquery-1.11.1.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/extjs/ext-all.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/extjs/ext-theme-neptune.js' />"></script>
-<script>
-var ssAuthorCl = '${ssAuthorCl}';
-</script>
 <script type="text/javascript" src="<c:url value='/js/mngr/MngrMain.js' />"></script>
 </head>
 <body>
 <div id="north" class="x-hide-display">
-	<h1 title="OnePassTour"><a href="<c:url value="/mngr/"/>">OnePassTour 관리자화면</a></h1>
-</div>		
+	<c:if test="${ssAuthorCl ne ''}"><h1>OnePassTour 관리자화면 (${ssUserNm}${ssAuthorCl})</h1></c:if>
+	<c:if test="${ssAuthorCl eq ''}"><h1 title="login"><a href="<c:url value="/mngr/login/"/>">관리자 로그인</a></h1></c:if>
+</div>
 <div id="center">
 </div>	
 </body>

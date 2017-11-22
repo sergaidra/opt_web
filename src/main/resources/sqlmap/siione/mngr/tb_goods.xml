@@ -9,6 +9,7 @@
         <result property="GOODS_CODE"                    column="GOODS_CODE"                    jdbcType="string" javaType="string"/>
         <result property="GOODS_NM"                      column="GOODS_NM"                      jdbcType="string" javaType="string"/>
         <result property="GOODS_INTRCN"                  column="GOODS_INTRCN"                  jdbcType="CLOB"   javaType="string"/>
+        <result property="GOODS_INTRCN_SIMPL"            column="GOODS_INTRCN_SIMPL"            jdbcType="string" javaType="string"/>
         <result property="DELETE_AT"                     column="DELETE_AT"                     jdbcType="string" javaType="string"/>
         <result property="USE_AT"                        column="USE_AT"                        jdbcType="string" javaType="string"/>
         <result property="FILE_CODE"                     column="FILE_CODE"                     jdbcType="string" javaType="string"/>
@@ -57,6 +58,7 @@
         <result property="CRUD_SE"                       column="CRUD_SE"                       jdbcType="string" javaType="string"/>
         <result property="GOODS_NM_ENG"                  column="GOODS_NM_ENG"                  jdbcType="string" javaType="string"/><!-- 영문 컬럼 -->
         <result property="GOODS_INTRCN_ENG"              column="GOODS_INTRCN_ENG"              jdbcType="CLOB"   javaType="string"/>
+        <result property="GOODS_INTRCN_SIMPL_ENG"        column="GOODS_INTRCN_SIMPL_ENG"        jdbcType="string" javaType="string"/>
         <result property="VOCHR_NTSS_REQRE_TIME_ENG"     column="VOCHR_NTSS_REQRE_TIME_ENG"     jdbcType="string" javaType="string"/>
         <result property="VOCHR_USE_MTH_ENG"             column="VOCHR_USE_MTH_ENG"             jdbcType="string" javaType="string"/>
         <result property="GUIDANCE_USE_TIME_ENG"         column="GUIDANCE_USE_TIME_ENG"         jdbcType="string" javaType="string"/>
@@ -94,6 +96,7 @@
         INSERT INTO TB_GOODS( GOODS_CODE
                             , GOODS_NM
                             , GOODS_INTRCN
+                            , GOODS_INTRCN_SIMPL
                             , CL_CODE
                             , CTY_CODE
                             , WAIT_TIME
@@ -136,6 +139,7 @@
                       VALUES( #GOODS_CODE#
                             , #GOODS_NM#
                             , #GOODS_INTRCN:CLOB#
+                            , #GOODS_INTRCN_SIMPL#
                             , #CL_CODE#
                             , #CTY_CODE#
                             , #WAIT_HH#||#WAIT_MI#
@@ -176,60 +180,62 @@
                             , #VIDEO_URL#
                             , #VIDEO_MAIN_EXPSR_AT# );
 
-		INSERT INTO TB_GOODS_ENG ( GOODS_NM_ENG
-		                         , GOODS_INTRCN_ENG
-		                         , VOCHR_NTSS_REQRE_TIME_ENG
-		                         , VOCHR_USE_MTH_ENG
-		                         , GUIDANCE_USE_TIME_ENG
-		                         , GUIDANCE_REQRE_TIME_ENG
-		                         , GUIDANCE_AGE_DIV_ENG
-		                         , GUIDANCE_TOUR_SCHDUL_ENG
-		                         , GUIDANCE_PRFPLC_LC_ENG
-		                         , GUIDANCE_EDC_CRSE_ENG
-		                         , GUIDANCE_OPTN_MATTER_ENG
-		                         , GUIDANCE_PICKUP
-		                         , GUIDANCE_PRPARETG_ENG
-		                         , GUIDANCE_INCLS_MATTER_ENG
-		                         , GUIDANCE_NOT_INCLS_MATTER
-		                         , ADIT_GUIDANCE_ENG
-		                         , ATENT_MATTER_ENG
-		                         , CHANGE_REFND_REGLTN_ENG
-		                         , INTRCN_GOODS_TY
-		                         , INTRCN_USE_TIME_ENG
-		                         , INTRCN_MEET_TIME
-		                         , INTRCN_REQRE_TIME_ENG
-		                         , INTRCN_PROVD_LANG_ENG
-		                         , INTRCN_POSBL_AGE_ENG
-		                         , INTRCN_PLACE_ENG
-		                         , WRITNG_ID
-		                         , WRITNG_DT )
-		                  VALUES ( #GOODS_NM_ENG#
-		                         , #GOODS_INTRCN_ENG#
-		                         , #VOCHR_NTSS_REQRE_TIME_ENG#
-		                         , #VOCHR_USE_MTH_ENG#
-		                         , #GUIDANCE_USE_TIME_ENG#
-		                         , #GUIDANCE_REQRE_TIME_ENG#
-		                         , #GUIDANCE_AGE_DIV_ENG#
-		                         , #GUIDANCE_TOUR_SCHDUL_ENG#
-		                         , #GUIDANCE_PRFPLC_LC_ENG#
-		                         , #GUIDANCE_EDC_CRSE_ENG#
-		                         , #GUIDANCE_OPTN_MATTER_ENG#
-		                         , #GUIDANCE_PICKUP#
-		                         , #GUIDANCE_PRPARETG_ENG#
-		                         , #GUIDANCE_INCLS_MATTER_ENG#
-		                         , #GUIDANCE_NOT_INCLS_MATTER#
-		                         , #ADIT_GUIDANCE_ENG#
-		                         , #ATENT_MATTER_ENG#
-		                         , #CHANGE_REFND_REGLTN_ENG#
-		                         , #INTRCN_GOODS_TY#
-		                         , #INTRCN_USE_TIME_ENG#
-		                         , #INTRCN_MEET_TIME#
-		                         , #INTRCN_REQRE_TIME_ENG#
-		                         , #INTRCN_PROVD_LANG_ENG#
-		                         , #INTRCN_POSBL_AGE_ENG#
-		                         , #INTRCN_PLACE_ENG#
-		                         , #WRITNG_ID#
-		                         , SYSDATE );
+        INSERT INTO TB_GOODS_ENG ( GOODS_NM_ENG
+                                 , GOODS_INTRCN_ENG
+                                 , GOODS_INTRCN_SIMPL_ENG
+                                 , VOCHR_NTSS_REQRE_TIME_ENG
+                                 , VOCHR_USE_MTH_ENG
+                                 , GUIDANCE_USE_TIME_ENG
+                                 , GUIDANCE_REQRE_TIME_ENG
+                                 , GUIDANCE_AGE_DIV_ENG
+                                 , GUIDANCE_TOUR_SCHDUL_ENG
+                                 , GUIDANCE_PRFPLC_LC_ENG
+                                 , GUIDANCE_EDC_CRSE_ENG
+                                 , GUIDANCE_OPTN_MATTER_ENG
+                                 , GUIDANCE_PICKUP
+                                 , GUIDANCE_PRPARETG_ENG
+                                 , GUIDANCE_INCLS_MATTER_ENG
+                                 , GUIDANCE_NOT_INCLS_MATTER
+                                 , ADIT_GUIDANCE_ENG
+                                 , ATENT_MATTER_ENG
+                                 , CHANGE_REFND_REGLTN_ENG
+                                 , INTRCN_GOODS_TY
+                                 , INTRCN_USE_TIME_ENG
+                                 , INTRCN_MEET_TIME
+                                 , INTRCN_REQRE_TIME_ENG
+                                 , INTRCN_PROVD_LANG_ENG
+                                 , INTRCN_POSBL_AGE_ENG
+                                 , INTRCN_PLACE_ENG
+                                 , WRITNG_ID
+                                 , WRITNG_DT )
+                          VALUES ( #GOODS_NM_ENG#
+                                 , #GOODS_INTRCN_ENG:CLOB#
+                                 , #GOODS_INTRCN_SIMPL_ENG#
+                                 , #VOCHR_NTSS_REQRE_TIME_ENG#
+                                 , #VOCHR_USE_MTH_ENG#
+                                 , #GUIDANCE_USE_TIME_ENG#
+                                 , #GUIDANCE_REQRE_TIME_ENG#
+                                 , #GUIDANCE_AGE_DIV_ENG#
+                                 , #GUIDANCE_TOUR_SCHDUL_ENG#
+                                 , #GUIDANCE_PRFPLC_LC_ENG#
+                                 , #GUIDANCE_EDC_CRSE_ENG#
+                                 , #GUIDANCE_OPTN_MATTER_ENG#
+                                 , #GUIDANCE_PICKUP#
+                                 , #GUIDANCE_PRPARETG_ENG#
+                                 , #GUIDANCE_INCLS_MATTER_ENG#
+                                 , #GUIDANCE_NOT_INCLS_MATTER#
+                                 , #ADIT_GUIDANCE_ENG#
+                                 , #ATENT_MATTER_ENG#
+                                 , #CHANGE_REFND_REGLTN_ENG#
+                                 , #INTRCN_GOODS_TY#
+                                 , #INTRCN_USE_TIME_ENG#
+                                 , #INTRCN_MEET_TIME#
+                                 , #INTRCN_REQRE_TIME_ENG#
+                                 , #INTRCN_PROVD_LANG_ENG#
+                                 , #INTRCN_POSBL_AGE_ENG#
+                                 , #INTRCN_PLACE_ENG#
+                                 , #WRITNG_ID#
+                                 , SYSDATE );
     END;
     ]]>
     </insert>
@@ -244,6 +250,7 @@
         INSERT INTO TB_GOODS( GOODS_CODE
                             , GOODS_NM
                             , GOODS_INTRCN
+                            , GOODS_INTRCN_SIMPL
                             , CL_CODE
                             , CTY_CODE
                             , WAIT_TIME
@@ -273,6 +280,7 @@
                       VALUES( #GOODS_CODE#
                             , #GOODS_NM#
                             , #GOODS_INTRCN:CLOB#
+                            , #GOODS_INTRCN_SIMPL#
                             , #CL_CODE#
                             , #CTY_CODE#
                             , LPAD(#WAIT_HOUR#, 2, '0')||LPAD(#WAIT_MINUTE#, 2, '0')
@@ -303,6 +311,7 @@
         INSERT INTO TB_GOODS_ENG( GOODS_CODE
                             , GOODS_NM_ENG
                             , GOODS_INTRCN_ENG
+                            , GOODS_INTRCN_SIMPL_ENG
                             , VOCHR_NTSS_REQRE_TIME_ENG
                             , VOCHR_USE_MTH_ENG
                             , INTRCN_USE_TIME_ENG
@@ -316,6 +325,7 @@
                       VALUES( #GOODS_CODE#
                             , #GOODS_NM_ENG#
                             , #GOODS_INTRCN_ENG:CLOB#
+                            , #GOODS_INTRCN_SIMPL_ENG#
                             , #VOCHR_NTSS_REQRE_TIME_ENG#
                             , #VOCHR_USE_MTH_ENG#
                             , #INTRCN_USE_TIME_ENG#
@@ -335,6 +345,7 @@
         UPDATE TB_GOODS
            SET GOODS_NM                  =  #GOODS_NM#
              , GOODS_INTRCN              =  #GOODS_INTRCN:CLOB#
+             , GOODS_INTRCN_SIMPL        =  #GOODS_INTRCN_SIMPL#
              , WAIT_TIME                 =  #WAIT_HH#||#WAIT_MI#
              , MVMN_TIME                 =  #MVMN_HH#||#MVMN_MI#
              , DELETE_AT                 =  'N'
@@ -382,6 +393,7 @@
              , CL_CODE               = #CL_CODE#
              , CTY_CODE              = #CTY_CODE#
              , GOODS_INTRCN          = #GOODS_INTRCN:CLOB#
+             , GOODS_INTRCN_SIMPL    = #GOODS_INTRCN_SIMPL#
              , WAIT_TIME             = LPAD(#WAIT_HOUR#, 2, '0')||LPAD(#WAIT_MINUTE#, 2, '0')
              , MVMN_TIME             = LPAD(#MVMN_HOUR#, 2, '0')||LPAD(#MVMN_MINUTE#, 2, '0')
              , ACT_LA                = #ACT_LA#
@@ -403,7 +415,7 @@
              , VIDEO_URL             = #VIDEO_URL#
              , VIDEO_MAIN_EXPSR_AT   = NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
          WHERE GOODS_CODE = #GOODS_CODE#
-	]]>
+    ]]>
     </update>
 
     <update id="GoodsDAO.updateGoodsEngForBass" parameterClass="hashMap">
@@ -413,6 +425,7 @@
              , UPDT_DT                   = SYSDATE
              , GOODS_NM_ENG              = #GOODS_NM_ENG#
              , GOODS_INTRCN_ENG          = #GOODS_INTRCN_ENG:CLOB#
+             , GOODS_INTRCN_SIMPL_ENG    = #GOODS_INTRCN_SIMPL_ENG#
              , VOCHR_NTSS_REQRE_TIME_ENG = #VOCHR_NTSS_REQRE_TIME_ENG#
              , VOCHR_USE_MTH_ENG         = #VOCHR_USE_MTH_ENG#
              , INTRCN_USE_TIME_ENG       = #INTRCN_USE_TIME_ENG#
@@ -422,7 +435,7 @@
              , INTRCN_POSBL_AGE_ENG      = #INTRCN_POSBL_AGE_ENG#
              , INTRCN_PLACE_ENG          = #INTRCN_PLACE_ENG#
          WHERE GOODS_CODE = #GOODS_CODE#
-	]]>
+    ]]>
     </update>
 
     <update id="GoodsDAO.updateGoodsForGuidance" parameterClass="hashMap">
@@ -515,6 +528,7 @@
         SELECT A.GOODS_CODE
              , A.GOODS_NM
              , A.GOODS_INTRCN
+             , A.GOODS_INTRCN_SIMPL
              , A.DELETE_AT
              , DECODE(A.DELETE_AT, 'N', 'Y', 'N') USE_AT
              , A.FILE_CODE
@@ -563,6 +577,7 @@
              , 'U' CRUD_SE
              , B.GOODS_NM_ENG
              , B.GOODS_INTRCN_ENG
+             , B.GOODS_INTRCN_SIMPL_ENG
              , B.VOCHR_NTSS_REQRE_TIME_ENG
              , B.VOCHR_USE_MTH_ENG
              , B.GUIDANCE_USE_TIME_ENG

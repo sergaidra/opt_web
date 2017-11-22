@@ -22,7 +22,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 @Controller
 public class AuthorMenuManageController {
-	
+
 	protected Log log = LogFactory.getLog(this.getClass());
 
 	@Inject
@@ -41,14 +41,14 @@ public class AuthorMenuManageController {
 		List<Map<String,String>> results = null;
 
 		Map<String, Object> result = new HashMap<String, Object>();
-		
+
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 		param.put("REGIST_ID", esntl_id);
 
 		try {
 			results = authorMenuManageService.selectAuthorMenuList(param);
-		
+
 			result.put("rows", results.size());
 			result.put("data", results);
 			result.put("success", true);
@@ -60,18 +60,16 @@ public class AuthorMenuManageController {
 			jsonView.render(result, request, response);
 		}
 	}
-	
+
 	@RequestMapping(value="/mngr/selectAuthorMenuTree/")
 	public void selectAuthorMenuTree(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
 		List<Map<String,String>> results = null;
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		UserUtils.log("[selectAuthorMenuTree]param", param);
-
 		try {
 			results = authorMenuManageService.selectAuthorMenuTree(param);
-		
+
 			result.put("rows", results.size());
 			result.put("data", results);
 			result.put("success", true);
@@ -82,19 +80,21 @@ public class AuthorMenuManageController {
 		} finally {
 			jsonView.render(result, request, response);
 		}
-	}	
-	
+	}
+
 	@RequestMapping(value="/mngr/selectMainMenuTree/")
 	public void selectMainMenuTree(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
 		List<Map<String,String>> results = null;
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		UserUtils.log("[selectMainMenuTree]param", param);
+		HttpSession session = request.getSession();
+		String author_cl = UserUtils.nvl((String)session.getAttribute("author_cl"));
+		param.put("AUTHOR_CL", author_cl);
 
 		try {
 			results = authorMenuManageService.selectMainMenuTree(param);
-		
+
 			result.put("rows", results.size());
 			result.put("data", results);
 			result.put("success", true);
@@ -105,7 +105,7 @@ public class AuthorMenuManageController {
 		} finally {
 			jsonView.render(result, request, response);
 		}
-	}		
+	}
 
 	@RequestMapping(value="/mngr/saveAuthorMenuInfo/")
 	public void saveTourClInfo(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
@@ -114,17 +114,17 @@ public class AuthorMenuManageController {
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 		param.put("USER_ID", esntl_id);
-		
+
 		try {
 			result = authorMenuManageService.saveAuthorMenuInfo(param);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 			result.put("message", e.getMessage());
-			result.put("success", false);    		
+			result.put("success", false);
 		}
-		
+
 		jsonView.render(result, request, response);
-	} 
+	}
 
 
 }
