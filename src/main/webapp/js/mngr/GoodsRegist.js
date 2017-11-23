@@ -26,8 +26,8 @@ var comboYn = new Ext.create('Ext.form.ComboBox', {
 	store: new Ext.create('Ext.data.ArrayStore', {
 		fields:['code', 'name'],
 		data :[
-			['Y', '예'],
-			['N', '아니오']
+			['Y', 'Y'],
+			['N', 'N']
 		]
 	}),
 	displayField: 'name',
@@ -3153,6 +3153,8 @@ Ext.define('GoodsFileInfo', {
 			, {name:'FILE_NM', type:'string'}
 			, {name:'FILE_PATH', type:'string'}
 			, {name:'REPRSNT_AT', type:'string'}
+			, {name:'HOTDEAL_AT', type:'string'}
+			, {name:'LIVEVIEW_AT', type:'string'}
 			, {name:'SORT_NO', type:'string'}
 			, {name:'FILE_URL', type:'string'}
 			, {name:'CRUD', type:'string'}]
@@ -3190,6 +3192,11 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 		emptyText: '등록된 자료가 없습니다.'
 	},
 	columns: [{
+		text: '순번',
+		width: 50,
+		align: 'center',
+		xtype: 'rownumberer'
+	},{		
 		text: '파일',
 		//width: 300,
 		flex: 1,
@@ -3198,8 +3205,8 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 		menuDisabled: true,
 		dataIndex: 'FILE_NM'
 	},{
-		text: '대표여부',
-		width: 80,
+		text: '대표',
+		width: 50,
 		align: 'center',
 		sortable: false,
 		menuDisabled: true,
@@ -3207,8 +3214,26 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 		dataIndex: 'REPRSNT_AT',
 		renderer: Ext.ux.comboBoxRenderer(comboYn)
 	},{
-		text: '정렬순서',
+		text: '핫딜',
+		width: 50,
+		align: 'center',
+		sortable: false,
+		menuDisabled: true,
+		editor: comboYn,
+		dataIndex: 'HOTDEAL_AT',
+		renderer: Ext.ux.comboBoxRenderer(comboYn)	
+	},{
+		text: '라이브뷰',
 		width: 80,
+		align: 'center',
+		sortable: false,
+		menuDisabled: true,
+		editor: comboYn,
+		dataIndex: 'LIVEVIEW_AT',
+		renderer: Ext.ux.comboBoxRenderer(comboYn)			
+	},{
+		text: '정렬',
+		width: 50,
 		align: 'center',
 		sortable: false,
 		menuDisabled: true,
@@ -3298,7 +3323,11 @@ var imageTpl = new Ext.XTemplate(
 	,'<table width="97%">'
 	,'<tpl for=".">'
 	,'{[xindex % 5 == 1 ? "<tr height=100 valign=top>" : ""]}'
-	,'<td width="20%"><img src="{FILE_URL}"/><br>{[xindex]}.{FILE_NM}</td>'
+	,'<td width="20%"><img src="{FILE_URL}"/><br>{[xindex]}.{FILE_NM}'
+	,'<tpl if="REPRSNT_AT==\'Y\'"><font color="red"> P</font></tpl>'
+	,'<tpl if="HOTDEAL_AT==\'Y\'"><font color="blue"> H</font></tpl>'
+	,'<tpl if="LIVEVIEW_AT==\'Y\'"><font color="green"> L</font></tpl>'
+	,'</td>'
 	,'{[xindex % 5 == 0 ? "</tr>" : ""]}'
 	,'</tpl>'
 	,'</table>'

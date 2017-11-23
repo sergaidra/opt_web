@@ -648,6 +648,8 @@
              , CL_SE
              , SORT_ORDR
              , FILE_CODE
+             , HOTDEAL_AT
+             , RECOMEND_AT
              , DELETE_AT
              , DECODE(DELETE_AT, 'N', 'Y', 'N') USE_AT
              , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD') WRITNG_DE
