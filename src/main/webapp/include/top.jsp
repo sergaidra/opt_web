@@ -6,51 +6,62 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <header>
     
-      <!--PC 상단메뉴 영역-->
-      <div class="comf" id="head_home">
-    <div class="inner">
-          <div class="left_icon"><a class="side-left-pushy-button"><i class="material-icons" >&#xE5D2;</i></a></div>
-          <a href = "/"  class="toplogo vm"></a>
-          <div class="right_icon mobile_view"><a class="side-right-pushy-button"><i class="material-icons">&#xE916;</i></a></div>
-          <div class="menu"> 
+<!--PC 상단메뉴 영역-->
+<div class="comf" id="head_home">
+	<div class="inner">
+		<div class="toplogo"> <a href = "<c:url value='/' />" ></a></div>
+		<div class="menu">
         <!---탑메뉴-->
         <c:import url="/include/topmenu.jsp" />
-<!---//탑메뉴--> 
-<script type="text/javascript">
+		<!---//탑메뉴--> 
+      	</div>
+		<div class="myinfo">
+			<div class="name">
+				<c:if test="${user_id == null}">
+					<div class="gomy"><a href="javascript:go_login();">로그인</a></div>				
+				</c:if>				
+				<c:if test="${user_id != null}">
+					<div class="photo"><img src="<c:url value='/images/com/me_photo.jpg' />" alt=""/></div>
+					<div class="name_tx">${user_nm}님 환영합니다.</div>
+					<div class="gomy">
+						<a href="javascript:go_mypage();">마이페이지</a>
+						<a href="javascript:go_logout();" class="logout">로그아웃</a>
+					</div>				
+				</c:if>
+			</div>
+		</div>
+		<div class="allmenu"><i class="material-icons">&#xE5D2;</i></div>
+	</div>
+</div>
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-499901-76']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script> 
-      </div>
-          <div class="myinfo">
-        <div class="name">
-              <div class="photo"><img src="<c:url value='/images/com/me_photo.jpg' />" alt=""/></div>
-              <div class="name_tx">홍길동님 환영합니다.              
-              </div>
-			 <div class="gomy"><a href="javascript:go_06_01_01();">마이페이지</a></div>
-            </div>
-      </div>
-          <div class="allmenu"><i class="material-icons">&#xE5D2;</i></div>
-        </div>
-  </div>
+<!--모바일  상단메뉴 영역-->
+<div class="comf" id="head_home_m">
+	<div class="inner">
+		<div class="left_icon"><a class="side-left-pushy-button"><i class="material-icons" >&#xE5D2;</i></a></div>
+		<div class="toplogo_m"> <a href = "../../../jsp/gnrl/main/index.jsp" ></a></div>
+		<div class="right_icon mobile_view"><a class="side-right-pushy-button"><i class="material-icons">&#xE916;</i></a></div>
+		<div class="menu"> 
+			<!---탑메뉴-->
+			<c:import url="/include/topmenu.jsp" />
+			<!---//탑메뉴--> 
+		</div>
+	</div>
+</div>
       
       <!-- left: 푸시영역 -->
       <nav id="sideLeftPushy" class="pushy pushy-left pushy_over" >
     <div class="quick_info">
           <div class="close side-left-pushy-button"><i class="material-icons">&#xE888;</i></div>
+		<c:if test="${user_id == null}">
+			<div class="info_btn"> <a  class="info" href="javascript:go_login();">로그인</a> </div>
+		</c:if>
+		<c:if test="${user_id != null}">
           <div class="info_my">
-        <div class="photo"><img src="<c:url value='/images/com/me_photo.jpg' />" alt=""/></div>
-        <div class="name">홍길동</div>
-      </div>
-          <div class="info_btn"> <a href="#" class="info">내정보</a><a href="#" class="logout">로그아웃</a> </div>
+        	<div class="photo"><img src="<c:url value='/images/com/me_photo.jpg' />" alt=""/></div>
+        	<div class="name">${user_nm}</div>
+      	  </div>
+          <div class="info_btn"> <a href="javascript:go_06_01_01();" class="info">내정보</a><a href="javascript:go_logout();" class="logout">로그아웃</a> </div>
+		</c:if>
           <div class="quick_search">
         <input type="text">
         <div class="icon"><i class="material-icons">&#xE8B6;</i></div>
@@ -95,6 +106,7 @@ $(function() {
 })(jQuery);	
 </script> 
   </nav>
+	<c:if test="${user_id != null}">
         <div class="side-right-pushy-button quick_st1 pc_view" ><i class="material-icons">&#xE314;</i></div>
       <!--오른쪽 예약정보-->
       <nav id="sideRightPushy" class="pushy pushy-right">
@@ -116,7 +128,7 @@ $(function() {
   </nav>
       
       <!--//오른쪽 예약정보--> 
-      
+	</c:if>      
       <script >
             //상단배너 이용
             //var optionSideTop = {

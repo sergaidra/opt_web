@@ -3,6 +3,7 @@
 
 	<decorator name="mainlayout" page="mainlayout.jsp">
 		<pattern>/main/intro/*</pattern>
+		<pattern>/member/login*</pattern>
 	</decorator>
 	<decorator name="sublayout" page="sublayout.jsp">
 		<pattern>/*</pattern>
@@ -33,8 +34,8 @@
 		<pattern>*Json/*</pattern>
 
 		<pattern>/html/*</pattern>
-
-
-		<pattern>/member/login*</pattern>
+		
+		<pattern>/cart/list2*</pattern>
+		
 	</excludes>
 </decorators>

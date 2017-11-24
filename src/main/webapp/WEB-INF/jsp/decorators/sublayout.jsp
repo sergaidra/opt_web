@@ -14,6 +14,9 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value='/css/layout.css' />" media="all">
 	<link rel="stylesheet" type="text/css" href="<c:url value='/css/content.css' />" media="all">
 	<link rel="stylesheet" type="text/css" href="<c:url value='/css/ay_com.css' />" media="all">
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/btn.css' />" media="all">	
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/bbs.css' />" media="all">
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/member.css' />" media="all">
 	<script type="text/javascript" src="<c:url value='/js/link.js' />"></script>
 		
 	<script src="<c:url value='/js/jquery-1.10.1.min.js' />"></script>

@@ -4,8 +4,10 @@ function go_home() {document.location.href="#";}
 
 
 function go_main() {	document.location.href="#";}
-function go_login() {	document.location.href="#";}
+function go_login() {	document.location.href="/member/login/";}
+function go_logout() {	document.location.href="/member/logoutAction/";}
 function go_join() {	document.location.href="#";}
+function go_mypage() { document.location.href="/purchs/OrderList"; }
 
 // 셀프여행 ///
 function go_01_01_01() {

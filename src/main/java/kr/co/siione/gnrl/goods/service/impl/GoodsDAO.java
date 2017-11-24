@@ -17,7 +17,15 @@ public class GoodsDAO extends EgovComAbstractDAO {
 	public List selectGoodsExpsrList2() throws Exception {
 		return list("gnrl.goods.selectGoodsExpsrList2");
 	}	
-	
+
+	public List selectGoodsExpsrList3() throws Exception {
+		return list("gnrl.goods.selectGoodsExpsrList3");
+	}	
+
+	public List selectGoodsExpsrList4() throws Exception {
+		return list("gnrl.goods.selectGoodsExpsrList4");
+	}	
+
 	public List selectUpperTourClMain(HashMap map) throws Exception {
 		return list("gnrl.goods.selectUpperTourClMain", map);
 	}
@@ -29,6 +37,10 @@ public class GoodsDAO extends EgovComAbstractDAO {
     public HashMap selectTourClDetail(HashMap map) throws Exception {
         return (HashMap)selectByPk("gnrl.goods.selectTourClDetail", map);
     }
+
+	public int selectGoodsListCount(HashMap map) throws Exception {
+		return (Integer)selectByPk("gnrl.goods.selectGoodsListCount", map);
+	}
 
 	public List selectGoodsList(HashMap map) throws Exception {
 		return list("gnrl.goods.selectGoodsList", map);

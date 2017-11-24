@@ -85,7 +85,8 @@ public class CartServiceImpl implements CartService {
 		}
 	}
 
-	public void deleteCart(HashMap map) throws Exception {
-		cartDAO.deleteCart(map);
+	public void deleteCart(List<HashMap> lst) throws Exception {
+		for(int i = 0; i < lst.size(); i++)
+			cartDAO.deleteCart(lst.get(i));
 	}
 }

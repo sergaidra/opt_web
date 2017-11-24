@@ -22,6 +22,14 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsDAO.selectGoodsExpsrList2();
     }
 
+    public List<HashMap> getGoodsExpsrList3() throws Exception {
+        return goodsDAO.selectGoodsExpsrList3();
+    }
+
+    public List<HashMap> getGoodsExpsrList4() throws Exception {
+        return goodsDAO.selectGoodsExpsrList4();
+    }
+
     public List<HashMap> getUpperTourClMain(HashMap map) throws Exception {
         return goodsDAO.selectUpperTourClMain(map);
     }
@@ -34,6 +42,10 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsDAO.selectTourClDetail(map);
     }
 
+    public int getGoodsListCount(HashMap map) throws Exception {
+        return goodsDAO.selectGoodsListCount(map);
+    }
+    
     public List<HashMap> getGoodsList(HashMap map) throws Exception {
         return goodsDAO.selectGoodsList(map);
     }

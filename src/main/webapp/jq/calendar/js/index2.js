@@ -24,6 +24,7 @@
 			
 			sel1.removeAttribute('class');
 			sel1.removeAttribute('id');
+			selectDt.startDt = null;
 		}
 			
 		// first doesnt exist
@@ -32,6 +33,7 @@
 			e.classList.add('sel1');
 			
 			_id('sel1text').innerHTML = year + '-' + lpad(month.toString(), 2, "0") + '-' + lpad(e.innerText, 2, "0");
+			selectDt.startDt = year + '-' + lpad(month.toString(), 2, "0") + '-' + lpad(e.innerText, 2, "0");			
 		}
 		
 	} //userSelect(e);
@@ -119,8 +121,25 @@
 
 				if(i === 1) str += '<tr>';
 				
-				if( key < startDay || key > totalDays + startDay - 1 ) { str += '<td class="notCurMonth"><i>'+days[key]+'</i></td>'; }
-				else { str += '<td><i>'+days[key]+'</i></td>'; }
+				if( key < startDay || key > totalDays + startDay - 1 ) { str += '<td class="notCurMonth disabled"><i class="disabled">'+days[key]+'</i></td>'; }
+				else { 
+					var isOk = false;
+					var curDt = String(year) + lpad(month, 2, "0") + lpad(days[key]+"", 2, "0");
+					var curToday = getToday();
+					for(var cnt = 0; cnt < lstSchdul.length; cnt++) {
+						if(curDt < curToday)
+							continue;
+						//console.log(lstSchdul[cnt].BEGIN_DE + "-" + lstSchdul[cnt].END_DE + "-" + curDt);
+						if(lstSchdul[cnt].BEGIN_DE <= curDt && curDt <= lstSchdul[cnt].END_DE ) {
+							isOk = true;
+							break;
+						}
+					}
+					if(isOk == true)
+						str += '<td><i>'+days[key]+'</i></td>';
+					else
+						str += '<td class="disabled"><i class="disabled">'+days[key]+'</i></td>';
+				}
 				
 				if(i === 7) { str += '</tr>'; i=0; }
 
@@ -150,7 +169,7 @@ var monthArr = [
 	
 /* INIT */
 var date = new Date();
-var month = date.getMonth(),
+var month = date.getMonth() + 1,
 		year = date.getFullYear();
 
 getMonth(month, year);
@@ -192,6 +211,11 @@ function rpad(s, padLength, padString){
     while(s.length < padLength)
         s += padString;
     return s;
+}
+
+function getToday() {
+	var d = new Date();
+	return String(d.getFullYear()) + lpad(String(d.getMonth() + 1), 2, "0") + lpad(String(d.getDate()), 2, "0");
 }
 
 

@@ -1,196 +1,275 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <head>
-<script type="text/javascript">	
-	function fnDeleteCart(cart_sn) {
-		var form = $("form[id=frmList]");
-		$("input:hidden[id=hidCartSn]").val(cart_sn);
-		form.attr({"method":"post","action":"<c:url value='/cart/delAction/'/>"});
-		form.submit();
-	}
 
-	function fnCalendar(){
-		var popNm = "popCalendar";
-		var valUrl = "<c:url value='/cart/calendarPopup/'/>";
-		var strStatus = "width=800,height=600,toolbar=no,status=no,scrollbars=yes,resizable=yes";
-		var debugWin = window.open(valUrl, popNm, strStatus);
-		debugWin.focus();
-	}
+<script type="text/javascript">
+$(function(){	
+	$("#allCheck").click(function () {
+		if($("#allCheck").prop("checked")) { 
+			$("input[name='chkCart']").prop("checked",true); 
+		} else { 
+			$("input[name='chkCart']").prop("checked",false); 
+		}
+	});
 
-	function fnSchedule() {
-		var popNm = "popSchedule";
-		var valUrl = "<c:url value='/cart/schedulePopup/'/>";
-		var strStatus = "width=1024,height=768,toolbar=yes,status=yes,scrollbars=yes,resizable=yes";
-		var debugWin = window.open(valUrl, popNm, strStatus);
-		debugWin.focus();
+});
+
+function delCartSingle(cart_sn) {
+	var lst = [];
+	lst.push(cart_sn);
+	delCart(lst);
+}
+
+function delCartAll() {
+	var lst = [];
+	$("input[name='chkCart']:checked").each(function() {
+		lst.push($(this).val());
+	});
+	if(lst.length == 0) {
+		alert("삭제 건이 없습니다.");
+		return false;
+	}
+	delCart(lst);
+}
+
+function delCart(cart_sn) {
+	var url = "<c:url value='/cart/delAction'/>";
+	var param = {};
+	param.cart_sn = cart_sn;
+	console.log(param);
+	
+	if(!confirm("정말 삭제하겠습니까?"))
+		return false;
+		
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( param ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+				alert("삭제되었습니다.");
+				document.location.reload();
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				$(".login").click();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
+
+function paymentCart() {
+	var url = "<c:url value='/purchs/addAction'/>";
+	var lst = [];
+	var totalAmount = 0;
+	$("input[name='chkCart']:checked").each(function() {
+		lst.push( {"cart_sn" : $(this).val() } );
+		totalAmount += Number($(this).parent().find("input[name='purchs_amount']").val());
+	});
+	if(lst.length == 0) {
+		alert("선택 건이 없습니다.");
+		return false;
 	}
 	
-	function fnPurchase(){
-		alert('결제');
-	}
+	if(!confirm("결제하겠습니까?"))
+		return false;
 	
-	function fnSearchGoods() {
-		var form = $("form[id=frmGoodsCategory]");
-		form.submit();
-	}
+	var param = {};
+	param.tot_setle_amount = totalAmount;
+	param.real_setle_amount = totalAmount;
+	param.use_point = "0";
+	param.lstCart = lst;
+	console.log(param);
+	
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( param ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+				alert("결제되었습니다.");
+				document.location.reload();
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				$(".login").click();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
 </script>
 </head>
 
-<body>	
-<div class="location">
-	<p class="loc_area">
-		홈<span class="arrow_loc"></span>투어상품
-	</p>
-</div>
-<!--컨텐츠 시작-->
-<div class="infor_area">
-	<!--result 탭시작-->
-	<div id="carttab_set_02">
-		<p class="line-left"></p>
-		<p class="rtab_cart_selected">
-			<a href='#'>장바구니</a>
-		</p>
-		<p class="rtab">
-			<a href='#'>결제목록</a>
-		</p>
-		<p class="rtab">
-			<a href='#'>찜목록</a>
-		</p>
-		<!--result 탭끝-->
-	</div>
-	<!-- 중앙정렬 -->
-	<div class="edit_center">
-		<div class="bar">
-			<span class="bar_txt">장바구니에 총 <span class="t_blue">${payCount}</span>개의 상품이 있습니다.
-			</span>
-			<div class="fl_right">
-				<fieldset>
-					<span class="bar_txt2">전체선택</span> <span class="ch_box_top"><img src="/images/chbox.gif"
-						onClick="this.src=(this.src=='/images/chbox.gif')?'/images/chbox.gif':'/images/chbox_hover.gif'; document.getElementsByName('')[].checked=(this.src=='/images/chbox_hover.gif')?true:false;"></span>
-					<span class="bar_txt2">선택취소</span> <span class="ch_box_top"><img src="/images/chbox.gif"
-						onClick="this.src=(this.src=='/images/chbox.gif')?'/images/chbox.gif':'/images/chbox_hover.gif'; document.getElementsByName('')[].checked=(this.src=='/images/chbox_hover.gif')?true:false;"></span>
-					<input type="button" value="선택삭제" class="btn_cart_select_del" />
+<body>
 
-				</fieldset>
-			</div>
-		</div>
-		<!--carttab_01 시작-->
-		<div class="carttab_01_area">
-			<div class="cart_resultlst_area">
-				<ul>
-				<c:forEach var="result" items="${cartList}" varStatus="status">
-					<li>
-						<p class="pr2_photo_area">
-							<!-- <span class="hotdeal2">★핫딜</span> --><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="auto" height="150">
-						</p>
-						<div class="pr2_rtxt_area">
-							<p class="fl_left circle">A</p>
-							<dl>
-								<dt>
-									<span class="p_head">${result.GOODS_NM}</span>
-									<span class="p_del"></span>
-									<p class="subtxtarea">
-										<span class="blt_box">이용일</span>
-										<span class="sub_01">
-										<c:if test="${!empty result.TOUR_DE}">
-											${fn:substring(result.TOUR_DE,0,4)}년 ${fn:substring(result.TOUR_DE,4,6)}월 ${fn:substring(result.TOUR_DE,6,8)}일
-										</c:if>
-										<c:if test="${!empty result.CHKIN_DE}">
-											${fn:substring(result.CHKIN_DE,0,4)}년 ${fn:substring(result.CHKIN_DE,4,6)}월 ${fn:substring(result.CHKIN_DE,6,8)}일 ~ ${fn:substring(result.CHCKT_DE,0,4)}년 ${fn:substring(result.CHCKT_DE,4,6)}월 ${fn:substring(result.CHCKT_DE,6,8)}일
-										</c:if>										
-										</span>
-									</p>
-									<c:if test="${result.CL_SE eq 'S'}">
-									<c:forEach var="options" items="${result.OPTIONS}" varStatus="status">
-									<p class="subtxtarea">
-										<span class="blt_box">${options.SETUP_NM}</span>
-										<span class="sub_01">${options.NMPR_CND}</span>
-									</p>									
-									</c:forEach>
-									</c:if>
-									<c:if test="${result.CL_SE ne 'S'}">
-									<p class="subtxtarea">
-										<span class="blt_box">이용시간</span>
-										<span class="sub_01">${fn:substring(result.BEGIN_TIME,0,2)}시 ${fn:substring(result.BEGIN_TIME,2,4)}분 ~ ${fn:substring(result.END_TIME,0,2)}시 ${fn:substring(result.END_TIME,2,4)}분</span>
-									</p>
-									<p class="subtxtarea">
-										<span class="blt_box">${result.OPTIONS[0].SETUP_NM}</span>
-										<span class="sub_01">
-										<c:forEach var="options" items="${result.OPTIONS}" varStatus="status">
-										${options.NMPR_CND} ${options.NMPR_CO}명  <c:if test="${!status.last}">/</c:if>
-										</c:forEach>
-										</span>
-									</p>									
-									</c:if>									
-								</dt>
-								<dd>
-									<fmt:formatNumber value="${result.PURCHS_AMOUNT}" pattern="#,###" /><span class="txt_won">원</span>
-								</dd>
-							</dl>
+<!-- 본문 -->
+<div id="container">
+  <div class="inner2">
 
+  <div class="top_title_com">
+    <div class="title">
+      <div class="text1"><em>예약목록</em>(장바구니)</div>
+      <div class="text2">장바구니에 담겨진 상품을 확인하실 수 있습니다.<br />
+        </div>
+    </div>
+
+  </div>
+  <div class="tb_05_box">
+    <table width="100%" class="tb_05" >
+      <col width="5%" />
+      <col width="15%" />
+      <col width="" />
+      <col width="7%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="10%" />
+      <col width="13%" />
+      <thead>
+        <tr>
+          <th><input type="checkbox" name="checkbox" id="allCheck" /></th>
+          <th>&nbsp;</th>
+          <th>상품정보</th>
+          <th >판매가격</th>
+          <!-- <th >수량</th> -->
+          <th >할인</th>
+          <th >구매예정가</th>
+          <th >삭제</th>
+        </tr>
+      </thead>
+      <tbody>
+		<c:forEach var="result" items="${cartList}" varStatus="status">
+		<tr>
+			<td ><input type="checkbox" name="chkCart" value="${result.CART_SN}" /><input type="hidden" name="purchs_amount" value="${result.PURCHS_AMOUNT}"></td>
+			<td class="left"><div class="cart_img" style="background: url(<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}); background-size: cover; "></div></td>
+			<td  class="t_left">
+				<div class="cart_pro_text">
+					<div class="title">${result.GOODS_NM}<br />
+						<c:if test="${!empty result.TOUR_DE}">
+							${fn:substring(result.TOUR_DE,0,4)}년 ${fn:substring(result.TOUR_DE,4,6)}월 ${fn:substring(result.TOUR_DE,6,8)}일
+						</c:if>
+						<c:if test="${!empty result.CHKIN_DE}">
+							${fn:substring(result.CHKIN_DE,0,4)}년 ${fn:substring(result.CHKIN_DE,4,6)}월 ${fn:substring(result.CHKIN_DE,6,8)}일 ~ ${fn:substring(result.CHCKT_DE,0,4)}년 ${fn:substring(result.CHCKT_DE,4,6)}월 ${fn:substring(result.CHCKT_DE,6,8)}일
+						</c:if>
+						<br />
+					</div>		
+					<c:if test="${result.CL_SE ne 'S'}">
+						<div class="text1">${fn:substring(result.BEGIN_TIME,0,2)}시 ${fn:substring(result.BEGIN_TIME,2,4)}분 ~ ${fn:substring(result.END_TIME,0,2)}시 ${fn:substring(result.END_TIME,2,4)}분</div>
+						<c:forEach var="options" items="${result.OPTIONS}" varStatus="status">
+							<div class="text1">${options.NMPR_CND} ${options.NMPR_CO}명 </div>
+						</c:forEach>
+					</c:if>					
+					<c:if test="${result.CL_SE eq 'S'}">
+						<c:forEach var="options" items="${result.OPTIONS}" varStatus="status">
+							<div class="text1">${options.SETUP_NM} ${options.NMPR_CND} </div>
+						</c:forEach>
+					</c:if>					
+					<!-- <div class="option_re">
+						<div class="select_box">
+							<select name="" class="w_30p">
+								<option>옵션변경1</option>
+							</select>
+							<select name="" class="w_30p">
+								<option>옵션변경2</option>
+							</select>
 						</div>
-						<p class="category2">${result.CTY_NM} > ${result.UPPER_CL_NM} > ${result.CL_NM}</p>
-					</li>
-					</c:forEach>				
-					<li>
-						<p class="pr2_photo_area">
-							<!-- <span class="hotdeal2">★핫딜</span> --><img src="/images/pr_img_01.jpg" width="auto" height="150">
-						</p>
-						<div class="pr2_rtxt_area">
-							<p class="fl_left circle">A</p>
-							<dl>
-								<dt>
-									<span class="p_head">샹그릴라 막탄 리조트 / Shangri-La Mactan
-										Resort </span> <span class="p_del"></span>
-									<p class="subtxtarea">
-										<span class="blt_box">이용일</span> <span class="sub_01">2017년
-											9월 6일~2017년 9월 12일 </span>
-									</p>
-									<p class="subtxtarea">
-										<span class="blt_box">옵션</span> <span class="sub_01">옵션
-											선택(필수) > 세부 먹방 투어 : 20:00PM~23:55PM </span>
-									</p>
-									<p class="subtxtarea">
-										<span class="blt_box">인원</span> <span class="sub_01">성인
-											1 명 / 아동 0 명 / 유아 0 명 </span>
-									</p>
-								</dt>
-								<dd>
-									378905<span class="txt_won">원</span>
-								</dd>
-							</dl>
+						<div class="text1">옵션변경</div>
+            		</div> -->
+            	</div>
+            </td>
+			<td >
+				<div class="cart_price2">
+					<fmt:formatNumber value="${result.PURCHS_AMOUNT}" pattern="#,###" />원
+				</div>
+			</td>
+			<!-- <td >
+				<div class="cart_umber">
+					<div class="input_bst1">
+						<input type="text" name="textfield" id="textfield" />
+					</div>
+					<div class="input_bst2">
+						<img src="/images/sub/icon_up.gif" alt=""/>
+						<img src="/images/sub/icon_down.gif"  alt=""/>
+					</div>
+				</div>
+				<div class="cart_umber_btn"><a href="#">수량변경</a></div>
+			</td> -->
+			<td>0원<!-- 할인이벤트명<br />
+            	-3,000원 --></td>
+			<td ><div class="cart_price3"><fmt:formatNumber value="${result.PURCHS_AMOUNT}" pattern="#,###" />원</div></td>
+			<td > <a href="javascript:delCartSingle('${result.CART_SN}');" class="sbtn_01">삭제하기</a></td>
+		</tr>
+		</c:forEach>      
 
-						</div>
-						<p class="category2">숙박</p>
-					</li>
-
-				</ul>
-
-				<!--결제금액 시작-->
-				<p class="total_price_area">
-					결제 총 금액 <span class="pinkprice"><fmt:formatNumber value="${payment}" pattern="#,###" /><span class="txt_won">원</span></span>
-				</p>
-				<p class="total_point_area">
-					적립예정포인트<span class="pinkprice">3700<span class="txt_won">POINT</span></span>
-				</p>
-				<p class="total_point_area">
-					<a href="javascript:fnPurchase()">결제하기</a>
-					<a href="javascript:fnSchedule()">일정표 보기</a>				
-				</p>
-				<p class="notibox_area">
-					<span class="notice_text">※ 결제금액은 결제 당일 환율을 기준으로 책정됩니다.
-						결제일 기준 환율에 따라 캐리어 내 상품가 변동이 있을 수 있습니다.<br /> ※ 이용예정일이 지나거나 판매
-						중지 상품은 캐리어에서 삭제됩니다.
-					</span>
-				</p>
-				<!--결제금액 끝-->
-			</div>
-		</div>
-		<!--carttab영역 끝-->
-	</div>
-	<!-- 중앙정렬 끝 -->
+      </tbody>
+    </table>
+  </div>
+  <div class="sp_30"></div>
+  <div class="cart_total">
+    <div class="inbox">
+      <div class="title">총  주문 금액 </div>
+      <div class="price_box">
+        <div class="text1">
+          <div class="t1">총 상품금액<br />
+            <em><fmt:formatNumber value="${payment}" pattern="#,###" /></em>원</div>
+        </div>
+        <div class="text2"><i class="material-icons">&#xE15C;</i></div>
+        <div class="text1">
+          <div class="t2">총 할인금액<br />
+            <em>0</em>원</div>
+        </div>
+         <div class="text2"><i class="material-icons">&#xE15C;</i></div>
+        <div class="text1">
+          <div class="t2">포인트 사용<br />
+            <em>0</em>원</div>
+        </div>
+      </div>
+      <div class="price_toral">
+        <div class="toral_icon"><i class="material-icons">&#xE035;</i></div>
+        <div class="text3">
+          <div class="t1">최종결제예정금액<br />
+            <em><fmt:formatNumber value="${payment}" pattern="#,###" /></em>원</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cart_btn">
+    <div class="left_btn">
+      <div class="btn1"><a href="#">선택상품찜하기담기</a></div>
+      <div class="btn2"><a href="javascript:delCartAll();">선택상품삭제</a></div>
+      <!-- <div class="btn2"><a href="#">품절상품삭제</a></div> -->
+    </div>
+    <div class="right_btn">
+      <div class="btn3"><a href="#">여행상품보기</a></div>
+      <div class="btn2"><a href="javascript:paymentCart();">선택상품 결제하기</a></div>
+    </div>
+  </div>
+  <!--//컨텐츠영역 -->
+    	<div class="sp_50"></div>
+  </div>
 </div>
-<!--컨텐츠 끝-->
+
+<!-- //본문 -->
+        
 </body>

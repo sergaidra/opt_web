@@ -41,20 +41,25 @@ $(document).ready(function(){
 });
 
 var lstNmpr = [];
-var roomInfo = { "days" : 0, "room" : null, "eat" : null, "check" : null};
+var roomInfo = { "days" : 0, "room" : null, "eat" : [], "check" : null};
 var selectDt = { "startDt" : null, "endDt" : null };
+var lstSchdul = [];
+
+<c:forEach var="list" items="${lstSchdul}">
+	lstSchdul.push({"BEGIN_DE" : "${list.BEGIN_DE}", "END_DE" : "${list.END_DE}" });
+</c:forEach>
+
+
 
 $(function() {
 	$("#reservation").click(function () {
 		// 예약
 		var purchs_amount = 0;
 		var tour_de = "";
-		var tour_tiem = "";
+		var tour_time = "";
 		var chkin_de = "";
 		var chckt_de = "";
-		var setup_se = "";
-		var nmpr_sn = "";
-		var cart_nmpr_co = "";
+		var nmprList = [];
 
 		// 밸리데이션 체크	
 		if($('#hidClSe').val() == 'S') {
@@ -67,40 +72,95 @@ $(function() {
 				return false;
 			}
 			
-			//for(var cnt )
-
-		} else {
+			//roomInfo.days
 			
+			if(roomInfo.room != null) {
+				purchs_amount += roomInfo.room.price;
+				var item = { "setup_se" : roomInfo.room.setup_se, "nmpr_sn" : roomInfo.room.nmpr_sn, "nmpr_co" : roomInfo.room.nmpr_cnt, "amount" : roomInfo.room.price };
+				nmprList.push(item);
+			}
+			for(var cnt = 0; cnt < roomInfo.eat.length; cnt++) {
+				purchs_amount += roomInfo.eat[cnt].price;
+				var item = { "setup_se" : roomInfo.eat[cnt].setup_se, "nmpr_sn" : roomInfo.eat[cnt].nmpr_sn, "nmpr_co" : roomInfo.eat[cnt].nmpr_cnt, "amount" : roomInfo.eat[cnt].price };
+				nmprList.push(item);
+			}
+			if(roomInfo.check != null) {
+				purchs_amount += roomInfo.check.price;
+				var item = { "setup_se" : roomInfo.check.setup_se, "nmpr_sn" : roomInfo.check.nmpr_sn, "nmpr_co" : "1", "amount" : roomInfo.check.price };
+				nmprList.push(item);
+			} 
+			chkin_de = selectDt.startDt;
+			chckt_de = selectDt.endDt;
+		} else {
+			if(selectDt.startDt == null) {
+				alert('일정을 선택하세요.');
+				return;
+			}
+			if(!$('#cmbTime').val()) {
+				alert('시간을 선택하세요.');
+				return;				
+			}
+			// to do
+			//if($('#hidClSe').val() == 'P') {
+			//	if(confirm('픽업/드랍 서비스는 항공편을 반드시 입력해야 합니다.')) {
+			//		fnOpenPopup("<c:url value='/cart/flightPopup/'/>", "winFightPopup", 750, 550);
+			//		return;
+			//	}
+			//}
+			if(lstNmpr.length == 0) {
+				alert('인원을 선택하세요.');
+				return;
+			}
+			
+			for(var cnt = 0; cnt < lstNmpr.length; cnt++) {
+				purchs_amount += lstNmpr[cnt].price;
+				var item = { "setup_se" : lstNmpr[cnt].setup_se, "nmpr_sn" : lstNmpr[cnt].nmpr_sn, "nmpr_co" : lstNmpr[cnt].nmprCnt, "amount" : lstNmpr[cnt].price };
+				nmprList.push(item);
+			}
+			
+			tour_de = selectDt.startDt;
+			tour_time = $('#cmbTime').val();
 		}
 		
-		
-			var url = "<c:url value='/cart/addAction'/>";
-			var param = {};
-			param.hidGoodsCode = "${goods_code}";
-			param.PURCHS_AMOUNT = "";
-			param.TOUR_DE = "";
-			param.TOUR_TIME = "";
-			param.CHKIN_DE = "";
-			param.CHCKT_DE = "";
-			param.SETUP_SE = "";
-			param.NMPR_SN = "";
-			param.CART_NMPR_CO = "";
+		var url = "<c:url value='/cart/addAction'/>";
+		var param = {};
+		param.hidGoodsCode = "${goods_code}";
+		param.PURCHS_AMOUNT = purchs_amount;
+		param.TOUR_DE = tour_de;
+		param.TOUR_TIME = tour_time;
+		param.CHKIN_DE = chkin_de;
+		param.CHCKT_DE = chckt_de;
+		param.nmprList = nmprList;
 			
-			$.ajax({
-		        url : url,
-		        type: "post",
-		        dataType : "json",
-		        async: "true",
-		        contentType: "application/json; charset=utf-8",
-		        data : JSON.stringify( param ),
-		        //data : "hidUpperClCode=00411",
-		        success : function(data,status,request){
-		        },
-		        error : function(request,status,error) {
-		        	alert(error);
-		        },
-			});			
-
+		$.ajax({
+	        url : url,
+	        type: "post",
+	        dataType : "json",
+	        async: "true",
+	        contentType: "application/json; charset=utf-8",
+	        data : JSON.stringify( param ),
+	        success : function(data,status,request){
+				if(data.result == "0") {
+					//장바구니에 담은 상품 목록 (우측 일정표 조회)
+					fnCartList();
+					if(confirm("예약되었습니다. 장바구니로 이동하시겠습니까?")) {
+						fnGoCartList();
+					} else {
+						fnList();
+					}
+				} else if(data.result == "-2") {
+					alert("로그인이 필요합니다.");
+					$(".login").click();
+				} else if(data.result == "9") {
+					alert(data.message);
+				} else{
+					alert("작업을 실패하였습니다.");
+				}	        	
+	        },
+	        error : function(request,status,error) {
+	        	alert(error);
+	        },
+		});			
 	});
 	
 	$("#cmbNmpr").change(function () {
@@ -111,6 +171,7 @@ $(function() {
 		var nmpr_sn = $("#cmbNmpr option:selected").attr("nmpr_sn");
 		var setup_amount = $("#cmbNmpr option:selected").attr("setup_amount");
 		var nmpr_co = $("#cmbNmpr option:selected").attr("nmpr_co");
+		var setup_se = $("#cmbNmpr option:selected").attr("setup_se");
 		
 		var isFind = false;
 		for(var cnt = 0; cnt < lstNmpr.length; cnt++) {
@@ -121,7 +182,7 @@ $(function() {
 			}
 		}
 		if(isFind == false) {
-			var item = { "text" : text, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co, "nmprCnt" : 1 };
+			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co, "nmprCnt" : 1 };
 			lstNmpr.push(item);
 		}
 		
@@ -142,8 +203,14 @@ $(function() {
 			var nmpr_sn = $("#cmbRoom option:selected").attr("nmpr_sn");
 			var setup_amount = $("#cmbRoom option:selected").attr("setup_amount");
 			var nmpr_co = $("#cmbRoom option:selected").attr("nmpr_co");
-
-			var item = { "text" : text, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co };
+			var setup_se = $("#cmbRoom option:selected").attr("setup_se");
+			var max_nmpr_co = $("#cmbRoom option:selected").attr("max_nmpr_co");
+			var adit_nmpr_amount = $("#cmbRoom option:selected").attr("adit_nmpr_amount");
+			var dscnt_rate = $("#cmbRoom option:selected").attr("dscnt_rate");
+			var nmpr_cnt = nmpr_co;
+			
+			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount
+					, "nmpr_co" : nmpr_co, "nmpr_cnt" : nmpr_cnt, "max_nmpr_co" : max_nmpr_co, "adit_nmpr_amount" : adit_nmpr_amount, "dscnt_rate" : dscnt_rate };
 			roomInfo.room = item;		
 			displayRoom();
 		}
@@ -151,7 +218,7 @@ $(function() {
 
 	$("#cmbEat").change(function () {
 		if($("#cmbEat option:selected").val() == "") {
-			removeEat();
+			//removeEat();
 		} else {
 			if(roomInfo.days == 0) {
 				alert("기간을 선택하세요.");
@@ -163,13 +230,21 @@ $(function() {
 				$("#cmbEat").val("");
 				return false;
 			}
-			var text = $("#cmbEat option:selected").text();
+			
 			var nmpr_sn = $("#cmbEat option:selected").attr("nmpr_sn");
+			for(var cnt = 0; cnt < roomInfo.eat.length; cnt++) {
+				if(roomInfo.eat[cnt].nmpr_sn == nmpr_sn)
+					return false;
+			}
+			var text = $("#cmbEat option:selected").text();
 			var setup_amount = $("#cmbEat option:selected").attr("setup_amount");
 			var nmpr_co = $("#cmbEat option:selected").attr("nmpr_co");
+			var setup_se = $("#cmbEat option:selected").attr("setup_se");
+			var max_nmpr_co = $("#cmbEat option:selected").attr("max_nmpr_co");
+			var nmpr_cnt = roomInfo.room.nmpr_co;
 
-			var item = { "text" : text, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co };
-			roomInfo.eat = item;		
+			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co, "nmpr_cnt" : nmpr_cnt, "max_nmpr_co" : max_nmpr_co };
+			roomInfo.eat.push(item);		
 			displayRoom();
 		}
 
@@ -193,8 +268,9 @@ $(function() {
 			var nmpr_sn = $("#cmbCheck option:selected").attr("nmpr_sn");
 			var setup_amount = $("#cmbCheck option:selected").attr("setup_amount");
 			var nmpr_co = $("#cmbCheck option:selected").attr("nmpr_co");
+			var setup_se = $("#cmbCheck option:selected").attr("setup_se");
 
-			var item = { "text" : text, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co };
+			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co };
 			roomInfo.check = item;		
 			displayRoom();
 		}
@@ -220,14 +296,28 @@ function displayRoom() {
 	if(roomInfo.days != 0) {
 		if(roomInfo.room != null) {
 			var nmpr_sn = roomInfo.room.nmpr_sn;
-			var minus = $("<span onclick='removeRoom(" + nmpr_sn + ");'>-</span>");
 			var price = roomInfo.days * roomInfo.room.setup_amount;
+			var nmpr_cnt = roomInfo.room.nmpr_cnt;
+			var max_nmpr_co = roomInfo.room.max_nmpr_co;
+			var nmpr_co = roomInfo.room.nmpr_co;
+			var adit_nmpr_amount = roomInfo.room.adit_nmpr_amount;
+			var dscnt_rate = roomInfo.room.dscnt_rate;
+			
+			if(!isNaN(max_nmpr_co)) {
+				if(!isNaN(adit_nmpr_amount)) {
+					if(Number(nmpr_co) < Number(nmpr_cnt)) {
+						var diff = Number(nmpr_cnt) - Number(nmpr_co);
+						price += diff * Number(adit_nmpr_amount) * roomInfo.days;
+					}
+				}
+			}
 
 			var html = $("<div class='um_box'></div>");
 			var fl_text = $("<div class='fl_text'>" + roomInfo.room.text + "</div>");
 			var fl_total = $("<div class='fl_total'><em>" + roomInfo.days + "</em>박 <em>\\ " + numberWithCommas(price) + "</em></div>");
 			$(fl_text).append(fl_total);
-			var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeRoom(" + nmpr_sn + ");'>-</div></div>");
+			//var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeRoom(" + nmpr_sn + ");'>-</div></div>");
+			var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusRoom(" + nmpr_sn + ");'>-</div><div class='um_input'><input type='text' value='" + nmpr_cnt + "' readonly></div><div class='um_d' onclick='plusRoom(" + nmpr_sn + ");'>+</div></div>");
 			
 			roomInfo.room.price = price;
 			
@@ -238,18 +328,18 @@ function displayRoom() {
 			totalprice += price;
 		}
 
-		if(roomInfo.eat != null) {
-			var nmpr_sn = roomInfo.eat.nmpr_sn;
-			var minus = $("<span onclick='removeEat(" + nmpr_sn + ");'>-</span>");
-			var price = roomInfo.eat.nmpr_co * roomInfo.days * roomInfo.eat.setup_amount;
+		for(var cnt = 0; cnt < roomInfo.eat.length; cnt++) {
+			var nmpr_sn = roomInfo.eat[cnt].nmpr_sn;
+			var nmpr_cnt = roomInfo.eat[cnt].nmpr_cnt;
+			var price = roomInfo.eat[cnt].nmpr_cnt * roomInfo.days * roomInfo.eat[cnt].setup_amount;
 			
 			var html = $("<div class='um_box'></div>");
-			var fl_text = $("<div class='fl_text'>" + roomInfo.eat.text + "</div>");
-			var fl_total = $("<div class='fl_total'><em>" + roomInfo.eat.nmpr_co + "</em>인 <em>" + roomInfo.days + "</em>박 <em>\\ " + numberWithCommas(price) + "</em></div>");
+			var fl_text = $("<div class='fl_text'>" + roomInfo.eat[cnt].text + "</div>");
+			var fl_total = $("<div class='fl_total'><em>" + nmpr_cnt + "</em>인 <em>" + roomInfo.days + "</em>박 <em>\\ " + numberWithCommas(price) + "</em></div>");
 			$(fl_text).append(fl_total);
-			var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeRoom(" + nmpr_sn + ");'>-</div></div>");
+			var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusEat(" + nmpr_sn + ");'>-</div><div class='um_input'><input type='text' value='" + nmpr_cnt + "' readonly></div><div class='um_d' onclick='plusEat(" + nmpr_sn + ");'>+</div></div>");
 
-			roomInfo.eat.price = price;
+			roomInfo.eat[cnt].price = price;
 
 			$(html).append(fl_text);
 			$(html).append(fr_updown);
@@ -267,7 +357,7 @@ function displayRoom() {
 			var fl_text = $("<div class='fl_text'></div>");
 			var fl_total = $("<div class='fl_total'><em>" + roomInfo.check.text + "</em> <em>\\ " + numberWithCommas(price) + "</em></div>");
 			$(fl_text).append(fl_total);
-			var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeRoom(" + nmpr_sn + ");'>-</div></div>");
+			var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeCheck(" + nmpr_sn + ");'>-</div></div>");
 
 			roomInfo.check.price = price;
 
@@ -284,7 +374,7 @@ function displayRoom() {
 
 function removeRoom() {
 	roomInfo.room = null;
-	roomInfo.eat = null;
+	roomInfo.eat = [];
 	roomInfo.check = null;
 	$("#cmbRoom").val("");
 	$("#cmbEat").val("");
@@ -293,7 +383,7 @@ function removeRoom() {
 }
 
 function removeEat() {
-	roomInfo.eat = null;
+	roomInfo.eat = [];
 	$("#cmbEat").val("");
 	displayRoom();
 }
@@ -301,6 +391,54 @@ function removeEat() {
 function removeCheck() {
 	roomInfo.check = null;
 	$("#cmbCheck").val("");
+	displayRoom();
+}
+
+function plusRoom(nmpr_sn) {
+	if(!isNaN(roomInfo.room.max_nmpr_co)) {
+		var max = Number(roomInfo.room.max_nmpr_co);
+		if(max < Number(roomInfo.room.nmpr_cnt) + 1) {
+			alert("최대 " + max + "인 입니다.");
+			return false;
+		} else {
+			roomInfo.room.nmpr_cnt++;
+		}
+	}
+	displayRoom();
+}
+
+function minusRoom(nmpr_sn) {
+	roomInfo.room.nmpr_cnt--;
+	if(roomInfo.room.nmpr_cnt == 0)
+		removeRoom();
+	else
+		displayRoom();
+}
+
+function plusEat(nmpr_sn) {
+	if(!isNaN(roomInfo.room.max_nmpr_co)) {
+		var max = Number(roomInfo.room.max_nmpr_co);
+		for(var cnt = 0; cnt < roomInfo.eat.length; cnt++) {
+			if(roomInfo.eat[cnt].nmpr_sn == nmpr_sn) {
+				if(max < Number(roomInfo.eat[cnt].nmpr_cnt) + 1) {
+					alert("최대 " + max + "인 입니다.");
+					return false;
+				} else {
+					roomInfo.eat[cnt].nmpr_cnt++;
+				}
+			}
+		}
+	}
+	displayRoom();
+}
+function minusEat(nmpr_sn) {
+	for(var cnt = 0; cnt < roomInfo.eat.length; cnt++) {
+		if(roomInfo.eat[cnt].nmpr_sn == nmpr_sn) {
+			roomInfo.eat[cnt].nmpr_cnt--;
+			if(roomInfo.eat[cnt].nmpr_cnt == 0)
+				roomInfo.eat.splice(cnt, 1);
+		}
+	}
 	displayRoom();
 }
 
@@ -403,8 +541,7 @@ function initMap() {
           <div class="sp-black">
             <div class="slider_text">
               <div class="slider_t1">${result.GOODS_NM}</div>
-              <div class="slider_t2"><!-- 바다의 젠틀맨 고래상어와 함께 수영을 하는 흔치 않은 경험이 가능한 오슬롭!!! 스페인 시절의 흔적이 남아있는 유적지, 
-                깊은 산속에 숨어있는 시원한 폭포 그리고 한적한 비치 리조트에서 점심을 즐기실 수 있는 투어입니다. --> </div>
+              <div class="slider_t2">${result.GOODS_INTRCN_SIMPL}</div>
             </div>
           </div>
           <div class="hit_box"><i class="material-icons">&#xE87E;</i><span>25</span></div>
@@ -522,6 +659,9 @@ function initMap() {
 	          </ul>
 	        </div>
 		</c:if>
+		<div class="text_info" style="font-size:14px;">
+			${result.GOODS_INTRCN}
+		</div>
         <!--바우처-->
         <c:if test="${fn:length(lstVoucher) > 0 }">
 			<div class="text_info">
@@ -767,8 +907,8 @@ function initMap() {
 					</div>
 					<div id="cal" ></div>
 					<div id="calHelp">
-						<div class="first active"><i>출발</i> <b id="sel1text">날짜선택</b></div>
-						<div class="disabled"><i>도착</i> <b id="sel2text">날짜선택</b></div>
+						<div class="first active"><i>입실</i> <b id="sel1text">날짜선택</b></div>
+						<div class="disabled"><i>퇴실</i> <b id="sel2text">날짜선택</b></div>
 					</div>
 				</div>
 				<!-- /#c --> 
@@ -781,7 +921,7 @@ function initMap() {
 				<div class="input_box">
 					<div class="tx1">시간</div>
 					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p">
+						<select class="w_100p" id="cmbTime">
 							<option value="">시간선택</option>
 							<c:forEach var="list" items="${lstTime}" varStatus="status">
 								<option value="${list.TOUR_TIME}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~ ${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</option>
@@ -796,7 +936,7 @@ function initMap() {
 						<select class="w_100p" id="cmbNmpr">
 							<option value="">인원선택</option>
 							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
-								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}">${list.NMPR_CND}</option>
+								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}" setup_se="${list.SETUP_SE}" adit_nmpr_amount="${list.ADIT_NMPR_AMOUNT}" dscnt_rate="${list.DSCNT_RATE}">${list.NMPR_CND}</option>
 							</c:forEach>							
 						</select>
 						<!--//기본 셀렉트 박스 -->
@@ -810,7 +950,7 @@ function initMap() {
 						<select class="w_100p" id="cmbRoom">
 							<option value="">객실선택</option>
 							<c:forEach var="list" items="${lstRoom}" varStatus="status">
-								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}">${list.NMPR_CND}</option>
+								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}" setup_se="${list.SETUP_SE}" max_nmpr_co="${list.MAX_NMPR_CO}" adit_nmpr_amount="${list.ADIT_NMPR_AMOUNT}" dscnt_rate="${list.DSCNT_RATE}">${list.NMPR_CND}</option>
 							</c:forEach>							
 						</select>
 						<!--//기본 셀렉트 박스 -->
@@ -823,7 +963,7 @@ function initMap() {
 						<select class="w_100p" id="cmbEat">
 							<option value="">옵션선택</option>
 							<c:forEach var="list" items="${lstEat}" varStatus="status">
-								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}">${list.NMPR_CND}</option>
+								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}" setup_se="${list.SETUP_SE}" max_nmpr_co="${list.MAX_NMPR_CO}" adit_nmpr_amount="${list.ADIT_NMPR_AMOUNT}" dscnt_rate="${list.DSCNT_RATE}">${list.NMPR_CND}</option>
 							</c:forEach>							
 						</select>
 						<!--//기본 셀렉트 박스 -->
@@ -837,7 +977,7 @@ function initMap() {
 						<select class="w_100p" id="cmbCheck">
 							<option value="">선택</option>
 							<c:forEach var="list" items="${lstCheck}" varStatus="status">
-								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}">${list.NMPR_CND}</option>
+								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}" setup_se="${list.SETUP_SE}" adit_nmpr_amount="${list.ADIT_NMPR_AMOUNT}" dscnt_rate="${list.DSCNT_RATE}">${list.NMPR_CND}</option>
 							</c:forEach>							
 						</select>
 						<!--//기본 셀렉트 박스 -->

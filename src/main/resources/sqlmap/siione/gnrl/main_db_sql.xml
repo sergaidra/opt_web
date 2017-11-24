@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
+<sqlMap namespace="gnrl.main">
+
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	
+	<select id="gnrl.main.selectMainImageList" resultClass="hashMap">
+		SELECT IMAGE_SN, IMAGE_NM
+		FROM TB_MAIN_IMAGE
+		WHERE USE_AT = 'Y' AND TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN BEGIN_DE AND END_DE
+		ORDER BY SORT_ORDR	
+	</select>
+
+</sqlMap>

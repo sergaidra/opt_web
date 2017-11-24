@@ -53,34 +53,128 @@
         <result property="MAIN_EXPSR_AT_2"           column="MAIN_EXPSR_AT_2"           jdbcType="string" javaType="string"/>
         <result property="CF_MIN_BEGIN_DE"           column="CF_MIN_BEGIN_DE"           jdbcType="string" javaType="string"/>
         <result property="CF_MAX_END_DE"             column="CF_MAX_END_DE"             jdbcType="string" javaType="string"/>
+        <result property="GOODS_INTRCN_SIMPL"        column="GOODS_INTRCN_SIMPL"             jdbcType="string" javaType="string"/>        
+        
 	</resultMap>
 
 	<resultMap id="goodsDetailSub" class="hashMap">
         <result property="GOODS_CODE"                column="GOODS_CODE"                jdbcType="string" javaType="string"/>
         <result property="GOODS_NM"                  column="GOODS_NM"                  jdbcType="string" javaType="string"/>
         <result property="GOODS_INTRCN"              column="GOODS_INTRCN"              jdbcType="CLOB"   javaType="string"/>
+        <result property="FILE_CODE"                  column="FILE_CODE"                  jdbcType="string" javaType="string"/>
+        <result property="FILE_SN"                  column="FILE_SN"                  jdbcType="string" javaType="string"/>
 	</resultMap>
+	
+	<sql id="whereList">
+		<isNotEmpty property="cty_code">
+		   AND CTY_CODE = #cty_code#
+		</isNotEmpty>
+		<isNotEmpty property="cl_code">
+		   AND CL_CODE = #cl_code#
+		</isNotEmpty>
+		<isEmpty property="cl_code">
+			<isNotEmpty property="upper_cl_code">
+		   AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = #upper_cl_code#)
+			</isNotEmpty>
+		</isEmpty>
+		<isNotEmpty property="keyword">
+		   AND GOODS_CODE IN ( SELECT GOODS_CODE FROM TB_GOODS_KWRD WHERE UPPER(KWRD) LIKE '%' || UPPER(#keyword#) || '%' )
+		</isNotEmpty>
+		<isEqual property="category" compareValue="H">
+		   AND HOTDEAL_AT = 'Y'
+		</isEqual>
+		<isEqual property="category" compareValue="R">
+		   AND RECOMEND_AT = 'Y'
+		</isEqual>	
+	</sql>
 
 	<select id="gnrl.goods.selectGoodsExpsrList1" resultClass="hashMap">
 	<![CDATA[
-		SELECT GOODS_CODE, GOODS_NM 
-		  FROM TB_GOODS
-		 WHERE DELETE_AT = 'N'
-		   AND MAIN_EXPSR_AT_1 = 'Y'
-		   AND ROWNUM < 6		   
+		SELECT A.*
+		FROM (
+				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE
+					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND HOTDEAL_AT = 'Y' ) AS FILE_SN, RNUM
+				FROM (
+					SELECT GOODS_CODE, ROWNUM AS RNUM
+					FROM (		  
+						SELECT GOODS_CODE
+						FROM TB_GOODS 
+						WHERE DELETE_AT = 'N'  AND MAIN_EXPSR_AT_1 = 'Y'
+						ORDER BY SORT_ORDR
+					)  A		  
+				) AA
+				INNER JOIN TB_GOODS G ON AA.GOODS_CODE = G.GOODS_CODE
+				WHERE AA.RNUM <= 6
+		) A
+		RIGHT OUTER JOIN (SELECT LEVEL AS LV FROM DUAL CONNECT BY LEVEL <= 6) B ON A.RNUM = B.LV
+		ORDER BY B.LV
 	]]>
 	</select>
 	
 	<select id="gnrl.goods.selectGoodsExpsrList2" resultMap="goodsDetailSub">
 	<![CDATA[
-		SELECT GOODS_CODE, GOODS_NM, GOODS_INTRCN 
-		  FROM TB_GOODS
-		 WHERE DELETE_AT = 'N'
-		   AND MAIN_EXPSR_AT_2 = 'Y'
-		   AND ROWNUM < 4
+		SELECT A.*
+		FROM (
+				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE
+					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND HOTDEAL_AT = 'Y' ) AS FILE_SN, RNUM
+				FROM (
+					SELECT GOODS_CODE, ROWNUM AS RNUM
+					FROM (		  
+						SELECT GOODS_CODE
+						FROM TB_GOODS 
+						WHERE DELETE_AT = 'N'  AND MAIN_EXPSR_AT_2 = 'Y'
+						ORDER BY SORT_ORDR
+					)  A		  
+				) AA
+				INNER JOIN TB_GOODS G ON AA.GOODS_CODE = G.GOODS_CODE
+				WHERE AA.RNUM <= 4
+		) A
+		RIGHT OUTER JOIN (SELECT LEVEL AS LV FROM DUAL CONNECT BY LEVEL <= 4) B ON A.RNUM = B.LV
+		ORDER BY B.LV
 	]]>
 	</select>
-	
+
+	<select id="gnrl.goods.selectGoodsExpsrList3" resultMap="goodsDetailSub">
+	<![CDATA[
+				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE
+					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND HOTDEAL_AT = 'Y' ) AS FILE_SN, RNUM
+				FROM (
+					SELECT GOODS_CODE, ROWNUM AS RNUM
+					FROM (		  
+						SELECT GOODS_CODE
+						FROM TB_GOODS 
+						WHERE DELETE_AT = 'N' 
+						ORDER BY SORT_ORDR
+					)  A		  
+				) AA
+				INNER JOIN TB_GOODS G ON AA.GOODS_CODE = G.GOODS_CODE
+				WHERE AA.RNUM <= 10
+				ORDER BY AA.RNUM
+	]]>
+	</select>
+
+	<select id="gnrl.goods.selectGoodsExpsrList4" resultMap="goodsDetailSub">
+	<![CDATA[
+		SELECT A.*
+		FROM (
+				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE
+					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND HOTDEAL_AT = 'Y' ) AS FILE_SN, RNUM
+				FROM (
+					SELECT GOODS_CODE, ROWNUM AS RNUM
+					FROM (		  
+						SELECT GOODS_CODE
+						FROM TB_GOODS 
+						WHERE DELETE_AT = 'N'  AND VIDEO_MAIN_EXPSR_AT = 'Y'
+						ORDER BY SORT_ORDR
+					)  A		  
+				) AA
+				INNER JOIN TB_GOODS G ON AA.GOODS_CODE = G.GOODS_CODE
+				WHERE AA.RNUM <= 5
+		) A
+		RIGHT OUTER JOIN (SELECT LEVEL AS LV FROM DUAL CONNECT BY LEVEL <= 5) B ON A.RNUM = B.LV
+		ORDER BY B.LV
+	]]>
+	</select>		
 	<select id="gnrl.goods.selectUpperTourClMain" parameterClass="hashMap" resultClass="hashMap">
 		SELECT CL_CODE
 		     , CL_NM
@@ -103,53 +197,59 @@
 		</isNotEmpty>
 		 ORDER BY SORT_ORDR
 	</select>
+	
+	<select id="gnrl.goods.selectGoodsListCount" parameterClass="hashMap" resultClass="Integer">
+		SELECT COUNT(1)
+		FROM TB_GOODS A
+		WHERE DELETE_AT = 'N'
+		 <include refid="whereList"/>	
+	</select>
 
 	<select id="gnrl.goods.selectGoodsList" parameterClass="hashMap" resultClass="hashMap"> 
-		SELECT GOODS_CODE
-		     , GOODS_NM
-		     , DELETE_AT
-		     , FILE_CODE
-		     , WAIT_TIME
-		     , MVMN_TIME
-		     , FILE_CODE
-		     , CTY_CODE
-		     , (SELECT CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE) CTY_NM
-		     , CL_CODE
-		     , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE) CL_NM
-		     , (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00000' START WITH X.CL_CODE = A.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_CODE
-		     , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00000' START WITH X.CL_CODE = A.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_NM
-		     , CTY_CODE
-		     , (SELECT CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE) CTY_NM
-		     , COUNT(GOODS_CODE) OVER() AS TOT_CNT
-		     , (SELECT TO_CHAR(NVL(MIN(X.SETUP_AMOUNT), 0), 'FM9,999,999') FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = A.GOODS_CODE) CF_MIN_AMOUNT
-		     , (SELECT NVL(MIN(X.SETUP_AMOUNT), 0) FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = A.GOODS_CODE) MIN_AMOUNT
-		  FROM TB_GOODS A
-		 WHERE DELETE_AT = 'N'
-		<isNotEmpty property="cty_code">
-		   AND CTY_CODE = #cty_code#
-		</isNotEmpty>
-		<isNotEmpty property="cl_code">
-		   AND CL_CODE = #cl_code#
-		</isNotEmpty>
-		<isEmpty property="cl_code">
-			<isNotEmpty property="upper_cl_code">
-		   AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = #upper_cl_code#)
-			</isNotEmpty>
-		</isEmpty>
-		<isNotEmpty property="keyword">
-		   AND UPPER(GOODS_NM) LIKE '%' || UPPER(#keyword#) || '%'
-		</isNotEmpty>
-		<isNotEmpty property="sortOrd">
-			<isEqual property="sortOrd" compareValue="L">
-				ORDER BY MIN_AMOUNT, GOODS_NM
-			</isEqual>
-			<isEqual property="sortOrd" compareValue="H">
-				ORDER BY MIN_AMOUNT DESC, GOODS_NM
-			</isEqual>
-		</isNotEmpty>
-		<isEmpty property="sortOrd">
-		 ORDER BY SORT_ORDR, GOODS_NM
-		</isEmpty>
+		SELECT A.GOODS_CODE
+			     , A.GOODS_NM
+			     , A.DELETE_AT
+			     , A.FILE_CODE
+			     , A.WAIT_TIME
+			     , A.MVMN_TIME
+			     , A.FILE_CODE
+			     , A.CTY_CODE
+			     , (SELECT CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE) CTY_NM
+			     , A.CL_CODE
+			     , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE) CL_NM
+			     , (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00000' START WITH X.CL_CODE = A.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_CODE
+			     , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00000' START WITH X.CL_CODE = A.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_NM
+			     , A.CTY_CODE
+			     , (SELECT CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE) CTY_NM
+			     , COUNT(A.GOODS_CODE) OVER() AS TOT_CNT
+			     , (SELECT TO_CHAR(NVL(MIN(X.SETUP_AMOUNT), 0), 'FM9,999,999') FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = A.GOODS_CODE) CF_MIN_AMOUNT
+			     , (SELECT NVL(MIN(X.SETUP_AMOUNT), 0) FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = A.GOODS_CODE) MIN_AMOUNT	
+		FROM (
+			SELECT GOODS_CODE, ROWNUM AS RNUM
+			FROM (
+				SELECT B.GOODS_CODE, ROWNUM AS RNUM
+				FROM (
+					SELECT GOODS_CODE
+					FROM TB_GOODS G
+					WHERE DELETE_AT = 'N' 
+					<include refid="whereList"/>
+					<isNotEmpty property="sortOrd">
+						<isEqual property="sortOrd" compareValue="L">
+							ORDER BY MIN_AMOUNT, GOODS_NM
+						</isEqual>
+						<isEqual property="sortOrd" compareValue="H">
+							ORDER BY MIN_AMOUNT DESC, GOODS_NM
+						</isEqual>
+					</isNotEmpty>
+					<isEmpty property="sortOrd">
+				 	ORDER BY SORT_ORDR, GOODS_NM
+					</isEmpty>
+				) B
+			) AA
+			WHERE RNUM BETWEEN #startIdx# AND #endIdx#
+		) G
+		INNER JOIN TB_GOODS A ON G.GOODS_CODE = A.GOODS_CODE
+		ORDER BY G.RNUM
 	</select>
 
 	<select id="gnrl.goods.selectGoodsDetail" parameterClass="hashMap" resultMap="goodsDetail"> 
@@ -201,7 +301,8 @@
              , INTRCN_POSBL_AGE
              , INTRCN_PLACE
              , (SELECT TO_CHAR(NVL(TO_DATE(MIN(BEGIN_DE), 'YYYYMMDD'), SYSDATE), 'YYYY-MM-DD') FROM TB_GOODS_SCHDUL X WHERE X.DELETE_AT = 'N' AND  X.GOODS_CODE = A.GOODS_CODE) CF_MIN_BEGIN_DE             
-             , (SELECT TO_CHAR(TO_DATE(MAX(END_DE), 'YYYYMMDD'), 'YYYY-MM-DD') FROM TB_GOODS_SCHDUL X WHERE X.DELETE_AT = 'N' AND  X.GOODS_CODE = A.GOODS_CODE) CF_MAX_END_DE                          
+             , (SELECT TO_CHAR(TO_DATE(MAX(END_DE), 'YYYYMMDD'), 'YYYY-MM-DD') FROM TB_GOODS_SCHDUL X WHERE X.DELETE_AT = 'N' AND  X.GOODS_CODE = A.GOODS_CODE) CF_MAX_END_DE
+             , GOODS_INTRCN_SIMPL                          
           FROM TB_GOODS A
          WHERE DELETE_AT = 'N' 
            AND GOODS_CODE = #goods_code#
@@ -209,10 +310,7 @@
 	</select>
 
 	<select id="gnrl.goods.selectGoodsSchdulList" parameterClass="hashMap" resultClass="hashMap">
-		SELECT BEGIN_DE
-		     , END_DE 
-		     , SUBSTR(BEGIN_DE,1,4) ||'-'|| SUBSTR(BEGIN_DE,5,2) ||'-'|| SUBSTR(BEGIN_DE,7,2) AS BEGIN_CAL_DE
-		     , SUBSTR(END_DE,1,4) ||'-'|| SUBSTR(END_DE,5,2) ||'-'|| SUBSTR(END_DE,7,2) AS END_CAL_DE
+		SELECT BEGIN_DE, END_DE 
 		  FROM TB_GOODS_SCHDUL GS
 		 WHERE DELETE_AT = 'N'
 		   AND GOODS_CODE = #goods_code#
@@ -228,6 +326,9 @@
 		     , SETUP_AMOUNT
 		     , SETUP_RATE
 		     , NMPR_CO
+		     , MAX_NMPR_CO
+		     , ADIT_NMPR_AMOUNT
+		     , DSCNT_RATE
 		  FROM TB_GOODS_NMPR GN
 		 WHERE DELETE_AT = 'N'
 		   AND GOODS_CODE = #goods_code#
@@ -243,6 +344,9 @@
 		     , SETUP_AMOUNT
 		     , SETUP_RATE
 		     , NMPR_CO
+		     , MAX_NMPR_CO
+		     , ADIT_NMPR_AMOUNT
+		     , DSCNT_RATE
 		  FROM TB_GOODS_NMPR GN
 		 WHERE DELETE_AT = 'N'
 		   AND GOODS_CODE = #goods_code#

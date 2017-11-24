@@ -60,11 +60,19 @@ $(function(){
 	});
 	
 	$(document).on("change", "select", function() {
-		fnSearch($(this));
+		fnSearch($(this), false);
 	});
 	
+	$(document).on("keydown", "#sboxKeyword", function(key) {
+		if(key.keyCode == 13){
+			fnSearch($(this), false);
+        } 				
+	});
+	
+	
+	
 	$(document).on("click", "#btnSearch", function() {
-		fnSearch($(this));
+		fnSearch($(this), false);
 	});
 
 	$("#tabresult").on("click", "li", function() {
@@ -73,21 +81,59 @@ $(function(){
 	//$(search).find("select").change(function () {
 	//});
 
+	$(window).scroll(function() {
+		var scrollHeight = $(document).height();
+		var scrollPosition = $(window).height() + $(window).scrollTop();
+		if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+			var obj = $(".panelTab:visible").find("input:eq(0)");
+			fnSearch($(obj), true);
+		} else {			
+		}
+	});
 	
 	$(".list_tab li:eq(0)").trigger("click");
 	
 });
 
-function fnSearch(obj) {
+function fnSearch(obj, isNext) {
 	var list_search = $(obj).closest(".panelTab");
-	var param = {};
-	param.hidClCode = $(list_search).find("#sboxClCode").val();
-	param.hidCtyCode = $(list_search).find("#sboxCtyCode").val();
-	param.hidUpperClCode = $(list_search).find("#upper_cl_code").val();
-	param.hidSortOrd = $(list_search).find("#sboxSortOrd").val();
-	param.hidKeyword = $(list_search).find("#sboxKeyword").val();
 	var ul = list_search.find("ul");
-	$(ul).empty();
+
+	if(isNext == true) {
+		var totalCount = Number($(list_search).find("input[name='hidTotalcount']").val());
+		
+		if(totalCount <= ul.find("li").length)
+			return false;
+		
+		var hidPage = Number($(list_search).find("input[name='hidPage']").val());
+		hidPage++;
+		$(list_search).find("input[name='hidPage']").val(hidPage);
+	} else {
+		var hidClCode = $(list_search).find("#sboxClCode").val();
+		var hidCtyCode = $(list_search).find("#sboxCtyCode").val();
+		var hidUpperClCode = $(list_search).find("#upper_cl_code").val();
+		var hidSortOrd = $(list_search).find("#sboxSortOrd").val();
+		var hidKeyword = $(list_search).find("#sboxKeyword").val();
+		$(list_search).find("input[name='hidClCode']").val(hidClCode);
+		$(list_search).find("input[name='hidCtyCode']").val(hidCtyCode);
+		$(list_search).find("input[name='hidUpperClCode']").val(hidUpperClCode);
+		$(list_search).find("input[name='hidSortOrd']").val(hidSortOrd);
+		$(list_search).find("input[name='hidKeyword']").val(hidKeyword);
+		$(list_search).find("input[name='hidTotalcount']").val("-1");
+		$(list_search).find("input[name='hidPage']").val("1");
+
+		$(ul).empty();
+	}
+	
+	var param = {};
+	param.hidClCode = $(list_search).find("input[name='hidClCode']").val();
+	param.hidCtyCode = $(list_search).find("input[name='hidCtyCode']").val();
+	param.hidUpperClCode = $(list_search).find("input[name='hidUpperClCode']").val();
+	param.hidSortOrd = $(list_search).find("input[name='hidSortOrd']").val();
+	param.hidKeyword = $(list_search).find("input[name='hidKeyword']").val();
+	param.hidPage = $(list_search).find("input[name='hidPage']").val();
+	param.hidNext = (isNext == true ? "Y" : "N");
+	param.category = $("#category").val();
 
 	var url = "<c:url value='/goods/getGoodsList'/>";
 	$.ajax({
@@ -98,21 +144,24 @@ function fnSearch(obj) {
         contentType: "application/json; charset=utf-8",
         data : JSON.stringify(param ),
         success : function(data,status,request){
-        	$(list_search).find("span[name='totalcount']").text(data.length).closest("div").show();
+        	if(isNext == false) {
+            	$(list_search).find("span[name='totalcount']").text(data.totalCount).closest("div").show();
+            	$(list_search).find("input[name='hidTotalcount']").val(data.totalCount);
+        	}
         	
-			for(var cnt = 0; cnt < data.length; cnt++) {
+			for(var cnt = 0; cnt < data.list.length; cnt++) {
 				var item = $("#liItem").clone();
 				$(item).attr("id", "");
 				
-				$(item).find("span[name='cty_nm']").text(data[cnt].CTY_NM);
-				$(item).find("span[name='upper_cl_nm']").text(data[cnt].UPPER_CL_NM);
-				$(item).find("span[name='cl_nm']").text(data[cnt].CL_NM);
-				$(item).find("span[name='cf_min_amount']").text(data[cnt].CF_MIN_AMOUNT);				
-				$(item).find("span[name='goods_nm']").text(data[cnt].GOODS_NM);		
-				$(item).find("span[name='goods_nm_title']").text(data[cnt].GOODS_NM);	
+				$(item).find("span[name='cty_nm']").text(data.list[cnt].CTY_NM);
+				$(item).find("span[name='upper_cl_nm']").text(data.list[cnt].UPPER_CL_NM);
+				$(item).find("span[name='cl_nm']").text(data.list[cnt].CL_NM);
+				$(item).find("span[name='cf_min_amount']").text(data.list[cnt].CF_MIN_AMOUNT);				
+				$(item).find("span[name='goods_nm']").text(data.list[cnt].GOODS_NM);		
+				$(item).find("span[name='goods_nm_title']").text(data.list[cnt].GOODS_NM);	
 				$(item).find("span[name='favorite']").text("favorite_border");
-				$(item).find("input[name='goods_code']").val(data[cnt].GOODS_CODE);
-				$(item).find("img[name='imgFile']").attr("src", "<c:url value='/file/getImage/'/>?file_code=" + data[cnt].FILE_CODE);
+				$(item).find("input[name='goods_code']").val(data.list[cnt].GOODS_CODE);
+				$(item).find("img[name='imgFile']").attr("src", "<c:url value='/file/getImageThumb/'/>?file_code=" + data.list[cnt].FILE_CODE);
 				//$(item).find("span[name='favorite']").text("favorite");	
 				
 				$(item).show();
@@ -148,13 +197,22 @@ function fnDetail(obj) {
 <div class="sp_50 pc_view"></div>
 <div class="sp_20 mobile_view"></div>
  <div class="inner2">
-   <div class="list_tab">
-   	<ul>
-	<c:forEach var="result" items="${upperTourClList}" varStatus="status">
-   		<li>${result.CL_NM}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"></li>
-	</c:forEach>
-   	</ul>
-   </div>
+ 	<c:if test="${totalsearch == 'N' }">
+	   <div class="list_tab">
+	   	<ul>
+		<c:forEach var="result" items="${upperTourClList}" varStatus="status">
+	   		<li>${result.CL_NM}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"></li>
+		</c:forEach>
+	   	</ul>
+	   </div>
+ 	</c:if>
+ 	<c:if test="${totalsearch == 'Y' }">
+	   <div class="list_tab" style="display:none;">
+	   	<ul>
+	   		<li><input type="hidden" id="cl_code" name="cl_code" value=""></li>
+	   	</ul>
+	   </div>
+ 	</c:if>
 
 	<div id="tabresult" style="min-height:700px;">
 	</div>
@@ -167,10 +225,18 @@ function fnDetail(obj) {
 
 	<!--패널-->
 	<div id="pan" class="panelTab" style="display:none;">
+		<input type="hidden" name="hidClCode" value="">
+		<input type="hidden" name="hidCtyCode" value="">
+		<input type="hidden" name="hidUpperClCode" value="">
+		<input type="hidden" name="hidSortOrd" value="">
+		<input type="hidden" name="hidKeyword" value="">
+		<input type="hidden" name="hidTotalcount" value="">
+		<input type="hidden" name="hidPage" value="">
 	    <div class="list_search">
 	      <div class="info_text" style="display:none;">총 <em><span name="totalcount"> </span>개</em>의 상품이 검색되었습니다.</div>
 		  <div class="inputbox">
-		    <div class="search_input"><input name="sboxKeyword" id="sboxKeyword" type="text">
+		    <div class="search_input">
+		    	<input name="sboxKeyword" id="sboxKeyword" type="text" value="${keyword}">
 		      <div id="btnSearch" class="btn" ><i class="material-icons">&#xE8B6;</i></div>
 		    </div>
 		    <div class="search_select"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
@@ -187,7 +253,7 @@ function fnDetail(obj) {
 	<!--//기본 셀렉트 박스 --></div>
 			   <div class="search_select"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
 					<select name="sboxSortOrd" id="sboxSortOrd" class="w_100p">
-						<option>정렬기준</option>
+						<option value="">정렬기준</option>
 						<option value="L">낮은가격순</option>
 						<option value="H">높은가격순</option>
 					</select>

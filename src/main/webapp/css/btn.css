@@ -1,0 +1,31 @@
+@charset "utf-8";
+
+/* 작은 버튼 1 예 후기 댓글 삭제 수정*/
+.button_st1{ border: 1px solid #ccc; background-color: #fff; color: #666!important; 	*display: inline; 	display: inline-block; font-size: 12px; padding: 5px 8px}
+.button_st1:hover {	border: 1px solid #666; background-color: #fff; color: #000; position: relative; z-index: 99 }
+
+
+
+/* 중간버튼 2 예 글쓰기버튼 */
+.button_m1{ border: 1px solid #333; background-color: #666; color: #fff!important; 	*display: inline; 	display: inline-block; font-size: 14px; padding: 10px 15px}
+.button_m1:hover {	border: 1px solid #000; background-color: #333; color: #fff;  position: relative; z-index: 99 }
+
+
+/* 중간버튼 2 예 글쓰기버튼 */
+.button_m2{ border: 1px solid #333; background-color: #999; color: #fff!important; 	*display: inline; 	display: inline-block; font-size: 14px; padding: 10px 15px}
+.button_m2:hover {	border: 1px solid #000; background-color: #666; color: #fff;  position: relative; z-index: 99 }
+
+
+/* 중간버튼 2 예 글쓰기버튼 */
+.button_search{ border: 1px solid #333; background-color: #666; color: #fff!important; 	*display: inline; 	display: inline-block; font-size: 14px; line-height: 35px; }
+.button_search:hover {	border: 1px solid #000; background-color: #666; color: #fff;  position: relative; z-index: 99 }
+
+
+/* 리스트 내 버튼 */
+.listin_btn1{ background-color: #2283c7 ; color: #fff!important; 	font-size: 12px; padding: 2px 3px; display: inline-flex}
+.listin_btn2{ background-color: #84ad16 ; color: #fff!important; 	font-size: 12px; padding: 2px 3px; display: inline-flex}
+
+
+/* 중간버튼 2 예 글쓰기버튼 */
+.button_b1{ border: 1px solid #ff6600; background-color: #ff6600; color: #fff!important; 	*display: inline; 	display: inline-block; font-size: 16px; padding: 15px 30px}
+.button_b1:hover {	border: 1px solid #ff0000; background-color:#ff0000; color: #fff;  position: relative; z-index: 99 }
