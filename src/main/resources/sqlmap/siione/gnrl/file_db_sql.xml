@@ -23,6 +23,15 @@
 		<isNotEmpty property="file_cl">
 		   AND FILE_CL = #file_cl#
 		</isNotEmpty>
+		<isNotEmpty property="reprsnt_at">
+		   AND REPRSNT_AT = #reprsnt_at#
+		</isNotEmpty>
+		<isNotEmpty property="hotdeal_at">
+		   AND HOTDEAL_AT = #hotdeal_at#
+		</isNotEmpty>
+		<isNotEmpty property="liveview_at">
+		   AND LIVEVIEW_AT = #liveview_at#
+		</isNotEmpty>
 		 ORDER BY SORT_NO
 	</select>
 

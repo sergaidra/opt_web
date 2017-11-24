@@ -207,6 +207,8 @@ public class GoodsController {
         	List<HashMap> lstTime = goodsService.getGoodsTimeList(map);
         	
         	map.put("file_code", result.get("FILE_CODE"));
+        	map.put("hotdeal_at", "N");
+        	map.put("liveview_at", "N");
         	List<HashMap> lstFile = fileService.getFileList(map);
         	
         	List<Map<String, String>> lstVoucher = new ArrayList();

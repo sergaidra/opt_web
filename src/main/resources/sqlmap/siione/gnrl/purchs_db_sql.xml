@@ -6,8 +6,7 @@
 
 	<select id="gnrl.purchs.selectPurchsSn" parameterClass="hashMap" resultClass="int">
 	<![CDATA[
-		SELECT NVL(MAX(PURCHS_SN)+1, 1)
-		  FROM TB_PURCHS
+		SELECT SQ_PURCHS_SN.nextval  FROM DUAL
 	]]>
 	</select>
 	

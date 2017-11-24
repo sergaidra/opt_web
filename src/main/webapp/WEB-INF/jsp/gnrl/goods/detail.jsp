@@ -551,7 +551,7 @@ function initMap() {
           <div class="swiper-container">
             <div class="swiper-wrapper">
 				<c:forEach var="result" items="${lstFile}" varStatus="status">
-	              <div class="swiper-slide"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" width="100%" alt=""/></div>
+	              <div class="swiper-slide"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=${result.FILE_SN}" width="100%" alt=""/></div>
 				</c:forEach>
             </div>
             <!-- Add Pagination 
@@ -950,7 +950,12 @@ function initMap() {
 						<select class="w_100p" id="cmbRoom">
 							<option value="">객실선택</option>
 							<c:forEach var="list" items="${lstRoom}" varStatus="status">
-								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}" setup_se="${list.SETUP_SE}" max_nmpr_co="${list.MAX_NMPR_CO}" adit_nmpr_amount="${list.ADIT_NMPR_AMOUNT}" dscnt_rate="${list.DSCNT_RATE}">${list.NMPR_CND}</option>
+								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}" setup_se="${list.SETUP_SE}" max_nmpr_co="${list.MAX_NMPR_CO}" adit_nmpr_amount="${list.ADIT_NMPR_AMOUNT}" dscnt_rate="${list.DSCNT_RATE}">
+									${list.NMPR_CND}
+									<c:if test="${list.NMPR_CO != null}" >
+										(기준인원 ${list.NMPR_CO}명)
+									</c:if>									
+								</option>
 							</c:forEach>							
 						</select>
 						<!--//기본 셀렉트 박스 -->

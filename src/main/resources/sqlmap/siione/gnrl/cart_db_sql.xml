@@ -7,8 +7,7 @@
 
 	<select id="gnrl.cart.selectCartSn" parameterClass="hashMap" resultClass="int">
 	<![CDATA[
-		SELECT NVL(MAX(CART_SN)+1, 1)
-		  FROM TB_CART_GOODS
+		SELECT SQ_CART_SN.nextval FROM DUAL
 	]]>
 	</select>
 
