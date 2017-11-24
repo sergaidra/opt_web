@@ -54,4 +54,21 @@
 		   AND ROWNUM = 1
 	</select>
 
+	<select id="gnrl.file.selectMainImageFile" parameterClass="hashMap" resultClass="hashMap"> 
+		SELECT IMAGE_SN
+			, IMAGE_NM
+			, IMAGE_PATH
+			, IMAGE_SIZE
+			, SORT_ORDR
+			, BEGIN_DE
+			, END_DE
+			, USE_AT
+			, REGIST_ID
+			, REGIST_DT
+			, UPDT_ID
+			, UPDT_DT 
+		  FROM TB_MAIN_IMAGE
+		 WHERE IMAGE_SN = #image_sn#
+	</select>
+
 </sqlMap>

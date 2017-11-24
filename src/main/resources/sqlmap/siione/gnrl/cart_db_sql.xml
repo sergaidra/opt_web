@@ -9,7 +9,6 @@
 	<![CDATA[
 		SELECT NVL(MAX(CART_SN)+1, 1)
 		  FROM TB_CART_GOODS
-		 WHERE ESNTL_ID = #esntl_id#
 	]]>
 	</select>
 
@@ -27,7 +26,8 @@
 			END_TIME,
 			EXPRTN_AT,
 			WRITNG_ID,
-			WRITNG_DT
+			WRITNG_DT,
+			DELETE_AT
 		) VALUES(
 			#esntl_id#,
 			#cart_sn#,
@@ -40,7 +40,8 @@
 			#end_time#,
 			'N',
 			#esntl_id#,
-			SYSDATE
+			SYSDATE,
+			'N'
 		)
 	]]>
 	</insert>
@@ -55,43 +56,33 @@
 		     , END_TIME = #end_time#
 		     , UPDT_ID = #esntl_id#
 		     , UPDT_DT = SYSDATE
-		 WHERE ESNTL_ID = #esntl_id#
-		   AND CART_SN = #cart_sn#
+		 WHERE CART_SN = #cart_sn#
 	]]>
 	</update>
 
 	<delete id="gnrl.cart.deleteCart" parameterClass="HashMap">
 	<![CDATA[
-		BEGIN
-
-		DELETE FROM TB_CART_GOODS
-		 WHERE ESNTL_ID = #esntl_id#
-		   AND CART_SN = #cart_sn#;
-
-		DELETE FROM TB_CART_NMPR
-		 WHERE ESNTL_ID = #esntl_id#
-		   AND CART_SN = #cart_sn#;
-
-		END;
+		UPDATE TB_CART_GOODS SET DELETE_AT = 'Y', DELETE_ID = #esntl_id#, DELETE_DT = SYSDATE
+		WHERE CART_SN = #cart_sn#
 	]]>
 	</delete>
 
 	<insert id="gnrl.cart.insertCartNmpr" parameterClass="hashMap">
 	<![CDATA[
 		INSERT INTO TB_CART_NMPR(
-			ESNTL_ID,
 			CART_SN,
 			GOODS_CODE,
 			SETUP_SE,
 			NMPR_SN,
-			NMPR_CO
+			NMPR_CO,
+			AMOUNT
 		) VALUES(
-			#esntl_id#,
 			#cart_sn#,
 			#goods_code#,
 			#setup_se#,
 			#nmpr_sn#,
-			#nmpr_co#
+			#nmpr_co#,
+			#amount#
 		)
 	]]>
 	</insert>
@@ -99,8 +90,7 @@
 	<delete id="gnrl.cart.deleteCartNmpr" parameterClass="hashMap">
 	<![CDATA[
 		DELETE FROM TB_CART_NMPR
-		 WHERE ESNTL_ID = #esntl_id#
-		   AND CART_SN = #cart_sn#
+		 WHERE CART_SN = #cart_sn#
 	]]>
 	</delete>
 
@@ -214,10 +204,11 @@
 
 	<select id="gnrl.cart.selectCartPayment" parameterClass="hashMap" resultClass="long">
 	<![CDATA[
-		SELECT SUM(PURCHS_AMOUNT) AS PURCHS_AMOUNT
+		SELECT NVL(SUM(PURCHS_AMOUNT), 0) AS PURCHS_AMOUNT
 		  FROM TB_CART_GOODS
 		 WHERE ESNTL_ID = #esntl_id#
 		   AND EXPRTN_AT = 'N'
+		   AND DELETE_AT = 'N'
 	]]>
 	</select>
 
@@ -262,6 +253,7 @@
 		        AND X.DELETE_AT = 'N'
 		 WHERE A.ESNTL_ID = #esntl_id#
 		   AND A.EXPRTN_AT = 'N'
+		   AND A.DELETE_AT = 'N'
 		   AND A.TOUR_DE IS NOT NULL
 		 ORDER BY A.TOUR_DE, BEGIN_TIME, A.CART_SN
 	]]>
@@ -297,6 +289,7 @@
 		   AND X.DELETE_AT = 'N'
 		 WHERE A.ESNTL_ID = #esntl_id#
 		   AND A.EXPRTN_AT = 'N'
+		   AND A.DELETE_AT = 'N'
 	]]>
 	<isNotEmpty property="SEARCH_SE">
 		<isEqual property="SEARCH_SE" compareValue="A">
@@ -377,6 +370,7 @@
 		   AND X.DELETE_AT = 'N'
 		 WHERE A.ESNTL_ID = #esntl_id#
 		   AND A.EXPRTN_AT = 'N'
+		   AND A.DELETE_AT = 'N'
 		 ORDER BY DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE), A.BEGIN_TIME
 	]]>
 	</select>	
@@ -391,8 +385,7 @@
 		     , A.NMPR_CO
 		  FROM TB_CART_NMPR A
 		     , TB_GOODS_NMPR B
-		 WHERE A.ESNTL_ID = #ESNTL_ID#
-		   AND A.CART_SN = #CART_SN#
+		 WHERE A.CART_SN = #CART_SN#
 		   AND A.GOODS_CODE = B.GOODS_CODE
 		   AND A.NMPR_SN = B.NMPR_SN
 		   AND A.SETUP_SE = B.SETUP_SE
@@ -443,6 +436,7 @@
 		 WHERE A.ESNTL_ID = #esntl_id#
 		   AND A.CART_SN = #cart_sn#
 		   AND A.EXPRTN_AT = 'N'
+		   AND A.DELETE_AT = 'N'
 	]]>
 	</select>
 

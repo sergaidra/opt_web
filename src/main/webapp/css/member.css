@@ -1,0 +1,242 @@
+@charset "utf-8";
+/*로그인*/
+/**** pc ****/
+@media only all and (min-width:1000px) {
+.login_box{ margin:200px auto 100px auto; box-sizing:border-box; border:1px solid #ff6600; width:450px;  padding:30px 0px; background-color: #fff; display: flex}
+.login_box .inbox{ margin:0px auto;width:100%; padding: 0px 50px; box-sizing: border-box  }
+.login_box .inbox .login_div1{ width:100%; float:left;text-align: center; overflow: hidden; }
+.login_box .inbox .login_div1 .text1{ width:100%; float:left; font-size:30px; color:#000 ; margin-bottom:10px; text-align: center ; ;font-family:'Noto Sans Korean', 'Noto Sans KR'}
+.login_box .inbox .login_div1 .text1 em{ color:#ff6600; font-weight:500}
+.login_box .inbox .login_div1 .text2{ width:100%; float:left; font-size:12px; color:#666 ; margin-bottom:10px;  text-align: center ; margin-bottom: 20px}
+.login_box .inbox .login_div1 .input_box{width:100%; display: inline-block; vertical-align: middle; }
+.login_box .inbox .login_div1 .input_box .idpw{ width:100%; float:left; margin-bottom:10px }
+.login_box .inbox .login_div1 .input_box .idpw p input{ width:100%; float:left; border:1px solid #ccc; background-color:#fff; height:40px; text-align: center }
+.login_box .inbox .login_div1 .login{ width:100%; height:60px; display: inline-block; vertical-align: middle; }
+.login_box .inbox .login_div1 .login a{ width:100%; float:left; height:40px; background-color:#ff6600; font-size:14px; color:#fff; line-height:40px; text-align:center}
+.login_box .inbox .login_div1 .find{ width:50%; float:left; margin-bottom: 10px }
+.login_box .inbox .login_div1 .find .text1{ width:100%; float:left; font-size:12px; color:#000; margin-bottom:10px ; text-align: left}
+.login_box .inbox .login_div1 .find .text2{ width:100%; float:left; font-size:12px; color:#999; margin-bottom:10px ; line-height:14px ; text-align: left; letter-spacing: -1px}
+.login_box .inbox .login_div1 .find .btn{ float:left; padding:5px 10px; border:1px solid #ccc; font-size:12px }
+.login_box .inbox .login_div2{ width:100%; float:left;text-align: center; overflow: hidden; padding-top: 20px }
+.login_box .inbox .login_div2 img{ margin:0px 5px}
+	
+}
+
+/**** 모바일 ****/
+@media only all and (max-width:999px) {
+.login_box{ margin:0px auto; box-sizing:border-box; border:1px solid #ff6600; width:100%;  padding:20px 0px; background-color: #fff; display: flex}
+.login_box .inbox{ margin:0px auto;width:100%; padding: 0px 30px; box-sizing: border-box  }
+.login_box .inbox .login_div1{ width:100%; float:left;text-align: center; overflow: hidden; }
+.login_box .inbox .login_div1 .text1{ width:100%; float:left; font-size:30px; color:#000 ; margin-bottom:10px; text-align: center ; ;font-family:'Noto Sans Korean', 'Noto Sans KR'}
+.login_box .inbox .login_div1 .text1 em{ color:#ff6600; font-weight:500}
+.login_box .inbox .login_div1 .text2{ width:100%; float:left; font-size:12px; color:#666 ; margin-bottom:10px;  text-align: center ; margin-bottom: 20px}
+.login_box .inbox .login_div1 .input_box{width:100%; display: inline-block; vertical-align: middle; }
+.login_box .inbox .login_div1 .input_box .idpw{ width:100%; float:left; margin-bottom:10px }
+.login_box .inbox .login_div1 .input_box .idpw p input{ width:100%; float:left; border:1px solid #ccc; background-color:#fff; height:40px; text-align: center }
+.login_box .inbox .login_div1 .login{ width:100%; height:60px; display: inline-block; vertical-align: middle; }
+.login_box .inbox .login_div1 .login a{ width:100%; float:left; height:40px; background-color:#ff6600; font-size:14px; color:#fff; line-height:40px; text-align:center}
+.login_box .inbox .login_div1 .find{ width:100%; float:left; margin-bottom: 10px }
+.login_box .inbox .login_div1 .find .text1{ width:60%; float:left; font-size:12px; color:#000; margin-bottom:10px ; text-align: left}
+.login_box .inbox .login_div1 .find .text2{ width:100%; float:left; font-size:12px; color:#999; margin-bottom:10px ; line-height:14px ; text-align: left; letter-spacing: -1px}
+.login_box .inbox .login_div1 .find .btn{float:right; padding:5px 10px; border:1px solid #ccc; font-size:12px }
+.login_box .inbox .login_div2{ width:100%; float:left;text-align: center; overflow: hidden; padding-top: 20px }
+.login_box .inbox .login_div2 img{ margin:0px 5px}
+}
+
+/**** pc ****/
+@media only all and (min-width:769px) {
+
+/* 회원가입 약관동의*/
+.agr_out_fl{ width: 50%; padding-right: 20px; float: left}
+.agr_out_fr{ width: 50%; padding-left: 20px; float: left}
+.agr{border:1px solid #ccc;  padding:15px; box-sizing:border-box; width:100%; float:left; height:300px; overflow-y: scroll;  font-weight: 300; font-size:13px; letter-spacing:-1px; color:#666; background-color: #fff; line-height:20px}
+.agr .title1{ width:100%; text-align:center; padding:10px 0px 20px 0px;font-weight: 400; font-size:18px; letter-spacing:-1px; color:#000;}
+.agr em{ color:#000; font-size:16px}
+.agr_ch{ padding:5px; box-sizing:border-box; width:100%; float:left;  padding-right:10px; text-align:right; color:#333; font-size:12px;  font-weight: 300; margin-top:10px; }
+
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+
+/* 회원가입 약관동의*/
+.agr_out_fl{ width: 100%;  float: left}
+.agr_out_fr{ width: 100%; float: left}
+.agr{border:1px solid #ccc;  padding:15px; box-sizing:border-box; width:100%; float:left; height:100px; overflow-y: scroll;  font-weight: 300; font-size:12px; letter-spacing:-1px; color:#666; background-color: #fff; line-height:20px}
+.agr .title1{ width:100%; text-align:center; padding:10px 0px 20px 0px;font-weight: 400; font-size:16px; letter-spacing:-1px; color:#000;}
+.agr em{ color:#000; font-size:16px}
+.agr_ch{ padding:5px; box-sizing:border-box; width:100%; float:left;  padding-right:10px; text-align:right; color:#333; font-size:12px;  font-weight: 300; margin-top:10px; }
+
+}
+
+
+
+
+
+/**** pc ****/
+@media only all and (min-width:769px) {
+/* 회원가입 입력*/
+.join_w { width:100%; margin-bottom:30px; border-top:3px solid #333;}
+.join_w  tbody th {	padding:10px 25px 10px 25px;	font-size:14px;	border-bottom:1px solid #bfbfbf;	text-align:left;	color:#333;	background-repeat: no-repeat;	background-position: 15px center;	background-color: #f0f0f0; font-weight:normal}
+.join_w  tbody td { line-height:10px;border-bottom:1px solid #bfbfbf; border-right:none;  border-left:none; padding:5px 10px; line-height:20px; font-size:14px; text-align: left}
+.join_w  tbody td .btnst{ display:inline; margin-top:2px}
+.join_w  tbody td .btnst a{line-height:30px; background-color:#666; font-size:12px; color:#fff; padding:7px 10px }
+.join_w  tbody td .btnst2{ display:inline; margin-top:2px}
+.join_w  tbody td .btnst2 a{line-height:30px; background-color:#999; font-size:12px; color:#fff; padding:7px 10px }
+.join_w  tbody td input{border:1px solid #ccc; font-size:14px; }
+.join_w  tbody td select{border:1px solid #ccc; font-size:14px;}
+.join_w  tbody td textarea{border:1px solid #ccc; font-size:14px;}
+.join_w  tbody td .noline{border:none; padding:0px; margin:0px}
+.join_w  tbody td input{ border:1px solid #ccc; height:30px}
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+/* 회원가입 입력*/
+.join_w { width:100%; margin-bottom:0px; border-top:3px solid #333;}
+.join_w  tbody th {	padding: 5px;	font-size:12px;	border-bottom:1px solid #bfbfbf;	text-align:left;	color:#333;	background-repeat: no-repeat;	background-position: 15px center;	background-color: #f0f0f0; font-weight:normal}
+.join_w  tbody td { line-height:10px;border-bottom:1px solid #bfbfbf; border-right:none;  border-left:none; padding:5px 5px; line-height:20px; font-size:12px; text-align: left}
+.join_w  tbody td .btnst{ display:inline; margin-top:2px}
+.join_w  tbody td .btnst a{line-height:30px; background-color:#666; font-size:12px; color:#fff; padding:7px 10px }
+.join_w  tbody td .btnst2{ display:inline; margin-top:2px}
+.join_w  tbody td .btnst2 a{line-height:30px; background-color:#999; font-size:12px; color:#fff; padding:7px 10px }
+.join_w  tbody td input{border:1px solid #ccc; font-size:14px; }
+.join_w  tbody td select{border:1px solid #ccc; font-size:14px;}
+.join_w  tbody td textarea{border:1px solid #ccc; font-size:14px;}
+.join_w  tbody td .noline{border:none; padding:0px; margin:0px}
+.join_w  tbody td input{ border:1px solid #ccc; height:30px}
+}
+
+
+
+
+@media only all and (min-width:1000px) {
+.idpw_box{ width:100%; float:left ;text-align: center; overflow: hidden; margin: 100px  auto }
+
+.idpw_box .inbox{  width:400px;  display: inline-block; vertical-align: middle; margin:0px 20px; border:1px solid #ccc; background-color:#f7f7f7; box-sizing:border-box; padding:30px}
+.idpw_box .inbox .title{  width:100%;   float:left; font-weight: 500; color: #000; margin-bottom: 10px; text-align: left; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-size: 24px}
+.idpw_box .inbox  .texttbox{ width:100%; float:left; margin-bottom:10px; font-size:12px ; color:#666; letter-spacing:-0.5px; text-align:left; line-height:18px}
+.idpw_box .inbox  .inputbox{ width:100%; float:left; }
+.idpw_box .inbox  .inputbox input{ width:100%; float:left; height:40px; border: 1px solid #eee; background-color:#fff; margin-bottom:5px; padding:0px 10px; box-sizing:border-box;}
+.idpw_box .inbox  .btnbox{ width:100%; float:left; }
+.idpw_box .inbox  .btnbox a{ width:100%; float:left; height:50px; border:none; background-color:#ff6600; margin-top:10px; text-align:center; font-size:15px; color:#fff; line-height:50px; letter-spacing:-1px}
+.idpw_box .inbox  .btnbox a:hover{  background-color:#c00303;}
+
+
+.idpw_box .inbox2{  width:600px;  display: inline-block; vertical-align: middle; margin:0px 20px; box-sizing:border-box; padding:30px}
+.idpw_box .inbox2  .texttbox{ width:100%; float:left; margin-bottom:10px; font-size:12px ; color:#666; letter-spacing:-0.5px; text-align:left; line-height:18px}
+.idpw_box .inbox2  .inputbox{ width:100%; float:left; }
+.idpw_box .inbox2  .inputbox input{ width:100%; float:left; height:40px; border: 1px solid #eee; background-color:#fff; margin-bottom:5px; padding:0px 10px; box-sizing:border-box;}
+.idpw_box .inbox2  .btnbox{ width:100%; float:left; }
+.idpw_box .inbox2  .btnbox a{ width:100%; float:left; height:50px; border:none; background-color:#ff6600; margin-top:10px; text-align:center; font-size:15px; color:#fff; line-height:50px; letter-spacing:-1px}
+.idpw_box .inbox2  .btnbox a:hover{  background-color:#c00303;}
+
+
+	
+}
+
+/**** 모바일 ****/
+@media only all and (max-width:999px) {
+.idpw_box{ width:100%; float:left ;text-align: center; overflow: hidden; margin:20px  auto }
+
+.idpw_box .inbox{  width:100%;  display: inline-block; vertical-align: middle; margin:0px 0px; border:1px solid #ccc; background-color:#f7f7f7; box-sizing:border-box; padding:30px}
+.idpw_box .inbox .title{  width:100%;   float:left; font-weight: 500; color: #000; margin-bottom: 10px; text-align: left; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-size: 24px}
+.idpw_box .inbox  .texttbox{ width:100%; float:left; margin-bottom:10px; font-size:12px ; color:#666; letter-spacing:-0.5px; text-align:left; line-height:18px}
+.idpw_box .inbox  .inputbox{ width:100%; float:left; }
+.idpw_box .inbox  .inputbox input{ width:100%; float:left; height:40px; border: 1px solid #eee; background-color:#fff; margin-bottom:5px; padding:0px 10px; box-sizing:border-box;}
+.idpw_box .inbox  .btnbox{ width:100%; float:left; }
+.idpw_box .inbox  .btnbox a{ width:100%; float:left; height:50px; border:none; background-color:#c00303; margin-top:10px; text-align:center; font-size:15px; color:#fff; line-height:50px; letter-spacing:-1px}
+.idpw_box .inbox  .btnbox a:hover{  background-color:#770000;}
+
+
+.idpw_box .inbox2{  width:100%;   display: inline-block; vertical-align: middle; margin:0px 20px; box-sizing:border-box; padding:30px}
+.idpw_box .inbox2  .texttbox{ width:100%; float:left; margin-bottom:10px; font-size:12px ; color:#666; letter-spacing:-0.5px; text-align:left; line-height:18px}
+.idpw_box .inbox2  .inputbox{ width:100%; float:left; }
+.idpw_box .inbox2  .inputbox input{ width:100%; float:left; height:40px; border: 1px solid #eee; background-color:#fff; margin-bottom:5px; padding:0px 10px; box-sizing:border-box;}
+.idpw_box .inbox2  .btnbox{ width:100%; float:left; }
+.idpw_box .inbox2  .btnbox a{ width:100%; float:left; height:50px; border:none; background-color:#c00303; margin-top:10px; text-align:center; font-size:15px; color:#fff; line-height:50px; letter-spacing:-1px}
+.idpw_box .inbox2  .btnbox a:hover{  background-color:#770000;}
+
+
+}
+
+
+
+
+.joinok_box{ width:100%; float:left; margin:100px 0px;  text-align: center; overflow: hidden;}
+.joinok_box .text1{ width:100%; float:left; text-align:center; font-size:26px; font-weight:300; color:#000; margin-bottom:15x; letter-spacing:-1px; line-height:30px; margin-bottom:10px; ;font-family:'Noto Sans Korean', 'Noto Sans KR';}
+.joinok_box .text1 em{  font-size:30px; font-weight:500; color:#Ff6600}
+.joinok_box .line{ width:100px;  border-bottom:1px solid #333; margin-bottom:30px; display: inline-block; vertical-align: middle; margin-top:30px}
+.joinok_box .text2{ width:100%; float:left; text-align:center; font-size:16px; color:#666; letter-spacing:-1px}
+.joinok_box .text2 em{  font-weight:400; color:#Ff6600}
+.joinok_box .gobtn{ width:100%; float:left; margin-top:30px}
+.joinok_box .gobtn a.st1{ width:168px;  height:50px; background-color:#ff6600;  position:relative; color:#fff;box-sizing:border-box;  display: inline-block; vertical-align: middle;letter-spacing:-1px; font-size:15px; padding:15px 0px; margin:0px 10px}
+.joinok_box .gobtn a.st2{ width:168px;  height:50px; background-color:#f1f1f1;  position:relative; color:#666;box-sizing:border-box;  display: inline-block; vertical-align: middle;letter-spacing:-1px; font-size:15px; padding:15px 0px; box-sizing:border-box; border:1px solid #ccc;margin:0px 10px}
+
+
+
+.popup_title{ float:left; width:100%; margin-bottom:10px; padding-bottom:10px; border-bottom:2px solid #000; margin-top:10px}
+.popup_title .left{ float:left; font-size:22px; color:#000}
+.popup_title .left em{  font-size:13px; color:#999; margin-left:5px}
+.popup_title .right{ float:right;}
+.popup_title .right a{ float:left; padding:3px 5px; border:1px solid #ccc; background-color:#f7f7f7; margin-left:10px; color:#666}
+.popup_title .right a:hover{ float:left; padding:3px 5px; border:1px solid #666; background-color:#333; margin-left:10px; color:#fff}
+
+.popup_title2{ float:left; width:100%; margin-bottom:10px; font-size:22px; color:#000; margin-top:10px}
+.popup_title2 .left{ float:left; font-size:22px; color:#000}
+.popup_title2 .left em{  font-size:13px; color:#999; margin-left:5px}
+.popup_title2 .right{ float:right;}
+.popup_title2 .right a{ float:left; padding:3px 5px; border:1px solid #ccc; background-color:#f7f7f7; margin-left:10px; color:#666}
+.popup_title2 .right a:hover{ float:left; padding:3px 5px; border:1px solid #666; background-color:#333; margin-left:10px; color:#fff}
+
+
+/**** pc ****/
+@media only all and (min-width:769px) {
+/**** 우편번호***/
+.zipcode{width:100%; float:left;}
+.zipcode .tab{width:100%; float:left; border-bottom:1px solid #999999; height:35px; margin-bottom:20px; margin-top:10px;  z-index: 9999; position: relative}
+.zipcode .tab .off{width:125px; float:left; border:1px solid #bdbdbd; height:35px; background-color:#cccccc; color:#fff; margin-left:-1px; text-align:center; line-height:35px; font-size: 13px }
+.zipcode .tab .off a{color:#fff; line-height:35px }
+.zipcode .tab .on{width:125px;; text-align:center; float:left; border-top:1px solid #999; border-left:1px solid #999;border-right:1px solid #999;border-bottom:1px solid #fff;height:36px; background-color:#fff; color:#666; line-height:35px ; font-size: 13px }
+.zipcode .tab .on a{color:#666; line-height:35px }
+.zipcode .search{width:100%; float:left; margin-bottom:20px}
+.zipcode .search input{width:250px; float:left; border:1px solid #ccc; background-color:#f7f7f7; padding-left:20px; color:#666; font-size:12px; height:35px; line-height:35px}
+.zipcode .search .btn{height:35px;float:left; line-height:35px; width:80px; background-color:#102040; color:#fff; text-align:center; font-size:12px; }
+.zipcode .text{width:100%; float:left; margin-bottom:30px; font-size:13px; color:#666}
+.zipcode .tb_box{width:100%; float:left;}
+.zipcode .tb_box .tb_head{width:100%; float:left; padding:5px 0px; border-bottom:1px solid #333;; border-top:1px solid #333; text-align:center; font-size:14px; color:#666}
+.zipcode .tb_box .tb_list{width:100%; float:left; overflow-y: scroll; height:330px; text-align:center}
+.zipcode .tb_box .tb_list ul li{width:100%; float:left;border-bottom:1px solid #ccc; padding:10px 0px} 
+.zipcode .tb_box .tb_list ul li .left{width:90%; float:left;text-align:left} 
+.zipcode .tb_box .tb_list ul li .left .ad1{width:100%; float:left; color:#666; font-size:12px} 
+.zipcode .tb_box .tb_list ul li .left .ad2{width:100%; float:left; color:#999; font-size:12px} 
+.zipcode .tb_box .tb_list ul li .right{width:10%; float:right; margin-top:13px} 
+.zipcode .tb_box .tb_list ul li .right a{ padding:5px 10px; text-align:center; color:#333; border:1px solid #ccc;  background-color:#f7f7f7; font-size:12px; } 
+.zipcode .tb_box .tb_list ul li .right a:hover{ padding:5px 10px; text-align:center; color:#333; border:1px solid #999;  background-color:#f7f7f7} 
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+/**** 우편번호***/
+.zipcode{width:100%; float:left;}
+.zipcode .tab{width:100%; float:left; border-bottom:1px solid #999999; height:35px; margin-bottom:20px; margin-top:10px;  z-index: 9999; position: relative}
+.zipcode .tab .off{width:125px; float:left; border:1px solid #bdbdbd; height:35px; background-color:#cccccc; color:#fff; margin-left:-1px; text-align:center; line-height:35px; font-size: 13px }
+.zipcode .tab .off a{color:#fff; line-height:35px }
+.zipcode .tab .on{width:125px;; text-align:center; float:left; border-top:1px solid #999; border-left:1px solid #999;border-right:1px solid #999;border-bottom:1px solid #fff;height:36px; background-color:#fff; color:#666; line-height:35px ; font-size: 13px }
+.zipcode .tab .on a{color:#666; line-height:35px }
+.zipcode .search{width:100%; float:left; margin-bottom:20px}
+.zipcode .search input{width:250px; float:left; border:1px solid #ccc; background-color:#f7f7f7; padding-left:20px; color:#666; font-size:12px; height:35px; line-height:35px}
+.zipcode .search .btn{height:35px;float:left; line-height:35px; width:80px; background-color:#102040; color:#fff; text-align:center; font-size:12px; }
+.zipcode .text{width:100%; float:left; margin-bottom:30px; font-size:13px; color:#666}
+.zipcode .tb_box{width:100%; float:left;}
+.zipcode .tb_box .tb_head{width:100%; float:left; padding:5px 0px; border-bottom:1px solid #333;; border-top:1px solid #333; text-align:center; font-size:14px; color:#666}
+.zipcode .tb_box .tb_list{width:100%; float:left; overflow-y: scroll; height:330px; text-align:center}
+.zipcode .tb_box .tb_list ul li{width:100%; float:left;border-bottom:1px solid #ccc; padding:10px 0px} 
+.zipcode .tb_box .tb_list ul li .left{width:90%; float:left;text-align:left} 
+.zipcode .tb_box .tb_list ul li .left .ad1{width:100%; float:left; color:#666; font-size:12px} 
+.zipcode .tb_box .tb_list ul li .left .ad2{width:100%; float:left; color:#999; font-size:12px} 
+.zipcode .tb_box .tb_list ul li .right{width:10%; float:right; margin-top:13px} 
+.zipcode .tb_box .tb_list ul li .right a{ padding:5px 10px; text-align:center; color:#333; border:1px solid #ccc;  background-color:#f7f7f7; font-size:12px; } 
+.zipcode .tb_box .tb_list ul li .right a:hover{ padding:5px 10px; text-align:center; color:#333; border:1px solid #999;  background-color:#f7f7f7} 
+}
+
+
+
+

@@ -207,4 +207,51 @@ public class FileController {
     	}
     }
     
+    @RequestMapping(value="/getMainImage/")
+    public ResponseEntity<byte[]> getMainImage(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+        ResponseEntity entity = null;
+        HttpHeaders responseHeaders = new HttpHeaders();
+        entity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        String image_sn = SimpleUtils.default_set(request.getParameter("image_sn"));
+
+    	String noImagePath = request.getSession().getServletContext().getRealPath("/") + NO_IMAGE_PATH;
+    	String realPath = noImagePath;
+    	String fileName = NO_IMAGE_NAME;
+        
+    	HashMap map = new HashMap();
+    	map.put("image_sn", image_sn);    	
+    	
+    	HashMap result = fileService.getMainImage(map);
+
+    	if(result != null){
+        	realPath = SimpleUtils.default_set((String) result.get("IMAGE_PATH"));
+        	fileName = SimpleUtils.default_set((String) result.get("IMAGE_NM"));
+    	}
+
+        FileInputStream fileStream = null;  
+
+        try {
+            File getResource = new File(realPath);
+            if(!getResource.exists()){
+    	    	realPath = noImagePath;
+    	        getResource = new File(realPath);
+            }
+            byte byteStream[] = new byte[(int)getResource.length()];
+            fileStream = new FileInputStream(getResource);
+            int i = 0;
+            for(int j = 0; (i = fileStream.read()) != -1; j++)
+                byteStream[j] = (byte)i;
+
+            responseHeaders.setContentType(MediaType.IMAGE_JPEG);
+            responseHeaders.set("Content-Disposition", "attatchment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") +"\"");
+            entity = new ResponseEntity(byteStream, responseHeaders, HttpStatus.OK);
+    	} catch(Exception e) {
+    		e.printStackTrace();
+            fileStream.close();
+        } finally {
+            fileStream.close();
+    	}
+        return entity;
+    }
 }

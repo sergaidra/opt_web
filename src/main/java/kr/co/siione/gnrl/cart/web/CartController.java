@@ -26,6 +26,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,6 +51,77 @@ public class CartController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
 
+	@RequestMapping(value="/list")
+	public String list(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		
+		if("".equals(esntl_id))
+			response.sendRedirect("/member/login/");
+
+		HashMap map = new HashMap();
+		map.put("esntl_id", esntl_id);
+
+		try {
+
+			long payment = cartService.getCartPayment(map);			
+			List<HashMap> cartList = cartService.getCartList(map);
+			int list_cnt = 0;
+			if(cartList.size() > 0)
+				list_cnt = Integer.parseInt(cartList.get(0).get("TOT_CNT").toString());
+			
+			model.addAttribute("cartList", cartList);
+			model.addAttribute("payCount", list_cnt);
+			model.addAttribute("payment", payment);
+		
+		} catch(Exception e) {e.printStackTrace();}
+
+		model.addAttribute("cart_list_yn", "Y");
+		
+        model.addAttribute("bp", "06");
+       	model.addAttribute("btitle", "마이페이지");
+        model.addAttribute("mtitle", "예약목록(장바구니)");
+		
+		return "gnrl/cart/list";
+	}
+	
+	@RequestMapping(value="/delAction")
+	public @ResponseBody ResponseVo delAction(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
+		HttpSession session = request.getSession();
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+		
+		try {
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+			List<String> cart_sn = (List<String>)param.get("cart_sn");
+	
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+			
+			List<HashMap> lstMap = new ArrayList();
+			
+			for(int i = 0; i < cart_sn.size(); i++) {
+				HashMap map = new HashMap();
+				map.put("cart_sn", cart_sn.get(i));
+				map.put("esntl_id", esntl_id);
+				lstMap.add(map);
+			}
+			
+			cartService.deleteCart(lstMap);
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;
+	}
+	
 	/**
 	 * 장바구니 : 숙박시설과 다른 상품을 한 목록으로 페이징한 화면 (임시)
 	 */
@@ -144,8 +216,8 @@ public class CartController {
 		return "gnrl/cart/list_b_cart";
 	}
 	
-	@RequestMapping(value="/list/")
-	public String list(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+	@RequestMapping(value="/list2/")
+	public String list2(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
@@ -184,7 +256,7 @@ public class CartController {
 		} catch(Exception e) {e.printStackTrace();}
 
 		model.addAttribute("cart_list_yn", "Y");
-		return "gnrl/cart/list";
+		return "gnrl/cart/list_old";
 	}
 
 	@RequestMapping(value="/detail/")
@@ -230,9 +302,9 @@ public class CartController {
 	}
 
 	@RequestMapping(value="/addAction")
-	public @ResponseBody ResponseVo addAction(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+	public @ResponseBody ResponseVo addAction(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
 		ResponseVo resVo = new ResponseVo();
-		resVo.setCode("-1");
+		resVo.setResult("-1");
 		resVo.setMessage("");
 
 		try {
@@ -240,12 +312,12 @@ public class CartController {
 			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 
 			if(esntl_id.isEmpty()){
-				resVo.setCode("-2");
+				resVo.setResult("-2");
 				return resVo;
 			}
 
 			String goods_code = UserUtils.nvl(param.get("hidGoodsCode"));
-			String purchs_amount = UserUtils.nvl(param.get("PURCHS_AMOUNT").replaceAll(",", "").replaceAll("₩", ""));
+			String purchs_amount = UserUtils.nvl(param.get("PURCHS_AMOUNT"));
 			
 			// 일반상품
 			String tour_de = UserUtils.nvl(param.get("TOUR_DE")).replaceAll("-", "");
@@ -263,22 +335,7 @@ public class CartController {
 				end_time = tour_time.substring(4, 8);
 			}
 			
-			String[] arrSetupSe = request.getParameterValues("SETUP_SE");
-			String[] arrNmprSn = request.getParameterValues("NMPR_SN");
-			String[] arrCartNmprCo = request.getParameterValues("CART_NMPR_CO");
-			
-			List<HashMap> nmprList = new ArrayList<HashMap>();
-			for(int i=0;i< arrSetupSe.length;i++){
-				HashMap nmap = new HashMap();
-				nmap.put("setup_se", arrSetupSe[i]);
-				nmap.put("nmpr_sn", arrNmprSn[i]);
-				nmap.put("nmpr_co", arrCartNmprCo[i]);
-
-				//인원수가 0보다 크면 추가
-				if(SimpleUtils.isStringInteger(arrCartNmprCo[i]) && Integer.parseInt(arrCartNmprCo[i]) > 0){
-					nmprList.add(nmap);
-				}
-			}
+			List<Map> nmprList = (List<Map>)param.get("nmprList");
 
 			HashMap map = new HashMap();
 			map.put("opert_se", "I");			
@@ -295,9 +352,9 @@ public class CartController {
 			UserUtils.log("[addCard-map]", map);
 			
 			cartService.addCart(map);
-			resVo.setCode("1");			
+			resVo.setResult("0");			
 		} catch(Exception e) {
-			resVo.setCode("0");			
+			resVo.setResult("9");			
 			resVo.setMessage(e.getMessage());	
 			e.printStackTrace();
 		}
@@ -486,19 +543,7 @@ public class CartController {
 		return entity;
 	}
 	
-	@RequestMapping(value="/delAction/")
-	public void delAction(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
-		HttpSession session = request.getSession();
-		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		String cart_sn = UserUtils.nvl(request.getParameter("hidCartSn"));
 
-		HashMap map = new HashMap();
-		map.put("cart_sn", cart_sn);
-		map.put("esntl_id", esntl_id);
-		cartService.deleteCart(map);
-
-		response.sendRedirect("/cart/list/");
-	}
 
 	@RequestMapping(value="/getAction/")
 	public ResponseEntity<String> getAction(HttpServletRequest request, HttpServletResponse response) throws Exception {

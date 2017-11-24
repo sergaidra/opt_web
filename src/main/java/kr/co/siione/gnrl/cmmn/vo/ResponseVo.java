@@ -1,14 +1,14 @@
 package kr.co.siione.gnrl.cmmn.vo;
 
 public class ResponseVo {
-	private String code;
+	private String result;
 	private String message;
 	
-	public String getCode() {
-		return code;
+	public String getResult() {
+		return result;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setResult(String result) {
+		this.result = result;
 	}
 	public String getMessage() {
 		return message;
@@ -16,4 +16,6 @@ public class ResponseVo {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	
+
 }

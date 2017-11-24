@@ -4,6 +4,36 @@
 
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 
+	<select id="gnrl.purchs.selectPurchsSn" parameterClass="hashMap" resultClass="int">
+	<![CDATA[
+		SELECT NVL(MAX(PURCHS_SN)+1, 1)
+		  FROM TB_PURCHS
+	]]>
+	</select>
+	
+	<insert id="gnrl.purchs.insertPurchs"  parameterClass="hashMap">
+		INSERT INTO TB_PURCHS (PURCHS_SN, PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT
+			, CRTFC_NO, SETLE_DT, SETLE_IP, ESNTL_ID, WRITNG_ID, WRITNG_DT) 
+		VALUES (#purchs_sn#, TO_CHAR(SYSDATE, 'YYYYMMDD'), #tot_setle_amount#, #real_setle_amount#, #use_point#
+			, #crtfc_no#, SYSDATE, #setle_ip#, #esntl_id#, #esntl_id#, SYSDATE)
+	</insert>
 
+	<insert id="gnrl.purchs.insertPurchsGoods"  parameterClass="hashMap">
+		INSERT INTO TB_PURCHS_GOODS (PURCHS_SN, CART_SN) 
+		VALUES (#purchs_sn#, #cart_sn#)
+	</insert>
+	
+	<select id="gnrl.purchs.selectPurchs" parameterClass="hashMap" resultClass="hashMap">
+		SELECT PURCHS_SN, PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT
+			, CRTFC_NO, SETLE_DT, SETLE_IP, ESNTL_ID, WRITNG_ID, WRITNG_DT
+		FROM TB_PURCHS P
+		WHERE ESNTL_ID = #esntl_id#
+	</select>
+
+	<select id="gnrl.purchs.selectPurchsGoods" parameterClass="hashMap" resultClass="hashMap">
+		SELECT PURCHS_SN, CART_SN
+		FROM TB_PURCHS_GOODS P
+		WHERE PURCHS_SN = #purchs_sn#
+	</select>
 	
 </sqlMap>

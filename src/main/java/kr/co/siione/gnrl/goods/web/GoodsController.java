@@ -67,24 +67,33 @@ public class GoodsController {
           	HashMap map = new HashMap();
         	UserUtils.log("[goods_list]param:", param);
 
+        	String keyword = UserUtils.nvl(param.get("keyword"));
         	String category = UserUtils.nvl(param.get("category"));
         	if("".equals(category))
         		category = "S";
 
-    		String hidUpperClCodeNavi = UserUtils.nvl(param.get("hidUpperClCodeNavi"));  // 선택한 여러개의 분류
-    		String[] clArr = hidUpperClCodeNavi.split("@");
+        	if("".equals(keyword)) {
+        		String hidUpperClCodeNavi = UserUtils.nvl(param.get("hidUpperClCodeNavi"));  // 선택한 여러개의 분류
+        		String[] clArr = hidUpperClCodeNavi.split("@");
 
-    		// 상위 분류목록
-           	List<String> clList = new ArrayList<String>();
-    		for(String str:clArr){
-    			if(!str.isEmpty()) clList.add(str);
-    		}
-    		HashMap mapT = new HashMap();
-    		mapT.put("cl_code_arr", clList);
-        	System.out.println("[상위 분류목록]map:"+mapT);
-        	List<HashMap> upperTourClList = goodsService.getUpperTourClMain(mapT);
-    		
-        	model.addAttribute("upperTourClList", upperTourClList);
+        		// 상위 분류목록
+               	List<String> clList = new ArrayList<String>();
+        		for(String str:clArr){
+        			if(!str.isEmpty()) clList.add(str);
+        		}
+        		HashMap mapT = new HashMap();
+        		mapT.put("cl_code_arr", clList);
+            	System.out.println("[상위 분류목록]map:"+mapT);
+            	List<HashMap> upperTourClList = goodsService.getUpperTourClMain(mapT);
+        		
+            	model.addAttribute("upperTourClList", upperTourClList);
+            	model.addAttribute("totalsearch", "N");
+            	model.addAttribute("keyword", "");
+        	} else {
+            	model.addAttribute("keyword", keyword);
+            	model.addAttribute("totalsearch", "Y");
+        	}
+
             model.addAttribute("bp", "01");
             if("S".equals(category))
             	model.addAttribute("btitle", "셀프여행");
@@ -122,23 +131,40 @@ public class GoodsController {
     }
 
     @RequestMapping(value="/getGoodsList")
-    public @ResponseBody List<HashMap> getGoodsList(@RequestBody HashMap param) throws Exception {
+    public @ResponseBody Map<String, Object> getGoodsList(@RequestBody HashMap param) throws Exception {
       	HashMap map = new HashMap();
+    	Map<String, Object> mapResult = new HashMap<String, Object>();
+
 		String hidUpperClCode = UserUtils.nvl(param.get("hidUpperClCode")); // 첫번째 선택한 한개의 분류 OR 선택한 한개의 분류
 		String hidClCode = UserUtils.nvl(param.get("hidClCode")); // 첫번째 선택한 한개의 분류 OR 선택한 한개의 분류
 		String hidCtyCode = UserUtils.nvl(param.get("hidCtyCode")); // 도시
 		String hidSortOrd = UserUtils.nvl(param.get("hidSortOrd")); // 정렬기준
 		String hidKeyword = UserUtils.nvl(param.get("hidKeyword")); // 검색어
+		String category = UserUtils.nvl(param.get("category")); // 셀프, 핫딜, 추천
+		
+		String hidNext = UserUtils.nvl(param.get("hidNext")); // 다음페이지 여부
+		int hidPage = Integer.parseInt(UserUtils.nvl(param.get("hidPage"))); // 페이지번호
+		int startIdx = (hidPage - 1) * 10 + 1;
+		int endIdx = hidPage * 10;
 
     	map.put("cty_code", hidCtyCode);   
     	map.put("cl_code", hidClCode);   
     	map.put("upper_cl_code", hidUpperClCode);   
     	map.put("sortOrd", hidSortOrd);   
     	map.put("keyword", hidKeyword);   
+    	map.put("category", category);       	
+    	map.put("hidPage", hidPage);
+    	map.put("startIdx", startIdx);
+    	map.put("endIdx", endIdx);
     	System.out.println("[상품목록]map:"+map);
-    	List<HashMap> list = goodsService.getGoodsList(map);
+    	if("N".equals(hidNext)) {
+    		int totalCount = goodsService.getGoodsListCount(map);
+        	mapResult.put("totalCount", String.valueOf(totalCount));
+    	}
+    	List<HashMap> list = goodsService.getGoodsList(map);    	
+    	mapResult.put("list", list);
 
-    	return list;
+    	return mapResult;
     }
 
     @RequestMapping(value="/detail")
