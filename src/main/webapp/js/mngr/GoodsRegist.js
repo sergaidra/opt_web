@@ -2801,6 +2801,7 @@ Ext.define('GoodsNmprInfo', {
 			, {name:'FIXED_AT', type:'string'}
 			, {name:'SETUP_AMOUNT', type:'string'}
 			, {name:'SETUP_RATE', type:'string'}
+			, {name:'DSCNT_RATE', type:'string'}
 			, {name:'NMPR_CO', type:'string'}
 			, {name:'MAX_NMPR_CO', type:'string'}
 			, {name:'ADIT_NMPR_AMOUNT', type:'string'}
@@ -2914,6 +2915,14 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 7, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
 		dataIndex: 'ADIT_NMPR_AMOUNT'
 	},{
+		text: '할인율(%)',
+		width: 100,
+		align: 'center',
+		sortable: false,
+		menuDisabled: true,
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 2, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
+		dataIndex: 'DSCNT_RATE'			
+	},{
 		text: '정렬순서',
 		width: 100,
 		align: 'center',
@@ -2988,6 +2997,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 					FIXED_AT : 'Y',
 					SETUP_AMOUNT : '',
 					SETUP_RATE : '',
+					DSCNT_RATE : '',
 					NMPR_CO : '',
 					MAX_NMPR_CO : '',
 					ADIT_NMPR_AMOUNT : '',
