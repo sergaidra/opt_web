@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="admin">
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+	
+	<sql id="PurchsPointDAO.pagingQueryStart">
+	  SELECT TT.* FROM (	
+	</sql>
+	
+	<sql id="PurchsPointDAO.pagingQueryEnd">
+	  ) TT WHERE ROWSEQ BETWEEN #start# + 1 AND #page# * #limit#
+	</sql>	
+	
+	<sql id="PurchsPointDAO.whereForSelectPurchsPointList">
+		 WHERE ESNTL_ID = #ESNTL_ID#
+		<isNotEmpty property="FR_ACCML_DT">
+		   AND ACCML_DT BETWEEN TO_DATE(#FR_ACCML_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_ACCML_DT#, 'YYYY-MM-DD')+0.99999
+		</isNotEmpty>		  
+	</sql>
+	
+	<select id="PurchsPointDAO.selectPurchsPointListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
+		SELECT COUNT(ESNTL_ID)
+		  FROM TB_PURCHS_POINT
+		<include refid="PurchsPointDAO.whereForSelectPurchsPointList"/>
+	</select>
+
+	<select id="PurchsPointDAO.selectPurchsPointList" parameterClass="hashMap" resultClass="hashMap">
+		<include refid="PurchsPointDAO.pagingQueryStart"/><![CDATA[
+		SELECT ROW_NUMBER() OVER(ORDER BY ACCML_DT DESC) AS ROWSEQ
+		     , PURCHS_SN
+		     , CART_SN
+		     , POINT
+		     , ABS(POINT) POINT_ABS
+		     , DECODE(SIGN(POINT), 1, '적립', -1, '차감') POINT_DIV
+		     , (SELECT X.CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID = 'COM005' AND A.ACCML_SE = X.CODE) ACCML_SE_NM
+		     , ACCML_SE
+		     , TO_CHAR(ACCML_DT, 'YYYY-MM-DD') ACCML_DT
+		     , VALID_DE
+		     , ESNTL_ID
+		  FROM TB_PURCHS_POINT A ]]>
+		<include refid="PurchsPointDAO.whereForSelectPurchsPointList"/>
+		<include refid="PurchsPointDAO.pagingQueryEnd"/>
+	</select>
+
+</sqlMap>

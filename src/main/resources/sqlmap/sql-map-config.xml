@@ -13,12 +13,13 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_file_manage.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_cty.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_tour_cl.xml"/>
+		
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_schdul.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_time.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_nmpr.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_kwrd.xml"/>
-	<sqlMap resource="sqlmap/siione/mngr/tb_main_image.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_purchs_point.xml"/>	
 	
 	<sqlMap resource="sqlmap/siione/mngr/tb_user.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_menu.xml"/>
@@ -28,5 +29,7 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_arline.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_arprt.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_dta_init.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_main_image.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_point.xml"/>
+
 </sqlMapConfig>
