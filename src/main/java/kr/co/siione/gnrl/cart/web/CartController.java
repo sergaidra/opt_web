@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import kr.co.siione.dist.utils.SimpleUtils;
 import kr.co.siione.gnrl.cart.service.CartService;
-import kr.co.siione.gnrl.cart.service.FlightService;
+import kr.co.siione.gnrl.cart.service.FlightService2;
 import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.goods.service.GoodsService;
 import kr.co.siione.mngr.service.ArprtManageService;
@@ -44,7 +44,7 @@ public class CartController {
 	private CartService cartService;
 	
 	@Resource
-	private FlightService flightService;
+	private FlightService2 flightService;
 
 	@Resource
 	private ArprtManageService arprtManageService;
@@ -319,6 +319,7 @@ public class CartController {
 			String goods_code = UserUtils.nvl(param.get("hidGoodsCode"));
 			String purchs_amount = UserUtils.nvl(param.get("PURCHS_AMOUNT"));
 			String origin_amount = UserUtils.nvl(param.get("ORIGIN_AMOUNT"));
+			String flight_sn = UserUtils.nvl(param.get("flight_sn"));
 			
 			// 일반상품
 			String tour_de = UserUtils.nvl(param.get("TOUR_DE")).replaceAll("-", "");
@@ -349,6 +350,7 @@ public class CartController {
 			map.put("chckt_de", chckt_de);
 			map.put("nmpr_list", nmprList);
 			map.put("begin_time", begin_time);
+			map.put("flight_sn", flight_sn);
 			map.put("end_time", end_time);
 
 			UserUtils.log("[addCard-map]", map);
