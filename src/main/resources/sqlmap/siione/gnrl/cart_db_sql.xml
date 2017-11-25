@@ -29,7 +29,8 @@
 			DELETE_AT,
 			ORIGIN_AMOUNT,
 			PURCHS_AT,
-			CART_MODE
+			CART_MODE,
+			FLIGHT_SN
 		) VALUES(
 			#esntl_id#,
 			#cart_sn#,
@@ -46,7 +47,8 @@
 			'N',
 			#origin_amount#,
 			'N',
-			'C'
+			'C',
+			#flight_sn#
 		)
 	]]>
 	</insert>

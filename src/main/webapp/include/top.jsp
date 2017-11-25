@@ -117,10 +117,9 @@ $(function() {
         <div class="reset">초기화</div>
       </div>
           <div class="ri_tab">
-        <ul>
-              <li class="on">항공편</li>
-              <li >호텔</li>
-              <li>일정표</li>
+        	<ul>
+              <li class="on" style="width:calc(50% - 1px);">일정표</li>
+              <li style="width:calc(50% - 1px);">항공편</li>
             </ul>
       </div>
           <div class="ri_tb">예약내용 나오는곳</div>

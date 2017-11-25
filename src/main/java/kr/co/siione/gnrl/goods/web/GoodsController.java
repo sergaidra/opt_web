@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import kr.co.siione.gnrl.cmmn.service.FileService;
 import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.goods.service.GoodsService;
+import kr.co.siione.mngr.service.ArprtManageService;
 import kr.co.siione.mngr.service.CtyManageService;
 import kr.co.siione.utl.UserUtils;
 
@@ -39,6 +40,9 @@ public class GoodsController {
 	
 	@Resource
 	private CtyManageService ctyManageService;
+	
+	@Resource
+	private ArprtManageService arprtManageService;
     
     @RequestMapping(value="/category")
     public String category(HttpServletRequest request, HttpServletResponse response, ModelMap model, @RequestParam HashMap param) throws Exception {
@@ -215,7 +219,8 @@ public class GoodsController {
         	List<HashMap> lstTime = goodsService.getGoodsTimeList(map);
         	
         	if(UserUtils.nvl(result.get("CL_SE")).equals("P")) {
-        		//List<Map<String, String>> lstFlight = arprtManageService.selectArprtList(map);
+        		List<Map<String, String>> lstFlight = arprtManageService.selectArprtList(map);
+        		model.addAttribute("lstFlight", lstFlight);
         	}
         	map.put("file_code", result.get("FILE_CODE"));
         	map.put("hotdeal_at", "N");
