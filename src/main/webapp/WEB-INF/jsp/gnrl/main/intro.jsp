@@ -88,21 +88,21 @@ function fnDetail(goods_code, category) {
     <div class="inner2">
       <ul>
         <li>
-          <div class="left_icon"><img src="<c:url value='/images/main/main_a_01.png'/>" alt=""/></div>
+          <div class="left_icon" onclick="go_01_01_01();"><img src="<c:url value='/images/main/main_a_01.png'/>" alt=""/></div>
           <div class="right_txt"><em>내가 고르는 나만의 여행</em><br>
             직접 상품을 골라 직접 
             <div class="pc_view"></div>
           만드는 셀프여행</div>
         </li>
         <li>
-          <div class="left_icon"><img src="<c:url value='/images/main/main_a_02.png'/>" alt=""/></div>
+          <div class="left_icon" onclick="go_02_01_01();"><img src="<c:url value='/images/main/main_a_02.png'/>" alt=""/></div>
           <div class="right_txt"><em>이번달의 핫한 여행상품</em><br>
             여러분들이 가장 많이 
             <div class="pc_view"></div>
             찾은 인기 상품들</div>
         </li>
         <li>
-          <div class="left_icon"><img src="<c:url value='/images/main/main_a_03.png'/>" alt=""/></div>
+          <div class="left_icon" onclick="go_03_01_01();"><img src="<c:url value='/images/main/main_a_03.png'/>" alt=""/></div>
           <div class="right_txt"><em>전문가의 추천 여행</em><br>
             원패스투어 전문가가 추천하는
             <div class="pc_view"></div>

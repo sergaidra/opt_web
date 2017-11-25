@@ -1318,7 +1318,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 		}]
 	},{
 		xtype: 'fieldset',
-		title: '<span style="font-weight:bold;">상품 간략 정보</span>(10자 이내로 입력)',
+		title: '<span style="font-weight:bold;">상품 간략 정보</span>',
 		padding: '10 20 10 10',
 		items: [{
 			xtype: 'fieldcontainer',
@@ -1361,7 +1361,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 100,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 20,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1375,7 +1375,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 130,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 20,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1393,7 +1393,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 100,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 20,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1407,7 +1407,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 130,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 20,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1425,7 +1425,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 100,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 20,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1439,7 +1439,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 130,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 20,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1457,7 +1457,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 100,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 20,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1471,7 +1471,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 130,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 20,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1489,7 +1489,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 100,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 20,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1503,7 +1503,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 130,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 20,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1521,7 +1521,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 100,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 20,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -1535,7 +1535,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelSeparator: ':',
 				labelWidth: 130,
 				labelAlign: 'right',
-				maxLength: 10,
+				maxLength: 20,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
