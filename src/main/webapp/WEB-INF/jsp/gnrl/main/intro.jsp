@@ -88,25 +88,25 @@ function fnDetail(goods_code, category) {
     <div class="inner2">
       <ul>
         <li>
-          <div class="left_icon"><img src="<c:url value='/images/main/main_a_01.png'/>" alt=""/></div>
-          <div class="right_txt"><em>내가고르는 나만의 여행</em><br>
-            원패스투어의 장점을 간단히
+          <div class="left_icon" onclick="go_01_01_01();"><img src="<c:url value='/images/main/main_a_01.png'/>" alt=""/></div>
+          <div class="right_txt"><em>내가 고르는 나만의 여행</em><br>
+            직접 상품을 골라 직접 
             <div class="pc_view"></div>
-            설명하는 공간입니다. </div>
+          만드는 셀프여행</div>
         </li>
         <li>
-          <div class="left_icon"><img src="<c:url value='/images/main/main_a_02.png'/>" alt=""/></div>
-          <div class="right_txt"><em>내가 찾는 여행지정보</em><br>
-            원패스투어의 장점을 간단히
+          <div class="left_icon" onclick="go_02_01_01();"><img src="<c:url value='/images/main/main_a_02.png'/>" alt=""/></div>
+          <div class="right_txt"><em>이번달의 핫한 여행상품</em><br>
+            여러분들이 가장 많이 
             <div class="pc_view"></div>
-            설명하는 공간입니다. </div>
+            찾은 인기 상품들</div>
         </li>
         <li>
-          <div class="left_icon"><img src="<c:url value='/images/main/main_a_03.png'/>" alt=""/></div>
-          <div class="right_txt"><em>빠르고 간편하게...</em><br>
-            원패스투어의 장점을 간단히
+          <div class="left_icon" onclick="go_03_01_01();"><img src="<c:url value='/images/main/main_a_03.png'/>" alt=""/></div>
+          <div class="right_txt"><em>전문가의 추천 여행</em><br>
+            원패스투어 전문가가 추천하는
             <div class="pc_view"></div>
-            설명하는 공간입니다. </div>
+            이번달 추천 여행</div>
         </li>
       </ul>
     </div>
@@ -271,7 +271,7 @@ function fnDetail(goods_code, category) {
       <div class="cont_box">
         <div class="in01 fl">
           <div class="title">${reco[0].GOODS_NM}</div>
-          <div class="text"><!-- ${reco[0].GOODS_INTRCN} --></div>
+          <div class="text">${reco[0].GOODS_INTRCN_SIMPL}</div>
           <div class="more" onclick="fnDetail('${reco[0].GOODS_CODE}', 'R');">자세히보기 + </div>
         </div>
         <div class="in02 fr">
@@ -286,10 +286,9 @@ function fnDetail(goods_code, category) {
       </div>
       <div class="cont_box">
         <div class="in01 fl">
-          <div class="title">샹그릴라</div>
-          <div class="text">기획특가! 샹그릴라 호핑투어+<br>
-            마사지+아얄라나이트투어 3박4일 </div>
-          <div class="more">자세히보기 + </div>
+          <div class="title">${reco[1].GOODS_NM}</div>
+          <div class="text">${reco[1].GOODS_INTRCN_SIMPL}</div>
+          <div class="more" onclick="fnDetail('${reco[1].GOODS_CODE}', 'R');">자세히보기 + </div>
         </div>
         <div class="in02 fr">
           <div class="icon"></div>

@@ -61,6 +61,7 @@
         <result property="GOODS_CODE"                column="GOODS_CODE"                jdbcType="string" javaType="string"/>
         <result property="GOODS_NM"                  column="GOODS_NM"                  jdbcType="string" javaType="string"/>
         <result property="GOODS_INTRCN"              column="GOODS_INTRCN"              jdbcType="CLOB"   javaType="string"/>
+        <result property="GOODS_INTRCN_SIMPL"        column="GOODS_INTRCN_SIMPL"        jdbcType="string"   javaType="string"/>
         <result property="FILE_CODE"                  column="FILE_CODE"                  jdbcType="string" javaType="string"/>
         <result property="FILE_SN"                  column="FILE_SN"                  jdbcType="string" javaType="string"/>
 	</resultMap>
@@ -92,7 +93,7 @@
 	<![CDATA[
 		SELECT A.*
 		FROM (
-				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE
+				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE, GOODS_INTRCN_SIMPL
 					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND HOTDEAL_AT = 'Y' ) AS FILE_SN, RNUM
 				FROM (
 					SELECT GOODS_CODE, ROWNUM AS RNUM
@@ -115,7 +116,7 @@
 	<![CDATA[
 		SELECT A.*
 		FROM (
-				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE
+				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE, GOODS_INTRCN_SIMPL
 					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND HOTDEAL_AT = 'Y' ) AS FILE_SN, RNUM
 				FROM (
 					SELECT GOODS_CODE, ROWNUM AS RNUM
@@ -136,7 +137,7 @@
 
 	<select id="gnrl.goods.selectGoodsExpsrList3" resultMap="goodsDetailSub">
 	<![CDATA[
-				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE
+				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE, GOODS_INTRCN_SIMPL
 					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND HOTDEAL_AT = 'Y' ) AS FILE_SN, RNUM
 				FROM (
 					SELECT GOODS_CODE, ROWNUM AS RNUM
@@ -157,7 +158,7 @@
 	<![CDATA[
 		SELECT A.*
 		FROM (
-				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE
+				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE, GOODS_INTRCN_SIMPL
 					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND HOTDEAL_AT = 'Y' ) AS FILE_SN, RNUM
 				FROM (
 					SELECT GOODS_CODE, ROWNUM AS RNUM
