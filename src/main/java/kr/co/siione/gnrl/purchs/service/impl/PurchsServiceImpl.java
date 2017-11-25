@@ -23,6 +23,38 @@ public class PurchsServiceImpl implements PurchsService {
 		for(HashMap nMap:nList) {
 			nMap.put("purchs_sn", purchs_sn);
 			purchsDAO.insertPurchsGoods(nMap);
+			purchsDAO.updCartGoods(nMap);
 		}
+	}
+	
+	public int getTotalPoint(HashMap map) throws Exception {
+    	return purchsDAO.getTotalPoint(map);
+    }
+	
+	public int getPurchsListCount(HashMap map) throws Exception {
+		return purchsDAO.getPurchsListCount(map);
+	}
+		
+    public List<HashMap> getPurchsList(HashMap map) throws Exception {
+        return purchsDAO.getPurchsList(map);
+    }
+    
+	public List<HashMap> selectPurchsDetail(HashMap map) throws Exception {
+		return purchsDAO.selectPurchsDetail(map);
+	}
+
+    public void insertPurchsReview(HashMap map) throws Exception {
+		HashMap review = purchsDAO.selectPurchsReview(map);
+		HashMap point = purchsDAO.selectPurchsPoint(map);
+		if(review == null)
+			purchsDAO.insertPurchsReview(map);
+		else
+			purchsDAO.updatePurchsReview(map);
+		if("Y".equals(map.get("pointYn")) && point == null)
+			purchsDAO.insertPurchsPoint(map);
+    }
+    
+	public HashMap selectPurchsReview(HashMap map) throws Exception {
+		return purchsDAO.selectPurchsReview(map);
 	}
 }

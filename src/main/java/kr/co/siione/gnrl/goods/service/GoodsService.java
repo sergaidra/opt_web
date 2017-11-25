@@ -19,4 +19,13 @@ public interface GoodsService {
     public List<HashMap> getGoodsNmprList(HashMap map) throws Exception;
     public List<HashMap> getGoodsNmprBySetupSeList(HashMap map) throws Exception;
     public List<HashMap> getGoodsTimeList(HashMap map) throws Exception;
+
+    public HashMap getReviewScore(HashMap map) throws Exception;
+    public int getReviewCount(HashMap map) throws Exception;
+    public List<HashMap> getReview(HashMap map) throws Exception;
+    
+    public void insertOpinion(HashMap map) throws Exception;
+	public int getOpinionCount(HashMap map) throws Exception;
+	public List getOpinion(HashMap map) throws Exception;
+
 }

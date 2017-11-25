@@ -159,6 +159,9 @@ function paymentCart() {
         </tr>
       </thead>
       <tbody>
+		<c:set var="originTotalprice" value="0" />
+		<c:set var="salePrice" value="0" />
+		<c:set var="totalPrice" value="0" />
 		<c:forEach var="result" items="${cartList}" varStatus="status">
 		<tr>
 			<td ><input type="checkbox" name="chkCart" value="${result.CART_SN}" /><input type="hidden" name="purchs_amount" value="${result.PURCHS_AMOUNT}"></td>
@@ -200,7 +203,7 @@ function paymentCart() {
             </td>
 			<td >
 				<div class="cart_price2">
-					<fmt:formatNumber value="${result.PURCHS_AMOUNT}" pattern="#,###" />원
+					<fmt:formatNumber value="${result.ORIGIN_AMOUNT}" pattern="#,###" />원
 				</div>
 			</td>
 			<!-- <td >
@@ -215,11 +218,14 @@ function paymentCart() {
 				</div>
 				<div class="cart_umber_btn"><a href="#">수량변경</a></div>
 			</td> -->
-			<td>0원<!-- 할인이벤트명<br />
+			<td><fmt:formatNumber value="${result.ORIGIN_AMOUNT - result.PURCHS_AMOUNT}" pattern="#,###" />원<!-- 할인이벤트명<br />
             	-3,000원 --></td>
 			<td ><div class="cart_price3"><fmt:formatNumber value="${result.PURCHS_AMOUNT}" pattern="#,###" />원</div></td>
 			<td > <a href="javascript:delCartSingle('${result.CART_SN}');" class="sbtn_01">삭제하기</a></td>
 		</tr>
+		<c:set var="originTotalprice" value="${originTotalprice + result.ORIGIN_AMOUNT }" />
+		<c:set var="salePrice" value="${salePrice + (result.ORIGIN_AMOUNT - result.PURCHS_AMOUNT) }" />
+		<c:set var="totalPrice" value="${totalPrice + result.PURCHS_AMOUNT }" />		
 		</c:forEach>      
 
       </tbody>
@@ -232,12 +238,12 @@ function paymentCart() {
       <div class="price_box">
         <div class="text1">
           <div class="t1">총 상품금액<br />
-            <em><fmt:formatNumber value="${payment}" pattern="#,###" /></em>원</div>
+            <em><fmt:formatNumber value="${originTotalprice}" pattern="#,###" /></em>원</div>
         </div>
         <div class="text2"><i class="material-icons">&#xE15C;</i></div>
         <div class="text1">
           <div class="t2">총 할인금액<br />
-            <em>0</em>원</div>
+            <em><fmt:formatNumber value="${salePrice}" pattern="#,###" /></em>원</div>
         </div>
          <div class="text2"><i class="material-icons">&#xE15C;</i></div>
         <div class="text1">
@@ -249,7 +255,7 @@ function paymentCart() {
         <div class="toral_icon"><i class="material-icons">&#xE035;</i></div>
         <div class="text3">
           <div class="t1">최종결제예정금액<br />
-            <em><fmt:formatNumber value="${payment}" pattern="#,###" /></em>원</div>
+            <em><fmt:formatNumber value="${totalPrice}" pattern="#,###" /></em>원</div>
         </div>
       </div>
     </div>

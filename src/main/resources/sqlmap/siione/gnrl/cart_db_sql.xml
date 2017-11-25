@@ -26,7 +26,9 @@
 			EXPRTN_AT,
 			WRITNG_ID,
 			WRITNG_DT,
-			DELETE_AT
+			DELETE_AT,
+			ORIGIN_AMOUNT,
+			PURCHS_AT
 		) VALUES(
 			#esntl_id#,
 			#cart_sn#,
@@ -40,6 +42,8 @@
 			'N',
 			#esntl_id#,
 			SYSDATE,
+			'N',
+			#origin_amount#,
 			'N'
 		)
 	]]>
@@ -329,6 +333,8 @@
 		<result property="CTY_NM"        column="CTY_NM"      	jdbcType="string" javaType="string"/>
 		<result property="UPPER_CL_NM"   column="UPPER_CL_NM" 	jdbcType="string" javaType="string"/>
 		<result property="CL_NM"         column="CL_NM"        	jdbcType="string" javaType="string"/>
+		<result property="ORIGIN_AMOUNT"         column="ORIGIN_AMOUNT"        	jdbcType="string" javaType="string"/>
+		<result property="PURCHS_AT"         column="PURCHS_AT"        	jdbcType="string" javaType="string"/>
 		<result property="OPTIONS"       column="{ESNTL_ID=ESNTL_ID, CART_SN=CART_SN}" select="gnrl.cart.selectCartDetailList" javaType="java.util.ArrayList"/>
 	</resultMap>	
 	
@@ -362,7 +368,9 @@
 		     , DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE) SORT_DE
 		     , (SELECT CTY_NM FROM TB_CTY Y WHERE Y.CTY_CODE = X.CTY_CODE) CTY_NM         
 		     , (SELECT CL_NM FROM TB_TOUR_CL Y WHERE Y.UPPER_CL_CODE = '00000' START WITH Y.CL_CODE = X.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_NM
-		     , (SELECT CL_NM FROM TB_TOUR_CL Y WHERE Y.CL_CODE = X.CL_CODE) CL_NM 		     
+		     , (SELECT CL_NM FROM TB_TOUR_CL Y WHERE Y.CL_CODE = X.CL_CODE) CL_NM
+		     , ORIGIN_AMOUNT 		     
+		     , PURCHS_AT
 		  FROM TB_CART_GOODS A
 		 INNER JOIN TB_GOODS X
 		    ON X.GOODS_CODE = A.GOODS_CODE
@@ -370,6 +378,7 @@
 		 WHERE A.ESNTL_ID = #esntl_id#
 		   AND A.EXPRTN_AT = 'N'
 		   AND A.DELETE_AT = 'N'
+		   AND A.PURCHS_AT = 'N'
 		 ORDER BY DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE), A.BEGIN_TIME
 	]]>
 	</select>	

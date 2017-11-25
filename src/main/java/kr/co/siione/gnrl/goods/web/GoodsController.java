@@ -1,6 +1,8 @@
 package kr.co.siione.gnrl.goods.web;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +10,10 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.co.siione.gnrl.cmmn.service.FileService;
+import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.goods.service.GoodsService;
 import kr.co.siione.mngr.service.CtyManageService;
 import kr.co.siione.utl.UserUtils;
@@ -180,6 +184,10 @@ public class GoodsController {
             String goods_code = UserUtils.nvl(param.get("hidGoodsCode"));
         	map.put("goods_code", goods_code);
         	HashMap result = goodsService.getGoodsDetail(map);
+        	HashMap review = goodsService.getReviewScore(map);
+        	String ceil_review_score = String.valueOf(review.get("CEIL_REVIEW_SCORE"));
+        	String review_count = String.valueOf(review.get("REVIEW_COUNT"));    
+        	String review_score = String.valueOf(review.get("REVIEW_SCORE"));        	
 
         	List<HashMap> lstNmpr = null;
         	List<HashMap> lstRoom = null;
@@ -257,6 +265,9 @@ public class GoodsController {
             model.addAttribute("category", category);
             
             model.addAttribute("goods_code", goods_code);
+            model.addAttribute("review_score", review_score);
+            model.addAttribute("review_count", review_count); 
+            model.addAttribute("ceil_review_score", ceil_review_score);
             model.addAttribute("result", result);
             model.addAttribute("lstSchdul", lstSchdul);
             model.addAttribute("lstTime", lstTime);
@@ -273,6 +284,94 @@ public class GoodsController {
         return "gnrl/goods/detail";
     }
     
+    @RequestMapping(value="/getReview")
+    public @ResponseBody Map getReview(@RequestBody HashMap param) throws Exception {
+      	HashMap map = new HashMap();
+    	Map<String, Object> mapResult = new HashMap<String, Object>();
+
+    	String goods_code = UserUtils.nvl(param.get("goods_code"));
+		int hidPage = Integer.parseInt(UserUtils.nvl(param.get("hidPage"))); // 페이지번호
+		int startIdx = (hidPage - 1) * 5 + 1;
+		int endIdx = hidPage * 5;
+
+    	map.put("goods_code", goods_code); 
+    	map.put("hidPage", hidPage);
+    	map.put("startIdx", startIdx);
+    	map.put("endIdx", endIdx);
+    	
+    	int totalCount = goodsService.getReviewCount(map);
+    	List<HashMap> list = goodsService.getReview(map);
+    	
+    	mapResult.put("totalCount", String.valueOf(totalCount));
+    	mapResult.put("startIdx", String.valueOf(startIdx));
+    	mapResult.put("list", list);
+
+    	return mapResult;    
+    }    
+
+    @RequestMapping(value="/getOpinion")
+    public @ResponseBody Map getOpinion(@RequestBody HashMap param) throws Exception {
+      	HashMap map = new HashMap();
+    	Map<String, Object> mapResult = new HashMap<String, Object>();
+
+    	String goods_code = UserUtils.nvl(param.get("goods_code"));
+		int hidPage = Integer.parseInt(UserUtils.nvl(param.get("hidPage"))); // 페이지번호
+		int startIdx = (hidPage - 1) * 5 + 1;
+		int endIdx = hidPage * 5;
+
+    	map.put("goods_code", goods_code); 
+    	map.put("hidPage", hidPage);
+    	map.put("startIdx", startIdx);
+    	map.put("endIdx", endIdx);
+    	
+    	int totalCount = goodsService.getOpinionCount(map);
+    	List<HashMap> list = goodsService.getOpinion(map);
+    	
+    	mapResult.put("totalCount", String.valueOf(totalCount));
+    	mapResult.put("startIdx", String.valueOf(startIdx));
+    	mapResult.put("list", list);
+
+    	return mapResult;    
+    }    
+    
+    @RequestMapping(value="/saveOpinion")
+    public @ResponseBody ResponseVo saveOpinion(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+	    	HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+
+			HashMap map = new HashMap();
+
+			String goods_code = UserUtils.nvl(param.get("goods_code"));
+			String opinion_sj = UserUtils.nvl(param.get("opinion_sj"));
+			String opinion_cn = UserUtils.nvl(param.get("opinion_cn"));
+
+	    	map.put("goods_code", goods_code);
+	    	map.put("opinion_sj", opinion_sj);
+	    	map.put("opinion_cn", opinion_cn);
+	    	map.put("esntl_id", esntl_id);
+	    	
+	    	goodsService.insertOpinion(map);
+
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;    	
+    }    
+
     private boolean isEmpty(Map map, String key) {
     	if(!map.containsKey(key) || map.get(key) == null || "".equals(String.valueOf(map.get(key)).trim()))
     		return true;

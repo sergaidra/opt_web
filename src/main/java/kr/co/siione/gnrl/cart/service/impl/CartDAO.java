@@ -80,4 +80,9 @@ public class CartDAO extends EgovComAbstractDAO {
 	public void deleteCartNmpr(HashMap map) throws Exception {
 		delete("gnrl.cart.deleteCartNmpr", map);
 	}
+	
+	public List selectCartDetailList(HashMap map) throws Exception {
+		return list("gnrl.cart.selectCartDetailList", map);
+	}
+	
 }

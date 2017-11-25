@@ -4,10 +4,18 @@
 
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 
+	<sql id="wherePurchsList">
+		AND PURCHS_DE BETWEEN #start_dt# AND #end_dt#
+	</sql>
+	
 	<select id="gnrl.purchs.selectPurchsSn" parameterClass="hashMap" resultClass="int">
 	<![CDATA[
 		SELECT SQ_PURCHS_SN.nextval  FROM DUAL
 	]]>
+	</select>
+	
+	<select id="gnrl.purchs.getTotalPoint" parameterClass="hashMap" resultClass="int">
+		SELECT SUM(POINT) FROM TB_PURCHS_POINT WHERE ESNTL_ID = #esntl_id#
 	</select>
 	
 	<insert id="gnrl.purchs.insertPurchs"  parameterClass="hashMap">
@@ -21,7 +29,12 @@
 		INSERT INTO TB_PURCHS_GOODS (PURCHS_SN, CART_SN) 
 		VALUES (#purchs_sn#, #cart_sn#)
 	</insert>
-	
+
+	<update id="gnrl.purchs.updCartGoods"  parameterClass="hashMap">
+		UPDATE TB_CART_GOODS SET PURCHS_AT = 'Y'
+		WHERE CART_SN = #cart_sn#
+	</update>
+		
 	<select id="gnrl.purchs.selectPurchs" parameterClass="hashMap" resultClass="hashMap">
 		SELECT PURCHS_SN, PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT
 			, CRTFC_NO, SETLE_DT, SETLE_IP, ESNTL_ID, WRITNG_ID, WRITNG_DT
@@ -34,5 +47,67 @@
 		FROM TB_PURCHS_GOODS P
 		WHERE PURCHS_SN = #purchs_sn#
 	</select>
+
+	<select id="gnrl.purchs.selectPurchsListCount" parameterClass="hashMap" resultClass="Integer">
+		SELECT COUNT(1)
+		FROM TB_PURCHS P
+			INNER JOIN TB_PURCHS_GOODS PG ON P.PURCHS_SN = PG.PURCHS_SN
+			INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN
+		WHERE P.ESNTL_ID = #esntl_id#
+		<include refid="wherePurchsList"/>
+	</select>
+		
+	<select id="gnrl.purchs.selectPurchsList" parameterClass="hashMap" resultClass="hashMap">
+		SELECT G.FILE_CODE, P.PURCHS_SN, P.PURCHS_DE, P.TOT_SETLE_AMOUNT, CG.CART_SN, G.GOODS_NM, G.GOODS_CODE
+			, CG.TOUR_DE, CG.CHKIN_DE, CG.CHCKT_DE, CG.BEGIN_TIME, CG.END_TIME, G.CL_SE
+		FROM (
+			SELECT A.PURCHS_SN, A.CART_SN, ROWNUM AS RNUM
+			FROM (
+					SELECT P.PURCHS_SN, CG.CART_SN
+					FROM TB_PURCHS P
+						INNER JOIN TB_PURCHS_GOODS PG ON P.PURCHS_SN = PG.PURCHS_SN
+						INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN
+					WHERE P.ESNTL_ID = #esntl_id#
+					<include refid="wherePurchsList"/>
+					ORDER BY P.PURCHS_SN DESC, CG.CART_SN
+			) A
+		) B
+			INNER JOIN TB_PURCHS P ON B.PURCHS_SN = P.PURCHS_SN
+			INNER JOIN TB_CART_GOODS CG ON B.CART_SN = CG.CART_SN
+			INNER JOIN TB_GOODS G ON CG.GOODS_CODE = G.GOODS_CODE
+		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
+		ORDER BY RNUM
+	</select>
 	
+	<select id="gnrl.purchs.selectPurchsDetail" parameterClass="hashMap" resultClass="hashMap">
+		SELECT P.REAL_SETLE_AMOUNT, P.PURCHS_DE
+		FROM TB_PURCHS P
+			INNER JOIN TB_PURCHS_GOODS PG ON P.PURCHS_SN = PG.PURCHS_SN
+			INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN
+		WHERE P.PURCHS_SN = #purchs_sn# AND PG.CART_SN = #cart_sn#
+	</select>
+	
+	<insert id="gnrl.purchs.insertPurchsReview" parameterClass="hashMap" >
+		INSERT INTO TB_PURCHS_REVIEW (PURCHS_SN, CART_SN, GOODS_CODE, REVIEW_CN, REVIEW_SCORE, ESNTL_ID, WRITNG_ID, WRITNG_DT)
+		VALUES ( #purchs_sn#, #cart_sn#, #goods_code#, #review_cn#, #review_score#, #esntl_id#, #esntl_id#, SYSDATE )
+	</insert>
+	<select id="gnrl.purchs.selectPurchsReview" parameterClass="hashMap" resultClass="hashMap">
+		SELECT PURCHS_SN, CART_SN, GOODS_CODE, REVIEW_CN, REVIEW_SCORE, ESNTL_ID, WRITNG_ID, WRITNG_DT
+		FROM TB_PURCHS_REVIEW
+		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+	</select>
+	<update id="gnrl.purchs.updatePurchsReview"  parameterClass="hashMap">
+		UPDATE TB_PURCHS_REVIEW SET REVIEW_CN = #review_cn#, REVIEW_SCORE = #review_score#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE
+		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+	</update>
+	
+	<select id="gnrl.purchs.selectPurchsPoint" parameterClass="hashMap" resultClass="hashMap">
+		SELECT PURCHS_SN, CART_SN, POINT, ACCML_SE, ACCML_DT, VALID_DE, ESNTL_ID
+		FROM TB_PURCHS_POINT
+		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+	</select>
+	<insert id="gnrl.purchs.insertPurchsPoint" parameterClass="hashMap" >
+		INSERT INTO TB_PURCHS_POINT (PURCHS_SN, CART_SN, POINT, ACCML_SE, ACCML_DT, VALID_DE, ESNTL_ID)
+		VALUES ( #purchs_sn#, #cart_sn#, #point#, #accml_se#, SYSDATE, #valid_de#, #esntl_id#)
+	</insert>
 </sqlMap>

@@ -65,15 +65,15 @@ public class CartController {
 
 		try {
 
-			long payment = cartService.getCartPayment(map);			
+			//long payment = cartService.getCartPayment(map);			
 			List<HashMap> cartList = cartService.getCartList(map);
-			int list_cnt = 0;
-			if(cartList.size() > 0)
-				list_cnt = Integer.parseInt(cartList.get(0).get("TOT_CNT").toString());
+			//int list_cnt = 0;
+			//if(cartList.size() > 0)
+			//	list_cnt = Integer.parseInt(cartList.get(0).get("TOT_CNT").toString());
 			
 			model.addAttribute("cartList", cartList);
-			model.addAttribute("payCount", list_cnt);
-			model.addAttribute("payment", payment);
+			//model.addAttribute("payCount", list_cnt);
+			//model.addAttribute("payment", payment);
 		
 		} catch(Exception e) {e.printStackTrace();}
 
@@ -318,6 +318,7 @@ public class CartController {
 
 			String goods_code = UserUtils.nvl(param.get("hidGoodsCode"));
 			String purchs_amount = UserUtils.nvl(param.get("PURCHS_AMOUNT"));
+			String origin_amount = UserUtils.nvl(param.get("ORIGIN_AMOUNT"));
 			
 			// 일반상품
 			String tour_de = UserUtils.nvl(param.get("TOUR_DE")).replaceAll("-", "");
@@ -342,6 +343,7 @@ public class CartController {
 			map.put("esntl_id", esntl_id);			
 			map.put("goods_code", goods_code);
 			map.put("purchs_amount", purchs_amount);
+			map.put("origin_amount", origin_amount);			
 			map.put("tour_de", tour_de);
 			map.put("chkin_de", chkin_de);
 			map.put("chckt_de", chckt_de);

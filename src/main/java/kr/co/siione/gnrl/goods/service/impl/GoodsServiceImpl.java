@@ -73,4 +73,29 @@ public class GoodsServiceImpl implements GoodsService {
     public List<HashMap> getGoodsTimeList(HashMap map) throws Exception {
         return goodsDAO.selectGoodsTimeList(map);
     }    
+    
+    public HashMap getReviewScore(HashMap map) throws Exception {
+        return goodsDAO.getReviewScore(map);
+    }    
+    
+    public int getReviewCount(HashMap map) throws Exception {
+        return goodsDAO.getReviewCount(map);
+    }
+    
+    public List<HashMap> getReview(HashMap map) throws Exception {
+        return goodsDAO.getReview(map);
+    }
+    
+    public void insertOpinion(HashMap map) throws Exception {
+    	goodsDAO.insertOpinion(map);
+	}
+	
+	public int getOpinionCount(HashMap map) throws Exception {
+		return goodsDAO.getOpinionCount(map);
+	}
+
+	public List getOpinion(HashMap map) throws Exception {
+		return goodsDAO.getOpinion(map);
+	}
+
 }

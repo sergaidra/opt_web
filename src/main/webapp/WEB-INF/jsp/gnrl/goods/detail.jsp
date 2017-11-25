@@ -55,6 +55,7 @@ $(function() {
 	$("#reservation").click(function () {
 		// 예약
 		var purchs_amount = 0;
+		var origin_amount = 0;
 		var tour_de = "";
 		var tour_time = "";
 		var chkin_de = "";
@@ -76,16 +77,19 @@ $(function() {
 			
 			if(roomInfo.room != null) {
 				purchs_amount += roomInfo.room.price;
+				origin_amount += roomInfo.room.originPrice;
 				var item = { "setup_se" : roomInfo.room.setup_se, "nmpr_sn" : roomInfo.room.nmpr_sn, "nmpr_co" : roomInfo.room.nmpr_cnt, "amount" : roomInfo.room.price };
 				nmprList.push(item);
 			}
 			for(var cnt = 0; cnt < roomInfo.eat.length; cnt++) {
 				purchs_amount += roomInfo.eat[cnt].price;
+				origin_amount += roomInfo.eat[cnt].originPrice;
 				var item = { "setup_se" : roomInfo.eat[cnt].setup_se, "nmpr_sn" : roomInfo.eat[cnt].nmpr_sn, "nmpr_co" : roomInfo.eat[cnt].nmpr_cnt, "amount" : roomInfo.eat[cnt].price };
 				nmprList.push(item);
 			}
 			if(roomInfo.check != null) {
 				purchs_amount += roomInfo.check.price;
+				origin_amount += roomInfo.check.originPrice;
 				var item = { "setup_se" : roomInfo.check.setup_se, "nmpr_sn" : roomInfo.check.nmpr_sn, "nmpr_co" : "1", "amount" : roomInfo.check.price };
 				nmprList.push(item);
 			} 
@@ -114,6 +118,7 @@ $(function() {
 			
 			for(var cnt = 0; cnt < lstNmpr.length; cnt++) {
 				purchs_amount += lstNmpr[cnt].price;
+				origin_amount += lstNmpr[cnt].originPrice;
 				var item = { "setup_se" : lstNmpr[cnt].setup_se, "nmpr_sn" : lstNmpr[cnt].nmpr_sn, "nmpr_co" : lstNmpr[cnt].nmprCnt, "amount" : lstNmpr[cnt].price };
 				nmprList.push(item);
 			}
@@ -126,12 +131,13 @@ $(function() {
 		var param = {};
 		param.hidGoodsCode = "${goods_code}";
 		param.PURCHS_AMOUNT = purchs_amount;
+		param.ORIGIN_AMOUNT = origin_amount;
 		param.TOUR_DE = tour_de;
 		param.TOUR_TIME = tour_time;
 		param.CHKIN_DE = chkin_de;
 		param.CHCKT_DE = chckt_de;
 		param.nmprList = nmprList;
-			
+
 		$.ajax({
 	        url : url,
 	        type: "post",
@@ -172,7 +178,8 @@ $(function() {
 		var setup_amount = $("#cmbNmpr option:selected").attr("setup_amount");
 		var nmpr_co = $("#cmbNmpr option:selected").attr("nmpr_co");
 		var setup_se = $("#cmbNmpr option:selected").attr("setup_se");
-		
+		var dscnt_rate = $("#cmbNmpr option:selected").attr("dscnt_rate");
+
 		var isFind = false;
 		for(var cnt = 0; cnt < lstNmpr.length; cnt++) {
 			if(lstNmpr[cnt].nmpr_sn == nmpr_sn) {
@@ -182,7 +189,8 @@ $(function() {
 			}
 		}
 		if(isFind == false) {
-			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co, "nmprCnt" : 1 };
+			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount
+						, "nmpr_co" : nmpr_co, "nmprCnt" : 1, "dscnt_rate" : dscnt_rate };
 			lstNmpr.push(item);
 		}
 		
@@ -210,7 +218,8 @@ $(function() {
 			var nmpr_cnt = nmpr_co;
 			
 			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount
-					, "nmpr_co" : nmpr_co, "nmpr_cnt" : nmpr_cnt, "max_nmpr_co" : max_nmpr_co, "adit_nmpr_amount" : adit_nmpr_amount, "dscnt_rate" : dscnt_rate };
+					, "nmpr_co" : nmpr_co, "nmpr_cnt" : nmpr_cnt, "max_nmpr_co" : max_nmpr_co
+					, "adit_nmpr_amount" : adit_nmpr_amount, "dscnt_rate" : dscnt_rate };
 			roomInfo.room = item;		
 			displayRoom();
 		}
@@ -241,9 +250,11 @@ $(function() {
 			var nmpr_co = $("#cmbEat option:selected").attr("nmpr_co");
 			var setup_se = $("#cmbEat option:selected").attr("setup_se");
 			var max_nmpr_co = $("#cmbEat option:selected").attr("max_nmpr_co");
+			var dscnt_rate = $("#cmbEat option:selected").attr("dscnt_rate");
 			var nmpr_cnt = roomInfo.room.nmpr_co;
 
-			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co, "nmpr_cnt" : nmpr_cnt, "max_nmpr_co" : max_nmpr_co };
+			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount
+					, "nmpr_co" : nmpr_co, "nmpr_cnt" : nmpr_cnt, "max_nmpr_co" : max_nmpr_co, "dscnt_rate" : dscnt_rate };
 			roomInfo.eat.push(item);		
 			displayRoom();
 		}
@@ -269,12 +280,17 @@ $(function() {
 			var setup_amount = $("#cmbCheck option:selected").attr("setup_amount");
 			var nmpr_co = $("#cmbCheck option:selected").attr("nmpr_co");
 			var setup_se = $("#cmbCheck option:selected").attr("setup_se");
+			var dscnt_rate = $("#cmbCheck option:selected").attr("dscnt_rate");
 
-			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount, "nmpr_co" : nmpr_co };
+			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount
+					, "nmpr_co" : nmpr_co, "dscnt_rate" : dscnt_rate };
 			roomInfo.check = item;		
 			displayRoom();
 		}
 	});
+	
+	goSearchReview(1);
+	goSearchOpinion(1);
 });
 
 function setDateRange() {
@@ -292,22 +308,26 @@ function setDateRange() {
 function displayRoom() {
 	$("#purchInfo").empty();
 	var totalprice = 0;
+	var originTotalPrice = 0;
 		
 	if(roomInfo.days != 0) {
 		if(roomInfo.room != null) {
 			var nmpr_sn = roomInfo.room.nmpr_sn;
-			var price = roomInfo.days * roomInfo.room.setup_amount;
 			var nmpr_cnt = roomInfo.room.nmpr_cnt;
 			var max_nmpr_co = roomInfo.room.max_nmpr_co;
 			var nmpr_co = roomInfo.room.nmpr_co;
 			var adit_nmpr_amount = roomInfo.room.adit_nmpr_amount;
 			var dscnt_rate = roomInfo.room.dscnt_rate;
-			
+
+			var price = roomInfo.days * roomInfo.room.setup_amount * dscnt_rate;
+			var originPrice = roomInfo.days * roomInfo.room.setup_amount;
+
 			if(!isNaN(max_nmpr_co)) {
 				if(!isNaN(adit_nmpr_amount)) {
 					if(Number(nmpr_co) < Number(nmpr_cnt)) {
 						var diff = Number(nmpr_cnt) - Number(nmpr_co);
-						price += diff * Number(adit_nmpr_amount) * roomInfo.days;
+						price += diff * Number(adit_nmpr_amount) * roomInfo.days * dscnt_rate;
+						originPrice += diff * Number(adit_nmpr_amount) * roomInfo.days;
 					}
 				}
 			}
@@ -320,19 +340,23 @@ function displayRoom() {
 			var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusRoom(" + nmpr_sn + ");'>-</div><div class='um_input'><input type='text' value='" + nmpr_cnt + "' readonly></div><div class='um_d' onclick='plusRoom(" + nmpr_sn + ");'>+</div></div>");
 			
 			roomInfo.room.price = price;
+			roomInfo.room.originPrice = originPrice;
 			
 			$(html).append(fl_text);
 			$(html).append(fr_updown);
 			
 			$("#purchInfo").append($(html));
 			totalprice += price;
+			originTotalPrice += originPrice;
 		}
 
 		for(var cnt = 0; cnt < roomInfo.eat.length; cnt++) {
 			var nmpr_sn = roomInfo.eat[cnt].nmpr_sn;
 			var nmpr_cnt = roomInfo.eat[cnt].nmpr_cnt;
-			var price = roomInfo.eat[cnt].nmpr_cnt * roomInfo.days * roomInfo.eat[cnt].setup_amount;
-			
+			var dscnt_rate = roomInfo.eat[cnt].dscnt_rate;
+			var price = roomInfo.eat[cnt].nmpr_cnt * roomInfo.days * roomInfo.eat[cnt].setup_amount * dscnt_rate;
+			var originPrice = roomInfo.eat[cnt].nmpr_cnt * roomInfo.days * roomInfo.eat[cnt].setup_amount;
+
 			var html = $("<div class='um_box'></div>");
 			var fl_text = $("<div class='fl_text'>" + roomInfo.eat[cnt].text + "</div>");
 			var fl_total = $("<div class='fl_total'><em>" + nmpr_cnt + "</em>인 <em>" + roomInfo.days + "</em>박 <em>\\ " + numberWithCommas(price) + "</em></div>");
@@ -340,18 +364,21 @@ function displayRoom() {
 			var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusEat(" + nmpr_sn + ");'>-</div><div class='um_input'><input type='text' value='" + nmpr_cnt + "' readonly></div><div class='um_d' onclick='plusEat(" + nmpr_sn + ");'>+</div></div>");
 
 			roomInfo.eat[cnt].price = price;
+			roomInfo.eat[cnt].originPrice = originPrice;
 
 			$(html).append(fl_text);
 			$(html).append(fr_updown);
 			
 			$("#purchInfo").append($(html));
 			totalprice += price;
+			originTotalPrice += originPrice;
 		}
 		
 		if(roomInfo.check != null) {
 			var nmpr_sn = roomInfo.check.nmpr_sn;
-			var minus = $("<span onclick='removeCheck(" + nmpr_sn + ");'>-</span>");
-			var price = roomInfo.check.setup_amount * 1;
+			var dscnt_rate = roomInfo.check.dscnt_rate;
+			var price = roomInfo.check.setup_amount * 1 * dscnt_rate;
+			var originPrice = roomInfo.check.setup_amount * 1;
 			
 			var html = $("<div class='um_box'></div>");
 			var fl_text = $("<div class='fl_text'></div>");
@@ -360,16 +387,27 @@ function displayRoom() {
 			var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeCheck(" + nmpr_sn + ");'>-</div></div>");
 
 			roomInfo.check.price = price;
+			roomInfo.check.originPrice = originPrice;
 
 			$(html).append(fl_text);
 			$(html).append(fr_updown);
 			
 			$("#purchInfo").append($(html));
 			totalprice += price;
+			originTotalPrice += originPrice;
 		}
 	}
 
 	$("#totalprice").text("￦ " + numberWithCommas(totalprice));
+	$("#originTotalPrice").text("￦ " + numberWithCommas(originTotalPrice));
+	
+	if(totalprice == originTotalPrice) {
+		$("#originTotalPrice").hide();
+		$("#imgSale").hide();
+	} else {
+		$("#imgSale").show();
+		$("#originTotalPrice").show();
+	}
 }
 
 function removeRoom() {
@@ -445,11 +483,15 @@ function minusEat(nmpr_sn) {
 function displayNmpr() {
 	$("#purchInfo").empty();
 	var totalprice = 0;
+	var originTotalPrice = 0;
+
 	for(var cnt = 0; cnt < lstNmpr.length; cnt++) {
 		var nmpr_sn = lstNmpr[cnt].nmpr_sn;
 		var plus = $("<span onclick='plusNmpr(" + nmpr_sn + ");'>+</span>");
 		var minus = $("<span onclick='minusNmpr(" + nmpr_sn + ");'>-</span>");
-		var price = lstNmpr[cnt].nmprCnt * lstNmpr[cnt].setup_amount;
+		var dscnt_rate = lstNmpr[cnt].dscnt_rate;
+		var price = lstNmpr[cnt].nmprCnt * lstNmpr[cnt].setup_amount * dscnt_rate;
+		var originPrice = lstNmpr[cnt].nmprCnt * lstNmpr[cnt].setup_amount;
 
 		var html = $("<div class='um_box'></div>");
 		var fl_text = $("<div class='fl_text'></div>");
@@ -458,15 +500,26 @@ function displayNmpr() {
 		var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusNmpr(" + nmpr_sn + ");'>-</div><div class='um_input'><input type='text' value='" + lstNmpr[cnt].nmprCnt + "' readonly></div><div class='um_d' onclick='plusNmpr(" + nmpr_sn + ");'>+</div></div>");
 		
 		lstNmpr[cnt].price = price;
+		lstNmpr[cnt].originPrice = originPrice;
 
 		$(html).append(fl_text);
 		$(html).append(fr_updown);
 
 		$("#purchInfo").append($(html));
 		totalprice += price;
+		originTotalPrice += originPrice;
 	}
 	
 	$("#totalprice").text("￦ " + numberWithCommas(totalprice));
+	$("#originTotalPrice").text("￦ " + numberWithCommas(originTotalPrice));
+	
+	if(totalprice == originTotalPrice) {
+		$("#originTotalPrice").hide();
+		$("#imgSale").hide();
+	} else {
+		$("#imgSale").show();
+		$("#originTotalPrice").show();
+	}
 }
 
 function plusNmpr(nmpr_sn) {
@@ -512,6 +565,251 @@ function initMap() {
   isMap = true;
 }
 
+function goSearchReview(pageNo) {
+	var url = "<c:url value='/goods/getReview'/>";
+	$("#tblReviewPC tbody").empty(); 
+	$("#tblReviewMobile tbody").empty(); 
+	$("#pagingReview").empty(); 
+	
+	var param = {};
+	param.hidPage = pageNo;
+	param.goods_code = "${goods_code}";
+	$("#hidReviewPage").val(pageNo);
+	
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify(param ),
+        success : function(data,status,request){
+        	for(var cnt = 0; cnt < data.list.length; cnt++) {
+        		{
+            		var tr = $("<tr></tr>");
+            		var td1 = $("<td class='t_center'>" + (Number(data.startIdx) + cnt) + "</td>");
+            		var td2 = $("<td>" + data.list[cnt].REVIEW_CN + "</td>");
+            		var td3 = $("<td>" + data.list[cnt].USER_NM + "</td>");
+            		var td4 = $("<td>" + data.list[cnt].WRITNG_DT + "</td>");
+            		var td5 = $("<td></td>");
+            		var td5sub = $("<div class='star_icon'></div>");
+            		
+            		for(var cnt2 = 0; cnt2 < 5; cnt2++) {
+            			var item = null;
+            			
+            			if(cnt2 + 1 <= Number(data.list[cnt].REVIEW_SCORE))
+            				item = $("<i class='material-icons on'>star_rate</i>");
+            			else
+            				item = $("<i class='material-icons'>star_rate</i>");
+            				
+                		$(td5sub).append(item);
+            		}
+            		
+            		$(td5).append(td5sub);        		
+            		$(tr).append(td1);
+            		$(tr).append(td2);
+            		$(tr).append(td3);
+            		$(tr).append(td4);
+            		$(tr).append(td5);
+
+    	        	$("#tblReviewPC tbody").append(tr);        
+        		}
+        		{
+        			var tr = $("<tr></tr>");
+        			var td1 = $("<td class='t_center'>" + (Number(data.startIdx) + cnt) + "</td>");
+        			var td2 = $("<td></td>");
+        			var td2span = $("<span class='tb_font1'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]</span><br>" + data.list[cnt].REVIEW_CN + "<br>");
+            		var td2sub = $("<div class='star_icon'></div>");
+            		
+            		for(var cnt2 = 0; cnt2 < 5; cnt2++) {
+            			var item = null;
+            			
+            			if(cnt2 + 1 <= Number(data.list[cnt].REVIEW_SCORE))
+            				item = $("<i class='material-icons on'>star_rate</i>");
+            			else
+            				item = $("<i class='material-icons'>star_rate</i>");
+            				
+                		$(td2sub).append(item);
+            		}
+            		$(td2).append(td2span);
+            		$(td2).append(td2sub);
+            		$(tr).append(td1);
+            		$(tr).append(td2);
+
+    	        	$("#tblReviewMobile tbody").append(tr);
+        		}
+        	}
+        	$("#spnReviewCount").text(data.totalCount);
+        	$("#spnReviewCount2").text(data.totalCount);
+
+        	// 페이징 처리
+        	var totalCount = Number(data.totalCount);
+        	var pageNo = Number($("#hidReviewPage").val());
+        	var blockSize = Number($("#blockSize").val());
+        	var pageSize = Number($("#pageSize").val());
+        	
+        	// 첫 페이지 검색
+        	var startPageNo = (pageNo - 1) / blockSize + 1;
+        	var totalPageCnt = Math.ceil(totalCount / pageSize);
+        	
+        	if(startPageNo > 1) {
+        		$("#pagingReview").append("<a href='javascript:goSearchReview(1);' class='pre_end'>← First</a>");
+        		$("#pagingReview").append("<a href='javascript:goSearchReview(" + (startPageNo - 1) + ");' class='pre'>이전</a>");
+        	}
+
+        	for(var cnt = 0; cnt < blockSize; cnt++) {
+        		var page = startPageNo + cnt;
+        		if(page > totalPageCnt)
+        			break;
+        		if(page == pageNo)
+        			$("#pagingReview").append("<a href='javascript:goSearchReview(" + page + ");' class='on'>" + page + "</a>");
+        		else
+        			$("#pagingReview").append("<a href='javascript:goSearchReview(" + page + ");'>" + page + "</a>");
+        	}
+        	
+        	if(startPageNo + blockSize <= totalPageCnt) {
+        		$("#pagingReview").append("<a href='javascript:goSearchReview(" + (startPageNo + blockSize) + ");' class='next'>다음</a>");
+        		$("#pagingReview").append("<a href='javascript:goSearchReview(" + totalPageCnt + ");' class='next_end'>Last → </a>");
+        	}
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+
+}
+
+function saveOpinion() {
+	if($.trim($(".featherlight #opinion_sj").val()) == "") {
+		alert("제목을 입력해주세요.");
+		$(".featherlight #opinion_sj").focus();
+		return false;
+	}
+	if($.trim($(".featherlight #opinion_cn").val()) == "") {
+		alert("내용을 입력해주세요.");
+		$(".featherlight #opinion_cn").focus();
+		return false;
+	}
+	
+	var url = "<c:url value='/goods/saveOpinion'/>";
+	
+	var param = {};
+	param.opinion_sj = $(".featherlight #opinion_sj").val();
+	param.opinion_cn = $(".featherlight #opinion_cn").val();
+	param.goods_code = "${goods_code}";
+	
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify(param ),
+        success : function(data,status,request){
+			if(data.result == "0") {	        	
+				alert("등록되었습니다.");
+				$.featherlight.close();
+				goSearchOpinion(1);
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				$(".login").click();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
+
+function goSearchOpinion(pageNo) {
+	var url = "<c:url value='/goods/getOpinion'/>";
+	$("#tblOpinionPC tbody").empty(); 
+	$("#tblOpinionMobile tbody").empty(); 
+	$("#pagingOpinion").empty(); 
+	
+	var param = {};
+	param.hidPage = pageNo;
+	param.goods_code = "${goods_code}";
+	$("#hidOpinionPage").val(pageNo);
+	
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify(param ),
+        success : function(data,status,request){
+        	for(var cnt = 0; cnt < data.list.length; cnt++) {
+        		{
+            		var tr = $("<tr></tr>");
+            		var td1 = $("<td class='t_center'>" + (Number(data.startIdx) + cnt) + "</td>");
+            		var td2 = $("<td>" + data.list[cnt].OPINION_SJ + "</td>");
+            		var td3 = $("<td>" + data.list[cnt].USER_NM + "</td>");
+            		var td4 = $("<td>" + data.list[cnt].WRITNG_DT + "</td>");
+
+            		$(tr).append(td1);
+            		$(tr).append(td2);
+            		$(tr).append(td3);
+            		$(tr).append(td4);
+
+    	        	$("#tblOpinionPC tbody").append(tr);        
+        		}
+        		{
+        			var tr = $("<tr></tr>");
+        			var td1 = $("<td class='t_center'>" + (Number(data.startIdx) + cnt) + "</td>");
+        			var td2 = $("<td></td>");
+        			var td2span = $("<span class='tb_font1'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]</span><br>" + data.list[cnt].OPINION_SJ);
+
+            		$(td2).append(td2span);
+            		$(tr).append(td1);
+            		$(tr).append(td2);
+
+    	        	$("#tblOpinionMobile tbody").append(tr);
+        		}
+        	}
+        	
+        	$("#spnOpinionCount").text(data.totalCount);
+        	// 페이징 처리
+        	var totalCount = Number(data.totalCount);
+        	var pageNo = Number($("#hidOpinionPage").val());
+        	var blockSize = Number($("#blockSize").val());
+        	var pageSize = Number($("#pageSize").val());
+        	
+        	// 첫 페이지 검색
+        	var startPageNo = (pageNo - 1) / blockSize + 1;
+        	var totalPageCnt = Math.ceil(totalCount / pageSize);
+        	
+        	if(startPageNo > 1) {
+        		$("#pagingOpinion").append("<a href='javascript:goSearchOpinion(1);' class='pre_end'>← First</a>");
+        		$("#pagingOpinion").append("<a href='javascript:goSearchOpinion(" + (startPageNo - 1) + ");' class='pre'>이전</a>");
+        	}
+
+        	for(var cnt = 0; cnt < blockSize; cnt++) {
+        		var page = startPageNo + cnt;
+        		if(page > totalPageCnt)
+        			break;
+        		if(page == pageNo)
+        			$("#pagingOpinion").append("<a href='javascript:goSearchOpinion(" + page + ");' class='on'>" + page + "</a>");
+        		else
+        			$("#pagingOpinion").append("<a href='javascript:goSearchOpinion(" + page + ");'>" + page + "</a>");
+        	}
+        	
+        	if(startPageNo + blockSize <= totalPageCnt) {
+        		$("#pagingOpinion").append("<a href='javascript:goSearchOpinion(" + (startPageNo + blockSize) + ");' class='next'>다음</a>");
+        		$("#pagingOpinion").append("<a href='javascript:goSearchOpinion(" + totalPageCnt + ");' class='next_end'>Last → </a>");
+        	}
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+
+}
 </script>
 	
 </head>
@@ -522,9 +820,11 @@ function initMap() {
 <input type="hidden" id="ACT_LO" value="${result.ACT_LO}">
 <input type="hidden" id="hidClSe" value="${result.CL_SE}">
 
-<form id="">
+<input type="hidden" id="hidReviewPage" name="hidReviewPage" value="1">
+<input type="hidden" id="hidOpinionPage" name="hidOpinionPage" value="1">
+<input type="hidden" id="pageSize" name="pageSize" value="5">
+<input type="hidden" id="blockSize" name="blockSize" value="5">	
 
-</form>
 <section>
 
 <div id="container">
@@ -727,54 +1027,39 @@ function initMap() {
           <!--탭-->
           <div class="tab_box">
             <ul>
-              <li class="on tab_btn1">후기(13건)</li>
+              <li class="on tab_btn1">후기(<span id="spnReviewCount"></span>건)</li>
               <li class="off tab_btn2">문의하기</li>
             </ul>
           </div>
           <!--//탭-->
           <div class="title_box">
             <div class="title tw_500">이용후기</div>
-            <div class="star_um">총<em>10명</em></div>
-            <div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div>
+            <div class="star_um">총<em>${review_count}명</em></div>
+            <div class="star_icon">
+            	<c:forEach begin="1" end="5"  var="x">
+	            	<i class="material-icons <c:if test="${x <= ceil_review_score}">on</c:if>">star_rate</i> 
+            	</c:forEach>
+            </div>
             <a  href="#" data-featherlight="#review_popup">
-            <input type="button" class="btn" value="후기쓰기">
+            <!-- <input type="button" class="btn" value="후기쓰기"> -->
             </a> </div>
           <div class="tb_01_box"> 
             <!--//pc 테블 일때 -->
-            <table width="100%"  class="tb_01 pc_view comf">
+            <table width="100%"  class="tb_01 pc_view comf" id="tblReviewPC">
               <col width="5%">
               <col width="">
               <col width="15%">
               <col width="15%">
               <col width="15%">
               <tbody>
-                <tr>
-                  <td class="t_center">2</td>
-                  <td>생애 첫dsdsdsdfsd 호핑투어</td>
-                  <td>아이디 닉네임</td>
-                  <td>2016-09-30</td>
-                  <td><div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
-                </tr>
               </tbody>
             </table>
             <!--//pc 테블 일때 --> 
             <!--모바일  일때 -->
-            <table width="100%"  class="tb_01 mobile_view">
+            <table width="100%"  class="tb_01 mobile_view" id="tblReviewMobile">
               <col width="5%">
               <col width="">
               <tbody>
-                <tr>
-                  <td class="t_center">2</td>
-                  <td><span class="tb_font1">2016-09-30 [아이디 닉네임]</span><br>
-                    생애 첫dsdsdsdfsd 호핑투어<br>
-                    <div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
-                </tr>
-                <tr>
-                  <td class="t_center">2</td>
-                  <td><span class="tb_font1">2016-09-30 [아이디 닉네임]</span><br>
-                    생애 첫dsdsdsdfsd 호핑투어<br>
-                    <div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
-                </tr>
               </tbody>
             </table>
             <!--모바일  일때 --> 
@@ -784,7 +1069,8 @@ function initMap() {
         <div class="bbs_bottom"> 
           <!-- 페이징 -->
           <div class="paginate">
-            <div class="number"><a href="#" class="pre_end">← First</a><a href="#" class="pre">이전</a><a href="#">11</a><a href="#" class="on">12</a><a href="#">13</a><a href="#">14</a><a href="#">15</a><a href="#">16</a><a href="#">17</a><a href="#">18</a><a href="#">19</a><a href="#">20</a><a href="#" class="next">다음</a><a href="#" class="next_end">Last → </a> </div>
+            <div class="number"  id="pagingReview">
+            </div>
           </div>
           <!-- /페이징 -->
           
@@ -797,63 +1083,33 @@ function initMap() {
           <!--탭-->
           <div class="tab_box">
             <ul>
-              <li class="off tab_btn1">후기(13건)</li>
+              <li class="off tab_btn1">후기(<span id="spnReviewCount2"></span>건)</li>
               <li class="on tab_btn2">문의하기</li>
             </ul>
           </div>
           <!--//탭-->
           <div class="title_box">
             <div class="title tw_500">문의하기</div>
-            <div class="star_um">총<em>10명</em></div>
+            <div class="star_um">총<em><span id="spnOpinionCount"></span>명</em></div>
             <a  href="#" data-featherlight="#pa_popup">
             <input type="button" class="btn" value="문의하기">
             </a> </div>
           <div class="tb_01_box"> 
             <!--pc 테블릿 일때 -->
-            <table width="100%"  class="tb_01 pc_view">
+            <table width="100%"  class="tb_01 pc_view" id="tblOpinionPC">
               <col width="5%">
               <col width="">
               <col width="15%">
               <col width="15%">
               <tbody>
-                <tr>
-                  <td class="t_center">2</td>
-                  <td>생애 첫dsdsdsdfsd 호핑투어</td>
-                  <td>아이디 닉네임</td>
-                  <td>2016-09-30</td>
-                </tr>
-                <tr>
-                  <td class="t_center">2</td>
-                  <td>생애 첫dsdsdsdfsd 호핑투어</td>
-                  <td>아이디 닉네임</td>
-                  <td>2016-09-30</td>
-                </tr>
-                <tr>
-                  <td class="t_center">2</td>
-                  <td>생애 첫dsdsdsdfsd 호핑투어</td>
-                  <td>아이디 닉네임</td>
-                  <td>2016-09-30</td>
-                </tr>
               </tbody>
             </table>
             <!--pc 테블릿 일때 --> 
             <!--모바일  일때 -->
-            <table width="100%"  class="tb_01 mobile_view">
+            <table width="100%"  class="tb_01 mobile_view" id="tblOpinionMobile">
               <col width="5%">
               <col width="">
               <tbody>
-                <tr>
-                  <td class="t_center">2</td>
-                  <td><span class="tb_font1">2016-09-30 [아이디 닉네임]</span><br>
-                    생애 첫dsdsdsdfsd 호핑투어<br>
-                    <div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
-                </tr>
-                <tr>
-                  <td class="t_center">2</td>
-                  <td><span class="tb_font1">2016-09-30 [아이디 닉네임]</span><br>
-                    생애 첫dsdsdsdfsd 호핑투어<br>
-                    <div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
-                </tr>
               </tbody>
             </table>
             <!--모바일  일때 --> 
@@ -862,7 +1118,8 @@ function initMap() {
         <div class="bbs_bottom"> 
           <!-- 페이징 -->
           <div class="paginate">
-            <div class="number"><a href="#" class="pre_end">← First</a><a href="#" class="pre">이전</a><a href="#">11</a><a href="#" class="on">12</a><a href="#">13</a><a href="#">14</a><a href="#">15</a><a href="#">16</a><a href="#">17</a><a href="#">18</a><a href="#">19</a><a href="#">20</a><a href="#" class="next">다음</a><a href="#" class="next_end">Last → </a> </div>
+            <div class="number" id="pagingOpinion">
+			</div>
           </div>
           <!-- /페이징 -->
           
@@ -876,9 +1133,13 @@ function initMap() {
         <div class="day_box">
           <div class="title">RESERVATION
             <div class="star_box">
-              <div class="star_i"><i class="material-icons off">star_rate</i> <i class="material-icons off">star_rate</i> <i class="material-icons off">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> </div>
+              <div class="star_i">
+            	<c:forEach begin="1" end="5"  var="x">
+	            	<i class="material-icons <c:if test="${x <= ceil_review_score}">on</c:if><c:if test="${x > ceil_review_score}">off</c:if>">star_rate</i> 
+            	</c:forEach>              	
+              </div>
             </div>
-            <div class="um">8.8</div>
+            <div class="um">${review_score}</div>
           </div>
         </div>
         <div class="day_box2">
@@ -997,9 +1258,9 @@ function initMap() {
 		<!---->
 		<div class="day_box3 ">        	
 			<div class="total_box">
-				<div class="tx1">\ 28,227 </div>
-				<div class="tx2" id="totalprice">￦ 10,000 <em>/ 1인</em> </div>
-				<div class="icon"><img src="/images/sub/icon_sale.png" alt=""/> </div>
+				<div class="tx1" id="originTotalPrice"></div>
+				<div class="tx2" id="totalprice"></div>
+				<div class="icon"><img id="imgSale" src="/images/sub/icon_sale.png" alt="" style="display:none;"/> </div>
 			</div>
         	<div class="btn_box" id="reservation">예약하기</div>
       	</div>
@@ -1061,25 +1322,17 @@ function initMap() {
           <col width="">
           <tbody>
             <tr>
-              <th >이름</th>
-              <td><input type="text" placeholder="" class="w_100p input_st"></td>
-            </tr>
-            <tr>
-              <th >비밀번호</th>
-              <td><input type="text" placeholder="" class="w_100p input_st"></td>
-            </tr>
-            <tr>
-              <th >이메일</th>
-              <td><input type="text" placeholder="형식에 맞게 적어주세요 (예:test@asdf.com)" class="w_100p input_st"></td>
+              <th >제목</th>
+              <td><input type="text" placeholder="" class="w_100p input_st" id="opinion_sj" name="opinion_cn"></td>
             </tr>
             <tr>
               <th >내용쓰기</th>
-              <td><textarea name="textarea" id="textarea" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
+              <td><textarea name="opinion_cn" id="opinion_cn" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="popup_btn"><a href="#">등록하기</a></div>
+      <div class="popup_btn"><a href="javascript:saveOpinion();">등록하기</a></div>
     </div>
   </div>
 </div>
@@ -1095,25 +1348,17 @@ function initMap() {
           <col width="">
           <tbody>
             <tr>
-              <th >이름</th>
-              <td><input type="text" placeholder="" class="w_100p input_st"></td>
-            </tr>
-            <tr>
-              <th >비밀번호</th>
-              <td><input type="text" placeholder="" class="w_100p input_st"></td>
-            </tr>
-            <tr>
-              <th >이메일</th>
-              <td><input type="text" placeholder="형식에 맞게 적어주세요 (예:test@asdf.com)" class="w_100p input_st"></td>
+              <th >제목</th>
+              <td><input type="text" placeholder="" class="w_100p input_st" id="opinion_sj" name="opinion_cn"></td>
             </tr>
             <tr>
               <th >내용쓰기</th>
-              <td><textarea name="textarea" id="textarea" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
+              <td><textarea name="opinion_cn" id="opinion_cn" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="popup_btn"><a href="#">등록하기</a></div>
+      <div class="popup_btn"><a href="javascript:saveOpinion();">등록하기</a></div>
     </div>
   </div>
 </div>

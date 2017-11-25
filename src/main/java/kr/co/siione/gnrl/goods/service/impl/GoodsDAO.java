@@ -69,4 +69,30 @@ public class GoodsDAO extends EgovComAbstractDAO {
 	public List selectGoodsTimeList(HashMap map) throws Exception {
 		return list("gnrl.goods.selectGoodsTimeList", map);
 	}	
+	
+    public HashMap getReviewScore(HashMap map) throws Exception {
+        return (HashMap)selectByPk("gnrl.goods.getReviewScore", map);
+    }
+
+    
+	public int getReviewCount(HashMap map) throws Exception {
+		return (Integer)selectByPk("gnrl.goods.getReviewCount", map);
+	}
+
+	public List getReview(HashMap map) throws Exception {
+		return list("gnrl.goods.getReview", map);
+	}
+
+	public void insertOpinion(HashMap map) throws Exception {
+		insert("gnrl.goods.insertOpinion", map);
+	}
+	
+	public int getOpinionCount(HashMap map) throws Exception {
+		return (Integer)selectByPk("gnrl.goods.getOpinionCount", map);
+	}
+
+	public List getOpinion(HashMap map) throws Exception {
+		return list("gnrl.goods.getOpinion", map);
+	}
+
 }
