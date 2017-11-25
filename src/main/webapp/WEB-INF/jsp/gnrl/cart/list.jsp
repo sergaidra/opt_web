@@ -120,23 +120,22 @@ function paymentCart() {
 	});			
 }
 
-function toPickAll() {
+function addWish() {
 	var lst = [];
 	$("input[name='chkCart']:checked").each(function() {
-		lst.push($(this).val());
+		lst.push($(this).parent().find("input[name='goods_code']").val());
 	});
 	if(lst.length == 0) {
 		alert("찜하기 건이 없습니다.");
 		return false;
 	}
 
-	var url = "<c:url value='/cart/changeCartMode'/>";
+	var url = "<c:url value='/purchs/insertWish'/>";
 	var param = {};
-	param.cart_sn = lst;
-	param.cart_mode = "P"
+	param.goods_code = lst;
 	console.log(param);
 	
-	if(!confirm("해당 삼품을 찜하기로 이동하겠습니까?"))
+	if(!confirm("해당 삼품을 찜하겠습니까?"))
 		return false;
 		
 	$.ajax({
@@ -148,8 +147,7 @@ function toPickAll() {
         data : JSON.stringify( param ),
         success : function(data,status,request){
 			if(data.result == "0") {
-				alert("이동하였습니다.");
-				document.location.reload();
+				alert("찜하였습니다.");
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				$(".login").click();
@@ -212,7 +210,7 @@ function toPickAll() {
 		<c:set var="totalPrice" value="0" />
 		<c:forEach var="result" items="${cartList}" varStatus="status">
 		<tr>
-			<td ><input type="checkbox" name="chkCart" value="${result.CART_SN}" /><input type="hidden" name="purchs_amount" value="${result.PURCHS_AMOUNT}"></td>
+			<td ><input type="checkbox" name="chkCart" value="${result.CART_SN}" /><input type="hidden" name="purchs_amount" value="${result.PURCHS_AMOUNT}"><input type="hidden" name="goods_code" value="${result.GOODS_CODE}"></td>
 			<td class="left"><div class="cart_img" style="background: url(<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}); background-size: cover; "></div></td>
 			<td  class="t_left">
 				<div class="cart_pro_text">
@@ -310,7 +308,7 @@ function toPickAll() {
   </div>
   <div class="cart_btn">
     <div class="left_btn">
-      <div class="btn1"><a href="javascript:toPickAll();">선택상품찜하기담기</a></div>
+      <div class="btn1"><a href="javascript:addWish();">선택상품찜하기담기</a></div>
       <div class="btn2"><a href="javascript:delCartAll();">선택상품삭제</a></div>
       <!-- <div class="btn2"><a href="#">품절상품삭제</a></div> -->
     </div>

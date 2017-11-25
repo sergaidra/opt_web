@@ -4,51 +4,40 @@
 
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	
+	<select id="gnrl.wish.checkWish" parameterClass="hashMap" resultClass="Integer">
+		SELECT COUNT(1) FROM TB_BKMK WHERE ESNTL_ID = #esntl_id# AND GOODS_CODE = #goods_code#
+	</select>
+	
+	<insert id="gnrl.wish.insertWish" parameterClass="hashMap" >
+		INSERT INTO TB_BKMK (ESNTL_ID, GOODS_CODE, REGIST_ID, REGIST_DT)
+		VALUES (#esntl_id#, #goods_code#, #esntl_id#, SYSDATE)
+	</insert>
+	
+	<delete id="gnrl.wish.deleteWish" parameterClass="hashMap" >
+		DELETE FROM TB_BKMK WHERE ESNTL_ID = #esntl_id# AND GOODS_CODE = #goods_code#
+	</delete>
+	
 	<select id="gnrl.wish.selectWishListCount" parameterClass="hashMap" resultClass="Integer">
 		SELECT COUNT(1)
-		FROM TB_CART_GOODS A
-			INNER JOIN TB_GOODS X ON X.GOODS_CODE = A.GOODS_CODE AND X.DELETE_AT = 'N'
-		WHERE A.ESNTL_ID =  #esntl_id#
-			AND A.EXPRTN_AT = 'N' AND A.DELETE_AT = 'N' AND A.PURCHS_AT = 'N' AND A.CART_MODE = 'P'
+		FROM TB_BKMK B
+			INNER JOIN TB_GOODS G ON B.GOODS_CODE = G.GOODS_CODE
+		WHERE B.ESNTL_ID =  #esntl_id#	
 	</select>
 	
 	<select id="gnrl.wish.selectWishList"  parameterClass="hashMap" resultClass="hashMap">
-		SELECT A.ESNTL_ID
-				     , A.CART_SN
-				     , A.GOODS_CODE
-				     , A.PURCHS_AMOUNT
-				     , A.TOUR_DE
-				     , A.BEGIN_TIME
-				     , A.END_TIME
-				     , X.GOODS_NM
-				     , X.CL_SE
-				     , X.FILE_CODE
-				     , X.WAIT_TIME
-				     , X.MVMN_TIME
-				     , A.WRITNG_ID
-				     , TO_CHAR(A.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
-				     , A.CHKIN_DE
-				     , A.CHCKT_DE
-				     , DECODE(A.TOUR_DE, NULL, TO_DATE(A.CHCKT_DE, 'YYYYMMDD') - TO_DATE(A.CHKIN_DE, 'YYYYMMDD'), '', TO_DATE(A.CHCKT_DE, 'YYYYMMDD') - TO_DATE(A.CHKIN_DE, 'YYYYMMDD'), 0 ) DIFF_DAYS
-				     , DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE) SORT_DE
-				     , (SELECT CTY_NM FROM TB_CTY Y WHERE Y.CTY_CODE = X.CTY_CODE) CTY_NM         
-				     , (SELECT CL_NM FROM TB_TOUR_CL Y WHERE Y.UPPER_CL_CODE = '00000' START WITH Y.CL_CODE = X.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_NM
-				     , (SELECT CL_NM FROM TB_TOUR_CL Y WHERE Y.CL_CODE = X.CL_CODE) CL_NM
-				     , ORIGIN_AMOUNT 		     
-				     , PURCHS_AT
+		SELECT X.GOODS_CODE, X.GOODS_NM, X.GOODS_INTRCN_SIMPL, X.FILE_CODE
+			, (SELECT TO_CHAR(NVL(AVG(REVIEW_SCORE), 0), 'FM999990.0') FROM TB_PURCHS_REVIEW WHERE GOODS_CODE = #goods_code# ) AS REVIEW_SCORE
 		FROM (
-			SELECT CART_SN, ROWNUM AS RNUM
+			SELECT GOODS_CODE, ROWNUM AS RNUM
 			FROM (
-				SELECT A.CART_SN
-				FROM TB_CART_GOODS A
-					INNER JOIN TB_GOODS X ON X.GOODS_CODE = A.GOODS_CODE AND X.DELETE_AT = 'N'
-				WHERE A.ESNTL_ID =  #esntl_id#
-					AND A.EXPRTN_AT = 'N' AND A.DELETE_AT = 'N' AND A.PURCHS_AT = 'N' AND A.CART_MODE = 'P'
-				ORDER BY DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE), A.BEGIN_TIME
+				SELECT B.GOODS_CODE
+				FROM TB_BKMK B
+					INNER JOIN TB_GOODS G ON B.GOODS_CODE = G.GOODS_CODE
+				WHERE B.ESNTL_ID =  #esntl_id#
+				ORDER BY G.GOODS_NM
 			) B
 		) BB
-			INNER JOIN TB_CART_GOODS A ON BB.CART_SN = A.CART_SN
-			INNER JOIN TB_GOODS X ON X.GOODS_CODE = A.GOODS_CODE AND X.DELETE_AT = 'N'
+			INNER JOIN TB_GOODS X ON X.GOODS_CODE = BB.GOODS_CODE AND X.DELETE_AT = 'N'
 		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
 	</select>
 </sqlMap>

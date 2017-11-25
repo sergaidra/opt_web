@@ -666,7 +666,7 @@ function goSearchReview(pageNo) {
         	var pageSize = Number($("#pageSize").val());
         	
         	// 첫 페이지 검색
-        	var startPageNo = (pageNo - 1) / blockSize + 1;
+        	var startPageNo = Math.floor((pageNo - 1) / blockSize + 1);
         	var totalPageCnt = Math.ceil(totalCount / pageSize);
         	
         	if(startPageNo > 1) {
@@ -798,7 +798,7 @@ function goSearchOpinion(pageNo) {
         	var pageSize = Number($("#pageSize").val());
         	
         	// 첫 페이지 검색
-        	var startPageNo = (pageNo - 1) / blockSize + 1;
+        	var startPageNo = Math.floor((pageNo - 1) / blockSize + 1);
         	var totalPageCnt = Math.ceil(totalCount / pageSize);
         	
         	if(startPageNo > 1) {

@@ -139,9 +139,10 @@ public class GoodsController {
     }
 
     @RequestMapping(value="/getGoodsList")
-    public @ResponseBody Map<String, Object> getGoodsList(@RequestBody HashMap param) throws Exception {
+    public @ResponseBody Map<String, Object> getGoodsList(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
       	HashMap map = new HashMap();
     	Map<String, Object> mapResult = new HashMap<String, Object>();
+    	HttpSession session = request.getSession();
 
 		String hidUpperClCode = UserUtils.nvl(param.get("hidUpperClCode")); // 첫번째 선택한 한개의 분류 OR 선택한 한개의 분류
 		String hidClCode = UserUtils.nvl(param.get("hidClCode")); // 첫번째 선택한 한개의 분류 OR 선택한 한개의 분류
@@ -149,6 +150,7 @@ public class GoodsController {
 		String hidSortOrd = UserUtils.nvl(param.get("hidSortOrd")); // 정렬기준
 		String hidKeyword = UserUtils.nvl(param.get("hidKeyword")); // 검색어
 		String category = UserUtils.nvl(param.get("category")); // 셀프, 핫딜, 추천
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 		
 		String hidNext = UserUtils.nvl(param.get("hidNext")); // 다음페이지 여부
 		int hidPage = Integer.parseInt(UserUtils.nvl(param.get("hidPage"))); // 페이지번호
@@ -164,6 +166,7 @@ public class GoodsController {
     	map.put("hidPage", hidPage);
     	map.put("startIdx", startIdx);
     	map.put("endIdx", endIdx);
+    	map.put("esntl_id", esntl_id);
     	System.out.println("[상품목록]map:"+map);
     	if("N".equals(hidNext)) {
     		int totalCount = goodsService.getGoodsListCount(map);

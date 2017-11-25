@@ -24,4 +24,17 @@ public class WishServiceImpl implements WishService {
         return wishDAO.getWishList(map);
     }
 
+    public void insertWish(List<HashMap> lst) throws Exception {
+    	for(int i = 0; i < lst.size(); i++) {
+    		if(wishDAO.checkWish(lst.get(i)) == 0)
+    			wishDAO.insertWish(lst.get(i));
+    	}
+    }
+    
+    public void deleteWish(List<HashMap> lst) throws Exception {
+    	for(int i = 0; i < lst.size(); i++) {
+   			wishDAO.deleteWish(lst.get(i));
+    	}
+    }
+
 }

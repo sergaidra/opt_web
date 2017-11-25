@@ -98,4 +98,79 @@ public class WishController {
 
     	return mapResult;
     }
+    
+    @RequestMapping(value="/insertWish")
+    public @ResponseBody ResponseVo insertWish(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+	    	HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+
+			List<String> goods_code = (List<String>)param.get("goods_code");
+			List<HashMap> lst = new ArrayList();
+			
+			for(int i = 0; i < goods_code.size(); i++) {
+				HashMap map = new HashMap();
+		    	map.put("esntl_id", esntl_id);
+		    	map.put("goods_code", goods_code.get(i));
+		    	lst.add(map);
+			}
+	    	
+			wishService.insertWish(lst);	    	
+	    	
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;    	
+    }
+    
+    @RequestMapping(value="/deleteWish")
+    public @ResponseBody ResponseVo deleteWish(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+	    	HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+
+			List<String> goods_code = (List<String>)param.get("goods_code");
+			List<HashMap> lst = new ArrayList();
+			
+			for(int i = 0; i < goods_code.size(); i++) {
+				HashMap map = new HashMap();
+		    	map.put("esntl_id", esntl_id);
+		    	map.put("goods_code", goods_code.get(i));
+		    	lst.add(map);
+			}
+	    	
+			wishService.deleteWish(lst);	    	
+	    	
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;    	
+    }
+
 }

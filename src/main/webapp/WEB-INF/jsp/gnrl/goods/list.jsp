@@ -82,11 +82,14 @@ $(function(){
 	//});
 
 	$(window).scroll(function() {
-		var scrollHeight = $(document).height();
-		var scrollPosition = $(window).height() + $(window).scrollTop();
-		if ((scrollHeight - scrollPosition) / scrollHeight === 0) {
+	   if($(window).scrollTop() + $(window).height() == $(document).height()) {
 			var obj = $(".panelTab:visible").find("input:eq(0)");
 			fnSearch($(obj), true);
+	   }
+	   return false;
+		var scrollHeight = $(document).height();
+		var scrollPosition = $(window).height() + $(window).scrollTop();		
+		if ((scrollHeight - scrollPosition) / scrollHeight < 0.1) {
 		} else {			
 		}
 	});
@@ -164,6 +167,14 @@ function fnSearch(obj, isNext) {
 				$(item).find("img[name='imgFile']").attr("src", "<c:url value='/file/getImageThumb/'/>?file_code=" + data.list[cnt].FILE_CODE);
 				//$(item).find("span[name='favorite']").text("favorite");	
 				
+				if(data.list[cnt].BKMK == "Y") {
+					$(item).find("#divHit").removeClass("hit").addClass("hit_on");
+				} else {
+					$(item).find("#divHit").click(function(e) {
+						e.stopPropagation();
+						addWish($(this).closest("li").find("input[name='goods_code']").val(), $(this));
+					});
+				}
 				$(item).show();
 				ul.append(item);
 			}
@@ -181,6 +192,45 @@ function fnDetail(obj) {
 	form.attr({"method":"post","action":"<c:url value='/goods/detail'/>"});
 	form.submit();		
 }
+
+function addWish(goods_code, obj) {
+	var lst = [];
+	lst.push(goods_code);
+
+	var url = "<c:url value='/purchs/insertWish'/>";
+	var param = {};
+	param.goods_code = lst;
+	console.log(param);
+	
+	if(!confirm("해당 상품을 찜하겠습니까?"))
+		return false;
+		
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( param ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+				alert("찜하였습니다.");
+				$(obj).removeClass("hit").addClass("hit_on");
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				$(".login").click();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
+
 </script>
 </head>
 
@@ -276,7 +326,7 @@ function fnDetail(obj) {
 		  <div class="in">
 		    <div class="tx1"><span name="goods_nm"></span></div>
 			   <div class="tx2"><span name="goods_nm_title"></span></div>
-			   <div class="hit_on"><i class="material-icons"><span name="favorite"></span></i>
+			   <div id="divHit" class="hit" ><i class="material-icons">favorite</i>
 
 				   </div>
 			    <div class="total"><span name="cf_min_amount"></span><em>원</em></div>
