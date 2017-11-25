@@ -1,5 +1,6 @@
 package kr.co.siione.utl;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
@@ -11,6 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import kr.co.siione.utl.egov.EgovProperties;
 import net.sf.json.JSONArray;
@@ -196,19 +199,38 @@ public class UserUtils {
 			String storePath  = sFileStorePath + sDirName + sFileSeparator;
 			File f = new File(storePath);
 			if (!f.exists()) f.mkdirs();
-			
+					
 			fos = new FileOutputStream(storePath + saveFileNm);
 			fos.write(file.getBytes());
-			
+						
 			// 상품 썸네일 이미지 저장
 			if(isThumb) {
 				String resizeFileNm = sPreFix + "_" + fileName.substring(0, fileName.lastIndexOf(".")) + "_resize" + fileName.substring(fileName.lastIndexOf("."));				
 				String resizePath = sFileStorePath + sDirName + sFileSeparator + "thumb" + sFileSeparator;				
 				File f2 = new File(resizePath);
 				if (!f2.exists()) f2.mkdirs();
+
+				BufferedImage bi = ImageIO.read(new File(storePath + saveFileNm));
+				int scaledWidth = bi.getWidth();
+				int scaledHeight = bi.getHeight();
 				
-				int scaledWidth = 826/7;
-				int scaledHeight = 428/7;
+				if(bi.getWidth() > 3000) {
+					scaledWidth = bi.getWidth()/15;
+					scaledHeight = bi.getHeight()/15;	
+				} else if(bi.getWidth() > 2500) {
+					scaledWidth = bi.getWidth()/12;
+					scaledHeight = bi.getHeight()/12;	
+				} else if(bi.getWidth() > 2000) {
+					scaledWidth = bi.getWidth()/10;
+					scaledHeight = bi.getHeight()/10;	
+				} else if(bi.getWidth() > 1500) {
+					scaledWidth = bi.getWidth()/7;
+					scaledHeight = bi.getHeight()/7;
+				} else if(bi.getWidth() > 1000) {
+					scaledWidth = bi.getWidth()/5;
+					scaledHeight = bi.getHeight()/5;						
+				}
+				
 				ImageResizer.resize(storePath + saveFileNm, resizePath + resizeFileNm, scaledWidth, scaledHeight);
 			}
 			
