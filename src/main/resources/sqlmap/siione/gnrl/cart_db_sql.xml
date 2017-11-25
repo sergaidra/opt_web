@@ -28,7 +28,8 @@
 			WRITNG_DT,
 			DELETE_AT,
 			ORIGIN_AMOUNT,
-			PURCHS_AT
+			PURCHS_AT,
+			CART_MODE
 		) VALUES(
 			#esntl_id#,
 			#cart_sn#,
@@ -44,7 +45,8 @@
 			SYSDATE,
 			'N',
 			#origin_amount#,
-			'N'
+			'N',
+			'C'
 		)
 	]]>
 	</insert>
@@ -379,6 +381,7 @@
 		   AND A.EXPRTN_AT = 'N'
 		   AND A.DELETE_AT = 'N'
 		   AND A.PURCHS_AT = 'N'
+		   AND A.CART_MODE = 'C'
 		 ORDER BY DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE), A.BEGIN_TIME
 	]]>
 	</select>	
@@ -445,6 +448,7 @@
 		   AND A.CART_SN = #cart_sn#
 		   AND A.EXPRTN_AT = 'N'
 		   AND A.DELETE_AT = 'N'
+		   AND A.CART_MODE = 'C'
 	]]>
 	</select>
 
@@ -465,4 +469,9 @@
 		 ORDER BY A.NMPR_SN ASC
 	]]>
 	</select>
+	
+	<update id="gnrl.cart.changeCartMode" parameterClass="hashMap" >
+		UPDATE TB_CART_GOODS SET CART_MODE = #cart_mode#
+		WHERE CART_SN = #cart_sn#
+	</update>
 </sqlMap>

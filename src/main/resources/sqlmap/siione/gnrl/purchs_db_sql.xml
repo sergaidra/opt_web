@@ -5,7 +5,12 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 
 	<sql id="wherePurchsList">
-		AND PURCHS_DE BETWEEN #start_dt# AND #end_dt#
+		<isNotEmpty property="start_dt">
+			AND P.PURCHS_DE BETWEEN #start_dt# AND #end_dt#
+		</isNotEmpty>
+		<isNotEmpty property="delete_at">
+			AND P.DELETE_AT = #delete_at#
+		</isNotEmpty>
 	</sql>
 	
 	<select id="gnrl.purchs.selectPurchsSn" parameterClass="hashMap" resultClass="int">
@@ -14,15 +19,11 @@
 	]]>
 	</select>
 	
-	<select id="gnrl.purchs.getTotalPoint" parameterClass="hashMap" resultClass="int">
-		SELECT SUM(POINT) FROM TB_PURCHS_POINT WHERE ESNTL_ID = #esntl_id#
-	</select>
-	
 	<insert id="gnrl.purchs.insertPurchs"  parameterClass="hashMap">
 		INSERT INTO TB_PURCHS (PURCHS_SN, PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT
-			, CRTFC_NO, SETLE_DT, SETLE_IP, ESNTL_ID, WRITNG_ID, WRITNG_DT) 
+			, CRTFC_NO, SETLE_DT, SETLE_IP, ESNTL_ID, WRITNG_ID, WRITNG_DT, DELETE_AT) 
 		VALUES (#purchs_sn#, TO_CHAR(SYSDATE, 'YYYYMMDD'), #tot_setle_amount#, #real_setle_amount#, #use_point#
-			, #crtfc_no#, SYSDATE, #setle_ip#, #esntl_id#, #esntl_id#, SYSDATE)
+			, #crtfc_no#, SYSDATE, #setle_ip#, #esntl_id#, #esntl_id#, SYSDATE ,'N')
 	</insert>
 
 	<insert id="gnrl.purchs.insertPurchsGoods"  parameterClass="hashMap">
@@ -110,4 +111,9 @@
 		INSERT INTO TB_PURCHS_POINT (PURCHS_SN, CART_SN, POINT, ACCML_SE, ACCML_DT, VALID_DE, ESNTL_ID)
 		VALUES ( #purchs_sn#, #cart_sn#, #point#, #accml_se#, SYSDATE, #valid_de#, #esntl_id#)
 	</insert>
+	
+	<update id="gnrl.purchs.cancelPurchs" parameterClass="hashMap" >
+		UPDATE TB_PURCHS SET DELETE_AT = 'Y', DELETE_ID = #esntl_id#, DELETE_DT = SYSDATE
+		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+	</update>
 </sqlMap>

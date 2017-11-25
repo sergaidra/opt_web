@@ -119,6 +119,54 @@ function paymentCart() {
         },
 	});			
 }
+
+function toPickAll() {
+	var lst = [];
+	$("input[name='chkCart']:checked").each(function() {
+		lst.push($(this).val());
+	});
+	if(lst.length == 0) {
+		alert("찜하기 건이 없습니다.");
+		return false;
+	}
+
+	var url = "<c:url value='/cart/changeCartMode'/>";
+	var param = {};
+	param.cart_sn = lst;
+	param.cart_mode = "P"
+	console.log(param);
+	
+	if(!confirm("해당 삼품을 찜하기로 이동하겠습니까?"))
+		return false;
+		
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( param ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+				alert("이동하였습니다.");
+				document.location.reload();
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				$(".login").click();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+
+}
+
+
 </script>
 </head>
 
@@ -142,7 +190,7 @@ function paymentCart() {
       <col width="15%" />
       <col width="" />
       <col width="7%" />
-      <col width="10%" />
+      <!--<col width="10%" />-->
       <col width="10%" />
       <col width="10%" />
       <col width="13%" />
@@ -262,7 +310,7 @@ function paymentCart() {
   </div>
   <div class="cart_btn">
     <div class="left_btn">
-      <div class="btn1"><a href="#">선택상품찜하기담기</a></div>
+      <div class="btn1"><a href="javascript:toPickAll();">선택상품찜하기담기</a></div>
       <div class="btn2"><a href="javascript:delCartAll();">선택상품삭제</a></div>
       <!-- <div class="btn2"><a href="#">품절상품삭제</a></div> -->
     </div>

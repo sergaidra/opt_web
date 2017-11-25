@@ -19,7 +19,6 @@
              , HMCMG_START_DT
              , HMCMG_ARVL_ARPRT_CODE
              , HMCMG_ARVL_DT
-             , EXPRTN_AT
              , WRITNG_ID
              , WRITNG_DT
         ) VALUES (
@@ -35,7 +34,6 @@
              , TO_DATE(REPLACE(#HMCMG_START_DE#, '-', '')||#HMCMG_START_TM#, 'YYYYMMDDHH24MI')             
              , #HMCMG_ARVL_ARPRT_CODE#
              , TO_DATE(REPLACE(#HMCMG_ARVL_DE#, '-', '')||#HMCMG_ARVL_TM#, 'YYYYMMDDHH24MI')
-             , 'N'
              , #ESNTL_ID#
              , SYSDATE )
     ]]>
@@ -164,10 +162,8 @@
              , TO_CHAR(HMCMG_ARVL_DT, 'HH24') HMCMG_ARVL_HH
              , TO_CHAR(HMCMG_ARVL_DT, 'MI') HMCMG_ARVL_MI
              , TO_CHAR(HMCMG_ARVL_DT, 'DY') HMCMG_ARVL_DY
-             , EXPRTN_AT
           FROM TB_FLIGHT
          WHERE ESNTL_ID = #esntl_id#
-           AND EXPRTN_AT = 'N'
     ]]>
     </select>
     

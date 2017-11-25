@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
+<sqlMap namespace="gnrl">
+
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	
+	<select id="gnrl.wish.selectWishListCount" parameterClass="hashMap" resultClass="Integer">
+		SELECT COUNT(1)
+		FROM TB_CART_GOODS A
+			INNER JOIN TB_GOODS X ON X.GOODS_CODE = A.GOODS_CODE AND X.DELETE_AT = 'N'
+		WHERE A.ESNTL_ID =  #esntl_id#
+			AND A.EXPRTN_AT = 'N' AND A.DELETE_AT = 'N' AND A.PURCHS_AT = 'N' AND A.CART_MODE = 'P'
+	</select>
+	
+	<select id="gnrl.wish.selectWishList"  parameterClass="hashMap" resultClass="hashMap">
+		SELECT A.ESNTL_ID
+				     , A.CART_SN
+				     , A.GOODS_CODE
+				     , A.PURCHS_AMOUNT
+				     , A.TOUR_DE
+				     , A.BEGIN_TIME
+				     , A.END_TIME
+				     , X.GOODS_NM
+				     , X.CL_SE
+				     , X.FILE_CODE
+				     , X.WAIT_TIME
+				     , X.MVMN_TIME
+				     , A.WRITNG_ID
+				     , TO_CHAR(A.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+				     , A.CHKIN_DE
+				     , A.CHCKT_DE
+				     , DECODE(A.TOUR_DE, NULL, TO_DATE(A.CHCKT_DE, 'YYYYMMDD') - TO_DATE(A.CHKIN_DE, 'YYYYMMDD'), '', TO_DATE(A.CHCKT_DE, 'YYYYMMDD') - TO_DATE(A.CHKIN_DE, 'YYYYMMDD'), 0 ) DIFF_DAYS
+				     , DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE) SORT_DE
+				     , (SELECT CTY_NM FROM TB_CTY Y WHERE Y.CTY_CODE = X.CTY_CODE) CTY_NM         
+				     , (SELECT CL_NM FROM TB_TOUR_CL Y WHERE Y.UPPER_CL_CODE = '00000' START WITH Y.CL_CODE = X.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_NM
+				     , (SELECT CL_NM FROM TB_TOUR_CL Y WHERE Y.CL_CODE = X.CL_CODE) CL_NM
+				     , ORIGIN_AMOUNT 		     
+				     , PURCHS_AT
+		FROM (
+			SELECT CART_SN, ROWNUM AS RNUM
+			FROM (
+				SELECT A.CART_SN
+				FROM TB_CART_GOODS A
+					INNER JOIN TB_GOODS X ON X.GOODS_CODE = A.GOODS_CODE AND X.DELETE_AT = 'N'
+				WHERE A.ESNTL_ID =  #esntl_id#
+					AND A.EXPRTN_AT = 'N' AND A.DELETE_AT = 'N' AND A.PURCHS_AT = 'N' AND A.CART_MODE = 'P'
+				ORDER BY DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE), A.BEGIN_TIME
+			) B
+		) BB
+			INNER JOIN TB_CART_GOODS A ON BB.CART_SN = A.CART_SN
+			INNER JOIN TB_GOODS X ON X.GOODS_CODE = A.GOODS_CODE AND X.DELETE_AT = 'N'
+		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
+	</select>
+</sqlMap>

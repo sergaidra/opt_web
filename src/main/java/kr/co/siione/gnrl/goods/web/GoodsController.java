@@ -214,6 +214,9 @@ public class GoodsController {
         	List<HashMap> lstSchdul = goodsService.getGoodsSchdulList(map);
         	List<HashMap> lstTime = goodsService.getGoodsTimeList(map);
         	
+        	if(UserUtils.nvl(result.get("CL_SE")).equals("P")) {
+        		//List<Map<String, String>> lstFlight = arprtManageService.selectArprtList(map);
+        	}
         	map.put("file_code", result.get("FILE_CODE"));
         	map.put("hotdeal_at", "N");
         	map.put("liveview_at", "N");

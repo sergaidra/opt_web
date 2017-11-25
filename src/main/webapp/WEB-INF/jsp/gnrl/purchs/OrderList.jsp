@@ -97,7 +97,7 @@ function search(pageNo) {
         		var td3 = $("<td >" + dateWithHyphen(data.list[cnt].PURCHS_DE) + "</td>");
         		var td4 = $("<td class='left'></td>");
         		var td5 = $("<td class='right'><span class='point_color_b4'>" + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</span></td>");
-        		var td6 = $("<td >결제진행중<br><a href='#' class='sbtn_01'>취소하기</a>"
+        		var td6 = $("<td >결제진행중<br><a href='javascript:cancelPurchs(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].CART_SN + "\");' class='sbtn_01'>취소하기</a>"
         					+ "<a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].CART_SN + "\", \"" + data.list[cnt].GOODS_CODE + "\");' class='sbtn_01' >후기쓰기</a></td>");
 
         		if(data.list[cnt].CL_SE == 'S') {
@@ -148,7 +148,7 @@ function search(pageNo) {
         		if(page > totalPageCnt)
         			break;
         		if(page == pageNo)
-        			$("#paging").append("<a href='#' class='on'>" + page + "</a>");
+        			$("#paging").append("<a href='javascript:search(" + page + ");' class='on'>" + page + "</a>");
         		else
         			$("#paging").append("<a href='javascript:search(" + page + ");'>" + page + "</a>");
         	}
@@ -247,6 +247,42 @@ function saveReview() {
 	});			
 }
 
+function cancelPurchs(purchs_sn, cart_sn) {
+	if(!confirm("정말 취소하겠습니까?"))
+		return false;
+	
+	var url = "<c:url value='/purchs/cancelPurchs'/>";
+	
+	var param = {};
+	param.purchs_sn = purchs_sn;
+	param.cart_sn = cart_sn;
+	
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify(param ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+	        	alert("취소되었습니다.");
+	        	document.location.reload();
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				$(".login").click();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
+
 function timeWithColon(x) {
 	if(x.length < 4)
 		return x;
@@ -302,7 +338,7 @@ function lpad(s, padLength, padString){
       </div>
       <div class="point">
         <div class="t1">포인트 <em><fmt:formatNumber value="${point}" pattern="#,###" /> P</em></div>
-        <div class="btn">자세히보기</div>
+        <div class="btn"><a href="javascript:document.location.href='/purchs/Point';">자세히보기</a></div>
       </div>
       <div class="mymenu">
         <ul>
@@ -310,11 +346,11 @@ function lpad(s, padLength, padString){
             <div class="img"><img src="/images/sub/my_icon01.png"  alt=""/></div>
             <div class="tx"> 결제목록</div>
             </a> </li>
-          <li> <a href="#">
+          <li> <a href="javascript:document.location.href='/purchs/Cancel';">
             <div class="img"><img src="/images/sub/my_icon02.png"  alt=""/></div>
             <div class="tx"> 취소목록</div>
             </a> </li>
-          <li> <a href="#">
+          <li> <a href="javascript:document.location.href='/purchs/Wish';">
             <div class="img"><img src="/images/sub/my_icon03.png"  alt=""/></div>
             <div class="tx"> 찜목록</div>
             </a> </li>

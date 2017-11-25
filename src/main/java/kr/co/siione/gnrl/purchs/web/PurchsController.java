@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import kr.co.siione.gnrl.cart.service.CartService;
 import kr.co.siione.gnrl.cmmn.service.FileService;
 import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
+import kr.co.siione.gnrl.purchs.service.PointService;
 import kr.co.siione.gnrl.purchs.service.PurchsService;
 import kr.co.siione.mngr.service.CtyManageService;
 import kr.co.siione.utl.UserUtils;
@@ -36,6 +37,8 @@ public class PurchsController {
     private PurchsService purchsService;
 	@Resource
     private CartService cartService;
+	@Resource
+    private PointService pointService;
 	
 	@RequestMapping(value="/OrderList")
 	public String list(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
@@ -50,7 +53,7 @@ public class PurchsController {
 		map.put("esntl_id", esntl_id);
 
 		try {
-			int point = purchsService.getTotalPoint(map);
+			int point = pointService.getTotalPoint(map);
 			model.addAttribute("point", point);
 
 		} catch(Exception e) {e.printStackTrace();}
@@ -126,6 +129,7 @@ public class PurchsController {
     	map.put("hidPage", hidPage);
     	map.put("startIdx", startIdx);
     	map.put("endIdx", endIdx);
+    	map.put("delete_at", "N");
     	System.out.println("[결제목록]map:"+map);
 		int totalCount = purchsService.getPurchsListCount(map);
     	mapResult.put("totalCount", String.valueOf(totalCount));
@@ -188,6 +192,7 @@ public class PurchsController {
 			map.put("accml_se", "A");
 			map.put("point", "0");
 			map.put("valid_de", "20181231");
+			map.put("valid_dt", "20181231");	// TB_POINT 용
 			map.put("pointYn", "N");
 			
 			List<HashMap> mPurchs = purchsService.selectPurchsDetail(map);
@@ -216,6 +221,43 @@ public class PurchsController {
 		}
 		
 		return resVo;    	
+    }
+
+    @RequestMapping(value="/cancelPurchs")
+    public @ResponseBody ResponseVo cancelPurchs(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+	    	HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+			
+	      	HashMap map = new HashMap();
+
+			String purchs_sn = UserUtils.nvl(param.get("purchs_sn"));
+			String cart_sn = UserUtils.nvl(param.get("cart_sn"));
+
+	    	map.put("purchs_sn", purchs_sn);   
+	    	map.put("cart_sn", cart_sn);
+	    	map.put("esntl_id", esntl_id);
+	    	System.out.println("[cancelPurchs]map:"+map);
+	    	
+	    	purchsService.cancelPurchs(map);
+
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;    	    	
     }
 
 }

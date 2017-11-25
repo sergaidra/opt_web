@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
+<sqlMap namespace="gnrl">
+
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<select id="gnrl.point.getTotalPoint" parameterClass="hashMap" resultClass="int">
+		SELECT NVL(SUM(POINT), 0) FROM TB_POINT WHERE ESNTL_ID = #esntl_id#
+	</select>
+	
+	<insert id="gnrl.point.insertPoint" parameterClass="hashMap" >
+		INSERT INTO TB_POINT (ESNTL_ID, POINT_SN, POINT, ACCML_SE, ACCML_DT, VALID_DT)
+		SELECT #esntl_id#, NVL(MAX(POINT_SN), 0) + 1, #point#, #accml_se#, SYSDATE, #valid_dt#
+		FROM TB_POINT
+	</insert>
+	
+	<select id="gnrl.point.selectPointListCount" parameterClass="hashMap" resultClass="Integer">
+		SELECT COUNT(1)
+		FROM TB_POINT
+		WHERE ESNTL_ID = #esntl_id#
+	</select>
+	
+	<select id="gnrl.point.selectPointList"  parameterClass="hashMap" resultClass="hashMap">
+		SELECT C.CODE_NM AS ACCML_SE_NM, TO_CHAR(ACCML_DT,'YYYY-MM-DD') AS ACCML_DT, CASE WHEN P.ACCML_SE = 'A' THEN '+' ELSE '' END || POINT AS POINT
+		FROM (
+			SELECT POINT_SN, ROWNUM AS RNUM
+			FROM (
+				SELECT POINT_SN 
+				FROM TB_POINT
+				WHERE ESNTL_ID = #esntl_id#
+				ORDER BY POINT_SN DESC
+			) A
+		) B
+			INNER JOIN TB_POINT P ON B.POINT_SN = P.POINT_SN
+			INNER JOIN TB_CMMN_DETAIL_CODE C ON P.ACCML_SE = C.CODE AND C.CODE_ID = 'COM005'	
+		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
+	</select>
+</sqlMap>

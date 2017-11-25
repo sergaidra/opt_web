@@ -844,7 +844,7 @@ function goSearchOpinion(pageNo) {
               <div class="slider_t2">${result.GOODS_INTRCN_SIMPL}</div>
             </div>
           </div>
-          <div class="hit_box"><i class="material-icons">&#xE87E;</i><span>25</span></div>
+          <div class="hit_box"><i class="material-icons">&#xE87E;</i><span data-featherlight="#pa_airpopup">25</span></div>
           <div class="share_box"><i class="material-icons">&#xE80D;</i></div>
           <div class="qa_btn"><a href="#" data-featherlight="#pa_popup2">1:1문의하기</a></div>
           <!-- Swiper -->
@@ -1359,6 +1359,48 @@ function goSearchOpinion(pageNo) {
         </table>
       </div>
       <div class="popup_btn"><a href="javascript:saveOpinion();">등록하기</a></div>
+    </div>
+  </div>
+</div>
+<!--팝업-->
+
+<!--팝업 : 1:1문의하기-->
+<div class="lightbox" id="pa_airpopup">
+  <div class="popup_com">
+    <div class="title">항공편 입력</div>
+    <div class="popup_cont">
+      <div class="tb_01_box">
+        <table width="100%"  class="tb_01">
+          <col width="20%">
+          <col width="40%">
+          <col width="40%">
+          <tbody>
+            <tr>
+              <th >구분</th><th >출발</th><th >도착</th>
+            </tr>
+            <tr>
+              <td>공항</td>
+              <td><select></select></td>
+              <td><select></select></td>
+            </tr>
+            <tr>
+              <td>일자</td>
+              <td><input></td>
+              <td><input></td>
+            </tr>
+            <tr>
+              <td>시간</td>
+              <td><input></td>
+              <td><input></td>
+            </tr>
+            <tr>
+              <td>항공편명</td>
+              <td colspan="2"><input></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="popup_btn"><a href="javascript:inputAir();">입력하기</a></div>
     </div>
   </div>
 </div>

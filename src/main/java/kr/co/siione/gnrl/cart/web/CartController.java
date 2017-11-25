@@ -364,6 +364,44 @@ public class CartController {
 		return resVo;
 	}
 	
+	@RequestMapping(value="/changeCartMode")
+	public @ResponseBody ResponseVo changeCartMode(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
+		HttpSession session = request.getSession();
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+		
+		try {
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+			String cart_mode = (String)param.get("cart_mode");
+			List<String> cart_sn = (List<String>)param.get("cart_sn");
+	
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+			
+			List<HashMap> lstMap = new ArrayList();
+			
+			for(int i = 0; i < cart_sn.size(); i++) {
+				HashMap map = new HashMap();
+				map.put("cart_sn", cart_sn.get(i));
+				map.put("esntl_id", esntl_id);
+				map.put("cart_mode", cart_mode);
+				lstMap.add(map);
+			}
+			
+			cartService.changeCartMode(lstMap);
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;
+	}
+	
 	@RequestMapping(value="/addAction2/")
 	public ResponseEntity<String> addAction2(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		ResponseEntity<String> entity = null;

@@ -13,10 +13,6 @@ public class PurchsDAO extends EgovComAbstractDAO {
         return (Integer)selectByPk("gnrl.purchs.selectPurchsSn", map);
     }	
 	
-    public int getTotalPoint(HashMap map) throws Exception {
-    	return (Integer)selectByPk("gnrl.purchs.getTotalPoint", map);
-    }
-    
     public void insertPurchs(HashMap map) throws Exception {
 		insert("gnrl.purchs.insertPurchs", map);
     }
@@ -60,5 +56,9 @@ public class PurchsDAO extends EgovComAbstractDAO {
 	public HashMap selectPurchsPoint(HashMap map) throws Exception {
 		return (HashMap)selectByPk("gnrl.purchs.selectPurchsPoint", map);
 	}
+
+    public void cancelPurchs(HashMap map) throws Exception {
+		update("gnrl.purchs.cancelPurchs", map);
+    }
 
 }
