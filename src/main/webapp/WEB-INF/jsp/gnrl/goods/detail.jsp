@@ -94,12 +94,12 @@ $(function() {
 				var item = { "setup_se" : roomInfo.eat[cnt].setup_se, "nmpr_sn" : roomInfo.eat[cnt].nmpr_sn, "nmpr_co" : roomInfo.eat[cnt].nmpr_cnt, "amount" : roomInfo.eat[cnt].price };
 				nmprList.push(item);
 			}
-			if(roomInfo.check != null) {
-				purchs_amount += roomInfo.check.price;
-				origin_amount += roomInfo.check.originPrice;
-				var item = { "setup_se" : roomInfo.check.setup_se, "nmpr_sn" : roomInfo.check.nmpr_sn, "nmpr_co" : "1", "amount" : roomInfo.check.price };
+			for(var cnt = 0; cnt < roomInfo.check.length; cnt++) {
+				purchs_amount += roomInfo.check[cnt].price;
+				origin_amount += roomInfo.check[cnt].originPrice;
+				var item = { "setup_se" : roomInfo.check[cnt].setup_se, "nmpr_sn" : roomInfo.check[cnt].nmpr_sn, "nmpr_co" : "1", "amount" : roomInfo.check[cnt].price };
 				nmprList.push(item);
-			} 
+			}
 			chkin_de = selectDt.startDt;
 			chckt_de = selectDt.endDt;
 		} else {
