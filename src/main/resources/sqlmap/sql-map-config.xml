@@ -22,6 +22,7 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_time.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_nmpr.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_kwrd.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_purchs.xml"/>	
 	<sqlMap resource="sqlmap/siione/mngr/tb_purchs_point.xml"/>	
 	
 	<sqlMap resource="sqlmap/siione/mngr/tb_user.xml"/>
@@ -33,6 +34,6 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_arprt.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_dta_init.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_main_image.xml"/>
-	<sqlMap resource="sqlmap/siione/mngr/tb_point.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_point.xml"/> <!-- 사용안함 -->
 
 </sqlMapConfig>

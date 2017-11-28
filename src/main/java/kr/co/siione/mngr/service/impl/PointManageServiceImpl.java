@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import kr.co.siione.mngr.dao.PointDAO;
+import kr.co.siione.mngr.dao.PurchsPointDAO;
 import kr.co.siione.mngr.service.PointManageService;
 
 import org.slf4j.Logger;
@@ -19,8 +20,10 @@ public class PointManageServiceImpl implements PointManageService {
 	
 	@Resource(name = "PointDAO")
 	private PointDAO pointDAO;
+	
+	@Resource(name = "PurchsPointDAO")
+	private PurchsPointDAO purchsPointDAO;
 
-	@Override
 	public List<Map<String, Object>> selectPointList(Map<String, String> param) throws Exception {
 		return pointDAO.selectPointList(param);
 	}
@@ -28,4 +31,24 @@ public class PointManageServiceImpl implements PointManageService {
 	public int selectPointListCount(Map<String, String> param) throws Exception {
 		return pointDAO.selectPointListCount(param);
 	}
+	
+	public List<Map<String, Object>> selectPurchsPointList(Map<String, String> param) throws Exception {
+		return purchsPointDAO.selectPurchsPointList(param);
+	}
+	
+	public int selectPurchsPointListCount(Map<String, String> param) throws Exception {
+		return purchsPointDAO.selectPurchsPointListCount(param);
+	}
+
+	public List<Map<String, Object>> selectUserPointList(Map<String, String> param) throws Exception {
+		return purchsPointDAO.selectUserPointList(param);
+	}
+	
+	public int selectUserPointListCount(Map<String, String> param) throws Exception {
+		return purchsPointDAO.selectUserPointListCount(param);
+	}
+	
+	public int selectUserPointSum(Map<String, String> param) throws Exception {
+		return purchsPointDAO.selectUserPointSum(param);
+	}	
 }

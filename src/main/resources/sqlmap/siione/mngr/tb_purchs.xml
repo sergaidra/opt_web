@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="admin">
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+
+	<sql id="PurchsDAO.pagingQueryStart">
+	  SELECT TT.* FROM (	
+	</sql>
+	
+	<sql id="PurchsDAO.pagingQueryEnd">
+	  ) TT WHERE ROWSEQ BETWEEN #start# + 1 AND #page# * #limit#
+	</sql>
+		
+	<sql id="PurchsDAO.whereForSelectPurchsList">
+		<isEmpty property="USE_AT">
+		 WHERE USE_AT = 'Y'
+		</isEmpty>
+		<isNotEmpty property="USE_AT">
+		 WHERE USE_AT = #USE_AT#
+		</isNotEmpty>
+		<isNotEmpty property="CRTFC_AT">
+		   AND CRTFC_AT = #CRTFC_AT#
+		</isNotEmpty>
+		<isNotEmpty property="EMAIL_RECPTN_AT">
+		   AND EMAIL_RECPTN_AT = #EMAIL_RECPTN_AT#
+		</isNotEmpty>
+		<isNotEmpty property="AUTHOR_CL">
+		   AND AUTHOR_CL = #AUTHOR_CL#
+		</isNotEmpty>
+		<isNotEmpty property="AUTHOR_CL_NOT">
+		   AND AUTHOR_CL <![CDATA[<>]]> #AUTHOR_CL_NOT#
+		</isNotEmpty>
+		<isNotEmpty property="USER_ID">
+		   AND USER_ID LIKE #USER_ID#||'%'
+		</isNotEmpty>
+		<isNotEmpty property="USER_NM">
+		   AND USER_NM LIKE #USER_NM#||'%'
+		</isNotEmpty>
+	</sql>
+		
+	<select id="PurchsDAO.selectPurchsListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
+		SELECT COUNT(ESNTL_ID)
+		  FROM TB_USER
+		<include refid="PurchsDAO.whereForSelectPurchsList"/>
+	</select>
+
+	<select id="PurchsDAO.selectPurchsList" parameterClass="hashMap" resultClass="hashMap">
+		<include refid="PurchsDAO.pagingQueryStart"/><![CDATA[
+		SELECT ROW_NUMBER() OVER(ORDER BY USER_NM) AS ROWSEQ
+		     , ESNTL_ID
+		     , USER_ID
+		     , USER_NM
+		     , PASSWORD
+		     , AUTHOR_CL
+		     , (SELECT X.CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID = 'COM001' AND X.CODE = A.AUTHOR_CL) AUTHOR_CL_NM
+		     , MOBLPHON_NO
+		     , NVL(CRTFC_AT, 'N') CRTFC_AT
+		     , NVL(EMAIL_RECPTN_AT, 'N') EMAIL_RECPTN_AT
+		     , NVL(USE_AT, 'Y') USE_AT
+		     , WRITNG_ID
+		     , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD HH24:MI:SS') WRITNG_DT
+		     , UPDT_ID
+		     , TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') UPDT_DT
+		  FROM TB_USER A ]]>
+		<include refid="PurchsDAO.whereForSelectPurchsList"/>
+		<include refid="PurchsDAO.pagingQueryEnd"/>		
+	</select>
+
+	<sql id="PurchsDAO.whereForSelectPurchsLogList">
+		<isEmpty property="ESNTL_ID">
+		 WHERE 1 = 1
+		</isEmpty>	
+		<isNotEmpty property="ESNTL_ID">
+		 WHERE ESNTL_ID = #ESNTL_ID#
+		</isNotEmpty>		 
+		<isNotEmpty property="FR_CONECT_DT">
+		   AND CONECT_DT BETWEEN TO_DATE(#FR_CONECT_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_CONECT_DT#, 'YYYY-MM-DD')+0.99999
+		</isNotEmpty>
+	</sql>
+		
+	<select id="PurchsDAO.selectPurchsLogListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
+		SELECT COUNT(CONECT_SN)
+		  FROM TB_USER_CONECT_HIST
+		<include refid="PurchsDAO.whereForSelectPurchsLogList"/>
+	</select>
+
+	<select id="PurchsDAO.selectPurchsLogList" parameterClass="hashMap" resultClass="hashMap">
+		<include refid="PurchsDAO.pagingQueryStart"/><![CDATA[
+		SELECT ROW_NUMBER() OVER(ORDER BY CONECT_SN DESC) AS ROWSEQ
+		     , CONECT_SN
+		     , ESNTL_ID
+		     , (SELECT X.USER_NM FROM TB_USER X WHERE X.ESNTL_ID = A.ESNTL_ID) USER_NM
+		     , CONECT_IP
+		     , TO_CHAR(CONECT_DT, 'YYYY-MM-DD HH24:MI:SS') CONECT_DT
+		  FROM TB_USER_CONECT_HIST A ]]>
+		<include refid="PurchsDAO.whereForSelectPurchsLogList"/>
+		<include refid="PurchsDAO.pagingQueryEnd"/>		
+	</select>
+	
+</sqlMap>

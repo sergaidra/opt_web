@@ -54,4 +54,59 @@ public class PointManageController {
 		
 		jsonView.render(result, request, response);
 	}	
+
+	@RequestMapping(value="/mngr/selectPurchsPointList/")
+	public void selectPurchsPointList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		UserUtils.log(param);
+		try {
+			int cnt = pointManageService.selectPurchsPointListCount(param);
+			List<Map<String,Object>> results = pointManageService.selectPurchsPointList(param);
+			
+			result.put("rows", cnt);
+			result.put("data", results);
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+		}
+		
+		jsonView.render(result, request, response);
+	}
+	
+	@RequestMapping(value="/mngr/selectUserPointList/")
+	public void selectUserPointList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		UserUtils.log(param);
+		try {
+			int cnt = pointManageService.selectUserPointListCount(param);
+			List<Map<String,Object>> results = pointManageService.selectUserPointList(param);
+			
+			result.put("rows", cnt);
+			result.put("data", results);
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+		}
+		
+		jsonView.render(result, request, response);
+	}
+	
+	@RequestMapping(value="/mngr/selectUserPointSum/")
+	public void selectUserPointSum(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		UserUtils.log(param);
+		try {
+			int cnt = pointManageService.selectUserPointSum(param);
+			
+			result.put("data", cnt);
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+		}
+		
+		jsonView.render(result, request, response);
+	}	
 }

@@ -1,9 +1,9 @@
-Ext.define('PointInfo', {
+Ext.define('LogInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['PURCHS_SN', 'CART_SN', 'POINT', 'POINT_ABS', 'POINT_DIV', 'ACCML_SE_NM', 'ACCML_SE', 'ACCML_DT', 'VALID_DE', 'ESNTL_ID', 'EXPRTN_AT', 'USE_POINT', 'RECENT_USE_DT', 'WRITNG_ID', 'WRITNG_DT', 'DELETE_AT', 'DELETE_ID', 'DELETE_DT', 'GOODS_NM']
+	fields: ['CONECT_SN', 'ESNTL_ID', 'USER_NM', 'CONECT_IP', 'CONECT_DT']
 });
 
-var frPoint = Ext.create('Ext.form.Panel', {
+var frLog = Ext.create('Ext.form.Panel', {
 	id: 'form-sch',
 	region: 'north',
 	height: 75,
@@ -62,7 +62,7 @@ var frPoint = Ext.create('Ext.form.Panel', {
 				xtype: 'datefield',
 				vtype: 'daterange',
 				id: 'sch-fr-date',
-				name: 'FR_ACCML_DT',
+				name: 'FR_CONECT_DT',
 				format: 'Y-m-d',
 				altFormats: 'Y-m-d|Y.m.d|Y/m/d|Ymd',
 				fieldLabel: '검색일자',
@@ -88,7 +88,7 @@ var frPoint = Ext.create('Ext.form.Panel', {
 								Ext.getCmp('sch-to-date').focus();
 							}
 							if(e.getKey() == 13){
-								Ext.getCmp('btn-search-point').fireEvent('click');
+								Ext.getCmp('btn-search-log').fireEvent('click');
 							}
 						}
 					}
@@ -97,7 +97,7 @@ var frPoint = Ext.create('Ext.form.Panel', {
 				xtype: 'datefield',
 				vtype: 'daterange',
 				id: 'sch-to-date',
-				name: 'TO_ACCML_DT',
+				name: 'TO_CONECT_DT',
 				format: 'Y-m-d',
 				altFormats: 'Y-m-d|Y.m.d|Y/m/d|Ymd',
 				fieldLabel: '-',
@@ -123,27 +123,30 @@ var frPoint = Ext.create('Ext.form.Panel', {
 								tf.setValue(fn_renderDate(dt));
 							}
 							if(e.getKey() == 13){
-								Ext.getCmp('btn-search-point').fireEvent('click');
+								Ext.getCmp('btn-search-log').fireEvent('click');
 							}
 						}
 					}
 				}				
 			}, {
 				xtype: 'button',
-				id: 'btn-search-point',
+				id: 'btn-search-log',
 				margin: '0 0 0 10',
 				text: '조회',
 				width: 60,
 				listeners: {
 					click: function() {
-						if(!Ext.getCmp('sch-ds-esntl-id').getValue()) {
+						stLog.proxy.extraParams = Ext.getCmp('form-sch').getForm().getValues();
+						stLog.loadPage(1);
+						
+						/*if(!Ext.getCmp('sch-ds-esntl-id').getValue()) {
 							Ext.Msg.alert('확인', '사용자를 선택하세요.', function(){
 								Ext.getCmp('btn-search-user').fireEvent('click');
 							});
 						} else {
-							stPoint.proxy.extraParams = Ext.getCmp('form-sch').getForm().getValues();
-							stPoint.loadPage(1);							
-						}
+							stLog.proxy.extraParams = Ext.getCmp('form-sch').getForm().getValues();
+							stLog.loadPage(1);							
+						}*/
 					}
 				}
 			},{
@@ -152,9 +155,9 @@ var frPoint = Ext.create('Ext.form.Panel', {
 				text: '초기화',
 				width: 60,
 				handler: function(){
-					frPoint.getForm().reset();
+					frLog.getForm().reset();
 					frUser.getForm().reset();
-					stPoint.removeAll();
+					stLog.removeAll();
 					stUser.removeAll();
 				}
 			}]
@@ -162,13 +165,13 @@ var frPoint = Ext.create('Ext.form.Panel', {
 	}]
 });
 
-var stPoint = Ext.create('Ext.data.JsonStore', {
+var stLog = Ext.create('Ext.data.JsonStore', {
 	autoLoad: false,
 	pageSize: 20,
-	model: 'PointInfo',
+	model: 'LogInfo',
 	proxy: {
 		type: 'ajax',
-		url: '../selectUserPointList/',
+		url: '../selectUserLogList/',
 		reader: {
 			type: 'json',
 			root: 'data',
@@ -177,90 +180,40 @@ var stPoint = Ext.create('Ext.data.JsonStore', {
 	}
 });
 
-var stPointSum = Ext.create('Ext.data.JsonStore', {
-	autoLoad: true,
-	pageSize: 20,
-	model: ['CF_SUM'],
-	proxy: {
-		type: 'ajax',
-		url: '../selectUserPointSum/',
-		reader: {
-			type: 'json',
-			root: 'data'
-		}
-	}
-});
-
-var grPoint = Ext.create('Ext.grid.Panel', {
+var grLog = Ext.create('Ext.grid.Panel', {
 	title: '회원목록',
 	region:'center',
-	store: stPoint,
+	store: stLog,
 	border: true,
 	split : true,
 	viewConfig: {
 		emptyText: '등록된 자료가 없습니다.'
 	},
 	columns: [{
-		/*text: '순번',
+		text: '순번',
     	xtype: 'rownumberer',
     	align: 'center',
     	width: 50
-	},{*/
-		text: '일자',
+	},{
+		text: '이름',
 		width: 100,
 		align: 'center',
-		dataIndex: 'ACCML_DT'
+		dataIndex: 'USER_NM'	
 	},{
-		text: '적립/사용구분',
-		width: 180,
-		style: 'text-align:center',
-		align: 'left',
-		dataIndex: 'ACCML_SE_NM'
-	},{
-		text: '적립포인트',
-		width: 120,
-		style: 'text-align:center',
-		align: 'right',
-		dataIndex: 'POINT_ABS',
-		renderer: function(value, metaData, record) {
-			if(record.data.POINT_DIV == '적립') return Ext.util.Format.number(value , '0,000');
-		}
-	},{
-		text: '차감포인트',
-		width: 120,
-		style: 'text-align:center',
-		align: 'right',
-		dataIndex: 'POINT_ABS',
-		renderer: function(value, metaData, record) {
-			if(record.data.POINT_DIV == '차감') return '<font color="red">-'+Ext.util.Format.number(value , '0,000') +'</font>';
-		}
-	},{
-		text: '만료구분',
-		width: 80,
+		text: '접속일시',
+		width: 150,
 		align: 'center',
-		dataIndex: 'EXPRTN_AT'
+		dataIndex: 'CONECT_DT'
 	},{
-		text: '만료일자',
-		width: 100,
+		text: '접속IP',
+		width: 150,
 		align: 'center',
-		dataIndex: 'VALID_DE'
+		dataIndex: 'CONECT_IP'
 	},{
-		text: '구매취소일자',
-		width: 100,
-		align: 'center',
-		dataIndex: 'DELETE_DT',
-		renderer: function(value, metaData, record) {
-			if(value) return '<font color="red">'+value+'</font>';
-		}
-	},{
-		text: '&nbsp;&nbsp;구매상품',
-		flex: 1,
-		minWidth: 200,
-		align: 'left',
-		dataIndex: 'GOODS_NM'
+		flex: 1
 	}],
 	bbar: Ext.create('Ext.PagingToolbar', {
-		store: stPoint,
+		store: stLog,
 		displayInfo: true,
 		displayMsg: '전체 {2}건 중 {0} - {1}',
 		emptyMsg: "조회된 자료가 없습니다."
@@ -274,8 +227,6 @@ Ext.onReady(function(){
 		style: {
 			backgroundColor: '#FFFFFF'
 		},
-		items: [frPoint, grPoint]
+		items: [frLog, grLog]
 	});
-	
-	alert(stPointSum.getAt(0).CF_SUM);
 });

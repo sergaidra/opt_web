@@ -4,22 +4,22 @@
 <sqlMap namespace="admin">
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	<typeAlias alias="string" type="java.lang.String"/>
-	
+
 	<sql id="PurchsPointDAO.pagingQueryStart">
-	  SELECT TT.* FROM (	
+	  SELECT TT.* FROM (
 	</sql>
-	
+
 	<sql id="PurchsPointDAO.pagingQueryEnd">
 	  ) TT WHERE ROWSEQ BETWEEN #start# + 1 AND #page# * #limit#
-	</sql>	
-	
+	</sql>
+
 	<sql id="PurchsPointDAO.whereForSelectPurchsPointList">
 		 WHERE ESNTL_ID = #ESNTL_ID#
 		<isNotEmpty property="FR_ACCML_DT">
 		   AND ACCML_DT BETWEEN TO_DATE(#FR_ACCML_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_ACCML_DT#, 'YYYY-MM-DD')+0.99999
-		</isNotEmpty>		  
+		</isNotEmpty>
 	</sql>
-	
+
 	<select id="PurchsPointDAO.selectPurchsPointListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
 		SELECT COUNT(ESNTL_ID)
 		  FROM TB_PURCHS_POINT
@@ -37,11 +37,109 @@
 		     , (SELECT X.CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID = 'COM005' AND A.ACCML_SE = X.CODE) ACCML_SE_NM
 		     , ACCML_SE
 		     , TO_CHAR(ACCML_DT, 'YYYY-MM-DD') ACCML_DT
-		     , VALID_DE
+		     , SUBSTR(VALID_DE, 1, 4)||'-'||SUBSTR(VALID_DE, 5, 2)||'-'||SUBSTR(VALID_DE, 7, 2) VALID_DE
 		     , ESNTL_ID
+		     , EXPRTN_AT
+		     , USE_POINT
+		     , RECENT_USE_DT
+		     , UPDT_ID
+		     , UPDT_DT
 		  FROM TB_PURCHS_POINT A ]]>
 		<include refid="PurchsPointDAO.whereForSelectPurchsPointList"/>
 		<include refid="PurchsPointDAO.pagingQueryEnd"/>
 	</select>
+
+	<sql id="PurchsPointDAO.whereForSelectUserPointList_1">
+		     AND ESNTL_ID = #ESNTL_ID#
+		     AND SETLE_DT BETWEEN TO_DATE(#FR_ACCML_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_ACCML_DT#, 'YYYY-MM-DD')+0.99999
+	</sql>
+	
+	<sql id="PurchsPointDAO.whereForSelectUserPointList_2">
+		     AND A.ESNTL_ID = #ESNTL_ID#
+		     AND A.ACCML_DT BETWEEN TO_DATE(#FR_ACCML_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_ACCML_DT#, 'YYYY-MM-DD')+0.99999
+	</sql>
+	
+	<select id="PurchsPointDAO.selectUserPointListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
+		SELECT SUM(CF_CNT) FROM (
+		  SELECT COUNT(1) CF_CNT 
+		    FROM TB_PURCHS 
+		   WHERE USE_POINT > 0
+		<include refid="PurchsPointDAO.whereForSelectUserPointList_1"/>
+		   UNION ALL
+		  SELECT COUNT(1) CF_CNT 
+		    FROM TB_PURCHS_POINT A
+		       , TB_PURCHS_REVIEW B
+		   WHERE A.PURCHS_SN = B.PURCHS_SN (+)
+		     AND A.CART_SN = B.CART_SN (+)
+		<include refid="PurchsPointDAO.whereForSelectUserPointList_2"/>
+		)
+	</select>
+
+	<select id="PurchsPointDAO.selectUserPointList" parameterClass="hashMap" resultClass="hashMap">
+		<include refid="PurchsPointDAO.pagingQueryStart"/><![CDATA[
+		SELECT ROWNUM AS ROWSEQ, T.*
+		  FROM (
+		  SELECT 0 AS PURCHS_SN
+		       , 0 AS CART_SN
+		       , USE_POINT * (-1) AS POINT
+		       , ABS(USE_POINT) AS POINT_ABS
+		       , '차감' POINT_DIV
+		       , '상품구매 사용 차감' AS ACCML_SE_NM
+		       , 'U' AS ACCML_SE
+		       , TO_CHAR(SETLE_DT, 'YYYY-MM-DD') ACCML_DT
+		       , '' VALID_DE
+		       , ESNTL_ID
+		       , 'N' AS EXPRTN_AT
+		       , NULL AS USE_POINT
+		       , NULL AS RECENT_USE_DT
+		       , WRITNG_ID
+		       , WRITNG_DT
+		       , DECODE(DELETE_AT, 'Y', '결제 취소', 'N', '구매') DELETE_AT
+		       , DELETE_ID
+		       , TO_CHAR(DELETE_DT, 'YYYY-MM-DD') DELETE_DT
+		       , '' GOODS_NM
+		       , SETLE_DT AS SORT_DT
+		    FROM TB_PURCHS
+		   WHERE USE_POINT > 0 ]]>
+		<include refid="PurchsPointDAO.whereForSelectUserPointList_1"/>
+		<![CDATA[ UNION ALL
+		  SELECT A.PURCHS_SN
+		       , A.CART_SN
+		       , A.POINT
+		       , ABS(A.POINT) POINT_ABS
+		       , DECODE(SIGN(A.POINT), 1, '적립', -1, '차감') POINT_DIV
+		       , (SELECT X.CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID = 'COM005' AND A.ACCML_SE = X.CODE) ACCML_SE_NM
+		       , A.ACCML_SE
+		       , TO_CHAR(A.ACCML_DT, 'YYYY-MM-DD') ACCML_DT
+		       , SUBSTR(A.VALID_DE, 1, 4)||'-'||SUBSTR(A.VALID_DE, 5, 2)||'-'||SUBSTR(A.VALID_DE, 7, 2) VALID_DE
+		       , A.ESNTL_ID
+		       , A.EXPRTN_AT
+		       , A.USE_POINT
+		       , A.RECENT_USE_DT
+		       , A.UPDT_ID
+		       , A.UPDT_DT
+		       , '' DELETE_AT
+		       , '' DELETE_ID
+		       , '' DELETE_DT
+		       , (SELECT GOODS_NM FROM TB_GOODS X WHERE X.GOODS_CODE = B.GOODS_CODE) GOODS_NM
+		       , ACCML_DT AS SORT_DT
+		    FROM TB_PURCHS_POINT A
+		       , TB_PURCHS_REVIEW B
+		   WHERE A.PURCHS_SN = B.PURCHS_SN (+)
+		     AND A.CART_SN = B.CART_SN (+) ]]>
+		<include refid="PurchsPointDAO.whereForSelectUserPointList_2"/>
+		   ORDER BY SORT_DT DESC
+		) T
+		<include refid="PurchsPointDAO.pagingQueryEnd"/>
+	</select>
+
+	<select id="PurchsPointDAO.selectUserPointSum" parameterClass="hashMap" resultClass="java.lang.Integer">
+		SELECT SUM(POINT-USE_POINT) 
+		  FROM TB_PURCHS_POINT
+		 WHERE EXPRTN_AT = 'N'
+		   AND ESNTL_ID = #ESNTL_ID#
+	</select>
+
+
 
 </sqlMap>
