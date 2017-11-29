@@ -85,7 +85,4 @@ public class CartDAO extends EgovComAbstractDAO {
 		return list("gnrl.cart.selectCartDetailList", map);
 	}
 	
-	public void changeCartMode(HashMap map) throws Exception {
-		update("gnrl.cart.changeCartMode", map);
-	}
 }

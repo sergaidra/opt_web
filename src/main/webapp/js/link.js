@@ -1,9 +1,9 @@
 var domain = "";
 
-function go_home() {document.location.href="#";}
+function go_home() {document.location.href="/";}
 
 
-function go_main() {	document.location.href="#";}
+function go_main() {	document.location.href="/";}
 function go_login() {	document.location.href="/member/login/";}
 function go_logout() {	document.location.href="/member/logoutAction/";}
 function go_join() {	document.location.href="#";}
@@ -72,3 +72,6 @@ function go_07_06_01() {	document.location.href="/opt_design/jsp/gnrl/cs/QnA.jsp
 function go_08_01_01() {	document.location.href="/opt_design/jsp/gnrl/about/Company.jsp";}
 function go_08_02_01() {	document.location.href="/opt_design/jsp/gnrl/about/Service.jsp";}
 function go_08_03_01() {	document.location.href="/opt_design/jsp/gnrl/about/Use.jsp";} 
+
+// 여행 예약 //
+function go_09_01_01() {	document.location.href="/bbs/list";}

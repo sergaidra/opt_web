@@ -26,5 +26,4 @@ public interface CartService {
     
     public List selectCartDetailList(HashMap map) throws Exception;
     
-    public void changeCartMode(List<HashMap> lst) throws Exception;
 }

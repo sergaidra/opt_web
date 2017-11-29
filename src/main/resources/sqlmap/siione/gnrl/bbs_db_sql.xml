@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap namespace="gnrl">
+
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="int" type="java.lang.Integer"/>
+
+	<sql id="whereBbsList">
+		AND CATEGORY = #category# AND DELETE_AT = 'N'
+	</sql>
+	
+	<insert id="gnrl.bbs.insertBbs" parameterClass="hashMap">
+		INSERT INTO TB_BBS (BBS_SN, CATEGORY, SUBJECT, CONTENTS, WRITNG_ID, WRITNG_DT, VIEWCNT, DELETE_AT)
+		SELECT NVL(MAX(BBS_SN), 0) + 1, #category#, #subject#, #contents#, #esntl_id#, SYSDATE, 0, 'N'
+		FROM TB_BBS
+	</insert>	
+
+	<update id="gnrl.bbs.updateBbsViewCnt" parameterClass="hashMap">
+		UPDATE TB_BBS SET VIEWCNT = VIEWCNT + 1
+		WHERE BBS_SN = #bbs_sn#
+	</update>	
+
+	<update id="gnrl.bbs.deleteBbs" parameterClass="hashMap">
+		UPDATE TB_BBS SET DELETE_AT = 'Y'
+		WHERE BBS_SN = #bbs_sn#
+	</update>	
+
+	<update id="gnrl.bbs.updateBbs" parameterClass="hashMap">
+		UPDATE TB_BBS SET SUBJECT = #subject#, CONTENTS = #contents#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE
+		WHERE BBS_SN = #bbs_sn#
+	</update>	
+	
+	<select id="gnrl.bbs.viewBbs"  parameterClass="hashMap" resultClass="hashMap">
+		SELECT B.BBS_SN, B.CATEGORY, B.SUBJECT, B.CONTENTS, B.WRITNG_ID, B.WRITNG_DT, B.VIEWCNT, U.USER_NM AS USER_NM
+		FROM TB_BBS B
+			INNER JOIN TB_USER U ON B.WRITNG_ID = U.ESNTL_ID
+		WHERE B.BBS_SN = #bbs_sn#
+	</select>
+	
+	
+	<select id="gnrl.bbs.selectBbsListCount"  parameterClass="hashMap" resultClass="Integer">
+				SELECT COUNT(1)
+				FROM TB_BBS
+				WHERE 1 = 1
+					<include refid="whereBbsList"/>
+	</select>
+	
+	<select id="gnrl.bbs.selectBbsList"  parameterClass="hashMap" resultClass="hashMap">
+		SELECT B.BBS_SN, B.SUBJECT, B.VIEWCNT, TO_CHAR(B.WRITNG_DT, 'YYYY-MM-DD HH24:MI') AS WRITNG_DT, U.USER_NM AS USER_NM
+		FROM (
+			SELECT BBS_SN, ROWNUM AS RNUM
+			FROM (
+				SELECT BBS_SN
+				FROM TB_BBS
+				WHERE 1 = 1
+					<include refid="whereBbsList"/>
+				ORDER BY BBS_SN DESC
+			) A
+		) AA
+		INNER JOIN TB_BBS B ON AA.BBS_SN = B.BBS_SN
+		INNER JOIN TB_USER U ON B.WRITNG_ID = U.ESNTL_ID
+		ORDER BY AA.RNUM	
+	</select>
+	
+</sqlMap>

@@ -93,9 +93,4 @@ public class CartServiceImpl implements CartService {
 	public List selectCartDetailList(HashMap map) throws Exception {
 		return cartDAO.selectCartDetailList(map);
 	}
-	
-	public void changeCartMode(List<HashMap> lst) throws Exception {
-		for(int i = 0; i < lst.size(); i++)
-			cartDAO.changeCartMode(lst.get(i));
-	}
 }

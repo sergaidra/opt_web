@@ -20,10 +20,18 @@ public class LoginServiceImpl implements LoginService {
         loginDAO.insertUserLog(map);
 	}
 
-	public void joinMeber(HashMap map) throws Exception {		
-        String esntl_id = loginDAO.selectEsntlID(map);
-		map.put("esntl_id", esntl_id);
-
+    public int chkUserInfo(HashMap map) throws Exception {
+        return loginDAO.chkUserInfo(map);
+    }
+	public void insertUser(HashMap map) throws Exception {
         loginDAO.insertUser(map);
 	}
+
+    public int chkUserCert(HashMap map) throws Exception {
+        return loginDAO.chkUserCert(map);
+    }
+	public void updateUserCert(HashMap map) throws Exception {
+        loginDAO.updateUserCert(map);
+	}
+
 }

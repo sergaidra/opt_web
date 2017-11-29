@@ -12,6 +12,7 @@
 	<sqlMap resource="sqlmap/siione/gnrl/main_db_sql.xml"/>
 	<sqlMap resource="sqlmap/siione/gnrl/point_db_sql.xml"/>
 	<sqlMap resource="sqlmap/siione/gnrl/wish_db_sql.xml"/>
+	<sqlMap resource="sqlmap/siione/gnrl/bbs_db_sql.xml"/>
 
 	<sqlMap resource="sqlmap/siione/mngr/tb_file_manage.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_cty.xml"/>

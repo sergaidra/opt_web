@@ -1,6 +1,9 @@
 package kr.co.siione.gnrl.mber.web;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import kr.co.siione.dist.utils.SimpleUtils;
+import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.mber.service.LoginService;
 import kr.co.siione.utl.LoginManager;
 import kr.co.siione.utl.UserUtils;
@@ -18,7 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -63,9 +69,14 @@ public class LoginController {
 
         	String esntl_id = (String) result.get("ESNTL_ID");
         	String password = (String) result.get("PASSWORD");
+        	String crtfc_at = (String) result.get("CRTFC_AT");        	
 
         	//password
         	if(user_pw.equals(password)){
+        		if("N".equals(crtfc_at)) {
+        			response.sendRedirect("/member/login/?result=certno");
+        			return;
+        		}
             	//중복로그인 여부 확인
             	if(loginManager.isUsing(esntl_id)){
             	    loginManager.removeSession(esntl_id);
@@ -193,5 +204,100 @@ public class LoginController {
 		return os;
 	}
 	
+    @RequestMapping(value="/join")
+    public String join(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+        model.addAttribute("bp", "07");
+       	model.addAttribute("btitle", "회원가입");
+        model.addAttribute("mtitle", "");
+
+        return "gnrl/mber/join";
+    }
 	
+	@RequestMapping(value="/chkUserInfo")
+	public @ResponseBody ResponseVo chkUserInfo(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+			String user_id = UserUtils.nvl(param.get("user_id"));
+
+			HashMap map = new HashMap();	
+			map.put("user_id", user_id);			
+
+			UserUtils.log("[chkUserInfo-map]", map);
+			
+			int cnt = loginService.chkUserInfo(map);
+			if(cnt > 0)
+				resVo.setData("N");
+			else
+				resVo.setData("Y");
+				
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;
+	}
+
+	@RequestMapping(value="/insertUser")
+	public @ResponseBody ResponseVo insertUser(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+			String user_id = UserUtils.nvl(param.get("user_id"));
+			String user_nm = UserUtils.nvl(param.get("user_nm"));
+			String password = UserUtils.nvl(param.get("password"));
+			String moblphon_no = UserUtils.nvl(param.get("moblphon_no"));
+			String email = UserUtils.nvl(param.get("email"));
+			String birth = UserUtils.nvl(param.get("birth"));
+			String sex = UserUtils.nvl(param.get("sex"));
+			String email_recptn_at = UserUtils.nvl(param.get("email_recptn_at"));
+			String certkey = UUID.randomUUID().toString().replace("-", "");
+
+			HashMap map = new HashMap();	
+			map.put("user_id", user_id);			
+			map.put("user_nm", user_nm);			
+			map.put("password", password);			
+			map.put("moblphon_no", moblphon_no);			
+			map.put("email", email);			
+			map.put("birth", birth.replace("-", ""));			
+			map.put("sex", sex);			
+			map.put("email_recptn_at", email_recptn_at);
+			map.put("certkey", certkey);
+
+			UserUtils.log("[insertUser-map]", map);
+			
+			loginService.insertUser(map);
+				
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;
+	}
+
+    @RequestMapping(value="/loginCert")
+    public String loginCert(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+        String certkey = UserUtils.nvl(request.getParameter("key"));
+        
+		HashMap map = new HashMap();	
+		map.put("certkey", certkey);		
+		
+		if(loginService.chkUserCert(map) > 0) {
+			loginService.chkUserCert(map);
+	        return "gnrl/mber/join_ok";
+		} else {
+	        return "gnrl/mber/join_fail";
+		}
+    }
+
 }

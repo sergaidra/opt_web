@@ -18,6 +18,7 @@
       <li><a href="javascript:go_07_06_01();">QNA</a> </li>
     </ul>
   </li>
+  <li><a href="javascript:go_09_01_01();">여행예약</a></li>
 </ul>
 
 <!---//탑메뉴--> 

@@ -21,7 +21,7 @@
 					<div class="gomy"><a href="javascript:go_login();">로그인</a></div>				
 				</c:if>				
 				<c:if test="${user_id != null}">
-					<div class="photo"><img src="<c:url value='/images/com/me_photo.jpg' />" alt=""/></div>
+					<!-- <div class="photo"><img src="<c:url value='/images/com/me_photo.jpg' />" alt=""/></div> -->
 					<div class="name_tx">${user_nm}님 환영합니다.</div>
 					<div class="gomy">
 						<a href="javascript:go_mypage();">마이페이지</a>

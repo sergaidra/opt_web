@@ -22,6 +22,9 @@
 		<c:when test="${result eq 'fail'}">
 			alert("ID/PW가 정확하지 않습니다.");
 		</c:when>
+		<c:when test="${result eq 'certno'}">
+			alert("가입 대기 상태입니다.\r\n이메일을 확인해주세요.");
+		</c:when>		
 		<c:when test="${result eq 'need'}">
 			alert("로그인해야 사용할 수 있습니다.");
 		</c:when>
@@ -67,7 +70,7 @@
         <div class="find">
           <div class="text1">아직도 회원이 아니신가요? </div>
           
-          <div class="btn"><a href="#">회원가입</a></div>
+          <div class="btn"><a href="<c:url value='/member/join'/>">회원가입</a></div>
         </div>
         <div class="find">
           <div class="text1">아이디/비밀번호를 분실하셨나요? </div>

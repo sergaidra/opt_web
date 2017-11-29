@@ -29,7 +29,6 @@
 			DELETE_AT,
 			ORIGIN_AMOUNT,
 			PURCHS_AT,
-			CART_MODE,
 			FLIGHT_SN
 		) VALUES(
 			#esntl_id#,
@@ -47,7 +46,6 @@
 			'N',
 			#origin_amount#,
 			'N',
-			'C',
 			#flight_sn#
 		)
 	]]>
@@ -383,7 +381,6 @@
 		   AND A.EXPRTN_AT = 'N'
 		   AND A.DELETE_AT = 'N'
 		   AND A.PURCHS_AT = 'N'
-		   AND A.CART_MODE = 'C'
 		 ORDER BY DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE), A.BEGIN_TIME
 	]]>
 	</select>	
@@ -450,7 +447,6 @@
 		   AND A.CART_SN = #cart_sn#
 		   AND A.EXPRTN_AT = 'N'
 		   AND A.DELETE_AT = 'N'
-		   AND A.CART_MODE = 'C'
 	]]>
 	</select>
 
@@ -472,8 +468,4 @@
 	]]>
 	</select>
 	
-	<update id="gnrl.cart.changeCartMode" parameterClass="hashMap" >
-		UPDATE TB_CART_GOODS SET CART_MODE = #cart_mode#
-		WHERE CART_SN = #cart_sn#
-	</update>
 </sqlMap>
