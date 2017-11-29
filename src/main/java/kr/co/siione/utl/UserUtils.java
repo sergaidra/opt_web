@@ -3,10 +3,13 @@ package kr.co.siione.utl;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,12 +17,15 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import kr.co.siione.utl.egov.EgovProperties;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +48,13 @@ public class UserUtils {
 		return str;
 	}
 	
+	public static String nvl(Object obj, String str) {
+		if (obj == null || obj.toString().length() == 0 || obj.toString().equals(" ")) {
+			return str;
+		}
+		return obj.toString();
+	}
+	
 	public static String nvl(Object obj) {
 		if (obj == null || obj.toString().length() == 0 || obj.toString().equals(" ") || obj.toString().equals("null")) {
 			return "";
@@ -50,6 +63,7 @@ public class UserUtils {
 	}
 	
 	public static String rpad(String str, int len, String addStr) {
+		if(str == null) str = "";
 		String result = str;
 		int templen = len - result.length();
 
@@ -144,6 +158,82 @@ public class UserUtils {
 		}
 		return list;
 	}
+	
+	@SuppressWarnings("rawtypes")
+	public static Map<String,String> getRequestParameter(HttpServletRequest request) {
+		Map<String,String> map = new HashMap<String,String>();
+		Enumeration e = request.getParameterNames();
+
+		while (e.hasMoreElements()) {
+			String a = (String) e.nextElement();
+			map.put(a, StringUtils.replace(nvl(request.getParameter(a).trim()), "&quot;", "\""));
+		}
+
+		return map;
+	}
+	
+	/**
+	 * 브라우저 구분 얻기
+	 * @param request
+	 * @return
+	 */
+	public static String getBrowser(HttpServletRequest request){
+		String header = request.getHeader("User-Agent");
+		 
+		if(header.indexOf("MSIE") > -1){
+			return "MSIE";
+		}else if(header.indexOf("Trident") > -1){
+			return "MSIE";
+		}else if(header.indexOf("Chrome") > -1){
+			return "Chrome";
+		}else if(header.indexOf("Opera") > -1){
+			return "Opera";
+		}else if(header.indexOf("Firefox") > -1){
+			return "Firefox";			
+		}else{
+			return "Opera";	
+		}
+	}
+	
+	/**
+	 * 파일명 한글처리
+	 * @param filename
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	public static void setDisposition(String filename, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String browser = getBrowser(request);
+		String dispositionPrefix = "attachment; filename=";
+		String encodedFilename = null;
+
+		if(browser.equals("MSIE")){
+			encodedFilename =  URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+		}else if(browser.equals("FireFox")){
+			encodedFilename = "\""+ new String(filename.getBytes("UTF-8"),"8859_1"+"\"");
+		}else if(browser.equals("Opera")){
+			encodedFilename = "\""+ new String(filename.getBytes("UTF-8"),"8859_1"+"\"");
+		}else if(browser.equals("Chrome")){
+			StringBuffer sb = new StringBuffer();
+			for(int i = 0; i < filename.length(); i++){
+				char c = filename.charAt(i);
+				if(c > '~'){
+					sb.append(URLEncoder.encode(""+c,"UTF-8"));
+				}else{
+					sb.append(c);
+				}
+			}
+			encodedFilename = sb.toString();
+		}else{
+			throw new IOException("Not surported browser");
+		}
+		response.setHeader("Content-Disposition", dispositionPrefix+encodedFilename);
+		
+		if("Opera".equals(browser)){
+			response.setContentType("application/octet-stream;charset=UTF-8");
+		}
+	}
+			
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List getOpenAPIData(StringBuilder sb) throws Exception {

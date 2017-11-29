@@ -1,8 +1,6 @@
-var xlsForm = Ext.create('Ext.form.Panel', {});		//엑셀 저장용 폼
-
 Ext.define('PurchsInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['PURCHS_SN', 'ESNTL_ID', 'USER_NM', 'PURCHS_DT', 'PURCHS_DE', 'PURCHS_TM', 'TOT_SETLE_AMOUNT', 'REAL_SETLE_AMOUNT', 'USE_POINT', 'SETLE_AMOUNT', 'SETLE_POINT', 'PYMNT_SE', 'PYMNT_SE_NM', 'TOURIST_NM', 'TOURIST_CTTPC', 'DELETE_AT', 'DELETE_AT_NM', 'DELETE_DT', 'GOODS_NM', 'GOODS_CNT']
+	fields: ['PURCHS_SN', 'ESNTL_ID', 'USER_NM', 'PURCHS_DT', 'PURCHS_DE', 'PURCHS_TM', 'TOT_SETLE_AMOUNT', 'REAL_SETLE_AMOUNT', 'USE_POINT', 'PYMNT_SE', 'PYMNT_SE_NM', 'TOURIST_NM', 'TOURIST_CTTPC', 'DELETE_AT', 'DELETE_AT_NM', 'DELETE_DT', 'GOODS_NM', 'GOODS_CNT']
 });
 
 var comboPymntSe = fn_cmmnCombo('결제구분', 'sch-pymnt-se', 'PYMNT_SE', 'COM006', '', true, 200, 80);
@@ -153,22 +151,6 @@ var frPurchs = Ext.create('Ext.form.Panel', {
 						}*/
 					}
 				}
-			}, {
-				xtype: 'button',
-				id: 'btn-excel',
-				margin: '0 0 0 10',
-				text: '엑셀',
-				width: 60,
-				listeners: {
-					click: function() {
-						xlsForm.getForm().standardSubmit = true;
-						xlsForm.getForm().submit({
-		        			url   : '../selectPurchsListExcel/',
-		        			method: 'POST',
-		        			params: stPurchs.proxy.extraParams
-		        		});
-					}
-				}			
 			},{
 				xtype: 'button',
 				margin: '0 0 0 5',
@@ -222,48 +204,26 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 	store: stPurchs,
 	border: true,
 	split : true,
-	loadMask : true,
 	//columnLines: true,
 	viewConfig: {
-		emptyText: '등록된 자료가 없습니다.',
-        getRowClass: function(record, rowIndex, rowParams, store) {
-			if (record.get('DELETE_AT') == 'Y') { 
-				return 'row_err';
-			} else {
-				return 'row_not';
-			}
-	    }
+		emptyText: '등록된 자료가 없습니다.'
 	},
 	features: [{
-		ftype: 'groupingsummary',
-		groupHeaderTpl: '<font color="blue">{columnName} : {name} ( {rows.length} 건 )</font>',
-		hideGroupedHeader: true,
-		enableGroupingMenu: false
+		ftype: 'groupingsummary', //'grouping'
+		groupHeaderTpl: '<font color="blue">{columnName} : {name} ( {rows.length} 건 )</font>'
+		//showSummaryRow: true
 	}, {
 		ftype: 'summary',
 		dock: 'top'
 	}],
 	columns: [{
 		text: '결제번호',
-    	width: 150,
+    	width: 100,
     	align: 'center',
     	dataIndex: 'PURCHS_SN',
-        summaryType : function(record) {
-			var cntY = 0;
-			var cntN = 0;
-			for (var idx in record) {
-				if(record[idx].data.DELETE_AT == 'Y') cntY++;
-				else cntN++;
-			}
-			var reVal = {
-				'cntY' : cntY,
-				'cntN' : cntN
-			}
-			return reVal;
-		},
+        summaryType: 'count',
         summaryRenderer: function(value, summaryData, dataIndex) {
-        	var str = '결제 ' + value.cntN + '건 , 취소 ' + value.cntY + '건';
-        	return '<b><font color="#9F0000">'+str+'</font></b>';
+            return '<b>합계</b>';
         }
 	},{
 		text: '구매일시',
@@ -301,13 +261,13 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		width: 100,
 		style: 'text-align:center',
 		align: 'right',
-		dataIndex: 'SETLE_AMOUNT',
+		dataIndex: 'REAL_SETLE_AMOUNT',
 		renderer: function(value, metaData, record) {
-			return Ext.util.Format.number(record.data.REAL_SETLE_AMOUNT , '0,000');
+			return Ext.util.Format.number(value , '0,000');
 		},
 		summaryType : 'sum',
-		summaryRenderer: function(value, summaryData, dataIndex) {
-			return '<b><font color="#9F0000">'+Ext.util.Format.number(value , '0,000')+'</font></b>';
+		summaryRenderer: function(value, summaryData, field) {
+			return '<font color="red">'+Ext.util.Format.number(value , '0,000')+'</font>';
 		}
 	},{
 		text: '사용포인트',
@@ -317,12 +277,7 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		dataIndex: 'USE_POINT',
 		renderer: function(value, metaData, record) {
 			return Ext.util.Format.number(value , '0,000');
-		},
-		summaryType : 'sum',
-		summaryRenderer: function(value, summaryData, dataIndex) {
-			return '<b><font color="#9F0000">'+Ext.util.Format.number(value , '0,000')+'</font></b>';
 		}
-		
 	},{
 		text: '결제수단',
 		width: 100,
@@ -343,6 +298,7 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		width: 100,
 		align: 'center',
 		dataIndex: 'DELETE_AT_NM'
+
 	},{
 		text: '취소일시',
 		width: 150,
@@ -356,7 +312,6 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		dataIndex: 'GOODS_NM',
 		renderer: function(value, metaData, record) {
 			if(record.data.GOODS_CNT != '0') return value + ' 외 ' + record.data.GOODS_CNT + '건';
-			else return value;
 		}
 	}],
 	bbar: Ext.create('Ext.PagingToolbar', {

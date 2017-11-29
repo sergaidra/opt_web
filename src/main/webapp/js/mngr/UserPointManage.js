@@ -22,7 +22,7 @@ var frPoint = Ext.create('Ext.form.Panel', {
 				xtype: 'textfield',
 				id: 'sch-ds-user-nm',
 				name: 'ESNTL_ID',
-				fieldLabel: '사용자정보',				
+				fieldLabel: '사용자정보',
 				labelWidth: 80,
 				labelAlign: 'right',
 				border: false,
@@ -33,7 +33,7 @@ var frPoint = Ext.create('Ext.form.Panel', {
 					focus: function(tf, e, eOpts ) {
 						Ext.getCmp('btn-search-user').fireEvent('click');
 					}
-				}				
+				}
 			}, {
 				xtype: 'textfield',
 				id: 'sch-ds-user-id',
@@ -57,7 +57,7 @@ var frPoint = Ext.create('Ext.form.Panel', {
 					click: function() {
 						winUserList.show();
 					}
-				}				
+				}
 			}, {
 				xtype: 'datefield',
 				vtype: 'daterange',
@@ -92,7 +92,7 @@ var frPoint = Ext.create('Ext.form.Panel', {
 							}
 						}
 					}
-				}				
+				}
 			}, {
 				xtype: 'datefield',
 				vtype: 'daterange',
@@ -127,7 +127,7 @@ var frPoint = Ext.create('Ext.form.Panel', {
 							}
 						}
 					}
-				}				
+				}
 			}, {
 				xtype: 'button',
 				id: 'btn-search-point',
@@ -142,7 +142,7 @@ var frPoint = Ext.create('Ext.form.Panel', {
 							});
 						} else {
 							stPoint.proxy.extraParams = Ext.getCmp('form-sch').getForm().getValues();
-							stPoint.loadPage(1);							
+							stPoint.loadPage(1);
 						}
 					}
 				}
@@ -276,6 +276,6 @@ Ext.onReady(function(){
 		},
 		items: [frPoint, grPoint]
 	});
-	
+
 	alert(stPointSum.getAt(0).CF_SUM);
 });

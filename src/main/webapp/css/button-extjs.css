@@ -90,3 +90,7 @@ padding: 1px 0;
 	/* border-style:none; background-image:none; background: url(/images/extjs/icons/fam/icon_darkness.png)   !important; width:22px; height:22px; */
 	background-image: url(/images/extjs/icons/fam/i_darkness.png)  !important;
 }
+
+.row_not {color: #000000} /*정상*/
+.row_err {color: #ff0000 !important;}	/*삭제*/
+

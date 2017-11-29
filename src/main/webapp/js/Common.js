@@ -6,7 +6,7 @@ var console = window.console || { log:function(){} };
  * 콤보박스로 구성된 항목일 경우 화면에 명칭을 보여준다.
  * @param   ComboBox 객체
  * @return  Display Field 값
- * 
+ *
  */
 Ext.ux.comboBoxRenderer = function(combo) {
 	return function(value) {
@@ -77,7 +77,7 @@ function fn_renderDate(value) {
 	if(!value) return value;
 	value = value.replace(/-/gi, '');
 	if (value == null || value == '' || value.length < 8) return value;
-	return value.substr(0,4) + '-' + value.substr(4,2) + '-'+ value.substr(6,2); 
+	return value.substr(0,4) + '-' + value.substr(4,2) + '-'+ value.substr(6,2);
 }
 
 
@@ -86,12 +86,12 @@ function fn_renderDate(value) {
  */
 function fn_renderSex(val){
 	var ret = '';
-	
+
 	if(val == '1') ret = '남';
 	else if(val == '2') ret = '여';
 	else if(val == 'M') ret = '남';
 	else if(val == 'F') ret = '여';
-	
+
 	return ret;
 }
 
@@ -118,13 +118,13 @@ var fn_renderBirthDay = function(value) {
 };
 
 function fn_chkGridAllowBlank(store, allowObj){	//체크할 스토어, 필수항목 Object
-	
+
 	var modified = store.getUpdatedRecords();
 	var inserted = store.getNewRecords();
 	var objSize = Ext.Object.getSize(allowObj);
 	var keyArr = Ext.Object.getKeys(allowObj);
 	var valArr = Ext.Object.getValues(allowObj);
-	
+
 	if (modified.length + inserted.length  > 0) {
 		for (var i = 0; i < modified.length; i++) {
 			for(var j=0; j<objSize; j++){
@@ -134,7 +134,7 @@ function fn_chkGridAllowBlank(store, allowObj){	//체크할 스토어, 필수항
 				}
 			}
 		}
-		
+
 		for (var i = 0; i < inserted.length; i++) {
 			for(var j=0; j<objSize; j++){
 				if(inserted[i].get(keyArr[j]) == '' || inserted[i].get(keyArr[j]) == null){
@@ -144,24 +144,24 @@ function fn_chkGridAllowBlank(store, allowObj){	//체크할 스토어, 필수항
 			}
 		}
 	}
-	
+
 	return false;
 }
 
 Ext.apply(Ext.form.field.VTypes, {
     daterange : function(val, field) {
-        
+
         var date = field.parseDate(val);
         if(!date){
             return;
         }
-        
+
         if (field.startDateField && (!this.dateRangeMax || (date.getTime() != this.dateRangeMax.getTime()))) {
             var start = Ext.getCmp(field.startDateField);
             //start.setMaxValue(date);
             //this.dateRangeMax = date;
             //start.validate();
-        } 
+        }
         else if (field.endDateField && (!this.dateRangeMin || (date.getTime() != this.dateRangeMin.getTime()))) {
             var end = Ext.getCmp(field.endDateField);
             //end.setMinValue(date);
@@ -185,7 +185,7 @@ function fn_failureMessage(response){
     var title = "";
     var message = "";
     var status = "";
-   
+
     switch(response.status){
         case -1:    message = '[' + response.status + ' ' + response.statusText + ']\n' +  "서버 응답시간 초과!";break;
         case 0:     message = '[' + response.status + ' ' + response.statusText + ']\n' + "서버접속에 장애가 발생하였습니다.\n잠시후 다시 시도해주시기 바랍니다.";break;
@@ -242,7 +242,7 @@ function createPagingToolbarNoButton(store, pageId, size){
 				store.pageSize = combo.getValue('code');
 				if(store.getCount() > 0) {
 					var paramObj = store.proxy.extraParams;
-					//[2014.12.19] 기존 공통코드인 paramObj.start = 1; 로 고정시키는 것을 자동으로 기본 순번 계산법으로 하기 위해 주석처리한다. 
+					//[2014.12.19] 기존 공통코드인 paramObj.start = 1; 로 고정시키는 것을 자동으로 기본 순번 계산법으로 하기 위해 주석처리한다.
 					//[2014.12.19] 기존대로 모든 데이터를 계속 조회할려면 0으로 수정해야 한다. 현재 crims 쿼리는 start+1로 계산된다.
 //					paramObj.start = 0;
 					paramObj.limit = combo.getValue('code');
@@ -259,7 +259,7 @@ function createPagingToolbarNoButton(store, pageId, size){
 	    displayMsg : '현재건수:<b><font color="green">{0} - {1}</font></b> /&nbsp;총건수: <b><font color="red">{2}</font></b>&nbsp;&nbsp;',
 	    emptyMsg   : "<b>해당자료가 없습니다.</b>",
 		items      : [
-						//'-', 
+						//'-',
 						searchResultPagingSize
 						//'-',
 						//pageId,
@@ -282,30 +282,30 @@ function createPagingToolbarNoButton(store, pageId, size){
 var juminNumberRegex = /^\d{6}\-?\d{7}$/;
 var juminNumberVType = {
 		juminNumber: function(val, field){
-			return juminNumberRegex.test(val);	
+			return juminNumberRegex.test(val);
 		},
 		juminNumberText: '주민번호형식으로 입력해야 합니다.',
-		juminNumberMask: /^[0-9.]$/ 
+		juminNumberMask: /^[0-9.]$/
 };
 
 //지문번호 Vtype 생성 및 적용
 var jimunNumberRegex = /^\d{5}\-?\d{5}$/;
 var jimunNumberVType = {
 		jimunNumber: function(val, field){
-			return jimunNumberRegex.test(val);	
+			return jimunNumberRegex.test(val);
 		},
 		jimunNumberText: '지문가치번호 형식으로 입력해야 합니다.',
-		jimunNumberMask: /^[0-9.]$/ 
+		jimunNumberMask: /^[0-9.]$/
 };
 
 //10자리 Vtype 생성 및 정용
 var tenNumberResex = /^\d{10}/;
 var tenNumberVType = {
 		tenNumber: function(val, field) {
-			return tenNumberResex.test(val); 
+			return tenNumberResex.test(val);
 		},
 		tenNumberText: '10자리로 입력해야 합니다.',
-		tenNumberMask: /^[0-9]$/ 
+		tenNumberMask: /^[0-9]$/
 };
 
 //6자리 Vtype 생성 및 적용
@@ -332,30 +332,30 @@ var eightNumberVType = {
 var fourNumberResex = /^\d{4}/;
 var fourNumberVType = {
 		fourNumber: function(val, field) {
-			return fourNumberResex.test(val); 
+			return fourNumberResex.test(val);
 		},
 		fourNumberText: '4자리로 입력해야 합니다.',
-		fourNumberMask: /^[0-9]$/ 
+		fourNumberMask: /^[0-9]$/
 };
 
 /* 날짜형 VTYPE 선언 */
 var dateRegex = /^\d{4}\-?\d{2}\-?\d{2}$/;
 var dateVType = {
 		dateType: function(val, field){
-			return dateRegex.test(val);	
+			return dateRegex.test(val);
 		},
 		dateTypeText: 'YYYYmmdd형식으로 입력해야 합니다.',
-		dateTypeMask: /^[0-9]$/ 
+		dateTypeMask: /^[0-9]$/
 };
 
 //생년월일 Vtype 생성 및 적용
 var birthDayRegex = /^\d{4}\-?\d{2}\-?\d{2}$/;
 var birthDayVType = {
 		birthDay: function(val, field){
-			return birthDayRegex.test(val);	
+			return birthDayRegex.test(val);
 		},
 		birthDayText: '생년월일 형식으로 입력해야 합니다.',
-		birthDayMask: /^[0-9.]$/ 
+		birthDayMask: /^[0-9.]$/
 };
 
 /* VTYPE 등록 */
@@ -373,10 +373,10 @@ Ext.apply(Ext.form.field.VTypes, birthDayVType);
  * @param ihidnum
  */
 function fn_getSexdstn(ihidnum) {
-	
+
 	if(ihidnum) {
 		ihidnum = ihidnum.replace(/-/gi);
-		
+
 		if(ihidnum.length == 13) {
 			var senventh = ihidnum.substring(6,7);
 			var sexdstn = 'M';
@@ -390,11 +390,11 @@ function fn_getSexdstn(ihidnum) {
 			case 7: sexdstn = 'M'; break;
 			case 8: sexdstn = 'F'; break;
 			}
-			
+
 			return sexdstn;
 		}
 	}
-	
+
 	return 'M';
 }
 
@@ -424,4 +424,68 @@ function fn_resetContainer(v) {
 			f.reset();
 		}
 	});
+}
+
+/**
+ * 공통코드 combobox
+ * @param objId : combobox object id
+ * @param objName : combobox object name
+ * @param sCodeId : CODE_ID
+ * @param sUseAt : 사용여부
+ * @param bAll : 전체여부
+ * @returns {Ext.create}
+ */
+function fn_cmmnCombo(sLabel, objId, objName, sCodeId, sUseAt, bAll, iWidth, iWidthLabel) {
+
+	var stCmmnCode = new Ext.create('Ext.data.JsonStore', {
+		autoLoad: true,
+		fields:['CODE_ID', 'CODE', 'CODE_NM', 'CODE_NM_ENG', 'CODE_DC'],
+		pageSize: 100,
+		proxy: {
+			type: 'ajax',
+			url: '../selectCmmnDetailCodeList/?CODE_ID='+sCodeId+'&USE_AT='+sUseAt,
+			reader: {
+				type: 'json',
+				root: 'data',
+				totalProperty: 'rows'
+			}
+		},
+		listeners:{
+			'load' : function( store, records, successful, eOpts ){
+				if(bAll) {
+					if(store.getCount() > 0){
+						//var idx = store.getCount();
+						var r = {
+							CODE_ID: sCodeId,
+							CODE: '',
+							CODE_NM: '전체',
+							CODE_NM_ENG: 'All',
+							CODE_DC: '전체'
+						};
+						store.insert(0, r);
+					}
+				}
+			}
+		}
+	});
+
+	var cbCmmnCode = new Ext.create('Ext.form.ComboBox', {
+		id: objId,
+		name: objName,
+		store: stCmmnCode,
+		width: iWidth,
+		fieldLabel: sLabel,
+		labelAlign: 'right',
+		labelWidth: iWidthLabel,
+		displayField: 'CODE_NM',
+		valueField: 'CODE',
+		mode: 'local',
+		typeAhead: false,
+		triggerAction: 'all',
+		lazyRender: true,
+		emptyText: (bAll?'전체':'선택')
+	});
+
+	return cbCmmnCode;
+
 }

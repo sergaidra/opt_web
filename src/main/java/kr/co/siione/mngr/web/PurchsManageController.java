@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class PurchsManageController {
@@ -53,4 +54,24 @@ public class PurchsManageController {
 		
 		jsonView.render(result, request, response);
 	}	
+	
+	@RequestMapping(value="/mngr/selectPurchsListExcel/")
+    public ModelAndView selectPurchsExcel(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+       	Map<String, Object> result = new HashMap<String, Object>();
+       	UserUtils.log(param);		
+    	try {
+    		int cnt = purchsManageService.selectPurchsListCount(param);
+			param.put("limit", String.valueOf(cnt));
+			param.put("page" , "1");
+			param.put("start", "0");
+			
+    		List<Map<String,Object>> results = purchsManageService.selectPurchsList(param);
+
+			result.put("CHILD", results);
+    	} catch (Exception e) {
+    		result.put("CHILD", null);
+			log.error(e.getMessage());
+    	}
+		return new ModelAndView("PurchsListExcel", "modelMap", result);
+    } 		
 }

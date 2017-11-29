@@ -6,97 +6,69 @@
 	<typeAlias alias="string" type="java.lang.String"/>
 
 	<sql id="PurchsDAO.pagingQueryStart">
-	  SELECT TT.* FROM (	
+	  SELECT TT.* FROM (
 	</sql>
-	
+
 	<sql id="PurchsDAO.pagingQueryEnd">
 	  ) TT WHERE ROWSEQ BETWEEN #start# + 1 AND #page# * #limit#
 	</sql>
-		
+
 	<sql id="PurchsDAO.whereForSelectPurchsList">
-		<isEmpty property="USE_AT">
-		 WHERE USE_AT = 'Y'
-		</isEmpty>
-		<isNotEmpty property="USE_AT">
-		 WHERE USE_AT = #USE_AT#
+		 WHERE A.PURCHS_DE BETWEEN REPLACE(#FR_PURCHS_DE#, '-', '') AND REPLACE(#TO_PURCHS_DE#, '-', '')
+		<isNotEmpty property="ESNTL_ID">
+		   AND A.ESNTL_ID = #ESNTL_ID#
 		</isNotEmpty>
-		<isNotEmpty property="CRTFC_AT">
-		   AND CRTFC_AT = #CRTFC_AT#
+		<isNotEmpty property="PYMNT_SE">
+		   AND A.PYMNT_SE = #PYMNT_SE#
 		</isNotEmpty>
-		<isNotEmpty property="EMAIL_RECPTN_AT">
-		   AND EMAIL_RECPTN_AT = #EMAIL_RECPTN_AT#
-		</isNotEmpty>
-		<isNotEmpty property="AUTHOR_CL">
-		   AND AUTHOR_CL = #AUTHOR_CL#
-		</isNotEmpty>
-		<isNotEmpty property="AUTHOR_CL_NOT">
-		   AND AUTHOR_CL <![CDATA[<>]]> #AUTHOR_CL_NOT#
-		</isNotEmpty>
-		<isNotEmpty property="USER_ID">
-		   AND USER_ID LIKE #USER_ID#||'%'
-		</isNotEmpty>
-		<isNotEmpty property="USER_NM">
-		   AND USER_NM LIKE #USER_NM#||'%'
+		<isNotEmpty property="DELETE_AT">
+		   AND A.DELETE_AT = #DELETE_AT#
 		</isNotEmpty>
 	</sql>
-		
+
 	<select id="PurchsDAO.selectPurchsListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
-		SELECT COUNT(ESNTL_ID)
-		  FROM TB_USER
+		SELECT COUNT(PURCHS_SN)
+		  FROM TB_PURCHS A
 		<include refid="PurchsDAO.whereForSelectPurchsList"/>
 	</select>
 
 	<select id="PurchsDAO.selectPurchsList" parameterClass="hashMap" resultClass="hashMap">
 		<include refid="PurchsDAO.pagingQueryStart"/><![CDATA[
-		SELECT ROW_NUMBER() OVER(ORDER BY USER_NM) AS ROWSEQ
-		     , ESNTL_ID
-		     , USER_ID
-		     , USER_NM
-		     , PASSWORD
-		     , AUTHOR_CL
-		     , (SELECT X.CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID = 'COM001' AND X.CODE = A.AUTHOR_CL) AUTHOR_CL_NM
-		     , MOBLPHON_NO
-		     , NVL(CRTFC_AT, 'N') CRTFC_AT
-		     , NVL(EMAIL_RECPTN_AT, 'N') EMAIL_RECPTN_AT
-		     , NVL(USE_AT, 'Y') USE_AT
-		     , WRITNG_ID
-		     , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD HH24:MI:SS') WRITNG_DT
-		     , UPDT_ID
-		     , TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') UPDT_DT
-		  FROM TB_USER A ]]>
-		<include refid="PurchsDAO.whereForSelectPurchsList"/>
-		<include refid="PurchsDAO.pagingQueryEnd"/>		
-	</select>
-
-	<sql id="PurchsDAO.whereForSelectPurchsLogList">
-		<isEmpty property="ESNTL_ID">
-		 WHERE 1 = 1
-		</isEmpty>	
-		<isNotEmpty property="ESNTL_ID">
-		 WHERE ESNTL_ID = #ESNTL_ID#
-		</isNotEmpty>		 
-		<isNotEmpty property="FR_CONECT_DT">
-		   AND CONECT_DT BETWEEN TO_DATE(#FR_CONECT_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_CONECT_DT#, 'YYYY-MM-DD')+0.99999
-		</isNotEmpty>
-	</sql>
-		
-	<select id="PurchsDAO.selectPurchsLogListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
-		SELECT COUNT(CONECT_SN)
-		  FROM TB_USER_CONECT_HIST
-		<include refid="PurchsDAO.whereForSelectPurchsLogList"/>
-	</select>
-
-	<select id="PurchsDAO.selectPurchsLogList" parameterClass="hashMap" resultClass="hashMap">
-		<include refid="PurchsDAO.pagingQueryStart"/><![CDATA[
-		SELECT ROW_NUMBER() OVER(ORDER BY CONECT_SN DESC) AS ROWSEQ
-		     , CONECT_SN
-		     , ESNTL_ID
+		SELECT ROW_NUMBER() OVER(ORDER BY A.PURCHS_SN DESC) AS ROWSEQ
+		     , A.PURCHS_SN
+		     , A.ESNTL_ID
 		     , (SELECT X.USER_NM FROM TB_USER X WHERE X.ESNTL_ID = A.ESNTL_ID) USER_NM
-		     , CONECT_IP
-		     , TO_CHAR(CONECT_DT, 'YYYY-MM-DD HH24:MI:SS') CONECT_DT
-		  FROM TB_USER_CONECT_HIST A ]]>
-		<include refid="PurchsDAO.whereForSelectPurchsLogList"/>
-		<include refid="PurchsDAO.pagingQueryEnd"/>		
+		     , SUBSTR(A.PURCHS_DE, 1, 4)||'-'||SUBSTR(A.PURCHS_DE, 5, 2)||'-'||SUBSTR(A.PURCHS_DE, 7, 2) PURCHS_DE
+		     , TO_CHAR(A.WRITNG_DT, 'YYYY-MM-DD HH24:MI:SS') PURCHS_DT
+		     , TO_CHAR(A.WRITNG_DT, 'HH24:MI:SS') PURCHS_TM
+		     , A.TOT_SETLE_AMOUNT
+		     , A.REAL_SETLE_AMOUNT
+		     , A.USE_POINT
+		     , DECODE(A.DELETE_AT, 'Y', 0, A.REAL_SETLE_AMOUNT) SETLE_AMOUNT
+		     , DECODE(A.DELETE_AT, 'Y', 0, A.USE_POINT) SETLE_POINT
+		     , A.PYMNT_SE
+		     , (SELECT X.CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID = 'COM006' AND X.CODE = A.PYMNT_SE) PYMNT_SE_NM
+		     , A.TOURIST_NM
+		     , A.TOURIST_CTTPC
+		     , A.DELETE_AT
+		     , DECODE(A.DELETE_AT, 'Y', '구매취소', 'N', '구매') DELETE_AT_NM
+		     , TO_CHAR(A.DELETE_DT, 'YYYY-MM-DD HH24:MI:SS') DELETE_DT
+		     , (SELECT GOODS_NM
+		          FROM TB_PURCHS_GOODS X
+		             , TB_CART_GOODS Y
+		             , TB_GOODS Z
+		         WHERE A.PURCHS_SN = X.PURCHS_SN
+		           AND X.CART_SN = Y.CART_SN
+		           AND Y.GOODS_CODE = Z.GOODS_CODE
+		           AND ROWNUM = 1) GOODS_NM
+		     , (SELECT COUNT(1)-1
+		          FROM TB_PURCHS_GOODS X
+		             , TB_CART_GOODS Y
+		         WHERE A.PURCHS_SN = X.PURCHS_SN
+		           AND X.CART_SN = Y.CART_SN) GOODS_CNT
+		  FROM TB_PURCHS A ]]>
+		<include refid="PurchsDAO.whereForSelectPurchsList"/>
+		<include refid="PurchsDAO.pagingQueryEnd"/>
 	</select>
-	
+
 </sqlMap>
