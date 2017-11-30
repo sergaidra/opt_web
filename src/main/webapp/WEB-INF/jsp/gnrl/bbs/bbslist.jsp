@@ -19,6 +19,11 @@ function viewBbs(bbs_sn) {
 	$(frm).submit();
 }
 
+function viewSecret(bbs_sn) {
+	alert("비밀글입니다.")
+	return false;
+}
+
 function search(pageNo) {
 	var url = "<c:url value='/bbs/getBbsList'/>";
 	$("#tblList tbody").empty(); 
@@ -38,7 +43,12 @@ function search(pageNo) {
         data : JSON.stringify(param ),
         success : function(data,status,request){
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
-				var tr = $("<tr onclick='javascript:viewBbs(" + data.list[cnt].BBS_SN + ");'></tr>");
+        		var tr = null;
+        		if(data.list[cnt].SECRET_AT == "Y" && data.list[cnt].WRITNG_ID != "${esntl_id}" && !("${author_cl}" == "A" || "${author_cl}" == "M")) {
+    				tr = $("<tr onclick='javascript:viewSecret(" + data.list[cnt].BBS_SN + ");'></tr>");
+        		} else {
+    				tr = $("<tr onclick='javascript:viewBbs(" + data.list[cnt].BBS_SN + ");'></tr>");
+        		}
         		var td1 = $("<td>" + (Number(data.startIdx) + cnt) + "</td>");
         		var td2 = $("<td class='left'>" + data.list[cnt].SUBJECT + "</td>");
         		var td3 = $("<td>" + data.list[cnt].VIEWCNT + "</td>");

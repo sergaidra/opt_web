@@ -25,6 +25,10 @@ function write() {
 	param.category = $("#category").val();
 	param.subject = $.trim($("#subject").val());
 	param.contents = $.trim($("#contents").val());
+	param.secret_at = "N";
+	if($("#secret_at").is(":checked")) {
+		param.secret_at = "Y";
+	}	
 	console.log(param);
 	
 	if(!confirm("등록하겠습니까?"))
@@ -116,6 +120,10 @@ function modifyaction() {
 	param.subject = $.trim($("#subject").val());
 	param.contents = $.trim($("#contents").val());
 	param.bbs_sn = $.trim($("#bbs_sn").val());
+	param.secret_at = "N";
+	if($("#secret_at").is(":checked")) {
+		param.secret_at = "Y";
+	}	
 	console.log(param);
 	
 	if(!confirm("수정하겠습니까?"))
@@ -172,16 +180,10 @@ function modifyaction() {
              
         <div class="bbs_view01_box">
                   <table cellpadding="0" cellspacing="0"  class="bbs_view01">
-			<c:if test="${mode == 'write' or mode == 'modify' }" >
-            <col width="15%" />
-            <col width="" />
-			</c:if>           
-			<c:if test="${mode == 'view' }" >
             <col width="15%" />
             <col width="" />
              <col width="15%" />
             <col width="" />
-			</c:if>           
             <tbody>
 			<c:if test="${mode == 'write' or mode == 'modify' }" >
 				<tr>
@@ -189,9 +191,13 @@ function modifyaction() {
 					<td class="end">
 						<input type="text" id="subject" name="subject" value="${view.SUBJECT}">
 					</td>
+					<th>비밀글</th>
+					<td class="end">
+						<input type="checkbox" id="secret_at" name="secret_at" <c:if test="${view.SECRET_AT == 'Y'}" > checked</c:if>>
+					</td>
               </tr>
               <tr>
-              	<td colspan="2">
+              	<td colspan="4">
               		<textarea id="contents" name="contents">${view.CONTENTS}</textarea>
               	</td>
               </tr>

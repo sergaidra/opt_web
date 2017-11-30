@@ -13,7 +13,12 @@
 <body>
 
 <script>
+<c:if test="${author_cl == 'A' or author_cl == 'M' }">
 	location.href="/main/intro/";
+</c:if>
+<c:if test="${author_cl != 'A' and author_cl != 'M' }">
+	location.href="/bbs/list";
+	</c:if>
 </script>
 
 </body>

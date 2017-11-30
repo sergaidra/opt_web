@@ -78,7 +78,12 @@
           <div class="btn"><a href="#">아이디/비밀번호</a></div>
         </div>
       </div>
-      <div class="login_div2"><a href="#"><img src="/images/com/sns_login1.gif" alt=""/></a> <a href="#"><img src="/images/com/sns_login2.gif" alt=""/></a>  <a href="#"><img src="/images/com/sns_login3.gif" alt=""/></a> </div>
+      <div class="login_div2">
+      	<!-- 
+      	<a href="#"><img src="/images/com/sns_login1.gif" alt=""/></a> 
+      	<a href="#"><img src="/images/com/sns_login2.gif" alt=""/></a>  
+      	<a href="#"><img src="/images/com/sns_login3.gif" alt=""/></a> --> 
+      </div>
     </div>
     </form>
   </div></div>   

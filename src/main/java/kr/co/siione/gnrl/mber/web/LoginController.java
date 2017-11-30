@@ -44,9 +44,9 @@ public class LoginController {
         String user_id = SimpleUtils.default_set((String)session.getAttribute("user_id"));
         String user_nm = SimpleUtils.default_set((String)session.getAttribute("user_nm"));
         
-        model.addAttribute("user_id", user_id);
-        model.addAttribute("user_nm", user_nm);
-        model.addAttribute("userCnt", Integer.valueOf(loginManager.getUserCount()));
+        //model.addAttribute("user_id", user_id);
+        //model.addAttribute("user_nm", user_nm);
+        //model.addAttribute("userCnt", Integer.valueOf(loginManager.getUserCount()));
         String result = SimpleUtils.default_set(request.getParameter("result"));
         model.addAttribute("result", result);
         
@@ -69,7 +69,7 @@ public class LoginController {
 
         	String esntl_id = (String) result.get("ESNTL_ID");
         	String password = (String) result.get("PASSWORD");
-        	String crtfc_at = (String) result.get("CRTFC_AT");        	
+        	String crtfc_at = (String) result.get("CRTFC_AT");       
 
         	//password
         	if(user_pw.equals(password)){

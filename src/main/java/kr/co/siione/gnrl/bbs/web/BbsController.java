@@ -139,12 +139,14 @@ public class BbsController {
 			String category = UserUtils.nvl(param.get("category"));
 			String subject = UserUtils.nvl(param.get("subject"));
 			String contents = UserUtils.nvl(param.get("contents"));
+			String secret_at = UserUtils.nvl(param.get("secret_at"));
 
 			HashMap map = new HashMap();	
 			map.put("esntl_id", esntl_id);			
 			map.put("category", category);			
 			map.put("subject", subject);			
 			map.put("contents", contents);	
+			map.put("secret_at", secret_at);	
 
 			UserUtils.log("[writeaction-map]", map);
 			
@@ -177,6 +179,9 @@ public class BbsController {
 		try {
 			HashMap view = bbsService.viewBbs(map);
 			bbsService.updateBbsViewCnt(map);
+			
+			String contents = String.valueOf(view.get("CONTENTS")).replaceAll("\\n", "<br>");
+			view.put("CONTENTS", contents);
 			model.addAttribute("view", view);
 		
 		} catch(Exception e) {e.printStackTrace();}
@@ -269,6 +274,7 @@ public class BbsController {
 			String subject = UserUtils.nvl(param.get("subject"));
 			String contents = UserUtils.nvl(param.get("contents"));
 			String bbs_sn = UserUtils.nvl(param.get("bbs_sn"));
+			String secret_at = UserUtils.nvl(param.get("secret_at"));
 
 			HashMap map = new HashMap();	
 			map.put("esntl_id", esntl_id);			
@@ -276,6 +282,7 @@ public class BbsController {
 			map.put("subject", subject);			
 			map.put("contents", contents);	
 			map.put("bbs_sn", bbs_sn);	
+			map.put("secret_at", secret_at);	
 
 			UserUtils.log("[writeaction-map]", map);
 			
