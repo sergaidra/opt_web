@@ -40,6 +40,7 @@
                                   , FILE_CL
                                   , REPRSNT_AT
                                   , HOTDEAL_AT
+                                  , RECOMEND_AT
                                   , LIVEVIEW_AT
                                   , SORT_NO
                                   , WRITNG_ID
@@ -53,6 +54,7 @@
                                   , #FILE_CL#
                                   , NVL(#REPRSNT_AT#, 'N')
                                   , NVL(#HOTDEAL_AT#, 'N')
+                                  , NVL(#RECOMEND_AT#, 'N')
                                   , NVL(#LIVEVIEW_AT#, 'N')
                                   , NVL(#SORT_NO#, (SELECT NVL(MAX(SORT_NO), 0)+1 FROM TB_FILE_DETAIL WHERE FILE_CODE = #FILE_CODE#))
                                   , #WRITNG_ID#
@@ -71,6 +73,7 @@
              <isNotEmpty property="FILE_CL">, FILE_CL = <![CDATA[#FILE_CL#]]></isNotEmpty>
              <isNotEmpty property="REPRSNT_AT">, REPRSNT_AT = #REPRSNT_AT#</isNotEmpty>
              <isNotEmpty property="HOTDEAL_AT">, HOTDEAL_AT = #HOTDEAL_AT#</isNotEmpty>
+             <isNotEmpty property="RECOMEND_AT">, RECOMEND_AT = #RECOMEND_AT#</isNotEmpty>
              <isNotEmpty property="LIVEVIEW_AT">, LIVEVIEW_AT = #LIVEVIEW_AT#</isNotEmpty>
              <isNotEmpty property="SORT_NO">, SORT_NO = #SORT_NO#</isNotEmpty>
          WHERE FILE_CODE = #FILE_CODE#
@@ -103,6 +106,7 @@
              , FILE_CL
              , REPRSNT_AT
              , HOTDEAL_AT
+             , RECOMEND_AT
              , LIVEVIEW_AT
              , SORT_NO
              , WRITNG_ID
@@ -126,9 +130,10 @@
              , FILE_CL
              , REPRSNT_AT
              , HOTDEAL_AT
+             , RECOMEND_AT
              , LIVEVIEW_AT
              , SORT_NO
-             , '/file/getImageThumb/?file_code='||FILE_CODE||CHR(38)||'file_sn='||FILE_SN AS FILE_URL
+             , '/file/getImageThumb/'||CHR(63)||'file_code='||FILE_CODE||CHR(38)||'file_sn='||FILE_SN AS FILE_URL
              , WRITNG_ID
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , UPDT_ID

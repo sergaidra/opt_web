@@ -124,8 +124,8 @@
                                   , MVMN_TIME
                                   , ACT_LA
                                   , ACT_LO
-                                  , MAIN_EXPSR_AT_1
-                                  , MAIN_EXPSR_AT_2
+                                  , HOTDEAL_MAIN_AT
+                                  , RECOMEND_MAIN_AT
                                   , VOCHR_TICKET_TY
                                   , VOCHR_NTSS_REQRE_TIME
                                   , VOCHR_USE_MTH
@@ -169,8 +169,8 @@
                                   , MVMN_TIME
                                   , ACT_LA
                                   , ACT_LO
-                                  , MAIN_EXPSR_AT_1
-                                  , MAIN_EXPSR_AT_2
+                                  , HOTDEAL_MAIN_AT
+                                  , RECOMEND_MAIN_AT
                                   , VOCHR_TICKET_TY
                                   , VOCHR_NTSS_REQRE_TIME
                                   , VOCHR_USE_MTH

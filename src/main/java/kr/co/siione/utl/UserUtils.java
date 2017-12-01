@@ -301,10 +301,12 @@ public class UserUtils {
 				if (!f2.exists()) f2.mkdirs();
 
 				BufferedImage bi = ImageIO.read(new File(storePath + saveFileNm));
-				int scaledWidth = bi.getWidth();
-				int scaledHeight = bi.getHeight();
 				
-				if(bi.getWidth() > 3000) {
+				int scaledWidth = 200; //bi.getWidth();    //x
+				int scaledHeight = 148;
+				//int scaledHeight = Math.round((bi.getHeight()*200)/bi.getWidth());; //bi.getHeight();  //y    z=(y*200)/x
+				
+				/*if(bi.getWidth() > 3000) {
 					scaledWidth = bi.getWidth()/15;
 					scaledHeight = bi.getHeight()/15;	
 				} else if(bi.getWidth() > 2500) {
@@ -319,8 +321,8 @@ public class UserUtils {
 				} else if(bi.getWidth() > 1000) {
 					scaledWidth = bi.getWidth()/5;
 					scaledHeight = bi.getHeight()/5;						
-				}
-				
+				}*/
+								
 				ImageResizer.resize(storePath + saveFileNm, resizePath + resizeFileNm, scaledWidth, scaledHeight);
 			}
 			

@@ -55,8 +55,10 @@
         <result property="SORT_ORDR"                     column="SORT_ORDR"                     jdbcType="string" javaType="string"/>
         <result property="HOTDEAL_AT"                    column="HOTDEAL_AT"                    jdbcType="string" javaType="string"/>
         <result property="RECOMEND_AT"                   column="RECOMEND_AT"                   jdbcType="string" javaType="string"/>
-        <result property="MAIN_EXPSR_AT_1"               column="MAIN_EXPSR_AT_1"               jdbcType="string" javaType="string"/>
-        <result property="MAIN_EXPSR_AT_2"               column="MAIN_EXPSR_AT_2"               jdbcType="string" javaType="string"/>
+        <result property="HOTDEAL_MAIN_AT"               column="HOTDEAL_MAIN_AT"               jdbcType="string" javaType="string"/>
+        <result property="RECOMEND_MAIN_AT"               column="RECOMEND_MAIN_AT"               jdbcType="string" javaType="string"/>
+        <result property="HOTDEAL_SORT_ORDR"             column="HOTDEAL_SORT_ORDR"             jdbcType="string" javaType="string"/>
+        <result property="RECOMEND_SORT_ORDR"            column="RECOMEND_SORT_ORDR"            jdbcType="string" javaType="string"/>        
         <result property="CRUD_SE"                       column="CRUD_SE"                       jdbcType="string" javaType="string"/>
         <result property="GOODS_NM_ENG"                  column="GOODS_NM_ENG"                  jdbcType="string" javaType="string"/><!-- 영문 컬럼 -->
         <result property="GOODS_INTRCN_ENG"              column="GOODS_INTRCN_ENG"              jdbcType="CLOB"   javaType="string"/>
@@ -112,8 +114,10 @@
                             , SORT_ORDR
                             , HOTDEAL_AT
                             , RECOMEND_AT
-                            , MAIN_EXPSR_AT_1
-                            , MAIN_EXPSR_AT_2
+                            , HOTDEAL_MAIN_AT
+                            , RECOMEND_MAIN_AT
+                            , HOTDEAL_SORT_ORDR
+                            , RECOMEND_SORT_ORDR
                             , VOCHR_TICKET_TY
                             , VOCHR_NTSS_REQRE_TIME
                             , VOCHR_USE_MTH
@@ -157,8 +161,10 @@
                             , NVL(#SORT_ORDR#, (SELECT MAX(SORT_ORDR)+1 FROM TB_GOODS WHERE CL_CODE = #CL_CODE#))
                             , #HOTDEAL_AT#
                             , #RECOMEND_AT#
-                            , #MAIN_EXPSR_AT_1#
-                            , #MAIN_EXPSR_AT_2#
+                            , #HOTDEAL_MAIN_AT#
+                            , #RECOMEND_MAIN_AT#
+                            , #HOTDEAL_SORT_ORDR#
+                            , #RECOMEND_SORT_ORDR#
                             , 'V'
                             , #VOCHR_NTSS_REQRE_TIME#
                             , #VOCHR_USE_MTH#
@@ -268,8 +274,10 @@
                             , SORT_ORDR
                             , HOTDEAL_AT
                             , RECOMEND_AT
-                            , MAIN_EXPSR_AT_1                            
-                            , MAIN_EXPSR_AT_2
+                            , HOTDEAL_MAIN_AT                            
+                            , RECOMEND_MAIN_AT
+                            , HOTDEAL_SORT_ORDR
+                            , RECOMEND_SORT_ORDR
                             , VOCHR_TICKET_TY
                             , VOCHR_NTSS_REQRE_TIME
                             , VOCHR_USE_MTH
@@ -298,10 +306,12 @@
                             , #ACT_LO#
                             , #CL_SE#
                             , NVL(#SORT_ORDR#, (SELECT MAX(SORT_ORDR)+1 FROM TB_GOODS WHERE CL_CODE = #CL_CODE#))
-                            , DECODE(#MAIN_EXPSR_AT_1#, 'Y', 'Y', NVL(#HOTDEAL_AT#, 'N'))
-                            , DECODE(#MAIN_EXPSR_AT_2#, 'Y', 'Y', NVL(#RECOMEND_AT#, 'N'))
-                            , NVL(#MAIN_EXPSR_AT_1#, 'N')
-                            , NVL(#MAIN_EXPSR_AT_2#, 'N')
+                            , DECODE(#HOTDEAL_MAIN_AT#, 'Y', 'Y', NVL(#HOTDEAL_AT#, 'N'))
+                            , DECODE(#RECOMEND_MAIN_AT#, 'Y', 'Y', NVL(#RECOMEND_AT#, 'N'))
+                            , NVL(#HOTDEAL_MAIN_AT#, 'N')
+                            , NVL(#RECOMEND_MAIN_AT#, 'N')
+                            , #HOTDEAL_SORT_ORDR#
+                            , #RECOMEND_SORT_ORDR#
                             , 'V'
                             , #VOCHR_NTSS_REQRE_TIME#
                             , #VOCHR_USE_MTH#
@@ -410,10 +420,12 @@
              , ACT_LO                = #ACT_LO#
              , CL_SE                 = #CL_SE#
              , SORT_ORDR             = #SORT_ORDR#
-             , HOTDEAL_AT            = DECODE(#MAIN_EXPSR_AT_1#, 'Y', 'Y', NVL(#HOTDEAL_AT#, 'N'))
-             , RECOMEND_AT           = DECODE(#MAIN_EXPSR_AT_2#, 'Y', 'Y', NVL(#RECOMEND_AT#, 'N'))
-             , MAIN_EXPSR_AT_1       = NVL(#MAIN_EXPSR_AT_1#, 'N')
-             , MAIN_EXPSR_AT_2       = NVL(#MAIN_EXPSR_AT_2#, 'N')
+             , HOTDEAL_AT            = DECODE(#HOTDEAL_MAIN_AT#, 'Y', 'Y', NVL(#HOTDEAL_AT#, 'N'))
+             , RECOMEND_AT           = DECODE(#RECOMEND_MAIN_AT#, 'Y', 'Y', NVL(#RECOMEND_AT#, 'N'))
+             , HOTDEAL_MAIN_AT       = NVL(#HOTDEAL_MAIN_AT#, 'N')
+             , RECOMEND_MAIN_AT       = NVL(#RECOMEND_MAIN_AT#, 'N')
+             , HOTDEAL_SORT_ORDR     = #HOTDEAL_SORT_ORDR#
+             , RECOMEND_SORT_ORDR    = #RECOMEND_SORT_ORDR#
              , VOCHR_TICKET_TY       = 'V'
              , VOCHR_NTSS_REQRE_TIME = #VOCHR_NTSS_REQRE_TIME#
              , VOCHR_USE_MTH         = #VOCHR_USE_MTH#
@@ -562,8 +574,10 @@
              , A.SORT_ORDR
              , A.HOTDEAL_AT
              , A.RECOMEND_AT
-             , A.MAIN_EXPSR_AT_1
-             , A.MAIN_EXPSR_AT_2
+             , A.HOTDEAL_MAIN_AT
+             , A.RECOMEND_MAIN_AT
+             , A.HOTDEAL_SORT_ORDR
+             , A.RECOMEND_SORT_ORDR
              , A.VOCHR_TICKET_TY
              , A.VOCHR_NTSS_REQRE_TIME
              , A.VOCHR_USE_MTH
@@ -650,6 +664,8 @@
              , FILE_CODE
              , HOTDEAL_AT
              , RECOMEND_AT
+             , HOTDEAL_SORT_ORDR
+             , RECOMEND_SORT_ORDR
              , DELETE_AT
              , DECODE(DELETE_AT, 'N', 'Y', 'N') USE_AT
              , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD') WRITNG_DE

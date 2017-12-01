@@ -275,7 +275,7 @@ var frCond = Ext.create('Ext.form.Panel', {
 
 Ext.define('GoodsInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['GOODS_CODE', 'CL_NM', 'UPPER_CL_NM', 'GOODS_NM', 'CTY_NM', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'HOTDEAL_AT', 'RECOMEND_AT', 'DELETE_AT', 'USE_AT', 'WRITNG_DE', 'UPDT_DE', 'FILE_CODE', 'CF_FILE_CNT']
+	fields: ['GOODS_CODE', 'CL_NM', 'UPPER_CL_NM', 'GOODS_NM', 'CTY_NM', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'HOTDEAL_AT', 'RECOMEND_AT', 'HOTDEAL_SORT_ORDR', 'RECOMEND_SORT_ORDR', 'DELETE_AT', 'USE_AT', 'WRITNG_DE', 'UPDT_DE', 'FILE_CODE', 'CF_FILE_CNT']
 });
 
 var jsGoods = Ext.create('Ext.data.JsonStore', {
@@ -356,6 +356,11 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		hidden: true,
 		dataIndex: 'STAYNG_FCLTY_AT'
 	},{
+		text: '정렬순서',
+		width: 80,
+		align: 'center',
+		dataIndex: 'SORT_ORDR'			
+	},{
 		text: '핫딜상품',
 		width: 80,
 		align: 'center',
@@ -365,6 +370,11 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 			else return '아니오';
 		}
 	},{
+		text: '핫딜순서',
+		width: 80,
+		align: 'center',
+		dataIndex: 'HOTDEAL_SORT_ORDR'
+	},{
 		text: '추천상품',
 		width: 80,
 		align: 'center',
@@ -372,12 +382,12 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		renderer: function(value) {
 			if(value == 'Y') return '예';
 			else return '아니오';
-		}		
+		}
 	},{
-		text: '정렬순서',
+		text: '추천순서',
 		width: 80,
 		align: 'center',
-		dataIndex: 'SORT_ORDR'
+		dataIndex: 'RECOMEND_SORT_ORDR'	
 	},{
 		text: '사용여부',
 		width: 80,

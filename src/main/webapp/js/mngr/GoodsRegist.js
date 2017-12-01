@@ -796,8 +796,10 @@ Ext.define('GoodsInfo', {
 			, {name:'SORT_ORDR', type:'string'}
 			, {name:'HOTDEAL_AT', type:'string'}
 			, {name:'RECOMEND_AT', type:'string'}
-			, {name:'MAIN_EXPSR_AT_1', type:'string'}
-			, {name:'MAIN_EXPSR_AT_2', type:'string'}
+			, {name:'HOTDEAL_MAIN_AT', type:'string'}
+			, {name:'RECOMEND_MAIN_AT', type:'string'}
+			, {name:'HOTDEAL_SORT_ORDR', type:'string'}
+			, {name:'RECOMEND_SORT_ORDR', type:'string'}
 			, {name:'CRUD_SE', type:'string'}
 			, {name:'GOODS_NM_ENG', type:'string'}  // 영문 컬럼
 			, {name:'GOODS_INTRCN_ENG', type:'string'}
@@ -1264,12 +1266,29 @@ var frReg = Ext.create('Ext.form.Panel', {
 				width: 5
 			},{
 				xtype: 'checkboxfield',
-				id: 'form-reg-main-expsr-at-1',
-				name: 'MAIN_EXPSR_AT_1',
+				id: 'form-reg-hotdeal-main-at',
+				name: 'HOTDEAL_MAIN_AT',
 				hideLabel: true,
 				boxLabel: '핫딜상품 메인노출여부',
 				width: 220,
 				inputValue: 'Y'
+			},{
+				xtype: 'label',
+				width: 5
+			},{
+				xtype: 'textfield',
+				id: 'form-reg-hotdeal-sort-ordr',
+				name: 'HOTDEAL_SORT_ORDR',
+				width: 250,
+				fieldLabel: '핫딜상품 메인정렬순서',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 150,
+				labelAlign: 'right',
+				maskRe: /[0-9]/,
+				maxLength: 2,
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
 			}]
 		},{
 			xtype: 'fieldcontainer',
@@ -1290,13 +1309,30 @@ var frReg = Ext.create('Ext.form.Panel', {
 				width: 5
 			},{
 				xtype: 'checkboxfield',
-				id: 'form-reg-main-expsr-at-2',
-				name: 'MAIN_EXPSR_AT_2',
+				id: 'form-reg-recomend-main-at',
+				name: 'RECOMEND_MAIN_AT',
 				hideLabel: true,
 				boxLabel: '추천상품 메인노출여부',
 				width: 220,
 				inputValue: 'Y'
-			}]		
+			},{
+				xtype: 'label',
+				width: 5
+			},{
+				xtype: 'textfield',
+				id: 'form-reg-recomend-sort-ordr',
+				name: 'RECOMEND_SORT_ORDR',
+				width: 250,
+				fieldLabel: '추천상품 메인정렬순서',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 150,
+				labelAlign: 'right',
+				maskRe: /[0-9]/,
+				maxLength: 2,
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
+			}]
 		},{
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
@@ -2921,7 +2957,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		sortable: false,
 		menuDisabled: true,
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 2, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
-		dataIndex: 'DSCNT_RATE'			
+		dataIndex: 'DSCNT_RATE'
 	},{
 		text: '정렬순서',
 		width: 100,
@@ -3164,6 +3200,7 @@ Ext.define('GoodsFileInfo', {
 			, {name:'FILE_PATH', type:'string'}
 			, {name:'REPRSNT_AT', type:'string'}
 			, {name:'HOTDEAL_AT', type:'string'}
+			, {name:'RECOMEND_AT', type:'string'}
 			, {name:'LIVEVIEW_AT', type:'string'}
 			, {name:'SORT_NO', type:'string'}
 			, {name:'FILE_URL', type:'string'}
@@ -3206,7 +3243,7 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 		width: 50,
 		align: 'center',
 		xtype: 'rownumberer'
-	},{		
+	},{
 		text: '파일',
 		//width: 300,
 		flex: 1,
@@ -3231,7 +3268,16 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 		menuDisabled: true,
 		editor: comboYn,
 		dataIndex: 'HOTDEAL_AT',
-		renderer: Ext.ux.comboBoxRenderer(comboYn)	
+		renderer: Ext.ux.comboBoxRenderer(comboYn)
+	},{
+		text: '추천',
+		width: 50,
+		align: 'center',
+		sortable: false,
+		menuDisabled: true,
+		editor: comboYn,
+		dataIndex: 'RECOMEND_AT',
+		renderer: Ext.ux.comboBoxRenderer(comboYn)
 	},{
 		text: '라이브뷰',
 		width: 80,
@@ -3240,7 +3286,7 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 		menuDisabled: true,
 		editor: comboYn,
 		dataIndex: 'LIVEVIEW_AT',
-		renderer: Ext.ux.comboBoxRenderer(comboYn)			
+		renderer: Ext.ux.comboBoxRenderer(comboYn)
 	},{
 		text: '정렬',
 		width: 50,
@@ -3274,7 +3320,7 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 		menuDisabled: true,
 		dataIndex: 'FILE_PATH'
 	}],
-	tbar: [{
+	tbar: ['->', {
 		text: '삭제',
 		id: 'btn-del-file',
 		width: 60,
@@ -3336,6 +3382,7 @@ var imageTpl = new Ext.XTemplate(
 	,'<td width="20%"><img src="{FILE_URL}"/><br>{[xindex]}.{FILE_NM}'
 	,'<tpl if="REPRSNT_AT==\'Y\'"><font color="red"> P</font></tpl>'
 	,'<tpl if="HOTDEAL_AT==\'Y\'"><font color="blue"> H</font></tpl>'
+	,'<tpl if="RECOMEND_AT==\'Y\'"><font color="blue"> R</font></tpl>'
 	,'<tpl if="LIVEVIEW_AT==\'Y\'"><font color="green"> L</font></tpl>'
 	,'</td>'
 	,'{[xindex % 5 == 0 ? "</tr>" : ""]}'
