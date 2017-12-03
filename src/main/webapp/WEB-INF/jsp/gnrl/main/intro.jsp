@@ -56,7 +56,8 @@ function fnDetail(goods_code, category) {
     <div class="tx2">Details package tour is <em>OnePassTour</em></div>
     <div class="msearch_box">
       <div class="icon"><img src="/images/com/search_icon.png" id="imgSearch" alt=""/></div>
-      <input type="text" placeholder="가고 싶은 투어, 여행지, 액티비티 검색어를 입력하세요" id="txtKeyword">
+      <input type="text" placeholder="가고 싶은 투어, 여행지, 액티비티 검색어를 입력하세요" id="txtKeyword" class="pc_view">
+      <input type="text" placeholder="검색어를 입력하세요" class="mobile_view" id="txtKeyword">
     </div>
   </div>
 
@@ -80,7 +81,7 @@ function fnDetail(goods_code, category) {
 	        <li class="swiper-slide"><img src="<c:url value='/file/getMainImage/'/>?image_sn=${list.IMAGE_SN}" alt=""> </li>
       	</c:forEach>
       </ul>
-      <div class="swiper-pagination"></div>
+      <!-- <div class="swiper-pagination"></div> -->
     </div>
   </div>
   <!-- // 모바일 노출 --> 
@@ -122,8 +123,10 @@ function fnDetail(goods_code, category) {
     });
 	  	var swiperMobile = new Swiper( '#visual_mobile .swiper-container', {
 				pagination: '.swiper-pagination',
-				paginationClickable: false,
+				paginationClickable: true,
 				autoplay: 3500,
+				nextButton: '.swiper-button-next',
+		        prevButton: '.swiper-button-prev',
 				autoplayDisableOnInteraction: false
 			} );
 		</script> 
@@ -180,8 +183,8 @@ function fnDetail(goods_code, category) {
 	              <!---->
 	              <div class="sw_out">
 	                  <div class="sw_box">
-	                    <div class="img">
-							<img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" onclick="fnDetail('${list.GOODS_CODE}', 'S');"/>
+	                    <div class="img" style="background: url(<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}); background-size: cover; height: 344px" onclick="fnDetail('${list.GOODS_CODE}', 'S');">
+							<!-- <img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" onclick="fnDetail('${list.GOODS_CODE}', 'S');"/> -->
 	                      <div class="um">
 	                        <div class="tx1">HIT</div>
 	                        <div class="tx2">${status.index + 1 }</div>
@@ -250,7 +253,7 @@ function fnDetail(goods_code, category) {
     });
 			 var swiper = new Swiper('#pro_sw_m .swiper-container', {
         pagination: '.swiper-pagination',
-        slidesPerView: 2,
+        slidesPerView: 1,
         paginationClickable: true,  nextButton: '.swiper-button-next',
             prevButton: '.swiper-button-prev',
         spaceBetween:0
@@ -274,15 +277,13 @@ function fnDetail(goods_code, category) {
           <div class="text">${reco[0].GOODS_INTRCN_SIMPL}</div>
           <div class="more" onclick="fnDetail('${reco[0].GOODS_CODE}', 'R');">자세히보기 + </div>
         </div>
-        <div class="in02 fr">
+        <c:set var="url1" value="/images/main/main_d_01.jpg"/>
+       	<c:if test="${reco[0].GOODS_CODE != null}">
+       		<c:set var="url1" value="<c:url value='/file/getImage/'/>?file_code=${reco[0].FILE_CODE}&file_sn=${reco[0].FILE_SN}"/>
+        </c:if>
+        <div class="in02 fr" style="background: url(<c:out value="${url1}"/>); ">
           <div class="icon"></div>
-          	<c:if test="${reco[0].GOODS_CODE != null}">
-          		<img src="<c:url value='/file/getImage/'/>?file_code=${reco[0].FILE_CODE}&file_sn=${reco[0].FILE_SN}"  alt=""/>
-          	</c:if> 
-          	<c:if test="${reco[0].GOODS_CODE == null}">
-          		<img src="/images/main/main_d_01.jpg" alt=""/>
-          	</c:if> 
-          </div>
+        </div>
       </div>
       <div class="cont_box">
         <div class="in01 fl">
@@ -290,25 +291,21 @@ function fnDetail(goods_code, category) {
           <div class="text">${reco[1].GOODS_INTRCN_SIMPL}</div>
           <div class="more" onclick="fnDetail('${reco[1].GOODS_CODE}', 'R');">자세히보기 + </div>
         </div>
-        <div class="in02 fr">
+        <c:set var="url2" value="/images/main/main_d_02.jpg"/>
+       	<c:if test="${reco[1].GOODS_CODE != null}">
+       		<c:set var="url2" value="<c:url value='/file/getImage/'/>?file_code=${reco[1].FILE_CODE}&file_sn=${reco[1].FILE_SN}"/>
+        </c:if>
+        <div class="in02 fr" style="background: url(<c:out value="${url2}"/>); ">
           <div class="icon"></div>
-          	<c:if test="${reco[1].GOODS_CODE != null}">
-          		<img src="<c:url value='/file/getImage/'/>?file_code=${reco[1].FILE_CODE}&file_sn=${reco[1].FILE_SN}"  alt=""/>
-          	</c:if> 
-          	<c:if test="${reco[1].GOODS_CODE == null}">
-          		<img src="/images/main/main_d_02.jpg" alt=""/>
-          	</c:if> 
         </div>
       </div>
       <div class="cont_box">
-        <div class="in03 fl">
+        <c:set var="url3" value="/images/main/main_d_03.jpg"/>
+       	<c:if test="${reco[2].GOODS_CODE != null}">
+       		<c:set var="url3" value="<c:url value='/file/getImage/'/>?file_code=${reco[2].FILE_CODE}&file_sn=${reco[2].FILE_SN}"/>
+        </c:if>
+        <div class="in03 fl" style="background: url(<c:out value="${url3}"/>); ">
           <div class="icon"></div>
-          	<c:if test="${reco[2].GOODS_CODE != null}">
-          		<img src="<c:url value='/file/getImage/'/>?file_code=${reco[2].FILE_CODE}&file_sn=${reco[2].FILE_SN}"  alt=""/>
-          	</c:if> 
-          	<c:if test="${reco[2].GOODS_CODE == null}">
-          		<img src="/images/main/main_d_03.jpg" alt=""/>
-          	</c:if> 
         </div>
         <div class="in04 fr">
           <div class="title">옵션투어</div>
@@ -318,14 +315,12 @@ function fnDetail(goods_code, category) {
         </div>
       </div>
       <div class="cont_box">
-        <div class="in03 fl">
+        <c:set var="url4" value="/images/main/main_d_04.jpg"/>
+       	<c:if test="${reco[3].GOODS_CODE != null}">
+       		<c:set var="url4" value="<c:url value='/file/getImage/'/>?file_code=${reco[3].FILE_CODE}&file_sn=${reco[3].FILE_SN}"/>
+        </c:if>
+        <div class="in03 fl" style="background: url(<c:out value="${url4}"/>); ">
           <div class="icon"></div>
-          	<c:if test="${reco[3].GOODS_CODE != null}">
-          		<img src="<c:url value='/file/getImage/'/>?file_code=${reco[3].FILE_CODE}&file_sn=${reco[3].FILE_SN}"  alt=""/>
-          	</c:if> 
-          	<c:if test="${reco[3].GOODS_CODE == null}">
-          		<img src="/images/main/main_d_04.jpg" alt=""/>
-          	</c:if> 
         </div>
         <div class="in04 fr">
           <div class="title">옵션투어</div>

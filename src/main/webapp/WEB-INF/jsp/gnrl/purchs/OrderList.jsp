@@ -92,7 +92,7 @@ function search(pageNo) {
         success : function(data,status,request){
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
         		var tr = $("<tr></tr>");
-        		var td1 = $("<td class='left'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].FILE_CODE + "' width='150' alt='''/></td>");
+        		var td1 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].FILE_CODE + "' width='150' alt='''/></div></td>");
         		var td2 = $("<td >" + data.list[cnt].PURCHS_SN + "<br /><a href='#' class='big-link button white medium' data-reveal-id='myModal' ></a></td>");
         		var td3 = $("<td >" + dateWithHyphen(data.list[cnt].PURCHS_DE) + "</td>");
         		var td4 = $("<td class='left'></td>");
@@ -141,21 +141,26 @@ function search(pageNo) {
         	if(startPageNo > 1) {
         		$("#paging").append("<a href='javascript:search(1);' class='pre_end'>← First</a>");
         		$("#paging").append("<a href='javascript:search(" + (startPageNo - 1) + ");' class='pre'>이전</a>");
+        		$("#mpaging").append("<a href='javascript:search(1);' class='pre_end'>← </a>");
         	}
 
         	for(var cnt = 0; cnt < blockSize; cnt++) {
         		var page = startPageNo + cnt;
         		if(page > totalPageCnt)
         			break;
-        		if(page == pageNo)
+        		if(page == pageNo) {
         			$("#paging").append("<a href='javascript:search(" + page + ");' class='on'>" + page + "</a>");
-        		else
+        			$("#mpaging").append("<a href='javascript:search(" + page + ");' class='on'>" + page + "</a>");        			
+        		} else {
         			$("#paging").append("<a href='javascript:search(" + page + ");'>" + page + "</a>");
+        			$("#mpaging").append("<a href='javascript:search(" + page + ");'>" + page + "</a>");        			
+        		}
         	}
         	
         	if(startPageNo + blockSize <= totalPageCnt) {
         		$("#paging").append("<a href='javascript:search(" + (startPageNo + blockSize) + ");' class='next'>다음</a>");
         		$("#paging").append("<a href='javascript:search(" + totalPageCnt + ");' class='next_end'>Last → </a>");
+        		$("#mpaging").append("<a href='javascript:search(" + totalPageCnt + ");' class='next_end'>→ </a>");
         	}
         },
         error : function(request,status,error) {
@@ -356,7 +361,7 @@ function lpad(s, padLength, padString){
             </a> </li>
           <li> <a href="javascript:document.location.href='/cart/list';">
             <div class="img"><img src="/images/sub/my_icon04.png"  alt=""/></div>
-            <div class="tx"> 예약목록(장바구니)</div>
+            <div class="tx"> 예약목록<div class="mobile_view"></div>(장바구니)</div>
             </a> </li>
         </ul>
       </div>
@@ -403,7 +408,7 @@ function lpad(s, padLength, padString){
       </div>
     </div>
     <div class="order_list">
-      <div class="title">결제목록</div>
+      <div class="title">결제목록<div class="stex"> 가로 터치 슬라이딩 해주세요 ← →</div></div>
       <div class="tb_box">
         <div class="tb_05_box">
           <table id="tblList" width="100%" class="tb_05" >
@@ -430,22 +435,12 @@ function lpad(s, padLength, padString){
       </div>
       <!--페이징 -->
       <div class="bbs_bottom"> 
-        <div class="paginate">
+        <div class="paginate pc_view">
           <div class="number" id="paging">
-          	<a href="#" class="pre_end">← First</a>
-          	<a href="#" class="pre">이전</a>
-          	<a href="#">11</a>
-          	<a href="#" class="on">12</a>
-          	<a href="#">13</a>
-          	<a href="#">14</a>
-          	<a href="#">15</a>
-          	<a href="#">16</a>
-          	<a href="#">17</a>
-          	<a href="#">18</a>
-          	<a href="#">19</a>
-          	<a href="#">20</a>
-          	<a href="#" class="next">다음</a>
-          	<a href="#" class="next_end">Last → </a>
+          </div>
+        </div>
+        <div class="paginate mobile_view">
+          <div class="number" id="mpaging">
           </div>
         </div>
       </div>

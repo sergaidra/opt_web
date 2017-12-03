@@ -18,7 +18,30 @@ $(function() {
 	$("#user_id").change(function () {
 		isUserIdDup = false;
 		$("#btnUserIdChk").show();
+		$("#muser_id").val($("#user_id").val());	
 	});
+	
+	$("#muser_id").change(function() {
+		isUserIdDup = false;
+		$("#btnUserIdChk").show();
+		$("#user_id").val($("#muser_id").val());	
+	});
+	
+	$("#password").change(function () { $("#mpassword").val($("#password").val()); });
+	$("#mpassword").change(function () { $("#password").val($("#mpassword").val()); });
+
+	$("#passwordchk").change(function () { $("#mpasswordchk").val($("#passwordchk").val()); });
+	$("#mpasswordchk").change(function () { $("#passwordchk").val($("#mpasswordchk").val()); });
+
+	$("#user_nm").change(function () { $("#muser_nm").val($("#user_nm").val()); });
+	$("#muser_nm").change(function () { $("#user_nm").val($("#muser_nm").val()); });
+
+	$("#moblphon_no").change(function () { $("#mmoblphon_no").val($("#moblphon_no").val()); });
+	$("#mmoblphon_no").change(function () { $("#moblphon_no").val($("#mmoblphon_no").val()); });
+
+	$("#email").change(function () { $("#memail").val($("#email").val()); });
+	$("#memail").change(function () { $("#email").val($("#memail").val()); });
+
 });
 
 var isUserIdDup = false;
@@ -189,7 +212,7 @@ function validation() {
       <div class="text2">아래 약관을 읽으신후 동의해주셔야 회원가입이 됩니다. </div>
     </div>
   </div>
-  <div class="sp_20"></div>
+  <div class="sp_20 pc_view"></div>
 	  <div class="agr_out_fl">
 <div class="agr">
   <div class="privacy">
@@ -360,47 +383,51 @@ function validation() {
 </div>
   <div id="join_w_box">
     <table cellpadding="0" cellspacing="0" class="join_w">
-      <col width="17%" />
-      <col width="" />
       <tbody>
         <tr>
-          <th height="25">아이디 </th>
-          <td class="line"><input id="user_id" name="user_id" type="text" class="input2" style="width:100px;" value=""  />
+          <th>아이디 </th>
+          <td class="line"><input id="user_id" name="user_id" type="text" class="w_30p pc_view" value=""  />
+          	<!--모바일 --> <input id="muser_id" name="user_id" type="text" class="w_100p mobile_view"  value=""  />
             &nbsp;
             <div class="btnst"><a href="javascript:useridchk();" id="btnUserIdChk">아이디 중복 확인</a></div></td>
         </tr>
         <tr>
-          <th height="25">비밀번호</th>
-          <td class="line"><input id="password" name="password" type="password" class="input2" style="width:100px;" value=""   />
+          <th>비밀번호</th>
+          <td class="line"><input id="password" name="password" type="password" class="w_20p pc_view" value=""   />
+          	<!--모바일 --><input id="mpassword" name="password" type="password" class="w_50p mobile_view"  value=""   />
             &nbsp;&nbsp;4~12자리 이내로 입력하세요.</td>
         </tr>
         <tr>
-          <th height="25">비밀번호 확인</th>
-          <td class="line"><input id="passwordchk" name="passwordchk" type="password" class="input2" style="width:100px;" value=""   /></td>
+          <th>비밀번호 확인</th>
+          <td class="line"><input id="passwordchk" name="passwordchk" type="password" class="w_20p pc_view" value=""   />
+          <!--모바일 --><input id="mpasswordchk" name="passwordchk" type="password" class="w_50p mobile_view"   value=""   /></td>
         </tr>
         <tr>
-          <th height="25">이름</th>
-          <td class="line"><input id="user_nm" name="user_nm" type="text" class="input2" style="width:250px;" value=""   /></td>
+          <th>이름</th>
+          <td class="line"><input id="user_nm" name="user_nm" type="text" class="w_20p pc_view" value=""   />
+          <!--모바일 --><input id="muser_nm" name="user_nm" type="text" class="w_50p mobile_view"   value=""   /></td>
         </tr>
         <!-- <tr>
-          <th height="25">일반전화 </th>
+          <th>일반전화 </th>
           <td class="line"><input name="input2" type="password" class="input2" style="width:250px;" value=""   /></td>
         </tr> -->
         <tr>
-          <th height="25">핸드폰 </th>
-          <td class="line"><input id="moblphon_no" name="moblphon_no" type="text" class="input2" style="width:250px;" value=""   />
+          <th>핸드폰 </th>
+          <td class="line"><input id="moblphon_no" name="moblphon_no" type="text"  class="w_30p pc_view" value=""   />
+          <!--모바일 --><input id="mmoblphon_no" name="moblphon_no" name="input3" type="text" class="w_100p mobile_view"  value=""   />
             &nbsp;&nbsp;&nbsp;
             <!-- <div class="btnst2"><a href="#" class="big-link" data-reveal-id="myModal" >인증번호 전송</a></div> --></td>
         </tr>
         <!-- <tr>
-          <th height="25">핸드폰 인증</th>
-          <td class="line"><input name="post" type="text" class="input2" style="width:100px;" value=""  />
+          <th>핸드폰 인증</th>
+          <td class="line"><input name="post" type="text" class="w_30p"  value=""  />
             &nbsp;
             <div class="btnst2"><a href="#">인증번호 확인</a></div></td>
         </tr> -->
         <tr>
-          <th height="25">이메일</th>
-          <td class="line"><input id="email" name="email" type="text" class="input2" style="width:250px;" value=""   />
+          <th>이메일</th>
+          <td class="line"><input id="email" name="email" type="text" class="w_30p pc_view" value=""   />
+          <!--모바일 --> <input id="memail" name="email" type="text" class="w_100p mobile_view"  value=""   />
             &nbsp;&nbsp;&nbsp;
             <input type="checkbox" id="email_recptn_at" name="email_recptn_at" id="checkbox" value="Y"/>
             이벤트 및 새로운 소식 수신 </td>
@@ -420,7 +447,7 @@ function validation() {
             <input name="adressDetail" type="text" class="input2" style="width:60%;" value=""  /></td>
         </tr> -->
         <tr>
-          <th height="25">성별</th>
+          <th>성별</th>
           <td class="line"><input type="radio" name="rdoSex" id="rdoSexM" value="M" />
             <label for="radio"></label>
             남성
@@ -428,8 +455,8 @@ function validation() {
             여성</td>
         </tr>
         <tr>
-          <th height="25">생년월일</th>
-          <td class="line"><input id="birth" name="birth" type="text" class="input2" style="width:200px;" value=""  /></td>
+          <th>생년월일</th>
+          <td class="line"><input id="birth" name="birth" type="text" class="w_100p" value=""  /></td>
         </tr>
       </tbody>
     </table>
@@ -442,7 +469,8 @@ function validation() {
 </div>
 		  
 	    </div> 
-		  <div class="sp_50"></div>
+		<div class="sp_50 pc_view"></div>
+	 <div class="sp_20 mobile_view"></div>
   </div>
      
 </section>

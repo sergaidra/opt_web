@@ -30,26 +30,50 @@ function search(pageNo) {
         data : JSON.stringify(param ),
         success : function(data,status,request){
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
-        		var tr = $("<tr></tr>");
-        		var td1 = $("<td class='left'>" + (data.startIdx + cnt) + "</td>");
-        		var td2 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + "</td>");
-        		var td3 = $("<td class='point_color_b4'>" + data.list[cnt].ACCML_DT + "</td>");
-        		var td4 = null;
+        		// PC
+        		{
+            		var tr = $("<tr></tr>");
+            		var td1 = $("<td class='left'>" + (data.startIdx + cnt) + "</td>");
+            		var td2 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + "</td>");
+            		var td3 = $("<td class='point_color_b4'>" + data.list[cnt].ACCML_DT + "</td>");
+            		var td4 = null;
+            		
+            		if(data.list[cnt].POINT.substr(0, 1) == "+")
+            			td4 = $("<td class='font_color1'>" + data.list[cnt].POINT + "</td>");
+            		else
+            			td4 = $("<td class='font_color2'>" + data.list[cnt].POINT + "</td>");
+            			
+            		var td5 = $("<td class='font_color3'>" + "" + "</td>");
+            		
+            		$(tr).append(td1);
+            		$(tr).append(td2);
+            		$(tr).append(td3);
+            		$(tr).append(td4);
+            		$(tr).append(td5);
+            		
+    	        	$("#tblList tbody").append(tr);        
+        		}
         		
-        		if(data.list[cnt].POINT.substr(0, 1) == "+")
-        			td4 = $("<td class='font_color1'>" + data.list[cnt].POINT + "</td>");
-        		else
-        			td4 = $("<td class='font_color2'>" + data.list[cnt].POINT + "</td>");
+        		// 모바일
+        		{
+            		var tr = $("<tr></tr>");
+            		var td1 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + "<br><span class='point_color_b4'>" + data.list[cnt].ACCML_DT + "</span></td>");
+            		var td2 = null;
+            		
+            		if(data.list[cnt].POINT.substr(0, 1) == "+")
+            			td2 = $("<td class='font_color1'>" + data.list[cnt].POINT + "</td>");
+            		else
+            			td2 = $("<td class='font_color2'>" + data.list[cnt].POINT + "</td>");
+            			
+            		var td3 = $("<td class='font_color3'>" + "" + "</td>");
+            		
+            		$(tr).append(td1);
+            		$(tr).append(td2);
+            		$(tr).append(td3);
         			
-        		var td5 = $("<td class='font_color3'>" + "" + "</td>");
+    	        	$("#tblmList tbody").append(tr);        	        	
+        		}
         		
-        		$(tr).append(td1);
-        		$(tr).append(td2);
-        		$(tr).append(td3);
-        		$(tr).append(td4);
-        		$(tr).append(td5);
-        		
-	        	$("#tblList tbody").append(tr);        
         	}
         	
         	// 페이징 처리
@@ -65,21 +89,26 @@ function search(pageNo) {
         	if(startPageNo > 1) {
         		$("#paging").append("<a href='javascript:search(1);' class='pre_end'>← First</a>");
         		$("#paging").append("<a href='javascript:search(" + (startPageNo - 1) + ");' class='pre'>이전</a>");
+        		$("#mpaging").append("<a href='javascript:search(1);' class='pre_end'>← </a>");
         	}
 
         	for(var cnt = 0; cnt < blockSize; cnt++) {
         		var page = startPageNo + cnt;
         		if(page > totalPageCnt)
         			break;
-        		if(page == pageNo)
+        		if(page == pageNo) {
         			$("#paging").append("<a href='javascript:search(" + page + ");' class='on'>" + page + "</a>");
-        		else
+        			$("#mpaging").append("<a href='javascript:search(" + page + ");' class='on'>" + page + "</a>");        			
+        		} else {
         			$("#paging").append("<a href='javascript:search(" + page + ");'>" + page + "</a>");
+        			$("#mpaging").append("<a href='javascript:search(" + page + ");'>" + page + "</a>");        			
+        		}
         	}
         	
         	if(startPageNo + blockSize <= totalPageCnt) {
         		$("#paging").append("<a href='javascript:search(" + (startPageNo + blockSize) + ");' class='next'>다음</a>");
         		$("#paging").append("<a href='javascript:search(" + totalPageCnt + ");' class='next_end'>Last → </a>");
+        		$("#mpaging").append("<a href='javascript:search(" + totalPageCnt + ");' class='next_end'>→ </a>");
         	}
         },
         error : function(request,status,error) {
@@ -127,7 +156,7 @@ function search(pageNo) {
             </a> </li>
           <li> <a href="javascript:document.location.href='/cart/list';">
             <div class="img"><img src="/images/sub/my_icon04.png"  alt=""/></div>
-            <div class="tx"> 예약목록(장바구니)</div>
+            <div class="tx"> 예약목록<div class="mobile_view"></div>(장바구니)</div>
             </a> </li>
         </ul>
       </div>
@@ -135,13 +164,13 @@ function search(pageNo) {
     <div class="order_list">
       <div class="title">포인트 사용 내역</div>
       <div class="tb_box">
-        <div class="tb_05_box">
-          <table width="100%" class="tb_05" id="tblList">
+        <div class="tb_06_box">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tb_06" id="tblList">
             <col width="5%" />
             <col width="" />
-            <col width="10%" />
-            <col width="10%" />
-            <col width="10%" />
+            <col width="15%" />
+            <col width="15%" />
+            <col width="20%" />
             <thead>
               <tr>
                 <th>번호</th>
@@ -154,13 +183,35 @@ function search(pageNo) {
             <tbody>
             </tbody>
           </table>
+          
+		<!--모바일일때 -->
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tb_06_m"  id="tblmList">
+            <col width="" />
+            <col width="15%" />
+            <col width="30%" />
+            <thead>
+              <tr>               
+                <th>포인트 내용 /사용,적립날짜</th>               
+                <th >포인트</th>
+                <th >총 보유포인트</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+			<!--//모바일일-->
+          
         </div>
       </div>
       <!--페이징 -->
       <div class="bbs_bottom"> 
-        <div class="paginate">
+        <div class="paginate pc_view">
           <div class="number" id="paging">
-		  </div>
+          </div>
+        </div>
+        <div class="paginate mobile_view">
+          <div class="number" id="mpaging">
+          </div>
         </div>
       </div>
       <!--//페이징 --> 

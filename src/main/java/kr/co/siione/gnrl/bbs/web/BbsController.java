@@ -1,6 +1,8 @@
 package kr.co.siione.gnrl.bbs.web;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,7 +111,17 @@ public class BbsController {
 		map.put("esntl_id", esntl_id);
 
 		try {
+			String user_nm = UserUtils.nvl((String)session.getAttribute("user_nm"));
+			String email = UserUtils.nvl((String)session.getAttribute("email"));
+			
+			SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyy-MM-dd" );
+			Date currentTime = new Date ();
 
+			HashMap view = new HashMap();
+			view.put("USER_NM", user_nm);
+			view.put("EMAIL", email);
+			view.put("WRITNG_DT", mSimpleDateFormat.format ( currentTime ));
+			model.addAttribute("view", view);
 		
 		} catch(Exception e) {e.printStackTrace();}
 

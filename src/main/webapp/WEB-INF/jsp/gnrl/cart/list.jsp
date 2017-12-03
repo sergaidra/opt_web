@@ -183,7 +183,7 @@ function addWish() {
 
   </div>
   <div class="tb_05_box">
-    <table width="100%" class="tb_05" >
+    <table width="100%" class="tb_06" >
       <col width="5%" />
       <col width="15%" />
       <col width="" />
@@ -276,6 +276,35 @@ function addWish() {
 
       </tbody>
     </table>
+	  <!--모바일-->
+	  <c:forEach var="result" items="${cartList}" varStatus="status">
+	  <div class="cart_list_box">
+	  	<div class="img"><div class="cart_img" style="background: url((<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}); background-size: cover; "></div></div>
+	  	<div class="title">${result.GOODS_NM}
+				<c:if test="${!empty result.TOUR_DE}">
+					${fn:substring(result.TOUR_DE,0,4)}년 ${fn:substring(result.TOUR_DE,4,6)}월 ${fn:substring(result.TOUR_DE,6,8)}일
+				</c:if>
+				<c:if test="${!empty result.CHKIN_DE}">
+					${fn:substring(result.CHKIN_DE,0,4)}년 ${fn:substring(result.CHKIN_DE,4,6)}월 ${fn:substring(result.CHKIN_DE,6,8)}일 ~ ${fn:substring(result.CHCKT_DE,0,4)}년 ${fn:substring(result.CHCKT_DE,4,6)}월 ${fn:substring(result.CHCKT_DE,6,8)}일
+				</c:if>  	
+				<c:if test="${result.CL_SE ne 'S'}">
+					<div class="text1">${fn:substring(result.BEGIN_TIME,0,2)}시 ${fn:substring(result.BEGIN_TIME,2,4)}분 ~ ${fn:substring(result.END_TIME,0,2)}시 ${fn:substring(result.END_TIME,2,4)}분</div>
+					<c:forEach var="options" items="${result.OPTIONS}" varStatus="status">
+						<div class="text1">${options.NMPR_CND} ${options.NMPR_CO}명 </div>
+					</c:forEach>
+				</c:if>					
+				<c:if test="${result.CL_SE eq 'S'}">
+					<c:forEach var="options" items="${result.OPTIONS}" varStatus="status">
+						<div class="text1">${options.SETUP_NM} ${options.NMPR_CND} </div>
+					</c:forEach>
+				</c:if>					
+	  	</div>
+	  	<div class="sale"><fmt:formatNumber value="${result.ORIGIN_AMOUNT - result.PURCHS_AMOUNT}" pattern="#,###" />원</div>
+	    <div class="total"><em><fmt:formatNumber value="${result.PURCHS_AMOUNT}" pattern="#,###" /></em>원</div>
+	  	<div class="del"> <a href="javascript:delCartSingle('${result.CART_SN}');" class="sbtn_01">삭제</a></div>
+	  </div>	  
+	  </c:forEach>
+	<!--//모바일-->    
   </div>
   <div class="sp_30"></div>
   <div class="cart_total">
@@ -313,8 +342,8 @@ function addWish() {
       <!-- <div class="btn2"><a href="#">품절상품삭제</a></div> -->
     </div>
     <div class="right_btn">
-      <div class="btn3"><a href="#">여행상품보기</a></div>
-      <div class="btn2"><a href="javascript:paymentCart();">선택상품 결제하기</a></div>
+      <div class="btn3"><a href="javascript:paymentCart();">선택상품 결제하기</a></div>
+      <div class="btn2"><a href="#">여행상품보기</a></div>
     </div>
   </div>
   <!--//컨텐츠영역 -->

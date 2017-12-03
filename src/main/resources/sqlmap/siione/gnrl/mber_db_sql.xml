@@ -16,6 +16,7 @@
 		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
 		     , PASSWORD
 		     , CRTFC_AT
+		     , EMAIL
 		  FROM TB_USER
 		 WHERE USER_ID = #user_id#
 		   AND USE_AT = 'Y'
@@ -34,13 +35,16 @@
 		 WHERE UPPER(USER_ID) = UPPER(#user_id#)
 	</select>
 
+	<select id="gnrl.mber.getMaxEsntlId"  parameterClass="hashMap" resultClass="String">
+		SELECT 'GNRL' || LPAD(NVL(MAX(SUBSTR(ESNTL_ID, 5)), 0) + 1, 16, '0') FROM TB_USER
+	</select>
+	
 	<insert id="gnrl.mber.insertUser" parameterClass="hashMap">
 	<![CDATA[
 		INSERT INTO TB_USER (ESNTL_ID, USER_ID, USER_NM, WRITNG_ID, PASSWORD, WRITNG_DT
 			, AUTHOR_CL, USE_AT, MOBLPHON_NO, CRTFC_AT, EMAIL_RECPTN_AT, EMAIL, SEX, BIRTH, CERTKEY)
-		SELECT 'GNRL' || LPAD(NVL(MAX(SUBSTR(ESNTL_ID, 5)), 0) + 1, 16, '0'), #user_id#, #user_nm#, #user_id#, #password#, SYSDATE
-			, 'G', 'Y', #moblphon_no#, 'N', #email_recptn_at#, #email#, #sex#, #birth#, #certkey#
-		FROM TB_USER
+		VALUES (#esntl_id#, #user_id#, #user_nm#, #esntl_id#, #password#, SYSDATE
+			, 'G', 'Y', #moblphon_no#, 'N', #email_recptn_at#, #email#, #sex#, #birth#, #certkey# )
 	]]>
 	</insert>
 

@@ -19,6 +19,10 @@ public class LoginDAO extends EgovComAbstractDAO {
 	public int chkUserInfo(HashMap map) throws Exception {
 		return (Integer) selectByPk("gnrl.mber.chkUserInfo", map);
 	}
+	
+	public String getMaxEsntlId(HashMap map)throws Exception {
+		return (String) selectByPk("gnrl.mber.getMaxEsntlId", map);
+	} 
 
 	public void insertUser(HashMap map) throws Exception {
 		insert("gnrl.mber.insertUser", map);

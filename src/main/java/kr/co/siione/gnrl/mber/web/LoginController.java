@@ -94,6 +94,7 @@ public class LoginController {
             	session.setAttribute("user_id", result.get("USER_ID"));
             	session.setAttribute("user_nm", result.get("USER_NM"));
             	session.setAttribute("author_cl", result.get("AUTHOR_CL"));            	
+            	session.setAttribute("email", result.get("EMAIL"));
             	session.setAttribute("esntl_id", esntl_id);
             	//timeout 30분
             	session.setMaxInactiveInterval(1800);
@@ -270,6 +271,7 @@ public class LoginController {
 			map.put("sex", sex);			
 			map.put("email_recptn_at", email_recptn_at);
 			map.put("certkey", certkey);
+			map.put("esntl_id", loginService.getMaxEsntlId(map));
 
 			UserUtils.log("[insertUser-map]", map);
 			

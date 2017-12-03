@@ -4,6 +4,20 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <head>
+
+
+	<!-- Attach our CSS -->
+  	<link rel="stylesheet" href="<c:url value='/jq/popup2/reveal.css'/>">	
+
+	<!-- Attach necessary scripts -->
+	<!-- <script type="text/javascript" src="<c:url value='/jq/popup2/jquery-1.4.4.min.js'/>"></script> -->
+  	<script type="text/javascript">
+		//jQuery.noConflict();
+		//var j$ = jQuery;
+	</script>
+	<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script> -->
+	<script type="text/javascript" src="<c:url value='/jq/popup2/jquery.reveal.js'/>"></script>
+	
 	<!-- Link Swiper's CSS -->
 	<link rel="stylesheet" href="<c:url value='/jq/swiper/dist/css/swiper.min.css'/>">
 	
@@ -948,7 +962,7 @@ function inputAir() {
             </div>
           </div>
           <div class="hit_box"><i class="material-icons">&#xE87E;</i><span data-featherlight="#pa_airpopup">25</span></div>
-          <div class="share_box"><i class="material-icons">&#xE80D;</i></div>
+          <div class="share_box"> <a  href="#" data-featherlight="#share"><i class="material-icons">&#xE80D;</i> </a></div>
           <div class="qa_btn"><a href="#" data-featherlight="#pa_popup2">1:1문의하기</a></div>
           <!-- Swiper -->
           <div class="swiper-container">
@@ -1232,7 +1246,14 @@ function inputAir() {
         <!--//상품문의 --> 
         
       </div>
+      
+      <!-- 예약하기 -->
+      
+      <!-- 예약하기 -->
+      <div id="myModal2" class="reveal-modal">      
       <div class="fl_right">
+	    <div class="title_popup">예약하기	<a class="close-reveal-modal">&#215;</a></div>
+	    <div class="sp_50 mobile_view"></div>
         <div class="day_box">
           <div class="title">RESERVATION
             <div class="star_box">
@@ -1369,10 +1390,11 @@ function inputAir() {
       	</div>
     </div>
   </div>
+  <div class="reservation_mobile_btn mobile_view">	<a href="#" class="big-link" data-reveal-id="myModal2" data-animation="fade">예약하기</a></div>
+  </div>
   <div class="sp_50 pc_view"></div>
   <div class="sp_10 mobile_view"></div>
 </div>
-</section>
 
 <!-- //본문 --> 
 <!--팝업 : 이용후기 -->
@@ -1382,7 +1404,7 @@ function inputAir() {
     <div class="popup_cont">
       <div class="tb_01_box">
         <table width="100%"  class="tb_01">
-          <col width="20%">
+          <col width="25%">
           <col width="">
           <tbody>
             <tr>
@@ -1462,6 +1484,16 @@ function inputAir() {
         </table>
       </div>
       <div class="popup_btn"><a href="javascript:saveOpinion();">등록하기</a></div>
+    </div>
+  </div>
+</div>
+<!--팝업-->
+<!--팝업 : 1:1문의하기-->
+<div class="lightbox" id="share">
+  <div class="popup_com2">
+    <div class="title">공유하기 </div>
+    <div class="popup_cont">
+   <div class="login_div2"><a href="#"><img src="../../../images/com/sns_login1.gif" alt=""/></a> <a href="#"><img src="../../../images/com/sns_login2.gif" alt=""/></a>  <a href="#"><img src="../../../images/com/sns_login3.gif" alt=""/></a> </div>
     </div>
   </div>
 </div>
@@ -1557,4 +1589,6 @@ function inputAir() {
   </div>
 </div>
 <!--팝업-->
+</section>
+
 </body>

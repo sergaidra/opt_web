@@ -49,8 +49,6 @@
         <result property="INTRCN_PLACE"              column="INTRCN_PLACE"              jdbcType="string" javaType="string"/>
         <result property="CL_SE"                     column="CL_SE"                     jdbcType="string" javaType="string"/>
         <result property="SORT_ORDR"                 column="SORT_ORDR"                 jdbcType="string" javaType="string"/>
-        <result property="MAIN_EXPSR_AT_1"           column="MAIN_EXPSR_AT_1"           jdbcType="string" javaType="string"/>
-        <result property="MAIN_EXPSR_AT_2"           column="MAIN_EXPSR_AT_2"           jdbcType="string" javaType="string"/>
         <result property="CF_MIN_BEGIN_DE"           column="CF_MIN_BEGIN_DE"           jdbcType="string" javaType="string"/>
         <result property="CF_MAX_END_DE"             column="CF_MAX_END_DE"             jdbcType="string" javaType="string"/>
         <result property="GOODS_INTRCN_SIMPL"        column="GOODS_INTRCN_SIMPL"             jdbcType="string" javaType="string"/>        
@@ -100,8 +98,8 @@
 					FROM (		  
 						SELECT GOODS_CODE
 						FROM TB_GOODS 
-						WHERE DELETE_AT = 'N'  AND MAIN_EXPSR_AT_1 = 'Y'
-						ORDER BY SORT_ORDR
+						WHERE DELETE_AT = 'N'  AND HOTDEAL_MAIN_AT = 'Y'
+						ORDER BY HOTDEAL_SORT_ORDR
 					)  A		  
 				) AA
 				INNER JOIN TB_GOODS G ON AA.GOODS_CODE = G.GOODS_CODE
@@ -123,8 +121,8 @@
 					FROM (		  
 						SELECT GOODS_CODE
 						FROM TB_GOODS 
-						WHERE DELETE_AT = 'N'  AND MAIN_EXPSR_AT_2 = 'Y'
-						ORDER BY SORT_ORDR
+						WHERE DELETE_AT = 'N'  AND RECOMEND_MAIN_AT = 'Y'
+						ORDER BY RECOMEND_SORT_ORDR
 					)  A		  
 				) AA
 				INNER JOIN TB_GOODS G ON AA.GOODS_CODE = G.GOODS_CODE
@@ -276,8 +274,6 @@
              , (SELECT C.CL_NM FROM TB_TOUR_CL C WHERE A.CL_CODE = C.CL_CODE) CL_NM
              , CL_SE
              , SORT_ORDR
-             , MAIN_EXPSR_AT_1
-             , MAIN_EXPSR_AT_2
              , VOCHR_TICKET_TY
              , VOCHR_NTSS_REQRE_TIME
              , FN_CONVERT_BR(VOCHR_USE_MTH            ) VOCHR_USE_MTH

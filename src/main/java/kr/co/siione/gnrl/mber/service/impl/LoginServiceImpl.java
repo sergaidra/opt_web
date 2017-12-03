@@ -23,6 +23,11 @@ public class LoginServiceImpl implements LoginService {
     public int chkUserInfo(HashMap map) throws Exception {
         return loginDAO.chkUserInfo(map);
     }
+    
+    public String getMaxEsntlId(HashMap map) throws Exception {
+        return loginDAO.getMaxEsntlId(map);
+    }
+    
 	public void insertUser(HashMap map) throws Exception {
         loginDAO.insertUser(map);
 	}

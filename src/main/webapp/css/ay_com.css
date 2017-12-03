@@ -60,14 +60,14 @@ ul.mobile_view {display:block  !important}
 }
 /****  타이틀  : 모바일 ****/
 @media only all and (max-width:768px) {
-.com_stitle{ width: 100%; font-size: 22px; color: #000; ; ;font-family:'Noto Sans Korean', 'Noto Sans KR';margin-bottom: 20px}
-.title_bar .title2 {idth:100%; float:left;  margin-bottom: 30px}
-.title_bar .title2 p.text1{width:100%; float:left; margin-bottom:5px;  font-size:20px; color:#000}
-.title_bar .title2 p.text2{width:100%; float:left; font-size:14px; color:#999; line-height:16px}
+.com_stitle{ width: 100%; font-size: 18px; color: #000; ; ;font-family:'Noto Sans Korean', 'Noto Sans KR';margin-bottom: 10px}
+.title_bar .title2 {idth:100%; float:left;  margin-bottom: 10px}
+.title_bar .title2 p.text1{width:100%; float:left; margin-bottom:5px;  font-size:20px; color:#000; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 500}
+.title_bar .title2 p.text2{width:100%; float:left; font-size:12px; color:#999; line-height:16px}
 
 .title_bar2{	width:100%;	float:left; margin-bottom:20px;}
-.title_bar2 .text1{float:left; font-size:22px;color:#000;  margin-right:10px;;font-family:'Noto Sans Korean', 'Noto Sans KR';}
-.title_bar2 .text2{ float:left; font-size:12px; color:#999; line-height:16px; margin-top:5px }
+.title_bar2 .text1{width:100%;	float:left; font-size:18px;color:#000; font-weight:500;  margin-right:10px;;font-family:'Noto Sans Korean', 'Noto Sans KR'; line-height: 24px}
+.title_bar2 .text2{ width:100%;	float:left; font-size:12px; color:#999; line-height:16px; margin-top:5px }
 
 
 .btn_box_box{ width: 100%;  text-align: center; overflow: hidden; margin-top: 20px}
@@ -247,8 +247,8 @@ a:hover{text-decoration:none}
 .mb_30{ margin-bottom:30px !important}
 .mb_20{ margin-bottom:20px !important}
 .mb_10{ margin-bottom:10px !important}
+.mb_5{ margin-bottom:5px !important}
 .mb_m1{ margin-bottom:-1px}
-
 
 /**** 마진값: 상단 ****/
 .mt_100{ margin-top:100px}

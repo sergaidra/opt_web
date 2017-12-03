@@ -20,7 +20,7 @@
 	<select id="gnrl.wish.selectWishListCount" parameterClass="hashMap" resultClass="Integer">
 		SELECT COUNT(1)
 		FROM TB_BKMK B
-			INNER JOIN TB_GOODS G ON B.GOODS_CODE = G.GOODS_CODE
+			INNER JOIN TB_GOODS G ON B.GOODS_CODE = G.GOODS_CODE AND G.DELETE_AT = 'N'
 		WHERE B.ESNTL_ID =  #esntl_id#	
 	</select>
 	
@@ -32,7 +32,7 @@
 			FROM (
 				SELECT B.GOODS_CODE
 				FROM TB_BKMK B
-					INNER JOIN TB_GOODS G ON B.GOODS_CODE = G.GOODS_CODE
+					INNER JOIN TB_GOODS G ON B.GOODS_CODE = G.GOODS_CODE AND G.DELETE_AT = 'N'
 				WHERE B.ESNTL_ID =  #esntl_id#
 				ORDER BY G.GOODS_NM
 			) B

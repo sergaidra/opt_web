@@ -165,109 +165,89 @@ function modifyaction() {
 	<input type="hidden" id="category" name="category" value="R">
 	<input type="hidden" id="bbs_sn" name="bbs_sn" value="${view.BBS_SN}">
 </form>
-
 <!-- 본문 -->
 <section>
-
-<div id="container">
-	   <div class="sp_50"></div>
-  <div class="inner2">
-  	<div class="order_list">
-	   <div class="com_stitle">여행예약 작성하기</div>
-        <div class="review_wr_box">
-            <table  class="review_wr">
-                <col width="15%" />
-                <col width="" />
-                <col width="15%" />
-                <col width="" />
-                <tbody>
-				<c:if test="${mode == 'write' or mode == 'modify' }" >
-                   <tr>
-                    <th>작성자</th>
-                    <td>${view.USER_NM }</td>
-                    <th>이메일</th>
-                    <td class="end">${view.EMAIL }</td>
-                  </tr>
-                   <tr>
-                    <th>작성일</th>
-                    <td>${view.WRITNG_DT }</td>
-                    <th>비밀글</th>
-                    <td class="end">
-                    	<input type="checkbox" id="secret_at" name="secret_at" <c:if test="${view.SECRET_AT == 'Y'}" > checked</c:if>> 
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>제목</th>
-                    <td colspan="3" class="end">
-                    	<input type="text" id="subject" name="subject" class="input_st01" style="width:100%" value="${view.SUBJECT}">
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>내용</th>
-                    <td colspan="3" class="end">
-                    	<textarea id="contents" name="contents" class="input_st01" style="width:100%; height:250px;">${view.CONTENTS}</textarea>
-                    </td>
-                  </tr>
-				</c:if>
-				<c:if test="${mode == 'view' }" >
-                   <tr>
-                    <th>작성자</th>
-                    <td>${view.USER_NM }</td>
-                    <th>이메일</th>
-                    <td class="end">${view.EMAIL }</td>
-                  </tr>
-                   <tr>
-                    <th>작성일</th>
-                    <td>${view.WRITNG_DT }</td>
-                    <th>조회수</th>
-                    <td class="end">
-                    	${view.VIEWCNT } 
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>제목</th>
-                    <td colspan="3" class="end">
-                    	${view.SUBJECT }
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>내용</th>
-                    <td colspan="3" class="end">
-                    	${view.CONTENTS }
-                    </td>
-                  </tr>
-				</c:if>
-                </tbody>
-              </table>
-        </div>
-        
-        
-        
-         <!--하단버튼/ 페이징 -->
-         
-         <div class="bbs_bottom">
- 			<c:if test="${mode == 'view' and view.WRITNG_ID == esntl_id }" >
+     
+      <div id="container"> 
+		  <div class="sp_50"></div>
+    <div class="inner2">
+              <div class="title_bar">
+                <div class="title2">
+                  <p class="text1">여행예약</p>
+                  <p class="text2">여행예약 게시판은 회원의 전용 게시판입니다. </p>
+                </div>
+      </div>
+             
+        <div class="bbs_view01_box">
+                  <table cellpadding="0" cellspacing="0"  class="bbs_view01">
+            <col width="15%" />
+            <col width="" />
+             <col width="15%" />
+            <col width="" />
+            <tbody>
+			<c:if test="${mode == 'write' or mode == 'modify' }" >
+				<tr>
+					<th>제목</th>
+					<td class="end">
+						<input type="text" id="subject" name="subject" value="${view.SUBJECT}">
+					</td>
+					<th>비밀글</th>
+					<td class="end">
+						<input type="checkbox" id="secret_at" name="secret_at" <c:if test="${view.SECRET_AT == 'Y'}" > checked</c:if>>
+					</td>
+              </tr>
+              <tr>
+              	<td colspan="4">
+              		<textarea id="contents" name="contents">${view.CONTENTS}</textarea>
+              	</td>
+              </tr>
+			</c:if>           
+			<c:if test="${mode == 'view' }" >
+				<tr>
+					<th>제목</th>
+					<td colspan="3">${view.SUBJECT }</td>
+              </tr>
+				<tr>
+					<th>작성자</th>
+					<td>${view.USER_NM }</td>
+					<th>조회수</th>
+                    <td  class="end">${view.VIEWCNT }</td>
+              </tr>
+              <tr>
+              	<td colspan="4">
+              		${view.CONTENTS }
+              	</td>
+              </tr>
+			</c:if>           
+			</tbody>
+          </table>
+      </div>
+       <!--하단버튼 -->
+        <div class="bbs_bottom">
+			<c:if test="${mode == 'view' and view.WRITNG_ID == esntl_id }" >
                   <div class="left_btn">
                   	<a href="javascript:modifyBbs();" class="button_m2 mr_m1">수정하기</a>
                   	<a href="javascript:deleteBbs();" class="button_m2">삭제하기 </a>
                   </div>
-            </c:if> 
-			       <div class="right_btn"> 
+            </c:if>
+                  <div class="right_btn">
 					<c:if test="${mode == 'write' }" >
-                  		<a href="javascript:write();" class="button_m1 mr_2">등록하기</a>
+                  		<a href="javascript:write();" class="button_m1 mr_m1">글쓰기</a>
                   	</c:if>
 					<c:if test="${mode == 'modify' }" >
-                  		<a href="javascript:modifyaction();" class="button_m1 mr_2">수정하기</a>
+                  		<a href="javascript:modifyaction();" class="button_m1 mr_m1">수정하기</a>
                   	</c:if>
-                  	<a href="javascript:go_09_01_01();" class="button_m2">목록</a> 
-			       	</div>
-       
+                  	<a href="javascript:go_09_01_01();" class="button_m2">목록보기</a> 
+                  </div>
       </div>
-   
-      <!--//하단버튼/ 페이징 -->
-      </div></div>
-	   <div class="sp_50"></div>
-</div>
+        <!--//하단버튼 --> 
+     
+              
+              <!-- //페이징 -->
+        </div> 
+		  <div class="sp_50"></div>
+  </div>
+     
 </section>
-
+<!-- //본문 -->
 </body>

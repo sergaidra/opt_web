@@ -30,7 +30,8 @@ function search(pageNo) {
         success : function(data,status,request){
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
         		var tr = $("<tr></tr>");
-        		var td1 = $("<td class='left'><div class='cart_img' style=\"background: url(<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].FILE_CODE + "); background-size: cover; \"></div></td>");
+        		//var td1 = $("<td class='left'><div class='cart_img' style=\"background: url(<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].FILE_CODE + "); background-size: cover; \"></div></td>");
+        		var td1 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].FILE_CODE + "' width='150' alt='''/></div></td>");
 				var td2 = $("<td  class='left'>" + data.list[cnt].GOODS_NM + "</td>");
 				var td3 = $("<td  class='left'>" + nvl(data.list[cnt].GOODS_INTRCN_SIMPL) + "</td>");
 				var td4 = $("<td >" + data.list[cnt].REVIEW_SCORE + "</td>");
@@ -58,21 +59,26 @@ function search(pageNo) {
         	if(startPageNo > 1) {
         		$("#paging").append("<a href='javascript:search(1);' class='pre_end'>← First</a>");
         		$("#paging").append("<a href='javascript:search(" + (startPageNo - 1) + ");' class='pre'>이전</a>");
+        		$("#mpaging").append("<a href='javascript:search(1);' class='pre_end'>← </a>");
         	}
 
         	for(var cnt = 0; cnt < blockSize; cnt++) {
         		var page = startPageNo + cnt;
         		if(page > totalPageCnt)
         			break;
-        		if(page == pageNo)
+        		if(page == pageNo) {
         			$("#paging").append("<a href='javascript:search(" + page + ");' class='on'>" + page + "</a>");
-        		else
+        			$("#mpaging").append("<a href='javascript:search(" + page + ");' class='on'>" + page + "</a>");        			
+        		} else {
         			$("#paging").append("<a href='javascript:search(" + page + ");'>" + page + "</a>");
+        			$("#mpaging").append("<a href='javascript:search(" + page + ");'>" + page + "</a>");        			
+        		}
         	}
         	
         	if(startPageNo + blockSize <= totalPageCnt) {
         		$("#paging").append("<a href='javascript:search(" + (startPageNo + blockSize) + ");' class='next'>다음</a>");
         		$("#paging").append("<a href='javascript:search(" + totalPageCnt + ");' class='next_end'>Last → </a>");
+        		$("#mpaging").append("<a href='javascript:search(" + totalPageCnt + ");' class='next_end'>→ </a>");
         	}
         },
         error : function(request,status,error) {
@@ -196,13 +202,13 @@ function lpad(s, padLength, padString){
             </a> </li>
           <li> <a href="javascript:document.location.href='/cart/list';">
             <div class="img"><img src="/images/sub/my_icon04.png"  alt=""/></div>
-            <div class="tx"> 예약목록(장바구니)</div>
+            <div class="tx"> 예약목록<div class="mobile_view"></div>(장바구니)</div>
             </a> </li>
         </ul>
       </div>
     </div>
     <div class="order_list">
-      <div class="title">찜목록(위시리스트)</div>
+      <div class="title">찜목록(위시리스트) <div class="stex"> 가로 터치 슬라이딩 해주세요 ← →</div></div>
       <div class="tb_box">
         <div class="tb_05_box">
           <table width="100%" class="tb_05" id="tblList">
@@ -210,8 +216,6 @@ function lpad(s, padLength, padString){
             <col width="" />
             <col width="13%" />
             <col width="15%" />
-            <col width="10%" />
-            <col width="10%" />
             <thead>
               <tr>
 		          <th>&nbsp;</th>
@@ -228,9 +232,13 @@ function lpad(s, padLength, padString){
       </div>
       <!--페이징 -->
       <div class="bbs_bottom"> 
-        <div class="paginate">
+        <div class="paginate pc_view">
           <div class="number" id="paging">
-		  </div>
+          </div>
+        </div>
+        <div class="paginate mobile_view">
+          <div class="number" id="mpaging">
+          </div>
         </div>
       </div>
       <!--//페이징 --> 

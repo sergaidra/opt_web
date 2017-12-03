@@ -63,11 +63,14 @@ $(function(){
 	<!-- 팝업 -->
 	<link type="text/css" rel="stylesheet" href="<c:url value='/jq/popup/featherlight.min.css' />" />
 	<style type="text/css">
-			@media all {
-				.lightbox { display: none; }
-
-			}
-    </style>
+		@media all {.lightbox { display: none; }}
+		/**** pc ****/
+		@media only all and (min-width:769px) {.lightbox2 { display: block; }
+											}
+		/**** 모바일 ****/
+		@media only all and (max-width:768px) {.lightbox2 { display: none; }
+											}			
+	</style>
 	<!-- //팝업 -->
 
 <script type="text/javascript">
