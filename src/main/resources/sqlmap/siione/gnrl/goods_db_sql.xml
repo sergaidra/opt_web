@@ -301,10 +301,11 @@
              , (SELECT TO_CHAR(NVL(TO_DATE(MIN(BEGIN_DE), 'YYYYMMDD'), SYSDATE), 'YYYY-MM-DD') FROM TB_GOODS_SCHDUL X WHERE X.DELETE_AT = 'N' AND  X.GOODS_CODE = A.GOODS_CODE) CF_MIN_BEGIN_DE             
              , (SELECT TO_CHAR(TO_DATE(MAX(END_DE), 'YYYYMMDD'), 'YYYY-MM-DD') FROM TB_GOODS_SCHDUL X WHERE X.DELETE_AT = 'N' AND  X.GOODS_CODE = A.GOODS_CODE) CF_MAX_END_DE
              , GOODS_INTRCN_SIMPL                          
-          FROM TB_GOODS A
-         WHERE DELETE_AT = 'N' 
-           AND GOODS_CODE = #goods_code#
-	]]>		   
+          FROM TB_GOODS A 
+         WHERE GOODS_CODE = #goods_code# ]]>
+		<isEmpty property="admin_at">
+           AND DELETE_AT = 'N'
+		</isEmpty>          
 	</select>
 
 	<select id="gnrl.goods.selectGoodsSchdulList" parameterClass="hashMap" resultClass="hashMap">

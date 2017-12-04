@@ -29,6 +29,9 @@
 		<isNotEmpty property="hotdeal_at">
 		   AND HOTDEAL_AT = #hotdeal_at#
 		</isNotEmpty>
+		<isNotEmpty property="recomend_at">
+		   AND RECOMEND_AT = #recomend_at#
+		</isNotEmpty>
 		<isNotEmpty property="liveview_at">
 		   AND LIVEVIEW_AT = #liveview_at#
 		</isNotEmpty>

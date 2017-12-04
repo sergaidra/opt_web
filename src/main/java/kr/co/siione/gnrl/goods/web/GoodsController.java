@@ -190,6 +190,7 @@ public class GoodsController {
 
             String goods_code = UserUtils.nvl(param.get("hidGoodsCode"));
         	map.put("goods_code", goods_code);
+        	map.put("admin_at", UserUtils.nvl(param.get("adminAt"))); // 관리자에서 미리보기할 때
         	HashMap result = goodsService.getGoodsDetail(map);
         	HashMap review = goodsService.getReviewScore(map);
         	String ceil_review_score = String.valueOf(review.get("CEIL_REVIEW_SCORE"));
@@ -227,6 +228,7 @@ public class GoodsController {
         	}
         	map.put("file_code", result.get("FILE_CODE"));
         	map.put("hotdeal_at", "N");
+        	map.put("recomend_at", "N");
         	map.put("liveview_at", "N");
         	List<HashMap> lstFile = fileService.getFileList(map);
         	

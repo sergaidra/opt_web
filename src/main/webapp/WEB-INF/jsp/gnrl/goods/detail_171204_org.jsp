@@ -196,8 +196,6 @@ $(function() {
 		var nmpr_co = $("#cmbNmpr option:selected").attr("nmpr_co");
 		var setup_se = $("#cmbNmpr option:selected").attr("setup_se");
 		var dscnt_rate = $("#cmbNmpr option:selected").attr("dscnt_rate");
-		var fixed_at = $("#cmbNmpr option:selected").attr("fixed_at");
-		var max_nmpr_co = $("#cmbNmpr option:selected").attr("max_nmpr_co");
 
 		var isFind = false;
 		for(var cnt = 0; cnt < lstNmpr.length; cnt++) {
@@ -209,8 +207,7 @@ $(function() {
 		}
 		if(isFind == false) {
 			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount
-						, "nmpr_co" : nmpr_co, "nmprCnt" : 1, "dscnt_rate" : dscnt_rate
-						, "fixed_at" : fixed_at, "max_nmpr_co" : max_nmpr_co};
+						, "nmpr_co" : nmpr_co, "nmprCnt" : 1, "dscnt_rate" : dscnt_rate };
 			lstNmpr.push(item);
 		}
 		
@@ -559,18 +556,8 @@ function displayNmpr() {
 function plusNmpr(nmpr_sn) {
 	for(var cnt = 0; cnt < lstNmpr.length; cnt++) {
 		if(lstNmpr[cnt].nmpr_sn == nmpr_sn) {
-			if(lstNmpr[cnt].fixed_at == 'N') {
-				if(Number(lstNmpr[cnt].max_nmpr_co) < Number(lstNmpr[cnt].nmprCnt)+1) {
-					alert("최대 " + lstNmpr[cnt].max_nmpr_co + "인 입니다.");
-					break;
-				} else {
-					lstNmpr[cnt].nmprCnt++;
-					break;
-				}
-			} else {
-				lstNmpr[cnt].nmprCnt++;
-				break;
-			}
+			lstNmpr[cnt].nmprCnt++;
+			break;
 		}
 	}
 	displayNmpr();
@@ -578,24 +565,10 @@ function plusNmpr(nmpr_sn) {
 function minusNmpr(nmpr_sn) {
 	for(var cnt = 0; cnt < lstNmpr.length; cnt++) {
 		if(lstNmpr[cnt].nmpr_sn == nmpr_sn) {
-			if(lstNmpr[cnt].fixed_at == 'N') {
-				if(Number(lstNmpr[cnt].nmpr_co) > Number(lstNmpr[cnt].nmprCnt)-1) {
-					alert("최소 " + lstNmpr[cnt].nmpr_co + "인 입니다.");
-					lstNmpr[cnt].nmprCnt = 0;
-					lstNmpr.splice(cnt, 1);
-					break;
-				} else {
-					lstNmpr[cnt].nmprCnt--;
-					if(lstNmpr[cnt].nmprCnt == 0)
-						lstNmpr.splice(cnt, 1);
-					break;
-				}
-			} else {
-				lstNmpr[cnt].nmprCnt--;
-				if(lstNmpr[cnt].nmprCnt == 0)
-					lstNmpr.splice(cnt, 1);
-				break;
-			}
+			lstNmpr[cnt].nmprCnt--;
+			if(lstNmpr[cnt].nmprCnt == 0)
+				lstNmpr.splice(cnt, 1);
+			break;
 		}
 	}	
 	displayNmpr();
@@ -1348,7 +1321,7 @@ function inputAir() {
 						<select class="w_100p" id="cmbNmpr">
 							<option value="">인원선택</option>
 							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
-								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}" setup_se="${list.SETUP_SE}" adit_nmpr_amount="${list.ADIT_NMPR_AMOUNT}" dscnt_rate="${list.DSCNT_RATE}" fixed_at="${list.FIXED_AT}" max_nmpr_co="${list.MAX_NMPR_CO}">${list.NMPR_CND}</option>
+								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}" setup_se="${list.SETUP_SE}" adit_nmpr_amount="${list.ADIT_NMPR_AMOUNT}" dscnt_rate="${list.DSCNT_RATE}">${list.NMPR_CND}</option>
 							</c:forEach>							
 						</select>
 						<!--//기본 셀렉트 박스 -->
