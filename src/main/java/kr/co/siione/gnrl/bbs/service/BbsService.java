@@ -11,4 +11,10 @@ public interface BbsService {
     public HashMap viewBbs(HashMap map)throws Exception;
     public int selectBbsListCount(HashMap map) throws Exception;
     public List<HashMap> selectBbsList(HashMap map) throws Exception;
+    public List<HashMap> selectChildBbsList(HashMap map) throws Exception;
+    
+    public void insertComment(HashMap map) throws Exception;    
+    public void deleteComment(HashMap map) throws Exception;
+    public void updateComment(HashMap map) throws Exception;
+    public List<HashMap> selectCommentList(HashMap map) throws Exception;
 }

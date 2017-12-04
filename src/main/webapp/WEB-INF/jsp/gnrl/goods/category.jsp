@@ -13,24 +13,25 @@ $(function(){
 			$(this).addClass("ch");
 	});
 	
-	$("#btnOk").click(function() {
-		var form = $("form[id=frmCategory]");
-		var cateList = "";
-		$(".list_box01 .ch").each(function() {
-			cateList += $(this).find("#cl_code").val() + "@";	
-		});
-			
-		if(cateList == "") {
-			alert('검색할 상품을 선택하세요.');
-			return false;
-		} else {
-			cateList = cateList.substr(0, cateList.length - 1);
-			$("input:hidden[id=hidUpperClCodeNavi]").val(cateList);
-			form.attr({"method":"post","action":"<c:url value='/goods/list'/>"});
-			form.submit();	
-		}
-	});
 });
+
+function btnOk() {
+	var form = $("form[id=frmCategory]");
+	var cateList = "";
+	$(".list_box01 .ch").each(function() {
+		cateList += $(this).find("#cl_code").val() + "@";	
+	});
+		
+	if(cateList == "") {
+		alert('검색할 상품을 선택하세요.');
+		return false;
+	} else {
+		cateList = cateList.substr(0, cateList.length - 1);
+		$("input:hidden[id=hidUpperClCodeNavi]").val(cateList);
+		form.attr({"method":"post","action":"<c:url value='/goods/list'/>"});
+		form.submit();	
+	}
+}
 </script>
 
 </head>
@@ -50,7 +51,7 @@ $(function(){
       <div class="tx1">Choice!</div>
       <div class="tx2">여러분이 원하는 모든것을 선택하세요.</div>
       <div class="select_btn">
-       <a href="#" id="btnOk"> <div class="ok_btn">선택확인</div></a>
+       <a href="javascript:btnOk();" id="btnOk"> <div class="ok_btn">선택확인</div></a>
       </div>
     </div>
     <!---->
@@ -70,6 +71,11 @@ $(function(){
 		</c:forEach>      
       </ul>
     </div>
+    <div class="list_title">
+      <div class="select_btn">
+       <a href="javascript:btnOk();" id="btnOk2"> <div class="ok_btn">선택확인</div></a>
+      </div>
+    </div>    
   </div>
   <div class="sp_50 pc_view"></div>
   <div class="sp_20 mobile_view"></div>

@@ -6,12 +6,14 @@
 	<typeAlias alias="int" type="java.lang.Integer"/>
 
 	<sql id="whereBbsList">
-		AND CATEGORY = #category# AND DELETE_AT = 'N'
+		AND CATEGORY = #category# AND DELETE_AT = 'N' AND PARENT_BBS_SN IS NULL
 	</sql>
 	
 	<insert id="gnrl.bbs.insertBbs" parameterClass="hashMap">
-		INSERT INTO TB_BBS (BBS_SN, CATEGORY, SUBJECT, CONTENTS, WRITNG_ID, WRITNG_DT, VIEWCNT, DELETE_AT, SECRET_AT)
+		INSERT INTO TB_BBS (BBS_SN, CATEGORY, SUBJECT, CONTENTS, WRITNG_ID, WRITNG_DT, VIEWCNT, DELETE_AT, SECRET_AT
+			, SUBCATEGORY, PARENT_BBS_SN)
 		SELECT NVL(MAX(BBS_SN), 0) + 1, #category#, #subject#, #contents#, #esntl_id#, SYSDATE, 0, 'N', #secret_at#
+			, #subcategory#, #parent_bbs_sn#
 		FROM TB_BBS
 	</insert>	
 
@@ -27,12 +29,14 @@
 
 	<update id="gnrl.bbs.updateBbs" parameterClass="hashMap">
 		UPDATE TB_BBS SET SUBJECT = #subject#, CONTENTS = #contents#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE, SECRET_AT = #secret_at#
+			, SUBCATEGORY = #subcategory#
 		WHERE BBS_SN = #bbs_sn#
 	</update>	
 	
 	<select id="gnrl.bbs.viewBbs"  parameterClass="hashMap" resultClass="hashMap">
 		SELECT B.BBS_SN, B.CATEGORY, B.SUBJECT, B.CONTENTS, B.WRITNG_ID, B.VIEWCNT
 			, U.USER_NM AS USER_NM, SECRET_AT, U.EMAIL AS EMAIL, TO_CHAR(B.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT 
+			, B.SUBCATEGORY, CASE B.SUBCATEGORY WHEN 'R' THEN '예약문의' WHEN 'G' THEN '상품문의' WHEN 'T' THEN '환불문의' ELSE '' END AS SUBCATEGORYNM
 		FROM TB_BBS B
 			INNER JOIN TB_USER U ON B.WRITNG_ID = U.ESNTL_ID
 		WHERE B.BBS_SN = #bbs_sn#
@@ -48,6 +52,8 @@
 	
 	<select id="gnrl.bbs.selectBbsList"  parameterClass="hashMap" resultClass="hashMap">
 		SELECT B.BBS_SN, B.SUBJECT, B.VIEWCNT, TO_CHAR(B.WRITNG_DT, 'YYYY-MM-DD HH24:MI') AS WRITNG_DT, U.USER_NM AS USER_NM, SECRET_AT, B.WRITNG_ID
+			, B.SUBCATEGORY, CASE B.SUBCATEGORY WHEN 'R' THEN '예약문의' WHEN 'G' THEN '상품문의' WHEN 'T' THEN '환불문의' ELSE '' END AS SUBCATEGORYNM
+			, 1 AS LVL
 		FROM (
 			SELECT BBS_SN, ROWNUM AS RNUM
 			FROM (
@@ -60,7 +66,46 @@
 		) AA
 		INNER JOIN TB_BBS B ON AA.BBS_SN = B.BBS_SN
 		INNER JOIN TB_USER U ON B.WRITNG_ID = U.ESNTL_ID
+		WHERE AA.RNUM BETWEEN #startIdx# AND #endIdx#
 		ORDER BY AA.RNUM	
+	</select>
+
+	<select id="gnrl.bbs.selectChildBbsList"  parameterClass="hashMap" resultClass="hashMap">
+		SELECT B.BBS_SN, B.SUBJECT, B.VIEWCNT, TO_CHAR(B.WRITNG_DT, 'YYYY-MM-DD HH24:MI') AS WRITNG_DT, U.USER_NM AS USER_NM, SECRET_AT, B.WRITNG_ID
+			, AA.LVL
+		FROM (
+			SELECT B.BBS_SN, LEVEL AS LVL
+			FROM TB_BBS B
+			WHERE B.BBS_SN <![CDATA[<>]]> #bbs_sn#
+			START WITH B.BBS_SN = #bbs_sn#
+			CONNECT BY PRIOR B.BBS_SN = B.PARENT_BBS_SN
+		) AA
+		INNER JOIN TB_BBS B ON AA.BBS_SN = B.BBS_SN
+		INNER JOIN TB_USER U ON B.WRITNG_ID = U.ESNTL_ID		
+	</select>
+
+	<insert id="gnrl.bbs.insertComment" parameterClass="hashMap">
+		INSERT INTO TB_BBS_COMMENT (COMMENT_SN, BBS_SN, CMT, WRITNG_ID, WRITNG_DT, DELETE_AT)
+		SELECT NVL(MAX(COMMENT_SN), 0) + 1, #bbs_sn#, #cmt#, #esntl_id#, SYSDATE, 'N'
+		FROM TB_BBS_COMMENT
+	</insert>	
+
+	<update id="gnrl.bbs.deleteComment" parameterClass="hashMap">
+		UPDATE TB_BBS_COMMENT SET DELETE_AT = 'Y'
+		WHERE COMMENT_SN = #comment_sn#
+	</update>	
+
+	<update id="gnrl.bbs.updateComment" parameterClass="hashMap">
+		UPDATE TB_BBS_COMMENT SET CMT = #cmt#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE
+		WHERE COMMENT_SN = #comment_sn#
+	</update>	
+
+	<select id="gnrl.bbs.selectCommentList"  parameterClass="hashMap" resultClass="hashMap">
+		SELECT C.COMMENT_SN, C.CMT, C.WRITNG_ID, TO_CHAR(C.WRITNG_DT, 'YYYY-MM-DD HH24:MI') AS WRITNG_DT, U.USER_NM AS USER_NM
+		FROM TB_BBS_COMMENT C
+			INNER JOIN TB_USER U ON C.WRITNG_ID = U.ESNTL_ID
+		WHERE C.BBS_SN = #bbs_sn# AND C.DELETE_AT = 'N'
+		ORDER BY C.COMMENT_SN	
 	</select>
 	
 </sqlMap>

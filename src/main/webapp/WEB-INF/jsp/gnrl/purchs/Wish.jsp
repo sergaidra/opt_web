@@ -15,7 +15,8 @@ function search(pageNo) {
 	var url = "<c:url value='/purchs/getWishList'/>";
 	$("#tblList tbody").empty(); 
 	$("#paging").empty(); 
-	
+	$("#mpaging").empty(); 	
+
 	var param = {};
 	param.hidPage = pageNo;
 	$("#hidPage").val(pageNo);

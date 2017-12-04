@@ -101,6 +101,7 @@ $(function(){
 function fnSearch(obj, isNext) {
 	var list_search = $(obj).closest(".panelTab");
 	var ul = list_search.find("ul");
+	var divMore = list_search.find("#divMore");
 
 	if(isNext == true) {
 		var totalCount = Number($(list_search).find("input[name='hidTotalcount']").val());
@@ -177,6 +178,13 @@ function fnSearch(obj, isNext) {
 				}
 				$(item).show();
 				ul.append(item);
+			}
+			
+			var totalCount = $(list_search).find("input[name='hidTotalcount']").val();
+			if(totalCount <= $(ul).find("li").length) {
+				$(divMore).hide();
+			} else {
+				$(divMore).show();
 			}
         },
         error : function(request,status,error) {
@@ -315,11 +323,16 @@ function addWish(goods_code, obj) {
 	    	<ul>
 	    	</ul>
 	    </div>
+	    <div class='list_box02' id="divMore" style="display:none; text-align:center;">
+	    	▽<br/>
+	    	▽<br/>
+	    	▽	    	
+	    </div>
     </div>
     <!-- 검색 끝 -->
     
     <!-- 아이템 -->
-	<li id="liItem" style="display:none;">
+	<li id="liItem" style="display:none; cursor:pointer;">
 		<input type="hidden" name="goods_code">
 	  <div class="fl_photo"><img src="/images/sub/ex2.png"  alt="" name="imgFile"/></div>
 		<div class="fr_info">

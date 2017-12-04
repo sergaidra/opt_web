@@ -18,7 +18,7 @@
       <li><a href="javascript:go_07_06_01();">Q&A</a> </li>
     </ul>
   </li>
-  <li><a href="javascript:go_09_01_01();">여행예약</a></li>
+  <li><a href="javascript:go_09_01_01();" style="color:red !important;">여행상담</a></li>
 </ul>
 
 <!---//탑메뉴--> 

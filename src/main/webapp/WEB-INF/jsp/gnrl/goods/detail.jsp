@@ -169,8 +169,11 @@ $(function() {
 	        data : JSON.stringify( param ),
 	        success : function(data,status,request){
 				if(data.result == "0") {
-					alert("예약되었습니다. 장바구니로 이동합니다.");
-					document.location.href = "<c:url value='/cart/list'/>";
+					if(confirm("예약되었습니다.\n장바구니로 이동하겠습니까?")) {
+						document.location.href = "<c:url value='/cart/list'/>";
+					} else {
+						history.back();
+					}
 				} else if(data.result == "-2") {
 					alert("로그인이 필요합니다.");
 					$(".login").click();
@@ -1343,10 +1346,14 @@ function inputAir() {
 					</div>
 				</div>
 				<div class="input_box">
-					<div class="tx1">인원</div>
+					<c:set var="optionNm" value="인원" />
+					<c:if test="${result.CL_SE == 'P'}">
+						<c:set var="optionNm" value="옵션" />
+					</c:if>
+					<div class="tx1"><c:out value="${optionNm}" /></div>
 					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
 						<select class="w_100p" id="cmbNmpr">
-							<option value="">인원선택</option>
+							<option value=""><c:out value="${optionNm}" />선택</option>
 							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
 								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}" setup_se="${list.SETUP_SE}" adit_nmpr_amount="${list.ADIT_NMPR_AMOUNT}" dscnt_rate="${list.DSCNT_RATE}" fixed_at="${list.FIXED_AT}" max_nmpr_co="${list.MAX_NMPR_CO}">${list.NMPR_CND}</option>
 							</c:forEach>							
