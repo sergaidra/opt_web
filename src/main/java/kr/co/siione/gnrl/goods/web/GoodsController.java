@@ -153,7 +153,10 @@ public class GoodsController {
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 		
 		String hidNext = UserUtils.nvl(param.get("hidNext")); // 다음페이지 여부
-		int hidPage = Integer.parseInt(UserUtils.nvl(param.get("hidPage"))); // 페이지번호
+		String paramPage = UserUtils.nvl(param.get("hidPage")); // 페이지번호
+		if("".equals(paramPage))
+			paramPage = "1";
+		int hidPage = Integer.parseInt(paramPage); // 페이지번호 
 		int startIdx = (hidPage - 1) * 10 + 1;
 		int endIdx = hidPage * 10;
 

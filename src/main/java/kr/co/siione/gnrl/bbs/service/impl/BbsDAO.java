@@ -38,4 +38,24 @@ public class BbsDAO extends EgovComAbstractDAO {
         return (List<HashMap>)list("gnrl.bbs.selectBbsList", map);
     }
 
+    public List<HashMap> selectChildBbsList(HashMap map) throws Exception {
+        return (List<HashMap>)list("gnrl.bbs.selectChildBbsList", map);
+    }
+
+    public void insertComment(HashMap map) throws Exception {
+		insert("gnrl.bbs.insertComment", map);
+    }
+
+    public void deleteComment(HashMap map) throws Exception {
+		insert("gnrl.bbs.deleteComment", map);
+    }
+
+    public void updateComment(HashMap map) throws Exception {
+		insert("gnrl.bbs.updateComment", map);
+    }
+
+    public List<HashMap> selectCommentList(HashMap map) throws Exception {
+        return (List<HashMap>)list("gnrl.bbs.selectCommentList", map);
+    }
+
 }

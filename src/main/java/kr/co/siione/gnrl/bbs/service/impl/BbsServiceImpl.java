@@ -42,4 +42,25 @@ public class BbsServiceImpl implements BbsService {
     public List<HashMap> selectBbsList(HashMap map) throws Exception {
     	return bbsDAO.selectBbsList(map);
     }
+
+    public List<HashMap> selectChildBbsList(HashMap map) throws Exception {
+    	return bbsDAO.selectChildBbsList(map);
+    }
+    
+    public void insertComment(HashMap map) throws Exception {
+    	bbsDAO.insertComment(map);
+    }
+    
+    public void deleteComment(HashMap map) throws Exception {
+    	bbsDAO.deleteComment(map);
+    }
+
+    public void updateComment(HashMap map) throws Exception {
+    	bbsDAO.updateComment(map);
+    }
+
+    public List<HashMap> selectCommentList(HashMap map) throws Exception {
+    	return bbsDAO.selectCommentList(map);
+    }
+
 }

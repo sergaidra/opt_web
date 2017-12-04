@@ -16,7 +16,8 @@ function search(pageNo) {
 	var url = "<c:url value='/purchs/getPointList'/>";
 	$("#tblList tbody").empty(); 
 	$("#paging").empty(); 
-	
+	$("#mpaging").empty(); 	
+
 	var param = {};
 	param.hidPage = pageNo;
 	$("#hidPage").val(pageNo);
