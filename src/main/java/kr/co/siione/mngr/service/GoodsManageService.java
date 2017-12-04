@@ -30,6 +30,8 @@ public interface GoodsManageService {
 	public List<Map<String, String>> selectGoodsList(Map<String, String> param) throws Exception;
 
 	public List<Map<String, String>> selectGoodsListForSearch(Map<String, String> param) throws Exception;
+	
+	public int selectGoodsListForSearchCount(Map<String, String> param) throws Exception;
 
 	public List<Map<String, String>> selectGoodsSchdulList(Map<String, String> param) throws Exception;
 

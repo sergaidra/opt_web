@@ -10,6 +10,15 @@ function fn_search() {
 	jsGoods.load();
 }
 
+function fn_openPopup(sUrl, sName, iWidth, iHeigth){
+    var sw = screen.width;
+    var sh = screen.height;
+    var x = (sw-iWidth)/2;
+    var y = (sh-iHeigth)/2;
+    var opts = "width="+iWidth+", height="+iHeigth+", left="+x+", top="+y+", scrollbars=yes, menubar=no, location=no, resize=yes";
+    window.open(sUrl, sName, opts).focus();
+}
+
 /*
  * 국가 코드 combo
  */
@@ -158,11 +167,11 @@ var comboCl = new Ext.create('Ext.form.ComboBox', {
 var frCond = Ext.create('Ext.form.Panel', {
 	id: 'form-cond',
 	region: 'north',
-	height: 70,
+	height: 90,
 	items: [{
 		xtype: 'fieldset',
 		title: '검색조건',
-		padding: '10 20 10 10',
+		padding: '5 5 5 10',
 		items: [{
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
@@ -173,9 +182,10 @@ var frCond = Ext.create('Ext.form.Panel', {
 				labelWidth: 60,
 				labelAlign: 'right',
 				border: false,
-				width: 180,
+				width: 240,
 				items: [{ boxLabel: '전체', id:'radio-delete-all', name: 'DELETE_AT', inputValue:''},
-						{ boxLabel: '사용', id:'radio-delete-n', name: 'DELETE_AT', inputValue:'N', checked: true }],
+						{ boxLabel: '사용', id:'radio-delete-n', name: 'DELETE_AT', inputValue:'N', checked: true},
+						{ boxLabel: '대기', id:'radio-delete-t', name: 'DELETE_AT', inputValue:'T'}],
 				listeners: {
 					change : function(radio, newValue, oldValue, eOpts ) {
 						Ext.getCmp('form-upper-cl-code').setValue('');
@@ -183,16 +193,13 @@ var frCond = Ext.create('Ext.form.Panel', {
 						comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000', DELETE_AT:newValue.DELETE_AT}});
 					}
 				}
-			}, comboNation, {
-				xtype: 'label',
-				width: 5
-			}, comboCty, {
-				xtype: 'label',
-				width: 5
 			}, comboUpperCl, {
 				xtype: 'label',
 				width: 5
 			}, comboCl, {
+				xtype: 'label',
+				width: 5
+			}, {
 				xtype: 'button',
 				margin: '0 0 0 10',
 				text: '조회',
@@ -269,18 +276,43 @@ var frCond = Ext.create('Ext.form.Panel', {
 					jsGoods.removeAll();
 				}
 			}]
+		}, {
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'radiogroup',
+				id: 'radio-goods-se',
+				fieldLabel: '상품구분',
+				labelWidth: 60,
+				labelAlign: 'right',
+				border: false,
+				width: 240,
+				items: [{ boxLabel: '전체', name: 'GOODS_SE', inputValue:'', checked: true },
+						{ boxLabel: '핫딜', name: 'GOODS_SE', inputValue:'H'},
+						{ boxLabel: '추천', name: 'GOODS_SE', inputValue:'R'}],
+				listeners: {
+					change : function(radio, newValue, oldValue, eOpts ) {
+						Ext.getCmp('form-upper-cl-code').setValue('');
+						Ext.getCmp('form-cl-code').setValue('');
+						comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000', GOODS_SE:newValue.GOODS_SE}});
+					}
+				}			
+			}, comboNation, {
+				xtype: 'label',
+				width: 5
+			}, comboCty]
 		}]
 	}]
 });
 
 Ext.define('GoodsInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['GOODS_CODE', 'CL_NM', 'UPPER_CL_NM', 'GOODS_NM', 'CTY_NM', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'HOTDEAL_AT', 'RECOMEND_AT', 'HOTDEAL_SORT_ORDR', 'RECOMEND_SORT_ORDR', 'DELETE_AT', 'USE_AT', 'WRITNG_DE', 'UPDT_DE', 'FILE_CODE', 'CF_FILE_CNT']
+	fields: ['GOODS_CODE', 'CL_NM', 'UPPER_CL_NM', 'GOODS_NM', 'CTY_NM', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'HOTDEAL_AT', 'RECOMEND_AT', 'HOTDEAL_SORT_ORDR', 'RECOMEND_SORT_ORDR', 'DELETE_AT', 'DELETE_AT_NM', 'WRITNG_DE', 'UPDT_DE', 'FILE_CODE', 'CF_FILE_CNT']
 });
 
 var jsGoods = Ext.create('Ext.data.JsonStore', {
 	//autoLoad: true,
-	//pageSize: 20,
+	pageSize: 50,
 	model: 'GoodsInfo',
 	proxy: {
 		type: 'ajax',
@@ -392,8 +424,11 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		text: '사용여부',
 		width: 80,
 		align: 'center',
-		dataIndex: 'USE_AT',
-		renderer: Ext.ux.comboBoxRenderer(comboUseYn)
+		dataIndex: 'DELETE_AT_NM',
+		renderer: function(value, metaData, record) {
+			if(record.data.DELETE_AT == 'T') return '<font color="blue">' + value + '</font>';
+			else return value;
+		}
 	},{
 		 text: '사진수',
 		 width: 80,
@@ -418,15 +453,19 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 	},{
 		flex: 1
 	}],
-	/*bbar: Ext.create('Ext.PagingToolbar', {
-	store: jsGoods,
-	displayInfo: true,
-	displayMsg	: '전체 {2}건 중 {0} - {1}',
-	emptyMsg	: "조회된 자료가 없습니다."
-	})*/
+	bbar: Ext.create('Ext.PagingToolbar', {
+		store: jsGoods,
+		displayInfo: true,
+		displayMsg: '전체 {2}건 중 {0} - {1}',
+		emptyMsg: "조회된 자료가 없습니다."
+	}),
 	listeners : {
 		celldblclick: function(grid, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
-			parent.fn_open_menu('01004','여행상품등록','/mngr/GoodsRegist/?GOODS_CODE='+record.data.GOODS_CODE);
+			if(cellIndex == 12) { //사용여부
+				fn_openPopup('/goods/detail?adminAt=Y&hidGoodsCode='+record.data.GOODS_CODE, 'winGoodsDetail', 1250, 700);
+			} else {
+				parent.fn_open_menu('01004','여행상품등록','/mngr/GoodsRegist/?GOODS_CODE='+record.data.GOODS_CODE);	
+			}			
 		}
 	}
 });

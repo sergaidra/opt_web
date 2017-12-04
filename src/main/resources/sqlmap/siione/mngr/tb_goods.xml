@@ -58,7 +58,7 @@
         <result property="HOTDEAL_MAIN_AT"               column="HOTDEAL_MAIN_AT"               jdbcType="string" javaType="string"/>
         <result property="RECOMEND_MAIN_AT"               column="RECOMEND_MAIN_AT"               jdbcType="string" javaType="string"/>
         <result property="HOTDEAL_SORT_ORDR"             column="HOTDEAL_SORT_ORDR"             jdbcType="string" javaType="string"/>
-        <result property="RECOMEND_SORT_ORDR"            column="RECOMEND_SORT_ORDR"            jdbcType="string" javaType="string"/>        
+        <result property="RECOMEND_SORT_ORDR"            column="RECOMEND_SORT_ORDR"            jdbcType="string" javaType="string"/>
         <result property="CRUD_SE"                       column="CRUD_SE"                       jdbcType="string" javaType="string"/>
         <result property="GOODS_NM_ENG"                  column="GOODS_NM_ENG"                  jdbcType="string" javaType="string"/><!-- 영문 컬럼 -->
         <result property="GOODS_INTRCN_ENG"              column="GOODS_INTRCN_ENG"              jdbcType="CLOB"   javaType="string"/>
@@ -152,7 +152,7 @@
                             , #CTY_CODE#
                             , #WAIT_HH#||#WAIT_MI#
                             , #MVMN_HH#||#MVMN_MI#
-                            , 'N'
+                            , 'T'
                             , #ACT_LA#
                             , #ACT_LO#
                             , #WRITNG_ID#
@@ -274,7 +274,7 @@
                             , SORT_ORDR
                             , HOTDEAL_AT
                             , RECOMEND_AT
-                            , HOTDEAL_MAIN_AT                            
+                            , HOTDEAL_MAIN_AT
                             , RECOMEND_MAIN_AT
                             , HOTDEAL_SORT_ORDR
                             , RECOMEND_SORT_ORDR
@@ -324,7 +324,7 @@
                             , #INTRCN_PLACE#
                             , #VIDEO_URL#
                             , NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
-                            , 'N'
+                            , 'T'
                             , #WRITNG_ID#
                             , SYSDATE );
 
@@ -650,9 +650,43 @@
          ORDER BY A.WRITNG_DT, A.GOODS_CODE
     </select>
 
+    <sql id="GoodsDAO.pagingQueryStart">
+      SELECT TT.* FROM (
+    </sql>
+
+    <sql id="GoodsDAO.pagingQueryEnd">
+      ) TT WHERE ROWSEQ BETWEEN #start# + 1 AND #page# * #limit#
+    </sql>
+
+    <sql id="GoodsDAO.whereForSelectGoodsListForSearch">
+        <isNotEmpty property="DELETE_AT">
+           AND DELETE_AT = #DELETE_AT#
+        </isNotEmpty>
+        <isNotEmpty property="CTY_CODE">
+           AND CTY_CODE = #CTY_CODE#
+        </isNotEmpty>
+        <isNotEmpty property="CL_CODE">
+           AND CL_CODE = #CL_CODE#
+        </isNotEmpty>
+        <isNotEmpty property="GOODS_SE">
+           <isEqual property="GOODS_SE" compareValue="H">AND HOTDEAL_AT = 'Y'</isEqual>
+           <isEqual property="GOODS_SE" compareValue="R">AND RECOMEND_AT = 'Y'</isEqual>
+        </isNotEmpty>
+        <isEmpty property="CL_CODE"><isNotEmpty property="UPPER_CL_CODE">
+           AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL
+                            WHERE UPPER_CL_CODE = #UPPER_CL_CODE#)
+        </isNotEmpty></isEmpty>
+    </sql>
+
+    <select id="GoodsDAO.selectGoodsListForSearchCount" parameterClass="hashMap" resultClass="java.lang.Integer">
+        SELECT COUNT(GOODS_CODE) FROM TB_GOODS A WHERE 1 = 1
+        <include refid="GoodsDAO.whereForSelectGoodsListForSearch"/>
+    </select>
+
     <select id="GoodsDAO.selectGoodsListForSearch" parameterClass="hashMap" resultClass="hashMap">
-    <![CDATA[
-        SELECT GOODS_CODE
+        <include refid="GoodsDAO.pagingQueryStart"/><![CDATA[
+        SELECT ROW_NUMBER() OVER(ORDER BY CL_CODE, SORT_ORDR, GOODS_CODE) AS ROWSEQ
+             , GOODS_CODE
              , GOODS_NM
              , CL_CODE
              , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE AND X.UPPER_CL_CODE <> '00000') CL_NM
@@ -667,26 +701,14 @@
              , HOTDEAL_SORT_ORDR
              , RECOMEND_SORT_ORDR
              , DELETE_AT
-             , DECODE(DELETE_AT, 'N', 'Y', 'N') USE_AT
+             , (SELECT CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID='COM007' AND X.CODE = A.DELETE_AT) DELETE_AT_NM
              , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD') WRITNG_DE
              , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DE
              , (SELECT COUNT(1) FROM TB_FILE_DETAIL X WHERE A.FILE_CODE = X.FILE_CODE) CF_FILE_CNT
           FROM TB_GOODS A
          WHERE 1 = 1 ]]>
-        <isNotEmpty property="DELETE_AT">
-           AND DELETE_AT = #DELETE_AT#
-        </isNotEmpty>
-        <isNotEmpty property="CTY_CODE">
-           AND CTY_CODE = #CTY_CODE#
-        </isNotEmpty>
-        <isNotEmpty property="CL_CODE">
-           AND CL_CODE = #CL_CODE#
-        </isNotEmpty>
-        <isEmpty property="CL_CODE"><isNotEmpty property="UPPER_CL_CODE">
-           AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL
-                            WHERE UPPER_CL_CODE = #UPPER_CL_CODE#)
-        </isNotEmpty></isEmpty>
-         ORDER BY SORT_ORDR
+        <include refid="GoodsDAO.whereForSelectGoodsListForSearch"/>
+        <include refid="GoodsDAO.pagingQueryEnd"/>
     </select>
 
 </sqlMap>

@@ -1,6 +1,5 @@
 package kr.co.siione.mngr.web;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,9 +69,10 @@ public class GoodsManageController {
 		log.debug("[selectGoodsListForSearch]param:"+param);
 
 		try {
+			int cnt = goodsManageService.selectGoodsListForSearchCount(param);
 			results = goodsManageService.selectGoodsListForSearch(param);
 
-			result.put("rows", results.size());
+			result.put("rows", cnt);
 			result.put("data", results);
 			result.put("success", true);
 		} catch (Exception e) {

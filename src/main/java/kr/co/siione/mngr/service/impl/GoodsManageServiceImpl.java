@@ -291,8 +291,6 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 	
 	@Override
 	public Map<String, String> selectGoodsByPk(Map<String, String> param) throws Exception {
-		
-		LOG.debug("VVVVVVVVVVVVVVVVVVVVVVVV"+param);
 		return goodsDAO.selectGoodsByPk(param);
 	}
 
@@ -301,6 +299,11 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 		return goodsDAO.selectGoodsList(param);
 	}
 
+	@Override
+	public int selectGoodsListForSearchCount(Map<String, String> param) throws Exception {
+		return goodsDAO.selectGoodsListForSearchCount(param);
+	}
+	
 	@Override
 	public List<Map<String, String>> selectGoodsListForSearch(Map<String, String> param) throws Exception {
 		return goodsDAO.selectGoodsListForSearch(param);

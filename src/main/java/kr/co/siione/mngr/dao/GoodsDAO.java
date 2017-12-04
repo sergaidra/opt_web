@@ -58,6 +58,10 @@ public class GoodsDAO extends EgovComAbstractDAO {
 		return list("GoodsDAO.selectGoodsList", param);
 	}
 	
+	public int selectGoodsListForSearchCount(Map<String, String> param) throws Exception {
+		return (Integer)selectByPk("GoodsDAO.selectGoodsListForSearchCount", param);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Map<String, String>> selectGoodsListForSearch(Map<String, String> param) throws Exception {
 		return list("GoodsDAO.selectGoodsListForSearch", param);

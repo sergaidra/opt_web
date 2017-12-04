@@ -82,7 +82,7 @@ var comboSetupSe = new Ext.create('Ext.form.ComboBox', {
 	}*/
 });
 
-var comboFixedAt = new Ext.create('Ext.form.ComboBox', {
+/*var comboFixedAt = new Ext.create('Ext.form.ComboBox', {
 	store: new Ext.create('Ext.data.ArrayStore', {
 		fields:['code', 'name'],
 		data :[
@@ -118,6 +118,24 @@ var comboFixedAt = new Ext.create('Ext.form.ComboBox', {
 			}
 		}
 	}
+});*/
+
+var comboFixedAt = new Ext.create('Ext.form.ComboBox', {
+	store: new Ext.create('Ext.data.ArrayStore', {
+		fields:['code', 'name'],
+		data :[
+			['Y', 'Y'],
+			['N', 'N']
+		]
+	}),
+	displayField: 'name',
+	valueField: 'code',
+	mode: 'local',
+	typeAhead: false,
+	triggerAction: 'all',
+	lazyRender: true,
+	editable: false,
+	emptyText: '선택'
 });
 
 var comboBeginTime = new Ext.create('Ext.form.ComboBox', {
@@ -2898,14 +2916,14 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		dataIndex: 'NMPR_CND_ENG'
 	},{
 		text: '정가구분',
-		width: 100,
+		width: 80,
 		align: 'center',
 		sortable: false,
 		menuDisabled: true,
 		editor: comboFixedAt,
 		dataIndex: 'FIXED_AT',
 		menuDisabled: true,
-		hidden: true,
+		//hidden: true,
 		renderer: Ext.ux.comboBoxRenderer(comboFixedAt)
 	},{
 		text: '금액(단위:원)',
