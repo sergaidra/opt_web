@@ -82,6 +82,33 @@ var comboSetupSe = new Ext.create('Ext.form.ComboBox', {
 	}*/
 });
 
+var storeCoUnitSe = new Ext.create('Ext.data.JsonStore', {
+	autoLoad: true,
+	fields:['CODE_ID', 'CODE', 'CODE_NM', 'CODE_NM_ENG', 'CODE_DC', 'CODE_NM_2'],
+	pageSize: 100,
+	proxy: {
+		type: 'ajax',
+		url: '../selectCmmnDetailCodeList/?CODE_ID=COM008',
+		reader: {
+			type: 'json',
+			root: 'data',
+			totalProperty: 'rows'
+		}
+	}
+});
+
+var comboCoUnitSe = new Ext.create('Ext.form.ComboBox', {
+	id: 'combo-co-unit-se',
+	store: storeCoUnitSe,
+	displayField: 'CODE_NM_2',
+	valueField: 'CODE',
+	mode: 'local',
+	typeAhead: false,
+	triggerAction: 'all',
+	lazyRender: true,
+	editable: false
+});
+
 /*var comboFixedAt = new Ext.create('Ext.form.ComboBox', {
 	store: new Ext.create('Ext.data.ArrayStore', {
 		fields:['code', 'name'],
@@ -2859,6 +2886,7 @@ Ext.define('GoodsNmprInfo', {
 			, {name:'NMPR_CO', type:'string'}
 			, {name:'MAX_NMPR_CO', type:'string'}
 			, {name:'ADIT_NMPR_AMOUNT', type:'string'}
+			, {name:'CO_UNIT_SE', type:'string'}
 			, {name:'SORT_ORDR', type:'string'}
 			, {name:'DELETE_AT', type:'string'}
 			, {name:'CRUD', type:'string'}]
@@ -2969,6 +2997,15 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 7, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
 		dataIndex: 'ADIT_NMPR_AMOUNT'
 	},{
+		text: '개수단위구분',
+		width: 120,
+		align: 'center',
+		sortable: false,
+		menuDisabled: true,
+		editor: comboCoUnitSe,
+		dataIndex: 'CO_UNIT_SE',
+		renderer: Ext.ux.comboBoxRenderer(comboCoUnitSe)
+	},{		
 		text: '할인율(%)',
 		width: 100,
 		align: 'center',
@@ -3055,6 +3092,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 					NMPR_CO : '',
 					MAX_NMPR_CO : '',
 					ADIT_NMPR_AMOUNT : '',
+					CO_UNIT_SE : 'P',
 					SORT_ORDR: '',
 					DELETE_AT : 'N',
 					CRUD : 'I'

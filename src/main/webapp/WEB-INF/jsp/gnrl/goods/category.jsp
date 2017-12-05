@@ -72,6 +72,8 @@ function btnOk() {
       </ul>
     </div>
     <div class="list_title">
+      <div class="tx1"></div>
+      <div class="tx2"></div>    
       <div class="select_btn">
        <a href="javascript:btnOk();" id="btnOk2"> <div class="ok_btn">선택확인</div></a>
       </div>

@@ -47,6 +47,10 @@ public class GoodsDAO extends EgovComAbstractDAO {
 	public int deleteGoodsMulti(Map<String, Object> map) throws Exception {
 		return delete("GoodsDAO.deleteGoodsMulti", map);
 	}
+	
+	public int startSellingGoods(Map<String, String> map) throws Exception {
+		return update("GoodsDAO.startSellingGoods", map);
+	}
 
 	@SuppressWarnings("unchecked")
 	public Map<String, String> selectGoodsByPk(Map<String, String> param) throws Exception {

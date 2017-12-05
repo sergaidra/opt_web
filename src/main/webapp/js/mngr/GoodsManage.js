@@ -19,6 +19,27 @@ function fn_openPopup(sUrl, sName, iWidth, iHeigth){
     window.open(sUrl, sName, opts).focus();
 }
 
+var win = "";
+var fn_openDialog = function(sUrl, sName, iWidth, iHeigth, closeCallback) {
+    var sw = screen.width;
+    var sh = screen.height;
+    var x = (sw-iWidth)/2;
+    var y = (sh-iHeigth)/2;
+    var opts = "width="+iWidth+", height="+iHeigth+", left="+x+", top="+y+", scrollbars=yes, menubar=no, location=no, resize=yes";
+    win = window.open(sUrl, sName, opts).focus();
+	
+    var interval = window.setInterval(function() {
+        try {
+            if (win == null || win.closed) {
+                window.clearInterval(interval);
+                closeCallback(win);
+            }
+        } catch(e) {
+        }
+    }, 2000);
+    return win;
+};
+
 /*
  * 국가 코드 combo
  */
@@ -445,13 +466,54 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		align: 'center',
 		dataIndex: 'UPDT_DE'
 	},{
+		text: '미리보기',
+		align: 'center',
+		menuDisabled: true,
+		xtype: 'actioncolumn',
+		//hideable: false,
+		width: 100,
+		items: [{
+    		altText: '미리보기',
+    		iconCls: 'icon-search',
+			handler: function(grid, rowIndex, colIndex){
+				var record = jsGoods.getAt(rowIndex);
+				//var win = fn_openPopup('/goods/detail?adminAt=Y&hidGoodsCode='+record.data.GOODS_CODE, 'winGoodsDetail', 1250, 700);
+				fn_openDialog('/goods/detail?adminAt=Y&hidGoodsCode='+record.data.GOODS_CODE, 'winGoodsDetail', 1250, 700, function(win){
+					if(record.data.DELETE_AT == 'T') {
+						Ext.MessageBox.confirm("확인", "해당 상품을 판매 시작하시겠습니까?", function(btn) {
+							if(btn == 'yes') {
+								Ext.Ajax.request({
+									url: '../startSellingGoods/',
+									timeout: 60000,
+									params: {
+										GOODS_CODE: record.data.GOODS_CODE
+									},
+									success: function(response){
+										var result = Ext.decode(response.responseText);
+										Ext.MessageBox.alert('알림', result.message, function(){
+											if(result.success) {
+												jsGoods.reload();
+											}
+										});
+									},
+									failure: function(response){
+										failureMessage(response);
+									}
+								});
+							} else {
+								return;
+							}
+						});
+					}
+				});
+			}
+		}]
+	},{
 		text: 'FILE_CODE',
 		width: 100,
 		align: 'center',
 		hidden: true,
 		dataIndex: 'FILE_CODE'
-	},{
-		flex: 1
 	}],
 	bbar: Ext.create('Ext.PagingToolbar', {
 		store: jsGoods,
@@ -461,11 +523,9 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 	}),
 	listeners : {
 		celldblclick: function(grid, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
-			if(cellIndex == 12) { //사용여부
-				fn_openPopup('/goods/detail?adminAt=Y&hidGoodsCode='+record.data.GOODS_CODE, 'winGoodsDetail', 1250, 700);
-			} else {
+			if(cellIndex < 16) {
 				parent.fn_open_menu('01004','여행상품등록','/mngr/GoodsRegist/?GOODS_CODE='+record.data.GOODS_CODE);	
-			}			
+			}
 		}
 	}
 });

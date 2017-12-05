@@ -25,15 +25,18 @@ public class SessionCheck extends HandlerInterceptorAdapter {
 
 		String uri = request.getServletPath();
 
-		if(uri.contains("/mngr/")){
-			//관리자
-			if (request.getSession().getAttribute("author_cl") == null || UserUtils.nvl(request.getSession().getAttribute("author_cl")).equals("G")) {
-				//response.sendRedirect("/mngr/로그인페이지/");
+		if(uri.contains("/mngr/")){ //관리자
+			if (request.getSession().getAttribute("esntl_id") == null) {
 				response.sendRedirect("/member/login/?result=mngr");
 				return false;
 			} else {
-				return true;   
-			}			
+				if (UserUtils.nvl(request.getSession().getAttribute("author_cl")).equals("A") || UserUtils.nvl(request.getSession().getAttribute("author_cl")).equals("M")) {
+					return true;					
+				} else {
+					response.sendRedirect("/member/login/?result=mngr");
+					return false;
+				}
+			}
 		}else{
 			//일반사용자
 			ArrayList<String> freeAccessUrls = new ArrayList<String>();

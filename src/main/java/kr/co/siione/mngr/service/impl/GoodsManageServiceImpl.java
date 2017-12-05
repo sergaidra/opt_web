@@ -379,4 +379,16 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 			fileManageDAO.insertFileDetail(fileParam);
 		}
 	}
+
+	@Override
+	public int startSellingGoods(Map<String, String> param) throws Exception {
+		int iRe = goodsDAO.startSellingGoods(param);
+
+		if(iRe == 0) {
+			throw new Exception("상품 판매 시작 중 오류 발생!");
+		}
+
+		return iRe;
+	}
+
 }

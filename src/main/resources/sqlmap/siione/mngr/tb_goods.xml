@@ -547,6 +547,18 @@
            AND GOODS_CODE IN <iterate property="GOODS_CODE_LIST" open="(" close=")" conjunction=",">#GOODS_CODE_LIST[]#</iterate>
     </delete>
 
+    <update id="GoodsDAO.startSellingGoods" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GOODS
+           SET DELETE_AT = 'N'
+             , SELL_ID = #UPDT_ID#
+             , SELL_DT = SYSDATE           
+             , UPDT_ID = #UPDT_ID#
+             , UPDT_DT = SYSDATE
+         WHERE DELETE_AT = 'T'
+           AND GOODS_CODE = #GOODS_CODE#  ]]>
+    </update>
+    
     <sql id="sqlGoodsInfo">
     <![CDATA[
         SELECT A.GOODS_CODE

@@ -19,6 +19,7 @@
                                  , NMPR_CO
                                  , MAX_NMPR_CO
                                  , ADIT_NMPR_AMOUNT
+                                 , CO_UNIT_SE
                                  , SORT_ORDR
                                  , DELETE_AT
                                  , WRITNG_ID
@@ -35,6 +36,7 @@
                                  , #NMPR_CO#
                                  , NVL(#MAX_NMPR_CO#, #NMPR_CO#)
                                  , REPLACE(#ADIT_NMPR_AMOUNT#, ',', '')
+                                 , #CO_UNIT_SE#
                                  , #SORT_ORDR#
                                  , 'N'
                                  , #WRITNG_ID#
@@ -56,6 +58,7 @@
              , NMPR_CO = #NMPR_CO#
              , MAX_NMPR_CO = #MAX_NMPR_CO#
              , ADIT_NMPR_AMOUNT = #ADIT_NMPR_AMOUNT#
+             , CO_UNIT_SE = #CO_UNIT_SE#
              , SORT_ORDR = #SORT_ORDR#
              , DELETE_AT = #DELETE_AT#
          WHERE GOODS_CODE = #GOODS_CODE#
@@ -90,6 +93,7 @@
              , NMPR_CO
              , MAX_NMPR_CO
              , ADIT_NMPR_AMOUNT
+             , CO_UNIT_SE
              , SORT_ORDR
              , DELETE_AT
              , WRITNG_ID
@@ -117,6 +121,7 @@
              , NMPR_CO
              , MAX_NMPR_CO
              , ADIT_NMPR_AMOUNT
+             , CO_UNIT_SE
              , SORT_ORDR
              , DELETE_AT
              , WRITNG_ID

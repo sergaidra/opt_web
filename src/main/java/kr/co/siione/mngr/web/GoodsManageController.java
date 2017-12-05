@@ -214,6 +214,33 @@ public class GoodsManageController {
 		jsonView.render(result, request, response);
 	}
 	
+	@RequestMapping(value="/mngr/startSellingGoods/")
+	public void startSellingGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception{
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		param.put("UPDT_ID", esntl_id);
+
+		try {
+			int iRe = goodsManageService.startSellingGoods(param);
+
+			if(iRe > 0) {
+				result.put("success", true);
+				result.put("message", "판매 시작");
+			} else {
+				result.put("success", false);
+				result.put("message", "판매 실패");
+			}
+		}  catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("error"  , e.getMessage());
+		}
+
+		jsonView.render(result, request, response);
+	}
+	
 	@RequestMapping(value="/mngr/selectGoods/")
 	public void selectGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
 		

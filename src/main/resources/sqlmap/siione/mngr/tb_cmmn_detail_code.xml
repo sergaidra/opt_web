@@ -88,6 +88,7 @@
 		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DT
 		     , 'U' CRUD
 		     , CODE AS PK_CODE
+		     , CODE_NM||DECODE(CODE_DC, NULL, '', '', '', '('||CODE_DC||')') CODE_NM_2
 		  FROM TB_CMMN_DETAIL_CODE
 		 WHERE CODE_ID = #CODE_ID#
     ]]>
