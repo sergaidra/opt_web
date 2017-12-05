@@ -14,9 +14,11 @@
         <result property="USE_AT"                        column="USE_AT"                        jdbcType="string" javaType="string"/>
         <result property="FILE_CODE"                     column="FILE_CODE"                     jdbcType="string" javaType="string"/>
         <result property="WRITNG_ID"                     column="WRITNG_ID"                     jdbcType="string" javaType="string"/>
-        <result property="WRITNG_DE"                     column="WRITNG_DE"                     jdbcType="string" javaType="string"/>
+        <result property="WRITNG_DT"                     column="WRITNG_DT"                     jdbcType="string" javaType="string"/>
         <result property="UPDT_ID"                       column="UPDT_ID"                       jdbcType="string" javaType="string"/>
-        <result property="UPDT_DE"                       column="UPDT_DE"                       jdbcType="string" javaType="string"/>
+        <result property="UPDT_DT"                       column="UPDT_DT"                       jdbcType="string" javaType="string"/>
+        <result property="SLE_BEGIN_ID"                  column="SLE_BEGIN_ID"                  jdbcType="string" javaType="string"/>
+        <result property="SLE_BEGIN_DT"                  column="SLE_BEGIN_DT"                  jdbcType="string" javaType="string"/>        
         <result property="UPPER_CL_CODE"                 column="UPPER_CL_CODE"                 jdbcType="string" javaType="string"/>
         <result property="CL_CODE"                       column="CL_CODE"                       jdbcType="string" javaType="string"/>
         <result property="CL_NM"                         column="CL_NM"                         jdbcType="string" javaType="string"/>
@@ -551,8 +553,8 @@
     <![CDATA[
         UPDATE TB_GOODS
            SET DELETE_AT = 'N'
-             , SELL_ID = #UPDT_ID#
-             , SELL_DT = SYSDATE           
+             , SLE_BEGIN_ID = #UPDT_ID#
+             , SLE_BEGIN_DT = SYSDATE           
              , UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
          WHERE DELETE_AT = 'T'
@@ -569,9 +571,11 @@
              , DECODE(A.DELETE_AT, 'N', 'Y', 'N') USE_AT
              , A.FILE_CODE
              , A.WRITNG_ID
-             , TO_CHAR(A.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+             , TO_CHAR(A.WRITNG_DT,'YYYY-MM-DD HH24:MI:SS') WRITNG_DT
              , A.UPDT_ID
-             , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DE
+             , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD HH24:MI:SS') UPDT_DT
+             , A.SLE_BEGIN_ID
+             , TO_CHAR(A.SLE_BEGIN_DT,'YYYY-MM-DD HH24:MI:SS') SLE_BEGIN_DT
              , A.WAIT_TIME
              , A.MVMN_TIME
              , A.ACT_LA
@@ -714,8 +718,9 @@
              , RECOMEND_SORT_ORDR
              , DELETE_AT
              , (SELECT CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID='COM007' AND X.CODE = A.DELETE_AT) DELETE_AT_NM
-             , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD') WRITNG_DE
-             , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DE
+             , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD HH24:MI:SS') WRITNG_DT
+             , TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') UPDT_DT
+             , TO_CHAR(SLE_BEGIN_DT, 'YYYY-MM-DD HH24:MI:SS') SLE_BEGIN_DT
              , (SELECT COUNT(1) FROM TB_FILE_DETAIL X WHERE A.FILE_CODE = X.FILE_CODE) CF_FILE_CNT
           FROM TB_GOODS A
          WHERE 1 = 1 ]]>

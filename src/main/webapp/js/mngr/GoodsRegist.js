@@ -802,11 +802,13 @@ Ext.define('GoodsInfo', {
 			, {name:'DELETE_AT', type:'string'}
 			, {name:'WRITNG_ID', type:'string'}
 			, {name:'UPDT_ID', type:'string'}
+			, {name:'SLE_BEGIN_ID', type:'string'}
 			, {name:'FILE_CODE', type:'string'}
 			, {name:'WAIT_TIME', type:'string'}
 			, {name:'MVMN_TIME', type:'string'}
-			, {name:'WRITNG_DE', type:'string'}
-			, {name:'UPDT_DE', type:'string'}
+			, {name:'WRITNG_DT', type:'string'}
+			, {name:'UPDT_DT', type:'string'}
+			, {name:'SLE_BEGIN_DT', type:'string'}
 			, {name:'ACT_LA', type:'string'}
 			, {name:'ACT_LO', type:'string'}
 			, {name:'VOCHR_TICKET_TY', type:'string'}

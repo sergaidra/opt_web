@@ -36,7 +36,7 @@ var fn_openDialog = function(sUrl, sName, iWidth, iHeigth, closeCallback) {
             }
         } catch(e) {
         }
-    }, 2000);
+    }, 1000);
     return win;
 };
 
@@ -328,7 +328,7 @@ var frCond = Ext.create('Ext.form.Panel', {
 
 Ext.define('GoodsInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['GOODS_CODE', 'CL_NM', 'UPPER_CL_NM', 'GOODS_NM', 'CTY_NM', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'HOTDEAL_AT', 'RECOMEND_AT', 'HOTDEAL_SORT_ORDR', 'RECOMEND_SORT_ORDR', 'DELETE_AT', 'DELETE_AT_NM', 'WRITNG_DE', 'UPDT_DE', 'FILE_CODE', 'CF_FILE_CNT']
+	fields: ['GOODS_CODE', 'CL_NM', 'UPPER_CL_NM', 'GOODS_NM', 'CTY_NM', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'HOTDEAL_AT', 'RECOMEND_AT', 'HOTDEAL_SORT_ORDR', 'RECOMEND_SORT_ORDR', 'DELETE_AT', 'DELETE_AT_NM', 'WRITNG_DT', 'UPDT_DT', 'SLE_BEGIN_DT', 'FILE_CODE', 'CF_FILE_CNT']
 });
 
 var jsGoods = Ext.create('Ext.data.JsonStore', {
@@ -403,12 +403,6 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		align: 'left',
 		dataIndex: 'GOODS_NM'
 	},{
-		text: '숙박시설',
-		width: 80,
-		align: 'center',
-		hidden: true,
-		dataIndex: 'STAYNG_FCLTY_AT'
-	},{
 		text: '정렬순서',
 		width: 80,
 		align: 'center',
@@ -442,6 +436,11 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		align: 'center',
 		dataIndex: 'RECOMEND_SORT_ORDR'	
 	},{
+		 text: '사진수',
+		 width: 80,
+		 align: 'center',
+		 dataIndex: 'CF_FILE_CNT'
+	},{
 		text: '사용여부',
 		width: 80,
 		align: 'center',
@@ -451,27 +450,12 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 			else return value;
 		}
 	},{
-		 text: '사진수',
-		 width: 80,
-		 align: 'center',
-		 dataIndex: 'CF_FILE_CNT'
-	},{
-		 text: '작성일자',
-		 width: 100,
-		 align: 'center',
-		 dataIndex: 'WRITNG_DE'
-	},{
-		text: '수정일자',
-		width: 100,
-		align: 'center',
-		dataIndex: 'UPDT_DE'
-	},{
 		text: '미리보기',
 		align: 'center',
 		menuDisabled: true,
 		xtype: 'actioncolumn',
 		//hideable: false,
-		width: 100,
+		width: 80,
 		items: [{
     		altText: '미리보기',
     		iconCls: 'icon-search',
@@ -507,7 +491,22 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 					}
 				});
 			}
-		}]
+		}]			 
+	},{
+		 text: '작성일시',
+		 width: 150,
+		 align: 'center',
+		 dataIndex: 'WRITNG_DT'
+	},{
+		text: '수정일시',
+		width: 150,
+		align: 'center',
+		dataIndex: 'UPDT_DT'
+	},{
+		text: '판매시작일시',
+		width: 150,
+		align: 'center',
+		dataIndex: 'SLE_BEGIN_DT'
 	},{
 		text: 'FILE_CODE',
 		width: 100,
