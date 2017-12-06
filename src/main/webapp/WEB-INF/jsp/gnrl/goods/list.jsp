@@ -160,7 +160,7 @@ function fnSearch(obj, isNext) {
 				$(item).find("span[name='cty_nm']").text(data.list[cnt].CTY_NM);
 				$(item).find("span[name='upper_cl_nm']").text(data.list[cnt].UPPER_CL_NM);
 				$(item).find("span[name='cl_nm']").text(data.list[cnt].CL_NM);
-				$(item).find("span[name='cf_min_amount']").text(data.list[cnt].CF_MIN_AMOUNT);				
+				$(item).find("span[name='cf_reprsnt_amount']").text(data.list[cnt].CF_REPRSNT_AMOUNT);				
 				$(item).find("span[name='goods_nm']").text(data.list[cnt].GOODS_NM);		
 				$(item).find("span[name='goods_nm_title']").text(data.list[cnt].GOODS_NM);	
 				$(item).find("span[name='favorite']").text("favorite_border");
@@ -342,7 +342,7 @@ function addWish(goods_code, obj) {
 			   <div id="divHit" class="hit" ><i class="material-icons">favorite</i>
 
 				   </div>
-			    <div class="total"><span name="cf_min_amount"></span><em>원</em></div>
+			    <div class="total"><span name="cf_reprsnt_amount"></span><em>원</em></div>
 		  </div>
 			<div class="ar_text"><span name="cty_nm"></span>  >  <span name="upper_cl_nm"></span>  >  <span name="cl_nm"></span></div>
         </div>
