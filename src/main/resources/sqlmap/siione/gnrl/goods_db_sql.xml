@@ -317,40 +317,48 @@
 	</select>
 
 	<select id="gnrl.goods.selectGoodsNmprList" parameterClass="hashMap" resultClass="hashMap">
-		SELECT GOODS_CODE
-		     , SETUP_SE
-		     , NMPR_SN
-		     , NMPR_CND
-		     , FIXED_AT
-		     , SETUP_AMOUNT
-		     , SETUP_RATE
-		     , NMPR_CO
-		     , MAX_NMPR_CO
-		     , ADIT_NMPR_AMOUNT
-		     , NVL(DSCNT_RATE, 1) AS DSCNT_RATE
+		SELECT GN.GOODS_CODE
+		     , GN.SETUP_SE
+		     , GN.NMPR_SN
+		     , GN.NMPR_CND
+		     , GN.FIXED_AT
+		     , GN.SETUP_AMOUNT
+		     , GN.SETUP_RATE
+		     , GN.NMPR_CO
+		     , GN.MAX_NMPR_CO
+		     , GN.ADIT_NMPR_AMOUNT
+		     , NVL(GN.DSCNT_RATE, 1) AS DSCNT_RATE
+		     , GN.CO_UNIT_SE
+		     , C.CODE_NM AS OPTION_NM
+		     , C.CODE_DC AS UNIT_NM
 		  FROM TB_GOODS_NMPR GN
-		 WHERE DELETE_AT = 'N'
-		   AND GOODS_CODE = #goods_code#
-		 ORDER BY SORT_ORDR
+		  		LEFT OUTER JOIN TB_CMMN_DETAIL_CODE C ON GN.CO_UNIT_SE = C.CODE AND C.CODE_ID = 'COM008'
+		 WHERE GN.DELETE_AT = 'N'
+		   AND GN.GOODS_CODE = #goods_code#
+		 ORDER BY GN.SORT_ORDR
 	</select>
 	
 	<select id="gnrl.goods.selectGoodsNmprBySetupSeList" parameterClass="hashMap" resultClass="hashMap">
-		SELECT GOODS_CODE
-		     , SETUP_SE
-		     , NMPR_SN
-		     , NMPR_CND
-		     , FIXED_AT
-		     , SETUP_AMOUNT
-		     , SETUP_RATE
-		     , NMPR_CO
-		     , MAX_NMPR_CO
-		     , ADIT_NMPR_AMOUNT
-		     , NVL(DSCNT_RATE, 1) AS DSCNT_RATE
+		SELECT GN.GOODS_CODE
+		     , GN.SETUP_SE
+		     , GN.NMPR_SN
+		     , GN.NMPR_CND
+		     , GN.FIXED_AT
+		     , GN.SETUP_AMOUNT
+		     , GN.SETUP_RATE
+		     , GN.NMPR_CO
+		     , GN.MAX_NMPR_CO
+		     , GN.ADIT_NMPR_AMOUNT
+		     , NVL(GN.DSCNT_RATE, 1) AS DSCNT_RATE
+		     , GN.CO_UNIT_SE
+		     , C.CODE_NM AS OPTION_NM
+		     , C.CODE_DC AS UNIT_NM
 		  FROM TB_GOODS_NMPR GN
-		 WHERE DELETE_AT = 'N'
-		   AND GOODS_CODE = #goods_code#
-		   AND SETUP_SE = #setup_se# 
-		 ORDER BY SORT_ORDR
+		  		LEFT OUTER JOIN TB_CMMN_DETAIL_CODE C ON GN.CO_UNIT_SE = C.CODE AND C.CODE_ID = 'COM008'
+		 WHERE GN.DELETE_AT = 'N'
+		   AND GN.GOODS_CODE = #goods_code#
+		   AND GN.SETUP_SE = #setup_se# 
+		 ORDER BY GN.SORT_ORDR
 	</select>	
 
 	<select id="gnrl.goods.selectGoodsTimeList" parameterClass="hashMap" resultClass="hashMap">
