@@ -362,7 +362,7 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 		for(int i = 0 ; i < fileParamList.size() ; i++) {
 			Map<String, String> fileParam = (Map<String, String>) fileParamList.get(i);
 
-			if(i == 0 && cnt == 0) {
+			/*if(i == 0 && cnt == 0) {
 				fileParam.put("REPRSNT_AT", "Y");
 				fileParam.put("FILE_SN", String.valueOf(i+1));
 				fileParam.put("SORT_NO", String.valueOf(i+1));				
@@ -372,9 +372,14 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 				fileParam.put("SORT_NO", String.valueOf(i+1));				
 			} else {
 				fileParam.put("REPRSNT_AT", "N");
-			}
+			}*/
+			
+			if(i == 0 && cnt == 0) {
+				fileParam.put("REPRSNT_AT", "Y");
+			} else {
+				fileParam.put("REPRSNT_AT", "N");
+			}			
 			fileParam.put("FILE_CODE", sFileCode);
-
 			
 			fileManageDAO.insertFileDetail(fileParam);
 		}

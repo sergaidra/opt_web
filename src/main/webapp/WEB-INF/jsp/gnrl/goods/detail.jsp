@@ -1181,7 +1181,7 @@ function inputAir() {
           <div class="tab_box">
             <ul>
               <li class="on tab_btn1">후기(<span id="spnReviewCount"></span>건)</li>
-              <li class="off tab_btn2">문의하기</li>
+              <li class="off tab_btn2">1:1문의하기</li>
             </ul>
           </div>
           <!--//탭-->
@@ -1237,15 +1237,15 @@ function inputAir() {
           <div class="tab_box">
             <ul>
               <li class="off tab_btn1">후기(<span id="spnReviewCount2"></span>건)</li>
-              <li class="on tab_btn2">문의하기</li>
+              <li class="on tab_btn2">1:1문의하기</li>
             </ul>
           </div>
           <!--//탭-->
           <div class="title_box">
-            <div class="title tw_500">문의하기</div>
+            <div class="title tw_500">1:1문의하기</div>
             <div class="star_um">총<em><span id="spnOpinionCount"></span>명</em></div>
             <a  href="#" data-featherlight="#pa_popup">
-            <input type="button" class="btn" value="문의하기">
+            <input type="button" class="btn" value="1:1문의하기">
             </a> </div>
           <div class="tb_01_box"> 
             <!--pc 테블릿 일때 -->
@@ -1479,7 +1479,7 @@ function inputAir() {
 <!--팝업 : 문의하기-->
 <div class="lightbox" id="pa_popup">
   <div class="popup_com">
-    <div class="title">문의하기 </div>
+    <div class="title">1:1문의하기 </div>
     <div class="popup_cont">
       <div class="tb_01_box">
         <table width="100%"  class="tb_01">
