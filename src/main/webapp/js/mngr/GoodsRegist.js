@@ -151,8 +151,8 @@ var comboFixedAt = new Ext.create('Ext.form.ComboBox', {
 	store: new Ext.create('Ext.data.ArrayStore', {
 		fields:['code', 'name'],
 		data :[
-			['Y', 'Y'],
-			['N', 'N']
+			['Y', '단가계산'],
+			['N', '범위인원수']
 		]
 	}),
 	displayField: 'name',
@@ -2860,7 +2860,7 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 					}
 				});
 			} else {
-				alert('변경된 자료가 없습니다.');
+				Ext.Msg.alert('확인', '변경된 자료가 없습니다.', function(){return;});
 			}
 		}
 	}],
@@ -2889,6 +2889,7 @@ Ext.define('GoodsNmprInfo', {
 			, {name:'MAX_NMPR_CO', type:'string'}
 			, {name:'ADIT_NMPR_AMOUNT', type:'string'}
 			, {name:'CO_UNIT_SE', type:'string'}
+			, {name:'PC_REPRSNT_AT', type:'string'}
 			, {name:'SORT_ORDR', type:'string'}
 			, {name:'DELETE_AT', type:'string'}
 			, {name:'CRUD', type:'string'}]
@@ -2946,7 +2947,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		dataIndex: 'NMPR_CND_ENG'
 	},{
 		text: '정가구분',
-		width: 80,
+		width: 100,
 		align: 'center',
 		sortable: false,
 		menuDisabled: true,
@@ -3024,6 +3025,15 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 3, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
 		dataIndex: 'SORT_ORDR'
 	},{
+		text: '대표가격여부',
+		width: 100,
+		align: 'center',
+		sortable: false,
+		menuDisabled: true,
+		editor: comboYn,
+		dataIndex: 'PC_REPRSNT_AT',
+		renderer: Ext.ux.comboBoxRenderer(comboYn)			
+	},{
 		text: '사용여부',
 		width: 100,
 		align: 'center',
@@ -3095,6 +3105,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 					MAX_NMPR_CO : '',
 					ADIT_NMPR_AMOUNT : '',
 					CO_UNIT_SE : 'P',
+					PC_REPRSNT_AT : 'N',
 					SORT_ORDR: '',
 					DELETE_AT : 'N',
 					CRUD : 'I'
@@ -3124,6 +3135,29 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 			var inserted = storeNmpr.getNewRecords();
 			var modified = storeNmpr.getUpdatedRecords();
 			var deleted = storeNmpr.getRemovedRecords();
+			
+			// FIXED_AT(정가구분) = N 이면 NMPR_CO(정원), MAX_NMPR_CO(최대정원) 반드시 입력
+			for(var a = 0 ; a < storeNmpr.getCount() ; a++) {
+				if(storeNmpr.getAt(a).get('FIXED_AT') == 'N') {
+					if(!storeNmpr.getAt(a).get('NMPR_CO') || storeNmpr.getAt(a).get('NMPR_CO') == '0') {
+						Ext.Msg.alert('확인', '정원을 입력하세요.', function(){return;});
+					}
+					if(!storeNmpr.getAt(a).get('MAX_NMPR_CO') || storeNmpr.getAt(a).get('MAX_NMPR_CO') == '0') {
+						Ext.Msg.alert('확인', '최대정원을 입력하세요.', function(){return;});
+					}
+				}
+			}
+			
+			// PC_REPRSNT_AT(가격 대표 여부)는 반드시 1개 입력
+			var cnt = 0;
+			for(var a = 0 ; a < storeNmpr.getCount() ; a++) {
+				if(storeNmpr.getAt(a).get('PC_REPRSNT_AT') == 'Y') cnt++;
+			}
+			if(cnt == 0) {
+				Ext.Msg.alert('확인', '대표가격여부를 선택하세요.', function(){return;});
+			} else if(cnt > 1) {
+				Ext.Msg.alert('확인', '대표가격은 1개 선택하세요.', function(){return;});
+			}
 
 			if (modified.length + inserted.length + deleted.length > 0) {
 				for (var i = 0; i < modified.length; i++) {
