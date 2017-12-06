@@ -11,12 +11,14 @@
                             , ARPRT_NM
                             , USE_AT
                             , RM
+                            , SORT_ORDR
                             , REGIST_ID
                             , REGIST_DT )
                       VALUES( #ARPRT_CODE#
                             , #ARPRT_NM#
                             , NVL(#USE_AT#, 'Y')
                             , #RM#
+                            , #SORT_ORDR#
                             , #REGIST_ID#
                             , SYSDATE)
     ]]>
@@ -28,6 +30,7 @@
            SET ARPRT_NM = #ARPRT_NM#
              , USE_AT = #USE_AT#
              , RM = #RM#
+             , SORT_ORDR = #SORT_ORDR#
              , UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
          WHERE ARPRT_CODE = #ARPRT_CODE#
@@ -50,6 +53,7 @@
              , ARPRT_NM
              , USE_AT
              , RM
+             , SORT_ORDR
              , TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DE
              , REGIST_ID
              , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
@@ -65,6 +69,7 @@
              , ARPRT_NM
              , USE_AT
              , RM
+             , SORT_ORDR
              , TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DE
              , REGIST_ID
              , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
@@ -75,7 +80,7 @@
         <isNotEmpty property="USE_AT">
          WHERE USE_AT = #USE_AT#
         </isNotEmpty>
-		ORDER BY ARPRT_NM        
+         ORDER BY USE_AT DESC, SORT_ORDR, ARPRT_NM
     </select>
 
 </sqlMap>

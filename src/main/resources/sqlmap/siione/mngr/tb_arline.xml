@@ -11,6 +11,7 @@
                              , ICAO_CODE
                              , ARLINE_NM
                              , USE_AT
+                             , SORT_ORDR
                              , RM
                              , REGIST_ID
                              , REGIST_DT )
@@ -18,6 +19,7 @@
                              , #ICAO_CODE#
                              , #ARLINE_NM#
                              , NVL(#USE_AT#, 'Y')
+                             , #SORT_ORDR#
                              , #RM#
                              , #REGIST_ID#
                              , SYSDATE)
@@ -30,6 +32,7 @@
            SET ICAO_CODE = #ICAO_CODE#
              , ARLINE_NM = #ARLINE_NM#
              , USE_AT = #USE_AT#
+             , SORT_ORDR = #SORT_ORDR#
              , RM = #RM#
              , UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
@@ -53,6 +56,7 @@
              , ICAO_CODE
              , ARLINE_NM
              , USE_AT
+             , SORT_ORDR
              , RM
              , TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DE
              , REGIST_ID
@@ -69,6 +73,7 @@
              , ICAO_CODE
              , ARLINE_NM
              , USE_AT
+             , SORT_ORDR
              , RM
              , TO_CHAR(REGIST_DT,'YYYY-MM-DD') REGIST_DE
              , REGIST_ID
@@ -80,6 +85,7 @@
         <isNotEmpty property="USE_AT">
          WHERE USE_AT = #USE_AT#
         </isNotEmpty>
+         ORDER BY USE_AT DESC, SORT_ORDR, ARLINE_NM
     </select>
 
 </sqlMap>

@@ -360,13 +360,21 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 	region:'center',
 	border: true,
 	padding: '10 0 0 0',
+	loadMask : true,
 	style: {
 		backgroundColor: '#FFFFFF'
 	},
 	store: jsGoods,
 	selModel:Ext.create('Ext.selection.CheckboxModel',{showHeaderCheckbox:true}),
 	viewConfig: {
-		emptyText: '검색된 자료가 없습니다.'
+		emptyText: '검색된 자료가 없습니다.',
+		getRowClass: function(record, rowIndex, rowParams, store) {
+			if (record.get('DELETE_AT') == 'T') { 
+				return 'row_blue';
+			} else {
+				return 'row_black';
+			}
+		}
 	},
 	columns: [{
 		text: '순번',
@@ -444,11 +452,7 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		text: '사용여부',
 		width: 80,
 		align: 'center',
-		dataIndex: 'DELETE_AT_NM',
-		renderer: function(value, metaData, record) {
-			if(record.data.DELETE_AT == 'T') return '<font color="blue">' + value + '</font>';
-			else return value;
-		}
+		dataIndex: 'DELETE_AT_NM'
 	},{
 		text: '미리보기',
 		align: 'center',

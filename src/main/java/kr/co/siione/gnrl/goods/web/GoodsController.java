@@ -226,7 +226,9 @@ public class GoodsController {
         	List<HashMap> lstTime = goodsService.getGoodsTimeList(map);
         	
         	if(UserUtils.nvl(result.get("CL_SE")).equals("P")) {
-        		List<Map<String, String>> lstFlight = arprtManageService.selectArprtList(map);
+        		HashMap map2 = new HashMap();
+        		map2.put("USE_AT", "Y");
+        		List<Map<String, String>> lstFlight = arprtManageService.selectArprtList(map2);
         		model.addAttribute("lstFlight", lstFlight);
         	}
         	map.put("file_code", result.get("FILE_CODE"));

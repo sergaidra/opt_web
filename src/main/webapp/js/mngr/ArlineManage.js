@@ -5,7 +5,7 @@ var tourFileCode = "";
 
 Ext.define('ArlineInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['IATA_CODE', 'ICAO_CODE', 'ARLINE_NM', 'USE_AT', 'RM', 'WRITNG_DE', 'UPDT_DE', 'CRUD']
+	fields: ['IATA_CODE', 'ICAO_CODE', 'ARLINE_NM', 'USE_AT', 'RM', 'SORT_ORDR', 'WRITNG_DE', 'UPDT_DE', 'CRUD']
 });
 
 var combo = new Ext.create('Ext.form.ComboBox', {
@@ -68,6 +68,12 @@ var grid = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 30, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'ARLINE_NM'
 	},{
+		text: '정렬순서',
+		width: 100,
+		align: 'center',
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 3, fieldStyle: {'ime-mode':'disabled'}, maskRe: /[0-9]/, enforceMaxLength: true},
+		dataIndex: 'SORT_ORDR'		
+	},{
 		text: '사용여부',
 		width: 100,
 		align: 'center',
@@ -80,7 +86,6 @@ var grid = Ext.create('Ext.grid.Panel', {
 		flex: 1,
 		align: 'left',
 		editor: {xtype:'textfield', allowBlank: true, maxLength: 20, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
-		dataIndex: 'RM'
 	}],
 	/*bbar: Ext.create('Ext.PagingToolbar', {
 		store: store,
@@ -99,6 +104,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 				ARLINE_NM : '',
 				USE_AT : 'Y',
 				RM : '',
+				SORT_ORDR : '',
 				WRITNG_DE : '',
 				UPDT_DE : '',
 				CRUD  : 'I'

@@ -226,13 +226,13 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 	//columnLines: true,
 	viewConfig: {
 		emptyText: '등록된 자료가 없습니다.',
-        getRowClass: function(record, rowIndex, rowParams, store) {
+		getRowClass: function(record, rowIndex, rowParams, store) {
 			if (record.get('DELETE_AT') == 'Y') { 
-				return 'row_err';
+				return 'row_red';
 			} else {
-				return 'row_not';
+				return 'row_black';
 			}
-	    }
+		}
 	},
 	features: [{
 		ftype: 'groupingsummary',

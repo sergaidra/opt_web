@@ -58,7 +58,7 @@
         <result property="HOTDEAL_AT"                    column="HOTDEAL_AT"                    jdbcType="string" javaType="string"/>
         <result property="RECOMEND_AT"                   column="RECOMEND_AT"                   jdbcType="string" javaType="string"/>
         <result property="HOTDEAL_MAIN_AT"               column="HOTDEAL_MAIN_AT"               jdbcType="string" javaType="string"/>
-        <result property="RECOMEND_MAIN_AT"               column="RECOMEND_MAIN_AT"               jdbcType="string" javaType="string"/>
+        <result property="RECOMEND_MAIN_AT"              column="RECOMEND_MAIN_AT"              jdbcType="string" javaType="string"/>
         <result property="HOTDEAL_SORT_ORDR"             column="HOTDEAL_SORT_ORDR"             jdbcType="string" javaType="string"/>
         <result property="RECOMEND_SORT_ORDR"            column="RECOMEND_SORT_ORDR"            jdbcType="string" javaType="string"/>
         <result property="CRUD_SE"                       column="CRUD_SE"                       jdbcType="string" javaType="string"/>

@@ -91,6 +91,7 @@ padding: 1px 0;
 	background-image: url(/images/extjs/icons/fam/i_darkness.png)  !important;
 }
 
-.row_not {color: #000000} /*정상*/
-.row_err {color: #ff0000 !important;}	/*삭제*/
+.row_black {color: #000000}
+.row_red {color: #FF0000 !important;}
+.row_blue {color: #0000FF !important;}
 
