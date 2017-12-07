@@ -38,12 +38,12 @@ function write() {
 	if($.trim($("#subject").val()) == "") {
 		alert("제목을 입력해주세요.");
 		$("#subject").focus();
-		return false;
+		return ;
 	}
 	if($.trim($("#contents").val()) == "") {
 		alert("내용을 입력해주세요.");
 		$("#contents").focus();
-		return false;
+		return ;
 	}
 	
 	var url = "<c:url value='/bbs/writeaction'/>";
@@ -133,12 +133,12 @@ function modifyaction() {
 	if($.trim($("#subject").val()) == "") {
 		alert("제목을 입력해주세요.");
 		$("#subject").focus();
-		return false;
+		return ;
 	}
 	if($.trim($("#contents").val()) == "") {
 		alert("내용을 입력해주세요.");
 		$("#contents").focus();
-		return false;
+		return ;
 	}
 	
 	var url = "<c:url value='/bbs/modifyaction'/>";
@@ -155,7 +155,7 @@ function modifyaction() {
 	console.log(param);
 	
 	if(!confirm("수정하겠습니까?"))
-		return false;
+		return ;
 		
 	$.ajax({
         url : url,
@@ -187,7 +187,7 @@ function writeComment() {
 	if($.trim($("#cmt").val()) == "") {
 		alert("댓글을 입력해주세요.");
 		$("#cmt").focus();
-		return false;
+		return ;
 	}
 	
 	var url = "<c:url value='/bbs/writecommentaction'/>";
@@ -197,7 +197,7 @@ function writeComment() {
 	console.log(param);
 	
 	if(!confirm("댓글을 저장하겠습니까?"))
-		return false;
+		return ;
 		
 	$.ajax({
         url : url,
@@ -233,7 +233,7 @@ function deleteComment(comment_sn) {
 	console.log(param);
 	
 	if(!confirm("댓글 삭제하겠습니까?"))
-		return false;
+		return ;
 		
 	$.ajax({
         url : url,
@@ -265,12 +265,12 @@ function writeanswer() {
 	if($.trim($(".featherlight #answer_subject").val()) == "") {
 		alert("제목을 입력해주세요.");
 		$(".featherlight #answer_subject").focus();
-		return false;
+		return ;
 	}
 	if($.trim($(".featherlight #answer_contents").val()) == "") {
 		alert("내용을 입력해주세요.");
 		$(".featherlight #answer_contents").focus();
-		return false;
+		return ;
 	}
 	
 	var url = "<c:url value='/bbs/writeaction'/>";
@@ -287,7 +287,7 @@ function writeanswer() {
 	console.log(param);
 	
 	if(!confirm("저장하겠습니까?"))
-		return false;
+		return ;
 		
 	$.ajax({
         url : url,
@@ -458,7 +458,7 @@ function writeanswer() {
                   	<c:if test="${(author_cl == 'A' or author_cl == 'M') and mode == 'view'}">
   	             		<a href="#" data-featherlight="#answerbbs" class="button_m1 mr_2">답글</a>
                   	</c:if>
-                  	<a href="javascript:go_09_01_01();" class="button_m2">목록</a> 
+                  	<a href="javascript:go_05_01_01();" class="button_m2">목록</a> 
 			       	</div>
        
       </div>

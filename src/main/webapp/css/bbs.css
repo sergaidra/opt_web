@@ -12,7 +12,7 @@
 /**** pc ****/
 /*테이블 기본라인 __사용 :문의하기 팝업*/
 @media only all and (min-width:1000px) {
-
+.tb_01_box_s{ width:100%!important; border-top:1px solid #ccc; float:left}
 .tb_01_box{ width:100%!important; border-top:3px solid #333; float:left}
 .tb_01 { width:100%!important; ; float:left; border-collapse: collapse;}
 .tb_01 thead th{height:40px;  border-bottom:1px solid #ccc; color:#333; font-size:15px;  text-align:center; background-color:#999999;  border-left:1px solid #fff;  box-sizing:border-box; }
@@ -21,10 +21,22 @@
 .tb_01 tbody td{ border-bottom:1px solid #ccc;  padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative}
 .tb_01 tbody td .icon{  border:1px solid #ccc; background-color: #fff; width: 28px ; height: 28px; text-align: center; line-height: 25px; color: #333; font-size: 13px; position: absolute; right: -15px; top: 50%; margin-top: -15px; border-radius: 50px;  }
 .tb_01 tbody td:last-child{border-right: none}
+	
+.tb_01 tbody td .re_icon{ position: absolute; left: 15px; top:18px}
+.tb_01 tbody td .re_icon i { font-size: 15px; color: #666}
+.tb_01 tbody td .btn{ position: absolute; right: 5px; top: 18px}
+.tb_01 tbody td .btn a.modify{ padding: 3px 5px; background: #eee; border: 1px solid #999; font-size: 11px; margin-right: -1px}
+.tb_01 tbody td .btn a.del{ padding: 3px 5px; background: #eee; border: 1px solid #999; font-size: 11px}
+.tb_01 tbody td .more_text{ width: 100%; float: left; padding:10px 110px 10px 40px; box-sizing: border-box; color: #666 ; font-size: 13px}
+.tb_01 tbody td .more_title{ float: left; box-sizing: border-box; padding-left: 40px  }
+.tb_01 tbody td .more_title p{ float: left; box-sizing: border-box; color: #fff; padding: 3px 5px; background-color: #666; font-size: 12px; border-radius: 50px}
+
+.tb_01 tbody td .ing1{ padding: 5px 10px; background-color: #333; color: #fff; font-size: 12px;display: inline-block; vertical-align: middle;border-radius: 4px ; line-height: 12px}
+.tb_01 tbody td .ing2{ padding: 5px 10px; background-color: #ff6600; color: #fff; font-size: 12px; display: inline-block; vertical-align: middle;;border-radius: 4px; line-height: 12px }
 }
 /**** 모바일 ****/
 @media only all and (max-width:999px) {
-
+.tb_01_box_s{ width:100%!important; border-top:1px solid #ccc; float:left}
 .tb_01_box{ width:100%!important; border-top:3px solid #333; float:left}
 .tb_01 { width:100%; ; float:left; border-collapse: collapse;}
 .tb_01 thead th{height:35px;  border-bottom:1px solid #ccc; color:#333; font-size:12px;  text-align:center; background-color:#999999;   box-sizing:border-box; font-weight: 300 }
@@ -34,6 +46,16 @@
 .tb_01 tbody td .icon{  border:1px solid #ccc; background-color: #fff; width: 28px ; height: 28px; text-align: center; line-height: 25px; color: #333; font-size: 13px; position: absolute; right: -15px; top: 50%; margin-top: -15px; border-radius: 50px;  }
 .tb_01 tbody td:last-child{border-right: none}
 .tb_font1{ color: #999; font-size:11px; margin-bottom:5px; width: 100%; float: left}
+	
+.tb_01 tbody td .re_icon{ position: absolute; left: 15px; top:18px}
+.tb_01 tbody td .re_icon i { font-size: 15px; color: #666}
+.tb_01 tbody td .btn{ position: absolute; right: 5px; top: 18px}
+.tb_01 tbody td .btn a.modify{ padding: 3px 5px; background: #eee; border: 1px solid #999; font-size: 11px; margin-right: -1px}
+.tb_01 tbody td .btn a.del{ padding: 3px 5px; background: #eee; border: 1px solid #999; font-size: 11px}
+.tb_01 tbody td .more_text{ width: 100%; float: left; padding:5px 70px 5px 0px; box-sizing: border-box; color: #666; font-size: 12px !important}
+
+.tb_01 tbody td .ing1{ padding: 5px 10px; background-color: #333; color: #fff; font-size: 12px;display: inline-block; vertical-align: middle; }
+.tb_01 tbody td .ing2{ padding: 5px 10px; background-color: #ff6600; color: #fff; font-size: 12px; display: inline-block; vertical-align: middle;}
 }
 
 /**** pc ****/
@@ -131,8 +153,7 @@
 /* FAQ 검색 */
 /**** pc ****/
 @media only all and (min-width:1000px) {
-.faq_search{	width:100%;	float:left;	border:1px solid #c4c4c4;	background-color:#f7f7f7;	padding:20px 0px 20px 0px;	background-image: url(/_img/cs/notice_img03.gif);	background-position: 250px center;
-	background-repeat: no-repeat; text-align: center; overflow: hidden;}
+.faq_search{	width:100%;	float:left;	border:1px solid #c4c4c4;	background-color:#f7f7f7;	padding:20px 0px 20px 0px;	background-image: url(/_img/cs/notice_img03.gif);	background-position: 250px center; background-repeat: no-repeat; text-align: center; overflow: hidden;}
 .faq_search .search_text{   display: inline-block; vertical-align: middle; width:40%; margin-right: 20px}
 .faq_search .search_text .tx1{ width:15%;	float:left;font-size: 30px; font-weight: 500; color: #333; text-align: left; line-height: 24PX}
 .faq_search .search_text .tx2{ width:85%;	float:left;font-size:12px;color: #999; text-align: left}
@@ -158,6 +179,38 @@
 .faq_search .search_in .input_box p{float:left; margin-right:2px}
 .faq_search .search_in .input_box p .input_st{height:24px; margin-top:-1px; border:1px solid #ccc}
 .faq_search .search_in .input_box p select{height:22px;}
+}
+
+
+/* FAQ 검색 */
+/**** pc ****/
+@media only all and (min-width:1000px) {
+.bbs_search{	width:100%;	float:left;	border:1px solid #c4c4c4;	background-color:#f7f7f7;	padding:20px 0px 20px 0px;	background-image: url(/_img/cs/notice_img03.gif);	background-position: 250px center; background-repeat: no-repeat; text-align: center; overflow: hidden;}
+.bbs_search .search_text{   display: inline-block; vertical-align: middle; width:60%; margin-right: 20px; margin-top: 10px}
+.bbs_search .search_text .tx1{ 	float:left;font-size: 30px; font-weight: 500; color: #333; text-align: left; line-height: 24PX; margin-right: 20px}
+.bbs_search .search_text .tx2{ 	float:left;font-size:12px;color: #999; text-align: left; padding-top: 10px}
+.bbs_search .search_in{   float:right; }
+.bbs_search .search_in .dot_text p{ margin-left:10px; font-size:14px; color:#333}
+.bbs_search .search_in .input_box{  float:left; margin-bottom:10px;}
+.bbs_search .search_in .input_box p{float:left; margin-right:2px}
+.bbs_search .search_in .input_box p .input_st{height:24px; margin-top:-1px; border:1px solid #ccc}
+.bbs_search .search_in .input_box p select{height:22px;}
+.bbs_search .search_in2{   display: inline-block; vertical-align: middle; width:30%; }
+}
+
+/**** 모바일 ****/
+@media only all and (max-width:999px) {
+.bbs_search{	width:100%;	float:left;	border:1px solid #c4c4c4;	background-color:#f7f7f7;	padding:15px;	background-image: url(/_img/cs/notice_img03.gif);	background-position: 250px center;
+	background-repeat: no-repeat; text-align: center; overflow: hidden; }
+.bbs_search .search_text{   display: inline-block; vertical-align: middle; width:100%; margin-right: 20px; margin-bottom: 20px}
+.bbs_search .search_text .tx1{ width:20%;	float:left;font-size: 20px; font-weight: 500; color: #333; text-align: left; line-height: 20PX}
+.bbs_search .search_text .tx2{ width:80%;	float:left;font-size:12px;color: #999; text-align: left}
+.bbs_search .search_in{   display: inline-block; vertical-align: middle; width:100%; }
+.bbs_search .search_in .dot_text p{ margin-left:10px; font-size:14px; color:#333}
+.bbs_search .search_in .input_box{  float:left; margin-bottom:10px;}
+.bbs_search .search_in .input_box p{float:left; margin-right:2px}
+.bbs_search .search_in .input_box p .input_st{height:24px; margin-top:-1px; border:1px solid #ccc}
+.bbs_search .search_in .input_box p select{height:22px;}
 }
 
 

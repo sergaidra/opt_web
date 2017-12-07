@@ -190,6 +190,7 @@ public class GoodsController {
         	String category = UserUtils.nvl(param.get("category"));
         	if("".equals(category))
         		category = "S";
+        	String referer = request.getHeader("referer");
 
             String goods_code = UserUtils.nvl(param.get("hidGoodsCode"));
         	map.put("goods_code", goods_code);
@@ -294,6 +295,11 @@ public class GoodsController {
             model.addAttribute("lstOpGuide", lstOpGuide);
             model.addAttribute("lstEtcInfo", lstEtcInfo);
             model.addAttribute("today", UserUtils.getDate("yyyy-MM-dd"));
+            
+            if(referer != null && referer.indexOf("goods/list") > -1)
+            	model.addAttribute("back_goodslist", "Y");
+            else
+            	model.addAttribute("back_goodslist", "N");
             
     	} catch(Exception e) {
     		e.printStackTrace();

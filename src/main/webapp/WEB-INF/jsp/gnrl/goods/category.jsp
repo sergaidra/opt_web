@@ -24,11 +24,11 @@ function btnOk() {
 		
 	if(cateList == "") {
 		alert('검색할 상품을 선택하세요.');
-		return false;
+		return;
 	} else {
 		cateList = cateList.substr(0, cateList.length - 1);
 		$("input:hidden[id=hidUpperClCodeNavi]").val(cateList);
-		form.attr({"method":"post","action":"<c:url value='/goods/list'/>"});
+		form.attr({"method":"get","action":"<c:url value='/goods/list'/>"});
 		form.submit();	
 	}
 }
@@ -42,7 +42,7 @@ function btnOk() {
 	<input type="hidden" id="hidUpperClCodeNavi" name="hidUpperClCodeNavi">
 	<input type="hidden" id="category" name="category" value="${category}">
 </form>
-<section>
+
 <div id="container">
   <div class="sp_50 pc_view"></div>
   <div class="sp_20 mobile_view"></div>
@@ -60,7 +60,7 @@ function btnOk() {
 		<c:forEach var="result" items="${upperTourClList}" varStatus="status">
 		<li>
           <div class="inline"></div>
-          <div class="photo"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1"  alt=""/></div>
+          <div class="photo" style="background: url()"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1"  alt=""/></div>
           <div class="text_box">
             <div class="tx1">${result.DC}</div>
             <div class="tx2">${result.CL_NM}</div>
@@ -71,17 +71,14 @@ function btnOk() {
 		</c:forEach>      
       </ul>
     </div>
+    <div class="sp_50 pc_view"></div>
     <div class="list_title">
-      <div class="tx1"></div>
-      <div class="tx2"></div>    
       <div class="select_btn">
        <a href="javascript:btnOk();" id="btnOk2"> <div class="ok_btn">선택확인</div></a>
       </div>
-    </div>    
-  </div>
+    </div></div>
   <div class="sp_50 pc_view"></div>
-  <div class="sp_20 mobile_view"></div>
+  <div class="sp_20 mobile_view"></div> 
 </div>
-</section>
 
 </body>

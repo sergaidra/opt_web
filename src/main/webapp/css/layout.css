@@ -48,7 +48,7 @@ ol,ul,li{list-style:none;padding:0;margin:0;}
 /**** pc ****/
 @media only all and (min-width:1301px) {
 
-#head_home {width:100% ; float:left; background:#fff; height:90px ;   position:fixed ; z-index:9999; border-bottom: 1px solid #fff}
+#head_home {width:100% ; float:left; background:#fff; height:90px ;   position:fixed ; z-index:9999; border-bottom: 1px solid #ccc}
 	
 #head_home .inner{margin:0px auto; position:relative;left:0px; width:100% ;  height:90px;  }
 #head_home_m { display:none}
@@ -365,19 +365,18 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 }
 /**** 테블릿 ****/
 @media all and (max-width:1300px) and (min-width:769px) {
-.quick_info{ width: 100%; float: left; background-color: #ff6000; height: 205px;  position: relative }	
-.quick_info .info_my{ margin-top: 30px; text-align: center; overflow: hidden;width: 100%; float: left }	
-.quick_info .info_my .photo{ width:60px; height: 60px;  border-radius: 200px; overflow:hidden; display: inline-block; vertical-align: middle; margin-bottom: 5px}
+.quick_info{ width: 100%; float: left;  background-color: #ff6000; height: 135px;  position: relative }	
+.quick_info .info_my{ text-align: center; overflow: hidden;float: left;}	
+.quick_info .info_my .photo{ width:60px; height: 60px;  border-radius: 200px; overflow:hidden; display: inline-block; vertical-align: middle; margin-bottom: 5px;  position: absolute; left: 15px; top: 20px}
 .quick_info .info_my .photo img{ width:100%; }
-.quick_info .info_my .name{ width:100%; text-align: center; font-size: 15px; color: #fff ; margin-bottom: 10px}
-.quick_info .info_btn{ width: 100%;  text-align: center; overflow: hidden;}
-.quick_info .info_btn  a.info{  display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #f8bb50; color: #fff; font-size: 14px;  border-radius: 200px; margin: 0px 5px}
-.quick_info .info_btn  a.logout{ display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #e6e6e6; color: #666; font-size: 14px;  border-radius: 200px; margin: 0px 5px}
-
-.quick_info .info_btn  a.login{ display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #5ecfcd; color: #666; font-size: 14px;  border-radius: 200px; margin: 0px 5px}
+.quick_info .info_my .name{ font-size: 12px; color: #fff ; margin-bottom: 10px;  position: absolute; left:85px; top:25px}
+.quick_info .info_my .info_btn{  text-align: center; overflow: hidden; ; position: absolute; left: 80px; top: 50px}
+.quick_info .info_my .info_btn  a.info{  display: inline-block; vertical-align: middle; padding: 5px 10px;background-color: #e6e6e6; color: #666; font-size: 12px;  border-radius: 2px; margin: 0px 2px}
+.quick_info .info_my .info_btn  a.logout{ display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #e6e6e6; color: #666; font-size: 12px;  border-radius: 2px; margin: 0px 2px}
+.quick_info .info_my .info_btn  a.login{ display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #5ecfcd; color: #666; font-size: 12px;  border-radius: 2px; margin: 0px 2px}
 	
 	
-.quick_info .close{ position: absolute; top: 10px ; right: 10px;  }	
+.quick_info .close{ position: absolute; top: 5px ; right: 5px;  }	
 .quick_info .close i{ color: #fff; font-size: 30px }	
 	
 .quick_kko{ width: 100%; float: left; background-color: #f4f4f4; padding: 20px 15px;  }	
@@ -385,20 +384,20 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 }
 /**** 모바일 ****/
 @media only all and (max-width:768px) {
-.quick_info{ width: 100%; float: left;  background-color: #ff6000; height: 205px;  position: relative }	
-.quick_info .info_my{ margin-top: 30px; text-align: center; overflow: hidden;width: 100%; float: left }	
-.quick_info .info_my .photo{ width:60px; height: 60px;  border-radius: 200px; overflow:hidden; display: inline-block; vertical-align: middle; margin-bottom: 5px}
+.quick_info{ width: 100%; float: left;  background-color: #ff6000; height: 135px;  position: relative }	
+.quick_info .info_my{ text-align: center; overflow: hidden;float: left;}	
+.quick_info .info_my .photo{ width:60px; height: 60px;  overflow:hidden; display: inline-block; vertical-align: middle; margin-bottom: 5px;  position: absolute; left: 15px; top: 20px}
 .quick_info .info_my .photo img{ width:100%; }
-.quick_info .info_my .name{ width:100%; text-align: center; font-size: 15px; color: #fff ; margin-bottom: 10px}
-.quick_info .info_btn{ width: 100%;  text-align: center; overflow: hidden;}
-.quick_info .info_btn  a.info{  display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #f8bb50; color: #fff; font-size: 12px;  border-radius: 200px; margin: 0px 5px}
-.quick_info .info_btn  a.logout{ display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #e6e6e6; color: #666; font-size: 12px;  border-radius: 200px; margin: 0px 5px}
-
-.quick_info .info_btn  a.login{ display: inline-block; vertical-align: middle; padding: 5px 10px; background-color: #5ecfcd; color: #666; font-size: 12px;  border-radius: 200px; margin: 0px 5px}
+.quick_info .info_my .name{ font-size: 12px; color: #ffc27a; margin-bottom: 10px;  position: absolute; left:85px; top:25px}
+.quick_info .info_my .name em{ font-size: 13px; color: #fff ; }
+.quick_info .info_my .info_btn{  text-align: center; overflow: hidden; ; position: absolute; left: 80px; top: 50px}
+.quick_info .info_my .info_btn  a.info{  display: inline-block; vertical-align: middle; padding: 5px 15px;  background-color: #e6e6e6; color: #666; font-size: 12px;  border-radius: 50px; margin: 0px 2px}
+.quick_info .info_my .info_btn  a.logout{ display: inline-block; vertical-align: middle; padding: 5px 15px; background-color: #e6e6e6; color: #666; font-size: 12px;  border-radius: 50px; margin: 0px 2px}
+.quick_info .info_my .info_btn  a.login{ display: inline-block; vertical-align: middle; padding: 5px 15px; background-color: #5ecfcd; color: #666; font-size: 12px;  border-radius: 50px; margin: 0px 2px}
 	
 	
-.quick_info .close{ position: absolute; top: 10px ; right: 10px;  }	
-.quick_info .close i{ color: #fff; font-size: 30px }	
+.quick_info .close{ position: absolute; top: 5px ; right: 5px;  }	
+.quick_info .close i{ color: #fff; font-size:25px }	
 	
 .quick_kko{ width: 100%; float: left; background-color: #f4f4f4; padding: 20px 15px;  }	
 .quick_kko img{ width: 100%;   }	
@@ -412,16 +411,16 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 }
 /**** 테블릿 ****/
 @media all and (max-width:1300px) and (min-width:769px) {
-.quick_search{ width: 100%; float: left; position: relative; padding: 0px 7px ;box-sizing: border-box; margin-top: 10px }	
-.quick_search input{ width: 100%; float: left; border-radius: 50px;background-color: #333!important; border: none; height: 35px !important; padding: 0px 10px !important; box-sizing: border-box; line-height: 35px; border: none!important }		
-.quick_search .icon{ position: absolute ; right: 15px; top: 5px}
+.quick_search{ width: 100%; float: left; position: relative; padding: 0px 0px ;box-sizing: border-box; margin-top: 10px; z-index: 999999999999999 ;; position: absolute; left: 0px; top: 90px}	
+.quick_search input{ width: 100%; float: left; background-color: #333!important; border: none; height: 40px !important; padding: 0px 10px !important; box-sizing: border-box; line-height: 40px; border: none!important; position: relative ; color: #fff; font-size: 12px }		
+.quick_search .icon{ position: absolute ; right: 5px; top: 10px; width: 30px; height:40px}
 .quick_search .icon i{color: #fff; font-size: 25px}	
 }
 /**** 모바일 ****/
 @media only all and (max-width:768px) {
-.quick_search{ width: 100%; float: left; position: relative; padding: 0px 7px ;box-sizing: border-box; margin-top: 10px }	
-.quick_search input{ width: 100%; float: left; border-radius: 50px;background-color: #333!important; border: none; height: 35px !important; padding: 0px 10px !important; box-sizing: border-box; line-height: 35px; border: none!important }		
-.quick_search .icon{ position: absolute ; right: 15px; top: 5px}
+.quick_search{ width: 100%; float: left; position: relative; padding: 0px 0px ;box-sizing: border-box; margin-top: 10px; z-index: 999999999999999 ;; position: absolute; left: 0px; top: 90px}	
+.quick_search input{ width: 100%; float: left; background-color: #444!important; border: none; height: 40px !important; padding: 0px 10px !important; box-sizing: border-box; line-height: 40px; border: none!important; position: relative ; color: #fff; font-size: 12px }		
+.quick_search .icon{ position: absolute ; right: 5px; top: 10px; width: 30px; height:40px}
 .quick_search .icon i{color: #fff; font-size: 25px}	
 
 }
@@ -520,7 +519,7 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 .b_title .tx1{ width: 100%; float: left; font-size: 30px; color: #fff; font-weight: 500; margin-bottom: 5px;font-family:'Noto Sans Korean', 'Noto Sans KR';  }
 .b_title .route_t{ width: 100%; float: left; font-size: 12px;  color: #fff; font-weight: 300  }
 .search_box{ width: 310px; float: right;  position: relative; margin-top: 50px }
-.search_box input{ width: 100%; background-color: rgba(255, 255, 255, 0.7) !important;  height:55px !important; border: none  }
+.search_box input{ width: 100%; background-color: rgba(255, 255, 255, 0.7) !important;  height:55px !important; border: none; padding: 0px 40px 0px 15px;  }
 .search_box .btn_icon{ position: absolute; top: 10px; right: 10px}
 .copy_text{position: absolute; top: 60px; right: 350px; color: #fff; font-size: 20px; font-weight: 200 ;
 ;font-family:'Noto Sans Korean', 'Noto Sans KR';}
@@ -562,8 +561,10 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 .ri_box .title .reset{float:right; font-size: 12px; color: #333; padding: 7px 10px; border: 1px solid #ccc; border-radius: 50px}
 
 .ri_box .ri_tab{ width: 100%; float: left; margin-bottom: 10px }
-.ri_box .ri_tab ul li{ width: calc(33% - 1px); float: left; border: 1px solid #ccc; text-align: center; font-size: 12px; color: #999; margin-left: -1px; position: relative; padding: 10px 0px}
-.ri_box .ri_tab ul li.on{ width:  calc(33% - 1px);  float: left; border: 1px solid #333; text-align: center; font-size: 12px; color: #333; margin-left: -1px; position: relative; padding: 10px 0px; z-index: 99; background-color: #fff }
+.ri_box .ri_tab ul li{ width: calc(50% - 1px); float: left;  font-size: 12px; color: #999; margin-left: -1px; position: relative; }
+.ri_box .ri_tab ul li a{ width: 100%; float: left; border: 1px solid #ccc; text-align: center; font-size: 12px; color: #999; margin-left: -1px; position: relative; padding: 10px 0px}
+.ri_box .ri_tab ul li.on{ width:  calc(50% - 1px);  float: left; text-align: center; font-size: 12px; color: #333; margin-left: -1px; position: relative;z-index: 99; background-color: #fff }
+.ri_box .ri_tab ul li.on a{  width: 100%; float: left; border: 1px solid #333; text-align: center; font-size: 12px; color: #333; margin-left: -1px; position: relative; padding: 10px 0px; z-index: 99; background-color: #fff }
 .ri_box .ri_tb{ width: 100%; float: left; }
 }
 /**** 테블릿 ****/
@@ -573,8 +574,8 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 .ri_box .title .reset{float:right; font-size: 12px; color: #333; padding: 7px 10px; border: 1px solid #ccc; border-radius: 50px}
 
 .ri_box .ri_tab{ width: 100%; float: left; margin-bottom: 10px }
-.ri_box .ri_tab ul li{ width: calc(33% - 1px); float: left; border: 1px solid #ccc; text-align: center; font-size: 12px; color: #999; margin-left: -1px; position: relative; padding: 10px 0px}
-.ri_box .ri_tab ul li.on{ width:  calc(33% - 1px);  float: left; border: 1px solid #333; text-align: center; font-size: 12px; color: #333; margin-left: -1px; position: relative; padding: 10px 0px; z-index: 99; background-color: #fff }
+.ri_box .ri_tab ul li{ width: calc(50% - 1px); float: left; border: 1px solid #ccc; text-align: center; font-size: 12px; color: #999; margin-left: -1px; position: relative; padding: 10px 0px}
+.ri_box .ri_tab ul li.on{ width:  calc(50% - 1px);  float: left; border: 1px solid #333; text-align: center; font-size: 12px; color: #333; margin-left: -1px; position: relative; padding: 10px 0px; z-index: 99; background-color: #fff }
 .ri_box .ri_tb{ width: 100%; float: left; }
 }
 /**** 모바일 ****/
@@ -586,8 +587,86 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 .ri_box .title .reset{float:right; font-size: 12px; color: #333; padding: 7px 10px; border: 1px solid #ccc; border-radius: 50px}
 
 .ri_box .ri_tab{ width: 100%; float: left; margin-bottom: 10px }
-.ri_box .ri_tab ul li{ width: calc(33% - 1px); float: left; border: 1px solid #ccc; text-align: center; font-size: 12px; color: #999; margin-left: -1px; position: relative; padding: 10px 0px}
-.ri_box .ri_tab ul li.on{ width:  calc(33% - 1px);  float: left; border: 1px solid #333; text-align: center; font-size: 12px; color: #333; margin-left: -1px; position: relative; padding: 10px 0px; z-index: 99; background-color: #fff }
+.ri_box .ri_tab ul li{ width: calc(50% - 1px); float: left;  font-size: 12px; color: #999; margin-left: -1px; position: relative; }
+.ri_box .ri_tab ul li a{ width: 100%; float: left; border: 1px solid #ccc; text-align: center; font-size: 12px; color: #999; margin-left: -1px; position: relative; padding: 10px 0px}
+.ri_box .ri_tab ul li.on{ width:  calc(50% - 1px);  float: left; text-align: center; font-size: 12px; color: #333; margin-left: -1px; position: relative;z-index: 99; background-color: #fff }
+.ri_box .ri_tab ul li.on a{  width: 100%; float: left; border: 1px solid #333; text-align: center; font-size: 12px; color: #333; margin-left: -1px; position: relative; padding: 10px 0px; z-index: 99; background-color: #fff }
 .ri_box .ri_tb{ width: 100%; float: left; }
 }
+
+
+
+/**** 퀵메뉴 아코디언 ****/
+.sidebar-toggle {
+  margin-left: -240px;
+}
+.sidebar {
+  width: 250px;
+ background: #eee;
+  position: absolute;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  z-index: 100; top: 145px
+}
+.sidebar #leftside-navigation ul,
+.sidebar #leftside-navigation ul ul {
+  margin: -2px 0 0;
+  padding: 0;
+}
+.sidebar #leftside-navigation ul li {
+  list-style-type: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.sidebar #leftside-navigation ul li.active > a {
+  color: #333; 
+}
+.sidebar #leftside-navigation ul li.active ul {
+  display: block; 
+}
+.sidebar #leftside-navigation ul li a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+  padding: 15px 0 15px 20px;
+  font-size: 14px;
+  outline: 0;
+  -webkit-transition: all 200ms ease-in;
+  -moz-transition: all 200ms ease-in;
+  -o-transition: all 200ms ease-in;
+  -ms-transition: all 200ms ease-in;
+  transition: all 200ms ease-in;
+}
+.sidebar #leftside-navigation ul li a:hover {
+  color: #333; 
+}
+.sidebar #leftside-navigation ul li a span {
+  display: inline-block;
+}
+.sidebar #leftside-navigation ul li a i {
+  width: 20px;
+}
+.sidebar #leftside-navigation ul li a i .fa-angle-left,
+.sidebar #leftside-navigation ul li a i .fa-angle-right {
+  padding-top: 3px;
+}
+.sidebar #leftside-navigation ul ul {
+  display: none;
+}
+.sidebar #leftside-navigation ul ul li {
+  background: #666;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+  border-bottom: none;
+}
+.sidebar #leftside-navigation ul ul li a {
+  font-size: 12px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+   color: #fff;
+}
+
 

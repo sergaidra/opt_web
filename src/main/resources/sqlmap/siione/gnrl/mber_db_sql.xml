@@ -61,4 +61,24 @@
 	]]>
 	</update>
 
+	<select id="gnrl.mber.chkUserInfoPw" parameterClass="hashMap" resultClass="hashMap"> 
+		SELECT CERTKEY
+		  FROM TB_USER
+		 WHERE UPPER(USER_ID) = UPPER(#user_id#) AND UPPER(USER_NM) = UPPER(#user_nm#)
+	</select>
+	
+	<update id="gnrl.mber.updateCertKey" parameterClass="hashMap">
+	<![CDATA[
+		UPDATE TB_USER SET CERTKEY = #certkey#
+		WHERE UPPER(USER_ID) = UPPER(#user_id#)
+	]]>
+	</update>
+
+	<update id="gnrl.mber.updatePassword" parameterClass="hashMap">
+	<![CDATA[
+		UPDATE TB_USER SET PASSWORD = #password#
+		WHERE CERTKEY = #certkey#
+	]]>
+	</update>
+
 </sqlMap>

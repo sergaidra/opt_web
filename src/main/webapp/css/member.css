@@ -111,7 +111,7 @@
 @media only all and (min-width:1000px) {
 .idpw_box{ width:100%; float:left ;text-align: center; overflow: hidden; margin: 100px  auto }
 
-.idpw_box .inbox{  width:400px;  display: inline-block; vertical-align: middle; margin:0px 20px; border:1px solid #ccc; background-color:#f7f7f7; box-sizing:border-box; padding:30px}
+.idpw_box .inbox{  width:400px; min-height: 380px;  display: inline-block; vertical-align: middle; margin:0px 20px; border:1px solid #ccc; background-color:#f7f7f7; box-sizing:border-box; padding:30px}
 .idpw_box .inbox .title{  width:100%;   float:left; font-weight: 500; color: #000; margin-bottom: 10px; text-align: left; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-size: 24px}
 .idpw_box .inbox  .texttbox{ width:100%; float:left; margin-bottom:10px; font-size:12px ; color:#666; letter-spacing:-0.5px; text-align:left; line-height:18px}
 .idpw_box .inbox  .inputbox{ width:100%; float:left; }
@@ -161,8 +161,13 @@
 
 
 
+
+/**** pc ****/
+@media only all and (min-width:769px) {
+
 .joinok_box{ width:100%; float:left; margin:100px 0px;  text-align: center; overflow: hidden;}
-.joinok_box .text1{ width:100%; float:left; text-align:center; font-size:26px; font-weight:300; color:#000; margin-bottom:15x; letter-spacing:-1px; line-height:30px; margin-bottom:10px; ;font-family:'Noto Sans Korean', 'Noto Sans KR';}
+.joinok_box .text1{ width:100%; float:left; text-align:center; font-size:26px; font-weight:300; color:#000; letter-spacing:-1px; line-height:30px; margin-bottom:10px; ;font-family:'Noto Sans Korean', 'Noto Sans KR';}
+.joinok_box .text1 img{ max-width: 392px }
 .joinok_box .text1 em{  font-size:30px; font-weight:500; color:#Ff6600}
 .joinok_box .line{ width:100px;  border-bottom:1px solid #333; margin-bottom:30px; display: inline-block; vertical-align: middle; margin-top:30px}
 .joinok_box .text2{ width:100%; float:left; text-align:center; font-size:16px; color:#666; letter-spacing:-1px}
@@ -170,6 +175,21 @@
 .joinok_box .gobtn{ width:100%; float:left; margin-top:30px}
 .joinok_box .gobtn a.st1{ width:168px;  height:50px; background-color:#ff6600;  position:relative; color:#fff;box-sizing:border-box;  display: inline-block; vertical-align: middle;letter-spacing:-1px; font-size:15px; padding:15px 0px; margin:0px 10px}
 .joinok_box .gobtn a.st2{ width:168px;  height:50px; background-color:#f1f1f1;  position:relative; color:#666;box-sizing:border-box;  display: inline-block; vertical-align: middle;letter-spacing:-1px; font-size:15px; padding:15px 0px; box-sizing:border-box; border:1px solid #ccc;margin:0px 10px}
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+
+.joinok_box{ width:100%; float:left; margin:30px 0px;  text-align: center; overflow: hidden;}
+.joinok_box .text1{ width:100%; float:left; text-align:center; font-size:20px; font-weight:300; color:#000; letter-spacing:-1px; line-height:30px; margin-bottom:10px; ;font-family:'Noto Sans Korean', 'Noto Sans KR';}
+.joinok_box .text1 img{width:100%;  }
+.joinok_box .text1 em{  font-size:20px; font-weight:500; color:#Ff6600}
+.joinok_box .line{ width:100px;  border-bottom:1px solid #333; margin-bottom:30px; display: inline-block; vertical-align: middle; margin-top:30px}
+.joinok_box .text2{ width:100%; float:left; text-align:center; font-size:13px; color:#666; letter-spacing:-1px}
+.joinok_box .text2 em{  font-weight:400; color:#Ff6600}
+.joinok_box .gobtn{ width:100%; float:left; margin-top:30px}
+.joinok_box .gobtn a.st1{ width:168px;  background-color:#ff6600;  position:relative; color:#fff;box-sizing:border-box;  display: inline-block; vertical-align: middle;letter-spacing:-1px; font-size:15px; padding:10px 0px; margin:0px 10px}
+.joinok_box .gobtn a.st2{ width:168px;   background-color:#f1f1f1;  position:relative; color:#666;box-sizing:border-box;  display: inline-block; vertical-align: middle;letter-spacing:-1px; font-size:15px; padding:10px 0px; box-sizing:border-box; border:1px solid #ccc;margin:0px 10px}
+}
 
 
 

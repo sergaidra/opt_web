@@ -98,6 +98,11 @@ $(function(){
 	
 });
 
+function nextSearch() {
+	var obj = $(".panelTab:visible").find("input:eq(0)");
+	fnSearch($(obj), true);
+}
+
 function fnSearch(obj, isNext) {
 	var list_search = $(obj).closest(".panelTab");
 	var ul = list_search.find("ul");
@@ -165,7 +170,8 @@ function fnSearch(obj, isNext) {
 				$(item).find("span[name='goods_nm_title']").text(data.list[cnt].GOODS_NM);	
 				$(item).find("span[name='favorite']").text("favorite_border");
 				$(item).find("input[name='goods_code']").val(data.list[cnt].GOODS_CODE);
-				$(item).find("img[name='imgFile']").attr("src", "<c:url value='/file/getImageThumb/'/>?file_code=" + data.list[cnt].FILE_CODE);
+				$(item).find("div[name='imgFile']").css("background", "url(<c:url value='/file/getImageThumb/'/>?file_code=" + data.list[cnt].FILE_CODE + ")");
+				$(item).find("div[name='imgFile']").css("background-size", "cover");
 				//$(item).find("span[name='favorite']").text("favorite");	
 				
 				if(data.list[cnt].BKMK == "Y") {
@@ -197,7 +203,7 @@ function fnDetail(obj) {
 	var goods_code = $(obj).find("input[name='goods_code']").val();
 	var form = $("form[id=frmList]");
 	$("input:hidden[id=hidGoodsCode]").val(goods_code);
-	form.attr({"method":"post","action":"<c:url value='/goods/detail'/>"});
+	form.attr({"method":"get","action":"<c:url value='/goods/detail'/>"});
 	form.submit();		
 }
 
@@ -323,18 +329,21 @@ function addWish(goods_code, obj) {
 	    	<ul>
 	    	</ul>
 	    </div>
-	    <div class='list_box02' id="divMore" style="display:none; text-align:center;">
-	    	▽<br/>
-	    	▽<br/>
-	    	▽	    	
-	    </div>
+		<div class="sp_50 pc_view"></div> 
+	 	<div class="sp_20 mobile_view"></div>
+		<div class="list_more" id="divMore">
+			<div class="more_btn">
+				<a href="javascript:nextSearch();"> <div class="ok_btn">더보기</div></a>
+			</div>
+		</div>	    
     </div>
     <!-- 검색 끝 -->
     
     <!-- 아이템 -->
 	<li id="liItem" style="display:none; cursor:pointer;">
 		<input type="hidden" name="goods_code">
-	  <div class="fl_photo"><img src="/images/sub/ex2.png"  alt="" name="imgFile"/></div>
+	  <div class="inline"></div>
+	  <div class="fl_photo" style="background: url(/images/sub/ex2.png); background-size: cover;" name="imgFile"></div>
 		<div class="fr_info">
 		  <div class="in">
 		    <div class="tx1"><span name="goods_nm"></span></div>

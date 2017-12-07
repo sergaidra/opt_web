@@ -20,7 +20,7 @@
 		var isDisabled = _hasClass(e, 'disabled');
 			
 		// first doesnt exist
-		if( sel1 === null && !isDisabled ) {
+		if( selectDt.startDt === null && !isDisabled ) {
 			e.id = 'sel1';
 			e.classList.add('sel1');
 			$(e).parent().prevAll('tr').find('td').addClass('disabled'); // ugly code
@@ -36,7 +36,7 @@
 		}
 		
 		// second doesnt exist
-		else if( sel2 === null ){ // prevent making #2 to #1
+		else if( selectDt.endDt === null ){ // prevent making #2 to #1
 			if(isDisabled || e.id == 'sel1') return false;
 			e.id = 'sel2';
 			e.classList.add('sel2');

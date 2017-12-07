@@ -10,6 +10,8 @@ div{box-sizing:border-box}
 .lightbox {
 	display: none;
 }
+input[type=text]::-ms-clear{display: none} 
+
 /**** pc ****/
 @media only all and (min-width:769px) {
 .pc_view { }
@@ -125,7 +127,7 @@ ul.t_4n li{ width: 25%; float: left; }
 ul.t_5n li{ width: 33.3%; float: left; }	
 }
 
-/**** 기본 갤러리 3개 ****/
+/**** 기본 갤러리 ****/
 /**** pc ****/
 @media only all and (min-width:769px) {
 .m_sp_gray{background-color: #fff}	

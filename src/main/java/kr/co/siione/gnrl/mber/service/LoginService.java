@@ -1,6 +1,7 @@
 package kr.co.siione.gnrl.mber.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface LoginService {
     public HashMap userInfo(HashMap map) throws Exception;
@@ -10,4 +11,9 @@ public interface LoginService {
 	public void insertUser(HashMap map) throws Exception;
     public int chkUserCert(HashMap map) throws Exception;
     public void updateUserCert(HashMap map) throws Exception;
+    
+    public List<HashMap> chkUserInfoPw(HashMap map) throws Exception;
+    public void updateCertKey(HashMap map) throws Exception;
+    public void updatePassword(HashMap map) throws Exception;
+    public void sendPwSearchEmail(HashMap map) throws Exception;
 }

@@ -450,7 +450,7 @@ function displayRoom() {
 function removeRoom() {
 	roomInfo.room = null;
 	roomInfo.eat = [];
-	roomInfo.check = null;
+	roomInfo.check = [];
 	$("#cmbRoom").val("");
 	$("#cmbEat").val("");
 	$("#cmbCheck").val("");
@@ -984,6 +984,12 @@ function inputAir() {
   <div class="sp_50 pc_view"></div>
   <div class="sp_10 mobile_view"></div>
   <div class="inner2_2">
+    <div class="good_route">
+      <div class="route"><em>${result.CL_NM}</em>  ${result.GOODS_NM}</div>
+      <c:if test="${back_goodslist == 'Y' }">
+	  	<a href="javascript:window.history.back();" class="backbtn"><i class="material-icons">&#xE241;</i> 선택 상품 목록보기</a>
+	  </c:if>
+    </div>  
     <div class="good_detail">
       <div class="fl_left"> 
         <div class="photo_box">
@@ -997,7 +1003,12 @@ function inputAir() {
               <div class="slider_t2">${result.GOODS_INTRCN_SIMPL}</div>
             </div>
           </div>
-          <div class="hit_box"><i class="material-icons">&#xE87E;</i><span data-featherlight="#pa_airpopup">25</span></div>
+		  <div class="hot_box">
+		  	<c:if test="${result.HOTDEAL_AT == 'Y'}">
+		  	<img src="/images/com/hot.png" width="50" height="66" alt=""/>
+		  	</c:if>
+		  </div>
+			<div class="hit_box"><i class="material-icons">&#xE87E;</i><span>25</span></div>
           <div class="share_box"> <a  href="#" data-featherlight="#share"><i class="material-icons">&#xE80D;</i> </a></div>
           <div class="qa_btn"><a href="#" data-featherlight="#pa_popup2">1:1문의하기</a></div>
           <!-- Swiper -->

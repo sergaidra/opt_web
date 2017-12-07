@@ -40,8 +40,17 @@ public class LoginDAO extends EgovComAbstractDAO {
 		return (String) selectByPk("gnrl.mber.selectEsntlID", map);
 	}
 
-	//public void insertUser(HashMap map) throws Exception {
-	//	insert("gnrl.mber.insertUser", map);
-	//}
+
+    public List<HashMap> chkUserInfoPw(HashMap map) throws Exception {
+        return (List<HashMap>)list("gnrl.mber.chkUserInfoPw", map);
+    }
+
+	public void updateCertKey(HashMap map) throws Exception {
+		insert("gnrl.mber.updateCertKey", map);
+	}
+
+	public void updatePassword(HashMap map) throws Exception {
+		insert("gnrl.mber.updatePassword", map);
+	}
 
 }

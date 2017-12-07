@@ -52,6 +52,8 @@
         <result property="CF_MIN_BEGIN_DE"           column="CF_MIN_BEGIN_DE"           jdbcType="string" javaType="string"/>
         <result property="CF_MAX_END_DE"             column="CF_MAX_END_DE"             jdbcType="string" javaType="string"/>
         <result property="GOODS_INTRCN_SIMPL"        column="GOODS_INTRCN_SIMPL"             jdbcType="string" javaType="string"/>        
+        <result property="HOTDEAL_AT"        		column="HOTDEAL_AT"             jdbcType="string" javaType="string"/>        
+        <result property="RECOMEND_AT"        		column="RECOMEND_AT"             jdbcType="string" javaType="string"/>    
         
 	</resultMap>
 
@@ -257,7 +259,7 @@
 	<![CDATA[	
         SELECT GOODS_CODE
              , GOODS_NM
-             , REPLACE(REPLACE(GOODS_INTRCN,CHR(10),'<BR>'),CHR(13),' ') GOODS_INTRCN
+             , REPLACE(REPLACE(REPLACE(GOODS_INTRCN,CHR(10),'<BR>'),CHR(13),' '), '  ', '&nbsp;&nbsp;') GOODS_INTRCN
              , DELETE_AT
              , FILE_CODE
              , WRITNG_ID
@@ -301,7 +303,9 @@
              , INTRCN_PLACE
              , (SELECT TO_CHAR(NVL(TO_DATE(MIN(BEGIN_DE), 'YYYYMMDD'), SYSDATE), 'YYYY-MM-DD') FROM TB_GOODS_SCHDUL X WHERE X.DELETE_AT = 'N' AND  X.GOODS_CODE = A.GOODS_CODE) CF_MIN_BEGIN_DE             
              , (SELECT TO_CHAR(TO_DATE(MAX(END_DE), 'YYYYMMDD'), 'YYYY-MM-DD') FROM TB_GOODS_SCHDUL X WHERE X.DELETE_AT = 'N' AND  X.GOODS_CODE = A.GOODS_CODE) CF_MAX_END_DE
-             , GOODS_INTRCN_SIMPL                          
+             , GOODS_INTRCN_SIMPL                     
+             , HOTDEAL_AT
+             , RECOMEND_AT     
           FROM TB_GOODS A 
          WHERE GOODS_CODE = #goods_code# ]]>
 		<isEmpty property="admin_at">

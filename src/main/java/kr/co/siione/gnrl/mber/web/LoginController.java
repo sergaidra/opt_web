@@ -1,5 +1,6 @@
 package kr.co.siione.gnrl.mber.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +15,13 @@ import kr.co.siione.dist.utils.SimpleUtils;
 import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.mber.service.LoginService;
 import kr.co.siione.utl.LoginManager;
+import kr.co.siione.utl.MailManager;
 import kr.co.siione.utl.UserUtils;
+import kr.co.siione.utl.egov.EgovProperties;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +40,7 @@ public class LoginController {
 
 	@Resource
     private LoginService loginService;
-    
+		
     @RequestMapping(value="/login/")
     public String login(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
         LoginManager loginManager = LoginManager.getInstance();
@@ -251,7 +256,7 @@ public class LoginController {
 		resVo.setMessage("");
 
 		try {
-			String user_id = UserUtils.nvl(param.get("user_id"));
+			//String user_id = UserUtils.nvl(param.get("user_id"));
 			String user_nm = UserUtils.nvl(param.get("user_nm"));
 			String password = UserUtils.nvl(param.get("password"));
 			String moblphon_no = UserUtils.nvl(param.get("moblphon_no"));
@@ -262,7 +267,7 @@ public class LoginController {
 			String certkey = UUID.randomUUID().toString().replace("-", "");
 
 			HashMap map = new HashMap();	
-			map.put("user_id", user_id);			
+			map.put("user_id", email);			
 			map.put("user_nm", user_nm);			
 			map.put("password", password);			
 			map.put("moblphon_no", moblphon_no);			
@@ -273,11 +278,20 @@ public class LoginController {
 			map.put("certkey", certkey);
 			map.put("esntl_id", loginService.getMaxEsntlId(map));
 
-			UserUtils.log("[insertUser-map]", map);
+			UserUtils.log("[chkUserInfo-map]", map);
 			
-			loginService.insertUser(map);
+			int cnt = loginService.chkUserInfo(map);
+			if(cnt > 0) {
+				resVo.setResult("9");			
+				resVo.setMessage("이미 가입되어있는 이메일입니다.");	
+			} else {
+				UserUtils.log("[insertUser-map]", map);
 				
-			resVo.setResult("0");			
+				loginService.insertUser(map);
+				
+				resVo.setResult("0");			
+			}
+
 		} catch(Exception e) {
 			resVo.setResult("9");			
 			resVo.setMessage(e.getMessage());	
@@ -295,11 +309,102 @@ public class LoginController {
 		map.put("certkey", certkey);		
 		
 		if(loginService.chkUserCert(map) > 0) {
-			loginService.chkUserCert(map);
+			loginService.updateUserCert(map);
 	        return "gnrl/mber/join_ok";
 		} else {
 	        return "gnrl/mber/join_fail";
 		}
     }
+
+    @RequestMapping(value="/idpw")
+    public String idpw(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+        model.addAttribute("bp", "07");
+       	model.addAttribute("btitle", "비밀번호찾기");
+        model.addAttribute("mtitle", "");
+
+        return "gnrl/mber/idpw";
+    }
+
+	@RequestMapping(value="/searchPw")
+	public @ResponseBody ResponseVo searchPw(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+			String user_id = UserUtils.nvl(param.get("email"));
+			String user_nm = UserUtils.nvl(param.get("user_nm"));
+
+			HashMap map = new HashMap();	
+			map.put("user_id", user_id);			
+			map.put("user_nm", user_nm);			
+			map.put("email", user_id);			
+
+			UserUtils.log("[searchPw-map]", map);
+			
+			List<HashMap> lstMap = loginService.chkUserInfoPw(map);
+			
+			if(lstMap.size() == 0) {
+				resVo.setResult("9");			
+				resVo.setMessage("해당하는 정보가 없습니다.");
+			} else {
+				String certkey = String.valueOf(lstMap.get(0).get("CERTKEY"));
+				if("".equals(certkey)) {
+					certkey = UUID.randomUUID().toString().replace("-", "");
+					map.put("certkey", certkey);	
+					loginService.updateCertKey(map);
+				}
+				map.put("certkey", certkey);	
+				
+				loginService.sendPwSearchEmail(map);
+				resVo.setResult("0");			
+			}
+			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;
+	}
+	
+    @RequestMapping(value="/pwsetup")
+    public String pwsearch(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		String certkey = UserUtils.nvl(request.getParameter("key"));
+		
+        model.addAttribute("certkey", certkey);
+        model.addAttribute("bp", "07");
+       	model.addAttribute("btitle", "비밀번호 재설정");
+        model.addAttribute("mtitle", "");
+
+        return "gnrl/mber/pwsetup";
+    }
+    
+	@RequestMapping(value="/changePw")
+	public @ResponseBody ResponseVo changePw(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+			String certkey = UserUtils.nvl(param.get("certkey"));
+			String password = UserUtils.nvl(param.get("password"));
+
+			HashMap map = new HashMap();	
+			map.put("certkey", certkey);			
+			map.put("password", password);			
+			
+			UserUtils.log("[changePw-map]", map);
+			loginService.updatePassword(map);
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;
+	}
 
 }

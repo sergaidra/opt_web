@@ -25,7 +25,7 @@ function viewBbs(bbs_sn) {
 
 function viewSecret(bbs_sn) {
 	alert("비밀글입니다.")
-	return false;
+	return ;
 }
 
 function search(pageNo) {
@@ -92,7 +92,6 @@ function search(pageNo) {
             		var td1 = null;
             		if(data.list[cnt].LVL == 1) {
                 		td1 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "<br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");
-                		rowCnt++;
             		} else {
             			var space = "";
             			for(var cnt2 = 1; cnt2 < data.list[cnt].LVL; cnt2++)

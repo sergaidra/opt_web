@@ -6,14 +6,15 @@ function go_home() {document.location.href="/";}
 function go_main() {	document.location.href="/";}
 function go_login() {	document.location.href="/member/login/";}
 function go_logout() {	document.location.href="/member/logoutAction/";}
-function go_join() {	document.location.href="#";}
+function go_join() {	document.location.href="/member/join";}
 function go_mypage() { document.location.href="/purchs/OrderList"; }
+function go_cartpage() { document.location.href="/cart/list"; }
 
 // 셀프여행 ///
 function go_01_01_01() {
 	var frm = $("<form></form>");
 	$(frm).attr("action", "/goods/category");
-	$(frm).attr("method", "post");
+	$(frm).attr("method", "get");
 	
 	var item = $("<input type='hidden' name='category' value='S'>");
 	$(frm).append(item);
@@ -25,7 +26,7 @@ function go_01_01_01() {
 function go_02_01_01() {
 	var frm = $("<form></form>");
 	$(frm).attr("action", "/goods/category");
-	$(frm).attr("method", "post");
+	$(frm).attr("method", "get");
 	
 	var item = $("<input type='hidden' name='category' value='H'>");
 	$(frm).append(item);
@@ -37,7 +38,7 @@ function go_02_01_01() {
 function go_03_01_01() {
 	var frm = $("<form></form>");
 	$(frm).attr("action", "/goods/category");
-	$(frm).attr("method", "post");
+	$(frm).attr("method", "get");
 	
 	var item = $("<input type='hidden' name='category' value='R'>");
 	$(frm).append(item);
@@ -47,7 +48,7 @@ function go_03_01_01() {
 
 
 // 여행체크리스트 ///
-function go_04_01_01() {	document.location.href="/opt_design/jsp/gnrl/goods/CheckList.jsp";}
+function go_04_01_01() {	alert("준비중입니다."); }
 
 
 
@@ -61,17 +62,20 @@ function go_06_06_01() {	document.location.href="#";}
 
 
 // 고객지원 //
-function go_07_01_01() {	document.location.href="/opt_design/jsp/gnrl/cs/Review.jsp";}
-function go_07_02_01() {	document.location.href="/opt_design/jsp/gnrl/cs/FAQ.jsp";}
-function go_07_03_01() {	document.location.href="/opt_design/jsp/gnrl/cs/UseText.jsp";} 
-function go_07_04_01() {	document.location.href="/opt_design/jsp/gnrl/cs/UseText2.jsp";}
-function go_07_05_01() {	document.location.href="/opt_design/jsp/gnrl/cs/Privacy.jsp";}
-function go_07_06_01() {	document.location.href="/opt_design/jsp/gnrl/cs/QnA.jsp";}
+function go_07_01_01() {	document.location.href="/cs/review";}
+function go_07_02_01() {	document.location.href="/cs/faq";}
+function go_07_03_01() {	document.location.href="/cs/qna";}
+function go_07_04_01() {	document.location.href="/cs/notice";}
+function go_07_05_01() {	document.location.href="/cs/liveview";}
+function go_07_06_01() {	document.location.href="/cs/usetext";} 
+function go_07_07_01() {	document.location.href="/cs/usetext2";}
+function go_07_08_01() {	alert("준비중입니다."); }
+
 
 // ABOUT //
-function go_08_01_01() {	document.location.href="/opt_design/jsp/gnrl/about/Company.jsp";}
-function go_08_02_01() {	document.location.href="/opt_design/jsp/gnrl/about/Service.jsp";}
-function go_08_03_01() {	document.location.href="/opt_design/jsp/gnrl/about/Use.jsp";} 
+function go_08_01_01() {	alert("준비중입니다."); }
+function go_08_02_01() {	alert("준비중입니다."); }
+function go_08_03_01() {	alert("준비중입니다."); } 
 
-// 여행 예약 //
-function go_09_01_01() {	document.location.href="/bbs/list";}
+// 여행 상담 //
+function go_05_01_01() {	document.location.href="/bbs/list";}

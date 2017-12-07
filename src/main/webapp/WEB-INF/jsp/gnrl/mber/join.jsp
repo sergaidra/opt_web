@@ -138,11 +138,11 @@ function validation() {
 		alert("개인정보취급방침에 동의해주세요.");
 		return false;
 	}
-	if($.trim($("#user_id").val()) == "") {
-		alert("아이디를 입력해주세요.");
-		$("#user_id").focus();
-		return false;
-	}
+	//if($.trim($("#user_id").val()) == "") {
+	//	alert("아이디를 입력해주세요.");
+	//	$("#user_id").focus();
+	//	return false;
+	//}
 	if($.trim($("#password").val()) == "") {
 		alert("비밀번호를 입력해주세요.");
 		$("#password").focus();
@@ -192,10 +192,10 @@ function validation() {
 		return false;
 	}
 	
-	if(isUserIdDup == false) {
-		alert("아이디 중복 확인해주세요.");
-		return false;
-	}
+	//if(isUserIdDup == false) {
+	//	alert("아이디 중복 확인해주세요.");
+	//	return false;
+	//}
 }
 </script>
 </head>
@@ -384,12 +384,20 @@ function validation() {
   <div id="join_w_box">
     <table cellpadding="0" cellspacing="0" class="join_w">
       <tbody>
-        <tr>
+        <!-- <tr>
           <th>아이디 </th>
           <td class="line"><input id="user_id" name="user_id" type="text" class="w_30p pc_view" value=""  />
-          	<!--모바일 --> <input id="muser_id" name="user_id" type="text" class="w_100p mobile_view"  value=""  />
+          	<input id="muser_id" name="user_id" type="text" class="w_100p mobile_view"  value=""  />
             &nbsp;
             <div class="btnst"><a href="javascript:useridchk();" id="btnUserIdChk">아이디 중복 확인</a></div></td>
+        </tr> -->
+        <tr>
+          <th>이메일</th>
+          <td class="line"><input id="email" name="email" type="text" class="w_30p pc_view" value=""   />
+          <!--모바일 --> <input id="memail" name="email" type="text" class="w_100p mobile_view"  value=""   />
+            &nbsp;&nbsp;&nbsp;
+            <input type="checkbox" id="email_recptn_at" name="email_recptn_at" id="checkbox" value="Y"/>
+            이벤트 및 새로운 소식 수신 </td>
         </tr>
         <tr>
           <th>비밀번호</th>
@@ -424,14 +432,6 @@ function validation() {
             &nbsp;
             <div class="btnst2"><a href="#">인증번호 확인</a></div></td>
         </tr> -->
-        <tr>
-          <th>이메일</th>
-          <td class="line"><input id="email" name="email" type="text" class="w_30p pc_view" value=""   />
-          <!--모바일 --> <input id="memail" name="email" type="text" class="w_100p mobile_view"  value=""   />
-            &nbsp;&nbsp;&nbsp;
-            <input type="checkbox" id="email_recptn_at" name="email_recptn_at" id="checkbox" value="Y"/>
-            이벤트 및 새로운 소식 수신 </td>
-        </tr>
         <!-- 
         <tr>
           <th height="25">우편번호 </th>

@@ -26,14 +26,25 @@ import kr.co.siione.utl.egov.EgovProperties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Service;
 
+@Service
+@PropertySource("classpath:property/globals.properties")
 public class MailManager {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MailManager.class);
 
-	private String id = EgovProperties.getProperty("mail.smtp.auth.id");
-	private String passWd = EgovProperties.getProperty("mail.smtp.auth.passwd");
-	private String fromEmail = EgovProperties.getProperty("mail.from.email");
-	private String fromName = EgovProperties.getProperty("mail.from.name");
+	@Value("#{globals['mail.smtp.auth.id']}") private String id;
+	@Value("#{globals['mail.smtp.auth.passwd']}") private String passWd;
+	@Value("#{globals['mail.from.email']}") private String fromEmail;
+	@Value("#{globals['mail.from.name']}") private String fromName;
+
+	@Value("#{globals['mail.transport.protocol']}") private String protocol;
+	@Value("#{globals['mail.smtp.starttls.enable']}") private String enable;
+	@Value("#{globals['mail.smtp.host']}") private String host;
+	@Value("#{globals['mail.smtp.auth']}") private String auth;
+	@Value("#{globals['mail.smtp.port']}") private String port;
 
 	/**
 	 * 메일발송
@@ -43,16 +54,16 @@ public class MailManager {
 	 * @param attachMap : 발신자 정보 이미지 정보를 가지고 온다.
 	 * @return
 	 */
-	public boolean sendMail(String subject, String content, String to, Map<String, Object> attachMap){
+	public boolean sendMail(String subject, String content, String to, Map<String, Object> attachMap) throws Exception{
 		boolean result = false;
 		boolean debug = false;
 		
 		Properties props = new Properties();
-		props.put("mail.transport.protocol", EgovProperties.getProperty("mail.transport.protocol"));
-		props.put("mail.smtp.starttls.enable", EgovProperties.getProperty("mail.smtp.starttls.enable"));
-		props.put("mail.smtp.host", EgovProperties.getProperty("mail.smtp.host"));
-		props.put("mail.smtp.auth", EgovProperties.getProperty("mail.smtp.auth"));
-		props.put("mail.smtp.port", EgovProperties.getProperty("mail.smtp.port"));
+		props.put("mail.transport.protocol", protocol);
+		props.put("mail.smtp.starttls.enable", enable);
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.auth", auth);
+		props.put("mail.smtp.port", port);
 		
 		//ssl 적용
 		//props.put("mail.smtp.socketFactory.port", EgovProperties.getProperty("mail.smtp.socketFactory.port"));
@@ -116,14 +127,17 @@ public class MailManager {
 			LOGGER.error(ae.getMessage(), ae, ae.getStackTrace());
 			result = false;
 			ae.printStackTrace();
+			throw ae;
 		}catch (MessagingException me) {
 			LOGGER.error(me.getMessage(), me, me.getStackTrace());
 			result = false;
 			me.printStackTrace();
+			throw me;
 		} catch (UnsupportedEncodingException uee) {
 			LOGGER.error(uee.getMessage(), uee, uee.getStackTrace());
 			result = false;
 			uee.printStackTrace();
+			throw uee;
 		}
 
 		return result;

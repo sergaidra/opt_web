@@ -21,7 +21,7 @@ $(function(){
 		
 		var frm = $("#frmSearch");
 		frm.attr("action", "<c:url value='/goods/list'/>");
-		frm.attr("method", "post");
+		frm.attr("method", "get");
 		frm.find("input[name='keyword']").val($.trim($("#txtKeyword").val()));
 		frm.submit();
 	});
@@ -31,7 +31,7 @@ function fnDetail(goods_code, category) {
 	var form = $("form[id=frmList]");
 	form.find("input:hidden[id=hidGoodsCode]").val(goods_code);
 	form.find("input:hidden[id=category]").val(category);
-	form.attr({"method":"post","action":"<c:url value='/goods/detail'/>"});
+	form.attr({"method":"get","action":"<c:url value='/goods/detail'/>"});
 	form.submit();		
 }
 </script>
@@ -51,6 +51,7 @@ function fnDetail(goods_code, category) {
 </form>
 
 <article id="main">
+  <div class="main_f">
   <div class="main_v">
     <div class="tx1"><em>세부패키지 여행</em>, 고민하지말고 떠나세요</div>
     <div class="tx2">Details package tour is <em>OnePassTour</em></div>
@@ -81,8 +82,8 @@ function fnDetail(goods_code, category) {
 	        <li class="swiper-slide"><img src="<c:url value='/file/getMainImage/'/>?image_sn=${list.IMAGE_SN}" alt=""> </li>
       	</c:forEach>
       </ul>
-      <!-- <div class="swiper-pagination"></div> -->
     </div>
+  </div>
   </div>
   <!-- // 모바일 노출 --> 
     <div class="main_icon">
@@ -147,7 +148,7 @@ function fnDetail(goods_code, category) {
 		        <img src="/images/main/main_b0${status.index + 1}.jpg"  alt=""/>
       		</c:if>
       		<c:if test="${list.GOODS_CODE != null}">
-      			<img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" onclick="fnDetail('${list.GOODS_CODE}', 'H');"/>
+      			<a href="javascript:fnDetail('${list.GOODS_CODE}', 'H');"><img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" /></a>
       		</c:if>
       		</div>
       	</c:forEach>
@@ -159,7 +160,7 @@ function fnDetail(goods_code, category) {
 		        <img src="/images/main/main_b0${status.index + 1}.jpg"  alt=""/>
       		</c:if>
       		<c:if test="${list.GOODS_CODE != null}">
-      			<img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" onclick="fnDetail('${list.GOODS_CODE}', 'H');"/>
+      			<a href="javascript:fnDetail('${list.GOODS_CODE}', 'H');"><img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" /></a>
       		</c:if>
       		</div>
       	</c:forEach>
@@ -182,8 +183,9 @@ function fnDetail(goods_code, category) {
 	              <div class="swiper-slide"> 
 	              <!---->
 	              <div class="sw_out">
+	                  <a href="javascript:fnDetail('${list.GOODS_CODE}', 'S');">
 	                  <div class="sw_box">
-	                    <div class="img" style="background: url(<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}); background-size: cover; height: 344px" onclick="fnDetail('${list.GOODS_CODE}', 'S');">
+	                    <div class="img" style="background: url(<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}); background-size: cover; height: 344px">
 							<!-- <img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" onclick="fnDetail('${list.GOODS_CODE}', 'S');"/> -->
 	                      <div class="um">
 	                        <div class="tx1">HIT</div>
@@ -194,10 +196,11 @@ function fnDetail(goods_code, category) {
 	                      <div class="title">${list.GOODS_NM }</div>
 	                      <div class="price">
 	                        <div class="tr_tx1"><!-- ￦ 900,000 --></div>
-	                        <div class="tr_tx2">￦ 1,000,000</div>
+	                        <div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
 	                      </div>
 	                    </div>
 	                  </div>
+	                  </a>
 	                </div>
 	                <!---->
 	              </div>
@@ -275,11 +278,11 @@ function fnDetail(goods_code, category) {
         <div class="in01 fl">
           <div class="title">${reco[0].GOODS_NM}</div>
           <div class="text">${reco[0].GOODS_INTRCN_SIMPL}</div>
-          <div class="more" onclick="fnDetail('${reco[0].GOODS_CODE}', 'R');">자세히보기 + </div>
+          <a href="javascript:fnDetail('${reco[0].GOODS_CODE}', 'R');"><div class="more" >자세히보기 + </div></a>
         </div>
         <c:set var="url1" value="/images/main/main_d_01.jpg"/>
        	<c:if test="${reco[0].GOODS_CODE != null}">
-       		<c:set var="url1" value="<c:url value='/file/getImage/'/>?file_code=${reco[0].FILE_CODE}&file_sn=${reco[0].FILE_SN}"/>
+       		<c:set var="url1" value="/file/getImage/?file_code=${reco[0].FILE_CODE}&file_sn=${reco[0].FILE_SN}"/>
         </c:if>
         <div class="in02 fr" style="background: url(<c:out value="${url1}"/>); ">
           <div class="icon"></div>
@@ -289,11 +292,11 @@ function fnDetail(goods_code, category) {
         <div class="in01 fl">
           <div class="title">${reco[1].GOODS_NM}</div>
           <div class="text">${reco[1].GOODS_INTRCN_SIMPL}</div>
-          <div class="more" onclick="fnDetail('${reco[1].GOODS_CODE}', 'R');">자세히보기 + </div>
+          <a href="javascript:fnDetail('${reco[1].GOODS_CODE}', 'R');"><div class="more" >자세히보기 + </div></a>
         </div>
         <c:set var="url2" value="/images/main/main_d_02.jpg"/>
        	<c:if test="${reco[1].GOODS_CODE != null}">
-       		<c:set var="url2" value="<c:url value='/file/getImage/'/>?file_code=${reco[1].FILE_CODE}&file_sn=${reco[1].FILE_SN}"/>
+       		<c:set var="url2" value="/file/getImage/?file_code=${reco[1].FILE_CODE}&file_sn=${reco[1].FILE_SN}"/>
         </c:if>
         <div class="in02 fr" style="background: url(<c:out value="${url2}"/>); ">
           <div class="icon"></div>
@@ -302,31 +305,29 @@ function fnDetail(goods_code, category) {
       <div class="cont_box">
         <c:set var="url3" value="/images/main/main_d_03.jpg"/>
        	<c:if test="${reco[2].GOODS_CODE != null}">
-       		<c:set var="url3" value="<c:url value='/file/getImage/'/>?file_code=${reco[2].FILE_CODE}&file_sn=${reco[2].FILE_SN}"/>
+       		<c:set var="url3" value="/file/getImage/?file_code=${reco[2].FILE_CODE}&file_sn=${reco[2].FILE_SN}"/>
         </c:if>
         <div class="in03 fl" style="background: url(<c:out value="${url3}"/>); ">
           <div class="icon"></div>
         </div>
         <div class="in04 fr">
-          <div class="title">옵션투어</div>
-          <div class="text">기획특가! 샹그릴라 호핑투어+<br>
-            마사지+아얄라나이트투어 3박4일 </div>
-          <div class="more">자세히보기 + </div>
+          <div class="title">${reco[2].GOODS_NM}</div>
+          <div class="text">${reco[2].GOODS_INTRCN_SIMPL}</div>
+          <a href="javascript:fnDetail('${reco[2].GOODS_CODE}', 'R');"><div class="more">자세히보기 + </div></a>
         </div>
       </div>
       <div class="cont_box">
         <c:set var="url4" value="/images/main/main_d_04.jpg"/>
        	<c:if test="${reco[3].GOODS_CODE != null}">
-       		<c:set var="url4" value="<c:url value='/file/getImage/'/>?file_code=${reco[3].FILE_CODE}&file_sn=${reco[3].FILE_SN}"/>
+       		<c:set var="url4" value="/file/getImage/?file_code=${reco[3].FILE_CODE}&file_sn=${reco[3].FILE_SN}"/>
         </c:if>
         <div class="in03 fl" style="background: url(<c:out value="${url4}"/>); ">
           <div class="icon"></div>
         </div>
         <div class="in04 fr">
-          <div class="title">옵션투어</div>
-          <div class="text">기획특가! 샹그릴라 호핑투어+<br>
-            마사지+아얄라나이트투어 3박4일 </div>
-          <div class="more">자세히보기 + </div>
+          <div class="title">${reco[3].GOODS_NM}</div>
+          <div class="text">${reco[3].GOODS_INTRCN_SIMPL}</div>
+          <a href="javascript:fnDetail('${reco[3].GOODS_CODE}', 'R');"><div class="more">자세히보기 + </div></a>
         </div>
       </div>
     </div>
@@ -340,15 +341,15 @@ function fnDetail(goods_code, category) {
           <div class="tx1">라이브뷰 <em>홍보방</em></div>
           <div class="tx2">라이브 뷰 홍보방에 대한 간단한 소개가 들어가는 공간입니다.</div>
         </div>
-        <div class="more">+</div>
+        <a href="javascript:go_07_05_01();"><div class="more">+</div></a>
       </div>
       <div class="cont_box">
         <ul>
-        	<c:forEach var="list" items="${video}">
-	          <li>
-	            <div class="img"><img src="/images/main/ex1.jpg"  alt=""/></div>
-	            <div class="tx1">라이브뷰 제목이 들어가는공간</div>
-	            <div class="tx2">라이브뷰 제목이 들어가는공간</div>
+        	<c:forEach var="item" items="${video}">
+	          <li><a href="javascript:go_07_05_01();">
+	            <div class="img"><img src="<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}&file_sn=${item.FILE_SN}"  alt=""/></div>
+	            <div class="tx1">${item.GOODS_NM}</div>
+	            <div class="tx2">라이브뷰 제목이 들어가는공간</div></a>
 	          </li>
         	</c:forEach>
         </ul>

@@ -74,7 +74,7 @@ $(function(){
 
 	<!-- //팝업 -->
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
 		$(document).on("scroll",function(){
 			if($(document).scrollTop()>50){ 
 				$("header").removeClass("large").addClass("small");
@@ -83,7 +83,8 @@ $(function(){
 				$("header").removeClass("small").addClass("large");
 				}
 			});
-</script>
+			
+</script>-->
 <script>
 $(document).ready(function(){
 	  $(".quick_st1").click(function(){

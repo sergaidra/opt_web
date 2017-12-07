@@ -73,9 +73,9 @@
           <div class="btn"><a href="<c:url value='/member/join'/>">회원가입</a></div>
         </div>
         <div class="find">
-          <div class="text1">아이디/비밀번호를 분실하셨나요? </div>
+          <div class="text1">비밀번호를 분실하셨나요? </div>
           
-          <div class="btn"><a href="#">아이디/비밀번호</a></div>
+          <div class="btn"><a href="<c:url value='/member/idpw'/>">비밀번호 찾기</a></div>
         </div>
       </div>
       <div class="login_div2">
