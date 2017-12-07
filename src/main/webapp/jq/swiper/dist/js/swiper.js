@@ -24,7 +24,7 @@
         var defaults = {
             direction: 'horizontal',
             touchEventsTarget: 'container',
-            initialSlide: 0,
+            initialSlide: 20,
             speed: 300,
             // autoplay
             autoplay: false,

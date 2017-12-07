@@ -41,7 +41,7 @@
 <div class="comf" id="head_home_m">
 	<div class="inner">
 		<div class="left_icon"><a class="side-left-pushy-button"><i class="material-icons" >&#xE5D2;</i></a></div>
-		<div class="toplogo_m"> <a href = "../../../jsp/gnrl/main/index.jsp" ></a></div>
+		<div class="toplogo_m"> <a href = "<c:url value='/' />" ></a></div>
 		<div class="right_icon mobile_view"><a class="side-right-pushy-button"><i class="material-icons">&#xE916;</i></a></div>
 		<div class="menu"> 
 			<!---탑메뉴-->
