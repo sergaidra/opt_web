@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8" language="java" import="java.sql.*" errorPage="" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-<!------------------------- 탑메뉴-->
+<!-- 탑메뉴-->
 <ul id="demo-list" >
   <li ><a href="javascript:go_01_01_01();" >셀프여행</a></li>
 <!-- 해당활성화 메뉴   <li  class="active"> -->
@@ -12,7 +12,7 @@
     <ul class="submenu">
 		<li><a href="javascript:go_07_01_01();">여행후기</a> </li>
       <li><a href="javascript:go_07_02_01();">FAQ</a> </li>
-	  <li><a href="javascript:go_07_03_01();">Q&A</a> </li>
+	  <li><a href="javascript:go_07_03_01();">Q&amp;A</a> </li>
 	  <li><a href="javascript:go_07_04_01();">공지사항</a> </li>
 	  <li><a href="javascript:go_07_05_01();">라이브뷰 홍보</a> </li>
       <li><a href="javascript:go_07_06_01();">이용약관</a> </li>

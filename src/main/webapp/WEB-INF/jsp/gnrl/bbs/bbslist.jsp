@@ -167,7 +167,7 @@ function search(pageNo) {
 	   <div class="sp_50 pc_view"></div>
 	 <div class="sp_20 mobile_view"></div>
   <div class="inner2"><div class="comf">
-	   <div class="com_stitle">여행상담&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">※ 해당 게시판은 비밀로 작성됩니다.</span></div>
+	   <div class="com_stitle">여행상담&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">※ 해당 게시판은 비공개로 작성됩니다.</span></div>
         <div class="review_list_box">
           <table width="100%" class="review_list"  id="tblList">
             <col width="8%" />

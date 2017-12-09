@@ -86,15 +86,15 @@ $(function(){
 </script>-->
 <script>
 $(document).ready(function(){
-	  $(".quick_st1").click(function(){
-        $(".quick_st1").hide();
-		$(".quick_st2").show();
+//	  $(".quick_st1").click(function(){
+//        $(".quick_st1").hide();
+//		$(".quick_st2").show();
 		
-    });
-    $(".quick_st2").click(function(){
-         $(".quick_st1").show();
-		$(".quick_st2").hide();
-    });
+//    });
+//    $(".quick_st2").click(function(){
+//         $(".quick_st1").show();
+//		$(".quick_st2").hide();
+//    });
 	
 });
 
