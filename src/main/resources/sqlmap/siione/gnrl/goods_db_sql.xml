@@ -282,7 +282,7 @@
 	<![CDATA[	
         SELECT GOODS_CODE
              , GOODS_NM
-             , REPLACE(REPLACE(REPLACE(GOODS_INTRCN,CHR(10),'<BR>'),CHR(13),' '), '  ', '&nbsp;&nbsp;') GOODS_INTRCN
+             , REPLACE(REPLACE(REPLACE(GOODS_INTRCN,CHR(10),'<BR>'),CHR(13),' '), '  ', CHR(38)||'nbsp;'||CHR(38)||'nbsp;') GOODS_INTRCN
              , DELETE_AT
              , FILE_CODE
              , WRITNG_ID

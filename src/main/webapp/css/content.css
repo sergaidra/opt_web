@@ -960,7 +960,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .good_detail .fl_left .text_info .fr_tx .tx_line .fr_intx{ width:80%; float:left; font-size: 14px; color: #666; line-height: 180%}
 .good_detail .fl_left .text_info .fr_tx .tx_noline{ width:100%; float:left; padding:10px 0px; border-bottom:none}
 .good_detail .fl_left .text_info .fr_tx .tx_noline .fl_intx{ width:20%; float:left; font-size: 14px; color: #222}
-.good_detail .fl_left .text_info .fr_tx .tx_noline .fr_intx{ width:80%; float:left; font-size: 13px; color: #666;  line-height: 180%}
+.good_detail .fl_left .text_info .fr_tx .tx_noline .fr_intx{ width:80%; float:left; font-size: 14px; color: #666;  line-height: 180%}
 	
 .good_detail .fl_left .text_info2{ width: 100%;float:left; box-sizing: border-box; padding: 30px 40px; border-bottom: 1px solid #ddd}
 .good_detail .fl_left .text_info2 .fl_tx{ width: 100%; float:left; font-size: 20px; color: #ff6600; margin-bottom: 15px }

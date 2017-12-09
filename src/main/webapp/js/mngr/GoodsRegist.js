@@ -162,7 +162,27 @@ var comboFixedAt = new Ext.create('Ext.form.ComboBox', {
 	triggerAction: 'all',
 	lazyRender: true,
 	editable: false,
-	emptyText: '선택'
+	emptyText: '선택',
+	listeners: {
+		change : function(combo, newValue, oldValue, eOpts ) {
+			var sm = gridNmpr.getSelectionModel();
+			if(newValue == 'Y') {
+				//console.log('newValue:'+newValue+'/oldValue:'+oldValue);
+				sm.getSelection()[0].set('SETUP_RATE', '');
+				cellEditing3.startEditByPosition({row: selGridNmprIdx, column: 3});
+			} else {
+				if(sm.getSelection()[0].get('SETUP_SE') == 'P') {
+					//sm.getSelection()[0].set('SETUP_AMOUNT', '');
+					cellEditing3.startEditByPosition({row: selGridNmprIdx, column: 4});
+				} else {
+					alert( '범위인원수는 단가(인원)만 설정 가능합니다.');
+					//Ext.Msg.alert('확인', '비율계산은 체크인/아웃만 설정 가능합니다.', function(){
+						combo.setValue(oldValue);
+					//});
+				}
+			}
+		}
+	}	
 });
 
 var comboBeginTime = new Ext.create('Ext.form.ComboBox', {
