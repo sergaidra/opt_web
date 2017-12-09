@@ -1,5 +1,7 @@
 package kr.co.siione.gnrl.cmmn.web;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +37,83 @@ public class FlightController {
 
 	@Resource
 	private FlightService flightService;
+	
+	@Resource
+	private ArprtManageService arprtManageService;
 
 	private static final Logger LOG = LoggerFactory.getLogger(FlightController.class);
+	
+    @RequestMapping(value="/popupFlight")
+    public String popupFlight(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		try {
+	    	HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+			if(!esntl_id.isEmpty()){
+				HashMap map = new HashMap();
+		    	map.put("esntl_id", esntl_id);
+		    	
+		    	HashMap result = flightService.selectLastFlight(map);
+		    	
+		    	if(result != null) {
+		    		if(result.get("DTRMC_START_DT") != null) {
+		    			String [] dt = String.valueOf(result.get("DTRMC_START_DT")).split("[\\- ]");
+		    			if(dt.length == 4) {
+		    				result.put("DTRMC_START_YEAR", dt[0]);
+		    				result.put("DTRMC_START_MONTH", dt[1]);
+		    				result.put("DTRMC_START_DAY", dt[2]);
+		    				result.put("DTRMC_START_TIME", dt[3]);
+		    			}
+		    		}
+		    		if(result.get("DTRMC_ARVL_DT") != null) {
+		    			String [] dt = String.valueOf(result.get("DTRMC_ARVL_DT")).split("[\\- ]");
+		    			if(dt.length == 4) {
+		    				result.put("DTRMC_ARVL_YEAR", dt[0]);
+		    				result.put("DTRMC_ARVL_MONTH", dt[1]);
+		    				result.put("DTRMC_ARVL_DAY", dt[2]);
+		    				result.put("DTRMC_ARVL_TIME", dt[3]);
+		    			}
+		    		}
+		    		if(result.get("HMCMG_START_DT") != null) {
+		    			String [] dt = String.valueOf(result.get("HMCMG_START_DT")).split("[\\- ]");
+		    			if(dt.length == 4) {
+		    				result.put("HMCMG_START_YEAR", dt[0]);
+		    				result.put("HMCMG_START_MONTH", dt[1]);
+		    				result.put("HMCMG_START_DAY", dt[2]);
+		    				result.put("HMCMG_START_TIME", dt[3]);
+		    			}
+		    		}
+		    		if(result.get("HMCMG_ARVL_DT") != null) {
+		    			String [] dt = String.valueOf(result.get("HMCMG_ARVL_DT")).split("[\\- ]");
+		    			if(dt.length == 4) {
+		    				result.put("HMCMG_ARVL_YEAR", dt[0]);
+		    				result.put("HMCMG_ARVL_MONTH", dt[1]);
+		    				result.put("HMCMG_ARVL_DAY", dt[2]);
+		    				result.put("HMCMG_ARVL_TIME", dt[3]);
+		    			}
+		    		}
+		    	}
+		    	
+	    		model.addAttribute("result", result);
+			}
+			
+    		HashMap map2 = new HashMap();
+    		map2.put("USE_AT", "Y");
+    		List<Map<String, String>> lstFlight = arprtManageService.selectArprtList(map2);
+    		List<Integer> lstYear = new ArrayList();
+    		int todayYear = Calendar.getInstance().get(Calendar.YEAR);
+    		for(int i = 0; i < 5; i++)
+    			lstYear.add(todayYear + i);
+    		
+    		model.addAttribute("lstFlight", lstFlight);
+    		model.addAttribute("lstYear", lstYear);
+
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "gnrl/popup/flight";	
+    }	
 
     @RequestMapping(value="/getCurrentFlight")
     public @ResponseBody ResponseVo getCurrentFlight(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
@@ -105,6 +182,36 @@ public class FlightController {
 	    	flightService.insertFlight(map);
 
 	    	resVo.setData(map.get("flight_sn"));
+
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;    	
+    }
+    
+    @RequestMapping(value="/initFlight")
+    public @ResponseBody ResponseVo initFlight(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+	    	HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+
+			HashMap map = new HashMap();
+	    	map.put("esntl_id", esntl_id);
+
+	    	flightService.initFlight(map);
 
 			resVo.setResult("0");			
 		} catch(Exception e) {

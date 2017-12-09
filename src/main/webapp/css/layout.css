@@ -10,7 +10,7 @@
 
 
 /* 초기화 */
-html {overflow-y:scroll}
+html {overflow-y:scroll; overflow-x: hidden}
 body {margin:0;padding:0;font-family:'Nanum Square', 'Nanum Gothic', 'Malgun Gothic','Noto Sans Korean', 'Noto Sans KR',"NanumBarunGothic", nbg, dotum, sans-serif;}
 html, h1, h2, h3, h4, h5, h6, form, fieldset, img {margin:0;padding:0;border:0}
 h1, h2, h3, h4, h5, h6 {font-size:1em}

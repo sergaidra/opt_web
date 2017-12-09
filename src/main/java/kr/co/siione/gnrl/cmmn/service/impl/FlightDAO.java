@@ -10,6 +10,10 @@ import kr.co.siione.utl.egov.EgovComAbstractDAO;
 @Repository
 public class FlightDAO extends EgovComAbstractDAO {
 
+    public HashMap selectLastFlight(HashMap map) throws Exception {
+        return (HashMap)selectByPk("gnrl.cmmn.selectLastFlight", map);
+    }
+	
     public List selectCurrentFlight(HashMap map) throws Exception {
         return list("gnrl.cmmn.selectCurrentFlight", map);
     }
@@ -25,5 +29,10 @@ public class FlightDAO extends EgovComAbstractDAO {
     public void updateFlight(HashMap map) throws Exception {
         update("gnrl.cmmn.updateFlight", map);
     }
+    
+    public void initFlight(HashMap map) throws Exception {
+        update("gnrl.cmmn.initFlight", map);
+    }   
+    
 
 }

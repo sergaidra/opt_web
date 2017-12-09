@@ -61,7 +61,7 @@
 				<div class="name">로그인 해주세요!</div>
 				<div class="info_btn"> 
 					<a href="javascript:go_login();" class="info">로그인</a>
-					<a href="#javascript:go_join();" class="logout">회원가입</a>
+					<a href="javascript:go_join();" class="logout">회원가입</a>
 				</div>
 			</div>
 			</c:if>
@@ -94,12 +94,13 @@ $("#leftside-navigation .sub-menu > a").click(function(e) {
 	<c:if test="${user_id != null}">
         <div class="side-right-pushy-button quick_st1 pc_view" ><i class="material-icons">&#xE314;</i></div>
       <!--오른쪽 예약정보-->
-      <nav id="sideRightPushy" class="pushy pushy-right pushy_450">
+      <nav id="sideRightPushy" class="pushy pushy-right pushy_450 pushy_over">
     <div class="side-right-pushy-button quick_st2" style="display: none" ><i class="material-icons">&#xE5CD;</i></div>
     <div class="mobile_close  mobile_view"><a class="side-right-pushy-button"><i class="material-icons" >&#xE5CD;</i></a></div>
     <div class="ri_box">
 		<div class="title">예약정보
-        	<div class="reset">초기화</div>
+        	<div id="divAirReset" class="reset" style="display:none; cursor:pointer;" onclick="flightInit();">초기화</div>
+        	<div id="divAirUpdate" class="reset" style="display:none; cursor:pointer;" onclick="flightView();">수정</div>
 		</div>
 <script language="javascript" type="text/javascript">
 function switch_product_img(divName, totalImgs) {
@@ -110,8 +111,136 @@ function switch_product_img(divName, totalImgs) {
 			showObj.style.display = 'block';
 		else
 			showObj.style.display = 'none';
-		}
 	}
+	if(divName == "cont_1") {
+		$("#divAirReset").hide();
+		$("#divAirUpdate").hide();
+	} else {
+		$("#divAirReset").show();
+		$("#divAirUpdate").show();
+	}
+}
+
+function flightView() {
+	$.featherlight('/cmmn/popupFlight', {});
+}
+
+function flightInit() {
+	var url = "<c:url value='/cmmn/initFlight'/>";
+
+	if(!confirm("항공편 정보를 초기화하겠습니까?"))
+		return;
+	
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( {} ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+				alert("초기화하였습니다.");
+				getMyFlightInfo();
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				go_login();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
+
+function getMyFlightInfo() {
+	var url = "<c:url value='/cmmn/getCurrentFlight'/>";
+
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( {} ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+				$("#tblFlightInfo tbody").empty();
+				var html = ""; 
+				for(var cnt = 0; cnt < data.data.length; cnt++) {
+					var item = data.data[cnt];
+					html += "<tr><td rowspan='2'>출국</td><td>" + nvl(item.DTRMC_START_ARPRT_NM) + " &rarr; " + nvl(item.DTRMC_ARVL_ARPRT_NM) + "</td></tr>";
+					html += "<tr><td>[출발] " + nvl(item.DTRMC_START_DT) + "<br>[도착] " + nvl(item.DTRMC_ARVL_DT) + "<br></td></tr>";
+					html += "<tr><td rowspan='2'>입국</td><td>" + nvl(item.HMCMG_START_ARPRT_NM) + " &rarr; " + nvl(item.HMCMG_ARVL_ARPRT_NM) + "</td></tr>";
+					html += "<tr><td>[출발] " + nvl(item.HMCMG_START_DT) + "<br>[도착] " + nvl(item.HMCMG_ARVL_DT) + "<br></td></tr>";
+				}
+				$("#tblFlightInfo tbody").append(html);
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				go_login();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});				
+}
+
+function getMySchedule() {
+	var url = "<c:url value='/main/getMySchedule'/>";
+
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( {} ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+				$("#tblMyScheduleInfo tbody").empty();
+				console.log(data.data);
+				var html = ""; 
+				for(var cnt = 0; cnt < data.data.length; cnt++) {
+					var item = data.data[cnt];
+					for(var cnt2 = 0; cnt2 < item.list.length; cnt2++) {
+						html += "<tr>";
+						
+						if(cnt2 == 0) {
+							html += "<td rowspan='" + item.list.length + "'>" + item.day + "</td>";
+						} else {
+							html += "<td>" + nvl(item.list[cnt2].time) + "</td><td>" + nvl(item.list[cnt2].text) + "</td>";
+						} 
+						
+						html += "</tr>";
+					}
+				}
+				$("#tblMyScheduleInfo tbody").append(html);
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				go_login();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});				
+}
+
+getMySchedule();
+getMyFlightInfo();
 </script>
 
 		<div id="cont_1" >
@@ -124,28 +253,11 @@ function switch_product_img(divName, totalImgs) {
 			</div>
 			<div class="ri_tb">
 				<div class="tb_01_box_s">
-					<table class="tb_01">
+					<table class="tb_01" id="tblMyScheduleInfo">
 						<col width="22%">
 						<col width="30%">
 						<col width="">
 						<tbody>
-						<tr>
-							<td rowspan="4">2017-07-07(금)</td>
-							<td>07:30 ~ 09:00</td>
-							<td>아침에는 커피한잔</td>
-						</tr>
-						<tr>
-							<td>10:00 ~ 14:30</td>
-							<td>보름성 데이투어</td>
-						</tr>
-						<tr>
-							<td>07:30 ~ 09:00</td>
-							<td>중식은 한인 식장에서</td>
-						</tr>
-						<tr>
-							<td>10:00 ~ 14:30</td>
-							<td>저녁은 간단하게</td>
-						</tr>
 						</tbody>
 					</table>
 				</div>
@@ -162,26 +274,10 @@ function switch_product_img(divName, totalImgs) {
 			</div>
 			<div class="ri_tb">
 				<div class="tb_01_box_s">
-					<table class="tb_01">
+					<table class="tb_01" id="tblFlightInfo">
 						<col width="20%">
 						<col width="">
 						<tbody>
-						<tr>
-							<td rowspan="2">출국</td>
-							<td>대한항공(인천) &rarr; (로마)</td>
-						</tr>
-						<tr>
-							<td>        [출발] 2017-09-24 13:30 
-								[도착]  2017-09-24 13:30<br></td>
-						</tr>
-						<tr>
-							<td rowspan="2">입국</td>
-							<td>대한항공(밀라노) &rarr; (로마)</td>
-						</tr>
-						<tr>
-							<td>        [출발] 2017-09-24 13:30 
-								[도착]  2017-09-24 13:30<br></td>
-						</tr>
 						</tbody>
 					</table>
 				</div>
@@ -234,3 +330,4 @@ function switch_product_img(divName, totalImgs) {
       <!-- //left: 푸시영역 --> 
       
     </header>
+    

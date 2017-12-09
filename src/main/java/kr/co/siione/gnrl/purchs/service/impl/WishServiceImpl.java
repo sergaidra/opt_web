@@ -16,6 +16,10 @@ public class WishServiceImpl implements WishService {
 	@Resource(name = "wishDAO")
 	private WishDAO wishDAO;
 
+	public int GoodsWishCount(HashMap map) throws Exception {
+		return wishDAO.GoodsWishCount(map);
+	}
+
 	public int getWishListCount(HashMap map) throws Exception {
 		return wishDAO.getWishListCount(map);
 	}

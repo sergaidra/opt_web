@@ -6,12 +6,24 @@
     height: 100%;
     top: 0;
     z-index: 999999999999999999999999999 ;
-    background: #f4f4f4;
+    background: #eee;
     font-size: 0.9em;
     font-weight: bold;
     -webkit-overflow-scrolling: touch; /* enables momentum scrolling in iOS overflow elements */
 	
 }
+
+
+/**** pc ****/
+@media only all and (min-width:421px) {
+.pushy_450{  width: 450px ;}
+}
+/**** 모바일 ****/
+@media only all and (max-width:420px) {
+.pushy_450{  width:100% ;}
+}
+
+
 .pushy_over{overflow-y: auto
 	
 }
@@ -26,7 +38,6 @@
 }
 
 .pushy a:hover{
-    background: #00b4ff;
     color: #FFF;
 }
 
@@ -62,11 +73,11 @@
 
 .pushy-right{
     right:0px;
-    -webkit-transform: translate3d(250px,0,0);
-    -moz-transform: translate3d(250px,0,0);
-    -ms-transform: translate3d(250px,0,0);
-    -o-transform: translate3d(250px,0,0);
-    transform: translate3d(250px,0,0);
+    -webkit-transform: translate3d(450px,0,0);
+    -moz-transform: translate3d(450px,0,0);
+    -ms-transform: translate3d(450px,0,0);
+    -o-transform: translate3d(450px,0,0);
+    transform: translate3d(450px,0,0);   
 }
 
 .pushy-right-open{
@@ -80,11 +91,11 @@
 
 
 .container-right-push{
-    -webkit-transform: translate3d(-250px,0,0);
-    -moz-transform: translate3d(-250px,0,0);
-    -ms-transform: translate3d(-250px,0,0);
-    -o-transform: translate3d(-250px,0,0);
-    transform: translate3d(-250px,0,0);
+    -webkit-transform: translate3d(-450px,0,0);
+    -moz-transform: translate3d(-450px,0,0);
+    -ms-transform: translate3d(-450px,0,0);
+    -o-transform: translate3d(-450px,0,0);
+    transform: translate3d(-450px,0,0);
 }
 
 .pushy-top{

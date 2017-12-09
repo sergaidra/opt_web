@@ -60,15 +60,15 @@
 		});
 
 		$(".login").click(function(){
-			$(location).attr('href', "<c:url value='/member/login/'/>");
+			go_login();
 		});
 
 		$(".logout").click(function(){
-			$(location).attr('href', "<c:url value='/member/logoutAction/'/>");
+			go_logout();
 		});
 
 		$(".cart").click(function(){
-			$(location).attr('href', "<c:url value='/cart/list/'/>");
+			go_cartpage();
 		});
 
 		$(".regi").click(function(){

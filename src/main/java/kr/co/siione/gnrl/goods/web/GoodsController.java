@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import kr.co.siione.gnrl.cmmn.service.FileService;
 import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.goods.service.GoodsService;
+import kr.co.siione.gnrl.purchs.service.WishService;
 import kr.co.siione.mngr.service.ArprtManageService;
 import kr.co.siione.mngr.service.CtyManageService;
 import kr.co.siione.utl.UserUtils;
@@ -43,7 +44,10 @@ public class GoodsController {
 	
 	@Resource
 	private ArprtManageService arprtManageService;
-    
+
+	@Resource
+    private WishService wishService;
+
     @RequestMapping(value="/category")
     public String category(HttpServletRequest request, HttpServletResponse response, ModelMap model, @RequestParam HashMap param) throws Exception {
     	String category = UserUtils.nvl(param.get("category"));
@@ -83,18 +87,37 @@ public class GoodsController {
         	if("".equals(keyword)) {
         		String hidUpperClCodeNavi = UserUtils.nvl(param.get("hidUpperClCodeNavi"));  // 선택한 여러개의 분류
         		String[] clArr = hidUpperClCodeNavi.split("@");
-
-        		// 상위 분류목록
-               	List<String> clList = new ArrayList<String>();
-        		for(String str:clArr){
-        			if(!str.isEmpty()) clList.add(str);
-        		}
-        		HashMap mapT = new HashMap();
-        		mapT.put("cl_code_arr", clList);
-            	System.out.println("[상위 분류목록]map:"+mapT);
-            	List<HashMap> upperTourClList = goodsService.getUpperTourClMain(mapT);
+            	String goodskind = UserUtils.nvl(param.get("goodskind"));
+            	
+            	if(!"".equals(goodskind)) {
+                	List<HashMap> upperTourClList = new ArrayList();
+            		if("H".equals(goodskind)) {
+            			category = "H";
+            			HashMap mapGoods = new HashMap();
+            			mapGoods.put("CL_NM", "핫딜여행");
+            			mapGoods.put("CL_CODE", "H");
+            			upperTourClList.add(mapGoods);
+            		} else if("R".equals(goodskind)) {
+            			category = "R";
+            			HashMap mapGoods = new HashMap();
+            			mapGoods.put("CL_NM", "추천여행");
+            			mapGoods.put("CL_CODE", "R");
+            			upperTourClList.add(mapGoods);
+            		}
+                	model.addAttribute("upperTourClList", upperTourClList);
+            	} else {
+            		// 상위 분류목록
+                   	List<String> clList = new ArrayList<String>();
+            		for(String str:clArr){
+            			if(!str.isEmpty()) clList.add(str);
+            		}
+            		HashMap mapT = new HashMap();
+            		mapT.put("cl_code_arr", clList);
+                	System.out.println("[상위 분류목록]map:"+mapT);
+                	List<HashMap> upperTourClList = goodsService.getUpperTourClMain(mapT);
+                	model.addAttribute("upperTourClList", upperTourClList);
+            	}
         		
-            	model.addAttribute("upperTourClList", upperTourClList);
             	model.addAttribute("totalsearch", "N");
             	model.addAttribute("keyword", "");
         	} else {
@@ -122,8 +145,12 @@ public class GoodsController {
     public @ResponseBody Map getClInfo(@RequestBody HashMap param) throws Exception {
       	HashMap map = new HashMap();
     	String hidUpperClCode = UserUtils.nvl(param.get("hidUpperClCode"));  // 선택한 여러개의 분류
-    	// 상세 분류목록
-    	map.put("upper_cl_code", hidUpperClCode);  
+    	if("H".equals(hidUpperClCode) || "R".equals(hidUpperClCode)) {	// 핫딜이나 추천일때
+    	
+    	} else {
+        	// 상세 분류목록
+        	map.put("upper_cl_code", hidUpperClCode);  
+    	}
     	System.out.println("[상세 분류목록]map:"+map);
     	List<HashMap> tourClList = goodsService.getUpperTourClMain(map);
     	
@@ -199,7 +226,8 @@ public class GoodsController {
         	HashMap review = goodsService.getReviewScore(map);
         	String ceil_review_score = String.valueOf(review.get("CEIL_REVIEW_SCORE"));
         	String review_count = String.valueOf(review.get("REVIEW_COUNT"));    
-        	String review_score = String.valueOf(review.get("REVIEW_SCORE"));        	
+        	String review_score = String.valueOf(review.get("REVIEW_SCORE"));      
+        	int wish_count = wishService.GoodsWishCount(map);
 
         	List<HashMap> lstNmpr = null;
         	List<HashMap> lstRoom = null;
@@ -213,9 +241,12 @@ public class GoodsController {
         		lstEat = goodsService.getGoodsNmprBySetupSeList(map);
         		map.put("setup_se", "C"); // 체크인/아웃
         		lstCheck = goodsService.getGoodsNmprBySetupSeList(map);
+        		map.put("setup_se", "P"); // 가격/단가(필수) > 숙박 외
+        		lstNmpr = goodsService.getGoodsNmprBySetupSeList(map);
         		model.addAttribute("lstRoom", lstRoom);
         		model.addAttribute("lstEat", lstEat);
         		model.addAttribute("lstCheck", lstCheck);
+        		model.addAttribute("lstNmpr", lstNmpr);
         	} else {
         		map.put("setup_se", "P"); // 가격/단가(필수) > 숙박 외
         		lstNmpr = goodsService.getGoodsNmprBySetupSeList(map);
@@ -287,6 +318,7 @@ public class GoodsController {
             model.addAttribute("review_score", review_score);
             model.addAttribute("review_count", review_count); 
             model.addAttribute("ceil_review_score", ceil_review_score);
+            model.addAttribute("wish_count", wish_count);
             model.addAttribute("result", result);
             model.addAttribute("lstSchdul", lstSchdul);
             model.addAttribute("lstTime", lstTime);

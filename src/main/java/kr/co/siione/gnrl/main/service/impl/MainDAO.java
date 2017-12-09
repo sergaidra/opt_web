@@ -13,4 +13,9 @@ public class MainDAO extends EgovComAbstractDAO {
 	public List selectMainImageList() throws Exception {
 		return list("gnrl.main.selectMainImageList");
 	}
+	
+	public List getMySchedule(HashMap map) throws Exception {
+		return list("gnrl.main.getMySchedule", map);
+	}
+	
 }

@@ -36,6 +36,8 @@
 		<pattern>/html/*</pattern>
 		
 		<pattern>/cart/list2*</pattern>
+
+		<pattern>/*/popup*</pattern>
 		
 	</excludes>
 </decorators>

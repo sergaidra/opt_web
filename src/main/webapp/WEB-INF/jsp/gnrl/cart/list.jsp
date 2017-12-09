@@ -26,9 +26,16 @@ function delCartSingle(cart_sn) {
 
 function delCartAll() {
 	var lst = [];
-	$("input[name='chkCart']:checked").each(function() {
-		lst.push($(this).val());
-	});
+	if($(".cart_list_box").is(":visible")) {
+		$("input[name='chkCart_m']:checked").each(function() {
+			lst.push($(this).val());
+		});
+	} else {
+		$("input[name='chkCart']:checked").each(function() {
+			lst.push($(this).val());
+		});
+	}
+	
 	if(lst.length == 0) {
 		alert("삭제 건이 없습니다.");
 		return false;
@@ -58,7 +65,7 @@ function delCart(cart_sn) {
 				document.location.reload();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -75,10 +82,19 @@ function paymentCart() {
 	var url = "<c:url value='/purchs/addAction'/>";
 	var lst = [];
 	var totalAmount = 0;
-	$("input[name='chkCart']:checked").each(function() {
-		lst.push( {"cart_sn" : $(this).val() } );
-		totalAmount += Number($(this).parent().find("input[name='purchs_amount']").val());
-	});
+
+	if($(".cart_list_box").is(":visible")) {
+		$("input[name='chkCart_m']:checked").each(function() {
+			lst.push( {"cart_sn" : $(this).val() } );
+			totalAmount += Number($(this).parent().find("input[name='purchs_amount']").val());
+		});
+	} else {
+		$("input[name='chkCart']:checked").each(function() {
+			lst.push( {"cart_sn" : $(this).val() } );
+			totalAmount += Number($(this).parent().find("input[name='purchs_amount']").val());
+		});
+	}
+
 	if(lst.length == 0) {
 		alert("선택 건이 없습니다.");
 		return false;
@@ -107,7 +123,7 @@ function paymentCart() {
 				document.location.reload();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -122,9 +138,15 @@ function paymentCart() {
 
 function addWish() {
 	var lst = [];
-	$("input[name='chkCart']:checked").each(function() {
-		lst.push($(this).parent().find("input[name='goods_code']").val());
-	});
+	if($(".cart_list_box").is(":visible")) {
+		$("input[name='chkCart_m']:checked").each(function() {
+			lst.push($(this).parent().find("input[name='goods_code']").val());
+		});
+	} else {
+		$("input[name='chkCart']:checked").each(function() {
+			lst.push($(this).parent().find("input[name='goods_code']").val());
+		});
+	}
 	if(lst.length == 0) {
 		alert("찜하기 건이 없습니다.");
 		return false;
@@ -150,7 +172,7 @@ function addWish() {
 				alert("찜하였습니다.");
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -278,8 +300,8 @@ function addWish() {
     </table>
 	  <!--모바일-->
 	  <c:forEach var="result" items="${cartList}" varStatus="status">
-	  <div class="cart_list_box">
-	  	<div class="img"><div class="cart_img" style="background: url((<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}); background-size: cover; "></div></div>
+	  <div class="cart_list_box" style="height:130px;">
+	  	<div class="img"><div class="cart_img" style="background: url('<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}'); background-size: cover; "></div></div>
 	  	<div class="title">${result.GOODS_NM}
 				<c:if test="${!empty result.TOUR_DE}">
 					${fn:substring(result.TOUR_DE,0,4)}년 ${fn:substring(result.TOUR_DE,4,6)}월 ${fn:substring(result.TOUR_DE,6,8)}일
@@ -299,9 +321,12 @@ function addWish() {
 					</c:forEach>
 				</c:if>					
 	  	</div>
-	  	<div class="sale"><fmt:formatNumber value="${result.ORIGIN_AMOUNT - result.PURCHS_AMOUNT}" pattern="#,###" />원</div>
-	    <div class="total"><em><fmt:formatNumber value="${result.PURCHS_AMOUNT}" pattern="#,###" /></em>원</div>
+	  	<div class="op"></div>
+	  	<div class="um"></div>
+	  	<div class="sale">할인 <fmt:formatNumber value="${result.ORIGIN_AMOUNT - result.PURCHS_AMOUNT}" pattern="#,###" />원</div>
+	    <div class="total" style="top:90px;">구매예정가 <em><fmt:formatNumber value="${result.PURCHS_AMOUNT}" pattern="#,###" /></em>원</div>
 	  	<div class="del"> <a href="javascript:delCartSingle('${result.CART_SN}');" class="sbtn_01">삭제</a></div>
+	  	<div style="position:absolute; right:5px; top:30px;"><input type="checkbox" name="chkCart_m" value="${result.CART_SN}" /><input type="hidden" name="purchs_amount" value="${result.PURCHS_AMOUNT}"><input type="hidden" name="goods_code" value="${result.GOODS_CODE}"></div>	  	
 	  </div>	  
 	  </c:forEach>
 	<!--//모바일-->    

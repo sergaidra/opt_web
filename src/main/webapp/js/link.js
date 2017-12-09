@@ -25,10 +25,10 @@ function go_01_01_01() {
 // 핫여행 ///
 function go_02_01_01() {
 	var frm = $("<form></form>");
-	$(frm).attr("action", "/goods/category");
+	$(frm).attr("action", "/goods/list");
 	$(frm).attr("method", "get");
 	
-	var item = $("<input type='hidden' name='category' value='H'>");
+	var item = $("<input type='hidden' name='goodskind' value='H'>");
 	$(frm).append(item);
 	$(document.body).append(frm);
 	$(frm).submit();
@@ -37,10 +37,10 @@ function go_02_01_01() {
 // 추천여행 ///
 function go_03_01_01() {
 	var frm = $("<form></form>");
-	$(frm).attr("action", "/goods/category");
+	$(frm).attr("action", "/goods/list");
 	$(frm).attr("method", "get");
 	
-	var item = $("<input type='hidden' name='category' value='R'>");
+	var item = $("<input type='hidden' name='goodskind' value='R'>");
 	$(frm).append(item);
 	$(document.body).append(frm);
 	$(frm).submit();

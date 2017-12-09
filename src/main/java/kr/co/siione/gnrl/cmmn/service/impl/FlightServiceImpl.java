@@ -16,6 +16,10 @@ public class FlightServiceImpl implements FlightService {
 	@Resource(name = "flightDAO")
 	private FlightDAO flightDAO;
 
+	public HashMap selectLastFlight(HashMap map) throws Exception {
+		return flightDAO.selectLastFlight(map);
+	}
+	
     public List selectCurrentFlight(HashMap map) throws Exception {
     	return flightDAO.selectCurrentFlight(map);
     }
@@ -28,5 +32,9 @@ public class FlightServiceImpl implements FlightService {
     		map.put("flight_sn", flight_sn);
     		flightDAO.insertFlight(map);
     	}
+    }
+    
+    public void initFlight(HashMap map) throws Exception {
+    	flightDAO.initFlight(map);
     }
 }

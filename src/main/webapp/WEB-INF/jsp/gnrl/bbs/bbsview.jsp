@@ -71,10 +71,10 @@ function write() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("저장되었습니다.");
-				go_09_01_01();
+				go_05_01_01();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -107,10 +107,10 @@ function deleteBbs() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("삭제되었습니다.");
-				go_09_01_01();
+				go_05_01_01();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -167,10 +167,10 @@ function modifyaction() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("수정되었습니다.");
-				go_09_01_01();
+				go_05_01_01();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -212,7 +212,7 @@ function writeComment() {
 				document.location.reload();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -248,7 +248,7 @@ function deleteComment(comment_sn) {
 				document.location.reload();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -299,10 +299,10 @@ function writeanswer() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("저장되었습니다.");
-				go_09_01_01();
+				go_05_01_01();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{

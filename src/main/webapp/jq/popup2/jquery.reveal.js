@@ -27,6 +27,7 @@
 		e.preventDefault();
 		var modalLocation = $(this).attr('data-reveal-id');
 		$('#'+modalLocation).reveal($(this).data());
+		console.log($(this).data());
 	});
 		
 

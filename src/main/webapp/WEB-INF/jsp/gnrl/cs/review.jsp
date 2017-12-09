@@ -41,7 +41,7 @@
                        <tr>
                 <td >7604</td>
                 <td ><span class="proimg"><img src="../../../images/main/main_d_04.jpg"  alt=""/></span></td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 <img src="../_img/bbs/icon_new.gif" width="19" height="9" /> </td>
+                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳<img src="../../../images/com/icon_new.gif" width="19" height="9" /> </td>
                 <td ><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i></td>
                 <td >1555</td>
                 <td  class="end" >2014/10/27 13:16 </td>
@@ -95,7 +95,7 @@
                        <tr>
                 <td ><div class="proimg"><img src="../../../images/main/main_d_04.jpg"  alt=""/></div><br>2014/10/27 13:16 <br>
                   
-                  [7604]상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 <img src="../_img/bbs/icon_new.gif" width="19" height="9" /><br>
+                  [7604]상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳<img src="../../../images/com/icon_new.gif" width="19" height="9" /><br>
                   <div class="star_icon2"> <i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i></div></td>
               </tr> 
               <tr>
@@ -110,14 +110,14 @@
 				 <tr>
                 <td ><div class="proimg"><img src="../../../images/main/main_d_04.jpg"  alt=""/></div><br>2014/10/27 13:16 <br>
                   
-                  [7604]상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 <img src="../_img/bbs/icon_new.gif" width="19" height="9" /><br>
+                  [7604]상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳<img src="../../../images/com/icon_new.gif" width="19" height="9" /><br>
                   <div class="star_icon2"> <i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i></div></td>
               </tr> 
 
 				 <tr>
                 <td ><div class="proimg"><img src="../../../images/main/main_d_04.jpg"  alt=""/></div><br>2014/10/27 13:16 <br>
                   
-                  [7604]상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 <img src="../_img/bbs/icon_new.gif" width="19" height="9" /><br>
+                  [7604]상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳<img src="../../../images/com/icon_new.gif" width="19" height="9" /><br>
                   <div class="star_icon2"> <i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i></div></td>
               </tr> 
             

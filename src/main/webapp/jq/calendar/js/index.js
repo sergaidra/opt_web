@@ -15,7 +15,7 @@
 	function userSelect(e,main,month,year){
 		
 		var sel1 = _id('sel1'),
-				sel2 = _id('sel2');
+			sel2 = _id('sel2');
 		
 		var isDisabled = _hasClass(e, 'disabled');
 			
@@ -33,6 +33,9 @@
 			//_id('sel1text').innerHTML = e.innerText + '-' + month + '-' + year;
 			_id('sel1text').innerHTML = year + '-' + lpad(month.toString(), 2, "0") + '-' + lpad(e.innerText, 2, "0");
 			selectDt.startDt = year + '-' + lpad(month.toString(), 2, "0") + '-' + lpad(e.innerText, 2, "0");
+			selectDt.startYear = year;
+			selectDt.startMonth = month;
+			selectDt.startDay = e.innerText;
 		}
 		
 		// second doesnt exist
@@ -51,24 +54,39 @@
 					i=0,
 					s1i=0,
 					s2i=999;
+				
+			var isExistSel1 = false;
+			var isExistSel2 = false;
+			var isStartSel1 = false;
+			_for(td, function(e){
+				if(e.id == 'sel1') {
+					isExistSel1 = true;
+				}
+			});
+			
+			if(isExistSel1 == false)
+				isStartSel1 = true;
 			
 			_for(td, function(e){
-				i++;
-				
-				if( e.id == 'sel1' ) { go=1; s1i = i; }
-				if( e.id == 'sel2' ) { stop=1; s2i = i; }
-				
-				if( s1i < s2i && go ){
-					if(go){ e.classList.add('range'); }
-					// temp
-					if( _id('out2') === null ) { $('#out1').after('<i id="out2"></i>'); }
-					//_id('out2').innerHTML = '<br>Selected 2: ' + e.innerText + '/' + month + '/' + year;
-					//_id('sel2text').innerHTML = e.innerText + '-' + month + '-' + year;
-					_id('sel2text').innerHTML = year + '-' + lpad(month.toString(), 2, "0") + '-' + lpad(e.innerText, 2, "0");
-					selectDt.endDt = year + '-' + lpad(month.toString(), 2, "0") + '-' + lpad(e.innerText, 2, "0");
+				if(isExistSel2 == false) {
+					if(!e.classList.contains('disabled')) {
+						if( e.id == 'sel2') {
+							_id('sel2text').innerHTML = year + '-' + lpad(month.toString(), 2, "0") + '-' + lpad(e.innerText, 2, "0");
+							selectDt.endDt = year + '-' + lpad(month.toString(), 2, "0") + '-' + lpad(e.innerText, 2, "0");
+							selectDt.endYear = year;
+							selectDt.endMonth = month;
+							selectDt.endDay = e.innerText;
+							isExistSel2 = true;
+						} else if (e.id == 'sel1'){
+							isStartSel1 = true;
+						} else {
+							if(isStartSel1) {
+								e.classList.add('range');
+							}
+						}
+					}
 				}
-				if(stop){ go=0; }
-				
+			
 			})			
 			
 			
@@ -78,9 +96,16 @@
 		else {
 			var td = e.parentNode.parentNode.querySelectorAll('td');
 			_for(td, function(e){ e.classList.remove('range','disabled'); });
+			_for(td, function(e){ 
+				if(e.classList.contains('stop')) {
+					e.classList.add("disabled");
+				}
+			});
 			
-			sel1.removeAttribute('class');
-			sel1.removeAttribute('id');
+			if(sel1 != null) {
+				sel1.removeAttribute('class');
+				sel1.removeAttribute('id');
+			}
 			if(sel2 !== null){
 				sel2.removeAttribute('class');
 				sel2.removeAttribute('id');
@@ -173,7 +198,7 @@
 			//console.clear();
 			//console.log(m);
 			str += '<table class=daytb>';
-			str += '<thead><tr><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td><td>Sun</td></tr></thead><tbody>';
+			str += '<thead><tr><td>월</td><td>화</td><td>수</td><td>목</td><td>금</td><td>토</td><td>일</td></tr></thead><tbody>';
 			for(key in days){
 				i++;
 
@@ -182,7 +207,8 @@
 				if( key < startDay || key > totalDays + startDay - 1 ) { str += '<td class="notCurMonth disabled"><i class="disabled">'+days[key]+'</i></td>'; }
 				else {
 					var isOk = false;
-					var curDt = String(year) + lpad(month, 2, "0") + lpad(days[key]+"", 2, "0");
+					var curDt = String(year) + lpad(String(month), 2, "0") + lpad(days[key]+"", 2, "0");
+					var curDt2 = String(year) + "-" + lpad(String(month), 2, "0") + "-" + lpad(days[key]+"", 2, "0");
 					var curToday = getToday();
 					for(var cnt = 0; cnt < lstSchdul.length; cnt++) {
 						if(curDt < curToday)
@@ -193,10 +219,34 @@
 							break;
 						}
 					}
-					if(isOk == true)
-						str += '<td><i>'+days[key]+'</i></td>';
-					else
-						str += '<td class="disabled"><i class="disabled">'+days[key]+'</i></td>';
+					if(isOk == true) {
+						if(selectDt.startDt != null && selectDt.endDt != null) {
+							if(curDt2 == selectDt.startDt) {
+								str += '<td class="sel1" id="sel1"><i>'+days[key]+'</i></td>';
+							} else if(curDt2 == selectDt.endDt) {
+								str += '<td class="sel2" id="sel2"><i>'+days[key]+'</i></td>';
+							} else if(curDt2 > selectDt.startDt && curDt2 < selectDt.endDt) {
+								str += '<td class="range"><i>'+days[key]+'</i></td>';
+							} else {
+								str += '<td><i>'+days[key]+'</i></td>';						
+							}
+						} else if(selectDt.startDt != null) {
+							if(curDt2 == selectDt.startDt) {
+								str += '<td class="sel1" id="sel1"><i>'+days[key]+'</i></td>';
+							} else {
+								str += '<td><i>'+days[key]+'</i></td>';						
+							}
+						} else if(selectDt.endDt != null) {
+							if(curDt2 == selectDt.endDt) {
+								str += '<td class="sel2" id="sel2"><i>'+days[key]+'</i></td>';
+							} else {
+								str += '<td><i>'+days[key]+'</i></td>';						
+							}
+						} else {
+							str += '<td><i>'+days[key]+'</i></td>';						
+						}
+					} else
+						str += '<td class="disabled stop"><i class="disabled stop">'+days[key]+'</i></td>';
 				}
 				
 				if(i === 7) { str += '</tr>'; i=0; }
@@ -231,7 +281,8 @@ var month = date.getMonth() + 1,
 		year = date.getFullYear();
 
 getMonth(month, year);
-$('#month').text( monthArr[month-1] + ' ' + year); // set month text
+//$('#month').text( monthArr[month-1] + ' ' + year); // set month text
+$('#month').text( year + "년 " + month + "월"); // set month text
 	
 function bind(month,year){
 	var tb = _id('cal');
@@ -251,7 +302,8 @@ function bind(month,year){
 		
 		$('table.daytb').remove();
 		getMonth(month,year);
-		$('#month').text( monthArr[month-1] + ' ' + year);
+		//$('#month').text( monthArr[month-1] + ' ' + year);
+		$('#month').text( year + "년 " + month + "월"); // set month text
 	})
 	
 };

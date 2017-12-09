@@ -75,7 +75,17 @@
 		</isNotEmpty>
 		<isEmpty property="cl_code">
 			<isNotEmpty property="upper_cl_code">
-		   AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = #upper_cl_code#)
+				<isEqual property="upper_cl_code" compareValue="H">
+					AND HOTDEAL_AT = 'Y'
+				</isEqual>
+				<isEqual property="upper_cl_code" compareValue="R">
+				   AND RECOMEND_AT = 'Y'
+				</isEqual>
+				<isNotEqual property="upper_cl_code" compareValue="H">
+					<isNotEqual property="upper_cl_code" compareValue="R">
+					   AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = #upper_cl_code#)
+					</isNotEqual>
+				</isNotEqual>
 			</isNotEmpty>
 		</isEmpty>
 		<isNotEmpty property="keyword">
@@ -112,7 +122,7 @@
 	]]>
 	</select>
 	
-	<select id="gnrl.goods.selectGoodsExpsrList2" resultMap="goodsDetailSub">
+	<select id="gnrl.goods.selectGoodsExpsrList2" resultClass="hashMap">
 	<![CDATA[
 		SELECT A.*
 		FROM (
@@ -135,7 +145,7 @@
 	]]>
 	</select>
 
-	<select id="gnrl.goods.selectGoodsExpsrList3" resultMap="goodsDetailSub">
+	<select id="gnrl.goods.selectGoodsExpsrList3" resultClass="hashMap">
 	<![CDATA[
 				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE, GOODS_INTRCN_SIMPL
 					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND REPRSNT_AT = 'Y' ) AS FILE_SN, RNUM
@@ -154,12 +164,13 @@
 	]]>
 	</select>
 
-	<select id="gnrl.goods.selectGoodsExpsrList4" resultMap="goodsDetailSub">
+	<select id="gnrl.goods.selectGoodsExpsrList4" resultClass="hashMap">
 	<![CDATA[
 		SELECT A.*
 		FROM (
 				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE, GOODS_INTRCN_SIMPL
 					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND LIVEVIEW_AT = 'Y' ) AS FILE_SN, RNUM
+					, G.VIDEO_URL
 				FROM (
 					SELECT GOODS_CODE, ROWNUM AS RNUM
 					FROM (		  
@@ -227,25 +238,37 @@
 			     , (SELECT TO_CHAR(NVL(MIN(X.SETUP_AMOUNT), 0), 'FM9,999,999') FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = A.GOODS_CODE) CF_MIN_AMOUNT
 			     , (SELECT NVL(MIN(X.SETUP_AMOUNT), 0) FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = A.GOODS_CODE) MIN_AMOUNT
 			     , (SELECT CASE WHEN COUNT(1) > 0 THEN 'Y' ELSE 'N' END FROM TB_BKMK WHERE ESNTL_ID = #esntl_id# AND GOODS_CODE = A.GOODS_CODE) BKMK
+			     , A.HOTDEAL_AT
+			     , A.RECOMEND_AT
 		FROM (
 			SELECT GOODS_CODE, ROWNUM AS RNUM
 			FROM (
 				SELECT B.GOODS_CODE, ROWNUM AS RNUM
 				FROM (
-					SELECT GOODS_CODE
+					SELECT GOODS_CODE, (SELECT NVL(MIN(X.SETUP_AMOUNT), 0) FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = G.GOODS_CODE)
 					FROM TB_GOODS G
 					WHERE DELETE_AT = 'N' 
 					<include refid="whereList"/>
 					<isNotEmpty property="sortOrd">
 						<isEqual property="sortOrd" compareValue="L">
-							ORDER BY MIN_AMOUNT, GOODS_NM
+							ORDER BY 2, GOODS_NM
 						</isEqual>
 						<isEqual property="sortOrd" compareValue="H">
-							ORDER BY MIN_AMOUNT DESC, GOODS_NM
+							ORDER BY 2 DESC, GOODS_NM
 						</isEqual>
 					</isNotEmpty>
 					<isEmpty property="sortOrd">
-				 	ORDER BY SORT_ORDR, GOODS_NM
+						<isEqual property="upper_cl_code" compareValue="H">
+							 	ORDER BY HOTDEAL_SORT_ORDR, GOODS_NM
+						</isEqual>
+						<isEqual property="upper_cl_code" compareValue="R">
+							 	ORDER BY RECOMEND_SORT_ORDR, GOODS_NM
+						</isEqual>
+						<isNotEqual property="upper_cl_code" compareValue="H">
+							<isNotEqual property="upper_cl_code" compareValue="R">
+							 	ORDER BY SORT_ORDR, GOODS_NM
+							</isNotEqual>
+						</isNotEqual>
 					</isEmpty>
 				) B
 			) AA

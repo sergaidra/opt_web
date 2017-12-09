@@ -19,4 +19,7 @@ public class MainServiceImpl implements MainService {
         return mainDAO.selectMainImageList();
     }
 
+    public List getMySchedule(HashMap map) throws Exception {
+    	return mainDAO.getMySchedule(map);
+    }
 }

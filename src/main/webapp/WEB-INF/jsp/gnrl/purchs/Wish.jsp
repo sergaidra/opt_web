@@ -114,7 +114,7 @@ function delWish(goods_code) {
 				search(1);
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -129,12 +129,6 @@ function delWish(goods_code) {
 }
 
 
-function nvl(obj) {
-	if(obj == null)
-		return "";
-	else
-		return obj;
-}
 function timeWithColon(x) {
 	if(x.length < 4)
 		return x;

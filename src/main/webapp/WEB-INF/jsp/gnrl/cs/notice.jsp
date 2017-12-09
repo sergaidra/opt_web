@@ -56,7 +56,7 @@
             <tbody>
               <tr  onclick="location.href='notice_view.jsp';" style="cursor:pointer;" >
                 <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
+                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 <img src="/images/com/icon_new.gif" width="19" height="9" /></td>
                 <td >1555</td>
                 <td >2014/10/27 13:16 </td>
               </tr>
@@ -137,7 +137,7 @@
               <tr>
                
                 <td class="left"><em>no.604 [ 2014/10/27 13:16]</em><br>
-상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 <img src="../_img/bbs/icon_new.gif" width="19" height="9" /></td>
+상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳<img src="/images/com/icon_new.gif" width="19" height="9" /></td>
                 <td ><div class="listin_btn1">답변완료</div ></td>
               </tr>
              

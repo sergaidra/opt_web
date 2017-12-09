@@ -9,7 +9,11 @@ import kr.co.siione.utl.egov.EgovComAbstractDAO;
 
 @Repository
 public class WishDAO extends EgovComAbstractDAO {
-	
+
+	public int GoodsWishCount(HashMap map) throws Exception {
+		return (Integer)selectByPk("gnrl.wish.GoodsWishCount", map);
+	}
+
 	public int checkWish(HashMap map) throws Exception {
 		return (Integer)selectByPk("gnrl.wish.checkWish", map);
 	}

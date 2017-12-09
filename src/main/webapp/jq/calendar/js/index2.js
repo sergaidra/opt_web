@@ -115,7 +115,7 @@
 			//console.clear();
 			//console.log(m);
 			str += '<table class=daytb>';
-			str += '<thead><tr><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td><td>Sun</td></tr></thead><tbody>';
+			str += '<thead><tr><td>월</td><td>화</td><td>수</td><td>목</td><td>금</td><td>토</td><td>일</td></tr></thead><tbody>';
 			for(key in days){
 				i++;
 
@@ -124,7 +124,7 @@
 				if( key < startDay || key > totalDays + startDay - 1 ) { str += '<td class="notCurMonth disabled"><i class="disabled">'+days[key]+'</i></td>'; }
 				else { 
 					var isOk = false;
-					var curDt = String(year) + lpad(month, 2, "0") + lpad(days[key]+"", 2, "0");
+					var curDt = String(year) + lpad(String(month), 2, "0") + lpad(days[key]+"", 2, "0");
 					var curToday = getToday();
 					for(var cnt = 0; cnt < lstSchdul.length; cnt++) {
 						if(curDt < curToday)
@@ -173,7 +173,8 @@ var month = date.getMonth() + 1,
 		year = date.getFullYear();
 
 getMonth(month, year);
-$('#month').text( monthArr[month-1] + ' ' + year); // set month text
+//$('#month').text( monthArr[month-1] + ' ' + year); // set month text
+$('#month').text( year + "년 " + month + "월"); // set month text
 	
 function bind(month,year){
 	var tb = _id('cal');
@@ -193,7 +194,8 @@ function bind(month,year){
 		
 		$('table.daytb').remove();
 		getMonth(month,year);
-		$('#month').text( monthArr[month-1] + ' ' + year);
+		//$('#month').text( monthArr[month-1] + ' ' + year);
+		$('#month').text( year + "년 " + month + "월"); // set month text
 	})
 	
 };

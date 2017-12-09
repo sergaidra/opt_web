@@ -47,7 +47,7 @@ function write() {
 				go_09_01_01();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -83,7 +83,7 @@ function deleteBbs() {
 				go_09_01_01();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -142,7 +142,7 @@ function modifyaction() {
 				go_09_01_01();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{

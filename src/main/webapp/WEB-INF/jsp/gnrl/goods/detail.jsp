@@ -59,15 +59,15 @@ $(document).ready(function(){
 });
 
 var lstNmpr = [];
-var roomInfo = { "days" : 0, "room" : null, "eat" : [], "check" : []};
+var roomInfo = { "days" : 0, "room" : null, "eat" : [], "check" : [], "nmpr" : []};
 var selectDt = { "startDt" : null, "endDt" : null };
 var lstSchdul = [];
-var flight_sn = "";
+var detail_flight_sn = "";
 
 <c:forEach var="list" items="${lstSchdul}">
 	lstSchdul.push({"BEGIN_DE" : "${list.BEGIN_DE}", "END_DE" : "${list.END_DE}" });
 </c:forEach>
-
+console.log(lstSchdul);
 
 
 $(function() {
@@ -114,6 +114,12 @@ $(function() {
 				var item = { "setup_se" : roomInfo.check[cnt].setup_se, "nmpr_sn" : roomInfo.check[cnt].nmpr_sn, "nmpr_co" : "1", "amount" : roomInfo.check[cnt].price };
 				nmprList.push(item);
 			}
+			for(var cnt = 0; cnt < roomInfo.nmpr.length; cnt++) {
+				purchs_amount += roomInfo.nmpr[cnt].price;
+				origin_amount += roomInfo.nmpr[cnt].originPrice;
+				var item = { "setup_se" : roomInfo.nmpr[cnt].setup_se, "nmpr_sn" : roomInfo.nmpr[cnt].nmpr_sn, "nmpr_co" : roomInfo.nmpr[cnt].nmpr_cnt, "amount" : roomInfo.nmpr[cnt].price };
+				nmprList.push(item);
+			}
 			chkin_de = selectDt.startDt;
 			chckt_de = selectDt.endDt;
 		} else {
@@ -126,11 +132,11 @@ $(function() {
 				return;				
 			}
 			// to do
-			if($('#hidClSe').val() == 'P' && flight_sn == "") {
+			if($('#hidClSe').val() == 'P' && detail_flight_sn == "") {
 				if(confirm('픽업/드랍 서비스는 항공편을 반드시 입력해야 합니다.')) {
-					getFlight();
+					flightView();
 				}
-				return false;
+				return;
 			}
 			if(lstNmpr.length == 0) {
 				alert('인원을 선택하세요.');
@@ -157,9 +163,12 @@ $(function() {
 		param.TOUR_TIME = tour_time;
 		param.CHKIN_DE = chkin_de;
 		param.CHCKT_DE = chckt_de;
-		param.flight_sn = flight_sn;
+		param.flight_sn = detail_flight_sn;
 		param.nmprList = nmprList;
 
+		if(!confirm("예약하겠습니까?"))
+			return;
+		
 		$.ajax({
 	        url : url,
 	        type: "post",
@@ -176,7 +185,7 @@ $(function() {
 					}
 				} else if(data.result == "-2") {
 					alert("로그인이 필요합니다.");
-					$(".login").click();
+					go_login();
 				} else if(data.result == "9") {
 					alert(data.message);
 				} else{
@@ -223,7 +232,7 @@ $(function() {
 		$("#cmbNmpr").val("");
 		displayNmpr();
 	});
-	
+
 	$("#cmbRoom").change(function () {
 		if($("#cmbRoom option:selected").val() == "") {
 			removeRoom();
@@ -324,6 +333,44 @@ $(function() {
 		}
 	});
 	
+	$("#cmbNmpr_S").change(function () {
+		if($("#cmbNmpr_S option:selected").val() == "") {
+			//removeEat();
+		} else {
+			if(roomInfo.days == 0) {
+				alert("기간을 선택하세요.");
+				$("#cmbNmpr_S").val("");
+				return false;
+		}
+		if(roomInfo.room == null) {
+			alert("객실을 선택하세요.");
+			$("#cmbNmpr_S").val("");
+			return false;
+		}
+			
+		var nmpr_sn = $("#cmbNmpr_S option:selected").attr("nmpr_sn");
+		for(var cnt = 0; cnt < roomInfo.nmpr.length; cnt++) {
+			if(roomInfo.nmpr[cnt].nmpr_sn == nmpr_sn)
+				return false;
+			}
+			var text = $("#cmbNmpr_S option:selected").text();
+			var setup_amount = $("#cmbNmpr_S option:selected").attr("setup_amount");
+			var nmpr_co = $("#cmbNmpr_S option:selected").attr("nmpr_co");
+			var setup_se = $("#cmbNmpr_S option:selected").attr("setup_se");
+			var max_nmpr_co = $("#cmbNmpr_S option:selected").attr("max_nmpr_co");
+			var dscnt_rate = $("#cmbNmpr_S option:selected").attr("dscnt_rate");
+			var unit_nm = $("#cmbNmpr_S option:selected").attr("unit_nm");
+			var fixed_at = $("#cmbNmpr_S option:selected").attr("fixed_at");
+			var nmpr_cnt = roomInfo.room.nmpr_co;
+			var item = { "text" : text, "setup_se" : setup_se, "nmpr_sn" : nmpr_sn, "setup_amount" : setup_amount
+					, "nmpr_co" : nmpr_co, "nmpr_cnt" : 1, "max_nmpr_co" : max_nmpr_co, "dscnt_rate" : dscnt_rate
+					, "fixed_at" : fixed_at, "unit_nm" : unit_nm };
+			
+			roomInfo.nmpr.push(item);		
+			displayRoom();
+		}
+	});
+	
 	goSearchReview(1);
 	goSearchOpinion(1);
 });
@@ -418,8 +465,8 @@ function displayRoom() {
 			var originPrice = roomInfo.check[cnt].setup_amount * 1;
 			
 			var html = $("<div class='um_box'></div>");
-			var fl_text = $("<div class='fl_text'></div>");
-			var fl_total = $("<div class='fl_total'><em>" + roomInfo.check[cnt].text + "</em> <em>\\ " + numberWithCommas(price) + "</em></div>");
+			var fl_text = $("<div class='fl_text'>" + roomInfo.check[cnt].text + "</div>");
+			var fl_total = $("<div class='fl_total'><em></em> <em>\\ " + numberWithCommas(price) + "</em></div>");
 			$(fl_text).append(fl_total);
 			var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeCheck(" + nmpr_sn + ");'>-</div></div>");
 
@@ -433,6 +480,31 @@ function displayRoom() {
 			totalprice += price;
 			originTotalPrice += originPrice;
 		}
+		
+		for(var cnt = 0; cnt < roomInfo.nmpr.length; cnt++) {
+			var nmpr_sn = roomInfo.nmpr[cnt].nmpr_sn;
+			var nmpr_cnt = roomInfo.nmpr[cnt].nmpr_cnt;
+			var dscnt_rate = roomInfo.nmpr[cnt].dscnt_rate;
+			var price = roomInfo.nmpr[cnt].setup_amount * roomInfo.nmpr[cnt].nmpr_cnt * dscnt_rate;
+			var originPrice = roomInfo.nmpr[cnt].setup_amount * roomInfo.nmpr[cnt].nmpr_cnt;
+
+			var html = $("<div class='um_box'></div>");
+			var fl_text = $("<div class='fl_text'>" + roomInfo.nmpr[cnt].text + "</div>");
+			var fl_total = $("<div class='fl_total'><em>" + nmpr_cnt + "</em>" + roomInfo.nmpr[cnt].unit_nm + " <em>\\ " + numberWithCommas(price) + "</em></div>");
+			$(fl_text).append(fl_total);
+			var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusNmpr_S(" + nmpr_sn + ");'>-</div><div class='um_input'><input type='text' value='" + nmpr_cnt + "' readonly></div><div class='um_d' onclick='plusNmpr_S(" + nmpr_sn + ");'>+</div></div>");
+
+			roomInfo.nmpr[cnt].price = price;
+			roomInfo.nmpr[cnt].originPrice = originPrice;
+
+			$(html).append(fl_text);
+			$(html).append(fr_updown);
+			
+			$("#purchInfo").append($(html));
+			totalprice += price;
+			originTotalPrice += originPrice;
+		}
+
 	}
 
 	$("#totalprice").text("￦ " + numberWithCommas(totalprice));
@@ -523,6 +595,33 @@ function minusEat(nmpr_sn) {
 	displayRoom();
 }
 
+function plusNmpr_S(nmpr_sn) {
+	if(!isNaN(roomInfo.room.max_nmpr_co)) {
+		var max = Number(roomInfo.room.max_nmpr_co);
+		for(var cnt = 0; cnt < roomInfo.nmpr.length; cnt++) {
+			if(roomInfo.nmpr[cnt].nmpr_sn == nmpr_sn) {
+				if(max < Number(roomInfo.nmpr[cnt].nmpr_cnt) + 1) {
+					alert("최대 " + max + "인 입니다.");
+					return false;
+				} else {
+					roomInfo.nmpr[cnt].nmpr_cnt++;
+				}
+			}
+		}
+	}
+	displayRoom();
+}
+function minusNmpr_S(nmpr_sn) {
+	for(var cnt = 0; cnt < roomInfo.nmpr.length; cnt++) {
+		if(roomInfo.nmpr[cnt].nmpr_sn == nmpr_sn) {
+			roomInfo.nmpr[cnt].nmpr_cnt--;
+			if(roomInfo.nmpr[cnt].nmpr_cnt == 0)
+				roomInfo.nmpr.splice(cnt, 1);
+		}
+	}
+	displayRoom();
+}
+
 function displayNmpr() {
 	$("#purchInfo").empty();
 	var totalprice = 0;
@@ -537,8 +636,8 @@ function displayNmpr() {
 		var originPrice = lstNmpr[cnt].nmprCnt * lstNmpr[cnt].setup_amount;
 
 		var html = $("<div class='um_box'></div>");
-		var fl_text = $("<div class='fl_text'></div>");
-		var fl_total = $("<div class='fl_total'>" + lstNmpr[cnt].text + " <em>" + lstNmpr[cnt].nmprCnt + "</em>" + lstNmpr[cnt].unit_nm + " <em>\\ " + numberWithCommas(price) + "</em></div>");
+		var fl_text = $("<div class='fl_text'>" + lstNmpr[cnt].text + "</div>");
+		var fl_total = $("<div class='fl_total'><em>" + lstNmpr[cnt].nmprCnt + "</em>" + lstNmpr[cnt].unit_nm + " <em>\\ " + numberWithCommas(price) + "</em></div>");
 		$(fl_text).append(fl_total);
 		var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusNmpr(" + nmpr_sn + ");'>-</div><div class='um_input'><input type='text' value='" + lstNmpr[cnt].nmprCnt + "' readonly></div><div class='um_d' onclick='plusNmpr(" + nmpr_sn + ");'>+</div></div>");
 		
@@ -779,7 +878,7 @@ function saveOpinion() {
 				goSearchOpinion(1);
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -878,91 +977,6 @@ function goSearchOpinion(pageNo) {
 
 }
 
-function getFlight() {
-	var url = "<c:url value='/cmmn/getCurrentFlight'/>";
-	$.ajax({
-        url : url,
-        type: "post",
-        dataType : "json",
-        async: "true",
-        contentType: "application/json; charset=utf-8",
-        data : JSON.stringify( {  } ),
-        success : function(data,status,request){
-			if(data.result == "0") {
-				if(data.data.length > 0) {
-					
-				}
-				$.featherlight($('#pa_airpopup'), {});
-				$('.featherlight .some_class').datetimepicker( {
-					format:'Y-m-d H:i',
-					inline:true,
-					step:5
-				});
-
-			} else if(data.result == "-2") {
-				alert("로그인이 필요합니다.");
-				$(".login").click();
-			} else if(data.result == "9") {
-				alert(data.message);
-			} else{
-				alert("작업을 실패하였습니다.");
-			}	        	
-        },
-        error : function(request,status,error) {
-        	alert(error);
-        },
-	});
-}
-
-function inputAir() {
-	var url = "<c:url value='/cmmn/saveFlight'/>";
-	
-	var param = {};
-	param.flight_sn = flight_sn;
-	param.dtrmc_flight = $(".featherlight #DTRMC_FLIGHT").val();
-	param.dtrmc_start_arprt_code = $(".featherlight #DTRMC_START_ARPRT_CODE").val();
-	param.dtrmc_start_cty = "";
-	param.dtrmc_start_dt = $(".featherlight #DTRMC_START_DT").val();
-	
-	param.dtrmc_arvl_arprt_code = $(".featherlight #DTRMC_ARVL_ARPRT_CODE").val();
-	param.dtrmc_arvl_cty = "";
-	param.dtrmc_arvl_dt = $(".featherlight #DTRMC_ARVL_DT").val();
-
-	param.hmcmg_flight = $(".featherlight #HMCMG_FLIGHT").val();
-	param.hmcmg_start_arprt_code = $(".featherlight #HMCMG_START_ARPRT_CODE").val();
-	param.hmcmg_start_cty = "";
-	param.hmcmg_start_dt = $(".featherlight #HMCMG_START_DT").val();
-
-	param.hmcmg_arvl_arprt_code = $(".featherlight #HMCMG_ARVL_ARPRT_CODE").val();
-	param.hmcmg_arvl_cty = "";
-	param.hmcmg_arvl_dt = $(".featherlight #HMCMG_ARVL_DT").val();
-
-	$.ajax({
-        url : url,
-        type: "post",
-        dataType : "json",
-        async: "true",
-        contentType: "application/json; charset=utf-8",
-        data : JSON.stringify(param ),
-        success : function(data,status,request){
-			if(data.result == "0") {	   
-				alert("저장되었습니다.");
-				flight_sn = data.data;
-				$.featherlight.close();
-			} else if(data.result == "-2") {
-				alert("로그인이 필요합니다.");
-				$(".login").click();
-			} else if(data.result == "9") {
-				alert(data.message);
-			} else{
-				alert("작업을 실패하였습니다.");
-			}	        	
-        },
-        error : function(request,status,error) {
-        	alert(error);
-        },
-	});	
-}
 </script>
 	
 </head>
@@ -1005,10 +1019,13 @@ function inputAir() {
           </div>
 		  <div class="hot_box">
 		  	<c:if test="${result.HOTDEAL_AT == 'Y'}">
-		  	<img src="/images/com/hot.png" width="50" height="66" alt=""/>
+		  	<img src="/images/com/hot.png" alt=""/>
+		  	</c:if>
+		  	<c:if test="${result.RECOMEND_AT == 'Y'}">
+		  	<img src="/images/com/recom.png" width="50" height="66" alt=""/>
 		  	</c:if>
 		  </div>
-			<div class="hit_box"><i class="material-icons">&#xE87E;</i><span>25</span></div>
+			<div class="hit_box"><i class="material-icons">&#xE87E;</i><span>${wish_count}</span></div>
           <div class="share_box"> <a  href="#" data-featherlight="#share"><i class="material-icons">&#xE80D;</i> </a></div>
           <div class="qa_btn"><a href="#" data-featherlight="#pa_popup2">1:1문의하기</a></div>
           <!-- Swiper -->
@@ -1123,7 +1140,7 @@ function inputAir() {
 	          </ul>
 	        </div>
 		</c:if>
-		<div class="text_info" style="font-size:14px;">
+		<div class="text_info" style="font-size:14px; line-height:180%;">
 			${result.GOODS_INTRCN}
 		</div>
         <!--바우처-->
@@ -1425,6 +1442,20 @@ function inputAir() {
 					</div>
 				</div>
 	        	</c:if>
+	        	<c:if test="${fn:length(lstNmpr) > 0}">
+				<div class="input_box">
+					<div class="tx1"></div>
+					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+						<select class="w_100p" id="cmbNmpr_S">
+							<option value=""><c:out value="${optionNm}" />선택</option>
+							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
+								<option value="${status.index}" nmpr_sn="${list.NMPR_SN}" setup_amount="${list.SETUP_AMOUNT}" nmpr_co="${list.NMPR_CO}" setup_se="${list.SETUP_SE}" adit_nmpr_amount="${list.ADIT_NMPR_AMOUNT}" dscnt_rate="${list.DSCNT_RATE}" fixed_at="${list.FIXED_AT}" max_nmpr_co="${list.MAX_NMPR_CO}" unit_nm="${list.UNIT_NM}">${list.NMPR_CND}</option>
+							</c:forEach>							
+						</select>
+						<!--//기본 셀렉트 박스 -->
+					</div>
+				</div>
+	        	</c:if>
         	</c:if>
  		</div>
 		<!--개수추가 -->
@@ -1550,96 +1581,7 @@ function inputAir() {
 </div>
 <!--팝업-->
 
-<!--팝업 : 1:1문의하기-->
-<div class="lightbox" id="pa_airpopup">
-  <div class="popup_com" style="width:900px;">
-    <div class="title">항공편 입력</div>
-    <div class="popup_cont">
-      <div class="tb_01_box">
-        <table width="100%"  class="tb_01">
-          <col width="20%">
-          <col width="40%">
-          <col width="40%">
-          <tbody>
-            <tr>
-              <th >출국정보</th><th >출발</th><th >도착</th>
-            </tr>
-            <tr>
-              <td>공항</td>
-              <td>
-              	<select id="DTRMC_START_ARPRT_CODE" name="DTRMC_START_ARPRT_CODE">
-              		<option value="">선택</option>
-              		<c:forEach var="list" items="${lstFlight}">
-	              		<option value="${list.ARPRT_CODE}">${list.ARPRT_NM}</option>
-              		</c:forEach>
-              	</select>
-              </td>
-              <td>
-              	<select id="DTRMC_ARVL_ARPRT_CODE" name="DTRMC_ARVL_ARPRT_CODE">
-              		<option value="">선택</option>
-              		<c:forEach var="list" items="${lstFlight}">
-	              		<option value="${list.ARPRT_CODE}">${list.ARPRT_NM}</option>
-              		</c:forEach>
-              	</select>
-              </td>
-            </tr>
-            <tr>
-              <td>일자</td>
-              <td><input class="some_class" id="DTRMC_START_DT" name="DTRMC_START_DT"></td>
-              <td><input class="some_class" id="DTRMC_ARVL_DT" name="DTRMC_ARVL_DT"></td>
-            </tr>
-            <tr>
-              <td>항공편명</td>
-              <td colspan="2"><input type="text"  id="DTRMC_FLIGHT" name="DTRMC_FLIGHT"></td>
-            </tr>
-          </tbody>
-        </table>
-        <table width="100%"  class="tb_01">
-          <col width="20%">
-          <col width="40%">
-          <col width="40%">
-          <tbody>
-            <tr>
-              <th >입국정보</th><th >출발</th><th >도착</th>
-            </tr>
-            <tr>
-              <td>공항</td>
-              <td>
-              	<select id="HMCMG_START_ARPRT_CODE" name="HMCMG_START_ARPRT_CODE">
-              		<option value="">선택</option>
-              		<c:forEach var="list" items="${lstFlight}">
-	              		<option value="${list.ARPRT_CODE}">${list.ARPRT_NM}</option>
-              		</c:forEach>
-              	</select>
-              </td>
-              <td>
-              	<select id="HMCMG_ARVL_ARPRT_CODE" name="HMCMG_ARVL_ARPRT_CODE">
-              		<option value="">선택</option>
-              		<c:forEach var="list" items="${lstFlight}">
-	              		<option value="${list.ARPRT_CODE}">${list.ARPRT_NM}</option>
-              		</c:forEach>
-              	</select>
-              </td>
-            </tr>
-            <tr>
-              <td>일자</td>
-              <td><input class="some_class" id="HMCMG_START_DT" name="HMCMG_START_DT"></td>
-              <td><input class="some_class" id="HMCMG_ARVL_DT" name="HMCMG_ARVL_DT"></td>
-            </tr>
-            <tr>
-              <td>항공편명</td>
-              <td colspan="2"><input type="text" id="HMCMG_FLIGHT" name="HMCMG_FLIGHT"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="popup_btn">
-      	<a href="javascript:inputAir();">저장</a>
-      </div>
-    </div>
-  </div>
-</div>
-<!--팝업-->
+
 </section>
 
 </body>

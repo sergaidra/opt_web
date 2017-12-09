@@ -182,6 +182,13 @@ function fnSearch(obj, isNext) {
 						addWish($(this).closest("li").find("input[name='goods_code']").val(), $(this));
 					});
 				}
+				if(data.list[cnt].HOTDEAL_AT == "Y") {
+					$(item).find("[name='hoticon']").show();
+				}
+				if(data.list[cnt].RECOMEND_AT == "Y") {
+					$(item).find("[name='recomicon']").show();
+				}
+
 				$(item).show();
 				ul.append(item);
 			}
@@ -232,7 +239,7 @@ function addWish(goods_code, obj) {
 				$(obj).removeClass("hit").addClass("hit_on");
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -343,7 +350,9 @@ function addWish(goods_code, obj) {
 	<li id="liItem" style="display:none; cursor:pointer;">
 		<input type="hidden" name="goods_code">
 	  <div class="inline"></div>
-	  <div class="fl_photo" style="background: url(/images/sub/ex2.png); background-size: cover;" name="imgFile"></div>
+	  <div class="fl_photo" style="background: url(/images/sub/ex2.png); background-size: cover;" name="imgFile">
+	  	  <div style="z-index:99; width:20%;"><img name="hoticon" src="/images/com/hot.png" style="width:100%; display:none;"><img name="recomicon" src="/images/com/recom.png" style="width:100%; display:none;"></div>	  
+	  </div>
 		<div class="fr_info">
 		  <div class="in">
 		    <div class="tx1"><span name="goods_nm"></span></div>

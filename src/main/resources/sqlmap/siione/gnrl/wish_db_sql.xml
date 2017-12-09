@@ -3,7 +3,11 @@
 <sqlMap namespace="gnrl">
 
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
-	
+
+	<select id="gnrl.wish.GoodsWishCount" parameterClass="hashMap" resultClass="Integer">
+		SELECT COUNT(1) FROM TB_BKMK WHERE GOODS_CODE = #goods_code#
+	</select>
+
 	<select id="gnrl.wish.checkWish" parameterClass="hashMap" resultClass="Integer">
 		SELECT COUNT(1) FROM TB_BKMK WHERE ESNTL_ID = #esntl_id# AND GOODS_CODE = #goods_code#
 	</select>

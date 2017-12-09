@@ -5,6 +5,23 @@
 <head>
 <link rel="stylesheet" href="/jq/swiper/dist/css/swiper.css">
 
+<script language="JavaScript">
+<!--
+function setCookie( name, value, expiredays ) { 
+	var todayDate = new Date(); 
+		todayDate.setDate( todayDate.getDate() + expiredays ); 
+		document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";" 
+	} 
+
+function closeWin() { 
+	if ( document.notice_form.chkbox.checked ){ 
+		setCookie( "maindiv", "done" , 1 ); 
+	} 
+	document.all['divpop'].style.visibility = "hidden";
+}
+//-->  
+</script>
+
 <script type="text/javascript">
 $(function(){
 	$("#txtKeyword").keydown(function (key) {		 
@@ -12,6 +29,22 @@ $(function(){
         	$("#imgSearch").trigger("click");
         } 
     });
+	
+	$("#txtKeyword2").keydown(function (key) {		 
+        if(key.keyCode == 13){
+        	$("#txtKeyword").val($("#txtKeyword2").val());
+        	$("#imgSearch").trigger("click");
+        } 
+    });
+	
+	$("#txtKeyword").change(function () {
+		$("#txtKeyword2").val($("#txtKeyword").val());
+	});
+
+	$("#txtKeyword2").change(function () {
+		$("#txtKeyword").val($("#txtKeyword2").val());
+	});
+
 	$("#imgSearch").click(function () {
 		if($.trim($("#txtKeyword").val()) == "") {
 			alert("검색어를 입력하세요.");
@@ -34,7 +67,25 @@ function fnDetail(goods_code, category) {
 	form.attr({"method":"get","action":"<c:url value='/goods/detail'/>"});
 	form.submit();		
 }
+
+function fnLiveView(url) {
+	$.featherlight($('#divVideoPlayer'), {});
+	var videoEl = $(".featherlight video").get(0);
+	player = videojs(videoEl, { "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": url}] });
+	//player.src({type: "video/youtube", src: "https://youtu.be/3lQnRVN2Uok"});
+	player.ready(function() {
+		player.play();
+		});
+}
 </script>
+
+<link href="/jq/video/video-js.css" rel="stylesheet">
+    
+<!-- If you'd like to support IE8 -->
+<script src="/jq/video/videojs-ie8.min.js"></script>
+
+<script src="/jq/video/video.js"></script>
+<script src="/jq/video/videojs-youtube-master/Youtube.min.js"></script>
 
 </head>
 
@@ -58,7 +109,7 @@ function fnDetail(goods_code, category) {
     <div class="msearch_box">
       <div class="icon"><img src="/images/com/search_icon.png" id="imgSearch" alt=""/></div>
       <input type="text" placeholder="가고 싶은 투어, 여행지, 액티비티 검색어를 입력하세요" id="txtKeyword" class="pc_view">
-      <input type="text" placeholder="검색어를 입력하세요" class="mobile_view" id="txtKeyword">
+      <input type="text" placeholder="검색어를 입력하세요" class="mobile_view" id="txtKeyword2">
     </div>
   </div>
 
@@ -66,7 +117,7 @@ function fnDetail(goods_code, category) {
     <div class="swiper-container">
       <ul class="swiper-wrapper">
       	<c:forEach var="list" items="${lstMainImage}">
-	        <li class="swiper-slide"><img src="<c:url value='/file/getMainImage/'/>?image_sn=${list.IMAGE_SN}" alt=""> </li>
+	        <li class="swiper-slide"><div class="swiper-slidebg1" style="background:url(<c:url value='/file/getMainImage/'/>?image_sn=${list.IMAGE_SN}); background-position:left top; background-size: cover;"></div></li>
       	</c:forEach>
       </ul>
     </div>
@@ -79,7 +130,7 @@ function fnDetail(goods_code, category) {
     <div class="swiper-container">
       <ul class="swiper-wrapper">
       	<c:forEach var="list" items="${lstMainImage}">
-	        <li class="swiper-slide"><img src="<c:url value='/file/getMainImage/'/>?image_sn=${list.IMAGE_SN}" alt=""> </li>
+	        <li class="swiper-slide"><div class="swiper-slidebg1" style="background:url(<c:url value='/file/getMainImage/'/>?image_sn=${list.IMAGE_SN}); background-position:left top; background-size: cover;"></div></li>
       	</c:forEach>
       </ul>
     </div>
@@ -176,7 +227,8 @@ function fnDetail(goods_code, category) {
       </div>
       <div class="cont_box"> <!-- Swiper --> 
         <!-- Swiper -->
-        <div id="pro_sw" class="pc_view">
+        <!-- pc -->
+        <div id="pro_sw">
           <div class="swiper-container">
             <div class="swiper-wrapper">
             	<c:forEach var="list" items="${self}" varStatus="status">
@@ -185,21 +237,23 @@ function fnDetail(goods_code, category) {
 	              <div class="sw_out">
 	                  <a href="javascript:fnDetail('${list.GOODS_CODE}', 'S');">
 	                  <div class="sw_box">
-	                    <div class="img" style="background: url(<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}); background-size: cover; height: 344px">
+	                    <div class="img">
+	                    	<div class="imgbg" style="background: url(<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN});">
 							<!-- <img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" onclick="fnDetail('${list.GOODS_CODE}', 'S');"/> -->
-	                      <div class="um">
-	                        <div class="tx1">HIT</div>
-	                        <div class="tx2">${status.index + 1 }</div>
+		                      <div class="um">
+		                        <div class="tx1">HIT</div>
+		                        <div class="tx2">${status.index + 1 }</div>
+		                      </div>
+		                    </div>
+		                </div>
+		                <div class="txt_box">
+		                  <div class="title">${list.GOODS_NM }</div>
+		                  <div class="price">
+		                    <div class="tr_tx1"><!-- ￦ 900,000 --></div>
+		                    <div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
 	                      </div>
 	                    </div>
-	                    <div class="txt_box">
-	                      <div class="title">${list.GOODS_NM }</div>
-	                      <div class="price">
-	                        <div class="tr_tx1"><!-- ￦ 900,000 --></div>
-	                        <div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
-	                      </div>
 	                    </div>
-	                  </div>
 	                  </a>
 	                </div>
 	                <!---->
@@ -208,39 +262,91 @@ function fnDetail(goods_code, category) {
             </div>
           
         
-          </div>     <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+          </div>     
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
         </div>
         
-		  
-		          <!-- Swiper -->
-        <div id="pro_sw_m" class="mobile_view">
+        <!-- 테블렛 -->
+        <div id="pro_sw_m">
           <div class="swiper-container">
             <div class="swiper-wrapper">
-            	<c:forEach var="list" items="${self}" varStatus="status">            
-              <div class="swiper-slide"> <!----><div class="sw_out">
-                  <div class="sw_box">
-                    <div class="img">
-                    	<img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" onclick="fnDetail('${list.GOODS_CODE}', 'S');"/>
-                      <div class="um">
-                        <div class="tx1">HIT</div>
-                        <div class="tx2">${status.index + 1 }</div>
-                      </div>
-                    </div>
-                    <div class="txt_box">
-                      <div class="title">${list.GOODS_NM }</div>
-                      <div class="price">
-                        <div class="tr_tx1"><!-- ￦ 900,000 --></div>
-                        <div class="tr_tx2">￦ 1,000,000</div>
-                      </div>
-                    </div>
-                  </div>
-                </div><!----></div>
-                </c:forEach>
+            	<c:forEach var="list" items="${self}" varStatus="status">
+	              <div class="swiper-slide"> 
+	              <!---->
+	              <div class="sw_out">
+	                  <a href="javascript:fnDetail('${list.GOODS_CODE}', 'S');">
+	                  <div class="sw_box">
+	                    <div class="img">
+	                    	<div class="imgbg" style="background: url(<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN});">
+							<!-- <img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" onclick="fnDetail('${list.GOODS_CODE}', 'S');"/> -->
+		                      <div class="um">
+		                        <div class="tx1">HIT</div>
+		                        <div class="tx2">${status.index + 1 }</div>
+		                      </div>
+		                    </div>
+		                </div>
+		                <div class="txt_box">
+		                  <div class="title">${list.GOODS_NM }</div>
+		                  <div class="price">
+		                    <div class="tr_tx1"><!-- ￦ 900,000 --></div>
+		                    <div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+	                      </div>
+	                    </div>
+	                    </div>
+	                  </a>
+	                </div>
+	                <!---->
+	              </div>
+            	</c:forEach>
+            </div>
+          
         
-          </div>     <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+          </div>     
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
         </div>
+
+        <!-- 모바일 -->
+        <div id="pro_sw_s">
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+            	<c:forEach var="list" items="${self}" varStatus="status">
+	              <div class="swiper-slide"> 
+	              <!---->
+	              <div class="sw_out">
+	                  <a href="javascript:fnDetail('${list.GOODS_CODE}', 'S');">
+	                  <div class="sw_box">
+	                    <div class="img">
+	                    	<div class="imgbg" style="background: url(<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN});">
+							<!-- <img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" onclick="fnDetail('${list.GOODS_CODE}', 'S');"/> -->
+		                      <div class="um">
+		                        <div class="tx1">HIT</div>
+		                        <div class="tx2">${status.index + 1 }</div>
+		                      </div>
+		                    </div>
+		                </div>
+		                <div class="txt_box">
+		                  <div class="title">${list.GOODS_NM }</div>
+		                  <div class="price">
+		                    <div class="tr_tx1"><!-- ￦ 900,000 --></div>
+		                    <div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+	                      </div>
+	                    </div>
+	                    </div>
+	                  </a>
+	                </div>
+	                <!---->
+	              </div>
+            	</c:forEach>
+            </div>
+          
+        
+          </div>     
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+
 		  
         <!-- Swiper JS --> 
         <script src="/jq/swiper/dist/js/swiper.min.js"></script> 
@@ -256,11 +362,18 @@ function fnDetail(goods_code, category) {
     });
 			 var swiper = new Swiper('#pro_sw_m .swiper-container', {
         pagination: '.swiper-pagination',
-        slidesPerView: 1,
+        slidesPerView: 2,
         paginationClickable: true,  nextButton: '.swiper-button-next',
             prevButton: '.swiper-button-prev',
         spaceBetween:0
     });
+			 var swiper = new Swiper('#pro_sw_s .swiper-container', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 1,
+        paginationClickable: true,  nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+        spaceBetween:0
+    });	 
     </script> 
       </div>
     </div>
@@ -346,7 +459,7 @@ function fnDetail(goods_code, category) {
       <div class="cont_box">
         <ul>
         	<c:forEach var="item" items="${video}">
-	          <li><a href="javascript:go_07_05_01();">
+	          <li><a href="javascript:fnLiveView('${item.VIDEO_URL}');">
 	            <div class="img"><img src="<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}&file_sn=${item.FILE_SN}"  alt=""/></div>
 	            <div class="tx1">${item.GOODS_NM}</div>
 	            <div class="tx2">라이브뷰 제목이 들어가는공간</div></a>
@@ -366,8 +479,47 @@ function fnDetail(goods_code, category) {
       </ul>
     </div>
   </div>
+  
+<!--팝업 : 1:1문의하기-->
+<div class="lightbox" id="divVideoPlayer">
+  <div class="popup_com2" style="margin-top:30px; width:100%;">
+  	<video id="video" class="video-js vjs-default-skin" controls preload="auto" width="640"></video>
+  </div>
+</div>
+<!--팝업-->
+  
 </section>
 <!-- //본문 --> 
 
+<!-- 메인 이벤트 팝업 POPUP  -->
+<div id="divpop" class="popup_st" >
+ <!-- 제목을 넣을경우<div class="popup_head">팝업제목</div>-->
+	 <div class="popup_body">여기에 내용 삽입여기에 내용 삽입<br>
+여기에 내용 삽입여기에 내용 삽입<br>
+여기에 내용 삽입여기에 내용 삽입<br>
+여기에 내용 삽입여기에 내용 삽입<br>
+여기에 내용 삽입여기에 내용 삽입<br>
+여기에 내용 삽입여기에 내용 삽입<br>
+여기에 내용 삽입여기에 내용 삽입</div>
+	 <div class="popup_bottom"><form name="notice_form">
+    <a href="javascript:closeWin();"><i class="material-icons">&#xE14C;</i></a>
+	<div class="tx">오늘 하루 이 창을 열지 않음</div>
+<div class="tx">
+      <input type="checkbox" name="chkbox" value="checkbox">
+    </div>
+		</form></div>
+	
+
+</div>  
+
+<script language="Javascript">
+cookiedata = document.cookie;    
+if ( cookiedata.indexOf("maindiv=done") < 0 ){      
+	//document.all['divpop'].style.visibility = "visible";
+	} 
+	else {
+		document.all['divpop'].style.visibility = "hidden"; 
+}
+</script>
 
 </body>

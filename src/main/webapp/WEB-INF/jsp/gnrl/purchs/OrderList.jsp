@@ -9,6 +9,7 @@
 <!-- 날짜선택 -->	
 <script src="/jq/time/build/jquery.datetimepicker.full.js"></script> 
 
+
 <script type="text/javascript">
 var DAY = 1000 * 60 * 60 * 24;
 
@@ -240,7 +241,7 @@ function saveReview() {
 				$.featherlight.close();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
@@ -276,7 +277,7 @@ function cancelPurchs(purchs_sn, cart_sn) {
 	        	document.location.reload();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
-				$(".login").click();
+				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{

@@ -100,6 +100,12 @@ $(document).ready(function(){
 
 </script>
 
+<script src="<c:url value='/js/gnrlCommon.js' />" type="text/javascript"></script>
+
+<style>
+.featherlight .featherlight-close-icon { color:#000000; }
+</style>
+
 <decorator:head />		
 </head>
 
