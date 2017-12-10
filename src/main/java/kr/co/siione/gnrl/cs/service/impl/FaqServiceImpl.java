@@ -17,4 +17,23 @@ public class FaqServiceImpl implements FaqService {
 	@Resource(name = "faqDAO")
 	private FaqDAO faqDAO;
 
+	public void insertBbs(HashMap map) throws Exception {
+		faqDAO.insertBbs(map);
+	}
+	
+	public void deleteBbs(HashMap map) throws Exception {
+		faqDAO.deleteBbs(map);
+	}
+	
+	public void updateBbs(HashMap map) throws Exception {
+		faqDAO.updateBbs(map);
+	}
+	
+	public HashMap viewBbs(HashMap map) throws Exception {
+		return faqDAO.viewBbs(map);
+	}
+	
+	public List<HashMap> selectBbsList(HashMap map) throws Exception {
+		return faqDAO.selectBbsList(map);
+	}
 }

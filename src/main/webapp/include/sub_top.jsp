@@ -12,12 +12,12 @@ $(function(){
 		if($.trim($("#txtSubtopKeyword").val()) == "") {
 			alert("검색어를 입력하세요.");
 			$("#txtSubtopKeyword").focus();
-			return false;
+			return;
 		}
 		
 		var frm = $("#frmSubtopSearch");
 		frm.attr("action", "<c:url value='/goods/list'/>");
-		frm.attr("method", "post");
+		frm.attr("method", "get");
 		frm.find("input[name='keyword']").val($.trim($("#txtSubtopKeyword").val()));
 		frm.submit();
 	});

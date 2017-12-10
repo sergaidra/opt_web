@@ -59,4 +59,84 @@ public class FaqController {
 		return "gnrl/cs/faq";
 	}
 
+    @RequestMapping(value="/getFaqList")
+    public @ResponseBody Map<String, Object> getFaqList(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
+      	HashMap map = new HashMap();
+    	Map<String, Object> mapResult = new HashMap<String, Object>();
+
+    	String subcategory = UserUtils.nvl(param.get("subcategory"));
+    	String keyword = UserUtils.nvl(param.get("keyword"));
+    	map.put("subcategory", subcategory);
+    	map.put("keyword", keyword);
+    	System.out.println("[getFaqList]map:"+map);
+    	
+    	List<HashMap> list = faqService.selectBbsList(map);   	
+
+    	mapResult.put("list", list);
+
+    	return mapResult;
+    }
+    
+    @RequestMapping(value="/viewFaq")
+    public @ResponseBody Map<String, Object> viewFaq(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
+      	HashMap map = new HashMap();
+    	Map<String, Object> mapResult = new HashMap<String, Object>();
+
+    	String bbs_sn = UserUtils.nvl(param.get("bbs_sn"));
+    	map.put("bbs_sn", bbs_sn);
+    	System.out.println("[viewFaq]map:"+map);
+    	
+    	map = faqService.viewBbs(map);	
+
+    	mapResult.put("data", map);
+
+    	return mapResult;
+    }
+
+
+	@RequestMapping(value="/saveFaq")
+	public @ResponseBody ResponseVo saveFaq(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+			HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+
+			String category = "F";
+			String subject = UserUtils.nvl(param.get("subject"));
+			String contents = UserUtils.nvl(param.get("contents"));
+			String subcategory = UserUtils.nvl(param.get("subcategory"));
+			String bbs_sn = UserUtils.nvl(param.get("bbs_sn"));
+
+			HashMap map = new HashMap();	
+			map.put("esntl_id", esntl_id);			
+			map.put("category", category);			
+			map.put("subject", subject);			
+			map.put("contents", contents);	
+			map.put("subcategory", subcategory);	
+			map.put("bbs_sn", bbs_sn);	
+
+			UserUtils.log("[saveFaq-map]", map);
+			
+			if("".equals(bbs_sn)) {
+				faqService.insertBbs(map);
+			} else {
+				faqService.updateBbs(map);
+			}
+				
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;
+	}
 }
