@@ -57,16 +57,7 @@ $(function(){
 		$("#search_end_dt").val($("#end_dt").val().replace(/[\-]/g, ""));
 		search(1);
 	});
-	
-	$(".star_icon i").click(function () {
-		$(".star_icon i").removeClass("on");
-		var myIdx = $(this).index();
-		$(".featherlight .star_icon i").each(function (index) {
-			if(index <= myIdx)
-				$(this).addClass("on");
-		});
-	});
-	
+		
 	$('.some_class').val(getToday());
 	
 	$("#btnSearch").trigger("click");
@@ -173,85 +164,7 @@ function search(pageNo) {
 }
 
 function openWriteReview(purchs_sn, cart_sn, goods_code) {
-	var url = "<c:url value='/purchs/getPurchsReview'/>";
-	$(".star_icon i").removeClass("on"); 
-	$("#review_cn").val("");
-	$("#review_purchs_sn").val(purchs_sn);
-	$("#review_cart_sn").val(cart_sn);
-	$("#review_goods_code").val(goods_code);
-	
-	var param = {};
-	param.purchs_sn = purchs_sn;
-	param.cart_sn = cart_sn;
-	
-	$.ajax({
-        url : url,
-        type: "post",
-        dataType : "json",
-        async: "true",
-        contentType: "application/json; charset=utf-8",
-        data : JSON.stringify(param ),
-        success : function(data,status,request){
-        	$("#review_cn").val(data.REVIEW_CN);
-   		   	if(typeof data.REVIEW_SCORE != "undefined") {
-   		   		$(".star_icon i").each(function (index) {
-   		   			if(index <= data.REVIEW_SCORE)
-   		   				$(this).addClass("on");
-   		   		});
-   		   	}
-        	$.featherlight($('#review_popup'), {});
-        },
-        error : function(request,status,error) {
-        	alert(error);
-        },
-	});			
-}
-
-function saveReview() {
-	if($.trim($(".featherlight #review_cn").val()) == "") {
-		alert("내용을 입력해주세요.");
-		$(".featherlight #review_cn").focus();
-		return false;
-	}
-	if($(".featherlight .star_icon").find(".on").length == 0) {
-		alert("점수를 선택해주세요.");
-		return false;
-	}
-	
-	var url = "<c:url value='/purchs/savePurchsReview'/>";
-	
-	var param = {};
-	param.purchs_sn = $(".featherlight #review_purchs_sn").val();
-	param.cart_sn = $(".featherlight #review_cart_sn").val();
-	param.review_cn = $(".featherlight #review_cn").val();
-	param.review_score = $(".featherlight .star_icon").find(".on").length;
-	param.goods_code = $(".featherlight #review_goods_code").val();
-	
-	$.ajax({
-        url : url,
-        type: "post",
-        dataType : "json",
-        async: "true",
-        contentType: "application/json; charset=utf-8",
-        data : JSON.stringify(param ),
-        success : function(data,status,request){
-			if(data.result == "0") {
-	        	
-				alert("등록되었습니다.");
-				$.featherlight.close();
-			} else if(data.result == "-2") {
-				alert("로그인이 필요합니다.");
-				go_login();
-			} else if(data.result == "9") {
-				alert(data.message);
-			} else{
-				alert("작업을 실패하였습니다.");
-			}	        	
-        },
-        error : function(request,status,error) {
-        	alert(error);
-        },
-	});			
+	$.featherlight('/cs/popupReview?purchs_sn=' + purchs_sn + '&cart_sn=' + cart_sn + '&goods_code=' + goods_code + '', {});
 }
 
 function cancelPurchs(purchs_sn, cart_sn) {
@@ -453,35 +366,7 @@ function lpad(s, padLength, padString){
 
 <!-- //본문 -->
 
-<!--팝업 : 이용후기 -->
-<div class="lightbox" id="review_popup">
-	<input type="hidden" id="review_purchs_sn" >
-	<input type="hidden" id="review_cart_sn" >
-	<input type="hidden" id="review_goods_code" >	
-  <div class="popup_com">
-    <div class="title">이용후기</div>
-    <div class="popup_cont">
-      <div class="tb_01_box">
-        <table width="100%"  class="tb_01">
-          <col width="20%">
-          <col width="">
-          <tbody>
-            <tr>
-              <th >점수</th>
-              <td><div id="revice_score" class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
-            </tr>
-            <tr>
-              <th >내용쓰기</th>
-              <td><textarea name="textarea" id="review_cn" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="popup_btn"><a href="javascript:saveReview();">등록하기</a></div>
-    </div>
-  </div>
-</div>
-<!--팝업--> 
+
 
 
 </body>

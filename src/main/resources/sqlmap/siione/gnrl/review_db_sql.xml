@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
+<sqlMap namespace="gnrl">
+
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<sql id="whereReviewList">
+		AND 1 = 1
+	</sql>
+
+	<select id="gnrl.review.getReviewListCount" parameterClass="hashMap" resultClass="Integer">
+		SELECT COUNT(1)
+		FROM TB_PURCHS_REVIEW R
+		WHERE 1 = 1
+			<include refid="whereReviewList"/>
+	</select>
+		
+	<select id="gnrl.review.getReviewList" parameterClass="hashMap" resultClass="hashMap">
+		SELECT G.GOODS_NM, R.REVIEW_SCORE, TO_CHAR(R.WRITNG_DT, 'YYYY-MM-DD HH24:MI') AS WRITNG_DT, R.WRITNG_ID, R.REVIEW_CN, R.PURCHS_SN, R.CART_SN, G.FILE_CODE, G.GOODS_CODE
+		FROM (
+			SELECT A.PURCHS_SN, A.CART_SN, ROWNUM AS RNUM
+			FROM (
+					SELECT R.PURCHS_SN, R.CART_SN
+					FROM TB_PURCHS_REVIEW R
+					WHERE 1 = 1
+					<include refid="whereReviewList"/>
+					ORDER BY R.WRITNG_DT DESC
+			) A
+		) B
+			INNER JOIN TB_PURCHS_REVIEW R ON B.PURCHS_SN = R.PURCHS_SN AND B.CART_SN = R.CART_SN
+			INNER JOIN TB_GOODS G ON R.GOODS_CODE = G.GOODS_CODE
+		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
+		ORDER BY RNUM
+	</select>
+
+	<insert id="gnrl.review.insertPurchsReview" parameterClass="hashMap" >
+		INSERT INTO TB_PURCHS_REVIEW (PURCHS_SN, CART_SN, GOODS_CODE, REVIEW_CN, REVIEW_SCORE, ESNTL_ID, WRITNG_ID, WRITNG_DT)
+		VALUES ( #purchs_sn#, #cart_sn#, #goods_code#, #review_cn#, #review_score#, #esntl_id#, #esntl_id#, SYSDATE )
+	</insert>
+	<select id="gnrl.review.selectPurchsReview" parameterClass="hashMap" resultClass="hashMap">
+		SELECT PURCHS_SN, CART_SN, GOODS_CODE, REVIEW_CN, REVIEW_SCORE, ESNTL_ID, WRITNG_ID, WRITNG_DT
+		FROM TB_PURCHS_REVIEW
+		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+	</select>
+	<update id="gnrl.review.updatePurchsReview"  parameterClass="hashMap">
+		UPDATE TB_PURCHS_REVIEW SET REVIEW_CN = #review_cn#, REVIEW_SCORE = #review_score#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE
+		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+	</update>
+
+	<select id="gnrl.review.selectPurchsPoint" parameterClass="hashMap" resultClass="hashMap">
+		SELECT PURCHS_SN, CART_SN, POINT, ACCML_SE, ACCML_DT, VALID_DE, ESNTL_ID
+		FROM TB_PURCHS_POINT
+		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+	</select>
+	<insert id="gnrl.review.insertPurchsPoint" parameterClass="hashMap" >
+		INSERT INTO TB_PURCHS_POINT (PURCHS_SN, CART_SN, POINT, ACCML_SE, ACCML_DT, VALID_DE, ESNTL_ID)
+		VALUES ( #purchs_sn#, #cart_sn#, #point#, #accml_se#, SYSDATE, #valid_de#, #esntl_id#)
+	</insert>
+	
+</sqlMap>
