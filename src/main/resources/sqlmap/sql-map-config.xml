@@ -15,6 +15,7 @@
 	<sqlMap resource="sqlmap/siione/gnrl/bbs_db_sql.xml"/>
 	<sqlMap resource="sqlmap/siione/gnrl/review_db_sql.xml"/>
 	<sqlMap resource="sqlmap/siione/gnrl/faq_db_sql.xml"/>
+	<sqlMap resource="sqlmap/siione/gnrl/notice_db_sql.xml"/>
 
 	<sqlMap resource="sqlmap/siione/mngr/tb_file_manage.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_cty.xml"/>

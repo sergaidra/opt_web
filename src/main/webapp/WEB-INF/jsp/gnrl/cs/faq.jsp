@@ -157,7 +157,7 @@ function saveFaq() {
 			if(data.result == "0") {	        	
 				alert("등록되었습니다.");
 				$.featherlight.close();
-				search("", "");
+				search("");
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
