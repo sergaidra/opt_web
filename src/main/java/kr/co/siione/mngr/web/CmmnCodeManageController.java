@@ -35,6 +35,11 @@ public class CmmnCodeManageController {
 	public String CmmnCodeManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return "/mngr/CmmnCodeManage";
 	}
+	
+	@RequestMapping(value="/mngr/StplatUseManage/")
+	public String StplatUseManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return "/mngr/StplatUseManage";
+	}
 
 	@RequestMapping(value="/mngr/selectCmmnCodeList/")
 	public void selectCmmnCodeList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {

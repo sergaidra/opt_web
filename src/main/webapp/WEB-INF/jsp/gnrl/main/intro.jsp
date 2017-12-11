@@ -494,14 +494,27 @@ function fnLiveView(url) {
 
 <!-- 메인 이벤트 팝업 POPUP  -->
 <div id="divpop" class="popup_st" >
- <!-- 제목을 넣을경우<div class="popup_head">팝업제목</div>-->
-	 <div class="popup_body">여기에 내용 삽입여기에 내용 삽입<br>
-여기에 내용 삽입여기에 내용 삽입<br>
-여기에 내용 삽입여기에 내용 삽입<br>
-여기에 내용 삽입여기에 내용 삽입<br>
-여기에 내용 삽입여기에 내용 삽입<br>
-여기에 내용 삽입여기에 내용 삽입<br>
-여기에 내용 삽입여기에 내용 삽입</div>
+ <!-- 제목을 넣을경우-->
+ <div class="popup_head">안녕하세요 “ONEPASSTOUR”입니다.</div>
+	 <div class="popup_body">
+“ONEPASSTOUR” Home Page Renewal 관련 아래와 같이 공지합니다.<br>
+<br>
+1. 공사기간 : 2017년 12월 1일 ~ 12월 31일(00:00)까지<br>
+<br>
+2. 공사내용<br>
+&nbsp;&nbsp;- 상품 재분류 및 정보 등 수정(상품별 최저가 수정 등)<br>
+&nbsp;&nbsp;- 회사 연혁 및 운영방침 등 수정<br>
+&nbsp;&nbsp;- 기타 Home Page 사이트맵 수정 등 <br>
+<br>
+3. 공사중 업무현황<br>
+&nbsp;&nbsp;- 상품별 1:1 상담 및 여행 상담을 통한 여행객 예약은 정상업무 합니다. <br>
+&nbsp;&nbsp;- 상품별 Page를 통한 결재 서비스 및 고객센터 업무는 Renewal 마감까지 사용하실 수 없습니다. 이점 널리 양해 바랍니다.<br>
+<br>
+“ONEPASSTOUR”는 보다나은 서비스를 제공하기 위하여 Home Page Renewal 실시하고 있으며, 여러분 모두에게 만족을 드릴 수 있는 “ONEPASSTOUR”로 거듭날 것을 약속드립니다.<br>
+<br>
+<br>
+“ONEPASSTOUR” 올림
+	</div>
 	 <div class="popup_bottom"><form name="notice_form">
     <a href="javascript:closeWin();"><i class="material-icons">&#xE14C;</i></a>
 	<div class="tx">오늘 하루 이 창을 열지 않음</div>
@@ -516,7 +529,7 @@ function fnLiveView(url) {
 <script language="Javascript">
 cookiedata = document.cookie;    
 if ( cookiedata.indexOf("maindiv=done") < 0 ){      
-	//document.all['divpop'].style.visibility = "visible";
+	document.all['divpop'].style.visibility = "visible";
 	} 
 	else {
 		document.all['divpop'].style.visibility = "hidden"; 

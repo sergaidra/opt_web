@@ -30,8 +30,13 @@ public class Test {
 		Map<String, Object> attachMap = new HashMap<String, Object>();
 		attachMap.put("images", list);
 		
-		boolean re = email.sendMail(subject, content, to, attachMap);
-		System.out.println("메일 발송 결과  : "+ re);
+		try {
+			email.sendMail(subject, content, to, attachMap);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//System.out.println("메일 발송 결과  : "+ re);
 		// mail test end
 		
 

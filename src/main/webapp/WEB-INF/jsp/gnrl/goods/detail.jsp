@@ -1022,7 +1022,7 @@ function goSearchOpinion(pageNo) {
 		  	<img src="/images/com/hot.png" alt=""/>
 		  	</c:if>
 		  	<c:if test="${result.RECOMEND_AT == 'Y'}">
-		  	<img src="/images/com/recom.png" width="50" height="66" alt=""/>
+		  	<img src="/images/com/recom.png" alt=""/>
 		  	</c:if>
 		  </div>
 			<div class="hit_box"><i class="material-icons">&#xE87E;</i><span>${wish_count}</span></div>
