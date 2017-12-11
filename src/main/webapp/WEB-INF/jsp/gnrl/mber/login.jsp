@@ -33,6 +33,13 @@
 		</c:when>		
 		<c:otherwise></c:otherwise>
 	</c:choose>
+	
+function naverLogin() {
+	var client_id = "${naver_client_id}";
+	var redirect_uri =  encodeURIComponent("${naver_login_redirect_uri}");
+	var state = "${state}";
+	document.location.href = "https://nid.naver.com/oauth2.0/authorize?client_id=" + client_id + "&response_type=code&redirect_uri=" + redirect_uri + "&state=" + state;
+}	
 </script>
 
 </head>
@@ -79,10 +86,9 @@
         </div>
       </div>
       <div class="login_div2">
-      	<!-- 
-      	<a href="#"><img src="/images/com/sns_login1.gif" alt=""/></a> 
-      	<a href="#"><img src="/images/com/sns_login2.gif" alt=""/></a>  
-      	<a href="#"><img src="/images/com/sns_login3.gif" alt=""/></a> --> 
+      	<a href="javascript:naverLogin();"><img src="/images/com/sns_login1.gif" alt=""/></a> 
+      	<a href="javascript:naverLogin();"><img src="/images/com/sns_login2.gif" alt=""/></a>  
+      	<a href="#"><img src="/images/com/sns_login3.gif" alt=""/></a>  
       </div>
     </div>
     </form>
@@ -90,7 +96,6 @@
 		  <div class="sp_50"></div>
   </div>
 </section>
-
 <!-- //본문 -->
 
 </body>

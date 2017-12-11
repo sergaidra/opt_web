@@ -259,9 +259,9 @@ function changeKind(obj, subcategory) {
 	<div class="list_box">
 		<div class="tb_03_box">
 			<table width="100%" class="tb_03  pc_view">
-				<col width="5%" />
-				<col width="10%" />
-				<col width="10%" />
+				<col width="50px;" />
+				<col width="55px" />
+				<col width="80px" />
 				<col width="" />
 				<thead>
 					<tr>
