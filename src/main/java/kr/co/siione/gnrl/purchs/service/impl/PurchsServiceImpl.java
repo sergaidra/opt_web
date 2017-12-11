@@ -41,25 +41,12 @@ public class PurchsServiceImpl implements PurchsService {
 	public List<HashMap> selectPurchsDetail(HashMap map) throws Exception {
 		return purchsDAO.selectPurchsDetail(map);
 	}
-
-    public void insertPurchsReview(HashMap map) throws Exception {
-		HashMap review = purchsDAO.selectPurchsReview(map);
-		HashMap point = purchsDAO.selectPurchsPoint(map);
-		if(review == null)
-			purchsDAO.insertPurchsReview(map);
-		else
-			purchsDAO.updatePurchsReview(map);
-		if("Y".equals(map.get("pointYn")) && point == null) {
-			purchsDAO.insertPurchsPoint(map);
-			pointDAO.insertPoint(map);
-		}
-    }
-    
-	public HashMap selectPurchsReview(HashMap map) throws Exception {
-		return purchsDAO.selectPurchsReview(map);
-	}
 	
 	public void cancelPurchs(HashMap map) throws Exception {
 		purchsDAO.cancelPurchs(map);
+	}
+	
+	public HashMap viewPurchs(HashMap map) throws Exception {
+		return purchsDAO.viewPurchs(map);
 	}
 }

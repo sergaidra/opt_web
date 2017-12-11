@@ -37,28 +37,12 @@ public class PurchsDAO extends EgovComAbstractDAO {
 		return list("gnrl.purchs.selectPurchsDetail", map);
 	}
 
-    public void insertPurchsReview(HashMap map) throws Exception {
-		insert("gnrl.purchs.insertPurchsReview", map);
-    }
-
-    public void updatePurchsReview(HashMap map) throws Exception {
-		insert("gnrl.purchs.updatePurchsReview", map);
-    }
-
-	public HashMap selectPurchsReview(HashMap map) throws Exception {
-		return (HashMap)selectByPk("gnrl.purchs.selectPurchsReview", map);
-	}
-
-    public void insertPurchsPoint(HashMap map) throws Exception {
-		insert("gnrl.purchs.insertPurchsPoint", map);
-    }
-
-	public HashMap selectPurchsPoint(HashMap map) throws Exception {
-		return (HashMap)selectByPk("gnrl.purchs.selectPurchsPoint", map);
-	}
-
     public void cancelPurchs(HashMap map) throws Exception {
 		update("gnrl.purchs.cancelPurchs", map);
     }
+    
+	public HashMap viewPurchs(HashMap map) throws Exception {
+		return (HashMap)selectByPk("gnrl.purchs.viewPurchs", map);
+	}
 
 }

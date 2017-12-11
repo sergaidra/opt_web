@@ -6,13 +6,161 @@
 
 <head>
 
-	<script type="text/javascript" src="../../../js/acco.js"></script>
+<script type="text/javascript" src="/js/acco.js"></script>
+
+<script type="text/javascript">
+
+$(function(){	
+	search(1);
+});
+
+function search(pageNo) {
+	var url = "<c:url value='/cs/getReviewList'/>";
+	$("#tblList tbody").empty(); 
+	$("#tblmList tbody").empty(); 
+	$("#paging").empty(); 
+	$("#mpaging").empty(); 	
+
+	var param = {};
+	param.hidPage = pageNo;
+	$("#hidPage").val(pageNo);
+	
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify(param ),
+        success : function(data,status,request){
+        	for(var cnt = 0; cnt < data.list.length; cnt++) {
+        		// PC
+        		{
+            		var tr = $("<tr></tr>");
+            		var td1 = $("<td>" + (data.startIdx + cnt) + "</td>");
+            		var td2 = $("<td ><span class=\"proimg\"><img src=\"<c:url value='/file/getImageThumb/'/>?file_code=" + data.list[cnt].FILE_CODE + "\"  alt=\"\"/></span></td>");
+            		var td3 = $("<td class=\"left\">" + data.list[cnt].GOODS_NM + "<img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /> </td>");
+            		var td4 = $("<td ></td>");
+            		var td5 = $("<td  class=\"end\" >" + data.list[cnt].WRITNG_DT + "</td>");
+            		
+            		for(var cnt2 = 1; cnt2 <= 5; cnt2++) {
+            			if(cnt2 <= Number(data.list[cnt].REVIEW_SCORE)) {
+            				$(td4).append("<i class=\"material-icons color_on\">&#xE885;</i>");
+            			} else {
+            				$(td4).append("<i class=\"material-icons color_off\">&#xE885;</i>");
+            			}
+            		}
+            		
+            		var tr2 = $("<tr></tr>");
+            		var td2_1 = $("<td colspan=\"5\" class=\"left\"><div class=\"review\"><div class=\"text\">" + data.list[cnt].REVIEW_CN + "</div></div></td>");
+        			
+            		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
+            			//<div class="btn"><a href="#" class="button_st1 fl mr_m1">삭제</a>  <a href="#" class="button_st1 fl mr_m1">수정</a></div>
+            			$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:viewReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">수정</a></div>");
+            		}            		
+            		
+            		$(tr).append(td1);
+            		$(tr).append(td2);
+            		$(tr).append(td3);
+            		$(tr).append(td4);
+            		$(tr).append(td5);
+
+            		$(tr2).append(td2_1);
+
+    	        	$("#tblList tbody").append(tr);        
+    	        	$("#tblList tbody").append(tr2);        
+        		}
+        		
+        		// 모바일
+        		{
+            		var tr = $("<tr></tr>");
+            		var td1 = $("<td ><div class=\"proimg\"><img src=\"<c:url value='/file/getImageThumb/'/>?file_code=" + data.list[cnt].FILE_CODE + "\"  alt=\"\"/></div><br/>" + data.list[cnt].GOODS_NM + "<br/><div class=\"star_icon2\"></div></td>");
+
+            		for(var cnt2 = 1; cnt2 <= 5; cnt2++) {
+            			if(cnt2 <= Number(data.list[cnt].REVIEW_SCORE)) {
+            				$(td1).find(".star_icon2").append("<i class=\"material-icons color_on\">&#xE885;</i>");
+            			} else {
+            				$(td1).find(".star_icon2").append("<i class=\"material-icons color_off\">&#xE885;</i>");
+            			}
+            		}
+            		
+            		var tr2 = $("<tr></tr>"); 
+            		var td2_1 = $("<td colspan=\"2\" class=\"left\"><div class=\"review\"><div class=\"text\">" + data.list[cnt].REVIEW_CN + "</div></div></td>");
+        			
+            		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
+            			//<div class="btn"><a href="#" class="button_st1 fl mr_m1">삭제</a>  <a href="#" class="button_st1 fl mr_m1">수정</a></div>
+            			$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:viewReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">수정</a></div>");
+            		}            		
+
+            		$(tr).append(td1);
+            		$(tr2).append(td2_1);
+        			
+    	        	$("#tblmList tbody").append(tr);        	        	
+    	        	$("#tblmList tbody").append(tr2);        	        	
+        		}
+        		
+        	}
+        	
+        	// 페이징 처리
+        	var totalCount = Number(data.totalCount);
+        	var pageNo = Number($("#hidPage").val());
+        	var blockSize = Number($("#blockSize").val());
+        	var pageSize = Number($("#pageSize").val());
+        	
+        	// 첫 페이지 검색
+        	var startPageNo = Math.floor((pageNo - 1) / blockSize + 1);
+        	var totalPageCnt = Math.ceil(totalCount / pageSize);
+        	
+        	if(startPageNo > 1) {
+        		$("#paging").append("<a href='javascript:search(1);' class='pre_end'>← First</a>");
+        		$("#paging").append("<a href='javascript:search(" + (startPageNo - 1) + ");' class='pre'>이전</a>");
+        		$("#mpaging").append("<a href='javascript:search(1);' class='pre_end'>← </a>");
+        	}
+
+        	for(var cnt = 0; cnt < blockSize; cnt++) {
+        		var page = startPageNo + cnt;
+        		if(page > totalPageCnt)
+        			break;
+        		if(page == pageNo) {
+        			$("#paging").append("<a href='javascript:search(" + page + ");' class='on'>" + page + "</a>");
+        			$("#mpaging").append("<a href='javascript:search(" + page + ");' class='on'>" + page + "</a>");        			
+        		} else {
+        			$("#paging").append("<a href='javascript:search(" + page + ");'>" + page + "</a>");
+        			$("#mpaging").append("<a href='javascript:search(" + page + ");'>" + page + "</a>");        			
+        		}
+        	}
+        	
+        	if(startPageNo + blockSize <= totalPageCnt) {
+        		$("#paging").append("<a href='javascript:search(" + (startPageNo + blockSize) + ");' class='next'>다음</a>");
+        		$("#paging").append("<a href='javascript:search(" + totalPageCnt + ");' class='next_end'>Last → </a>");
+        		$("#mpaging").append("<a href='javascript:search(" + totalPageCnt + ");' class='next_end'>→ </a>");
+        	}
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+
+}
+
+function viewReview(purchs_sn, cart_sn, goods_code) {
+	$.featherlight('/cs/popupReview?purchs_sn=' + purchs_sn + '&cart_sn=' + cart_sn + '&goods_code=' + goods_code + '&callback=saveComplete', {});
+}
+
+function saveComplete() {
+	search($("#hidPage").val());
+}
+
+</script>
 	
 </head>
 
 <body>
 <!-- 본문 -->
 <section>
+<input type="hidden" id="hidPage" name="hidPage" value="1">
+<input type="hidden" id="pageSize" name="pageSize" value="5">
+<input type="hidden" id="blockSize" name="blockSize" value="5">	
 
 <div id="container">
 	   <div class="sp_50 pc_view"></div>
@@ -20,7 +168,7 @@
   <div class="inner2"><div class="comf">
 	   <div class="com_stitle">여행후기</div>
         <div class="review_list_box">
-          <table width="100%" class="review_list" >
+          <table width="100%" class="review_list" id="tblList">
             <col width="8%" />
             <col width="8%" />
             <col width="" />
@@ -33,110 +181,32 @@
                 <th>이미지</th>
                 <th>여행상품명 </th>
                 <th >점수</th>
-                <th >조회수 </th>
                 <th class="end">작성일</th>
               </tr>
-                    </thead>
+            </thead>
             <tbody>
-                       <tr>
-                <td >7604</td>
-                <td ><span class="proimg"><img src="../../../images/main/main_d_04.jpg"  alt=""/></span></td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳<img src="../../../images/com/icon_new.gif" width="19" height="9" /> </td>
-                <td ><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i></td>
-                <td >1555</td>
-                <td  class="end" >2014/10/27 13:16 </td>
-              </tr> 
-              <tr>
-                         <td colspan="6" class="left"><div class="review">
-                           <div class="text">리뷰 내용이 나오는곳입니다. 리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.
-							 리뷰 내용이 나오는곳입니다. 리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.
-							 리뷰 내용이 나오는곳입니다. 리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.
-							 리뷰 내용이 나오는곳입니다. 리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.</div>
-<div class="btn"><a href="#" class="button_st1 fl mr_m1">삭제</a>  <a href="#" class="button_st1 fl mr_m1">수정</a></div>
-                </div></td>
-              </tr>
-              <tr>
-                         <td >7604</td>
-                         <td ><span class="proimg"><img src="../../../images/main/main_d_04.jpg"  alt=""/></span></td>
-                         <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                         <td ><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_off">&#xE885;</i><i class="material-icons color_off">&#xE885;</i><i class="material-icons color_off">&#xE885;</i></td>
-                         <td >1555</td>
-                         <td  class="end" >2014/10/27 13:16 </td>
-              </tr> <tr>
-                        <td >7604</td>
-                        <td ><span class="proimg"><img src="../../../images/main/main_d_04.jpg"  alt=""/></span></td>
-                        <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                        <td ><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_off">&#xE885;</i><i class="material-icons color_off">&#xE885;</i><i class="material-icons color_off">&#xE885;</i></td>
-                        <td >1555</td>
-                        <td  class="end" >2014/10/27 13:16 </td>
-                      </tr> <tr>
-                        <td >7604</td>
-                        <td ><span class="proimg"><img src="../../../images/main/main_d_04.jpg"  alt=""/></span></td>
-                        <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                        <td ><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_off">&#xE885;</i><i class="material-icons color_off">&#xE885;</i><i class="material-icons color_off">&#xE885;</i></td>
-                        <td >1555</td>
-                        <td  class="end" >2014/10/27 13:16 </td>
-                      </tr> <tr>
-                        <td >7604</td>
-                        <td><span class="proimg"><img src="../../../images/main/main_d_04.jpg"  alt=""/></span></td>
-                        <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                        <td ><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_off">&#xE885;</i><i class="material-icons color_off">&#xE885;</i><i class="material-icons color_off">&#xE885;</i></td>
-                        <td >1555</td>
-                        <td  class="end" >2014/10/27 13:16 </td>
-                      </tr>
-                    </tbody>
+            </tbody>
           </table>
 			<!--모바일-->
-			<table width="100%" class="review_list_m" >
+			<table width="100%" class="review_list_m"  id="tblmList">
             <col width="8%" />
             <col width="" />
     
             <tbody>
-                       <tr>
-                <td ><div class="proimg"><img src="../../../images/main/main_d_04.jpg"  alt=""/></div><br>2014/10/27 13:16 <br>
-                  
-                  [7604]상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳<img src="../../../images/com/icon_new.gif" width="19" height="9" /><br>
-                  <div class="star_icon2"> <i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i></div></td>
-              </tr> 
-              <tr>
-                         <td colspan="2" class="left"><div class="review">
-                           <div class="text">리뷰 내용이 나오는곳입니다. 리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.
-							 리뷰 내용이 나오는곳입니다. 리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.
-							 리뷰 내용이 나오는곳입니다. 리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.
-							 리뷰 내용이 나오는곳입니다. 리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.리뷰 내용이 나오는곳입니다.</div>
-<div class="btn"><a href="#" class="button_st1 fl mr_m1">삭제</a>  <a href="#" class="button_st1 fl mr_m1">수정</a></div>
-                </div></td>
-              </tr>
-				 <tr>
-                <td ><div class="proimg"><img src="../../../images/main/main_d_04.jpg"  alt=""/></div><br>2014/10/27 13:16 <br>
-                  
-                  [7604]상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳<img src="../../../images/com/icon_new.gif" width="19" height="9" /><br>
-                  <div class="star_icon2"> <i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i></div></td>
-              </tr> 
-
-				 <tr>
-                <td ><div class="proimg"><img src="../../../images/main/main_d_04.jpg"  alt=""/></div><br>2014/10/27 13:16 <br>
-                  
-                  [7604]상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳<img src="../../../images/com/icon_new.gif" width="19" height="9" /><br>
-                  <div class="star_icon2"> <i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i><i class="material-icons color_on">&#xE885;</i></div></td>
-              </tr> 
-            
-                    </tbody>
+            </tbody>
           </table>
 <!--//모바일-->
                 </div>
           <!--페이징 -->
         <div class="bbs_bottom"> 
-             <!-- pc일때 페이징 -->
-          <div class="paginate pc_view">
-            <div class="number "><a href="#" class="pre_end">← First</a><a href="#" class="pre">이전</a><a href="#">11</a><a href="#" class="on">12</a><a href="#">13</a><a href="#">14</a><a href="#">15</a><a href="#">16</a><a href="#">17</a><a href="#">18</a><a href="#">19</a><a href="#">20</a><a href="#" class="next">다음</a><a href="#" class="next_end">Last → </a> </div>
+        <div class="paginate pc_view">
+          <div class="number" id="paging">
           </div>
-          <!-- //pc일때 페이징 -->
-			 <!-- 모바일 일때 페이징 -->
-          <div class="paginate mobile_view">
-            <div class="number"><a href="#" class="pre_end">← </a><a href="#">11</a><a href="#" class="on">12</a><a href="#">13</a><a href="#">14</a><a href="#">15</a><a href="#" class="next_end">→ </a> </div>
+        </div>
+        <div class="paginate mobile_view">
+          <div class="number" id="mpaging">
           </div>
-          <!-- //모바일 일때 페이징 -->          
+        </div>
         </div>
         <!--//페이징 --> 
       </div></div>

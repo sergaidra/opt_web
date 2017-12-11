@@ -80,6 +80,7 @@ public class BbsController {
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 		
 		String category = UserUtils.nvl(param.get("category"));
+		String keyword = UserUtils.nvl(param.get("keyword"));
 		int hidPage = Integer.parseInt(UserUtils.nvl(param.get("hidPage"))); // 페이지번호
 		int startIdx = (hidPage - 1) * 10 + 1;
 		int endIdx = hidPage * 10;
@@ -89,6 +90,7 @@ public class BbsController {
     	map.put("startIdx", startIdx);
     	map.put("endIdx", endIdx);
     	map.put("category", category);
+    	map.put("keyword", keyword);
     	System.out.println("[getBbsList]map:"+map);
 		int totalCount = bbsService.selectBbsListCount(map);
     	mapResult.put("totalCount", String.valueOf(totalCount));

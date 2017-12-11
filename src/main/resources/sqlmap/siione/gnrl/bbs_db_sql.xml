@@ -7,6 +7,9 @@
 
 	<sql id="whereBbsList">
 		AND CATEGORY = #category# AND DELETE_AT = 'N' AND PARENT_BBS_SN IS NULL
+	 	<isNotEmpty property="keyword">
+			AND (UPPER(SUBJECT) LIKE '%' || UPPER(#keyword#) || '%' OR UPPER(CONTENTS) LIKE '%' || UPPER(#keyword#) || '%' )
+	 	</isNotEmpty>
 	</sql>
 	
 	<insert id="gnrl.bbs.insertBbs" parameterClass="hashMap">

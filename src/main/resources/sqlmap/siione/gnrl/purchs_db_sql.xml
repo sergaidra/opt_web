@@ -87,33 +87,15 @@
 			INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN
 		WHERE P.PURCHS_SN = #purchs_sn# AND PG.CART_SN = #cart_sn#
 	</select>
-	
-	<insert id="gnrl.purchs.insertPurchsReview" parameterClass="hashMap" >
-		INSERT INTO TB_PURCHS_REVIEW (PURCHS_SN, CART_SN, GOODS_CODE, REVIEW_CN, REVIEW_SCORE, ESNTL_ID, WRITNG_ID, WRITNG_DT)
-		VALUES ( #purchs_sn#, #cart_sn#, #goods_code#, #review_cn#, #review_score#, #esntl_id#, #esntl_id#, SYSDATE )
-	</insert>
-	<select id="gnrl.purchs.selectPurchsReview" parameterClass="hashMap" resultClass="hashMap">
-		SELECT PURCHS_SN, CART_SN, GOODS_CODE, REVIEW_CN, REVIEW_SCORE, ESNTL_ID, WRITNG_ID, WRITNG_DT
-		FROM TB_PURCHS_REVIEW
-		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
-	</select>
-	<update id="gnrl.purchs.updatePurchsReview"  parameterClass="hashMap">
-		UPDATE TB_PURCHS_REVIEW SET REVIEW_CN = #review_cn#, REVIEW_SCORE = #review_score#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE
-		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
-	</update>
-	
-	<select id="gnrl.purchs.selectPurchsPoint" parameterClass="hashMap" resultClass="hashMap">
-		SELECT PURCHS_SN, CART_SN, POINT, ACCML_SE, ACCML_DT, VALID_DE, ESNTL_ID
-		FROM TB_PURCHS_POINT
-		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
-	</select>
-	<insert id="gnrl.purchs.insertPurchsPoint" parameterClass="hashMap" >
-		INSERT INTO TB_PURCHS_POINT (PURCHS_SN, CART_SN, POINT, ACCML_SE, ACCML_DT, VALID_DE, ESNTL_ID)
-		VALUES ( #purchs_sn#, #cart_sn#, #point#, #accml_se#, SYSDATE, #valid_de#, #esntl_id#)
-	</insert>
-	
+			
 	<update id="gnrl.purchs.cancelPurchs" parameterClass="hashMap" >
 		UPDATE TB_PURCHS SET DELETE_AT = 'Y', DELETE_ID = #esntl_id#, DELETE_DT = SYSDATE
 		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
 	</update>
+	
+	<select id="gnrl.purchs.viewPurchs" parameterClass="hashMap" resultClass="hashMap">
+		SELECT P.PURCHS_SN, P.ESNTL_ID, P.PURCHS_DE
+		FROM TB_PURCHS P
+		WHERE P.PURCHS_SN = #purchs_sn#
+	</select>
 </sqlMap>
