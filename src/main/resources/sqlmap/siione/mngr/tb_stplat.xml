@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="mngr">
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="string" type="java.lang.String"/>
+
+	<resultMap id="rmStplat" class="hashMap">
+        <result property="STPLAT_CODE" column="STPLAT_CODE" jdbcType="string" javaType="string"/>
+        <result property="STPLAT_SJ"   column="STPLAT_SJ"   jdbcType="string" javaType="string"/>
+        <result property="STPLAT_CN"   column="STPLAT_CN"   jdbcType="CLOB"   javaType="string"/>
+        <result property="STPLAT_CN_HTML"   column="STPLAT_CN_HTML"   jdbcType="CLOB"   javaType="string"/>
+    </resultMap>
+    
+    <update id="StplatDAO.updateStplat" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_STPLAT
+           SET STPLAT_SJ = #STPLAT_SJ#
+             , STPLAT_CN = #STPLAT_CN:CLOB#
+             , UPDT_ID = #UPDT_ID#
+             , UPDT_DT = SYSDATE
+         WHERE STPLAT_CODE = #STPLAT_CODE#
+    ]]>
+    </update>
+
+    <select id="StplatDAO.selectStplatByPk" parameterClass="hashMap" resultMap="rmStplat">
+    <![CDATA[
+        SELECT STPLAT_CODE
+             , STPLAT_SJ
+             , STPLAT_CN
+             , REPLACE(REPLACE(REPLACE(STPLAT_CN,CHR(10),'<BR>'),CHR(13),' '), '  ', CHR(38)||'nbsp;'||CHR(38)||'nbsp;') STPLAT_CN_HTML
+          FROM TB_STPLAT
+         WHERE STPLAT_CODE = #STPLAT_CODE#
+    ]]>
+    </select>
+
+    <select id="StplatDAO.selectStplatList" parameterClass="hashMap" resultClass="hashMap">
+        SELECT STPLAT_CODE
+             , STPLAT_SJ
+             , STPLAT_CN
+          FROM TB_STPLAT
+    </select>
+
+</sqlMap>

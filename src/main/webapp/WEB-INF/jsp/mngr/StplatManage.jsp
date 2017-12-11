@@ -12,7 +12,7 @@
 <script type="text/javascript" src="<c:url value='/js/extjs/locale/ext-lang-ko.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/extjs/ext-theme-neptune.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/Common.js' />"></script>
-<script type="text/javascript" src="<c:url value='/js/mngr/StplatUseManage.js' />"></script>
+<script type="text/javascript" src="<c:url value='/js/mngr/StplatManage.js' />"></script>
 </head>
 <body>
 </body>

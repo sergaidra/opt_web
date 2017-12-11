@@ -19,6 +19,7 @@ import kr.co.siione.gnrl.cart.service.FlightService2;
 import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.goods.service.GoodsService;
 import kr.co.siione.mngr.service.ArprtManageService;
+import kr.co.siione.mngr.service.StplatManageService;
 import kr.co.siione.utl.UserUtils;
 import net.sf.json.JSONObject;
 
@@ -43,6 +44,9 @@ public class UseTextController {
 	@Resource
 	private BbsService bbsService;
 
+	@Resource
+	private StplatManageService stplatManageService;
+	
 	private static final Logger LOG = LoggerFactory.getLogger(LiveViewController.class);
 
 	@RequestMapping(value="/usetext")
@@ -50,7 +54,16 @@ public class UseTextController {
 
         model.addAttribute("bp", "07");
        	model.addAttribute("btitle", "고객지원");
-        model.addAttribute("mtitle", "이용약관");
+       	model.addAttribute("mtitle", "이용약관");
+        
+		Map<String, String> param = new HashMap<String, String>();
+		Map<String, String> result = new HashMap<String, String>();
+		
+		param.put("STPLAT_CODE", "000001"); //이용약관
+        result = stplatManageService.selectStplatByPk(param);
+        
+        model.addAttribute("mtitle", result.get("STPLAT_SJ"));
+        model.addAttribute("stplat_cn_html", result.get("STPLAT_CN_HTML"));
 		
 		return "gnrl/cs/usetext";
 	}
@@ -61,8 +74,17 @@ public class UseTextController {
         model.addAttribute("bp", "07");
        	model.addAttribute("btitle", "고객지원");
         model.addAttribute("mtitle", "여행자약관");
+        
+		Map<String, String> param = new HashMap<String, String>();
+		Map<String, String> result = new HashMap<String, String>();
 		
-		return "gnrl/cs/usetext2";
+		param.put("STPLAT_CODE", "000002"); //여행자약관
+        result = stplatManageService.selectStplatByPk(param);
+        
+        model.addAttribute("mtitle", result.get("STPLAT_SJ"));
+        model.addAttribute("stplat_cn_html", result.get("STPLAT_CN_HTML"));
+		
+		return "gnrl/cs/usetext";
 	}
 
 }

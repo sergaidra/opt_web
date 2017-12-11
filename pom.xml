@@ -19,11 +19,11 @@
 	<distributionManagement>
 		<repository>
 			<id>release</id>
-			<url>http://211.192.7.200:8080/nexus/content/repositories/releases/</url>
+			<url>http://210.183.173.99:8080/nexus/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
-			<url>http://211.192.7.200:8080/nexus/content/repositories/snapshots/</url>
+			<url>http://210.183.173.99:8080/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
@@ -54,7 +54,7 @@
 
 		<repository>
 			<id>central</id>
-			<url>http://211.192.7.200:8080/nexus/content/groups/public/</url>
+			<url>http://210.183.173.99:8080/nexus/content/groups/public/</url>
 			<releases><enabled>true</enabled></releases>
 			<snapshots><enabled>true</enabled></snapshots>
 		</repository>
@@ -63,7 +63,7 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>central</id>
-			<url>http://211.192.7.200:8080/nexus/content/groups/public/</url>
+			<url>http://210.183.173.99:8080/nexus/content/groups/public/</url>
 			<releases><enabled>true</enabled></releases>
 			<snapshots><enabled>true</enabled></snapshots>
 		</pluginRepository>

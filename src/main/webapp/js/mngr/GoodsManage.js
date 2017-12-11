@@ -10,15 +10,6 @@ function fn_search() {
 	jsGoods.load();
 }
 
-function fn_openPopup(sUrl, sName, iWidth, iHeigth){
-    var sw = screen.width;
-    var sh = screen.height;
-    var x = (sw-iWidth)/2;
-    var y = (sh-iHeigth)/2;
-    var opts = "width="+iWidth+", height="+iHeigth+", left="+x+", top="+y+", scrollbars=yes, menubar=no, location=no, resize=yes";
-    window.open(sUrl, sName, opts).focus();
-}
-
 var win = "";
 var fn_openDialog = function(sUrl, sName, iWidth, iHeigth, closeCallback) {
     var sw = screen.width;
