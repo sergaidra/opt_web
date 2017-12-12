@@ -69,7 +69,7 @@ function go_07_04_01() {	document.location.href="/cs/notice";}
 function go_07_05_01() {	document.location.href="/cs/liveview";}
 function go_07_06_01() {	document.location.href="/cs/usetext";} 
 function go_07_07_01() {	document.location.href="/cs/usetext2";}
-function go_07_08_01() {	alert("준비중입니다."); }
+function go_07_08_01() {	document.location.href="/cs/usetext3";}
 
 
 // ABOUT //

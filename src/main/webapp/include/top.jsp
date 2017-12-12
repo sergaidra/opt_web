@@ -216,9 +216,8 @@ function getMySchedule() {
 						
 						if(cnt2 == 0) {
 							html += "<td rowspan='" + item.list.length + "'>" + item.day + "</td>";
-						} else {
-							html += "<td>" + nvl(item.list[cnt2].time) + "</td><td>" + nvl(item.list[cnt2].text) + "</td>";
 						} 
+						html += "<td>" + nvl(item.list[cnt2].time) + "</td><td>" + nvl(item.list[cnt2].text) + "</td>";
 						
 						html += "</tr>";
 					}

@@ -100,7 +100,7 @@ public class MainController {
 	    			int days = (int)((long)(dt2.getTime() - dt1.getTime()) / ( 24 * 60 * 60 * 1000 ));
 	    			
 	    			String time = "";
-	    			String text = String.valueOf(lst.get(i).get("NMPR_CND"));
+	    			String text = String.valueOf(lst.get(i).get("GOODS_NM"));
 	    			for(int j = 0; j < days + 1; j++) {
 	    				String strDt = format.format(startDt.getTime());
 		    			addMySchedule(mapDate, strDt, time, text);
@@ -112,7 +112,7 @@ public class MainController {
 	    			String BEGIN_TIME = String.valueOf(lst.get(i).get("BEGIN_TIME"));
 	    			String END_TIME = String.valueOf(lst.get(i).get("END_TIME"));
 	    			String time = BEGIN_TIME.substring(0, 2) + ":" + BEGIN_TIME.substring(2, 4) + " ~ " + END_TIME.substring(0, 2) + ":" + END_TIME.substring(2, 4);
-	    			String text = String.valueOf(lst.get(i).get("NMPR_CND"));
+	    			String text = String.valueOf(lst.get(i).get("GOODS_NM"));
 	    			addMySchedule(mapDate, strDt, time, text);
 	    		}
 	    	}	

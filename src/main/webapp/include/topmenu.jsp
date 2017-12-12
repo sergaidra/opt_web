@@ -12,7 +12,7 @@
     <ul class="submenu">
 		<li><a href="javascript:go_07_01_01();">여행후기</a> </li>
       <li><a href="javascript:go_07_02_01();">FAQ</a> </li>
-	  <li><a href="javascript:go_07_03_01();">Q&amp;A</a> </li>
+	  <li><a href="javascript:go_07_03_01();">1:1 문의하기</a> </li>
 	  <li><a href="javascript:go_07_04_01();">공지사항</a> </li>
 	  <li><a href="javascript:go_07_05_01();">라이브뷰 홍보</a> </li>
       <li><a href="javascript:go_07_06_01();">이용약관</a> </li>

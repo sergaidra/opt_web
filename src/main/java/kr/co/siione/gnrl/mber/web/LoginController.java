@@ -15,6 +15,7 @@ import kr.co.siione.api.naver.NaverService;
 import kr.co.siione.dist.utils.SimpleUtils;
 import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.mber.service.LoginService;
+import kr.co.siione.mngr.service.StplatManageService;
 import kr.co.siione.utl.LoginManager;
 import kr.co.siione.utl.MailManager;
 import kr.co.siione.utl.UserUtils;
@@ -44,6 +45,8 @@ public class LoginController {
     private LoginService loginService;
 	@Resource
     private NaverService naverService;
+	@Resource
+	private StplatManageService stplatManageService;
 		
 	@Value("#{globals['naver.client_id']}")
 	private String naver_client_id;
@@ -140,6 +143,18 @@ public class LoginController {
         model.addAttribute("mtitle", "");
 
 		model.addAttribute("joinMethod", "Direct");
+		
+		Map<String, String> param = new HashMap<String, String>();
+		Map<String, String> result1 = new HashMap<String, String>();
+		Map<String, String> result2 = new HashMap<String, String>();
+		
+		param.put("STPLAT_CODE", "000001"); //이용약관
+		result1 = stplatManageService.selectStplatByPk(param);
+		param.put("STPLAT_CODE", "000003"); //개인정보취급방침
+		result2 = stplatManageService.selectStplatByPk(param);
+        
+        model.addAttribute("result1", result1.get("STPLAT_CN_HTML"));
+        model.addAttribute("result2", result2.get("STPLAT_CN_HTML"));
 
         return "gnrl/mber/join";
     }

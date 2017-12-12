@@ -28,7 +28,7 @@
           </li>
               <li>
             <div class="img"><img src="<c:url value='/images/com/bottom_icon03.png' />"  alt=""/></div>
-            <div class="t_box"><em> Q&amp;A</em><br>
+            <div class="t_box"><em> 1:1 문의하기</em><br>
                   간단한 설명이 들어가는
                   <div class="pc_view"></div>
                   공간입니다.</div>
