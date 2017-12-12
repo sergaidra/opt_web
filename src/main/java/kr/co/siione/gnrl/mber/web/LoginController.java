@@ -18,6 +18,7 @@ import kr.co.siione.gnrl.mber.service.LoginService;
 import kr.co.siione.mngr.service.StplatManageService;
 import kr.co.siione.utl.LoginManager;
 import kr.co.siione.utl.MailManager;
+import kr.co.siione.utl.Sha256;
 import kr.co.siione.utl.UserUtils;
 import kr.co.siione.utl.egov.EgovProperties;
 import net.sf.json.JSONObject;
@@ -90,7 +91,9 @@ public class LoginController {
         if(result != null){
         	String esntl_id = (String) result.get("ESNTL_ID");
         	String password = (String) result.get("PASSWORD");
-        	String crtfc_at = (String) result.get("CRTFC_AT");       
+        	String crtfc_at = (String) result.get("CRTFC_AT");   
+        	
+        	user_pw = Sha256.encrypt(user_pw).toUpperCase();
 
         	//password
         	if(user_pw.equals(password)){
@@ -206,6 +209,8 @@ public class LoginController {
 			String email_recptn_at = UserUtils.nvl(param.get("email_recptn_at"));
 			String certkey = UUID.randomUUID().toString().replace("-", "");
 			String joinMethod = UserUtils.nvl(param.get("joinMethod"));
+			
+			password = Sha256.encrypt(password).toUpperCase();
 
 			HashMap map = new HashMap();	
 			map.put("user_id", email);			
