@@ -423,33 +423,6 @@
 		INNER JOIN TB_USER U ON PR.ESNTL_ID = U.ESNTL_ID
 		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
 		ORDER BY B.RNUM	
-	</select>
-	
-	<insert id="gnrl.goods.insertOpinion"  parameterClass="hashMap" >
-		INSERT INTO TB_PURCHS_OPINION (OPINION_SN, OPINION_SJ, OPINION_CN, GOODS_CODE, DELETE_AT, WRITNG_ID, WRITNG_DT)
-		SELECT NVL(MAX(OPINION_SN), 0) + 1, #opinion_sj#, #opinion_cn#, #goods_code#, 'N', #esntl_id#, SYSDATE
-		FROM TB_PURCHS_OPINION
-	</insert>
-	
-	<select id="gnrl.goods.getOpinionCount" parameterClass="hashMap" resultClass="Integer">
-		SELECT COUNT(1) FROM TB_PURCHS_OPINION
-		WHERE GOODS_CODE = #goods_code# AND DELETE_AT = 'N'
-	</select>
-	
-	<select id="gnrl.goods.getOpinion" parameterClass="hashMap" resultClass="hashMap">
-		SELECT PO.OPINION_SN, PO.OPINION_SJ, DBMS_LOB.SUBSTR( PO.OPINION_CN, 4000, 1) AS OPINION_CN, TO_CHAR(PO.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT, U.USER_NM
-		FROM (
-			SELECT OPINION_SN, ROWNUM AS RNUM
-			FROM (
-				SELECT OPINION_SN FROM TB_PURCHS_OPINION
-				WHERE GOODS_CODE = #goods_code# AND DELETE_AT = 'N'
-				ORDER BY WRITNG_DT DESC
-			) A
-		) B
-		INNER JOIN TB_PURCHS_OPINION PO ON B.OPINION_SN = PO.OPINION_SN
-		INNER JOIN TB_USER U ON PO.WRITNG_ID = U.ESNTL_ID
-		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
-		ORDER BY B.RNUM	
-	</select>
+	</select>	
 	
 </sqlMap>

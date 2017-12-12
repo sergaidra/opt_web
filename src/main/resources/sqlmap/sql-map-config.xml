@@ -16,6 +16,7 @@
 	<sqlMap resource="sqlmap/siione/gnrl/review_db_sql.xml"/>
 	<sqlMap resource="sqlmap/siione/gnrl/faq_db_sql.xml"/>
 	<sqlMap resource="sqlmap/siione/gnrl/notice_db_sql.xml"/>
+	<sqlMap resource="sqlmap/siione/gnrl/opinion_db_sql.xml"/>
 
 	<sqlMap resource="sqlmap/siione/mngr/tb_file_manage.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_cty.xml"/>
@@ -40,4 +41,5 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_main_image.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_stplat.xml"/>	
 	<sqlMap resource="sqlmap/siione/mngr/tb_point.xml"/> <!-- 사용안함 -->
+	
 </sqlMapConfig>

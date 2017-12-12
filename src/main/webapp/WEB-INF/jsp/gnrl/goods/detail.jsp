@@ -845,54 +845,8 @@ function goSearchReview(pageNo) {
 
 }
 
-function saveOpinion() {
-	if($.trim($(".featherlight #opinion_sj").val()) == "") {
-		alert("제목을 입력해주세요.");
-		$(".featherlight #opinion_sj").focus();
-		return false;
-	}
-	if($.trim($(".featherlight #opinion_cn").val()) == "") {
-		alert("내용을 입력해주세요.");
-		$(".featherlight #opinion_cn").focus();
-		return false;
-	}
-	
-	var url = "<c:url value='/goods/saveOpinion'/>";
-	
-	var param = {};
-	param.opinion_sj = $(".featherlight #opinion_sj").val();
-	param.opinion_cn = $(".featherlight #opinion_cn").val();
-	param.goods_code = "${goods_code}";
-	
-	$.ajax({
-        url : url,
-        type: "post",
-        dataType : "json",
-        async: "true",
-        contentType: "application/json; charset=utf-8",
-        data : JSON.stringify(param ),
-        success : function(data,status,request){
-			if(data.result == "0") {	        	
-				alert("등록되었습니다.");
-				$.featherlight.close();
-				goSearchOpinion(1);
-			} else if(data.result == "-2") {
-				alert("로그인이 필요합니다.");
-				go_login();
-			} else if(data.result == "9") {
-				alert(data.message);
-			} else{
-				alert("작업을 실패하였습니다.");
-			}	        	
-        },
-        error : function(request,status,error) {
-        	alert(error);
-        },
-	});			
-}
-
 function goSearchOpinion(pageNo) {
-	var url = "<c:url value='/goods/getOpinion'/>";
+	var url = "<c:url value='/cs/getOpinion'/>";
 	$("#tblOpinionPC tbody").empty(); 
 	$("#tblOpinionMobile tbody").empty(); 
 	$("#pagingOpinion").empty(); 
@@ -912,7 +866,7 @@ function goSearchOpinion(pageNo) {
         success : function(data,status,request){
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
         		{
-            		var tr = $("<tr></tr>");
+            		var tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ")' style='cursor:pointer;'></tr>");
             		var td1 = $("<td class='t_center'>" + (Number(data.startIdx) + cnt) + "</td>");
             		var td2 = $("<td>" + data.list[cnt].OPINION_SJ + "</td>");
             		var td3 = $("<td>" + data.list[cnt].USER_NM + "</td>");
@@ -977,6 +931,15 @@ function goSearchOpinion(pageNo) {
 
 }
 
+function viewOpinion(opinion_sn) {
+	var goods_code = "${goods_code}";
+	$.featherlight('/cs/popupOpinion?opinion_sn=' + opinion_sn + '&goods_code=' + goods_code + '&callback=saveOpinionComplete', {});
+}
+
+function saveOpinionComplete() {
+	goSearchOpinion(1);
+}
+
 </script>
 	
 </head>
@@ -1027,7 +990,7 @@ function goSearchOpinion(pageNo) {
 		  </div>
 			<div class="hit_box"><i class="material-icons">&#xE87E;</i><span>${wish_count}</span></div>
           <div class="share_box"> <a  href="#" data-featherlight="#share"><i class="material-icons">&#xE80D;</i> </a></div>
-          <div class="qa_btn"><a href="#" data-featherlight="#pa_popup2">1:1문의하기</a></div>
+          <div class="qa_btn"><a href="javascript:viewOpinion('');">1:1문의하기</a></div>
           <!-- Swiper -->
           <div class="swiper-container">
             <div class="swiper-wrapper">
@@ -1221,9 +1184,7 @@ function goSearchOpinion(pageNo) {
 	            	<i class="material-icons <c:if test="${x <= ceil_review_score}">on</c:if>">star_rate</i> 
             	</c:forEach>
             </div>
-            <a  href="#" data-featherlight="#review_popup">
-            <!-- <input type="button" class="btn" value="후기쓰기"> -->
-            </a> </div>
+		  </div>
           <div class="tb_01_box"> 
             <!--//pc 테블 일때 -->
             <table width="100%"  class="tb_01 pc_view comf" id="tblReviewPC">
@@ -1272,7 +1233,7 @@ function goSearchOpinion(pageNo) {
           <div class="title_box">
             <div class="title tw_500">1:1문의하기</div>
             <div class="star_um">총<em><span id="spnOpinionCount"></span>명</em></div>
-            <a  href="#" data-featherlight="#pa_popup">
+            <a  href="javascript:viewOpinion('');">
             <input type="button" class="btn" value="1:1문의하기">
             </a> </div>
           <div class="tb_01_box"> 
@@ -1479,103 +1440,13 @@ function goSearchOpinion(pageNo) {
 </div>
 
 <!-- //본문 --> 
-<!--팝업 : 이용후기 -->
-<div class="lightbox" id="review_popup">
-  <div class="popup_com">
-    <div class="title">이용후기</div>
-    <div class="popup_cont">
-      <div class="tb_01_box">
-        <table width="100%"  class="tb_01">
-          <col width="25%">
-          <col width="">
-          <tbody>
-            <tr>
-              <th >이름</th>
-              <td><input type="text" placeholder="" class="w_100p input_st"></td>
-            </tr>
-            <tr>
-              <th >비밀번호</th>
-              <td><input type="text" placeholder="" class="w_100p input_st"></td>
-            </tr>
-            <tr>
-              <th >이메일</th>
-              <td><input type="text" placeholder="형식에 맞게 적어주세요 (예:test@asdf.com)" class="w_100p input_st"></td>
-            </tr>
-            <tr>
-              <th >점수</th>
-              <td><div class="star_icon"><i class="material-icons on">star_rate</i> <i class="material-icons on">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i> <i class="material-icons">star_rate</i></div></td>
-            </tr>
-            <tr>
-              <th >내용쓰기</th>
-              <td><textarea name="textarea" id="textarea" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="popup_btn"><a href="#">등록하기</a></div>
-    </div>
-  </div>
-</div>
-<!--팝업--> 
 
-<!--팝업 : 문의하기-->
-<div class="lightbox" id="pa_popup">
-  <div class="popup_com">
-    <div class="title">1:1문의하기 </div>
-    <div class="popup_cont">
-      <div class="tb_01_box">
-        <table width="100%"  class="tb_01">
-          <col width="20%">
-          <col width="">
-          <tbody>
-            <tr>
-              <th >제목</th>
-              <td><input type="text" placeholder="" class="w_100p input_st" id="opinion_sj" name="opinion_cn"></td>
-            </tr>
-            <tr>
-              <th >내용쓰기</th>
-              <td><textarea name="opinion_cn" id="opinion_cn" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="popup_btn"><a href="javascript:saveOpinion();">등록하기</a></div>
-    </div>
-  </div>
-</div>
-<!--팝업-->
-<!--팝업 : 1:1문의하기-->
-<div class="lightbox" id="pa_popup2">
-  <div class="popup_com">
-    <div class="title">1:1문의하기 </div>
-    <div class="popup_cont">
-      <div class="tb_01_box">
-        <table width="100%"  class="tb_01">
-          <col width="20%">
-          <col width="">
-          <tbody>
-            <tr>
-              <th >제목</th>
-              <td><input type="text" placeholder="" class="w_100p input_st" id="opinion_sj" name="opinion_cn"></td>
-            </tr>
-            <tr>
-              <th >내용쓰기</th>
-              <td><textarea name="opinion_cn" id="opinion_cn" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="popup_btn"><a href="javascript:saveOpinion();">등록하기</a></div>
-    </div>
-  </div>
-</div>
-<!--팝업-->
 <!--팝업 : 1:1문의하기-->
 <div class="lightbox" id="share">
   <div class="popup_com2">
     <div class="title">공유하기 </div>
     <div class="popup_cont">
-   <div class="login_div2"><a href="#"><img src="../../../images/com/sns_login1.gif" alt=""/></a> <a href="#"><img src="../../../images/com/sns_login2.gif" alt=""/></a>  <a href="#"><img src="../../../images/com/sns_login3.gif" alt=""/></a> </div>
+   <div class="login_div2"><a href="#"><img src="/images/com/sns_login1.gif" alt=""/></a> <a href="#"><img src="/images/com/sns_login2.gif" alt=""/></a>  <a href="#"><img src="/images/com/sns_login3.gif" alt=""/></a> </div>
     </div>
   </div>
 </div>

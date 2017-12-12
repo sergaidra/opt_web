@@ -86,16 +86,4 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsDAO.getReview(map);
     }
     
-    public void insertOpinion(HashMap map) throws Exception {
-    	goodsDAO.insertOpinion(map);
-	}
-	
-	public int getOpinionCount(HashMap map) throws Exception {
-		return goodsDAO.getOpinionCount(map);
-	}
-
-	public List getOpinion(HashMap map) throws Exception {
-		return goodsDAO.getOpinion(map);
-	}
-
 }

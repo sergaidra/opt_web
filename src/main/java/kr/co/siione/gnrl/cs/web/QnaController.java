@@ -53,10 +53,110 @@ public class QnaController {
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 
         model.addAttribute("bp", "07");
-       	model.addAttribute("btitle", "Q&A");
+       	model.addAttribute("btitle", "1:1 문의하기");
         model.addAttribute("mtitle", "");
 		
 		return "gnrl/cs/qna";
 	}
+	
+    @RequestMapping(value="/getOpinion")
+    public @ResponseBody Map getOpinion(@RequestBody HashMap param) throws Exception {
+      	HashMap map = new HashMap();
+    	Map<String, Object> mapResult = new HashMap<String, Object>();
 
+    	String goods_code = UserUtils.nvl(param.get("goods_code"));
+		int hidPage = Integer.parseInt(UserUtils.nvl(param.get("hidPage"))); // 페이지번호
+		int startIdx = (hidPage - 1) * 5 + 1;
+		int endIdx = hidPage * 5;
+
+    	map.put("goods_code", goods_code); 
+    	map.put("hidPage", hidPage);
+    	map.put("startIdx", startIdx);
+    	map.put("endIdx", endIdx);
+    	
+    	int totalCount = qnaService.getOpinionListCount(map);
+    	List<HashMap> list = qnaService.getOpinionList(map);
+    	
+    	List<HashMap> result = new ArrayList();
+    	
+    	for(int i = 0; i < list.size(); i++) {
+    		result.add(list.get(i));
+    		HashMap mapChild = new HashMap();
+    		mapChild.put("parent_opinion_sn", list.get(i).get("OPINION_SN"));
+    		List<HashMap> lstChild = qnaService.getOpinionAnswerList(mapChild);
+    		result.addAll(lstChild);
+    	}
+    	
+    	mapResult.put("totalCount", String.valueOf(totalCount));
+    	mapResult.put("startIdx", String.valueOf(startIdx));
+    	mapResult.put("list", result);
+
+    	return mapResult;    
+    }    
+
+    @RequestMapping(value="/popupOpinion")
+    public String popupFlight(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+      	HashMap map = new HashMap();
+
+		String opinion_sn = UserUtils.nvl(request.getParameter("opinion_sn"));
+		String goods_code = UserUtils.nvl(request.getParameter("goods_code"));
+		String callback = UserUtils.nvl(request.getParameter("callback"));		
+
+    	map.put("opinion_sn", opinion_sn);   
+    	map.put("goods_code", goods_code);   
+    	System.out.println("[viewOpinion]map:"+map);
+		HashMap opinion = qnaService.viewOpinion(map);
+		
+		model.addAttribute("opinion", opinion);
+		model.addAttribute("opinion_sn", opinion_sn);
+		model.addAttribute("goods_code", goods_code);
+		model.addAttribute("callback", callback);
+		
+		return "gnrl/popup/opinion";	
+    }	
+	
+    @RequestMapping(value="/saveOpinion")
+    public @ResponseBody ResponseVo saveOpinion(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+	    	HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+
+			HashMap map = new HashMap();
+
+			String opinion_sn = UserUtils.nvl(param.get("opinion_sn"));
+			String goods_code = UserUtils.nvl(param.get("goods_code"));
+			String opinion_sj = UserUtils.nvl(param.get("opinion_sj"));
+			String opinion_cn = UserUtils.nvl(param.get("opinion_cn"));
+			String parent_opinion_sn = UserUtils.nvl(param.get("parent_opinion_sn"));
+
+	    	map.put("opinion_sn", opinion_sn);
+	    	map.put("goods_code", goods_code);
+	    	map.put("opinion_sj", opinion_sj);
+	    	map.put("opinion_cn", opinion_cn);
+	    	map.put("esntl_id", esntl_id);
+	    	map.put("parent_opinion_sn", parent_opinion_sn);
+	    	
+	    	if("".equals(opinion_sn))
+	    		qnaService.insertOpinion(map);
+	    	else
+	    		qnaService.updateOpinion(map);
+
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;    	
+    }    
 }
