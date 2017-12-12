@@ -44,7 +44,7 @@
 		INSERT INTO TB_USER (ESNTL_ID, USER_ID, USER_NM, WRITNG_ID, PASSWORD, WRITNG_DT
 			, AUTHOR_CL, USE_AT, MOBLPHON_NO, CRTFC_AT, EMAIL_RECPTN_AT, EMAIL, SEX, BIRTH, CERTKEY)
 		VALUES (#esntl_id#, #user_id#, #user_nm#, #esntl_id#, #password#, SYSDATE
-			, 'G', 'Y', #moblphon_no#, 'N', #email_recptn_at#, #email#, #sex#, #birth#, #certkey# )
+			, 'G', 'Y', #moblphon_no#, #crtfc_at#, #email_recptn_at#, #email#, #sex#, #birth#, #certkey# )
 	]]>
 	</insert>
 

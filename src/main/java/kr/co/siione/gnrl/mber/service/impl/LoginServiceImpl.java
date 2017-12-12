@@ -52,12 +52,14 @@ public class LoginServiceImpl implements LoginService {
 	public void insertUser(HashMap map) throws Exception {
         loginDAO.insertUser(map);
         
-		// 메일 발송
-		Map<String, Object> attachMap = new HashMap<String, Object>();
-		attachMap.put("images", new ArrayList());
-		String subject = "원패스투어 회원가입을 위한 인증메일입니다.";
-		String content = "회원가입 인증을 하려면 <a href='http://" + webserverip + "/member/loginCert?key=" + String.valueOf(map.get("certkey")) + "' target='_blank'>[여기]</a>를 클릭하세요.";
-		mailManager.sendMail(subject, content, String.valueOf(map.get("email")), attachMap);	
+        if("N".equals(String.valueOf(map.get("crtfc_at")))) {
+    		// 메일 발송
+    		Map<String, Object> attachMap = new HashMap<String, Object>();
+    		attachMap.put("images", new ArrayList());
+    		String subject = "원패스투어 회원가입을 위한 인증메일입니다.";
+    		String content = "회원가입 인증을 하려면 <a href='http://" + webserverip + "/member/loginCert?key=" + String.valueOf(map.get("certkey")) + "' target='_blank'>[여기]</a>를 클릭하세요.";
+    		mailManager.sendMail(subject, content, String.valueOf(map.get("email")), attachMap);	
+        }
 	}
 
     public int chkUserCert(HashMap map) throws Exception {

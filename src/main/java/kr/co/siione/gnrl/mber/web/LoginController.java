@@ -190,6 +190,7 @@ public class LoginController {
 			String sex = UserUtils.nvl(param.get("sex"));
 			String email_recptn_at = UserUtils.nvl(param.get("email_recptn_at"));
 			String certkey = UUID.randomUUID().toString().replace("-", "");
+			String joinMethod = UserUtils.nvl(param.get("joinMethod"));
 
 			HashMap map = new HashMap();	
 			map.put("user_id", email);			
@@ -202,6 +203,12 @@ public class LoginController {
 			map.put("email_recptn_at", email_recptn_at);
 			map.put("certkey", certkey);
 			map.put("esntl_id", loginService.getMaxEsntlId(map));
+			
+			if("Direct".equals(joinMethod)) {
+				map.put("crtfc_at", "N");
+			} else {
+				map.put("crtfc_at", "Y");
+			}
 
 			UserUtils.log("[chkUserInfo-map]", map);
 			

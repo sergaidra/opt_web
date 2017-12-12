@@ -62,6 +62,7 @@ function join() {
 	param.birth = $.trim($("#birth").val());
 	param.sex = $(':radio[name="rdoSex"]:checked').val();
 	param.email_recptn_at = "N";
+	param.joinMethod = "${joinMethod}";
 	if($("#email_recptn_at").is(":checked"))
 		param.email_recptn_at = "Y";
 	
@@ -74,8 +75,13 @@ function join() {
         data : JSON.stringify(param ),
         success : function(data,status,request){
 			if(data.result == "0") {
-				alert("회원가입 신청되었습니다.\r\n이메일을 확인해주세요.");
-				go_home();
+				if(param.joinMethod == "Direct") {
+					alert("회원가입 신청되었습니다.\r\n이메일을 확인해주세요.");
+					go_home();
+				} else {
+					alert("회원가입되었습니다.\r\n다시 로그인해주세요.");
+					go_login();
+				}
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
