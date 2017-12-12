@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.co.siione.api.naver.NaverService;
 import kr.co.siione.dist.utils.SimpleUtils;
 import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.mber.service.LoginService;
@@ -36,11 +37,20 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Controller
 @RequestMapping(value = "/member/")
+@PropertySource("classpath:property/globals.properties")
 public class LoginController {
 
 	@Resource
     private LoginService loginService;
+	@Resource
+    private NaverService naverService;
 		
+	@Value("#{globals['naver.client_id']}")
+	private String naver_client_id;
+
+	@Value("#{globals['naver.login_redirect_uri']}")
+	private String naver_login_redirect_uri;
+
     @RequestMapping(value="/login/")
     public String login(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
         LoginManager loginManager = LoginManager.getInstance();
@@ -55,13 +65,17 @@ public class LoginController {
         String result = SimpleUtils.default_set(request.getParameter("result"));
         model.addAttribute("result", result);
         
+        // 네이버 로그인을 위한 state 생성
+        naverService.initNaverLogin(request);
+        
+        model.addAttribute("naver_client_id", naver_client_id);
+        model.addAttribute("naver_login_redirect_uri", naver_login_redirect_uri);
+        
         return "gnrl/mber/login";
     }
 
     @RequestMapping(value="/loginAction/")
     public void loginAction(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
-        LoginManager loginManager = LoginManager.getInstance();
-        HttpSession session = request.getSession();
         String user_id = SimpleUtils.default_set(request.getParameter("txtID"));
         String user_pw = SimpleUtils.default_set(request.getParameter("txtPW"));
         String adminYn = SimpleUtils.default_set(request.getParameter("adminYn"));
@@ -71,58 +85,21 @@ public class LoginController {
     	HashMap result = loginService.userInfo(map);
 
         if(result != null){
-
         	String esntl_id = (String) result.get("ESNTL_ID");
         	String password = (String) result.get("PASSWORD");
         	String crtfc_at = (String) result.get("CRTFC_AT");       
 
         	//password
         	if(user_pw.equals(password)){
-        		if("N".equals(crtfc_at)) {
-        			response.sendRedirect("/member/login/?result=certno");
-        			return;
-        		}
-            	//중복로그인 여부 확인
-            	if(loginManager.isUsing(esntl_id)){
-            	    loginManager.removeSession(esntl_id);
-            	}
-            	
-            	// 로그인 이력
-            	HashMap map2 = new HashMap();
-            	map2.put("esntl_id", esntl_id);
-            	map2.put("conect_ip", getUserIp(request));
-            	map2.put("conect_br", getUserBrower(request));
-            	map2.put("conect_os", getUserOs(request));
-            	UserUtils.log("접속정보", map2);
-            	loginService.userLog(map2);
-            	
-            	session.setAttribute("user_id", result.get("USER_ID"));
-            	session.setAttribute("user_nm", result.get("USER_NM"));
-            	session.setAttribute("author_cl", result.get("AUTHOR_CL"));            	
-            	session.setAttribute("email", result.get("EMAIL"));
-            	session.setAttribute("esntl_id", esntl_id);
-            	//timeout 30분
-            	session.setMaxInactiveInterval(1800);
-
-            	//새로운 접속(세션) 생성
-            	loginManager.setSession(session, esntl_id);
-            	
-            	if(adminYn.equals("Y")) { // 2017-11-21 임시(관리자모드에서 로그인하는 경우)
-            		if(!result.get("AUTHOR_CL").equals("G")) {
-            			response.sendRedirect("/mngr/");	
-            		} else {
-            			response.sendRedirect("/main/indexAction/");
-            		}
-            	} else {
-            		response.sendRedirect("/main/indexAction/");	
-            	}
+        		result.put("adminYn", adminYn);
+        		loginService.loginSuccess(request, response, result);
         	}else{
                 response.sendRedirect("/member/login/?result=fail");
         	}
         } else {
             response.sendRedirect("/member/login/?result=fail");
         }
-    }
+    }    
 
     @RequestMapping(value="/logoutAction/")
     public void logout(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
@@ -154,67 +131,15 @@ public class LoginController {
         return "gnrl/mber/timer";
     }
     
-	public static String getUserIp(HttpServletRequest request){
-		//HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-		String ip = request.getHeader("X-FORWARDED-FOR");
-		if (ip == null || ip.length() == 0) {
-		   ip = request.getHeader("Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0) {
-		   ip = request.getHeader("WL-Proxy-Client-IP");  // 웹로직
-		}
-		if (ip == null || ip.length() == 0) {
-		   ip = request.getRemoteAddr() ;
-		}
-		return ip;
-	}
-	
-	public static String getUserBrower(HttpServletRequest request){
-		String agent = request.getHeader("User-Agent");
-		String brower = null;
-		 
-		if (agent != null) {
-		   if (agent.indexOf("Trident") > -1) {
-		      brower = "MSIE";
-		   } else if (agent.indexOf("Chrome") > -1) {
-		      brower = "Chrome";
-		   } else if (agent.indexOf("Opera") > -1) {
-		      brower = "Opera";
-		   } else if (agent.indexOf("iPhone") > -1 && agent.indexOf("Mobile") > -1) {
-		      brower = "iPhone";
-		   } else if (agent.indexOf("Android") > -1 && agent.indexOf("Mobile") > -1) {
-		      brower = "Android";
-		   }
-		}
-		return brower;
-	}	
-	
-	public static String getUserOs(HttpServletRequest request){
-		String agent = request.getHeader("User-Agent");
-		String os = null;
-		 
-		if(agent.indexOf("NT 6.0") != -1) os = "Windows Vista/Server 2008";
-		else if(agent.indexOf("NT 5.2") != -1) os = "Windows Server 2003";
-		else if(agent.indexOf("NT 5.1") != -1) os = "Windows XP";
-		else if(agent.indexOf("NT 5.0") != -1) os = "Windows 2000";
-		else if(agent.indexOf("NT") != -1) os = "Windows NT";
-		else if(agent.indexOf("9x 4.90") != -1) os = "Windows Me";
-		else if(agent.indexOf("98") != -1) os = "Windows 98";
-		else if(agent.indexOf("95") != -1) os = "Windows 95";
-		else if(agent.indexOf("Win16") != -1) os = "Windows 3.x";
-		else if(agent.indexOf("Windows") != -1) os = "Windows";
-		else if(agent.indexOf("Linux") != -1) os = "Linux";
-		else if(agent.indexOf("Macintosh") != -1) os = "Macintosh";
-		else os = ""; 
-		
-		return os;
-	}
+
 	
     @RequestMapping(value="/join")
     public String join(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
         model.addAttribute("bp", "07");
        	model.addAttribute("btitle", "회원가입");
         model.addAttribute("mtitle", "");
+
+		model.addAttribute("joinMethod", "Direct");
 
         return "gnrl/mber/join";
     }

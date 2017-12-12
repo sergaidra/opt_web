@@ -171,8 +171,10 @@ function fnLiveView(url) {
 	   var swiper = new Swiper('#visual .swiper-container', {
         pagination: '.swiper-pagination',
         paginationClickable: true,
+		autoplay: 3500,
         nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev'
+        prevButton: '.swiper-button-prev',
+		autoplayDisableOnInteraction: false
     });
 	  	var swiperMobile = new Swiper( '#visual_mobile .swiper-container', {
 				pagination: '.swiper-pagination',

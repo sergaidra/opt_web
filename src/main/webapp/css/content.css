@@ -1994,20 +1994,20 @@ a:hover.sbtn_02{ border: 1px solid #333; background-color: #ccc;  padding: 3px 5
 
 
 /**** 테블릿 2 ****/
-@media only all and (min-width:1000px) {
-.popup_st{position:absolute; z-index:209999999999999999999999999999;visibility:hidden; left:50px;top:190px;}
+@media only all and (min-width:769px) {
+.popup_st{position:absolute; z-index:209999999999999999999999999999;visibility:hidden; left:50px;top:190px; width:400px !important}
 .popup_st .popup_head{ width: 100%;float:left;  background-color: #666; color: #fff; padding: 10px; box-sizing: border-box}
-.popup_st .popup_body{ width: 100%;float:left;  border: 1px solid #333; background-color: #fff; padding: 5px 5px 5px 10px;}
+.popup_st .popup_body{ width: 100%;float:left;  border: 1px solid #333; background-color: #fff; font-size: 14px}
 .popup_st .popup_bottom{ width: 100%;float:left; background-color: #333; color: #fff; text-align: right; box-sizing: border-box; font-size: 12px; padding:0px 10px; height: 40px; line-height: 40px}
 .popup_st .popup_bottom i{ float:right; margin-left: 10px; color: #fff; font-size: 20px; line-height: 40px}
 .popup_st .popup_bottom .tx{ float:right; margin-left:5px; ; line-height: 38px }
 .popup_st .popup_bottom .tx input{ line-height: 30px; margin-top: -3px }
 }
 /**** 모바일 ****/
-@media only all and (max-width:999px) {
+@media only all and (max-width:768px) {
 .popup_st{position:absolute; z-index:209999999999999999999999999999;visibility:hidden; left:0px;top:0px; width: 100%!important}
 .popup_st .popup_head{ width: 100%;float:left;  background-color: #666; color: #fff; padding: 10px; box-sizing: border-box}
-.popup_st .popup_body{ width: 100%;float:left;  border: 1px solid #333; background-color: #fff; padding: 5px 5px 5px 10px;}
+.popup_st .popup_body{ width: 100%;float:left;  border: 1px solid #333; background-color: #fff;}
 .popup_st .popup_body img{ width: 100%;}
 .popup_st .popup_bottom{ width: 100%;float:left; background-color: #333; color: #fff; text-align: right; box-sizing: border-box; font-size: 12px; padding:0px 10px; height: 40px; line-height: 40px}
 .popup_st .popup_bottom i{ float:right; margin-left: 10px; color: #fff; font-size: 20px; line-height: 40px}

@@ -15,13 +15,13 @@
 
 .jquery-accordion-menu .jquery-accordion-menu-footer,.jquery-accordion-menu .jquery-accordion-menu-header {
 	width: 100%;
-	height: 50px;
+	height: 60px;
 	padding-left: 22px;
 	float: left;
-	line-height: 50px;
+	line-height: 60px;
 	font-weight: 600;
 	color: #f0f0f0;
-	background: #414956
+	background: #414956;
 }
 
 .jquery-accordion-menu ul {
@@ -51,7 +51,7 @@
 	-o-transition: color .2s linear,background .2s linear;
 	-moz-transition: color .2s linear,background .2s linear;
 	-webkit-transition: color .2s linear,background .2s linear;
-	transition: color .2s linear,background .2s linear
+	transition: color .2s linear,background .2s linear;
 }
 /**** 선택된 대메뉴 폰트 컬러 ****/
 .jquery-accordion-menu>ul>li.active>a,.jquery-accordion-menu>ul>li:hover>a {
@@ -98,6 +98,10 @@
 	width: 100%;
 	display: none;
 	position: static
+}
+.jquery-accordion-menu ul ul.submenu {
+	clear: both;
+	width: 100%
 }
 
 .jquery-accordion-menu ul ul.submenu li {
@@ -202,6 +206,255 @@
 	}
 }
 
+
+
+.menu {
+  position: relative;
+  height: 80px;
+  width: auto; 
+}
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+.menu > ul {
+  position: relative;
+  display: block;
+  width: 100%;
+  z-index: 500; margin-top: -10px;
+}
+.menu:after, .menu > ul:after {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+.menu.align-right > ul > li {
+  float: left;
+}
+.menu.align-center ul {
+  text-align: center;
+}
+.menu.align-center ul ul {
+  text-align: left;
+}
+.menu > ul > li {
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+.menu > ul > #menu-button {
+  display: none;
+}
+.menu ul li a {
+  display: block;
+  text-decoration: none;
+}
+
+/**** pc ****/
+@media only all and (min-width:1301px) {
+	.menu > ul > li > a {
+  font-size: 18px;
+  padding: 5px 0px 10px 0px;
+ color: #333 !important;
+  text-transform: uppercase;
+  -webkit-transition: color 0.25s ease-out;
+  -moz-transition: color 0.25s ease-out;
+  -ms-transition: color 0.25s ease-out;
+  -o-transition: color 0.25s ease-out;
+  transition: color 0.25s ease-out; height: 50px;font-family:'Noto Sans Korean', 'Noto Sans KR'; color: #000 ; 
+}
+
+}
+/**** 테블릿 ****/
+@media all and (max-width:1300px) and (min-width:769px) {
+.menu > ul > li > a {
+  font-size: 18px;
+  padding: 5px 0px 10px 0px;
+ color: #333 !important;
+  text-transform: uppercase;
+  -webkit-transition: color 0.25s ease-out;
+  -moz-transition: color 0.25s ease-out;
+  -ms-transition: color 0.25s ease-out;
+  -o-transition: color 0.25s ease-out;
+  transition: color 0.25s ease-out; height: 50px; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; 
+}
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+.menu > ul > li > a {
+  font-size: 18px;
+  padding: 10px 0px;
+  color: #666 !important;
+  text-transform: uppercase;
+  -webkit-transition: color 0.25s ease-out;
+  -moz-transition: color 0.25s ease-out;
+  -ms-transition: color 0.25s ease-out;
+  -o-transition: color 0.25s ease-out;
+  transition: color 0.25s ease-out;
+}
+}
+
+/**** pc버전 메뉴****/
+.menu > ul > li.sub > a {
+  padding-right: 0px;
+}
+.menu > ul > li:hover > a {
+ color: #ff7800 !important;
+}
+.menu li.sub::after {
+  display: block;
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.menu > ul > li.sub::after {
+  right: 10px;
+  top: 20px;
+  border: 5px solid transparent;
+  border-top-color: #7a8189;
+}
+.menu > ul > li:hover::after {
+  border-top-color: #ffffff; 
+}
+.menu ul ul {
+  position: absolute;
+  left: -9999px;
+  top: 70px;
+  opacity: 0;
+  -webkit-transition: opacity .3s ease, top .25s ease;
+  -moz-transition: opacity .3s ease, top .25s ease;
+  -ms-transition: opacity .3s ease, top .25s ease;
+  -o-transition: opacity .3s ease, top .25s ease;
+  transition: opacity .3s ease, top .25s ease;
+  z-index: 1000;
+}
+.menu ul ul ul {
+  top: 0px;
+  padding-left: 5px; 
+}
+.menu ul ul li {
+  position: relative; width: 180px; padding-left: 0px 
+}
+.menu > ul > li:hover > ul {
+  left: auto;
+  top: 50px;
+  opacity: 1; 
+}
+.menu.align-right > ul > li:hover > ul {
+  left: auto;
+  right: 0;
+  opacity: 1; 
+}
+.menu ul ul li:hover > ul {
+  left: 60px;
+  top: 0;
+  opacity: 1;
+}
+.menu.align-right ul ul li:hover > ul {
+  left: auto;
+  right: 60px;
+  top: 0;
+  opacity: 1;
+  padding-right: 5px;
+}
+.menu ul ul li a {
+  padding: 15px 10px;
+  font-size: 15px;
+  color: #9ea2a5;
+  background: #333;
+  -webkit-transition: all .35s ease;
+  -moz-transition: all .35s ease;
+  -ms-transition: all .35s ease;
+  -o-transition: all .35s ease;
+	transition: all .35s ease;; text-align: left;
+} }
+.menu.align-right ul ul li a {
+  text-align: right;
+}
+.menu ul ul li:hover > a {
+  background: #666;
+  color: #FFF !important; ; text-align: left
+}
+.menu ul ul li:last-child > a, .menu ul ul li.last > a {
+  border-bottom: 0;
+}
+.menu > ul > li > ul::after {
+  content: '';
+  border: 6px solid transparent;
+  width: 0;
+  height: 0;
+  border-bottom-color: #333;
+  position: absolute;
+  top: -12px;
+  left: 30px;
+}
+.menu.align-right > ul > li > ul::after {
+  left: auto;
+  right: 30px;
+}
+.menu ul ul li.sub::after {
+  border: 4px solid transparent;
+  border-left-color: #9ea2a5;
+  right: 10px;
+  top: 12px;
+  -moz-transition: all .2s ease;
+  -ms-transition: all .2s ease;
+  -o-transition: all .2s ease;
+  transition: all .2s ease;
+  -webkit-transition: -webkit-transform 0.2s ease, right 0.2s ease;
+}
+.menu.align-right ul ul li.sub::after {
+  border-left-color: transparent;
+  border-right-color: #9ea2a5;
+  right: auto;
+  left: 10px;
+}
+.menu ul ul li.sub:hover::after {
+  border-left-color: #ffffff;
+  right: -5px;
+  -webkit-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.menu.align-right ul ul li.sub:hover::after {
+  border-right-color: #ffffff;
+  border-left-color: transparent;
+  left: -5px;
+  -webkit-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+
+.filterinput{
+	background-color:rgba(249, 244, 244, 0);
+	border-radius:15px;
+	width:100%;
+	height:30px;
+	border:thin solid #FFF;
+	text-indent:0.5em;
+	font-weight:bold;
+	color:#FFF;
+}
+#demo-list a{
+	overflow:hidden;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	white-space:nowrap;
+	width:100%;
+}
+
 .blue.jquery-accordion-menu .jquery-accordion-menu-footer,.blue.jquery-accordion-menu .jquery-accordion-menu-header,.blue.jquery-accordion-menu ul li a {
 	background: #4A89DC
 }
@@ -292,252 +545,3 @@
 	border-left-color: #222
 }
 
-
-
-
-.menu {
-  position: relative;
-  height: 80px;
-  width: auto; 
-}
-.menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  line-height: 1;
-}
-.menu > ul {
-  position: relative;
-  display: block;
-  width: 100%;
-  z-index: 500; margin-top: -10px;
-}
-.menu:after, .menu > ul:after {
-  content: ".";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
-}
-.menu.align-right > ul > li {
-  float: left;
-}
-.menu.align-center ul {
-  text-align: center;
-}
-.menu.align-center ul ul {
-  text-align: left;
-}
-.menu > ul > li {
-  display: inline-block;
-  position: relative;
-  margin: 0;
-  padding: 0;
-}
-.menu > ul > #menu-button {
-  display: none;
-}
-.menu ul li a {
-  display: block;
-  text-decoration: none;
-}
-
-/**** pc ****/
-@media only all and (min-width:1301px) {
-	.menu > ul > li > a {
-  font-size: 18px;
-  padding: 5px 0px 10px 0px;
- color: #333 !important;
-  text-transform: uppercase;
-  -webkit-transition: color 0.25s ease-out;
-  -moz-transition: color 0.25s ease-out;
-  -ms-transition: color 0.25s ease-out;
-  -o-transition: color 0.25s ease-out;
-  transition: color 0.25s ease-out; height: 50px;font-family:'Noto Sans Korean', 'Noto Sans KR'; color: #000 
-}
-
-}
-/**** 테블릿 ****/
-@media all and (max-width:1300px) and (min-width:769px) {
-.menu > ul > li > a {
-  font-size: 18px;
-  padding: 5px 0px 10px 0px;
- color: #333 !important;
-  text-transform: uppercase;
-  -webkit-transition: color 0.25s ease-out;
-  -moz-transition: color 0.25s ease-out;
-  -ms-transition: color 0.25s ease-out;
-  -o-transition: color 0.25s ease-out;
-  transition: color 0.25s ease-out; height: 50px; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; 
-}
-}
-/**** 모바일 ****/
-@media only all and (max-width:768px) {
-.menu > ul > li > a {
-  font-size: 18px;
-  padding: 10px 0px;
-  color: #666 !important;
-  text-transform: uppercase;
-  -webkit-transition: color 0.25s ease-out;
-  -moz-transition: color 0.25s ease-out;
-  -ms-transition: color 0.25s ease-out;
-  -o-transition: color 0.25s ease-out;
-  transition: color 0.25s ease-out;
-}
-}
-
-/**** pc버전 메뉴****/
-.menu > ul > li.sub > a {
-  padding-right: 0px;
-}
-.menu > ul > li:hover > a {
- color: #ff7800 !important;
-}
-.menu li.sub::after {
-  display: block;
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 0;
-}
-.menu > ul > li.sub::after {
-  right: 10px;
-  top: 20px;
-  border: 5px solid transparent;
-  border-top-color: #7a8189;
-}
-.menu > ul > li:hover::after {
-  border-top-color: #ffffff; 
-}
-.menu ul ul {
-  position: absolute;
-  left: -9999px;
-  top: 70px;
-  opacity: 0;
-  -webkit-transition: opacity .3s ease, top .25s ease;
-  -moz-transition: opacity .3s ease, top .25s ease;
-  -ms-transition: opacity .3s ease, top .25s ease;
-  -o-transition: opacity .3s ease, top .25s ease;
-  transition: opacity .3s ease, top .25s ease;
-  z-index: 1000;
-}
-.menu ul ul ul {
-  top: 37px;
-  padding-left: 5px; 
-}
-.menu ul ul li {
-  position: relative; width: 180px; padding-left: 0px 
-}
-.menu > ul > li:hover > ul {
-  left: auto;
-  top: 60px;
-  opacity: 1; 
-}
-.menu.align-right > ul > li:hover > ul {
-  left: auto;
-  right: 0;
-  opacity: 1; 
-}
-.menu ul ul li:hover > ul {
-  left: 60px;
-  top: 0;
-  opacity: 1;
-}
-.menu.align-right ul ul li:hover > ul {
-  left: auto;
-  right: 60px;
-  top: 0;
-  opacity: 1;
-  padding-right: 5px;
-}
-.menu ul ul li a {
-  padding: 15px 10px;
-  font-size: 15px;
-  color: #9ea2a5;
-  background: #333;
-  -webkit-transition: all .35s ease;
-  -moz-transition: all .35s ease;
-  -ms-transition: all .35s ease;
-  -o-transition: all .35s ease;
-  transition: all .35s ease;; text-align: left
-}
-.menu.align-right ul ul li a {
-  text-align: right;
-}
-.menu ul ul li:hover > a {
-  background: #666;
-  color: #FFF !important; ; text-align: left
-}
-.menu ul ul li:last-child > a, .menu ul ul li.last > a {
-  border-bottom: 0;
-}
-.menu > ul > li > ul::after {
-  content: '';
-  border: 6px solid transparent;
-  width: 0;
-  height: 0;
-  border-bottom-color: #333;
-  position: absolute;
-  top: -12px;
-  left: 30px;
-}
-.menu.align-right > ul > li > ul::after {
-  left: auto;
-  right: 30px;
-}
-.menu ul ul li.sub::after {
-  border: 4px solid transparent;
-  border-left-color: #9ea2a5;
-  right: 10px;
-  top: 12px;
-  -moz-transition: all .2s ease;
-  -ms-transition: all .2s ease;
-  -o-transition: all .2s ease;
-  transition: all .2s ease;
-  -webkit-transition: -webkit-transform 0.2s ease, right 0.2s ease;
-}
-.menu.align-right ul ul li.sub::after {
-  border-left-color: transparent;
-  border-right-color: #9ea2a5;
-  right: auto;
-  left: 10px;
-}
-.menu ul ul li.sub:hover::after {
-  border-left-color: #ffffff;
-  right: -5px;
-  -webkit-transform: rotateY(180deg);
-  -ms-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-  -o-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-}
-.menu.align-right ul ul li.sub:hover::after {
-  border-right-color: #ffffff;
-  border-left-color: transparent;
-  left: -5px;
-  -webkit-transform: rotateY(180deg);
-  -ms-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-  -o-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-}
-
-
-.filterinput{
-	background-color:rgba(249, 244, 244, 0);
-	border-radius:15px;
-	width:100%;
-	height:30px;
-	border:thin solid #FFF;
-	text-indent:0.5em;
-	font-weight:bold;
-	color:#FFF;
-}
-#demo-list a{
-	overflow:hidden;
-	text-overflow:ellipsis;
-	-o-text-overflow:ellipsis;
-	white-space:nowrap;
-	width:100%;
-}

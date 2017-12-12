@@ -15,18 +15,6 @@ $(function() {
 		timepicker:false
 	});
 	
-	$("#user_id").change(function () {
-		isUserIdDup = false;
-		$("#btnUserIdChk").show();
-		$("#muser_id").val($("#user_id").val());	
-	});
-	
-	$("#muser_id").change(function() {
-		isUserIdDup = false;
-		$("#btnUserIdChk").show();
-		$("#user_id").val($("#muser_id").val());	
-	});
-	
 	$("#password").change(function () { $("#mpassword").val($("#password").val()); });
 	$("#mpassword").change(function () { $("#password").val($("#mpassword").val()); });
 
@@ -42,6 +30,19 @@ $(function() {
 	$("#email").change(function () { $("#memail").val($("#email").val()); });
 	$("#memail").change(function () { $("#email").val($("#memail").val()); });
 
+	<c:if test="${joinMethod == 'Naver'}">
+		$("#email").val("${naver_email}");
+		$("#memail").val("${naver_email}");
+		$("#user_nm").val("${naver_name}");
+		$("#muser_nm").val("${naver_name}");
+		$("#rdoSex${naver_gender}").prop("checked", true);
+		
+		$("#email").attr("readonly",true);
+		$("#memail").attr("readonly",true);
+		$("#user_nm").attr("readonly",true);
+		$("#muser_nm").attr("readonly",true);
+		$(":radio[name='rdoSex']").attr('disabled', true);
+	</c:if>
 });
 
 var isUserIdDup = false;
@@ -88,47 +89,6 @@ function join() {
 	
 }
 
-function useridchk() {
-	if($.trim($("#user_id").val()) == "") {
-		alert("아이디를 입력해주세요.");
-		$("#user_id").focus();
-		return false;
-	}
-
-	var url = "<c:url value='/member/chkUserInfo'/>";
-	
-	var param = {};
-	param.user_id = $.trim($("#user_id").val());
-	
-	$.ajax({
-        url : url,
-        type: "post",
-        dataType : "json",
-        async: "true",
-        contentType: "application/json; charset=utf-8",
-        data : JSON.stringify(param ),
-        success : function(data,status,request){
-			if(data.result == "0") {
-	        	if(data.data == "Y") {
-	        		isUserIdDup = true;
-	        		$("#btnUserIdChk").hide();        		
-	        	} else {
-	        		alert("동일한 아이디가 존재합니다.");
-	        		return false;
-	        	}
-			} else if(data.result == "9") {
-				alert(data.message);
-			} else{
-				alert("작업을 실패하였습니다.");
-			}	        	
-        },
-        error : function(request,status,error) {
-        	alert(error);
-        },
-	});
-	
-}
-
 function validation() {
 	if(!($("#chkReq1").is(":checked"))) {
 		alert("이용약관에 동의해주세요.");
@@ -138,11 +98,7 @@ function validation() {
 		alert("개인정보취급방침에 동의해주세요.");
 		return false;
 	}
-	//if($.trim($("#user_id").val()) == "") {
-	//	alert("아이디를 입력해주세요.");
-	//	$("#user_id").focus();
-	//	return false;
-	//}
+	<c:if test="${joinMethod == 'Direct'}">
 	if($.trim($("#password").val()) == "") {
 		alert("비밀번호를 입력해주세요.");
 		$("#password").focus();
@@ -153,6 +109,7 @@ function validation() {
 		$("#passwordchk").focus();
 		return false;
 	}
+	</c:if>
 	if($.trim($("#user_nm").val()) == "") {
 		alert("이름을 입력해주세요.");
 		$("#user_nm").focus();
@@ -178,6 +135,7 @@ function validation() {
 		return false;
 	}
 
+	<c:if test="${joinMethod == 'Direct'}">
 	var password = $.trim($("#password").val());
 	var passwordchk = $.trim($("#passwordchk").val());
 	
@@ -188,10 +146,10 @@ function validation() {
 	}
 	
 	if(password != passwordchk) {
-		alert("비밀본호와 비밀번호 확인이 맞지 않습니다.")
+		alert("비밀번호와 비밀번호 확인이 맞지 않습니다.")
 		return false;
 	}
-	
+	</c:if>
 	//if(isUserIdDup == false) {
 	//	alert("아이디 중복 확인해주세요.");
 	//	return false;
@@ -384,13 +342,6 @@ function validation() {
   <div id="join_w_box">
     <table cellpadding="0" cellspacing="0" class="join_w">
       <tbody>
-        <!-- <tr>
-          <th>아이디 </th>
-          <td class="line"><input id="user_id" name="user_id" type="text" class="w_30p pc_view" value=""  />
-          	<input id="muser_id" name="user_id" type="text" class="w_100p mobile_view"  value=""  />
-            &nbsp;
-            <div class="btnst"><a href="javascript:useridchk();" id="btnUserIdChk">아이디 중복 확인</a></div></td>
-        </tr> -->
         <tr>
           <th>이메일</th>
           <td class="line"><input id="email" name="email" type="text" class="w_30p pc_view" value=""   />
@@ -399,6 +350,7 @@ function validation() {
             <input type="checkbox" id="email_recptn_at" name="email_recptn_at" id="checkbox" value="Y"/>
             이벤트 및 새로운 소식 수신 </td>
         </tr>
+        <c:if test="${joinMethod == 'Direct'}">
         <tr>
           <th>비밀번호</th>
           <td class="line"><input id="password" name="password" type="password" class="w_20p pc_view" value=""   />
@@ -410,6 +362,7 @@ function validation() {
           <td class="line"><input id="passwordchk" name="passwordchk" type="password" class="w_20p pc_view" value=""   />
           <!--모바일 --><input id="mpasswordchk" name="passwordchk" type="password" class="w_50p mobile_view"   value=""   /></td>
         </tr>
+        </c:if>
         <tr>
           <th>이름</th>
           <td class="line"><input id="user_nm" name="user_nm" type="text" class="w_20p pc_view" value=""   />
@@ -448,11 +401,10 @@ function validation() {
         </tr> -->
         <tr>
           <th>성별</th>
-          <td class="line"><input type="radio" name="rdoSex" id="rdoSexM" value="M" />
-            <label for="radio"></label>
-            남성
-            <input type="radio" name="rdoSex" id="rdoSexF" value="F" />
-            여성</td>
+          <td class="line">
+          	<input type="radio" name="rdoSex" id="rdoSexM" value="M" /><label for="rdoSexM">남성</label>&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="rdoSex" id="rdoSexF" value="F" /><label for="rdoSexF">여성</label>
+          </td>
         </tr>
         <tr>
           <th>생년월일</th>
