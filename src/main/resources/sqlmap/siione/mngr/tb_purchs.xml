@@ -91,7 +91,7 @@
 		<result property="CartList"      column="{CART_SN, GOODS_CODE}" select="PurchsDAO.selectPurchsGoodsNmprList" javaType="java.util.ArrayList"/>
 	</resultMap>
 
-	<resultMap id="purchsMasterList" class="hashMap">
+	<resultMap id="purchsDetailList" class="hashMap">
 		<result property="CART_SN"    column="CART_SN"    jdbcType="string" javaType="string"/>
 		<result property="GOODS_CODE" column="GOODS_CODE" jdbcType="string" javaType="string"/>
 		<result property="NMPR_SN"    column="NMPR_SN"    jdbcType="string" javaType="string"/>
