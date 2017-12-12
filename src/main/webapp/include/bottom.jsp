@@ -4,7 +4,7 @@
       <div class="inner2">
     <div class="bt_right">
       <div class="tx1">CUSTOMER CENTER</div>
-          <div class="tx2">1566-1234</div>
+          <div class="tx2">0000-0000</div>
           <div class="tx3">토/일요일 및 공휴일은 휴일<br>
         평일 : 09:00~18:00 </div>
           <div class="sns"> <img src="<c:url value='/images/com/sns_03.png' />"  alt=""/> <img src="<c:url value='/images/com/sns_02.png' />"  alt=""/> <img src="<c:url value='/images/com/sns_01.png' />"  alt=""/></div>
@@ -45,8 +45,16 @@
           <div class="bottom_smenu"><a href="#">회사소개</a> | <a href="#">서비스소개</a> | <a href="#">이용방법</a> | <a href="#">이용약관</a> |
         <div class="mobile_view" ></div>
         <a href="#">여행자약관</a> | <a href="#">개인정보 및 취급방침</a></div>
-          <div class="bottom_copy">주소 : 000000000000 | E-mail : 000000000000@daum.net<br>
-        COPYRIGHTS &copy; 원패스투어 ALL RIGHTS RESERVED.</div>
+          <div class="bottom_copy" style="line-height:150%;">
+총괄이사 : 문성철 | 개인정보관리 책임자 : OOO (주) SIIONE 네트워크
+<br>법인등록번호 : A200203945 | 사업자등록번호 : TO-027-2004
+<br>관광청인허가번호(Accreditation No) : TOP-RO7-00004022-2016
+<br>시장허가서(PERMIT NO) : 1235 / CY 2017 / DATE ISSUED 01-Mar
+<br>고객센터 : (63)927-377-7293 | 070-7422-0153 / FAX : (63-32)239-7381
+<br>주소 : 1F Castle Peak Hotel F.cabahug st Mabolo Cabu Phillippines Inc
+<br>사업제휴/기타문의 : onepasstour@gmail.com / kakao ID : onepasstour
+<br>        COPYRIGHTS &copy; 원패스투어 ALL RIGHTS RESERVED.
+          </div>
         </div>
   </div>
     </footer>

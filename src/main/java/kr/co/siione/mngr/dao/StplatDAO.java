@@ -15,6 +15,7 @@ public class StplatDAO extends EgovComAbstractDAO {
 	}*/
 
 	public int updateStplat(Map<String, String> map) throws Exception {
+		insert("StplatDAO.insertStplatHist", map);
 		return update("StplatDAO.updateStplat", map);
 	}
 	

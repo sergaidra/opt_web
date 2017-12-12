@@ -22,6 +22,18 @@
          WHERE STPLAT_CODE = #STPLAT_CODE#
     ]]>
     </update>
+    
+    <insert id="StplatDAO.insertStplatHist" parameterClass="hashMap">
+		INSERT INTO TB_STPLAT_HIST 
+		SELECT SQ_STPLAT_HIST_NO.NEXTVAL
+		     , STPLAT_CODE
+		     , STPLAT_SJ
+		     , STPLAT_CN
+		     , UPDT_ID
+		     , UPDT_DT
+		  FROM TB_STPLAT
+		 WHERE STPLAT_CODE = #STPLAT_CODE#    
+	</insert>		 
 
     <select id="StplatDAO.selectStplatByPk" parameterClass="hashMap" resultMap="rmStplat">
     <![CDATA[

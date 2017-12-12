@@ -71,4 +71,82 @@
 		<include refid="PurchsDAO.pagingQueryEnd"/>
 	</select>
 
+	<resultMap id="purchsMasterList" class="hashMap">
+		<result property="GOODS_NM"      column="GOODS_NM"      jdbcType="string" javaType="string"/>
+		<result property="CL_SE"         column="CL_SE"         jdbcType="string" javaType="string"/>
+		<result property="CART_SN"       column="CART_SN"       jdbcType="string" javaType="string"/>
+		<result property="GOODS_CODE"    column="GOODS_CODE"    jdbcType="string" javaType="string"/>
+		<result property="ESNTL_ID"      column="ESNTL_ID"      jdbcType="string" javaType="string"/>
+		<result property="PURCHS_AMOUNT" column="PURCHS_AMOUNT" jdbcType="string" javaType="string"/>
+		<result property="ORIGIN_AMOUNT" column="ORIGIN_AMOUNT" jdbcType="string" javaType="string"/>
+		<result property="TOUR_DE"       column="TOUR_DE"       jdbcType="string" javaType="string"/>
+		<result property="BEGIN_TIME"    column="BEGIN_TIME"    jdbcType="string" javaType="string"/>
+		<result property="END_TIME"      column="END_TIME"      jdbcType="string" javaType="string"/>
+		<result property="CHKIN_DE"      column="CHKIN_DE"      jdbcType="string" javaType="string"/>
+		<result property="CHCKT_DE"      column="CHCKT_DE"      jdbcType="string" javaType="string"/>
+		<result property="EXPRTN_AT"     column="EXPRTN_AT"     jdbcType="string" javaType="string"/>
+		<result property="PURCHS_AT"     column="PURCHS_AT"     jdbcType="string" javaType="string"/>
+		<result property="DELETE_AT"     column="DELETE_AT"     jdbcType="string" javaType="string"/>
+		<result property="FLIGHT_SN"     column="FLIGHT_SN"     jdbcType="string" javaType="string"/>
+		<result property="CartList"      column="{CART_SN, GOODS_CODE}" select="PurchsDAO.selectPurchsGoodsNmprList" javaType="java.util.ArrayList"/>
+	</resultMap>
+
+	<resultMap id="purchsMasterList" class="hashMap">
+		<result property="CART_SN"    column="CART_SN"    jdbcType="string" javaType="string"/>
+		<result property="GOODS_CODE" column="GOODS_CODE" jdbcType="string" javaType="string"/>
+		<result property="NMPR_SN"    column="NMPR_SN"    jdbcType="string" javaType="string"/>
+		<result property="SETUP_SE"   column="SETUP_SE"   jdbcType="string" javaType="string"/>
+		<result property="NMPR_CO"    column="NMPR_CO"    jdbcType="string" javaType="string"/>
+		<result property="AMOUNT"     column="AMOUNT"     jdbcType="string" javaType="string"/>
+		<result property="NMPR_CND"   column="NMPR_CND"   jdbcType="string" javaType="string"/>
+	</resultMap>
+
+	<select id="PurchsDAO.selectPurchsGoodsList" parameterClass="hashMap" resultMap="purchsMasterList">
+	<![CDATA[
+		SELECT G.GOODS_NM
+		     , G.CL_SE
+		     , CART_SN
+		     , GOODS_CODE
+		     , ESNTL_ID
+		     , PURCHS_AMOUNT
+		     , ORIGIN_AMOUNT
+		     , TOUR_DE
+		     , BEGIN_TIME
+		     , END_TIME
+		     , CHKIN_DE
+		     , CHCKT_DE
+		     , EXPRTN_AT
+		     , PURCHS_AT
+		     , DELETE_AT
+		     , FLIGHT_SN
+		  FROM TB_PURCHS P
+		     , TB_PURCHS_GOODS PG
+		     , TB_CART_GOODS CG
+		     , TB_GOODS G
+		 WHERE P.PURCHS_SN = PG.PURCHS_SN
+		   AND PG.CART_SN = CG.CART_SN
+		   AND CG.GOODS_CODE = G.GOODS_CODE
+		   AND P.PURCHS_SN = #PURCHS_SN#
+		 ORDER BY NVL(CG.TOUR_DE, CG.CHKIN_DE), CG.BEGIN_TIME	
+	]]>
+	</select>
+	
+	<select id="PurchsDAO.selectPurchsGoodsNmprList" parameterClass="hashMap" resultMap="purchsDetailList">
+	<![CDATA[
+		SELECT CM.CART_SN
+		     , CM.GOODS_CODE
+		     , CM.NMPR_SN
+		     , CM.SETUP_SE
+		     , CM.NMPR_CO
+		     , CM.AMOUNT
+		     , GN.NMPR_CND
+		  FROM TB_CART_NMPR CM
+		     , TB_GOODS_NMPR GN
+		 WHERE CM.GOODS_CODE = GN.GOODS_CODE
+		   AND CM.SETUP_SE = GN.SETUP_SE
+		   AND CM.NMPR_SN = GN.NMPR_SN
+		   AND CM.CART_SN = #CART_SN#
+		   AND CM.GOODS_CODE = #GOODS_CODE#
+	]]>
+	</select>
 </sqlMap>

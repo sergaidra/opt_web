@@ -28,4 +28,9 @@ public class PurchsManageServiceImpl implements PurchsManageService {
 		return purchsDAO.selectPurchsListCount(param);
 	}
 	
+	public List<Map<String, Object>> selectPurchsGoodsList(Map<String, String> param) throws Exception {
+		return purchsDAO.selectPurchsGoodsList(param);
+	}
+	
+	
 }

@@ -87,4 +87,22 @@ public class UseTextController {
 		return "gnrl/cs/usetext";
 	}
 
+	@RequestMapping(value="/usetext3")
+	public String list3(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+
+        model.addAttribute("bp", "07");
+       	model.addAttribute("btitle", "고객지원");
+        model.addAttribute("mtitle", "개인정보취급방침");
+        
+		Map<String, String> param = new HashMap<String, String>();
+		Map<String, String> result = new HashMap<String, String>();
+		
+		param.put("STPLAT_CODE", "000003"); //개인정보취급방침
+        result = stplatManageService.selectStplatByPk(param);
+        
+        model.addAttribute("mtitle", result.get("STPLAT_SJ"));
+        model.addAttribute("stplat_cn_html", result.get("STPLAT_CN_HTML"));
+		
+		return "gnrl/cs/usetext";
+	}
 }

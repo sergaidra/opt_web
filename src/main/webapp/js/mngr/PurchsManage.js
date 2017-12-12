@@ -350,7 +350,8 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		dataIndex: 'DELETE_DT'
 	},{
 		text: '구매상품',
-		width: 300,
+		minWidth: 300,
+		flex: 1,
 		style: 'text-align:center',
 		align: 'left',
 		dataIndex: 'GOODS_NM',
