@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
+<sqlMap namespace="gnrl">
+
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	
+	<resultMap id="opinionMap" class="java.util.HashMap">
+	    <result property="OPINION_SN"/>
+	    <result property="OPINION_SJ"/>
+	    <result property="OPINION_CN" javaType="java.lang.String" jdbcType="CLOB"/> 
+	    <result property="GOODS_CODE"/>
+	    <result property="DELETE_AT"/>
+	    <result property="WRITNG_ID"/>
+	    <result property="WRITNG_DT"/>
+	    <result property="PARENT_OPINION_SN"/>
+	    <result property="USER_NM"/>
+	    <result property="GOODS_NM"/>	    
+	    <result property="DEPTH"/>	    
+	</resultMap>
+
+	<sql id="whereOpinionList">
+		AND PARENT_OPINION_SN IS NULL AND DELETE_AT = 'N'
+		<isNotEmpty property="goods_code">
+			AND GOODS_CODE = #goods_code#
+		</isNotEmpty>
+	</sql>
+	
+	<select id="gnrl.opinion.getOpinionListCount" parameterClass="hashMap" resultClass="Integer">
+		SELECT COUNT(1) FROM TB_PURCHS_OPINION
+		WHERE 1 = 1
+			<include refid="whereOpinionList"/>
+	</select>
+	
+	<select id="gnrl.opinion.getOpinionList" parameterClass="hashMap" resultMap="opinionMap">
+		SELECT PO.OPINION_SN, PO.OPINION_SJ, PO.OPINION_CN, PO.GOODS_CODE, PO.DELETE_AT, PO.WRITNG_ID
+			, TO_CHAR(PO.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT, PO.PARENT_OPINION_SN, U.USER_NM, G.GOODS_NM, 1 AS DEPTH
+		FROM (
+			SELECT OPINION_SN, ROWNUM AS RNUM
+			FROM (
+				SELECT OPINION_SN FROM TB_PURCHS_OPINION
+				WHERE 1 = 1
+				<include refid="whereOpinionList"/>
+				ORDER BY OPINION_SN DESC
+			) A
+		) B
+		INNER JOIN TB_PURCHS_OPINION PO ON B.OPINION_SN = PO.OPINION_SN
+		INNER JOIN TB_USER U ON PO.WRITNG_ID = U.ESNTL_ID
+		INNER JOIN TB_GOODS G ON PO.GOODS_CODE = G.GOODS_CODE
+		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
+		ORDER BY B.RNUM	
+	</select>
+
+	<select id="gnrl.opinion.getOpinionAnswerList" parameterClass="hashMap" resultMap="opinionMap">
+		SELECT PO.OPINION_SN, PO.OPINION_SJ, PO.OPINION_CN, PO.GOODS_CODE, PO.DELETE_AT, PO.WRITNG_ID
+			, TO_CHAR(PO.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT, PO.PARENT_OPINION_SN, U.USER_NM, G.GOODS_NM, 2 AS DEPTH
+		FROM TB_PURCHS_OPINION PO
+		INNER JOIN TB_USER U ON PO.WRITNG_ID = U.ESNTL_ID
+		INNER JOIN TB_GOODS G ON PO.GOODS_CODE = G.GOODS_CODE
+		WHERE PO.PARENT_OPINION_SN = #parent_opinion_sn#
+		ORDER BY PO.OPINION_SN
+	</select>
+
+	<insert id="gnrl.opinion.insertOpinion"  parameterClass="hashMap" >
+		INSERT INTO TB_PURCHS_OPINION (OPINION_SN, OPINION_SJ, OPINION_CN, GOODS_CODE, DELETE_AT, WRITNG_ID, WRITNG_DT, PARENT_OPINION_SN)
+		SELECT NVL(MAX(OPINION_SN), 0) + 1, #opinion_sj#, #opinion_cn:CLOB#, #goods_code#, 'N', #esntl_id#, SYSDATE, #parent_opinion_sn#
+		FROM TB_PURCHS_OPINION
+	</insert>
+
+	<update id="gnrl.opinion.updateOpinion"  parameterClass="hashMap">
+		UPDATE TB_PURCHS_OPINION SET OPINION_SJ = #opinion_sj#, OPINION_CN = #opinion_cn:CLOB#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE
+		WHERE OPINION_SN = #opinion_sn#
+	</update>
+
+	<select id="gnrl.opinion.viewOpinion" parameterClass="hashMap" resultMap="opinionMap">
+		SELECT PO.OPINION_SN, PO.OPINION_SJ, PO.OPINION_CN, PO.GOODS_CODE, PO.DELETE_AT, PO.WRITNG_ID
+			, PO.WRITNG_DT, PO.PARENT_OPINION_SN, U.USER_NM, '' AS GOODS_NM, 1 AS DEPTH
+		FROM TB_PURCHS_OPINION PO
+		INNER JOIN TB_USER U ON PO.WRITNG_ID = U.ESNTL_ID
+		WHERE OPINION_SN = #opinion_sn#
+	</select>
+
+</sqlMap>
