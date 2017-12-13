@@ -342,7 +342,8 @@ public class LoginController {
 		try {
 			String certkey = UserUtils.nvl(param.get("certkey"));
 			String password = UserUtils.nvl(param.get("password"));
-
+			password = Sha256.encrypt(password).toUpperCase();
+			
 			HashMap map = new HashMap();	
 			map.put("certkey", certkey);			
 			map.put("password", password);			
