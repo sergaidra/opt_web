@@ -40,4 +40,8 @@ public class QnaServiceImpl implements QnaService {
 	public HashMap viewOpinion(HashMap map) throws Exception {
 		return qnaDAO.viewOpinion(map);
 	}
+	
+	public void deleteOpinion(HashMap map) throws Exception {
+		qnaDAO.deleteOpinion(map);
+	}
 }

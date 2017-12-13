@@ -41,7 +41,8 @@ function search(pageNo) {
             		var td2 = $("<td ><span class=\"proimg\"><img src=\"<c:url value='/file/getImageThumb/'/>?file_code=" + data.list[cnt].FILE_CODE + "\"  alt=\"\"/></span></td>");
             		var td3 = $("<td class=\"left\">" + data.list[cnt].GOODS_NM + "<img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /> </td>");
             		var td4 = $("<td ></td>");
-            		var td5 = $("<td  class=\"end\" >" + data.list[cnt].WRITNG_DT + "</td>");
+            		var td5 = $("<td >" + data.list[cnt].USER_NM + "</td>");
+            		var td6 = $("<td  class=\"end\" >" + data.list[cnt].WRITNG_DT + "</td>");
             		
             		for(var cnt2 = 1; cnt2 <= 5; cnt2++) {
             			if(cnt2 <= Number(data.list[cnt].REVIEW_SCORE)) {
@@ -50,13 +51,12 @@ function search(pageNo) {
             				$(td4).append("<i class=\"material-icons color_off\">&#xE885;</i>");
             			}
             		}
-            		
+            		 
             		var tr2 = $("<tr></tr>");
-            		var td2_1 = $("<td colspan=\"5\" class=\"left\"><div class=\"review\"><div class=\"text\">" + data.list[cnt].REVIEW_CN + "</div></div></td>");
+            		var td2_1 = $("<td colspan=\"6\" class=\"left\"><div class=\"review\"><div class=\"text\">" + data.list[cnt].REVIEW_CN + "</div></div></td>");
         			
             		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
-            			//<div class="btn"><a href="#" class="button_st1 fl mr_m1">삭제</a>  <a href="#" class="button_st1 fl mr_m1">수정</a></div>
-            			$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:viewReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">수정</a></div>");
+            			//$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:viewReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">수정</a></div>");
             		}            		
             		
             		$(tr).append(td1);
@@ -64,6 +64,7 @@ function search(pageNo) {
             		$(tr).append(td3);
             		$(tr).append(td4);
             		$(tr).append(td5);
+            		$(tr).append(td6);
 
             		$(tr2).append(td2_1);
 
@@ -74,7 +75,7 @@ function search(pageNo) {
         		// 모바일
         		{
             		var tr = $("<tr></tr>");
-            		var td1 = $("<td ><div class=\"proimg\"><img src=\"<c:url value='/file/getImageThumb/'/>?file_code=" + data.list[cnt].FILE_CODE + "\"  alt=\"\"/></div><br/>" + data.list[cnt].GOODS_NM + "<br/><div class=\"star_icon2\"></div></td>");
+            		var td1 = $("<td ><div class=\"proimg\"><img src=\"<c:url value='/file/getImageThumb/'/>?file_code=" + data.list[cnt].FILE_CODE + "\"  alt=\"\"/></div><br/>" + data.list[cnt].GOODS_NM + "<br/>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]<br/><div class=\"star_icon2\"></div></td>");
 
             		for(var cnt2 = 1; cnt2 <= 5; cnt2++) {
             			if(cnt2 <= Number(data.list[cnt].REVIEW_SCORE)) {
@@ -88,8 +89,7 @@ function search(pageNo) {
             		var td2_1 = $("<td colspan=\"2\" class=\"left\"><div class=\"review\"><div class=\"text\">" + data.list[cnt].REVIEW_CN + "</div></div></td>");
         			
             		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
-            			//<div class="btn"><a href="#" class="button_st1 fl mr_m1">삭제</a>  <a href="#" class="button_st1 fl mr_m1">수정</a></div>
-            			$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:viewReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">수정</a></div>");
+            			//$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:viewReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">수정</a></div>");
             		}            		
 
             		$(tr).append(td1);
@@ -181,6 +181,7 @@ function saveComplete() {
                 <th>이미지</th>
                 <th>여행상품명 </th>
                 <th >점수</th>
+                <th >작성자</th>
                 <th class="end">작성일</th>
               </tr>
             </thead>

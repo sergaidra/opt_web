@@ -31,7 +31,8 @@ public class QnaDAO extends EgovComAbstractDAO {
     public HashMap viewOpinion(HashMap map) throws Exception {
 		return (HashMap)selectByPk("gnrl.opinion.viewOpinion", map);
 	}
-
     
-
+    public void deleteOpinion(HashMap map) throws Exception {
+		insert("gnrl.opinion.deleteOpinion", map);
+    }
 }

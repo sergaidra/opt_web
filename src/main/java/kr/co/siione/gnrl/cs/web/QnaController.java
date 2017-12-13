@@ -159,4 +159,38 @@ public class QnaController {
 		
 		return resVo;    	
     }    
+    
+    @RequestMapping(value="/deleteOpinion")
+    public @ResponseBody ResponseVo deleteOpinion(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+	    	HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+
+			HashMap map = new HashMap();
+
+			String opinion_sn = UserUtils.nvl(param.get("opinion_sn"));
+
+	    	map.put("opinion_sn", opinion_sn);
+	    	map.put("esntl_id", esntl_id);
+	    	
+	    	qnaService.deleteOpinion(map);
+	    	
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;    	
+    }        
 }

@@ -864,32 +864,108 @@ function goSearchOpinion(pageNo) {
         contentType: "application/json; charset=utf-8",
         data : JSON.stringify(param ),
         success : function(data,status,request){
+        	var rowCnt = 0;
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
         		{
-            		var tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ")' style='cursor:pointer;'></tr>");
-            		var td1 = $("<td class='t_center'>" + (Number(data.startIdx) + cnt) + "</td>");
-            		var td2 = $("<td>" + data.list[cnt].OPINION_SJ + "</td>");
+            		var tr = null;
+            		if(data.list[cnt].DEPTH == 1) {
+                		if(data.list[cnt].CHILDCNT == 0 && data.list[cnt].WRITNG_ID == "${esntl_id}") {
+                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ");' style='cursor:pointer;'></tr>");
+                		} else {
+                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 0);' style='cursor:pointer;'></tr>");
+                		}            			
+            		} else {
+                		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
+                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ");' style='cursor:pointer;'></tr>");
+                		} else {
+                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 0);' style='cursor:pointer;'></tr>");
+                		}            			
+            		}
+            		var td1 = null;
+            		var td2 = null;
+            		if(data.list[cnt].DEPTH == 1) {
+                		td1 = $("<td class='t_center'>" + (Number(data.startIdx) + rowCnt) + "</td>");
+                		td2 = $("<td>" + data.list[cnt].OPINION_SJ + "</td>");
+            		} else {
+                		td1 = $("<td class='t_center'></td>");
+                		td2 = $("<td>&nbsp;&nbsp;→ " + data.list[cnt].OPINION_SJ + "</td>");
+            		}
             		var td3 = $("<td>" + data.list[cnt].USER_NM + "</td>");
             		var td4 = $("<td>" + data.list[cnt].WRITNG_DT + "</td>");
-
+					var td5 = null;
+            		if(data.list[cnt].DEPTH == 1) {
+                		if(data.list[cnt].CHILDCNT > 0) {
+                    		td5 = $("<td><div class=\"listin_btn1\">답변완료</div ></td>");
+    					} else {
+                    		td5 = $("<td><div class=\"listin_btn2\">문의접수</div ></td>");
+    					}
+            		} else {
+            			td5 = $("<td></td>");
+            		}
+            		
             		$(tr).append(td1);
             		$(tr).append(td2);
             		$(tr).append(td3);
             		$(tr).append(td4);
+            		$(tr).append(td5);
 
     	        	$("#tblOpinionPC tbody").append(tr);        
+    	        	var tr2 = $("<tr style='display:none;' id='trOpinion_" + data.list[cnt].OPINION_SN + "'><td></td></tr>");
+    	        	var td2_1 = $("<td colspan='4'>내용 : </td>");
+    	        	$(td2_1).append(data.list[cnt].OPINION_CN);
+    	        	$(tr2).append(td2_1);
+    	        	$("#tblOpinionPC tbody").append(tr2);        
         		}
         		{
-        			var tr = $("<tr></tr>");
-        			var td1 = $("<td class='t_center'>" + (Number(data.startIdx) + cnt) + "</td>");
-        			var td2 = $("<td></td>");
-        			var td2span = $("<span class='tb_font1'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]</span><br>" + data.list[cnt].OPINION_SJ);
+            		var tr = null;
+            		if(data.list[cnt].DEPTH == 1) {
+                		if(data.list[cnt].CHILDCNT == 0 && data.list[cnt].WRITNG_ID == "${esntl_id}") {
+                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ");' style='cursor:pointer;'></tr>");
+                		} else {
+                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 1);' style='cursor:pointer;'></tr>");
+                		}            			
+            		} else {
+                		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
+                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ");' style='cursor:pointer;'></tr>");
+                		} else {
+                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 1);' style='cursor:pointer;'></tr>");
+                		}            			
+            		}        			
+        			var tr1 = null;
+        			var tr2 = null;
+        			var td2span = null;
+            		if(data.list[cnt].DEPTH == 1) {
+            			var divHtml = "";
+                		if(data.list[cnt].CHILDCNT > 0) {
+                			divHtml = "<div class=\"listin_btn1\" style=\"float:right;\">답변완료</div >";
+    					} else {
+    						divHtml = "<div class=\"listin_btn2\" style=\"float:right;\">문의접수</div >";
+    					}
+
+            			td1 = $("<td class='t_center'>" + (Number(data.startIdx) + rowCnt) + "</td>");
+            			td2 = $("<td></td>");
+            			td2span = $("<span class='tb_font1'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]"  + divHtml + "</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
+
+            		} else {
+            			td1 = $("<td class='t_center'></td>");
+            			td2 = $("<td></td>");
+            			td2span = $("<span class='tb_font1'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
+            		}
 
             		$(td2).append(td2span);
             		$(tr).append(td1);
             		$(tr).append(td2);
 
     	        	$("#tblOpinionMobile tbody").append(tr);
+    	        	
+    	        	var tr2 = $("<tr style='display:none;' id='trOpinionM_" + data.list[cnt].OPINION_SN + "'><td></td></tr>");
+    	        	var td2_1 = $("<td>내용 : </td>");
+    	        	$(td2_1).append(data.list[cnt].OPINION_CN);
+    	        	$(tr2).append(td2_1);
+    	        	$("#tblOpinionMobile tbody").append(tr2);        
+        		}
+        		if(data.list[cnt].DEPTH == 1) {
+            		rowCnt++;
         		}
         	}
         	
@@ -929,6 +1005,13 @@ function goSearchOpinion(pageNo) {
         },
 	});			
 
+}
+
+function showOpinion(opinion_sn, mode) {
+	if(mode == 0)
+		$("#trOpinion_" + opinion_sn).show();
+	else
+		$("#trOpinionM_" + opinion_sn).show();
 }
 
 function viewOpinion(opinion_sn) {
@@ -1243,6 +1326,7 @@ function saveOpinionComplete() {
               <col width="">
               <col width="15%">
               <col width="15%">
+              <col width="55px;">
               <tbody>
               </tbody>
             </table>

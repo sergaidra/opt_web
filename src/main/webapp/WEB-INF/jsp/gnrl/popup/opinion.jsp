@@ -30,13 +30,19 @@
         </table>
       </div>
       <div class="popup_btn">
-      	<c:if test="${esntl_id == opinion.WRITNG_ID}">
-	      	<a href="javascript:saveOpinion();" id="btnOpinion1">등록하기</a>
+      	<c:if test="${opinion == null}">
+	      	<a href="javascript:saveOpinion();" id="btnOpinion1">문의하기</a>
 	    </c:if>
-	   	<c:if test="${author_cl == 'A' and opinion.PARENT_OPINION_SN == null}">
-	      	<a href="javascript:answerOpinion();" id="btnOpinion2">답변하기</a>
-	    </c:if>
-      	<a href="javascript:saveOpinion();" style="display:none;" id="btnOpinion3">답변등록</a>
+      	<c:if test="${opinion != null}">
+	      	<c:if test="${opinion.CHILDCNT == 0 && esntl_id == opinion.WRITNG_ID}">
+		      	<a href="javascript:saveOpinion();" id="btnOpinion1">수정하기</a>
+		      	<a href="javascript:deleteOpinion();" id="btnOpinion4">삭제하기</a>
+			   	<c:if test="${author_cl == 'A' and opinion.PARENT_OPINION_SN == null}">
+			      	<a href="javascript:answerOpinion();" id="btnOpinion2">답변하기</a>
+			    </c:if>
+		    </c:if>
+	      	<a href="javascript:saveOpinion();" style="display:none;" id="btnOpinion3">답변등록</a>
+      	</c:if>
       </div>
     </div>
   </div>
@@ -107,6 +113,46 @@ function saveOpinion() {
 	});			
 }
 
+function deleteOpinion() {
+	if(!confirm("삭제하겠습니까?"))
+		return;
+	
+	var url = "<c:url value='/cs/deleteOpinion'/>";
+	
+	var param = {};
+	param.opinion_sn = $(".featherlight #opinion_sn").val();
+	var callback = $(".featherlight #callback").val();
+
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify(param ),
+        success : function(data,status,request){
+			if(data.result == "0") {	        	
+				alert("삭제되었습니다.");
+				if(callback != "") {
+					var fn = window[callback];
+					// is object a function?
+					if (typeof fn === "function") fn();
+				}
+				$.featherlight.close();
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				go_login();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
 
 </script>
 </div>

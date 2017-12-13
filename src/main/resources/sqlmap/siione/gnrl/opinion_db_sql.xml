@@ -15,6 +15,7 @@
 	    <result property="PARENT_OPINION_SN"/>
 	    <result property="USER_NM"/>
 	    <result property="GOODS_NM"/>	    
+	    <result property="CHILDCNT"/>	    
 	    <result property="DEPTH"/>	    
 	</resultMap>
 
@@ -33,7 +34,8 @@
 	
 	<select id="gnrl.opinion.getOpinionList" parameterClass="hashMap" resultMap="opinionMap">
 		SELECT PO.OPINION_SN, PO.OPINION_SJ, PO.OPINION_CN, PO.GOODS_CODE, PO.DELETE_AT, PO.WRITNG_ID
-			, TO_CHAR(PO.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT, PO.PARENT_OPINION_SN, U.USER_NM, G.GOODS_NM, 1 AS DEPTH
+			, TO_CHAR(PO.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT, PO.PARENT_OPINION_SN, U.USER_NM, G.GOODS_NM
+			, (SELECT COUNT(1) FROM TB_PURCHS_OPINION WHERE PARENT_OPINION_SN = PO.OPINION_SN) AS CHILDCNT, 1 AS DEPTH
 		FROM (
 			SELECT OPINION_SN, ROWNUM AS RNUM
 			FROM (
@@ -52,11 +54,11 @@
 
 	<select id="gnrl.opinion.getOpinionAnswerList" parameterClass="hashMap" resultMap="opinionMap">
 		SELECT PO.OPINION_SN, PO.OPINION_SJ, PO.OPINION_CN, PO.GOODS_CODE, PO.DELETE_AT, PO.WRITNG_ID
-			, TO_CHAR(PO.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT, PO.PARENT_OPINION_SN, U.USER_NM, G.GOODS_NM, 2 AS DEPTH
+			, TO_CHAR(PO.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT, PO.PARENT_OPINION_SN, U.USER_NM, G.GOODS_NM, 0 AS CHILDCNT, 2 AS DEPTH
 		FROM TB_PURCHS_OPINION PO
 		INNER JOIN TB_USER U ON PO.WRITNG_ID = U.ESNTL_ID
 		INNER JOIN TB_GOODS G ON PO.GOODS_CODE = G.GOODS_CODE
-		WHERE PO.PARENT_OPINION_SN = #parent_opinion_sn#
+		WHERE PO.PARENT_OPINION_SN = #parent_opinion_sn# AND PO.DELETE_AT = 'N'
 		ORDER BY PO.OPINION_SN
 	</select>
 
@@ -73,10 +75,16 @@
 
 	<select id="gnrl.opinion.viewOpinion" parameterClass="hashMap" resultMap="opinionMap">
 		SELECT PO.OPINION_SN, PO.OPINION_SJ, PO.OPINION_CN, PO.GOODS_CODE, PO.DELETE_AT, PO.WRITNG_ID
-			, PO.WRITNG_DT, PO.PARENT_OPINION_SN, U.USER_NM, '' AS GOODS_NM, 1 AS DEPTH
+			, PO.WRITNG_DT, PO.PARENT_OPINION_SN, U.USER_NM, '' AS GOODS_NM
+			, (SELECT COUNT(1) FROM TB_PURCHS_OPINION WHERE PARENT_OPINION_SN = PO.OPINION_SN) AS CHILDCNT, 1 AS DEPTH
 		FROM TB_PURCHS_OPINION PO
 		INNER JOIN TB_USER U ON PO.WRITNG_ID = U.ESNTL_ID
 		WHERE OPINION_SN = #opinion_sn#
 	</select>
+
+	<update id="gnrl.opinion.deleteOpinion"  parameterClass="hashMap">
+		UPDATE TB_PURCHS_OPINION SET DELETE_AT = 'Y', UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE
+		WHERE OPINION_SN = #opinion_sn#
+	</update>
 
 </sqlMap>

@@ -35,22 +35,43 @@ function search(pageNo) {
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
         		// PC
         		{
-            		var tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ", \"" + data.list[cnt].GOODS_CODE + "\")' style='cursor:pointer;'></tr>");
+            		//var tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ", \"" + data.list[cnt].GOODS_CODE + "\")' style='cursor:pointer;'></tr>");
+            		var tr = null;
+            		if(data.list[cnt].DEPTH == 1) {
+                		if(data.list[cnt].CHILDCNT == 0 && "${author_cl}" == 'A') {
+                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ", \"" + data.list[cnt].GOODS_CODE + "\");' style='cursor:pointer;'></tr>");
+                		} else {
+                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 0);' style='cursor:pointer;'></tr>");
+                		}            			
+            		} else {
+                		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
+                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ", \"" + data.list[cnt].GOODS_CODE + "\");' style='cursor:pointer;'></tr>");
+                		} else {
+                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 0);' style='cursor:pointer;'></tr>");
+                		}            			
+            		}
             		var td1 = null;
             		var td2 = null;
             		
             		if(data.list[cnt].DEPTH == 1) {
             			td1 = $("<td>" + (Number(data.startIdx) + rowCnt) + "</td>");
             			td2 = $("<td class=\"left\">[" + data.list[cnt].GOODS_NM + "] " + data.list[cnt].OPINION_SJ + "</td>");
-            			rowCnt++;
             		} else {
             			td1 = $("<td></td>");
             			td2 = $("<td class=\"left\">&nbsp;&nbsp;&nbsp;→ [" + data.list[cnt].GOODS_NM + "] " + data.list[cnt].OPINION_SJ + "</td>");
             		}
             		var td3 = $("<td>" + data.list[cnt].USER_NM + "</td>");
             		var td4 = $("<td>" + data.list[cnt].WRITNG_DT + "</td>");
-            		var td5 = $("<td><div class=\"listin_btn1\">답변완료</div ></td>");
-            		// <div class="listin_btn2">문의접수</div >
+            		var td5 = null;
+            		if(data.list[cnt].DEPTH == 1) {
+                		if(data.list[cnt].CHILDCNT > 0) {
+                    		td5 = $("<td><div class=\"listin_btn1\">답변완료</div ></td>");
+    					} else {
+                    		td5 = $("<td><div class=\"listin_btn2\">문의접수</div ></td>");
+    					}
+            		} else {
+            			td5 = $("<td></td>");
+            		}
             		
             		$(tr).append(td1);
             		$(tr).append(td2);
@@ -59,36 +80,65 @@ function search(pageNo) {
             		$(tr).append(td5);
 
     	        	$("#tblList tbody").append(tr);        
+    	        	var tr2 = $("<tr style='display:none;' id='trOpinion_" + data.list[cnt].OPINION_SN + "'><td></td></tr>");
+    	        	var td2_1 = $("<td colspan='4' class=\"left\">내용 : </td>");
+    	        	$(td2_1).append(data.list[cnt].OPINION_CN);
+    	        	$(tr2).append(td2_1);
+    	        	$("#tblList tbody").append(tr2);        
         		}
         		
         		// 모바일
         		{
-            		var tr = $("<tr></tr>");
-            		var td1 = $("<td ><div class=\"proimg\"><img src=\"<c:url value='/file/getImageThumb/'/>?file_code=" + data.list[cnt].FILE_CODE + "\"  alt=\"\"/></div><br/>" + data.list[cnt].GOODS_NM + "<br/><div class=\"star_icon2\"></div></td>");
+            		var tr = null;
+            		if(data.list[cnt].DEPTH == 1) {
+                		if(data.list[cnt].CHILDCNT == 0 && "${author_cl}" == 'A') {
+                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ", \"" + data.list[cnt].GOODS_CODE + "\");' style='cursor:pointer;'></tr>");
+                		} else {
+                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 1);' style='cursor:pointer;'></tr>");
+                		}            			
+            		} else {
+                		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
+                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ", \"" + data.list[cnt].GOODS_CODE + "\");' style='cursor:pointer;'></tr>");
+                		} else {
+                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 1);' style='cursor:pointer;'></tr>");
+                		}            			
+            		}        			
+        			var tr1 = null;
+        			var tr2 = null;
+        			var td2span = null;
+            		if(data.list[cnt].DEPTH == 1) {
+            			var divHtml = "";
+                		if(data.list[cnt].CHILDCNT > 0) {
+                			divHtml = "<div class=\"listin_btn1\" style=\"float:right;\">답변완료</div >";
+    					} else {
+    						divHtml = "<div class=\"listin_btn2\" style=\"float:right;\">문의접수</div >";
+    					}
 
-            		for(var cnt2 = 1; cnt2 <= 5; cnt2++) {
-            			if(cnt2 <= Number(data.list[cnt].REVIEW_SCORE)) {
-            				$(td1).find(".star_icon2").append("<i class=\"material-icons color_on\">&#xE885;</i>");
-            			} else {
-            				$(td1).find(".star_icon2").append("<i class=\"material-icons color_off\">&#xE885;</i>");
-            			}
+            			td1 = $("<td class='t_center'>" + (Number(data.startIdx) + rowCnt) + "</td>");
+            			td2 = $("<td></td>");
+            			td2span = $("<span class='tb_font1' style='width:100%; float:left; text-align:left;'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]"  + divHtml + "</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
+
+            		} else {
+            			td1 = $("<td class='t_center'></td>");
+            			td2 = $("<td></td>");
+            			td2span = $("<span class='tb_font1' style='width:100%; float:left; text-align:left;'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
             		}
-            		
-            		var tr2 = $("<tr></tr>"); 
-            		var td2_1 = $("<td colspan=\"2\" class=\"left\"><div class=\"review\"><div class=\"text\">" + data.list[cnt].REVIEW_CN + "</div></div></td>");
-        			
-            		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
-            			//<div class="btn"><a href="#" class="button_st1 fl mr_m1">삭제</a>  <a href="#" class="button_st1 fl mr_m1">수정</a></div>
-            			$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:viewReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">수정</a></div>");
-            		}            		
 
+            		$(td2).append(td2span);
             		$(tr).append(td1);
-            		$(tr2).append(td2_1);
-        			
-    	        	$("#tblmList tbody").append(tr);        	        	
-    	        	$("#tblmList tbody").append(tr2);        	        	
+            		$(tr).append(td2);
+
+    	        	$("#tblmList tbody").append(tr);
+    	        	
+    	        	var tr2 = $("<tr style='display:none;' id='trOpinionM_" + data.list[cnt].OPINION_SN + "'><td></td></tr>");
+    	        	var td2_1 = $("<td class=\"left\">내용 : </td>");
+    	        	$(td2_1).append(data.list[cnt].OPINION_CN);
+    	        	$(tr2).append(td2_1);
+    	        	$("#tblmList tbody").append(tr2);  
         		}
-        		
+        		if(data.list[cnt].DEPTH == 1) {
+            		rowCnt++;
+        		}
         	}
         	
         	// 페이징 처리
@@ -133,6 +183,14 @@ function search(pageNo) {
 
 }
 
+function showOpinion(opinion_sn, mode) {
+	if(mode == 0)
+		$("#trOpinion_" + opinion_sn).show();
+	else
+		$("#trOpinionM_" + opinion_sn).show();
+}
+
+
 function viewOpinion(opinion_sn, goods_code) {
 	$.featherlight('/cs/popupOpinion?opinion_sn=' + opinion_sn + '&goods_code=' + goods_code + '&callback=saveOpinionComplete', {});
 }
@@ -146,6 +204,11 @@ function saveOpinionComplete() {
 </head>
 
 <body>
+
+<input type="hidden" id="hidPage" name="hidPage" value="1">
+<input type="hidden" id="pageSize" name="pageSize" value="5">
+<input type="hidden" id="blockSize" name="blockSize" value="5">	
+
 <!-- 본문 -->
 <section>
      
@@ -193,105 +256,13 @@ function saveOpinionComplete() {
               </tr>
             </thead>
             <tbody>
-              <tr onclick="location.href='QnA_view.jsp';" style="cursor:pointer;" >
-                <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                <td >1555</td>
-                <td >2014/10/27 13:16 </td>
-                <td ><div class="listin_btn1">답변완료</div ></td>
-              </tr>
-              <tr >
-                <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                <td >1555</td>
-                <td >2014/10/27 13:16 </td>
-                <td ><div class="listin_btn2">답변접수</div ></td>
-              </tr>
-             <tr>
-                <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                <td >1555</td>
-                <td >2014/10/27 13:16 </td>
-                <td ><div class="listin_btn1">답변완료</div ></td>
-              </tr>
-              <tr >
-                <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                <td >1555</td>
-                <td >2014/10/27 13:16 </td>
-                <td ><div class="listin_btn2">답변접수</div ></td>
-              </tr>
-				 <tr>
-                <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                <td >1555</td>
-                <td >2014/10/27 13:16 </td>
-                <td ><div class="listin_btn1">답변완료</div ></td>
-              </tr>
-              <tr >
-                <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                <td >1555</td>
-                <td >2014/10/27 13:16 </td>
-                <td ><div class="listin_btn2">답변접수</div ></td>
-              </tr>
-				 <tr>
-                <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                <td >1555</td>
-                <td >2014/10/27 13:16 </td>
-                <td ><div class="listin_btn1">답변완료</div ></td>
-              </tr>
-              <tr >
-                <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                <td >1555</td>
-                <td >2014/10/27 13:16 </td>
-                <td ><div class="listin_btn2">답변접수</div ></td>
-              </tr>
-				 <tr>
-                <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                <td >1555</td>
-                <td >2014/10/27 13:16 </td>
-                <td ><div class="listin_btn1">답변완료</div ></td>
-              </tr>
-              <tr >
-                <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                <td >1555</td>
-                <td >2014/10/27 13:16 </td>
-                <td ><div class="listin_btn2">답변접수</div ></td>
-              </tr>
-				 <tr>
-                <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                <td >1555</td>
-                <td >2014/10/27 13:16 </td>
-                <td ><div class="listin_btn1">답변완료</div ></td>
-              </tr>
-              <tr >
-                <td >7604</td>
-                <td class="left">상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 </td>
-                <td >1555</td>
-                <td >2014/10/27 13:16 </td>
-                <td ><div class="listin_btn2">답변접수</div ></td>
-              </tr>
             </tbody>
           </table>
 			<!--모바일-->
 			<table width="100%" cellpadding="0" cellspacing="0" class="bba_list_m" id="tblmList">
-            <col width="" />
-            <col width="20%" />
-           
+              <col width="5%">
+              <col width="">           
             <tbody>
-              <tr>
-               
-                <td class="left"><em>no.604 [ 2014/10/27 13:16]</em><br>
-상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳  상품명 상품명이 나오는 곳 <img src="../_img/bbs/icon_new.gif" width="19" height="9" /></td>
-                <td ><div class="listin_btn1">답변완료</div ></td>
-              </tr>
-             
             </tbody>
           </table>
 			<!--//모바일 -->

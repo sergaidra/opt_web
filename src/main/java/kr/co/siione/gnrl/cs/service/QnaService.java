@@ -10,4 +10,5 @@ public interface QnaService {
 	public void insertOpinion(HashMap map) throws Exception;	
 	public void updateOpinion(HashMap map) throws Exception;
 	public HashMap viewOpinion(HashMap map) throws Exception;
+	public void deleteOpinion(HashMap map) throws Exception;
 }
