@@ -39,7 +39,7 @@ public class PurchsManageController {
 	@RequestMapping(value="/mngr/selectPurchsList/")
 	public void selectPurchsList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
-		UserUtils.log(param);
+		UserUtils.log("selectPurchsList", param);
 		try {
 			int cnt = purchsManageService.selectPurchsListCount(param);
 			List<Map<String,Object>> results = purchsManageService.selectPurchsList(param);
@@ -58,7 +58,7 @@ public class PurchsManageController {
 	@RequestMapping(value="/mngr/selectPurchsListExcel/")
     public ModelAndView selectPurchsExcel(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
        	Map<String, Object> result = new HashMap<String, Object>();
-       	UserUtils.log(param);		
+       	UserUtils.log("selectPurchsListExcel", param);		
     	try {
     		int cnt = purchsManageService.selectPurchsListCount(param);
 			param.put("limit", String.valueOf(cnt));
@@ -73,5 +73,24 @@ public class PurchsManageController {
 			log.error(e.getMessage());
     	}
 		return new ModelAndView("PurchsListExcel", "modelMap", result);
-    } 		
+    } 	
+	
+
+	@RequestMapping(value="/mngr/selectPurchsGoodsList/")
+	public void selectPurchsGoodsList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		UserUtils.log("selectPurchsGoodsList", param);
+		try {
+			List<Map<String,Object>> results = purchsManageService.selectPurchsGoodsList(param);
+			
+			result.put("rows", results.size());
+			result.put("data", results);
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+		}
+		
+		jsonView.render(result, request, response);
+	}		
 }
