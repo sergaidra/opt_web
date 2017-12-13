@@ -105,20 +105,20 @@
 	<![CDATA[
 		SELECT G.GOODS_NM
 		     , G.CL_SE
-		     , CART_SN
-		     , GOODS_CODE
-		     , ESNTL_ID
-		     , PURCHS_AMOUNT
-		     , ORIGIN_AMOUNT
-		     , TOUR_DE
-		     , BEGIN_TIME
-		     , END_TIME
-		     , CHKIN_DE
-		     , CHCKT_DE
-		     , EXPRTN_AT
-		     , PURCHS_AT
-		     , DELETE_AT
-		     , FLIGHT_SN
+		     , CG.CART_SN
+		     , CG.GOODS_CODE
+		     , CG.ESNTL_ID
+		     , CG.PURCHS_AMOUNT
+		     , CG.ORIGIN_AMOUNT
+		     , CG.TOUR_DE
+		     , CG.BEGIN_TIME
+		     , CG.END_TIME
+		     , CG.CHKIN_DE
+		     , CG.CHCKT_DE
+		     , CG.EXPRTN_AT
+		     , CG.PURCHS_AT
+		     , CG.DELETE_AT
+		     , CG.FLIGHT_SN
 		  FROM TB_PURCHS P
 		     , TB_PURCHS_GOODS PG
 		     , TB_CART_GOODS CG
