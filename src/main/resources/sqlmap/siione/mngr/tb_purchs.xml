@@ -88,7 +88,7 @@
 		<result property="PURCHS_AT"     column="PURCHS_AT"     jdbcType="string" javaType="string"/>
 		<result property="DELETE_AT"     column="DELETE_AT"     jdbcType="string" javaType="string"/>
 		<result property="FLIGHT_SN"     column="FLIGHT_SN"     jdbcType="string" javaType="string"/>
-		<result property="CartList"      column="{CART_SN, GOODS_CODE}" select="PurchsDAO.selectPurchsGoodsNmprList" javaType="java.util.ArrayList"/>
+		<result property="CART_LIST"     column="{CART_SN=CART_SN, GOODS_CODE=GOODS_CODE}" select="PurchsDAO.selectPurchsGoodsNmprList" javaType="java.util.ArrayList"/>
 	</resultMap>
 
 	<resultMap id="purchsDetailList" class="hashMap">
@@ -96,9 +96,12 @@
 		<result property="GOODS_CODE" column="GOODS_CODE" jdbcType="string" javaType="string"/>
 		<result property="NMPR_SN"    column="NMPR_SN"    jdbcType="string" javaType="string"/>
 		<result property="SETUP_SE"   column="SETUP_SE"   jdbcType="string" javaType="string"/>
+		<result property="SETUP_SE_NM" column="SETUP_SE_NM" jdbcType="string" javaType="string"/>
 		<result property="NMPR_CO"    column="NMPR_CO"    jdbcType="string" javaType="string"/>
 		<result property="AMOUNT"     column="AMOUNT"     jdbcType="string" javaType="string"/>
 		<result property="NMPR_CND"   column="NMPR_CND"   jdbcType="string" javaType="string"/>
+		<result property="CO_UNIT_SE" column="CO_UNIT_SE" jdbcType="string" javaType="string"/>
+		<result property="CO_UNIT_SE_NM" column="CO_UNIT_SE_NM" jdbcType="string" javaType="string"/>
 	</resultMap>
 
 	<select id="PurchsDAO.selectPurchsGoodsList" parameterClass="hashMap" resultMap="purchsMasterList">
@@ -108,8 +111,8 @@
 		     , CG.CART_SN
 		     , CG.GOODS_CODE
 		     , CG.ESNTL_ID
-		     , CG.PURCHS_AMOUNT
-		     , CG.ORIGIN_AMOUNT
+		     , TO_CHAR(CG.PURCHS_AMOUNT, 'FM999,999,999,999,999') PURCHS_AMOUNT
+		     , TO_CHAR(CG.ORIGIN_AMOUNT, 'FM999,999,999,999,999') ORIGIN_AMOUNT
 		     , CG.TOUR_DE
 		     , CG.BEGIN_TIME
 		     , CG.END_TIME
@@ -137,9 +140,12 @@
 		     , CM.GOODS_CODE
 		     , CM.NMPR_SN
 		     , CM.SETUP_SE
+		     , (SELECT CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID='COM003' AND X.CODE=CM.SETUP_SE) SETUP_SE_NM
 		     , CM.NMPR_CO
-		     , CM.AMOUNT
+		     , TO_CHAR(CM.AMOUNT, 'FM999,999,999,999,999') AMOUNT
 		     , GN.NMPR_CND
+             , GN.CO_UNIT_SE
+             , (SELECT CODE_DC FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID='COM008' AND X.CODE=GN.CO_UNIT_SE) CO_UNIT_SE_NM		     
 		  FROM TB_CART_NMPR CM
 		     , TB_GOODS_NMPR GN
 		 WHERE CM.GOODS_CODE = GN.GOODS_CODE

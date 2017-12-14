@@ -13,6 +13,7 @@
 <script type="text/javascript" src="<c:url value='/js/extjs/ext-theme-neptune.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/Common.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/mngr/UserListWindow.js' />"></script>
+<script type="text/javascript" src="<c:url value='/js/mngr/PurchsGoodsListWindow.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/mngr/PurchsManage.js' />"></script>
 </head>
 <body>

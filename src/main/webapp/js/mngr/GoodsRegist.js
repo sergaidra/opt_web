@@ -1828,14 +1828,16 @@ var frReg = Ext.create('Ext.form.Panel', {
 							data :[
 								['R', '객실'],
 								['E', '식사'],
-								['C', '체크인/아웃']
+								['C', '체크인/아웃'],
+								['P', '단가(인원)']
 							]
 						});
 					} else {
 						storeSetupSe = new Ext.create('Ext.data.ArrayStore', {
 							fields:['code', 'name'],
 							data :[
-								['P', '단가(인원)']
+								['P', '단가(인원)'],
+								['V', '픽업/드랍']
 							]
 						});
 					}
@@ -3213,6 +3215,17 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 				alert('변경된 자료가 없습니다.');
 			}
 		}
+	},{
+		text: '미리보기',
+		width: 80,
+		handler: function() {
+			var winGoodsDetail = null;
+			if(winGoodsDetail == null) {
+				winGoodsDetail = fn_openPopup('/goods/detail?adminAt=Y&hidGoodsCode='+sGoodsCode, 'winGoodsDetail', 1250, 700);
+			} else {
+				winGoodsDetail.close();	
+			}
+		}	
 	}],
 	plugins: [cellEditing3],
 	listeners: {
