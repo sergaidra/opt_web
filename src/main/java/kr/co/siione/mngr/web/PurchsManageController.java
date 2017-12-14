@@ -82,7 +82,7 @@ public class PurchsManageController {
 		UserUtils.log("selectPurchsGoodsList", param);
 		try {
 			List<Map<String,Object>> results = purchsManageService.selectPurchsGoodsList(param);
-			
+			System.out.println(results);
 			result.put("rows", results.size());
 			result.put("data", results);
 		} catch (Exception e) {

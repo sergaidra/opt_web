@@ -1,5 +1,5 @@
 /**
- * 사용자 조회 window 화면
+ * 결제상품목록 조회 window 화면
  * 
  * 사용하는 화면
  * UserLogManage.js
@@ -9,125 +9,12 @@
 Ext.define('PurchsGoodsInfo', {
 	extend: 'Ext.data.Model',
 	fields: ['GOODS_NM', 'CL_SE', 'CART_SN', 'GOODS_CODE', 'ESNTL_ID', 'PURCHS_AMOUNT', 'ORIGIN_AMOUNT', 'TOUR_DE', 'BEGIN_TIME', 'END_TIME', 'CHKIN_DE', 'CHCKT_DE', 'EXPRTN_AT', 'PURCHS_AT', 'DELETE_AT', 'FLIGHT_SN'
-	       , {name:'CartList', type:'array'}]
+	       , {name:'CART_LIST', type:'object'}]
 });
 
-var stCmmnCode = new Ext.create('Ext.data.JsonStore', {
-	autoLoad: true,
-	fields:['CODE_ID', 'CODE', 'CODE_NM', 'CODE_DC'],
-	pageSize: 100,
-	proxy: {
-		type: 'ajax',
-		url: '../selectCmmnDetailCodeList/?CODE_ID=COM001&USE_AT=Y',
-		reader: {
-			type: 'json',
-			root: 'data',
-			totalProperty: 'rows'
-		}
-	}/*,
-	listeners:{
-		'load' : function( store, records, successful, eOpts ){
-			if(store.getCount() > 0){
-				var idx = store.getCount();
-				var r = {
-					CODE_ID: 'C0005',
-					CODE: '00',
-					CODE_NM: '전체',
-					CODE_DC: '전체선택',
-					USE_AT: '',
-					FRST_REGIST_PNTTM: '',
-					FRST_REGISTER_ID: '',
-					LAST_UPDT_PNTTM: '',
-					LAST_UPDUSR_ID: ''
-				};
-				store.insert(idx, r);
-			}
-		}
-	}*/
-});
+//stPurchsGoodsWin.getAt(0).get('CART_LIST').length : 4
+//stPurchsGoodsWin.getAt(0).get('CART_LIST')[0].CART_SN = 2
 
-var comboAuthorCl = new Ext.create('Ext.form.ComboBox', {
-	store: stCmmnCode,
-	displayField: 'CODE_NM',
-	valueField: 'CODE',
-	mode: 'local',
-	typeAhead: false,
-	triggerAction: 'all',
-	lazyRender: true,
-	emptyText: '선택'
-});
-
-var comboCrtfcAt = new Ext.create('Ext.form.ComboBox', {
-	id: 'sch-crtfc-at',
-	name: 'CRTFC_AT',
-	store: new Ext.create('Ext.data.ArrayStore', {
-		fields:['code', 'name'],
-		data:[
-		    ['', '전체'],
-			['Y', '인증'],
-			['N', '미인증']
-		]
-	}),
-	fieldLabel: '인증여부',
-	labelAlign: 'right',
-	labelWidth: 70,
-	width: 170,
-	displayField: 'name',
-	valueField: 'code',
-	mode: 'local',
-	typeAhead: false,
-	triggerAction: 'all',
-	editable: false,
-	lazyRender: true
-});
-
-var comboRecptnAt = new Ext.create('Ext.form.ComboBox', {
-	id: 'sch-email-recptn-at',
-	name: 'EMAIL_RECPTN_AT',
-	store: new Ext.create('Ext.data.ArrayStore', {
-		fields:['code', 'name'],
-		data:[
-			['', '전체'],
-			['Y', '수신'],
-			['N', '미수신']
-		]
-	}),
-	fieldLabel: '수신여부',
-	labelAlign: 'right',
-	labelWidth: 70,
-	width: 170,
-	displayField: 'name',
-	valueField: 'code',
-	mode: 'local',
-	typeAhead: false,
-	triggerAction: 'all',
-	editable: false,
-	lazyRender: true
-});
-
-var comboUseAt = new Ext.create('Ext.form.ComboBox', {
-	id: 'sch-use-at',
-	name: 'USE_AT',
-	store: new Ext.create('Ext.data.ArrayStore', {
-		fields:['code', 'name'],
-		data:[
-			['', '전체'],
-			['Y', '사용'],
-			['N', '사용안함']
-		]
-	}),
-	fieldLabel: '사용여부',
-	labelAlign: 'right',
-	labelWidth: 70,
-	width: 170,
-	displayField: 'name',
-	valueField: 'code',
-	mode: 'local',
-	typeAhead: false,
-	triggerAction: 'all',
-	editable: false,
-	lazyRender: true
-});
 
 var frPurchsGoodsWin = Ext.create('Ext.form.Panel', {
 	id: 'form-user',
@@ -214,7 +101,7 @@ var stPurchsGoodsWin = Ext.create('Ext.data.JsonStore', {
 	model: 'PurchsGoodsInfo',
 	proxy: {
 		type: 'ajax',
-		url: '../selectUserList/?PURCHS_SN=1',
+		url: '../selectPurchsGoodsList/?PURCHS_SN=1',
 		reader: {
 			type: 'json',
 			root: 'data',
@@ -232,51 +119,84 @@ var grPurchsGoodsWin = Ext.create('Ext.grid.Panel', {
 	viewConfig: {
 		emptyText: '등록된 자료가 없습니다.'
 	},
-	columns: [{
-		text: '순번',
-    	xtype: 'rownumberer',
-    	align: 'center',
-    	width: 50
-	},{
-		text: '상품이름',
+    columnLines: true,
+    enableLocking: false,	
+    /*plugins: [{
+        ptype: 'rowexpander',
+        rowBodyTpl : new Ext.XTemplate(
+            '<tpl for="CART_LIST">',
+            '<p><b>{SETUP_SE_NM}:</b> {NMPR_CND} ({AMOUNT}) {NMPR_CO}{CO_UNIT_SE_NM}</p>',
+            '</tpl>'
+            )
+    }],*/
+    //collapsible: true,
+    animCollapse: false,	
+	columns: [Ext.create('Ext.grid.RowNumberer'),{
+		text: '상품',
 		width: 180,
-		align: 'center',
-		hidden: true,
+		style: 'text-align:center',
+		align: 'left',
 		dataIndex: 'GOODS_NM'
 	},{
+		text: '선택옵션',
+		minWidth: 300,
+		flex: 1,
+		style: 'text-align:center',
+		align: 'left',		
+		dataIndex: 'CART_LIST',
+		//hidden: true,
+		renderer: function(record) {
+			var str = '';
+			for(var i = 0 ; i < record.length ; i++) {
+				str += record[i].SETUP_SE_NM + ': ';
+				str += record[i].NMPR_CND + ' (';
+				str += record[i].AMOUNT + ') ';
+				str += record[i].NMPR_CO;
+				str += record[i].CO_UNIT_SE_NM + ' ';
+				str += '<br>';
+			}
+			return str;
+		}			
+	},{
 		text: '실결제금액',
-		width: 100,
-		align: 'center',
+		width: 120,
+		style: 'text-align:center',
+		align: 'right',
 		dataIndex: 'PURCHS_AMOUNT'
 	},{
 		text: '원래결제금액',
-		width: 200,
+		width: 120,
 		style: 'text-align:center',
-		align: 'left',
+		align: 'right',
 		dataIndex: 'ORIGIN_AMOUNT'
 	},{
 		text: '여행일자',
 		width: 80,
-		align: 'center',
-		dataIndex: 'TOUR_DE'
+		style: 'text-align:center',
+		align: 'left',
+		dataIndex: 'TOUR_DE'		
 	},{		
 		text: 'BEGIN_TIME',
 		width: 150,
+		style: 'text-align:center',
 		align: 'center',
 		dataIndex: 'BEGIN_TIME'
 	},{
 		text: 'END_TIME',
 		width: 100,
+		style: 'text-align:center',
 		align: 'center',
-		dataIndex: 'END_TIME',
+		dataIndex: 'END_TIME'
 	},{
 		text: 'CHKIN_DE',
 		width: 120,
+		style: 'text-align:center',
 		align: 'center',
 		dataIndex: 'CHKIN_DE'
 	},{
 		text: 'CHCKT_DE',
 		width: 100,
+		style: 'text-align:center',
 		align: 'center',
 		dataIndex: 'CHCKT_DE'
 	},{
@@ -297,7 +217,7 @@ var grPurchsGoodsWin = Ext.create('Ext.grid.Panel', {
 	}
 });
 
-var winUserList = Ext.create('Ext.window.Window', {
+var winPurchsGoodsList = Ext.create('Ext.window.Window', {
 	title: '사용자 조회',
 	height: 475,
 	width: 700,

@@ -59,7 +59,8 @@ var frPurchs = Ext.create('Ext.form.Panel', {
 				margin: '0 0 0 5',
 				listeners: {
 					click: function() {
-						winUserList.show();
+						//winUserList.show();
+						winPurchsGoodsList.show();
 					}
 				}
 			}, {
