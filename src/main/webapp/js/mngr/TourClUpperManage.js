@@ -29,17 +29,26 @@ var comboDeleteAt = new Ext.create('Ext.form.ComboBox', {
 	emptyText: '선택'
 });
 
+
+var jsClSe = new Ext.create('Ext.data.JsonStore', {
+	autoLoad: true,
+	fields:['CODE_ID', 'CODE', 'CODE_NM', 'CODE_NM_ENG', 'CODE_DC'],
+	pageSize: 100,
+	proxy: {
+		type: 'ajax',
+		url: '../selectCmmnDetailCodeList/?CODE_ID=COM002&USE_AT=Y',
+		reader: {
+			type: 'json',
+			root: 'data',
+			totalProperty: 'rows'
+		}
+	}
+});
+
 var comboClSe = new Ext.create('Ext.form.ComboBox', {
-	store: new Ext.create('Ext.data.ArrayStore', {
-		fields:['code', 'name'],
-		data :[
-			['G', '일반상품'],
-			['S', '숙박'],
-			['P', '픽업/드랍']
-		]
-	}),
-	displayField: 'name',
-	valueField: 'code',
+	store: jsClSe,
+	displayField: 'CODE_NM',
+	valueField: 'CODE',
 	mode: 'local',
 	typeAhead: false,
 	triggerAction: 'all',
@@ -47,6 +56,7 @@ var comboClSe = new Ext.create('Ext.form.ComboBox', {
 	editable: false,
 	emptyText: '선택'
 });
+
 
 var winFileUpload = Ext.create('Ext.window.Window', {
 	title: '첨부파일 업로드',

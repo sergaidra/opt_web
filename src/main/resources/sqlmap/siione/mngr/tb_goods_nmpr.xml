@@ -113,32 +113,35 @@
 
     <select id="GoodsNmprDAO.selectGoodsNmprList" parameterClass="hashMap" resultClass="hashMap">
     <![CDATA[
-        SELECT GOODS_CODE
-             , SETUP_SE
-             , NMPR_SN
-             , NMPR_CND
-             , NMPR_CND_ENG
-             , FIXED_AT
-             , SETUP_AMOUNT
-             , SETUP_RATE * 100 SETUP_RATE
-             , DSCNT_RATE * 100 DSCNT_RATE
-             , NMPR_CO
-             , MAX_NMPR_CO
-             , ADIT_NMPR_AMOUNT
-             , CO_UNIT_SE
-             , PC_REPRSNT_AT
-             , SORT_ORDR
-             , DELETE_AT
-             , WRITNG_ID
-             , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
-             , UPDT_ID
-             , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
-          FROM TB_GOODS_NMPR
-         WHERE GOODS_CODE = #GOODS_CODE# ]]>
+        SELECT A.GOODS_CODE
+             , A.SETUP_SE
+             , B.CODE_NM
+             , A.NMPR_SN
+             , A.NMPR_CND
+             , A.NMPR_CND_ENG
+             , A.FIXED_AT
+             , A.SETUP_AMOUNT
+             , A.SETUP_RATE * 100 SETUP_RATE
+             , A.DSCNT_RATE * 100 DSCNT_RATE
+             , A.NMPR_CO
+             , A.MAX_NMPR_CO
+             , A.ADIT_NMPR_AMOUNT
+             , A.CO_UNIT_SE
+             , A.PC_REPRSNT_AT
+             , A.SORT_ORDR
+             , A.DELETE_AT
+             , A.WRITNG_ID
+             , TO_CHAR(A.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+             , A.UPDT_ID
+             , TO_CHAR(A.UPDT_DT,'YYYY-MM-DD') UPDT_DE
+          FROM TB_GOODS_NMPR A, tb_cmmn_detail_code b 
+         WHERE A.GOODS_CODE = #GOODS_CODE#
+           AND B.CODE_ID = 'COM003'
+           AND A.SETUP_SE = B.CODE ]]>
         <isNotEmpty property="DELETE_AT">
-           AND DELETE_AT = #DELETE_AT#
+           AND A.DELETE_AT = #DELETE_AT#
         </isNotEmpty>
-         ORDER BY DELETE_AT, SETUP_SE DESC, SORT_ORDR
+         ORDER BY A.DELETE_AT, B.SORT_ORDR, A.SORT_ORDR 
     </select>
 
 </sqlMap>

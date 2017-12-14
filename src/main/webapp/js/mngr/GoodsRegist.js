@@ -43,10 +43,11 @@ var comboYn = new Ext.create('Ext.form.ComboBox', {
 var storeSetupSe = new Ext.create('Ext.data.ArrayStore', {
 	fields:['code', 'name'],
 	data :[
-		['P', '단가(인원)'],
 		['R', '객실'],
 		['E', '식사'],
-		['C', '체크인/아웃']
+		['C', '체크인/아웃'],
+		['P', '단가(인원)'],
+		['V', '픽업/드랍']
 	]
 });
 
@@ -2953,8 +2954,9 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		renderer: Ext.ux.comboBoxRenderer(comboSetupSe)
 	},{
 		text: '조건',
-		width: 170,
-		align: 'center',
+		width: 200,
+		style: 'text-align:center',
+		align: 'left',
 		sortable: false,
 		menuDisabled: true,
 		editor: {xtype:'textfield', allowBlank: false, maxLength: 50, fieldStyle: {'ime-mode':'active'}, enforceMaxLength: true},
@@ -3221,7 +3223,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		handler: function() {
 			var winGoodsDetail = null;
 			if(winGoodsDetail == null) {
-				winGoodsDetail = fn_openPopup('/goods/detail?adminAt=Y&hidGoodsCode='+sGoodsCode, 'winGoodsDetail', 1250, 700);
+				winGoodsDetail = fn_openPopup('/goods/detail?adminAt=Y&hidGoodsCode='+sGoodsCode, 'winGoodsDetail'+sGoodsCode, 1250, 700);
 			} else {
 				winGoodsDetail.close();	
 			}
