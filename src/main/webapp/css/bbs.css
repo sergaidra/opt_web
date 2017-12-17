@@ -1009,6 +1009,7 @@ padding:8px 10px 8px 10px ;
 .tb_06 tbody td .tx2{ COLOR:#333; border-right:none;font-size:13px; line-height:16px ; margin-bottom: 5px}
 .tb_06 tbody td .tx3{ COLOR:#666; border-right:none;font-size:11px; line-height:16px }
 .tb_06 tbody tr.off{ background-color:#eee}
+.tb_06 tbody td.up{ vertical-align: top }
 
 }
 /**** 모바일 ****/
@@ -1033,6 +1034,25 @@ padding:8px 10px 8px 10px ;
 .tb_06_m tbody tr.off{ background-color:#eee}
 
 }
+
+/* 게시판 뷰 타입1 */
+.tb_07_box{ width:100%; border-top:3px solid #333; float:left}
+.tb_07 { width:100%;}
+.tb_07 thead th{  color:#333; font-size:13px;  text-align:center; background-color:#f7f7f7;   font-weight:normal; line-height:16px; padding:10px 0px; border-bottom:1px solid #dfdfdf;}
+.tb_07 tbody th{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000; background-color:#f7f7f7;  }
+.tb_07 tbody th.color{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000;  background-color:#fafafa; }
+.tb_07 tbody td { padding:8px 10px 8px 10px ;  line-height:20px; border-bottom:1px solid #dfdfdf;border-right:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
+.tb_07 tbody td:last-child{ padding:8px 10px 8px 10px ; line-height:20px; border-bottom:1px solid #dfdfdf;border-right:none; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
+.tb_07 tbody td.t_left{ text-align:left}
+.tb_07 tbody td.left{ text-align:left}
+.tb_07 tbody td.right{ text-align:right; padding-right:10px}
+.tb_07 tbody td.color{background-color:#f7f7f7; color:#666; padding:20px; box-sizing: border-box}
+.tb_07 tbody td .tx1{ COLOR:#ff6600; border-right:none;font-size:12px; line-height:16px }
+.tb_07 tbody td .tx2{ COLOR:#333; border-right:none;font-size:13px; line-height:16px ; margin-bottom: 5px}
+.tb_07 tbody td .tx3{ COLOR:#666; border-right:none;font-size:11px; line-height:16px }
+.tb_07 tbody tr.off{ background-color:#eee}
+.tb_07 tbody td.totalbg{ background-color:#eee; text-align: right; color: #000; font-weight: 900; padding: 10px 20px !important; box-sizing: border-box}
+
 
 .material-icons {
   font-family: 'Material Icons';

@@ -50,7 +50,7 @@ $(function(){
 		if($.trim($("#txtKeyword").val()) == "") {
 			alert("검색어를 입력하세요.");
 			$("#txtKeyword").focus();
-			return false;
+			return;
 		}
 		
 		var frm = $("#frmSearch");
@@ -202,7 +202,7 @@ function fnLiveView(url) {
 		        <img src="/images/main/main_b0${status.index + 1}.jpg"  alt=""/>
       		</c:if>
       		<c:if test="${list.GOODS_CODE != null}">
-      			<a href="javascript:fnDetail('${list.GOODS_CODE}', 'H');"><img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" /></a>
+      			<a href="javascript:fnDetail('${list.GOODS_CODE}', 'H');"><div class="imgover"></div><img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" /></a>
       		</c:if>
       		</div>
       	</c:forEach>
@@ -214,7 +214,7 @@ function fnLiveView(url) {
 		        <img src="/images/main/main_b0${status.index + 1}.jpg"  alt=""/>
       		</c:if>
       		<c:if test="${list.GOODS_CODE != null}">
-      			<a href="javascript:fnDetail('${list.GOODS_CODE}', 'H');"><img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" /></a>
+      			<a href="javascript:fnDetail('${list.GOODS_CODE}', 'H');"><div class="imgover"></div><img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" /></a>
       		</c:if>
       		</div>
       	</c:forEach>
@@ -241,6 +241,7 @@ function fnLiveView(url) {
 	                  <a href="javascript:fnDetail('${list.GOODS_CODE}', 'S');">
 	                  <div class="sw_box">
 	                    <div class="img">
+	                    	<div class="imgover"></div>
 	                    	<div class="imgbg" style="background: url(<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN});">
 							<!-- <img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" onclick="fnDetail('${list.GOODS_CODE}', 'S');"/> -->
 		                      <div class="um">
@@ -402,6 +403,7 @@ function fnLiveView(url) {
         </c:if>
         <div class="in02 fr" style="background: url(<c:out value="${url1}"/>); ">
           <div class="icon"></div>
+          <div class="imgover2"></div>
         </div>
       </div>
       <div class="cont_box">
@@ -416,6 +418,7 @@ function fnLiveView(url) {
         </c:if>
         <div class="in02 fr" style="background: url(<c:out value="${url2}"/>); ">
           <div class="icon"></div>
+          <div class="imgover2"></div>
         </div>
       </div>
       <div class="cont_box">
@@ -425,6 +428,7 @@ function fnLiveView(url) {
         </c:if>
         <div class="in03 fl" style="background: url(<c:out value="${url3}"/>); ">
           <div class="icon"></div>
+          <div class="imgover2"></div>
         </div>
         <div class="in04 fr">
           <div class="title">${reco[2].GOODS_NM}</div>
@@ -439,6 +443,7 @@ function fnLiveView(url) {
         </c:if>
         <div class="in03 fl" style="background: url(<c:out value="${url4}"/>); ">
           <div class="icon"></div>
+          <div class="imgover2"></div>
         </div>
         <div class="in04 fr">
           <div class="title">${reco[3].GOODS_NM}</div>
@@ -474,11 +479,11 @@ function fnLiveView(url) {
   </div>
   <div class="notice_box">
     <div class="inner2">
-      <div class="title">공지사항 <em>more</em></div>
+      <div class="title">공지사항 <em><a href="javascript:go_07_04_01();" style="color:white;">more</a></em></div>
       <ul>
-        <li><em>2014-01-01</em> 홈페이지가 새로 문을 열었습니다. </li>
-        <li><em>2014-01-01</em> 홈페이지가 새로 문을 열었습니다. </li>
-        <li><em>2014-01-01</em> 홈페이지가 새로 문을 열었습니다. </li>
+      	<c:forEach var="item" items="${lstNotice}">
+	        <li style="cursor:pointer;" onclick="document.location.href='/cs/viewNotice?bbs_sn=${item.BBS_SN}';"><em>${item.WRITNG_DT}</em> ${item.SUBJECT} </li>
+      	</c:forEach>
       </ul>
     </div>
   </div>
@@ -497,25 +502,9 @@ function fnLiveView(url) {
 <!-- 메인 이벤트 팝업 POPUP  -->
 <div id="divpop" class="popup_st" >
  <!-- 제목을 넣을경우-->
- <div class="popup_head">안녕하세요 “ONEPASSTOUR”입니다.</div>
+ <div class="popup_head">${popupNotice.SUBJECT}</div>
 	 <div class="popup_body">
-“ONEPASSTOUR” Home Page Renewal 관련 아래와 같이 공지합니다.<br>
-<br>
-1. 공사기간 : 2017년 12월 1일 ~ 12월 31일(00:00)까지<br>
-<br>
-2. 공사내용<br>
-&nbsp;&nbsp;- 상품 재분류 및 정보 등 수정(상품별 최저가 수정 등)<br>
-&nbsp;&nbsp;- 회사 연혁 및 운영방침 등 수정<br>
-&nbsp;&nbsp;- 기타 Home Page 사이트맵 수정 등 <br>
-<br>
-3. 공사중 업무현황<br>
-&nbsp;&nbsp;- 상품별 1:1 상담 및 여행 상담을 통한 여행객 예약은 정상업무 합니다. <br>
-&nbsp;&nbsp;- 상품별 Page를 통한 결재 서비스 및 고객센터 업무는 Renewal 마감까지 사용하실 수 없습니다. 이점 널리 양해 바랍니다.<br>
-<br>
-“ONEPASSTOUR”는 보다나은 서비스를 제공하기 위하여 Home Page Renewal 실시하고 있으며, 여러분 모두에게 만족을 드릴 수 있는 “ONEPASSTOUR”로 거듭날 것을 약속드립니다.<br>
-<br>
-<br>
-“ONEPASSTOUR” 올림
+		${popupNotice.CONTENTS}
 	</div>
 	 <div class="popup_bottom"><form name="notice_form">
     <a href="javascript:closeWin();"><i class="material-icons">&#xE14C;</i></a>
@@ -530,8 +519,10 @@ function fnLiveView(url) {
 
 <script language="Javascript">
 cookiedata = document.cookie;    
-if ( cookiedata.indexOf("maindiv=done") < 0 ){      
-	document.all['divpop'].style.visibility = "visible";
+if ( cookiedata.indexOf("maindiv=done") < 0 ){   
+	<c:if test="${popupNotice != null}">
+		document.all['divpop'].style.visibility = "visible";
+	</c:if>
 	} 
 	else {
 		document.all['divpop'].style.visibility = "hidden"; 

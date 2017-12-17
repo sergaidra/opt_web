@@ -97,9 +97,26 @@ public class PurchsController {
 			map.put("lstCart", lstCart);
 
 			UserUtils.log("[addPurchs-map]", map);
+
+			Boolean isOk = true;
+			for(int i = 0; i < lstCart.size(); i++) {
+				// 스케줄 체크
+				HashMap map2 = new HashMap();
+				map2.put("can_yn", ""); 
+				map2.put("cart_sn", lstCart.get(i).get("cart_sn"));
+				purchsService.chkSchedule(map2);
+				
+				if("N".equals(String.valueOf(map2.get("can_yn")).trim())) {
+					resVo.setResult("2");			
+					resVo.setMessage("해당 날짜에 이미 예약되었습니다.");
+					isOk = false;
+				}
+			}
 			
-			purchsService.addPurchs(map);
-			resVo.setResult("0");			
+			if(isOk == true) {
+				purchsService.addPurchs(map);
+				resVo.setResult("0");			
+			}
 		} catch(Exception e) {
 			resVo.setResult("9");			
 			resVo.setMessage(e.getMessage());	

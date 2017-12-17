@@ -74,11 +74,11 @@ function saveReview() {
 	if($.trim($(".featherlight #review_cn").val()) == "") {
 		alert("내용을 입력해주세요.");
 		$(".featherlight #review_cn").focus();
-		return false;
+		return;
 	}
 	if($(".featherlight .star_icon").find(".on").length == 0) {
 		alert("점수를 선택해주세요.");
-		return false;
+		return;
 	}
 	
 	var url = "<c:url value='/cs/savePurchsReview'/>";

@@ -65,7 +65,7 @@
 		
 		if(txt == null || txt == ''){
 			alert("검색어를 입력하세요");
-			return false;
+			return;
 		}
 		
 		solrSearchAll(cPageNo, fIndex, txt);		

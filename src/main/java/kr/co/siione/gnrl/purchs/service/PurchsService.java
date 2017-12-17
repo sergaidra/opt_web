@@ -10,4 +10,5 @@ public interface PurchsService {
 	public List<HashMap> selectPurchsDetail(HashMap map) throws Exception;
 	public void cancelPurchs(HashMap map) throws Exception;
 	public HashMap viewPurchs(HashMap map) throws Exception;
+	public HashMap chkSchedule(HashMap map)throws Exception;
 }

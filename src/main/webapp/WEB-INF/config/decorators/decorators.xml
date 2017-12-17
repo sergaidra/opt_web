@@ -38,6 +38,8 @@
 		<pattern>/cart/list2*</pattern>
 
 		<pattern>/*/popup*</pattern>
-		
+
+		<pattern>/jq/**</pattern>
+
 	</excludes>
 </decorators>

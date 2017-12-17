@@ -11,6 +11,7 @@ div{box-sizing:border-box}
 	display: none;
 }
 input[type=text]::-ms-clear{display: none} 
+.font_st {font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; }
 
 /**** pc ****/
 @media only all and (min-width:769px) {

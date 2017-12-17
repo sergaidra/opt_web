@@ -204,7 +204,9 @@
 
 				if(i === 1) str += '<tr>';
 				
-				if( key < startDay || key > totalDays + startDay - 1 ) { str += '<td class="notCurMonth disabled"><i class="disabled">'+days[key]+'</i></td>'; }
+				if( key < startDay || key > totalDays + startDay - 1 ) { 
+					str += '<td class="notCurMonth disabled stop"><i class="disabled stop">'+days[key]+'</i></td>'; 
+				}
 				else {
 					var isOk = false;
 					var curDt = String(year) + lpad(String(month), 2, "0") + lpad(days[key]+"", 2, "0");

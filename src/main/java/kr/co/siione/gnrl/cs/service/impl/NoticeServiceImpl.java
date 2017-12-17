@@ -33,4 +33,12 @@ public class NoticeServiceImpl implements NoticeService {
 		return noticeDAO.viewBbs(map);
 	}
 
+	public List<HashMap> mainNoticelist(HashMap map) throws Exception {
+		return noticeDAO.mainNoticelist(map);
+	}
+
+	public HashMap mainPopupNotice(HashMap map) throws Exception {
+		return noticeDAO.mainPopupNotice(map);
+	}
+
 }

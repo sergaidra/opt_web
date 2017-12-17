@@ -44,5 +44,9 @@ public class PurchsDAO extends EgovComAbstractDAO {
 	public HashMap viewPurchs(HashMap map) throws Exception {
 		return (HashMap)selectByPk("gnrl.purchs.viewPurchs", map);
 	}
+	
+	public HashMap chkSchedule(HashMap map)throws Exception {
+		return (HashMap)selectByPk("gnrl.purchs.chkSchedule", map);
+	} 
 
 }

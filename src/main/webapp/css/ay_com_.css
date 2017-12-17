@@ -502,7 +502,7 @@ background-color:transparent
 .tb_01 thead th{height:40px;  border-bottom:1px solid #ccc; color:#333; font-size:15px;  text-align:center; background-color:#999999;  border-left:1px solid #fff;  box-sizing:border-box; color: #fff }
 .tb_01 thead th:first-child{border-left:none;}
 .tb_01 tbody th{ border-bottom:1px solid #ccc; font-size:15px;  color: #000; padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative; text-align: left}
-.tb_01 tbody td{ border-bottom:1px solid #ccc;  padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative}
+.tb_01 tbody td{ border-bottom:1px solid #ccc;  padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative; box-sizing: border-box; }
 .tb_01 tbody td .icon{  border:1px solid #ccc; background-color: #fff; width: 28px ; height: 28px; text-align: center; line-height: 25px; color: #333; font-size: 13px; position: absolute; right: -15px; top: 50%; margin-top: -15px; border-radius: 50px;  }
 .tb_01 tbody td:last-child{border-right: none}
 }
@@ -513,11 +513,16 @@ background-color:transparent
 .tb_01 { width:100%; ; float:left; border-collapse: collapse;}
 .tb_01 thead th{height:35px;  border-bottom:1px solid #ccc; color:#333; font-size:12px;  text-align:center; background-color:#999999;   box-sizing:border-box; color: #fff; font-weight: 300 }
 .tb_01 thead th:first-child{border-left:none;}
-	.tb_01 tbody th{ border-bottom:1px solid #ccc; font-size:15px;  color: #000; padding:10px 0px 10px10px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative; text-align: left}
-.tb_01 tbody td{ border-bottom:1px solid #ccc;padding:10px 20px 10px 10px ; border-left:none; box-sizing: border-box; font-size: 12px; position: relative}
+.tb_01 tbody th{ border-bottom:1px solid #ccc; font-size:15px;  color: #000; padding:10px 0px 10px10px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative; text-align: left}
+.tb_01 tbody td{ border-bottom:1px solid #ccc;padding:10px 20px 10px 10px ; border-left:none; box-sizing: border-box; font-size: 12px; position: relative; }
 .tb_01 tbody td .icon{  border:1px solid #ccc; background-color: #fff; width: 28px ; height: 28px; text-align: center; line-height: 25px; color: #333; font-size: 13px; position: absolute; right: -15px; top: 50%; margin-top: -15px; border-radius: 50px;  }
 .tb_01 tbody td:last-child{border-right: none}
 .tb_font1{ color: #999; font-size:11px; margin-bottom:5px; width: 100%; float: left}
+.tb_01 tbody td .re_icon{ position: absolute; left: 5px; top: 5px}
+.tb_01 tbody td .re_icon i { font-size: 20px; color: #666}
+.tb_01 tbody td .btn{ position: absolute; right: 0px; top: 0px}
+.tb_01 tbody td .btn a.modify{ padding: 3px 5px; background: #eee; border: 1px solid #999; font-size: 11px; margin-right: -1px}
+.tb_01 tbody td .btn a.del{ padding: 3px 5px; background: #eee; border: 1px solid #999; font-size: 11px}
 }
 
 
@@ -624,7 +629,7 @@ background-color:transparent
 	background-color:#F7F7F7;
 	padding:30px;
 	box-sizing:border-box;
-	background-image: url(../_img/main/quick_img.png);
+	background-image: url(/_img/main/quick_img.png);
 	background-repeat: no-repeat;
 	background-position: 45px 25px; top:50%
 }
@@ -765,7 +770,7 @@ select {font-family:'Noto Sans Korean', 'Noto Sans KR',"NanumBarunGothic", nbg, 
   -webkit-appearance: none;  /* 네이티브 외형 감추기 */
   -moz-appearance: none;
   appearance: none;background-color: #fff ;
-  background: url( ../images/com/select_icon.png) no-repeat 98% 50%; height:40px;  ; font-size: 13px !important; color: #666; height:40px; line-height: 40px; padding-left: 10px; box-sizing: border-box; 
+  background: url( /images/com/select_icon.png) no-repeat 98% 50%; height:40px;  ; font-size: 13px !important; color: #666; height:40px; line-height: 40px; padding-left: 10px; box-sizing: border-box; 
 }
 /**** 모바일 ****/
 @media only all and (max-width:768px) {
@@ -773,7 +778,7 @@ select {font-family:'Noto Sans Korean', 'Noto Sans KR',"NanumBarunGothic", nbg, 
   -webkit-appearance: none;  /* 네이티브 외형 감추기 */
   -moz-appearance: none;
   appearance: none;
-  background: url( ../_img/com/select_icon.png) no-repeat 98% 50%; height:40px;  ; font-size: 13px; background-color: #fff /* 화살표 모양의 이미지 */ 
+  background: url( /_img/com/select_icon.png) no-repeat 98% 50%; height:40px;  ; font-size: 13px; background-color: #fff /* 화살표 모양의 이미지 */ 
 }
 }
 /* IE 10, 11의 네이티브 화살표 숨기기 */
@@ -867,7 +872,7 @@ input:-ms-input-placeholder {     color:   #666;  font-size: 15px}
 	   display:                block;
                
                     margin:                 0;
-                   padding:                20px 10px 20px 10px;font-size: 22px; position: relative; background: url(../_img/com/ar_d.png); background-position: right center; background-repeat: no-repeat; background-size: 18px; margin-top: -1px ;  float: left; width: 100%;  line-height: 22px;  box-sizing: border-box; font-weight: 400}
+                   padding:                20px 10px 20px 10px;font-size: 22px; position: relative; background: url(/_img/com/ar_d.png); background-position: right center; background-repeat: no-repeat; background-size: 18px; margin-top: -1px ;  float: left; width: 100%;  line-height: 22px;  box-sizing: border-box; font-weight: 400}
 .accordion li h3 a em{ font-size: 16px; color: #999 }
 .accordion li h3 a .tx1{font-size: 20px; width: 100%; float: left; font-weight: 500; line-height: 20px; }   
 .accordion li h3 a .tx2{font-size: 16px; width: 100%; float: left; font-weight: 400; line-height: 16px; margin-bottom: 20px ; margin-top: 5px}   
@@ -877,7 +882,7 @@ input:-ms-input-placeholder {     color:   #666;  font-size: 15px}
                     display:                block;
                    font-weight: 400;
                     margin:                 0;
-                    padding:                20px 10px 20px 10px;font-size: 22px; position: relative; background: url(../_img/com/ar_t.png); background-position: right center; background-repeat: no-repeat; background-size: 24px; margin-top: -1px ; box-sizing: border-box;float: left; width: 100%;  
+                    padding:                20px 10px 20px 10px;font-size: 22px; position: relative; background: url(/_img/com/ar_t.png); background-position: right center; background-repeat: no-repeat; background-size: 24px; margin-top: -1px ; box-sizing: border-box;float: left; width: 100%;  
                     }
 .accordion li.active h3 a em{ font-size: 16px; color: #999 } 
 .accordion .panel {
@@ -892,10 +897,10 @@ input:-ms-input-placeholder {     color:   #666;  font-size: 15px}
 @media only all and (max-width:768px) {
 .accordion { border-top: 1px solid #ddd; width: 100%; float: left; margin-top: -10px}
 .accordion li h3 a { border-bottom: 1px solid #ddd;  border-top:  1px solid #ddd;color: #333; display:  block; font-weight: 400;
-                    margin:                 0; padding:                 10px 50px 10px 10px;font-size: 16px; position: relative; background: url(../_img/com/ar_d.png); background-position: 95% center; background-repeat: no-repeat; background-size: 16px; margin-top: -1px; box-sizing: border-box; line-height: 20px }
+                    margin:                 0; padding:                 10px 50px 10px 10px;font-size: 16px; position: relative; background: url(/_img/com/ar_d.png); background-position: 95% center; background-repeat: no-repeat; background-size: 16px; margin-top: -1px; box-sizing: border-box; line-height: 20px }
 .accordion li h3 a em{ font-size: 13px; color: #999 } 
 .accordion li.active h3 a {border-bottom: 1px solid #ddd;  border-top:  1px solid #ddd;color: #333; display:  block; font-weight: 400;
-                    margin:                 0; padding:                 10px 50px 10px 10px;font-size: 16px; position: relative; background: url(../_img/com/ar_t.png); background-position: 95% center; background-repeat: no-repeat; background-size: 16px; margin-top: -1px; box-sizing: border-box ; line-height: 20px
+                    margin:                 0; padding:                 10px 50px 10px 10px;font-size: 16px; position: relative; background: url(/_img/com/ar_t.png); background-position: 95% center; background-repeat: no-repeat; background-size: 16px; margin-top: -1px; box-sizing: border-box ; line-height: 20px
                     }
 .accordion li.active h3 a em{ font-size: 13px; color: #999 } 
  .accordion .panel {
@@ -975,16 +980,16 @@ input.st_w2:checked:not([disabled]) + label:hover{	background-color: #fff;  font
 
 /**** pc ****/
 @media only all and (min-width:769px) {
-input.st_w3:not(:checked) + label {background: url(../_img/join/ch_off.png); width: 20px !important; height: 20px !important; background-size: 100%; float: left;  text-indent: -9999px; box-sizing: border-box; padding: 0px;  float: left; display: block; background-repeat: no-repeat}
+input.st_w3:not(:checked) + label {background: url(/_img/join/ch_off.png); width: 20px !important; height: 20px !important; background-size: 100%; float: left;  text-indent: -9999px; box-sizing: border-box; padding: 0px;  float: left; display: block; background-repeat: no-repeat}
 input.st_w3:not(:checked):not([disabled]) + label:hover{; text-indent: -9999px}
-input.st_w3:checked + label{background: url(../_img/join/ch_on.png); width: 20px !important; height: 20px !important; background-size: 100%; float: left;  text-indent: -9999px; box-sizing: border-box; padding: 0px;  float: left; display: block; background-repeat: no-repeat}
+input.st_w3:checked + label{background: url(/_img/join/ch_on.png); width: 20px !important; height: 20px !important; background-size: 100%; float: left;  text-indent: -9999px; box-sizing: border-box; padding: 0px;  float: left; display: block; background-repeat: no-repeat}
 input.st_w3:checked:not([disabled]) + label:hover{	}
 }
 /**** 모바일 ****/
 @media only all and (max-width:768px) {
-input.st_w3:not(:checked) + label {background: url(../_img/join/ch_off.png); width: 20px !important; height: 20px !important; background-size: 100%; float: left;  text-indent: -9999px; box-sizing: border-box; padding: 0px;  float: left; display: block; background-repeat: no-repeat}
+input.st_w3:not(:checked) + label {background: url(/_img/join/ch_off.png); width: 20px !important; height: 20px !important; background-size: 100%; float: left;  text-indent: -9999px; box-sizing: border-box; padding: 0px;  float: left; display: block; background-repeat: no-repeat}
 input.st_w3:not(:checked):not([disabled]) + label:hover{; text-indent: -9999px}
-input.st_w3:checked + label{background: url(../_img/join/ch_on.png); width: 20px !important; height: 20px !important; background-size: 100%; float: left;  text-indent: -9999px; box-sizing: border-box; padding: 0px;  float: left; display: block; background-repeat: no-repeat}
+input.st_w3:checked + label{background: url(/_img/join/ch_on.png); width: 20px !important; height: 20px !important; background-size: 100%; float: left;  text-indent: -9999px; box-sizing: border-box; padding: 0px;  float: left; display: block; background-repeat: no-repeat}
 input.st_w3:checked:not([disabled]) + label:hover{	}
 
 }
@@ -1218,8 +1223,31 @@ padding:8px 10px 8px 10px ;
 
 
 
-.tb_05 tbody tr.off{ background-color:#eee
-}
+.tb_05 tbody tr.off{ background-color:#eee}
+
+
+
+/* 게시판 뷰 타입1 */
+.tb_06_box{ width:100%; border-top:3px solid #333; float:left}
+.tb_06 { width:100%;}
+.tb_06 thead th{  color:#333; font-size:13px;  text-align:center; background-color:#f7f7f7;   font-weight:normal; line-height:16px; padding:10px 0px; border-bottom:1px solid #dfdfdf;}
+.tb_06 thead th.end{ color:#333; font-size:13px;  text-align:center; background-color:#f5f5f5;    border-right:none; text-align:center; font-weight:normal}
+.tb_06 tbody th{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000; background-color:#f7f7f7;  }
+.tb_06 tbody th.color{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000;  background-color:#fafafa; }
+.tb_06 tbody td { padding:8px 3px 8px 3px ; line-height:20px; border-bottom:1px solid #dfdfdf;border-right:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
+.tb_06 tbody td:last-child{ padding:8px 3px 8px 3px ; line-height:20px; border-bottom:1px solid #dfdfdf;border-right:none; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
+.tb_06 tbody td.t_left{ text-align:left}
+.tb_06 tbody td.left{ text-align:left}
+.tb_06 tbody td.right{ text-align:right; padding-right:10px}
+.tb_06 tbody td.color{background-color:#f7f7f7; color:#666; padding:20px; box-sizing: border-box}
+.tb_06 tbody td.end{ padding:8px 3px 8px 3px ; line-height:20px; border-bottom:1px solid #dfdfdf; COLOR:#333; border-right:none;font-size:11px; line-height:16px }
+.tb_06 tbody td .tx1{ COLOR:#ff6600; border-right:none;font-size:12px; line-height:16px }
+.tb_06 tbody td .tx2{ COLOR:#333; border-right:none;font-size:13px; line-height:16px ; margin-bottom: 5px}
+.tb_06 tbody td .tx3{ COLOR:#666; border-right:none;font-size:11px; line-height:16px }
+.tb_06 tbody tr.off{ background-color:#eee}
+
+
+
 
 /**** pc ****/
 @media only all and (min-width:769px) {

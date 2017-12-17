@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+.mail_box{width:900px ; margin: 0 auto; border: 10px solid #ff6600; box-sizing: border-box; padding: 30px 50px;text-align: center; overflow: hidden; } 
+.mail_box .head_box{width:100% ; float: left; border-bottom: 1px solid #ccc; padding-bottom: 10px; text-align: left}
+.mail_box .head_box .go_btn{float: right; padding: 15px 0px}
+.mail_box .head_box .go_btn a.btnst1{float: right; padding: 10px 20px; background-color: #ff9900; color: #fff; font-size: 14px; margin-left: 5px}
+.mail_box .head_box .go_btn a:hover.btnst1{float: right; padding: 10px 20px; background-color: #ff0000; color: #fff; font-size: 14px; margin-left: 5px}
+.mail_box .head_box .go_btn a.btnst2{float: right; padding: 10px 20px; background-color: #333; color: #fff; font-size: 14px}
+.mail_box .head_box .go_btn a:hover.btnst2{float: right; padding: 10px 20px; background-color: #000; color: #fff; font-size: 14px}
+
+.mail_box .tb_box{width:100% ; float: left;padding-bottom: 50px}
+.mail_box .info_box{width:100% ; float: left;padding-bottom: 20px}
+.mail_box .info_box .title{width:100% ; float: left; font-size: 16px; color: #333; line-height: 20px;padding-bottom: 10px; text-align: left}
+.mail_box .info_box .title i{ font-size:25px; color: #333; line-height: 25px; margin-right: 5px;  float: left;}
+.mail_box .info_box .title .tx{ font-size: 16px; color: #666; line-height: 20px; float: left ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 400}
+.mail_box .info_box .title .tx em{ font-size: 16px; color: #000; line-height: 20px; float: left ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 500}
+.mail_box .info_box .incont{width:100% ; float: left; padding-left:30px; box-sizing: border-box; ; text-align: left;font-size: 13px; line-height: 20px; margin-bottom: 30px }

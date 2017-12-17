@@ -98,4 +98,14 @@
 		FROM TB_PURCHS P
 		WHERE P.PURCHS_SN = #purchs_sn#
 	</select>
+
+	<parameterMap class="java.util.HashMap" id="paramChkSchedule">
+		<parameter property="cart_sn" javaType="java.lang.String" mode="IN" jdbcType="VARCHAR"/>
+		<parameter property="can_yn" javaType="java.lang.String" mode="OUT" jdbcType="VARCHAR"/>
+	</parameterMap>
+	
+	<procedure id="gnrl.purchs.chkSchedule" parameterMap="paramChkSchedule">
+		{ CALL SP_CheckSchedule ( ?, ?) }
+	</procedure>	
+	
 </sqlMap>

@@ -1,5 +1,7 @@
 package kr.co.siione.gnrl.bbs.web;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,10 +22,13 @@ import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.goods.service.GoodsService;
 import kr.co.siione.mngr.service.ArprtManageService;
 import kr.co.siione.utl.UserUtils;
+import kr.co.siione.utl.egov.EgovProperties;
 import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,15 +38,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 @Controller
 @RequestMapping(value = "/bbs/")
+@PropertySource("classpath:property/globals.properties")
 public class BbsController {
 
 	@Resource
 	private BbsService bbsService;
+
+	@Value("#{globals['Globals.fileStorePath']}")
+	private String fileStorePath;
 
 	private static final Logger LOG = LoggerFactory.getLogger(BbsController.class);
 
@@ -401,4 +413,77 @@ public class BbsController {
 		
 		return resVo;
 	}	
+	
+	@RequestMapping(value="/popupAttachImage")
+	public String popupAttachImage(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		FileOutputStream fos = null;
+		
+		try {
+			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
+			List<MultipartFile> filelist = mRequest.getFiles("ATTACH_FLIE"); // 파일 1개 이상
+			
+			for(MultipartFile file : filelist) {
+				String sFileStorePath = fileStorePath + "bbs" + File.separator + "img" + File.separator;
+				String sPreFix = UserUtils.getDate("yyyyMMddHHmmss");
+				
+				String fileName = file.getOriginalFilename();
+				String saveFileNm = sPreFix + "_" + fileName;
+
+				String storePath  = sFileStorePath;
+				File f = new File(storePath);
+				if (!f.exists()) f.mkdirs();
+							
+				fos = new FileOutputStream(storePath + saveFileNm);
+				fos.write(file.getBytes());
+				
+				String imageUrl = "/files/bbs/img/" + saveFileNm;
+				model.addAttribute("imageurl", imageUrl);
+				model.addAttribute("filename", fileName);
+				model.addAttribute("filesize", file.getSize());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (fos != null) fos.close();
+		}
+
+		return "gnrl/bbs/attachImage";
+	}		
+	
+	@RequestMapping(value="/popupAttachFile")
+	public String popupAttachFile(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		FileOutputStream fos = null;
+		
+		try {
+			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
+			List<MultipartFile> filelist = mRequest.getFiles("ATTACH_FLIE"); // 파일 1개 이상
+			
+			for(MultipartFile file : filelist) {
+				String sFileStorePath = fileStorePath + "bbs" + File.separator + "file" + File.separator;
+				String sPreFix = UserUtils.getDate("yyyyMMddHHmmss");
+				
+				String fileName = file.getOriginalFilename();
+				String saveFileNm = sPreFix + "_" + fileName;
+
+				String storePath  = sFileStorePath;
+				File f = new File(storePath);
+				if (!f.exists()) f.mkdirs();
+							
+				fos = new FileOutputStream(storePath + saveFileNm);
+				fos.write(file.getBytes());
+				
+				String attachurl = "/files/bbs/file/" + saveFileNm;
+				model.addAttribute("attachurl", attachurl);
+				model.addAttribute("filename", fileName);
+				model.addAttribute("filemime", "application/unknown");				
+				model.addAttribute("filesize", file.getSize());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (fos != null) fos.close();
+		}
+
+		return "gnrl/bbs/attachFile";
+	}			
 }

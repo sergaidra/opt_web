@@ -38,7 +38,7 @@ function delCartAll() {
 	
 	if(lst.length == 0) {
 		alert("삭제 건이 없습니다.");
-		return false;
+		return;
 	}
 	delCart(lst);
 }
@@ -50,7 +50,7 @@ function delCart(cart_sn) {
 	console.log(param);
 	
 	if(!confirm("정말 삭제하겠습니까?"))
-		return false;
+		return;
 		
 	$.ajax({
         url : url,
@@ -97,11 +97,11 @@ function paymentCart() {
 
 	if(lst.length == 0) {
 		alert("선택 건이 없습니다.");
-		return false;
+		return;
 	}
 	
 	if(!confirm("결제하겠습니까?"))
-		return false;
+		return;
 	
 	var param = {};
 	param.tot_setle_amount = totalAmount;
@@ -126,6 +126,8 @@ function paymentCart() {
 				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
+			} else if(data.result == "2") {
+				alert(data.message);
 			} else{
 				alert("작업을 실패하였습니다.");
 			}	        	
@@ -149,7 +151,7 @@ function addWish() {
 	}
 	if(lst.length == 0) {
 		alert("찜하기 건이 없습니다.");
-		return false;
+		return;
 	}
 
 	var url = "<c:url value='/purchs/insertWish'/>";
@@ -158,7 +160,7 @@ function addWish() {
 	console.log(param);
 	
 	if(!confirm("해당 삼품을 찜하겠습니까?"))
-		return false;
+		return;
 		
 	$.ajax({
         url : url,

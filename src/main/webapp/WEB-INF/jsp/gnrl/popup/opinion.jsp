@@ -64,12 +64,12 @@ function saveOpinion() {
 	if($.trim($(".featherlight #opinion_sj").val()) == "") {
 		alert("제목을 입력해주세요.");
 		$(".featherlight #opinion_sj").focus();
-		return false;
+		return;
 	}
 	if($.trim($(".featherlight #opinion_cn").val()) == "") {
 		alert("내용을 입력해주세요.");
 		$(".featherlight #opinion_cn").focus();
-		return false;
+		return;
 	}
 	
 	var url = "<c:url value='/cs/saveOpinion'/>";

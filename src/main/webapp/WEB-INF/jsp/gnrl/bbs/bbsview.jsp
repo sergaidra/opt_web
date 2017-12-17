@@ -59,7 +59,7 @@ function write() {
 	console.log(param);
 	
 	if(!confirm("저장하겠습니까?"))
-		return false;
+		return;
 		
 	$.ajax({
         url : url,
@@ -95,7 +95,7 @@ function deleteBbs() {
 	console.log(param);
 	
 	if(!confirm("삭제하겠습니까?"))
-		return false;
+		return;
 		
 	$.ajax({
         url : url,

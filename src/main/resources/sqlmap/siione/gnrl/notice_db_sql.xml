@@ -6,9 +6,9 @@
 	<typeAlias alias="int" type="java.lang.Integer"/>
 
 	<insert id="gnrl.notice.insertBbs" parameterClass="hashMap">
-		INSERT INTO TB_BBS (BBS_SN, CATEGORY, SUBJECT, CONTENTS, WRITNG_ID, WRITNG_DT, VIEWCNT, DELETE_AT, SECRET_AT
+		INSERT INTO TB_BBS (BBS_SN, CATEGORY, SUBJECT, CONTENTS, WRITNG_ID, WRITNG_DT, VIEWCNT, DELETE_AT, SECRET_AT, POPUP_AT, STARTDT, ENDDT
 			, SUBCATEGORY, PARENT_BBS_SN)
-		SELECT NVL(MAX(BBS_SN), 0) + 1, #category#, #subject#, #contents#, #esntl_id#, SYSDATE, 0, 'N', 'N'
+		SELECT NVL(MAX(BBS_SN), 0) + 1, #category#, #subject#, #contents#, #esntl_id#, SYSDATE, 0, 'N', 'N', #popup_at#, #startdt#, #enddt#
 			, #subcategory#, #parent_bbs_sn#
 		FROM TB_BBS
 	</insert>	
@@ -20,17 +20,37 @@
 
 	<update id="gnrl.notice.updateBbs" parameterClass="hashMap">
 		UPDATE TB_BBS SET SUBJECT = #subject#, CONTENTS = #contents#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE, SECRET_AT = 'N'
-			, SUBCATEGORY = #subcategory#
+			, SUBCATEGORY = #subcategory#, POPUP_AT = #popup_at#, STARTDT = #startdt#, ENDDT = #enddt#
 		WHERE BBS_SN = #bbs_sn#
 	</update>	
 	
 	<select id="gnrl.notice.viewBbs"  parameterClass="hashMap" resultClass="hashMap">
 		SELECT B.BBS_SN, B.CATEGORY, B.SUBJECT, B.CONTENTS, B.WRITNG_ID, B.VIEWCNT
 			, U.USER_NM AS USER_NM, SECRET_AT, U.EMAIL AS EMAIL, TO_CHAR(B.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT 
-			, B.SUBCATEGORY
+			, B.SUBCATEGORY, B.POPUP_AT, TO_CHAR(TO_DATE(B.STARTDT, 'YYYYMMDD'), 'YYYY-MM-DD') AS STARTDT, TO_CHAR(TO_DATE(B.ENDDT, 'YYYYMMDD'), 'YYYY-MM-DD') AS ENDDT
 		FROM TB_BBS B
 			INNER JOIN TB_USER U ON B.WRITNG_ID = U.ESNTL_ID
 		WHERE B.BBS_SN = #bbs_sn#
 	</select>
-		
+
+	<select id="gnrl.notice.mainNoticelist" parameterClass="hashMap" resultClass="hashMap">
+		SELECT B.BBS_SN, B.SUBJECT, TO_CHAR(B.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT
+		FROM (
+			SELECT BBS_SN
+			FROM TB_BBS
+			WHERE CATEGORY = 'N' AND DELETE_AT = 'N'
+			ORDER BY BBS_SN DESC
+		) A
+		INNER JOIN TB_BBS B ON A.BBS_SN = B.BBS_SN
+		WHERE ROWNUM <![CDATA[<=]]> 3	
+	</select>		
+	
+	<select id="gnrl.notice.mainPopupNotice" parameterClass="hashMap" resultClass="hashMap">
+		SELECT BBS_SN, SUBJECT, CONTENTS
+		FROM TB_BBS
+		WHERE CATEGORY = 'N' AND DELETE_AT = 'N' AND POPUP_AT = 'Y' AND TO_CHAR(SYSDATE, 'YYYYMMDD')  BETWEEN STARTDT AND ENDDT
+		ORDER BY BBS_SN DESC
+	</select>		
+	
+	
 </sqlMap>

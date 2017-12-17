@@ -125,17 +125,17 @@ function saveFaq() {
 	if($.trim($(".featherlight #subcategory").val()) == "") {
 		alert("분류를 선택해주세요.");
 		$(".featherlight #subcategory").focus();
-		return false;
+		return;
 	}
 	if($.trim($(".featherlight #subject").val()) == "") {
 		alert("질문을 입력해주세요.");
 		$(".featherlight #subject").focus();
-		return false;
+		return;
 	}
 	if($.trim($(".featherlight #contents").val()) == "") {
 		alert("답변을 입력해주세요.");
 		$(".featherlight #contents").focus();
-		return false;
+		return;
 	}
 	
 	var url = "<c:url value='/cs/saveFaq'/>";

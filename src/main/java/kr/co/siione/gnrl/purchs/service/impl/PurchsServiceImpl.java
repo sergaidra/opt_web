@@ -49,4 +49,8 @@ public class PurchsServiceImpl implements PurchsService {
 	public HashMap viewPurchs(HashMap map) throws Exception {
 		return purchsDAO.viewPurchs(map);
 	}
+	
+	public HashMap chkSchedule(HashMap map)throws Exception {
+		return purchsDAO.chkSchedule(map);
+	}
 }

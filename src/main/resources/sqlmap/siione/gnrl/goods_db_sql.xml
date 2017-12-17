@@ -54,7 +54,7 @@
         <result property="GOODS_INTRCN_SIMPL"        column="GOODS_INTRCN_SIMPL"             jdbcType="string" javaType="string"/>        
         <result property="HOTDEAL_AT"        		column="HOTDEAL_AT"             jdbcType="string" javaType="string"/>        
         <result property="RECOMEND_AT"        		column="RECOMEND_AT"             jdbcType="string" javaType="string"/>    
-        
+        <result property="TOUR_DAYS"        		column="TOUR_DAYS"             jdbcType="string" javaType="string"/>            
 	</resultMap>
 
 	<resultMap id="goodsDetailSub" class="hashMap">
@@ -329,6 +329,7 @@
              , GOODS_INTRCN_SIMPL                     
              , HOTDEAL_AT
              , RECOMEND_AT     
+             , TOUR_DAYS
           FROM TB_GOODS A 
          WHERE GOODS_CODE = #goods_code# ]]>
 		<isEmpty property="admin_at">

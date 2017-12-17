@@ -9,12 +9,12 @@ function changePw() {
 	if($.trim($("#password").val()) == "") {
 		alert("비밀번호를 입력해주세요.");
 		$("#password").focus();
-		return false;
+		return;
 	}
 	if($.trim($("#passwordchk").val()) == "") {
 		alert("비밀번호 확인을 입력해주세요.");
 		$("#passwordchk").focus();
-		return false;
+		return;
 	}
 
 	var password = $.trim($("#password").val());
@@ -23,12 +23,12 @@ function changePw() {
 	if(password.length < 4 || password.length > 12) {
 		alert("비밀번호는 4~12자리 이내로 입력하세요.");
 		$("#password").focus();
-		return false;
+		return ;
 	}
 	
 	if(password != passwordchk) {
 		alert("비밀본호와 비밀번호 확인이 맞지 않습니다.")
-		return false;
+		return ;
 	}
 
 	var url = "<c:url value='/member/changePw'/>";

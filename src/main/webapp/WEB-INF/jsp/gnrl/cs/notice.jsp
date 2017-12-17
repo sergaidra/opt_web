@@ -25,6 +25,13 @@ $(function(){
 	search(1);
 });
 
+function viewBbs(bbs_sn) {
+	var frm = $("#frmBbs");
+	$("#bbs_sn").val(bbs_sn);
+	$(frm).attr("action", "/cs/viewNotice");
+	$(frm).submit();
+}
+
 function search(pageNo) {
 	var url = "<c:url value='/bbs/getBbsList'/>";
 	$("#tblList tbody").empty(); 
@@ -49,7 +56,7 @@ function search(pageNo) {
         	var rowCnt = 0;
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
         		{
-            		var tr = $("<tr onclick='javascript:openNotice(" + data.list[cnt].BBS_SN + ");'></tr>");
+            		var tr = $("<tr onclick='javascript:viewBbs(" + data.list[cnt].BBS_SN + ");'></tr>");
             		var td1 = $("<td>" + (Number(data.startIdx) + cnt) + "</td>");
             		var td2 = $("<td class=\"left\">" + data.list[cnt].SUBJECT + "<img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /></td>")
             		var td3 = $("<td>" + data.list[cnt].VIEWCNT + "</td>");
@@ -63,7 +70,7 @@ function search(pageNo) {
     	        	$("#tblList tbody").append(tr);
         		}
         		{
-            		var tr = $("<tr onclick='javascript:openNotice(" + data.list[cnt].BBS_SN + ");'></tr>");;
+            		var tr = $("<tr onclick='javascript:viewBbs(" + data.list[cnt].BBS_SN + ");'></tr>");;
             		var td1 = $("<td class=\"left\"><em>no." + (Number(data.startIdx) + cnt) + " [" + data.list[cnt].WRITNG_DT + "]</em><br>"
             			    + data.list[cnt].SUBJECT + "<img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /></td>");
             		
@@ -115,86 +122,7 @@ function search(pageNo) {
 
 }
 
-function openNotice(bbs_sn) {
-	if(bbs_sn != 0) {
-		var url = "<c:url value='/cs/viewNotice'/>";
-		
-		var param = {};
-		param.bbs_sn = bbs_sn;
-		
-		$.ajax({
-	        url : url,
-	        type: "post",
-	        dataType : "json",
-	        async: "true",
-	        contentType: "application/json; charset=utf-8",
-	        data : JSON.stringify(param ),
-	        success : function(data,status,request){
-	        	$.featherlight($('#pa_notice'), {});
-	        	$(".featherlight #bbs_sn").val(bbs_sn);
-	        	$(".featherlight #subcategory").val(data.data.SUBCATEGORY);
-	        	$(".featherlight #subject").val(data.data.SUBJECT);
-	        	$(".featherlight #contents").val(data.data.CONTENTS);
-	        },
-	        error : function(request,status,error) {
-	        	alert(error);
-	        },
-		});					
-	} else {
-		$.featherlight($('#pa_notice'), {});
-    	$(".featherlight #bbs_sn").val("");
-    	$(".featherlight #subcategory").val("");
-    	$(".featherlight #subject").val("");
-    	$(".featherlight #contents").val("");
-	}
-}
 
-function saveNotice() {	
-	if($.trim($(".featherlight #subject").val()) == "") {
-		alert("제목을 입력해주세요.");
-		$(".featherlight #subject").focus();
-		return false;
-	}
-	if($.trim($(".featherlight #contents").val()) == "") {
-		alert("내용을 입력해주세요.");
-		$(".featherlight #contents").focus();
-		return false;
-	}
-	
-	var url = "<c:url value='/cs/saveNotice'/>";
-	
-	var param = {};
-	param.subcategory = "";
-	param.subject = $(".featherlight #subject").val();
-	param.contents = $(".featherlight #contents").val();
-	param.bbs_sn = $(".featherlight #bbs_sn").val();
-	
-	$.ajax({
-        url : url,
-        type: "post",
-        dataType : "json",
-        async: "true",
-        contentType: "application/json; charset=utf-8",
-        data : JSON.stringify(param ),
-        success : function(data,status,request){
-			if(data.result == "0") {	        	
-				alert("등록되었습니다.");
-				$.featherlight.close();
-				search(1);
-			} else if(data.result == "-2") {
-				alert("로그인이 필요합니다.");
-				go_login();
-			} else if(data.result == "9") {
-				alert(data.message);
-			} else{
-				alert("작업을 실패하였습니다.");
-			}	        	
-        },
-        error : function(request,status,error) {
-        	alert(error);
-        },
-	});				
-}
 </script>
 
 
@@ -273,7 +201,7 @@ function saveNotice() {
       <!--//페이징 --> 
 
    	<c:if test="${author_cl == 'A'}">
-       <div class="right_btn"><a href="javascript:openNotice(0);" class="button_m1">작성하기</a> </div>
+       <div class="right_btn"><a href="/cs/writeNotice" class="button_m1">작성하기</a> </div>
 	</c:if>   
       </div></div> 
 		<div class="sp_50 pc_view"></div>
@@ -283,35 +211,5 @@ function saveNotice() {
 
 </section>
 <!-- //본문 -->
-
-<!--팝업 : FAQ 작성 -->
-<div class="lightbox" id="pa_notice">
-  <div class="popup_com">
-    <div class="title">공지사항 작성하기</div>
-    <input type="hidden" name="bbs_sn" id="bbs_sn" />
-    <div class="popup_cont">
-      <div class="tb_01_box">
-        <table width="100%"  class="tb_01">
-          <col width="20%">
-          <col width="">
-          <tbody>
-            <tr>
-              <th >제목</th>
-              <td><input type="text" placeholder="" class="w_100p input_st" id="subject" name="subject"></td>
-            </tr>
-            <tr>
-              <th >내용</th>
-              <td><textarea name="contents" id="contents" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-   	<c:if test="${author_cl == 'A'}">
-      <div class="popup_btn"><a href="javascript:saveNotice();">등록하기</a></div>
-	</c:if>   
-    </div>
-  </div>
-</div>
-<!--팝업-->
 
 </body>

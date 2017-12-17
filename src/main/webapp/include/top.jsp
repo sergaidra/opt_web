@@ -16,24 +16,58 @@
 		<!---//탑메뉴--> 
       	</div>
 			<c:if test="${user_id == null}">
-			<div class="myinfo">
+			<!-- <div class="myinfo">
 				<div class="name">
 					<div class="gomy"><a href="javascript:go_login();">로그인</a></div>
 				</div>
-			</div>				
+			</div> -->				
 			</c:if>				
 			<c:if test="${user_id != null}">
 			<div class="myinfo">
 				<div class="name">
-					<div class="name_tx">${user_nm}님 환영합니다.</div>
+					<div class="name_tx">${user_nm}님</div>
 					<div class="gomy">
-						<a href="javascript:go_mypage();">마이페이지</a>
-						<a href="javascript:go_logout();" class="logout">로그아웃</a>
-					</div>
+						<a href="javascript:go_logout();">로그아웃</a>
+					</div>					
 				</div>
-			</div>
-			<a href="javascript:go_cartpage();"><div class="allmenu"><i class="material-icons">&#xE854;</i></div></a>									
+			</div>			
 			</c:if>
+			<div class="lang_sel">
+				<select name="" class="w_50p">
+					<option>Korean</option>
+					<option>English</option>
+					<option>Chinese</option>
+				</select>
+			</div>			
+
+			<c:if test="${user_id == null}">
+				<a href="javascript:go_login();">
+					<div class="mygo">
+						<i class="material-icons">&#xE899;</i>
+						<div class="tx">로그인 </div>
+					</div>
+				</a> 
+				<a href="javascript:go_join();">
+					<div class="allmenu">
+						<i class="material-icons">&#xE853;</i>
+        				<div class="tx">회원가입</div>
+      				</div>
+      			</a>
+			</c:if>			
+			<c:if test="${user_id != null}">
+				<a href="javascript:go_mypage();">
+					<div class="mygo">
+						<i class="material-icons">&#xE87C;</i>
+        				<div class="tx">마이페이지</div>
+      				</div>
+      			</a> 
+      			<a href="javascript:go_cartpage();">
+      				<div class="allmenu">
+      					<i class="material-icons">&#xE854;</i>
+        				<div class="tx">장바구니</div>
+      				</div>
+      			</a>
+			</c:if>		  
 	</div>
 </div>
 
@@ -42,7 +76,9 @@
 	<div class="inner">
 		<div class="left_icon"><a class="side-left-pushy-button"><i class="material-icons" >&#xE5D2;</i></a></div>
 		<div class="toplogo_m"> <a href = "<c:url value='/' />" ></a></div>
-		<div class="right_icon mobile_view"><a class="side-right-pushy-button"><i class="material-icons">&#xE916;</i></a></div>
+		<!-- <div class="right_icon mobile_view"><a class="side-right-pushy-button"><i class="material-icons">&#xE916;</i></a></div> -->
+		<div class="right_icon"><a class="side-right-pushy-button"><i class="material-icons">&#xE916;</i></a></div>
+		<a href="#"><div class="right_lang"><i class="material-icons">&#xE040;</i></div></a>		
 		<div class="menu"> 
 			<!---탑메뉴-->
 			<c:import url="/include/topmenu.jsp" />
@@ -92,10 +128,10 @@ $("#leftside-navigation .sub-menu > a").click(function(e) {
 </script>
 	</nav>
 	<c:if test="${user_id != null}">
-        <div class="side-right-pushy-button quick_st1 pc_view" ><i class="material-icons">&#xE314;</i></div>
+        <div class="pc_open side-right-pushy-button pc_view" ><i class="material-icons">&#xE314;</i></div>
       <!--오른쪽 예약정보-->
       <nav id="sideRightPushy" class="pushy pushy-right pushy_450 pushy_over">
-    <div class="side-right-pushy-button quick_st2" style="display: none" ><i class="material-icons">&#xE5CD;</i></div>
+	<div class="pc_close  pc_view"><a class="side-right-pushy-button"><i class="material-icons" >&#xE5CD;</i></a></div>    
     <div class="mobile_close  mobile_view"><a class="side-right-pushy-button"><i class="material-icons" >&#xE5CD;</i></a></div>
     <div class="ri_box">
 		<div class="title">예약정보

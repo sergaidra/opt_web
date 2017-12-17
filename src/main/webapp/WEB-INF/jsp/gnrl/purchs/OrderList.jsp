@@ -169,7 +169,7 @@ function openWriteReview(purchs_sn, cart_sn, goods_code) {
 
 function cancelPurchs(purchs_sn, cart_sn) {
 	if(!confirm("정말 취소하겠습니까?"))
-		return false;
+		return;
 	
 	var url = "<c:url value='/purchs/cancelPurchs'/>";
 	

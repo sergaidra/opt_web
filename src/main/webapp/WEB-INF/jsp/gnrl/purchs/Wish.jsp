@@ -99,7 +99,7 @@ function delWish(goods_code) {
 	console.log(param);
 	
 	if(!confirm("찜 목록에서 삭제하겠습니까?"))
-		return false;
+		return;
 		
 	$.ajax({
         url : url,

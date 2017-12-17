@@ -49,7 +49,7 @@ var isUserIdDup = false;
 
 function join() {
 	if(validation() == false)
-		return false;
+		return;
 	
 	var url = "<c:url value='/member/insertUser'/>";
 	

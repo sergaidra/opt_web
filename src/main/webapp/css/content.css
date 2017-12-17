@@ -298,23 +298,35 @@ em{ font-style: normal }
 .main_abox .inner2 .title_box{ width: 100%; float: left;}
 .main_abox .inner2 .title_box .tx1{ width: 100%; float: left; text-align: center; margin-bottom: 10px}
 .main_abox .inner2 .title_box .tx2{ width: 100%; float: left; text-align: center; margin-bottom: 50px; font-size: 14px; color: #666}	
-.main_abox .inner2 .cont_box{ width: calc(100% + 18px) float: left; margin-left: -9px}
-.main_abox .inner2 .cont_box .in01{ width: 50%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px}
+.main_abox .inner2 .cont_box{ width: calc(100% + 18px); float: left; margin-left: -9px}
+.main_abox .inner2 .cont_box .in01{ width: 50%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px; ;position: relative}
+.imgover{ width:  calc(100% - 18px);  height: 100%; background-color:  rgba(255, 255, 255, 0.0); z-index: 999; position: absolute;  -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    -ms-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;; border: 0px solid  rgba(0, 0, 0, 0.0); }
+.imgover:hover{background-color:  rgba(255, 255, 255, 0.3);
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in; border: 0px solid rgba(0, 0, 0, 0.2);}
 .main_abox .inner2 .cont_box .in01 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in02{ width: 25%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px}
+.main_abox .inner2 .cont_box .in02{ width: 25%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px ;position: relative}
 .main_abox .inner2 .cont_box .in02 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in03{ width: 25%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px}
+.main_abox .inner2 .cont_box .in03{ width: 25%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px ;position: relative}
 .main_abox .inner2 .cont_box .in03 img{ width:100%;  }
-	
-.main_abox .inner2 .cont_box .in04{ width: 25%;  float: left; padding:0px 9px;box-sizing: border-box}
+
+
+.main_abox .inner2 .cont_box .in04{ width: 25%;  float: left; padding:0px 9px;box-sizing: border-box ;position: relative}
 .main_abox .inner2 .cont_box .in04 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in05{ width: 25%;  float: left;padding:0px 9px; box-sizing: border-box}
+.main_abox .inner2 .cont_box .in05{ width: 25%;  float: left;padding:0px 9px; box-sizing: border-box ;position: relative}
 .main_abox .inner2 .cont_box .in05 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in06{ width: 50%;  float: left;padding:0px 9px; box-sizing: border-box}
+.main_abox .inner2 .cont_box .in06{ width: 50%;  float: left;padding:0px 9px; box-sizing: border-box ;position: relative}
 .main_abox .inner2 .cont_box .in06 img{ width:100%;  }
 }
 /**** 테블릿 ****/
@@ -325,24 +337,35 @@ em{ font-style: normal }
 .main_abox .inner2 .title_box .tx2{ width: 100%; float: left; text-align: center; margin-bottom: 50px; font-size: 14px; color: #666}
 	
 .main_abox .inner2 .cont_box{ width: calc(100% + 18px) ;float: left; margin-left: -9px; }
+.imgover{ width:  calc(100% - 18px);  height: 100%; background-color:  rgba(0, 0, 0, 0.0); z-index: 999; position: absolute;  -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    -ms-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;; border: 0px solid  rgba(0, 0, 0, 0.0); }
+.imgover:hover{background-color:  rgba(0, 0, 0, 0.3);
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in; border: 0px solid rgba(0, 0, 0, 0.2);}	
 	
-.main_abox .inner2 .cont_box .in01{ width: 50%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px}
+.main_abox .inner2 .cont_box .in01{ width: 50%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px;position: relative}
 .main_abox .inner2 .cont_box .in01 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in02{ width: 25%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px}
+.main_abox .inner2 .cont_box .in02{ width: 25%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px;position: relative}
 .main_abox .inner2 .cont_box .in02 img{ width:100%;  }
 .main_abox .inner2 .cont_box .in02 .imgbox{ width:100%; height: 100%  }
 	
-.main_abox .inner2 .cont_box .in03{ width: 25%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px}
+.main_abox .inner2 .cont_box .in03{ width: 25%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px;position: relative}
 .main_abox .inner2 .cont_box .in03 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in04{ width: 25%;  float: left; padding:0px 9px;box-sizing: border-box}
+.main_abox .inner2 .cont_box .in04{ width: 25%;  float: left; padding:0px 9px;box-sizing: border-box;position: relative}
 .main_abox .inner2 .cont_box .in04 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in05{ width: 25%;  float: left;padding:0px 9px; box-sizing: border-box}
+.main_abox .inner2 .cont_box .in05{ width: 25%;  float: left;padding:0px 9px; box-sizing: border-box;position: relative}
 .main_abox .inner2 .cont_box .in05 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in06{ width: 50%;  float: left;padding:0px 9px; box-sizing: border-box}
+.main_abox .inner2 .cont_box .in06{ width: 50%;  float: left;padding:0px 9px; box-sizing: border-box;position: relative}
 .main_abox .inner2 .cont_box .in06 img{ width:100%;  }
 
 }
@@ -356,22 +379,22 @@ em{ font-style: normal }
 	
 .main_abox .inner2 .cont_box{ width: 100%;float: left;  }
 	
-.main_abox .inner2 .cont_box .in01{ width: 100%;  float: left; padding:0px 4px; box-sizing: border-box; margin-bottom: 9px}
+.main_abox .inner2 .cont_box .in01{ width: 100%;  float: left; padding:0px 4px; box-sizing: border-box; margin-bottom: 9px;position: relative}
 .main_abox .inner2 .cont_box .in01 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in02{ width: 50%;  float: left; padding:0px 4px; box-sizing: border-box; margin-bottom: 9px}
+.main_abox .inner2 .cont_box .in02{ width: 50%;  float: left; padding:0px 4px; box-sizing: border-box; margin-bottom: 9px;position: relative}
 .main_abox .inner2 .cont_box .in02 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in03{ width: 50%;  float: left; padding:0px 4px; box-sizing: border-box; margin-bottom: 9px}
+.main_abox .inner2 .cont_box .in03{ width: 50%;  float: left; padding:0px 4px; box-sizing: border-box; margin-bottom: 9px;position: relative}
 .main_abox .inner2 .cont_box .in03 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in04{ width: 50%;  float: left; padding:0px 4px;box-sizing: border-box; margin-bottom: 9px}
+.main_abox .inner2 .cont_box .in04{ width: 50%;  float: left; padding:0px 4px;box-sizing: border-box; margin-bottom: 9px;position: relative}
 .main_abox .inner2 .cont_box .in04 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in05{ width: 50%;  float: left;padding:0px 4px; box-sizing: border-box; margin-bottom: 9px}
+.main_abox .inner2 .cont_box .in05{ width: 50%;  float: left;padding:0px 4px; box-sizing: border-box; margin-bottom: 9px;position: relative}
 .main_abox .inner2 .cont_box .in05 img{ width:100%;  }
 	
-.main_abox .inner2 .cont_box .in06{ width: 100%;  float: left;padding:0px 4px; box-sizing: border-box}
+.main_abox .inner2 .cont_box .in06{ width: 100%;  float: left;padding:0px 4px; box-sizing: border-box;position: relative}
 .main_abox .inner2 .cont_box .in06 img{ width:100%;  }
 
 }
@@ -393,9 +416,21 @@ em{ font-style: normal }
    padding-bottom:80%; /* 16:9 비율 */
    height: 0;
    overflow: hidden; }	
-.sw_out .sw_box .img img{ width: 100%;}	
+.sw_out .sw_box .img img{ width: 100%; }	
 	
-.sw_out .sw_box .img .um{ position: absolute; left: 0px; top: 0px; width: 70px; height: 70px ; background-color:rgba(0, 0, 0, 0.8);}	
+.sw_out .sw_box .img .imgover{ width:  100% ; height: 100%; background-color:  rgba(0, 0, 0, 0.0); z-index: 999; position: absolute;  -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    -ms-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;; border: 0px solid  rgba(0, 0, 0, 0.0); }
+.sw_out .sw_box .img .imgover:hover{background-color:  rgba(0, 0, 0, 0.1);
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in; border:0px solid rgba(255, 255, 255, 0.5);}	
+	
+.sw_out .sw_box .img .um{ position: absolute; left: 0px; top: 0px; width: 70px; height: 70px ; background-color:rgba(0, 0, 0, 0.8);z-index: 9999;}	
 .sw_out .sw_box .img .um .tx1{ width: 100%;float: left; font-size: 12px; color: #fff; text-align: center; margin-top:10px}	
 .sw_out .sw_box .img .um .tx2{ width: 100%;float: left; font-size: 24px; color: #fff; text-align: center; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 700}	
 .sw_out .sw_box .txt_box{ width: 100%;float: left; box-sizing: border-box; padding: 25px 10px; background-color: #fff; position: relative; height:80PX} 
@@ -515,6 +550,25 @@ em{ font-style: normal }
 .main_dbox .inner2 .cont_box .in02{ width:50%; box-sizing: border-box; position: relative; height: 300px !important;  background-position: center top; background-size: cover; }
 .main_dbox .inner2 .cont_box .in02 img{ width:100%; }
 
+	
+	
+	
+.imgover2{ width:  100%;  height: 100%; background-color:  rgba(0, 0, 0, 0.0); z-index: 9; position: absolute;  -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    -ms-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out;; border: 0px solid  rgba(0, 0, 0, 0.0); }
+	
+.imgover2:hover{background-color:  rgba(0, 0, 0, 0.5);
+    -webkit-transition: all 0.5s ease-in;
+    -moz-transition: all 0.5s ease-in;
+    -o-transition: all 0.5s ease-in;
+    -ms-transition: all 0.5s ease-in;
+    transition: all 0.5s ease-in;}
+
+	
+	
+	
 .main_dbox .inner2 .cont_box .in02 .icon{
     background:#fff;
     width :0px;
@@ -1675,8 +1729,8 @@ input.st_w2:checked:not([disabled]) + label:hover{	background-color: #fff;  font
 .order_list .title{width: 100%; float:left; font-size: 24px;font-weight: 500;  font-family:'Noto Sans Korean', 'Noto Sans KR'; color: #000;  margin-bottom: 10px }
 .order_list .title .stex{display: none}
 .order_list .tb_box{width: 100%; float:left; }
-.order_list_img{width: 150px; float:left; }
-.order_list_img img{width: 150px; float:left; }
+.order_list_img{width: 100px; float:left; }
+.order_list_img img{width: 100px; float:left; }
 }
 /****  마이페이지    : 모바일 ****/
 @media only all and (max-width:768px) {
@@ -1997,7 +2051,7 @@ a:hover.sbtn_02{ border: 1px solid #333; background-color: #ccc;  padding: 3px 5
 @media only all and (min-width:769px) {
 .popup_st{position:absolute; z-index:209999999999999999999999999999;visibility:hidden; left:50px;top:190px; width:400px !important}
 .popup_st .popup_head{ width: 100%;float:left;  background-color: #666; color: #fff; padding: 10px; box-sizing: border-box}
-.popup_st .popup_body{ width: 100%;float:left;  border: 1px solid #333; background-color: #fff; font-size: 14px; padding:10px;}
+.popup_st .popup_body{ width: 100%;float:left;  border: 1px solid #333; background-color: #fff; font-size: 14px}
 .popup_st .popup_bottom{ width: 100%;float:left; background-color: #333; color: #fff; text-align: right; box-sizing: border-box; font-size: 12px; padding:0px 10px; height: 40px; line-height: 40px}
 .popup_st .popup_bottom i{ float:right; margin-left: 10px; color: #fff; font-size: 20px; line-height: 40px}
 .popup_st .popup_bottom .tx{ float:right; margin-left:5px; ; line-height: 38px }
@@ -2007,7 +2061,7 @@ a:hover.sbtn_02{ border: 1px solid #333; background-color: #ccc;  padding: 3px 5
 @media only all and (max-width:768px) {
 .popup_st{position:absolute; z-index:209999999999999999999999999999;visibility:hidden; left:0px;top:0px; width: 100%!important}
 .popup_st .popup_head{ width: 100%;float:left;  background-color: #666; color: #fff; padding: 10px; box-sizing: border-box}
-.popup_st .popup_body{ width: 100%;float:left;  border: 1px solid #333; background-color: #fff; font-size: 14px; padding:10px;}
+.popup_st .popup_body{ width: 100%;float:left;  border: 1px solid #333; background-color: #fff;}
 .popup_st .popup_body img{ width: 100%;}
 .popup_st .popup_bottom{ width: 100%;float:left; background-color: #333; color: #fff; text-align: right; box-sizing: border-box; font-size: 12px; padding:0px 10px; height: 40px; line-height: 40px}
 .popup_st .popup_bottom i{ float:right; margin-left: 10px; color: #fff; font-size: 20px; line-height: 40px}
@@ -2017,4 +2071,305 @@ a:hover.sbtn_02{ border: 1px solid #333; background-color: #ccc;  padding: 3px 5
 
 
 
+
+
+
+/* 게시판 뷰 타입1 */
+.tb_04_box{
+ width:100%;
+ border-top:3px solid #333; float:left
+}
+
+.tb_04 {
+ width:100%;
+}
+
+.tb_04 thead th{
+  color:#333; font-size:13px;  text-align:center; background-color:#f7f7f7;   font-weight:normal; line-height:16px; padding:10px 0px; border-bottom:1px solid #dfdfdf;
+}
+.tb_04 thead th.end{
+ color:#333; font-size:13px;  text-align:center; background-color:#f5f5f5;    border-right:none; text-align:center; font-weight:normal
+}
+
+.tb_04 tbody th{
+ border-bottom:1px solid #dfdfdf;
+
+ padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000; background-color:#f7f7f7;  
+}
+.tb_04 tbody th.color{
+ border-bottom:1px solid #dfdfdf;
+
+ padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000;  background-color:#fafafa; 
+}
+
+.tb_04 tbody td {
+ padding:8px 3px 8px 3px ;
+ line-height:20px;
+ border-bottom:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px 
+}
+
+.tb_04 tbody td.t_left{ text-align:left
+}
+.tb_04 tbody td.left{ text-align:left
+}
+.tb_04 tbody td.right{ text-align:right; padding-right:10px
+}
+.tb_04 tbody td.color{background-color:#f7f7f7; color:#666; padding:20px; box-sizing: border-box
+}
+.tb_04 tbody td.end{
+ padding:8px 3px 8px 3px ;
+ line-height:20px;
+ border-bottom:1px solid #dfdfdf; COLOR:#333; border-right:none;font-size:11px; line-height:16px 
+}
+.tb_04 tbody td .review{ width:100%; float:left; position:relative; 
+}
+.tb_04 tbody td .review .text{ width:80%; float:left; position:relative; font-size:14px; 
+}
+.tb_04 tbody td .review .btn{ position:absolute; right:10px; top:10px
+}
+.tb_04 tbody td .review .btn i{ font-size:20px; color:#666; margin-right:10px}
+.tb_04 tbody tr:hover{
+  color:#333; font-size:13px;  text-align:center; background-color:#f7f7f7;   font-weight:normal; line-height:16px; padding:10px 0px; border-bottom:1px solid #dfdfdf;
+}
+
+
+
+
+
+.top_title_com{	width:100%;	float:left; padding:50px 0px 20px 0px}
+.top_title_com .title{	width:50%;	float:left; }
+.top_title_com .title .text1{float:left; font-size:30px; color:#000;font-weight:200 ; margin-right:20px; padding-top:5px}
+.top_title_com .title .text1 em{ font-weight:400 }
+.top_title_com .title .text2{float:left; font-size:13px; color:#999;font-weight:300 ; line-height:16px}
+.top_title_com .title .text3{float:left; font-size:13px; color:#999;font-weight:300 ; line-height:16p; margin-top:15px}
+.top_title_com .icon_ing{	width:380px;	float:right; margin-top:-20px }
+.top_title_com .icon_ing .inbox1{	width:100px;	float:left;text-align: center; overflow: hidden;}
+
+.top_title_com .icon_ing .inbox1 .icon_c{	width:65px; height:65px	; display: inline-block; vertical-align: middle; border-radius: 150px; background-color:#333; margin-bottom:10px }
+
+.top_title_com .icon_ing .inbox1 .icon_c i{ font-size:40px; color:#ff0000; line-height:65px}
+
+.top_title_com .icon_ing .inbox1 .text{	width:100%; text-align:center; font-size:12px}
+
+.top_title_com .icon_ing .inbox2{	width:40px;	float:left;text-align: center; overflow: hidden; height:80px; line-height:80px}
+.top_title_com .icon_ing .inbox2 i{	 font-size:40px; color:#ccc; line-height:80px}
+
+.top_title_com .icon_ing .inbox3{	width:100px;	float:left;text-align: center; overflow: hidden; }
+
+.top_title_com .icon_ing .inbox3 .icon_c{	width:65px; height:65px	; display: inline-block; vertical-align: middle; border-radius: 150px; background-color:#d3d3d3; margin-bottom:10px }
+
+.top_title_com .icon_ing .inbox3 .icon_c i{ font-size:40px; color:#fff; line-height:65px}
+.top_title_com .icon_ing .inbox3 .text{	width:100%; text-align:center; font-size:12px;  color:#999; }
+
+
+.top_title_com2{	width:100%;	float:left; padding:50px 0px 20px 0px; border-bottom:1px solid #999}
+.top_title_com2 .title{	width:50%;	float:left; }
+.top_title_com2 .title .text1{float:left; font-size:30px; color:#000; font-weight:200 ; letter-spacing:-1px ; margin-right:10px}
+.top_title_com2 .title .text1 em{ font-weight:600 }
+.top_title_com2 .title .text2{float:left; font-size:13px; color:#999;font-weight:300 ; line-height:16px; margin-top:5px}
+
+
+
+
+.order_stitle{float:left; width:100%; margin-bottom:10px; }
+.order_stitle i{float:left; font-size:22px; color:#000; margin-right:5px; line-height:30px}
+.order_stitle p{float:left; font-size:18px; color:#000;line-height:30px;font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; }
+.order_stitle .stext{float:right; font-size:12px; color:#666; ;line-height:40px;}
+.order_stitle .stext p{float:left; font-size:12px; color:#666; ;line-height:40px;}
+.order_stitle .stext em{ font-size:12px; color:#f00; }
+.order_stitle .stext a.btn{float:right; padding:5px 10px; color:#fff; font-size:12px; background-color:#ccc}
+
+
+
+.order_text_r{float:left; width:100%; margin-bottom:10px; margin-top:10px}
+.order_text_r i{float:left; font-size:22px; color:#000; margin-right:5px; line-height:30px}
+.order_text_r p{float:left; font-size:12px; color:#000;line-height:25px}
+.order_text_r .stext{float:right; font-size:12px; color:#666; }
+.order_text_r .stext em{ font-size:12px; color:#f00; }
+.order_text_r .stext a.btn{float:right; padding:5px 10px; color:#fff; font-size:12px; background-color:#ccc; margin-left:10px}
+
+
+a.order_tb_btn {  padding:0px 10px 0px; background-color:#c0c0c0; border:1px solid #9c9c9c; font-size:13px; color:#fff; line-height:13px;line-height:33px; box-sizing: border-box; margin-left: -1px}
+.fl{ float:left;}
+
+
+/**** pc ****/
+@media only all and (min-width:1301px) {
+	
+.order_left{float:left; width:calc(100% - 300px); border-right:1px solid #ccc; padding-right:50px;  }
+.order_right{float:right; width:300px; margin-top: 32px}
+.order_right .inbox{float:right; width:248px;  border:1px solid #666666; background-color:#f7f7f7; margin-bottom:20px}
+.order_right .inbox .title{float:left; width:100%;   border-bottom:1px solid #eee; margin-bottom:20px; padding:20px 0px; text-align:center; font-size:16px}
+.order_right .inbox .total_1{float:left;  width:100%;  padding:0px 0px 20px 0px; }
+.order_right .inbox .total_1 .t1{ width:80%; margin:0px auto 20px auto}
+.order_right .inbox .total_1 .t1 .left{float:left;  width:50%;font-size:12px; color:#999}
+.order_right .inbox .total_1 .t1 .right{float:left;  width:50%; font-size:14px; color:#333; text-align:right}
+.order_right .inbox .total_2{float:left;  width:100%;  height:90px; background-color:#333; position: relative}
+.order_right .inbox .total_2 .t1{ color:#fff; font-size:12px; top:20px ; left:20px; position:absolute}
+.order_right .inbox .total_2 .t2{ color:#fff; font-size:17px; top:40px ; right:20px; text-align:right; position:absolute}
+.order_right .inbox .total_2 .t2 em{ color:#ffc000; font-size:20px; margin-right:10px;font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; }
+.order_right .inbox .total_3{float:left;  width:100%;  height:50px; background-color:#666; position: relative}
+.order_right .inbox .total_3 .t1{color:#fff; font-size:12px; top:18px ; left:20px; position:absolute}
+.order_right .inbox .total_3 .t2{color:#fff; font-size:16px; top:15px ; right:20px; position:absolute}
+.order_right .inbox .total_3 .t2 em{color:#ff6600; font-size:16px;font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR';margin-right:10px; }
+
+
+}
+/**** 테블릿 ****/
+@media all and (max-width:1300px) and (min-width:768px) {
+	
+.order_left{float:left; width:calc(100% - 300px); border-right:1px solid #ccc; padding-right:50px;  }
+.order_right{float:right; width:300px; margin-top: 32px}
+.order_right .inbox{float:right; width:248px;  border:1px solid #666666; background-color:#f7f7f7; margin-bottom:20px}
+.order_right .inbox .title{float:left; width:100%;   border-bottom:1px solid #eee; margin-bottom:20px; padding:20px 0px; text-align:center; font-size:16px}
+.order_right .inbox .total_1{float:left;  width:100%;  padding:0px 0px 20px 0px; }
+.order_right .inbox .total_1 .t1{ width:80%; margin:0px auto 20px auto}
+.order_right .inbox .total_1 .t1 .left{float:left;  width:50%;font-size:12px; color:#999}
+.order_right .inbox .total_1 .t1 .right{float:left;  width:50%; font-size:14px; color:#333; text-align:right}
+.order_right .inbox .total_2{float:left;  width:100%;  height:90px; background-color:#333; position: relative}
+.order_right .inbox .total_2 .t1{ color:#fff; font-size:12px; top:20px ; left:20px; position:absolute}
+.order_right .inbox .total_2 .t2{ color:#fff; font-size:17px; top:40px ; right:20px; text-align:right; position:absolute}
+.order_right .inbox .total_2 .t2 em{ color:#ffc000; font-size:20px; margin-right:10px;font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; }
+.order_right .inbox .total_3{float:left;  width:100%;  height:50px; background-color:#666; position: relative}
+.order_right .inbox .total_3 .t1{color:#fff; font-size:12px; top:18px ; left:20px; position:absolute}
+.order_right .inbox .total_3 .t2{color:#fff; font-size:16px; top:15px ; right:20px; position:absolute}
+.order_right .inbox .total_3 .t2 em{color:#ff6600; font-size:16px;font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR';margin-right:10px; }
+
+
+}
+/**** 모바일 ****/
+@media only all and (max-width:767px) {
+	
+.order_left{float:left; width:100%; }
+.order_right{float:right; width:100%;  margin-top: 32px}
+.order_right .inbox{float:right; width:100%;   border:1px solid #666666; background-color:#f7f7f7; margin-bottom:20px}
+.order_right .inbox .title{float:left; width:100%;   border-bottom:1px solid #eee; margin-bottom:20px; padding:20px 0px; text-align:center; font-size:16px}
+.order_right .inbox .total_1{float:left;  width:100%;  padding:0px 0px 20px 0px; }
+.order_right .inbox .total_1 .t1{ width:80%; margin:0px auto 20px auto}
+.order_right .inbox .total_1 .t1 .left{float:left;  width:50%;font-size:12px; color:#999}
+.order_right .inbox .total_1 .t1 .right{float:left;  width:50%; font-size:14px; color:#333; text-align:right}
+.order_right .inbox .total_2{float:left;  width:100%;  height:90px; background-color:#333; position: relative}
+.order_right .inbox .total_2 .t1{ color:#fff; font-size:12px; top:20px ; left:20px; position:absolute}
+.order_right .inbox .total_2 .t2{ color:#fff; font-size:17px; top:40px ; right:20px; text-align:right; position:absolute}
+.order_right .inbox .total_2 .t2 em{ color:#ffc000; font-size:20px; margin-right:10px;font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; }
+.order_right .inbox .total_3{float:left;  width:100%;  height:50px; background-color:#666; position: relative}
+.order_right .inbox .total_3 .t1{color:#fff; font-size:12px; top:18px ; left:20px; position:absolute}
+.order_right .inbox .total_3 .t2{color:#fff; font-size:16px; top:15px ; right:20px; position:absolute}
+.order_right .inbox .total_3 .t2 em{color:#ff6600; font-size:16px;font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR';margin-right:10px; }
+
+
+}
+
+
+
+
+.order_font1{float:left; font-size:13px;; color:#999;; line-height: 20px; }
+.order_font1 em{font-size:13px;; color:#000}
+
+.order_font2{float:left; font-size:12px;; color:#666; line-height: 20px; }
+.order_ch{float:left; line-height: 13px; margin-left: 20px; margin-right: 5px }
+
+
+.order_select{float:left; width:100%; box-sizing:border-box; border:1px solid #ccc; padding:20px; background-color: #fff}
+.order_select .inbox{ width:100%; margin:0px auto}
+.order_select .inbox .select1{ width:100%; float:left; border-bottom:1px double #ccc; padding:10px 0px; margin-bottom:20px; font-size: 13px;}
+.order_select .inbox .stext{ width:100%; float:left; font-size:14px; margin-bottom:5px;font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; }
+.order_select .inbox .div_com{ width:100%; float:left; font-size:14px; color:#666; margin-bottom:20px; font-size: 13px }
+.order_select .inbox .div_com select{ border:1px solid #ccc; height:35px ;  }
+.order_select .inbox .div_com input{  border:1px solid #ccc; height:35px; padding: 0px 10px; box-sizing: border-box    }
+.order_select .inbox .div_com .text{   float:left; height: 35px; line-height: 35px; margin-left: 20px ; font-size: 13px }
+
+.input_stst{  border:1px solid #ccc; height:35px!important;line-height:35px;  padding: 0px 10px; box-sizing: border-box    }
+
+
+
+
+
+.order_right .btn_buy{	float:right;	width:248px;	background-color:#ff6600;	margin-bottom:20px;	padding:15px 0px;	text-align:center;	color:#fff;	background-position: right bottom; font-size:16px}
+.order_right .btn_buy:hover{background-color:#9E0000}
+.order_right .agr_box{
+	float:right; padding:20px 0px; border-bottom:1px solid #ccc; font-size:14px; color:#666;  width:248px;
+}
+.order_right .agr_box .t1{
+	float:left; width:100%; margin-bottom:10px; color:#999; font-size:12px
+}
+.order_right .agr_box .t2{
+	float:left; width:100%; margin-bottom:0px; color:#333; font-size:12px; line-height: 16px
+}
+
+.order_right .agr_box .t2 .btn{
+	 padding:5px; color:#fff; background-color:#333; width:70px; text-align:center; font-size:11px; float:right
+}
+.order_right .agr_box .t2 .btn:hover{
+	 padding:5px; color:#fff; background-color:#000; width:70px; text-align:center; font-size:11px; float:right
+}
+.order_font1{float:left; font-size:12px;; color:#999}
+
+.order_font1 em{font-size:12px;; color:#000}
+
+
+
+/**** pc ****/
+@media only all and (min-width:1201px) {
+	.order_detail_box{float:left; width:100%; border-top: 3px solid #333}
+.order_detailinput{float:left; width:100%; border-bottom: 1px solid #ccc}
+.order_detailinput .pro_info{float:left; width:40%;  box-sizing: border-box; padding-bottom: 10px; margin-bottom: 10px;  padding: 20px 20px 20px 0px}
+.order_detailinput .pro_info .photo{float:left; width:40%; text-align: center}
+.order_detailinput .pro_info .photo .img{width:150px; height: 130px;  background-size: cover !important; background-position: center center !important}
+.order_detailinput .pro_info .photo .img img{}
+.order_detailinput .pro_info .text_box{float:left; width:60%; }
+.order_detailinput .pro_info .text_box .tx1{float:left; width:100%; font-size: 13px; color: #FF5F00; margin-bottom: 5px }
+.order_detailinput .pro_info .text_box .tx2{float:left; width:100%; font-size: 15px; color: #000; margin-bottom:10px }
+.order_detailinput .pro_info .text_box .tx3{float:left; width:100%; font-size: 13px; color: #666; margin-bottom:3px; line-height: 16px }
+.order_detailinput .pro_info .text_box .tx4{float:left; width:100%; font-size: 14px; color: #333; text-align: left; margin-top: 10px}
+.order_detailinput .pro_info .text_box .tx4 em{ font-size: 20px; color: #ff6600; font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; margin-right: 5px}
+.order_detailinput .input_box{float:left; width:60%;box-sizing: border-box; padding: 20px 0px 20px 10px }
+.order_detailinput .input_box .title{float:left; width:100%; margin-bottom: 10px; font-size: 18px; color: #000; ; font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; }
+.order_detailinput .input_box .title i{  float: left; font-size: 20px;color: #666; margin-right: 5px; line-height: 20px }
+.order_detailinput .input_box .title p{ float: left;  font-size: 18px; color: #000; ; font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; line-height: 20px  }
+.order_detailinput .input_box input{box-sizing: border-box; padding: 0 10px; width: 49.5% }
+
+}
+/**** 테블릿 ****/
+@media all and (max-width:1200px) and (min-width:768px) {
+	.order_detail_box{float:left; width:100%; border-top: 3px solid #333}
+.order_detailinput{float:left; width:100%; border-bottom: 1px solid #ccc}
+.order_detailinput .pro_info{float:left; width:50%;  box-sizing: border-box; padding-bottom: 10px; margin-bottom: 10px;  padding: 20px 20px 20px 0px}
+.order_detailinput .pro_info .photo{float:left; width:35%; text-align: center}
+.order_detailinput .pro_info .photo .img{width:90%; height: 100px;  background-size: cover !important; background-position: center center !important}
+.order_detailinput .pro_info .photo .img img{}
+.order_detailinput .pro_info .text_box{float:left; width:60%; }
+.order_detailinput .pro_info .text_box .tx1{float:left; width:100%; font-size: 13px; color: #FF5F00; margin-bottom: 5px }
+.order_detailinput .pro_info .text_box .tx2{float:left; width:100%; font-size: 15px; color: #000; margin-bottom:10px }
+.order_detailinput .pro_info .text_box .tx3{float:left; width:100%; font-size: 13px; color: #666; margin-bottom:3px; line-height: 16px }
+.order_detailinput .pro_info .text_box .tx4{float:left; width:100%; font-size: 14px; color: #333; text-align: left; margin-top: 10px}
+.order_detailinput .pro_info .text_box .tx4 em{ font-size: 20px; color: #ff6600; font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; margin-right: 5px}
+.order_detailinput .input_box{float:left; width:50%;box-sizing: border-box; padding: 20px 0px 20px 10px }
+.order_detailinput .input_box .title{float:left; width:100%; margin-bottom: 10px; font-size: 18px; color: #000; ; font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; }
+.order_detailinput .input_box .title i{  float: left; font-size: 20px;color: #666; margin-right: 5px; line-height: 20px }
+.order_detailinput .input_box .title p{ float: left;  font-size: 18px; color: #000; ; font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; line-height: 20px  }
+.order_detailinput .input_box input{box-sizing: border-box; padding: 0 10px; width: 100% }
+
+}
+/**** 모바일 ****/
+@media only all and (max-width:767px) {
+.order_detail_box{float:left; width:100%; border-top: 3px solid #333}
+.order_detailinput{float:left; width:100%; border-bottom: 1px solid #ccc}
+.order_detailinput .pro_info{float:left; width:100%;  box-sizing: border-box; padding-bottom: 0px; margin-bottom: 10px;  padding: 20px 20px 10px 0px}
+.order_detailinput .pro_info .photo{float:left; width:40%; text-align: center}
+.order_detailinput .pro_info .photo .img{width:95%; height: 120px;  background-size: cover !important; background-position: center center !important}
+.order_detailinput .pro_info .photo .img img{}
+.order_detailinput .pro_info .text_box{float:left; width:60%; }
+.order_detailinput .pro_info .text_box .tx1{float:left; width:100%; font-size: 12px; color: #FF5F00; margin-bottom: 5px }
+.order_detailinput .pro_info .text_box .tx2{float:left; width:100%; font-size: 14px; color: #000; margin-bottom:10px }
+.order_detailinput .pro_info .text_box .tx3{float:left; width:100%; font-size: 12px; color: #666; margin-bottom:3px; line-height: 16px }
+.order_detailinput .pro_info .text_box .tx4{float:left; width:100%; font-size: 12px; color: #333; text-align: right; margin-top: 10px}
+.order_detailinput .pro_info .text_box .tx4 em{ font-size: 20px; color: #ff6600; font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; margin-right: 5px}
+.order_detailinput .input_box{float:left; width:100%;box-sizing: border-box; padding:0px 0px 20px 0px }
+.order_detailinput .input_box .title{float:left; width:100%; margin-bottom: 10px; font-size: 16px; color: #000; ; font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; }
+.order_detailinput .input_box .title i{  float: left; font-size: 20px;color: #666; margin-right: 5px; line-height: 20px }
+.order_detailinput .input_box .title p{ float: left;  font-size: 16px; color: #000; ; font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; line-height: 20px  }
+.order_detailinput .input_box input{box-sizing: border-box; padding: 0 10px; width: 100% }
+
+}
 

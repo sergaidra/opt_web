@@ -16,7 +16,7 @@ $(function(){
 			$(".panelTab").hide();
 			if($("#divPan" + upper_cl_code).length > 0) {
 				$("#divPan" + upper_cl_code).show();
-				return false;				
+				return;				
 			}
 
 			var url = "<c:url value='/goods/getClInfo'/>";
@@ -86,7 +86,7 @@ $(function(){
 			var obj = $(".panelTab:visible").find("input:eq(0)");
 			fnSearch($(obj), true);
 	   }
-	   return false;
+	   return;
 		var scrollHeight = $(document).height();
 		var scrollPosition = $(window).height() + $(window).scrollTop();		
 		if ((scrollHeight - scrollPosition) / scrollHeight < 0.1) {
@@ -112,7 +112,7 @@ function fnSearch(obj, isNext) {
 		var totalCount = Number($(list_search).find("input[name='hidTotalcount']").val());
 		
 		if(totalCount <= ul.find("li").length)
-			return false;
+			return;
 		
 		var hidPage = Number($(list_search).find("input[name='hidPage']").val());
 		hidPage++;
@@ -224,7 +224,7 @@ function addWish(goods_code, obj) {
 	console.log(param);
 	
 	if(!confirm("해당 상품을 찜하겠습니까?"))
-		return false;
+		return;
 		
 	$.ajax({
         url : url,

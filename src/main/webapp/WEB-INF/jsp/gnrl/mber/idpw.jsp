@@ -9,13 +9,13 @@ function searchPw() {
 	if($.trim($("#email").val()) == "") {
 		alert("이메일을 입력해주세요.");
 		$("#email").focus();
-		return false;
+		return;
 	}
 
 	if($.trim($("#user_nm").val()) == "") {
 		alert("성명을 입력해주세요.");
 		$("#user_nm").focus();
-		return false;
+		return;
 	}
 
 	var url = "<c:url value='/member/searchPw'/>";
