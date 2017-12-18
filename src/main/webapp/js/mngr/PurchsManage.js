@@ -59,8 +59,7 @@ var frPurchs = Ext.create('Ext.form.Panel', {
 				margin: '0 0 0 5',
 				listeners: {
 					click: function() {
-						//winUserList.show();
-						winPurchsGoodsList.show();
+						winUserList.show();
 					}
 				}
 			}, {
@@ -164,12 +163,12 @@ var frPurchs = Ext.create('Ext.form.Panel', {
 					click: function() {
 						xlsForm.getForm().standardSubmit = true;
 						xlsForm.getForm().submit({
-		        			url   : '../selectPurchsListExcel/',
-		        			method: 'POST',
-		        			params: stPurchs.proxy.extraParams
-		        		});
+							url   : '../selectPurchsListExcel/',
+							method: 'POST',
+							params: stPurchs.proxy.extraParams
+						});
 					}
-				}			
+				}
 			},{
 				xtype: 'button',
 				margin: '0 0 0 5',
@@ -228,7 +227,7 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 	viewConfig: {
 		emptyText: '등록된 자료가 없습니다.',
 		getRowClass: function(record, rowIndex, rowParams, store) {
-			if (record.get('DELETE_AT') == 'Y') { 
+			if (record.get('DELETE_AT') == 'Y') {
 				return 'row_red';
 			} else {
 				return 'row_black';
@@ -246,10 +245,10 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 	}],
 	columns: [{
 		text: '결제번호',
-    	width: 150,
-    	align: 'center',
-    	dataIndex: 'PURCHS_SN',
-        summaryType : function(record) {
+		width: 150,
+		align: 'center',
+		dataIndex: 'PURCHS_SN',
+		summaryType : function(record) {
 			var cntY = 0;
 			var cntN = 0;
 			for (var idx in record) {
@@ -262,10 +261,10 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 			}
 			return reVal;
 		},
-        summaryRenderer: function(value, summaryData, dataIndex) {
-        	var str = '결제 ' + value.cntN + '건 , 취소 ' + value.cntY + '건';
-        	return '<b><font color="#9F0000">'+str+'</font></b>';
-        }
+		summaryRenderer: function(value, summaryData, dataIndex) {
+			var str = '결제 ' + value.cntN + '건 , 취소 ' + value.cntY + '건';
+			return '<b><font color="#9F0000">'+str+'</font></b>';
+		}
 	},{
 		text: '구매일시',
 		width: 100,
@@ -323,7 +322,7 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		summaryRenderer: function(value, summaryData, dataIndex) {
 			return '<b><font color="#9F0000">'+Ext.util.Format.number(value , '0,000')+'</font></b>';
 		}
-		
+
 	},{
 		text: '결제수단',
 		width: 100,
@@ -366,7 +365,22 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		displayInfo: true,
 		displayMsg: '전체 {2}건 중 {0} - {1}',
 		emptyMsg: "조회된 자료가 없습니다."
-	})
+	}),
+	listeners: {
+		celldblclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
+			if(cellIndex == 0) {
+				var str = '결제번호: '+record.data.PURCHS_SN;
+				str += ' / 결제금액: '+Ext.util.Format.number(record.data.SETLE_AMOUNT , '0,000')+'원';
+				str += ' / 대표여행자: '+record.data.TOURIST_NM +'('+record.data.TOURIST_CTTPC+')';
+				Ext.getCmp('form-purchs-win-purchs-info').setValue(str);
+				Ext.getCmp('form-purchs-win-purchs-sn').setValue(record.data.PURCHS_SN);
+				stPurchsGoodsWin.proxy.extraParams.PURCHS_INFO = str;
+				stPurchsGoodsWin.proxy.extraParams.PURCHS_SN = record.data.PURCHS_SN;
+				stPurchsGoodsWin.loadPage(1);
+				winPurchsGoodsList.show();
+			}
+		}
+	}
 });
 
 Ext.onReady(function(){

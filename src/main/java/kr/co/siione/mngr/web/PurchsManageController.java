@@ -92,5 +92,25 @@ public class PurchsManageController {
 		}
 		
 		jsonView.render(result, request, response);
-	}		
+	}	
+	
+	@RequestMapping(value="/mngr/selectPurchsGoodsListExcel/")
+	public ModelAndView selectPurchsGoodsListExcel(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		UserUtils.log("selectPurchsGoodsListExcel", param);		
+		try {
+			int cnt = purchsManageService.selectPurchsListCount(param);
+			param.put("limit", String.valueOf(cnt));
+			param.put("page" , "1");
+			param.put("start", "0");
+			
+			List<Map<String,Object>> results = purchsManageService.selectPurchsGoodsList(param);
+
+			result.put("CHILD", results);
+		} catch (Exception e) {
+			result.put("CHILD", null);
+			log.error(e.getMessage());
+		}
+		return new ModelAndView("PurchsGoodsListExcel", "modelMap", result);
+	}
 }

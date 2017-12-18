@@ -11,7 +11,7 @@
 <script type="text/javascript" src="<c:url value='/js/extjs/ext-all.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/extjs/locale/ext-lang-ko.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/extjs/ext-theme-neptune.js' />"></script>
-<script type="text/javascript" src="<c:url value='/js/Common.js' />"></script>
+<script type="text/javascript" src="<c:url value='/js/mngr/MngrCommon.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/mngr/file_multiple_upload.js' />"></script>
 </head>
 <body>
