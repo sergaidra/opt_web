@@ -1608,6 +1608,7 @@ function saveOpinionComplete() {
 						</select>
 						<!--//기본 셀렉트 박스 -->
 					</div>
+					<c:if test="${fn:length(lstNmpr_V) > 0}">
 					<div class="tx1"></div>
 					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
 						<select class="w_100p" id="cmbNmpr_V">
@@ -1618,6 +1619,7 @@ function saveOpinionComplete() {
 						</select>
 						<!--//기본 셀렉트 박스 -->
 					</div>
+					</c:if>
 				</div>
         	</c:if>
         	<c:if test="${result.CL_SE eq 'S'}">

@@ -80,6 +80,16 @@ function fn_renderDate(value) {
 	return value.substr(0,4) + '-' + value.substr(4,2) + '-'+ value.substr(6,2);
 }
 
+/*
+ * 시간을 렌더링한다.
+ */
+function fn_renderTime(value) {
+	if(!value) return value;
+	value = value.replace(/:/gi, '');
+	if (value == null || value == '' || value.length < 4) return value;
+	return value.substr(0,2) + ':' + value.substr(2,2);
+}
+
 
 /**
  *	문자에 따른 남여 render

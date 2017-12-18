@@ -348,6 +348,30 @@ public class UserUtils {
 	}
 	
 	
+	
+	public static String convertDate(String str) {
+		if (str == null || str.toString().length() == 0 || str.toString().equals(" ") || str.toString().equals("null")) {
+			return "";
+		}
+		if (str.length() == 8) {
+			return str.substring(0, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8);
+		} else {
+			return "";
+		}
+	}
+	
+	public static String convertTime(String str) {
+		if (str == null || str.toString().length() == 0 || str.toString().equals(" ") || str.toString().equals("null")) {
+			return "";
+		}
+		if (str.length() == 4) {
+			return str.substring(0, 2) + ":" + str.substring(2, 4);
+		} else {
+			return "";
+		}
+	}
+	
+	
 	public static void log(Map<String, String> param) throws Exception  {
 		LOG.debug("==================== log start ==============================");		
 		Iterator<Map.Entry<String, String>> it = param.entrySet().iterator();

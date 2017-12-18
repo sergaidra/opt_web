@@ -13,5 +13,6 @@
 	</bean>
 
 	<bean id="PurchsListExcel"         class="kr.co.siione.mngr.excel.PurchsListExcel" />
+	<bean id="PurchsGoodsListExcel"    class="kr.co.siione.mngr.excel.PurchsGoodsListExcel" />
 
 </beans>
