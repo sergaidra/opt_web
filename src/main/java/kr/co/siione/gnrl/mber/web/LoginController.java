@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.co.siione.api.google.GoogleService;
 import kr.co.siione.api.naver.NaverService;
 import kr.co.siione.dist.utils.SimpleUtils;
 import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
@@ -23,11 +24,16 @@ import kr.co.siione.utl.UserUtils;
 import kr.co.siione.utl.egov.EgovProperties;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
+import org.springframework.social.oauth2.GrantType;
+import org.springframework.social.oauth2.OAuth2Operations;
+import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,6 +52,8 @@ public class LoginController {
     private LoginService loginService;
 	@Resource
     private NaverService naverService;
+	@Resource
+    private GoogleService googleService;
 	@Resource
 	private StplatManageService stplatManageService;
 		
@@ -72,6 +80,12 @@ public class LoginController {
         // 네이버 로그인을 위한 state 생성
         naverService.initNaverLogin(request);
         
+        /* 구글code 발행 */
+        String google_url = googleService.initGoogleLogin(request);
+        
+		System.out.println("구글:" + google_url);
+		model.addAttribute("google_url", google_url);
+
         model.addAttribute("naver_client_id", naver_client_id);
         model.addAttribute("naver_login_redirect_uri", naver_login_redirect_uri);
         

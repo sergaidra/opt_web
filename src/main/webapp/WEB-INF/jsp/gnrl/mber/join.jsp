@@ -43,6 +43,21 @@ $(function() {
 		$("#muser_nm").attr("readonly",true);
 		$(":radio[name='rdoSex']").attr('disabled', true);
 	</c:if>
+	
+	<c:if test="${joinMethod == 'Google'}">
+		$("#email").val("${google_email}");
+		$("#memail").val("${google_email}");
+		$("#user_nm").val("${google_name}");
+		$("#muser_nm").val("${google_name}");
+		$("#rdoSex${google_gender}").prop("checked", true);
+		
+		$("#email").attr("readonly",true);
+		$("#memail").attr("readonly",true);
+		$("#user_nm").attr("readonly",true);
+		$("#muser_nm").attr("readonly",true);
+		$(":radio[name='rdoSex']").attr('disabled', true);
+	</c:if>
+	
 });
 
 var isUserIdDup = false;

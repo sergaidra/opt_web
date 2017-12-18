@@ -39,7 +39,12 @@ function naverLogin() {
 	var redirect_uri =  encodeURIComponent("${naver_login_redirect_uri}");
 	var state = "${state}";
 	document.location.href = "https://nid.naver.com/oauth2.0/authorize?client_id=" + client_id + "&response_type=code&redirect_uri=" + redirect_uri + "&state=" + state;
+}
+
+function googleLogin() {
+	document.location.href = "${google_url}";
 }	
+
 </script>
 
 </head>
@@ -86,9 +91,9 @@ function naverLogin() {
         </div>
       </div>
       <div class="login_div2">
-      	<a href="javascript:naverLogin();"><img src="/images/com/sns_login1.gif" alt=""/></a> 
+      	<a href="#"><img src="/images/com/sns_login1.gif" alt=""/></a> 
       	<a href="javascript:naverLogin();"><img src="/images/com/sns_login2.gif" alt=""/></a>  
-      	<a href="#"><img src="/images/com/sns_login3.gif" alt=""/></a>  
+      	<a href="javascript:googleLogin();"><img src="/images/com/sns_login3.gif" alt=""/></a>  
       </div>
     </div>
     </form>
