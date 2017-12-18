@@ -7,16 +7,66 @@
 <head>
 
 <script type="text/javascript">
+var cartInfo = [];
+
+<c:forEach var="item" items="${cartList}" varStatus="status">
+	cartInfo.push({ "cart_sn": "${item.CART_SN}", "purchs_amount": "${item.PURCHS_AMOUNT}", "goods_code": "${item.GOODS_CODE}", "origin_amount": "${item.ORIGIN_AMOUNT}", "chk" : false});
+</c:forEach>
+
 $(function(){	
 	$("#allCheck").click(function () {
 		if($("#allCheck").prop("checked")) { 
 			$("input[name='chkCart']").prop("checked",true); 
+			for(var cnt = 0; cnt < cartInfo.length; cnt++) {
+				cartInfo[cnt].chk = true;
+			}
 		} else { 
 			$("input[name='chkCart']").prop("checked",false); 
+			for(var cnt = 0; cnt < cartInfo.length; cnt++) {
+				cartInfo[cnt].chk = false;
+			}
 		}
+		calcAmount();
+	});
+	
+	calcAmount();
+});
+
+function calcAmount() {
+	var originTotalprice = 0;
+	var salePrice = 0;
+	var totalPrice = 0;
+	
+	for(var cnt = 0; cnt < cartInfo.length; cnt++) {
+		if(cartInfo[cnt].chk == true) {
+			originTotalprice += Number(cartInfo[cnt].origin_amount);
+			totalPrice += Number(cartInfo[cnt].purchs_amount);
+		}
+	}
+	salePrice = originTotalprice - totalPrice;
+	
+	$("#originTotalprice").text(numberWithCommas(originTotalprice));
+	$("#salePrice").text(numberWithCommas(salePrice));
+	$("#totalPrice").text(numberWithCommas(totalPrice));
+}
+
+function chkClick(obj, cart_sn) {
+	var isCheck = $(obj).prop("checked");
+	for(var cnt = 0; cnt < cartInfo.length; cnt++) {
+		if(cartInfo[cnt].cart_sn == cart_sn)
+			cartInfo[cnt].chk = isCheck;
+	}
+	$("input[name='chkCart_m']").each(function () {
+		if($(this).val() == cart_sn)
+			$(this).prop("checked", isCheck);
+	});
+	$("input[name='chkCart']").each(function () {
+		if($(this).val() == cart_sn)
+			$(this).prop("checked", isCheck);
 	});
 
-});
+	calcAmount();
+}
 
 function delCartSingle(cart_sn) {
 	var lst = [];
@@ -26,16 +76,11 @@ function delCartSingle(cart_sn) {
 
 function delCartAll() {
 	var lst = [];
-	if($(".cart_list_box").is(":visible")) {
-		$("input[name='chkCart_m']:checked").each(function() {
-			lst.push($(this).val());
-		});
-	} else {
-		$("input[name='chkCart']:checked").each(function() {
-			lst.push($(this).val());
-		});
+	for(var cnt = 0; cnt < cartInfo.length; cnt++) {
+		if(cartInfo[cnt].chk == true)
+			lst.push(cartInfo[cnt].cart_sn);
 	}
-	
+
 	if(lst.length == 0) {
 		alert("삭제 건이 없습니다.");
 		return;
@@ -83,16 +128,11 @@ function paymentCart() {
 	var lst = [];
 	var totalAmount = 0;
 
-	if($(".cart_list_box").is(":visible")) {
-		$("input[name='chkCart_m']:checked").each(function() {
-			lst.push( {"cart_sn" : $(this).val() } );
-			totalAmount += Number($(this).parent().find("input[name='purchs_amount']").val());
-		});
-	} else {
-		$("input[name='chkCart']:checked").each(function() {
-			lst.push( {"cart_sn" : $(this).val() } );
-			totalAmount += Number($(this).parent().find("input[name='purchs_amount']").val());
-		});
+	for(var cnt = 0; cnt < cartInfo.length; cnt++) {
+		if(cartInfo[cnt].chk == true) {
+			lst.push( {"cart_sn" : cartInfo[cnt].cart_sn } );
+			totalAmount += Number(cartInfo[cnt].purchs_amount);
+		}
 	}
 
 	if(lst.length == 0) {
@@ -140,15 +180,13 @@ function paymentCart() {
 
 function addWish() {
 	var lst = [];
-	if($(".cart_list_box").is(":visible")) {
-		$("input[name='chkCart_m']:checked").each(function() {
-			lst.push($(this).parent().find("input[name='goods_code']").val());
-		});
-	} else {
-		$("input[name='chkCart']:checked").each(function() {
-			lst.push($(this).parent().find("input[name='goods_code']").val());
-		});
+	
+	for(var cnt = 0; cnt < cartInfo.length; cnt++) {
+		if(cartInfo[cnt].chk == true) {
+			lst.push( cartInfo[cnt].goods_code );
+		}
 	}
+
 	if(lst.length == 0) {
 		alert("찜하기 건이 없습니다.");
 		return;
@@ -188,6 +226,9 @@ function addWish() {
 
 }
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 </script>
 </head>
@@ -234,7 +275,7 @@ function addWish() {
 		<c:set var="totalPrice" value="0" />
 		<c:forEach var="result" items="${cartList}" varStatus="status">
 		<tr>
-			<td ><input type="checkbox" name="chkCart" value="${result.CART_SN}" /><input type="hidden" name="purchs_amount" value="${result.PURCHS_AMOUNT}"><input type="hidden" name="goods_code" value="${result.GOODS_CODE}"></td>
+			<td ><input type="checkbox" name="chkCart" value="${result.CART_SN}" onclick="chkClick(this, '${result.CART_SN}');" /><input type="hidden" name="purchs_amount" value="${result.PURCHS_AMOUNT}"><input type="hidden" name="goods_code" value="${result.GOODS_CODE}"></td>
 			<td class="left"><div class="cart_img" style="background: url(<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}); background-size: cover; "></div></td>
 			<td  class="t_left">
 				<div class="cart_pro_text">
@@ -328,7 +369,7 @@ function addWish() {
 	  	<div class="sale">할인 <fmt:formatNumber value="${result.ORIGIN_AMOUNT - result.PURCHS_AMOUNT}" pattern="#,###" />원</div>
 	    <div class="total" style="top:90px;">구매예정가 <em><fmt:formatNumber value="${result.PURCHS_AMOUNT}" pattern="#,###" /></em>원</div>
 	  	<div class="del"> <a href="javascript:delCartSingle('${result.CART_SN}');" class="sbtn_01">삭제</a></div>
-	  	<div style="position:absolute; right:5px; top:30px;"><input type="checkbox" name="chkCart_m" value="${result.CART_SN}" /><input type="hidden" name="purchs_amount" value="${result.PURCHS_AMOUNT}"><input type="hidden" name="goods_code" value="${result.GOODS_CODE}"></div>	  	
+	  	<div style="position:absolute; right:5px; top:30px;"><input type="checkbox" name="chkCart_m" value="${result.CART_SN}" onclick="chkClick(this, '${result.CART_SN}');"/><input type="hidden" name="purchs_amount" value="${result.PURCHS_AMOUNT}"><input type="hidden" name="goods_code" value="${result.GOODS_CODE}"></div>	  	
 	  </div>	  
 	  </c:forEach>
 	<!--//모바일-->    
@@ -340,12 +381,12 @@ function addWish() {
       <div class="price_box">
         <div class="text1">
           <div class="t1">총 상품금액<br />
-            <em><fmt:formatNumber value="${originTotalprice}" pattern="#,###" /></em>원</div>
+            <em><label id="originTotalprice"></label></em>원</div>
         </div>
         <div class="text2"><i class="material-icons">&#xE15C;</i></div>
         <div class="text1">
           <div class="t2">총 할인금액<br />
-            <em><fmt:formatNumber value="${salePrice}" pattern="#,###" /></em>원</div>
+            <em><label id="salePrice"></label></em>원</div>
         </div>
          <div class="text2"><i class="material-icons">&#xE15C;</i></div>
         <div class="text1">
@@ -357,7 +398,7 @@ function addWish() {
         <div class="toral_icon"><i class="material-icons">&#xE035;</i></div>
         <div class="text3">
           <div class="t1">최종결제예정금액<br />
-            <em><fmt:formatNumber value="${totalPrice}" pattern="#,###" /></em>원</div>
+            <em><label id="totalPrice"></label></em>원</div>
         </div>
       </div>
     </div>
