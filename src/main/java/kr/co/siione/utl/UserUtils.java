@@ -328,7 +328,7 @@ public class UserUtils {
 			
 			//param.put("REGIST_PATH", "상품");
 			//param.put("FILE_SN", "1");
-			if(sDirName.equals("MAIN")) {
+			if(sDirName.equals("MAIN") || sDirName.equals("BANNER")) {
 				fileParam.put("IMAGE_NM", fileName);
 				fileParam.put("IMAGE_PATH", storePath + saveFileNm);
 				fileParam.put("IMAGE_SIZE", String.valueOf(file.getSize()));

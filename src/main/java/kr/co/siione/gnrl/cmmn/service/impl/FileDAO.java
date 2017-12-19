@@ -21,4 +21,8 @@ public class FileDAO extends EgovComAbstractDAO {
     public HashMap selectMainImage(HashMap map) throws Exception {
         return (HashMap)selectByPk("MainImageDAO.selectMainImage", map);
     }
+    
+    public HashMap selectBannerImage(HashMap map) throws Exception {
+        return (HashMap)selectByPk("BannerDAO.selectBanner", map);
+    }
 }

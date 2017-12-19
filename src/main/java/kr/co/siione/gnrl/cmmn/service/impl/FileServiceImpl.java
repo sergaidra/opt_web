@@ -26,4 +26,8 @@ public class FileServiceImpl implements FileService {
     public HashMap getMainImage(HashMap map) throws Exception {
         return fileDAO.selectMainImage(map);
     }
+    
+    public HashMap getBannerImage(HashMap map) throws Exception {
+        return fileDAO.selectBannerImage(map);
+    }    
 }

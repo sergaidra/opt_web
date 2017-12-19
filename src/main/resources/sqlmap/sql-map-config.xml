@@ -39,7 +39,8 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_arprt.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_dta_init.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_main_image.xml"/>
-	<sqlMap resource="sqlmap/siione/mngr/tb_stplat.xml"/>	
+	<sqlMap resource="sqlmap/siione/mngr/tb_stplat.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_banner.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_point.xml"/> <!-- 사용안함 -->
 	
 </sqlMapConfig>

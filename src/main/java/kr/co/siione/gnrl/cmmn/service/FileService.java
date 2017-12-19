@@ -7,4 +7,5 @@ public interface FileService {
     public List<HashMap> getFileList(HashMap map) throws Exception;
     public HashMap getFileDetail(HashMap map) throws Exception;
     public HashMap getMainImage(HashMap map) throws Exception;
+    public HashMap getBannerImage(HashMap map) throws Exception;
 }

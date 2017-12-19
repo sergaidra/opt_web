@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="mngr">
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="string" type="java.lang.String"/>
+
+    <insert id="BannerDAO.insertBanner" parameterClass="hashMap">
+	<![CDATA[
+		INSERT INTO TB_BANNER ( BANNER_SN
+		                      , LINK_URL
+		                      , IMAGE_NM
+		                      , IMAGE_PATH
+		                      , IMAGE_SIZE
+		                      , SORT_ORDR
+		                      , BEGIN_DE
+		                      , END_DE
+		                      , USE_AT
+		                      , REGIST_ID
+		                      , REGIST_DT )
+		               VALUES ( SQ_BANNER_SN.NEXTVAL
+		                      , #LINK_URL#
+		                      , #IMAGE_NM#
+		                      , #IMAGE_PATH#
+		                      , #IMAGE_SIZE#
+		                      , (SELECT NVL(MAX(SORT_ORDR), 0)+1 FROM TB_BANNER)
+		                      , REPLACE(#BEGIN_DE#, '-', '')
+		                      , REPLACE(#END_DE#, '-', '')
+		                      , 'Y'
+		                      , #REGIST_ID#
+		                      , SYSDATE )
+    ]]>
+    </insert>
+
+    <select id="BannerDAO.selectBannerList" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT BANNER_SN
+             , LINK_URL
+             , IMAGE_NM
+             , SUBSTR(IMAGE_NM, 1, 15) IMAGE_NM_SHORT
+             , IMAGE_PATH
+             , IMAGE_SIZE
+             , SORT_ORDR
+             , TO_CHAR(TO_DATE(BEGIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') BEGIN_DE
+             , TO_CHAR(TO_DATE(END_DE, 'YYYYMMDD'), 'YYYY-MM-DD') END_DE
+             , '/file/getBannerImage/'||CHR(63)||'banner_sn='||BANNER_SN AS IMAGE_URL
+             , USE_AT
+             , CASE WHEN BEGIN_DE <= TO_CHAR(SYSDATE, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD') <= END_DE THEN 'A'
+                    WHEN TO_CHAR(SYSDATE, 'YYYYMMDD') < BEGIN_DE THEN 'B'
+                    WHEN END_DE < TO_CHAR(SYSDATE, 'YYYYMMDD') THEN 'C'
+                    ELSE 'X' END AS CF_ING
+             , REGIST_ID
+             , REGIST_DT
+             , UPDT_ID
+             , UPDT_DT
+          FROM TB_BANNER
+         WHERE 1 = 1
+    ]]>
+    	<isNotEmpty property="USE_AT">
+           AND USE_AT = #USE_AT#
+        </isNotEmpty>
+         ORDER BY USE_AT DESC, CF_ING, SORT_ORDR
+    </select>
+
+	<select id="BannerDAO.selectBanner" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+        SELECT BANNER_SN
+             , LINK_URL
+             , IMAGE_NM
+             , IMAGE_PATH
+             , IMAGE_SIZE
+             , SORT_ORDR
+             , TO_CHAR(TO_DATE(BEGIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') BEGIN_DE
+             , TO_CHAR(TO_DATE(END_DE, 'YYYYMMDD'), 'YYYY-MM-DD') END_DE
+             , USE_AT
+             , REGIST_ID
+             , REGIST_DT
+             , UPDT_ID
+             , UPDT_DT
+          FROM TB_BANNER
+         WHERE BANNER_SN = #banner_sn#
+    ]]>
+    </select>
+
+    <update id="BannerDAO.updateBanner" parameterClass="hashMap">
+		UPDATE TB_BANNER
+		   SET SORT_ORDR = #SORT_ORDR#
+		     , LINK_URL = #LINK_URL#
+		     , BEGIN_DE = REPLACE(#BEGIN_DE#, '-', '')
+		     , END_DE = REPLACE(#END_DE#, '-', '')
+		     , USE_AT = #USE_AT#
+		     , UPDT_ID = #UPDT_ID#
+		     , UPDT_DT = SYSDATE
+		 WHERE BANNER_SN = #BANNER_SN#
+    </update>
+
+</sqlMap>

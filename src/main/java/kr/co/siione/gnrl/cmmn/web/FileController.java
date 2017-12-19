@@ -29,7 +29,6 @@ public class FileController {
 	@Resource
 	private FileService fileService;
 
-    
     @RequestMapping(value="/imageListIframe/")
     public String imageList(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
     	
@@ -39,11 +38,6 @@ public class FileController {
     	map.put("file_code", file_code);
     	List<HashMap> result = fileService.getFileList(map);
     	
-    	
-    	System.out.println("[이미지]result:"+result);
-    	
-    	
-
         model.addAttribute("result", result);
         return "gnrl/file/imageList";
     }
@@ -254,4 +248,55 @@ public class FileController {
     	}
         return entity;
     }
+    
+    @RequestMapping(value="/getBannerImage/")
+    public ResponseEntity<byte[]> getBannerImage(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+        ResponseEntity entity = null;
+        HttpHeaders responseHeaders = new HttpHeaders();
+        entity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+    	String noImagePath = request.getSession().getServletContext().getRealPath("/") + NO_IMAGE_PATH;
+    	String realPath = noImagePath;
+    	String fileName = NO_IMAGE_NAME;
+    	
+    	// 배너 이미지
+    	HashMap map = new HashMap();
+    	map.put("banner_sn", SimpleUtils.default_set(request.getParameter("banner_sn")));
+    	HashMap result = fileService.getBannerImage(map);
+    	
+    	if(result != null){
+        	realPath = SimpleUtils.default_set((String) result.get("IMAGE_PATH"));
+        	// 썸네일이미지 가져오기
+        	//realPath = StringUtils.replace(realPath, "MAIN", "MAIN\\thumb");
+        	//realPath = realPath.substring(0, realPath.lastIndexOf(".")) + "_resize" + realPath.substring(realPath.lastIndexOf("."));
+        	fileName = SimpleUtils.default_set((String) result.get("IMAGE_NM"));
+    	}
+
+        FileInputStream fileStream = null;  
+
+        try {
+            File getResource = new File(realPath);
+            if(!getResource.exists()){
+    	    	realPath = noImagePath;
+    	        getResource = new File(realPath);
+            }
+            byte byteStream[] = new byte[(int)getResource.length()];
+            fileStream = new FileInputStream(getResource);
+            int i = 0;
+            for(int j = 0; (i = fileStream.read()) != -1; j++)
+                byteStream[j] = (byte)i;
+
+            responseHeaders.setContentType(MediaType.IMAGE_JPEG);
+            responseHeaders.set("Content-Disposition", "attatchment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") +"\"");
+            entity = new ResponseEntity(byteStream, responseHeaders, HttpStatus.OK);
+    	} catch(Exception e) {
+    		e.printStackTrace();
+            fileStream.close();
+        } finally {
+            fileStream.close();
+    	}
+        return entity;
+    }    
+    
+    
 }
