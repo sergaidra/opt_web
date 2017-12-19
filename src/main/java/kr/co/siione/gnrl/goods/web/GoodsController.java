@@ -233,9 +233,10 @@ public class GoodsController {
         	String review_score = String.valueOf(review.get("REVIEW_SCORE"));      
         	int wish_count = wishService.GoodsWishCount(map);
 
+        	List<HashMap> lstNmpr = new ArrayList();
         	
         	if(UserUtils.nvl(result.get("CL_SE")).equals("S")) {
-            	List<HashMap> lstNmpr = null;
+            	List<HashMap> lstNmpr_P = null;
             	List<HashMap> lstRoom = null;
             	List<HashMap> lstEat = null;
             	List<HashMap> lstCheck = null;
@@ -246,18 +247,29 @@ public class GoodsController {
         		map.put("setup_se", "C"); // 체크인/아웃
         		lstCheck = goodsService.getGoodsNmprBySetupSeList(map);
         		map.put("setup_se", "P"); // 가격/단가(필수) > 숙박 외
-        		lstNmpr = goodsService.getGoodsNmprBySetupSeList(map);
-        		model.addAttribute("lstRoom", lstRoom);
-        		model.addAttribute("lstEat", lstEat);
-        		model.addAttribute("lstCheck", lstCheck);
-        		model.addAttribute("lstNmpr", lstNmpr);
+        		lstNmpr_P = goodsService.getGoodsNmprBySetupSeList(map);
+        		lstNmpr.addAll(lstRoom);
+        		lstNmpr.addAll(lstEat);
+        		lstNmpr.addAll(lstCheck);
+        		lstNmpr.addAll(lstNmpr_P);
+        		model.addAttribute("E_cnt", lstEat.size());
+        		model.addAttribute("C_cnt", lstCheck.size());
+        		model.addAttribute("P_cnt", lstNmpr_P.size());
+        		//model.addAttribute("lstRoom", lstRoom);
+        		//model.addAttribute("lstEat", lstEat);
+        		//model.addAttribute("lstCheck", lstCheck);
+        		//model.addAttribute("lstNmpr", lstNmpr);
         	} else {
         		map.put("setup_se", "P"); // 가격/단가(필수) > 숙박 외
         		List<HashMap> lstNmpr_P = goodsService.getGoodsNmprBySetupSeList(map);
         		map.put("setup_se", "V"); // 픽업/드랍(V) > 숙박 외
         		List<HashMap> lstNmpr_V = goodsService.getGoodsNmprBySetupSeList(map);
-        		model.addAttribute("lstNmpr_P", lstNmpr_P);
-        		model.addAttribute("lstNmpr_V", lstNmpr_V);
+        		lstNmpr.addAll(lstNmpr_P);
+        		lstNmpr.addAll(lstNmpr_V);
+        		//model.addAttribute("lstNmpr_P", lstNmpr_P);
+        		//model.addAttribute("lstNmpr_V", lstNmpr_V);
+        		model.addAttribute("P_cnt", lstNmpr_P.size());
+        		model.addAttribute("V_cnt", lstNmpr_V.size());
         	}
         	map.remove("setup_se");
         	
@@ -334,7 +346,8 @@ public class GoodsController {
             model.addAttribute("lstOpGuide", lstOpGuide);
             model.addAttribute("lstEtcInfo", lstEtcInfo);
             model.addAttribute("today", UserUtils.getDate("yyyy-MM-dd"));
-            
+            model.addAttribute("lstNmpr", lstNmpr);
+
             if(referer != null && referer.indexOf("goods/list") > -1)
             	model.addAttribute("back_goodslist", "Y");
             else
