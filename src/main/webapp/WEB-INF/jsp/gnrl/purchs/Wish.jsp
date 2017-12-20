@@ -14,6 +14,7 @@ $(function(){
 function search(pageNo) {
 	var url = "<c:url value='/purchs/getWishList'/>";
 	$("#tblList tbody").empty(); 
+	$("#tblmList tbody").empty(); 	
 	$("#paging").empty(); 
 	$("#mpaging").empty(); 	
 
@@ -30,21 +31,35 @@ function search(pageNo) {
         data : JSON.stringify(param ),
         success : function(data,status,request){
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
-        		var tr = $("<tr></tr>");
-        		//var td1 = $("<td class='left'><div class='cart_img' style=\"background: url(<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].FILE_CODE + "); background-size: cover; \"></div></td>");
-        		var td1 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].FILE_CODE + "' width='150' alt='''/></div></td>");
-				var td2 = $("<td  class='left'>" + data.list[cnt].GOODS_NM + "</td>");
-				var td3 = $("<td  class='left'>" + nvl(data.list[cnt].GOODS_INTRCN_SIMPL) + "</td>");
-				var td4 = $("<td >" + data.list[cnt].REVIEW_SCORE + "</td>");
-				var td5 = $("<td ><a href=\"javascript:delWish('" + data.list[cnt].GOODS_CODE + "')\" class='sbtn_01'>삭제하기</a></td>");				
+    			// PC
+        		{
+            		var tr = $("<tr></tr>");
+            		//var td1 = $("<td class='left'><div class='cart_img' style=\"background: url(<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].FILE_CODE + "); background-size: cover; \"></div></td>");
+            		var td1 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].FILE_CODE + "' width='150' alt='''/></div></td>");
+    				var td2 = $("<td  class='left'>" + data.list[cnt].GOODS_NM + "</td>");
+    				var td3 = $("<td  class='left'>" + nvl(data.list[cnt].GOODS_INTRCN_SIMPL) + "</td>");
+    				var td4 = $("<td >" + data.list[cnt].REVIEW_SCORE + "</td>");
+    				var td5 = $("<td ><a href=\"javascript:delWish('" + data.list[cnt].GOODS_CODE + "')\" class='sbtn_01'>삭제하기</a></td>");				
 
-        		$(tr).append(td1);
-        		$(tr).append(td2);
-        		$(tr).append(td3);
-        		$(tr).append(td4);
-        		$(tr).append(td5);
-        		
-	        	$("#tblList tbody").append(tr);        
+            		$(tr).append(td1);
+            		$(tr).append(td2);
+            		$(tr).append(td3);
+            		$(tr).append(td4);
+            		$(tr).append(td5);
+            		
+    	        	$("#tblList tbody").append(tr);        
+        		}
+        		// 모바일
+        		{
+            		var tr = $("<tr></tr>");
+            		var td1 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].FILE_CODE + "' width='100%' alt='''/></div></td>");
+    				var td2 = $("<td class='left'><div class='tx0'>" + data.list[cnt].GOODS_NM + "</div><div class='tx2'>" + nvl(data.list[cnt].GOODS_INTRCN_SIMPL) + "</div><div class='tx1'>( " + data.list[cnt].REVIEW_SCORE + " )</div><div class='total'><a href=\"javascript:delWish('" + data.list[cnt].GOODS_CODE + "')\" class='sbtn_03'>삭제하기</a></div></td>");
+
+            		$(tr).append(td1);
+            		$(tr).append(td2);
+            		
+    	        	$("#tblmList tbody").append(tr);        
+        		}
         	}
         	
         	// 페이징 처리
@@ -203,14 +218,15 @@ function lpad(s, padLength, padString){
       </div>
     </div>
     <div class="order_list">
-      <div class="title">찜목록(위시리스트) <div class="stex"> 가로 터치 슬라이딩 해주세요 ← →</div></div>
+      <div class="title">찜목록(위시리스트)</div>
       <div class="tb_box">
         <div class="tb_05_box">
-          <table width="100%" class="tb_05" id="tblList">
+          <table width="100%" class="tb_05 pc_view" id="tblList">
+            <col width="15%" />
             <col width="15%" />
             <col width="" />
-            <col width="13%" />
-            <col width="15%" />
+            <col width="10%" />
+            <col width="10%" />
             <thead>
               <tr>
 		          <th>&nbsp;</th>
@@ -223,6 +239,16 @@ function lpad(s, padLength, padString){
             <tbody>
             </tbody>
           </table>
+
+		  <!--모바일-->
+			<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tb_07 mobile_view mb_20"  id="tblmList">
+            <col width="10%" />
+            <col width="" />        
+            <tbody>          
+            </tbody>
+          </table>
+		<!--//모바일-->
+          
         </div>
       </div>
       <!--페이징 -->

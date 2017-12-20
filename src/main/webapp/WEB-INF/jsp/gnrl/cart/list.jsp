@@ -242,7 +242,7 @@ function numberWithCommas(x) {
   <div class="top_title_com">
     <div class="title">
       <div class="text1"><em>예약목록</em>(장바구니)</div>
-      <div class="text2">장바구니에 담겨진 상품을 확인하실 수 있습니다.<br />
+      <div class="text3">장바구니에 담겨진 상품을 확인하실 수 있습니다.<br />
         </div>
     </div>
 
