@@ -6,6 +6,16 @@
 
 <head>
 
+<style>
+tbody td .btn{ position: absolute; right: 5px; top: 18px}
+tbody td .btn a.modify{ padding: 3px 5px; background: #eee; border: 1px solid #999; font-size: 11px; margin-right: -1px}
+tbody td .btn a.del{ padding: 3px 5px; background: #eee; border: 1px solid #999; font-size: 11px}
+tbody td .more_text{ width: 100%; float: left; padding:10px 110px 10px 40px; box-sizing: border-box; color: #666 ; font-size: 13px}
+tbody td .more_title{ float: left; box-sizing: border-box; padding-left: 40px  }
+tbody td .more_title p{ float: left; box-sizing: border-box; color: #fff; padding: 3px 5px; background-color: #666; font-size: 12px; border-radius: 50px}
+
+</style>
+
 <script type="text/javascript">
 
 $(function(){	
@@ -76,6 +86,7 @@ function search(pageNo) {
                 		td2_1.find("#re").append(td2_a_cn);
                		}
             		td2_1.find("#re").append(td2_btn);            		
+            		td2_1.find("#re").append("<div style='clear:both;'></div>");            		
             		tr2.append(td2_1);
     	        	
     	        	$("#tblList tbody").append(tr2);        
@@ -112,11 +123,30 @@ function search(pageNo) {
 
     	        	$("#tblmList tbody").append(tr);
     	        	
-    	        	var tr2 = $("<tr style='display:none;' id='trOpinionM_" + data.list[cnt].OPINION_SN + "'><td></td></tr>");
-    	        	var td2_1 = $("<td class=\"left\">내용 : </td>");
-    	        	$(td2_1).append(data.list[cnt].OPINION_CN);
-    	        	$(tr2).append(td2_1);
-    	        	$("#tblmList tbody").append(tr2);  
+            		var tr2 = $("<tr style='display:none;' id='trOpinionM_" + data.list[cnt].OPINION_SN + "'></tr>");
+            		var td2_1 = $("<td colspan='2' class='left color'><div id='re' class='re'></div></td>");
+            		var td2_q_title = $("<div class=\"more_title\"><p>질문내용</p></div>");
+            		var td2_q_cn = $("<div class=\"more_text\" style='padding-right:0px;'>" + data.list[cnt].OPINION_CN + "</div>");
+            		var td2_a_title = $("<div class=\"more_title\"><p>답변내용</p></div>");
+            		var td2_a_cn = $("<div class=\"more_text\" style='padding-right:0px;'>" + data.list[cnt].C_OPINION_CN + "</div>");
+            		var td2_btn = $("<div class=\"btn\"></div>");
+              		if(data.list[cnt].C_OPINION_SN == null && "${author_cl}" == "A") {
+              			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", '" + data.list[cnt].GOODS_CODE + "', 'A');\" class=\"modify\">답변</a>"));
+              		}
+                	if(data.list[cnt].C_OPINION_SN != null && "${author_cl}" == "A") {
+            			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].C_OPINION_SN + ", '" + data.list[cnt].GOODS_CODE + "', 'U');\" class=\"modify\">답변수정</a>"));
+              		}
+            		td2_1.find("#re").append(td2_q_title);
+            		td2_1.find("#re").append(td2_q_cn);
+               		if(data.list[cnt].C_OPINION_SN != null) {
+                		td2_1.find("#re").append(td2_a_title);
+                		td2_1.find("#re").append(td2_a_cn);
+               		}
+            		td2_1.find("#re").append(td2_btn);            		
+            		td2_1.find("#re").append("<div style='clear:both;'></div>");            		
+            		tr2.append(td2_1);
+    	        	
+    	        	$("#tblmList tbody").append(tr2);
         		}
         		if(data.list[cnt].DEPTH == 1) {
             		rowCnt++;
