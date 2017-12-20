@@ -21,7 +21,7 @@
 .tb_01 tbody td{ border-bottom:1px solid #ccc;  padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative}
 .tb_01 tbody td .icon{  border:1px solid #ccc; background-color: #fff; width: 28px ; height: 28px; text-align: center; line-height: 25px; color: #333; font-size: 13px; position: absolute; right: -15px; top: 50%; margin-top: -15px; border-radius: 50px;  }
 .tb_01 tbody td:last-child{border-right: none}
-	
+.tb_01 tbody td.left{ text-align: left}
 .tb_01 tbody td .re_icon{ position: absolute; left: 15px; top:18px}
 .tb_01 tbody td .re_icon i { font-size: 15px; color: #666}
 .tb_01 tbody td .btn{ position: absolute; right: 5px; top: 18px}
@@ -46,7 +46,7 @@
 .tb_01 tbody td .icon{  border:1px solid #ccc; background-color: #fff; width: 28px ; height: 28px; text-align: center; line-height: 25px; color: #333; font-size: 13px; position: absolute; right: -15px; top: 50%; margin-top: -15px; border-radius: 50px;  }
 .tb_01 tbody td:last-child{border-right: none}
 .tb_font1{ color: #999; font-size:11px; margin-bottom:5px; width: 100%; float: left}
-	
+.tb_01 tbody td.left{ text-align: left}	
 .tb_01 tbody td .re_icon{ position: absolute; left: 15px; top:18px}
 .tb_01 tbody td .re_icon i { font-size: 15px; color: #666}
 .tb_01 tbody td .btn{ position: absolute; right: 5px; top: 18px}
@@ -82,6 +82,7 @@
 .review_list tbody td span{ width:80px; float:left; padding: 10px 0px }
 .review_list tbody td span img{ width:80px; float:left; }
 .review_list tbody td i{display: inline-block; vertical-align: middle;}
+	
 }
 /**** 모바일 ****/
 @media only all and (max-width:768px) {.review_list_box{ width:100%; border-top:3px solid #333; float:left}
@@ -188,7 +189,7 @@
 .bbs_search{	width:100%;	float:left;	border:1px solid #c4c4c4;	background-color:#f7f7f7;	padding:20px 0px 20px 0px;	background-image: url(/_img/cs/notice_img03.gif);	background-position: 250px center; background-repeat: no-repeat; text-align: center; overflow: hidden;}
 .bbs_search .search_text{   display: inline-block; vertical-align: middle; width:60%; margin-right: 20px; margin-top: 10px}
 .bbs_search .search_text .tx1{ 	float:left;font-size: 30px; font-weight: 500; color: #333; text-align: left; line-height: 24PX; margin-right: 20px}
-.bbs_search .search_text .tx2{ 	float:left;font-size:12px;color: #999; text-align: left; padding-top: 10px}
+.bbs_search .search_text .tx2{ 	float:left;font-size:12px;color: #999; text-align: left; padding-top: 0px}
 .bbs_search .search_in{   float:right; }
 .bbs_search .search_in .dot_text p{ margin-left:10px; font-size:14px; color:#333}
 .bbs_search .search_in .input_box{  float:left; margin-bottom:10px;}
@@ -387,6 +388,8 @@ h6.active {background-position: 10px center;}
 .bba_list tbody td.left{ text-align:left}
 .bba_list tbody td.right{ text-align:right; padding-right:10px}
 .bba_list tbody td.color{background-color:#f7f7f7; color:#666; padding:20px; box-sizing: border-box}
+.bba_list tbody th.color{background-color:#f7f7f7; color:#666; padding:20px; box-sizing: border-box}	
+	
 .bba_list tbody td:last-child{ padding:0px 3px 0px 3px ; line-height:20px; border-bottom:1px solid #dfdfdf; COLOR:#333; border-right:none;font-size:11px; line-height:16px }
 .bba_list tbody td .review{ width:100%; float:left; position:relative;  padding: 20px; box-sizing: border-box; background-color: #eee}
 .bba_list tbody td .review .text{ width:80%; float:left; position:relative; font-size:13px; line-height: 18px }
@@ -396,6 +399,7 @@ h6.active {background-position: 10px center;}
 .bba_list tbody td span{ width:80px; float:left; padding: 10px 0px }
 .bba_list tbody td span img{ width:80px; float:left; }
 .bba_list tbody td i{display: inline-block; vertical-align: middle;}
+.bba_list tbody td .re{ background-color:#eee;  padding: 15px 15px 15px 100px; box-sizing: border-box; border: 1px solid #ccc; margin: -1px; position: relative; z-index: 99; font-size: 13px; line-height: 20px; color: #666}
 
 
 }
@@ -423,7 +427,7 @@ h6.active {background-position: 10px center;}
 .bba_list_m tbody td span{ width:80px; float:left; padding: 10px 0px }
 .bba_list_m tbody td span img{ width:80px; float:left; }
 .bba_list_m tbody td i{display: inline-block; vertical-align: middle;}
-	
+.bba_list_m  tbody td .re{ background-color:#eee;  padding: 15px 15px 15px 15px; box-sizing: border-box; border: 1px solid #ccc; margin: -1px; position: relative; z-index: 99; font-size: 12px; line-height: 18px; color: #666}
 }
 
 
@@ -968,8 +972,8 @@ padding:8px 10px 8px 10px ;
 /**** 모바일 ****/
 @media only all and (max-width:768px) {
 /* 게시판 뷰 타입1 */
-.tb_05_box{ width:100%; border-top:3px solid #333; float:left; overflow-y: scroll; }
-.tb_05 { width:200%;}
+.tb_05_box{ width:100%; border-top:3px solid #333; float:left; }
+.tb_05 { width:100%;}
 .tb_05.w_150p { width:150% !important; }
 .tb_05 thead th{  color:#333; font-size:12px;  text-align:center; background-color:#eee;   font-weight:normal; line-height:16px; padding:10px 0px; border-bottom:1px solid #dfdfdf;}
 .tb_05 thead th.end{ color:#333; font-size:12px;  text-align:center; background-color:#eee;    border-right:none; text-align:center; font-weight:normal}
@@ -1035,13 +1039,39 @@ padding:8px 10px 8px 10px ;
 
 }
 
-/* 게시판 뷰 타입1 */
+
+/**** pc ****/
+@media only all and (min-width:1301px) {
+	/* 게시판 뷰 타입1 */
 .tb_07_box{ width:100%; border-top:3px solid #333; float:left}
 .tb_07 { width:100%;}
 .tb_07 thead th{  color:#333; font-size:13px;  text-align:center; background-color:#f7f7f7;   font-weight:normal; line-height:16px; padding:10px 0px; border-bottom:1px solid #dfdfdf;}
 .tb_07 tbody th{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000; background-color:#f7f7f7;  }
 .tb_07 tbody th.color{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000;  background-color:#fafafa; }
-.tb_07 tbody td { padding:8px 10px 8px 10px ;  line-height:20px; border-bottom:1px solid #dfdfdf;border-right:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
+.tb_07 tbody td { padding:8px 10px 8px 10px ;  line-height:20px; border-bottom:1px solid #dfdfdf;border-right:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px;  }
+.tb_07 tbody td:last-child{ padding:8px 10px 8px 10px ; line-height:20px; border-bottom:1px solid #dfdfdf;border-right:none; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
+.tb_07 tbody td.t_left{ text-align:left}
+.tb_07 tbody td.left{ text-align:left}
+.tb_07 tbody td.right{ text-align:right; padding-right:10px}
+.tb_07 tbody td.color{background-color:#f7f7f7; color:#666; padding:20px; box-sizing: border-box}
+.tb_07 tbody td .tx0{ COLOR:#666; border-right:none;font-size:12px;  }
+.tb_07 tbody td .tx1{ COLOR:#ff6600; border-right:none;font-size:12px; line-height:16px }
+.tb_07 tbody td .tx2{ COLOR:#333; border-right:none;font-size:13px; line-height:16px ; margin-bottom: 5px}
+.tb_07 tbody td .tx3{ COLOR:#666; border-right:none;font-size:11px; line-height:16px }
+.tb_07 tbody td.r_line{ border-right: 1px solid #dfdfdf}
+.tb_07 tbody tr.off{ background-color:#eee}
+.tb_07 tbody td.totalbg{ background-color:#eee; text-align: right; color: #000; font-weight: 900; padding: 10px 20px !important; box-sizing: border-box}
+}
+
+/**** 테블릿 ****/
+@media all and (max-width:1300px) and (min-width:768px) {
+	/* 게시판 뷰 타입1 */
+.tb_07_box{ width:100%; border-top:3px solid #333; float:left}
+.tb_07 { width:100%;}
+.tb_07 thead th{  color:#333; font-size:13px;  text-align:center; background-color:#f7f7f7;   font-weight:normal; line-height:16px; padding:10px 0px; border-bottom:1px solid #dfdfdf;}
+.tb_07 tbody th{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000; background-color:#f7f7f7;  }
+.tb_07 tbody th.color{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000;  background-color:#fafafa; }
+.tb_07 tbody td { padding:8px 10px 8px 10px ;  line-height:20px; border-bottom:1px solid #dfdfdf;border-right:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px ; position: relative}
 .tb_07 tbody td:last-child{ padding:8px 10px 8px 10px ; line-height:20px; border-bottom:1px solid #dfdfdf;border-right:none; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
 .tb_07 tbody td.t_left{ text-align:left}
 .tb_07 tbody td.left{ text-align:left}
@@ -1050,8 +1080,38 @@ padding:8px 10px 8px 10px ;
 .tb_07 tbody td .tx1{ COLOR:#ff6600; border-right:none;font-size:12px; line-height:16px }
 .tb_07 tbody td .tx2{ COLOR:#333; border-right:none;font-size:13px; line-height:16px ; margin-bottom: 5px}
 .tb_07 tbody td .tx3{ COLOR:#666; border-right:none;font-size:11px; line-height:16px }
+.tb_07 tbody td .total{  position: absolute; top:5px; right: 10px; line-height: 50px}
+.tb_07 tbody td .total em{ font-size: 12px; color: #f00; margin-left: 10px ; float: left!important}
+.tb_07 tbody td.r_line{ border-right: 1px solid #dfdfdf}
 .tb_07 tbody tr.off{ background-color:#eee}
 .tb_07 tbody td.totalbg{ background-color:#eee; text-align: right; color: #000; font-weight: 900; padding: 10px 20px !important; box-sizing: border-box}
+}
+/**** 모바일 ****/
+@media only all and (max-width:767px) {
+	/* 게시판 뷰 타입1 */
+.tb_07_box{ width:100%; border-top:3px solid #333; float:left}
+.tb_07 { width:100%;}
+.tb_07 thead th{  color:#333; font-size:13px;  text-align:center; background-color:#f7f7f7;   font-weight:normal; line-height:16px; padding:10px 0px; border-bottom:1px solid #dfdfdf;}
+.tb_07 tbody th{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000; background-color:#f7f7f7;  }
+.tb_07 tbody th.color{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000;  background-color:#fafafa; }
+.tb_07 tbody td { padding:8px 10px 8px 10px ;  line-height:20px; border-bottom:1px solid #dfdfdf;border-right:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px ; position: relative; }
+.tb_07 tbody td:last-child{ padding:8px 10px 8px 10px ; line-height:20px; border-bottom:1px solid #dfdfdf;border-right:none; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
+.tb_07 tbody td.t_left{ text-align:left}
+.tb_07 tbody td.left{ text-align:left}
+.tb_07 tbody td.right{ text-align:right; padding-right:10px}
+.tb_07 tbody td.color{background-color:#f7f7f7; color:#666; padding:20px; box-sizing: border-box}
+.tb_07 tbody td .tx1{ COLOR:#ff6600; border-right:none;font-size:12px; line-height:16px }
+.tb_07 tbody td .tx2{ COLOR:#333; border-right:none;font-size:12px; line-height:16px ; margin-bottom: 5px}
+.tb_07 tbody td .tx3{ COLOR:#666; border-right:none;font-size:11px; line-height:16px }
+.tb_07 tbody td .tx4{ COLOR:#333; border-right:none;font-size:12px; line-height:16px; font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 500 }
+	
+.tb_07 tbody td .total .tx1{ ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 500; font-size: 16px; margin-bottom: 5px}
+.tb_07 tbody td .total{  position: absolute; top:5px; right: 10px; width: 100px; line-height:30px; text-align: right}
+.tb_07 tbody td .total em{ font-size: 12px; color: #f00; margin-left: 10px ; float: right!important}
+	
+.tb_07 tbody tr.off{ background-color:#eee}
+.tb_07 tbody td.totalbg{ background-color:#eee; text-align: left; color: #000; font-weight: 900; padding: 10px 20px !important; box-sizing: border-box}
+}
 
 
 .material-icons {

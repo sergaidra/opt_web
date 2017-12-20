@@ -505,6 +505,7 @@ background-color:transparent
 .tb_01 tbody td{ border-bottom:1px solid #ccc;  padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative; box-sizing: border-box; }
 .tb_01 tbody td .icon{  border:1px solid #ccc; background-color: #fff; width: 28px ; height: 28px; text-align: center; line-height: 25px; color: #333; font-size: 13px; position: absolute; right: -15px; top: 50%; margin-top: -15px; border-radius: 50px;  }
 .tb_01 tbody td:last-child{border-right: none}
+.tb_01 tbody td.left{ text-align: left}
 }
 /**** 모바일 ****/
 @media only all and (max-width:999px) {
@@ -1234,8 +1235,8 @@ padding:8px 10px 8px 10px ;
 .tb_06 thead th.end{ color:#333; font-size:13px;  text-align:center; background-color:#f5f5f5;    border-right:none; text-align:center; font-weight:normal}
 .tb_06 tbody th{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000; background-color:#f7f7f7;  }
 .tb_06 tbody th.color{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000;  background-color:#fafafa; }
-.tb_06 tbody td { padding:8px 3px 8px 3px ; line-height:20px; border-bottom:1px solid #dfdfdf;border-right:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
-.tb_06 tbody td:last-child{ padding:8px 3px 8px 3px ; line-height:20px; border-bottom:1px solid #dfdfdf;border-right:none; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
+.tb_06 tbody td { padding:8px 3px 8px 3px ; line-height:20px; border-bottom:1px solid #dfdfdf;border-lfet:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
+.tb_06 tbody td:first-child{ padding:8px 3px 8px 3px ; line-height:20px; border-bottom:1px solid #dfdfdf;border-left:none; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
 .tb_06 tbody td.t_left{ text-align:left}
 .tb_06 tbody td.left{ text-align:left}
 .tb_06 tbody td.right{ text-align:right; padding-right:10px}

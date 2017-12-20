@@ -106,7 +106,7 @@ function fnLiveView(url) {
   <div class="main_f">
   <div class="main_v">
     <div class="tx1"><em>세부패키지 여행</em>, 고민하지말고 떠나세요</div>
-    <div class="tx2">Details package tour is <em>OnePassTour</em></div>
+    <div class="tx2">Details package tour is <em><img src="/images/com/logo.png"  alt=""/></em></div>
     <div class="msearch_box">
       <div class="icon"><img src="/images/com/search_icon.png" id="imgSearch" alt=""/></div>
       <input type="text" placeholder="가고 싶은 투어, 여행지, 액티비티 검색어를 입력하세요" id="txtKeyword" class="pc_view">
@@ -241,13 +241,12 @@ function fnLiveView(url) {
 	                  <a href="javascript:fnDetail('${list.GOODS_CODE}', 'S');">
 	                  <div class="sw_box">
 	                    <div class="img">
-	                    	<div class="imgover"></div>
-	                    	<div class="imgbg" style="background: url(<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN});">
 							<!-- <img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" onclick="fnDetail('${list.GOODS_CODE}', 'S');"/> -->
 		                      <div class="um">
 		                        <div class="tx1">HIT</div>
 		                        <div class="tx2">${status.index + 1 }</div>
 		                      </div>
+	                    	<div class="imgbg" style="background: url(<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN});">
 		                    </div>
 		                </div>
 		                <div class="txt_box">
@@ -391,21 +390,23 @@ function fnLiveView(url) {
         <div class="tx1"><img src="/images/main/main_title03.png"  alt=""/></div>
         <div class="tx2">지금뜨는 따끈따끈한 핫딜 여행정보입니다. 놓치지 마세요 </div>
       </div>
+      <a href="javascript:fnDetail('${reco[0].GOODS_CODE}', 'R');">
       <div class="cont_box">
         <div class="in01 fl">
           <div class="title">${reco[0].GOODS_NM}</div>
           <div class="text">${reco[0].GOODS_INTRCN_SIMPL}</div>
-          <a href="javascript:fnDetail('${reco[0].GOODS_CODE}', 'R');"><div class="more" >자세히보기 + </div></a>
+          <div class="more" >자세히보기 + </div>
         </div>
         <c:set var="url1" value="/images/main/main_d_01.jpg"/>
        	<c:if test="${reco[0].GOODS_CODE != null}">
        		<c:set var="url1" value="/file/getImage/?file_code=${reco[0].FILE_CODE}&file_sn=${reco[0].FILE_SN}"/>
         </c:if>
-        <div class="in02 fr" style="background: url(<c:out value="${url1}"/>); ">
+        <div class="in02 fr">
           <div class="icon"></div>
-          <div class="imgover2"></div>
+		  <div class="imgbox" style="background: url(<c:out value="${url1}"/>); "></div>          
         </div>
       </div>
+      </a>
       <div class="cont_box">
         <div class="in01 fl">
           <div class="title">${reco[1].GOODS_NM}</div>
@@ -416,9 +417,9 @@ function fnLiveView(url) {
        	<c:if test="${reco[1].GOODS_CODE != null}">
        		<c:set var="url2" value="/file/getImage/?file_code=${reco[1].FILE_CODE}&file_sn=${reco[1].FILE_SN}"/>
         </c:if>
-        <div class="in02 fr" style="background: url(<c:out value="${url2}"/>); ">
+        <div class="in02 fr">
           <div class="icon"></div>
-          <div class="imgover2"></div>
+		  <div class="imgbox" style="background: url(<c:out value="${url2}"/>); "></div>          
         </div>
       </div>
       <div class="cont_box">
@@ -426,9 +427,9 @@ function fnLiveView(url) {
        	<c:if test="${reco[2].GOODS_CODE != null}">
        		<c:set var="url3" value="/file/getImage/?file_code=${reco[2].FILE_CODE}&file_sn=${reco[2].FILE_SN}"/>
         </c:if>
-        <div class="in03 fl" style="background: url(<c:out value="${url3}"/>); ">
+        <div class="in03 fl">
           <div class="icon"></div>
-          <div class="imgover2"></div>
+		  <div class="imgbox" style="background: url(<c:out value="${url3}"/>); "></div>          
         </div>
         <div class="in04 fr">
           <div class="title">${reco[2].GOODS_NM}</div>
@@ -441,9 +442,9 @@ function fnLiveView(url) {
        	<c:if test="${reco[3].GOODS_CODE != null}">
        		<c:set var="url4" value="/file/getImage/?file_code=${reco[3].FILE_CODE}&file_sn=${reco[3].FILE_SN}"/>
         </c:if>
-        <div class="in03 fl" style="background: url(<c:out value="${url4}"/>); ">
+        <div class="in03 fl" >
           <div class="icon"></div>
-          <div class="imgover2"></div>
+		  <div class="imgbox" style="background: url(<c:out value="${url4}"/>); "></div>          
         </div>
         <div class="in04 fr">
           <div class="title">${reco[3].GOODS_NM}</div>
@@ -465,15 +466,99 @@ function fnLiveView(url) {
         <a href="javascript:go_07_05_01();"><div class="more">+</div></a>
       </div>
       <div class="cont_box">
-        <ul>
-        	<c:forEach var="item" items="${video}">
-	          <li><a href="javascript:fnLiveView('${item.VIDEO_URL}');">
-	            <div class="img"><img src="<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}&file_sn=${item.FILE_SN}"  alt=""/></div>
-	            <div class="tx1">${item.GOODS_NM}</div>
-	            <div class="tx2">라이브뷰 제목이 들어가는공간</div></a>
-	          </li>
-        	</c:forEach>
-        </ul>
+	     <div class="div_pc">
+			<div class="swiper-container2">
+				<div class="swiper-wrapper">
+		        	<c:forEach var="item" items="${video}">
+						<div class="swiper-slide">
+							<a href="javascript:fnLiveView('${item.VIDEO_URL}');">
+								<div class="main_ebox_img" >
+									<div class="imgbox" style="background: url(<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}&file_sn=${item.FILE_SN})"></div>
+								</div>
+								<div class="main_ebox_tx1">${item.GOODS_NM}</div>
+								<div class="main_ebox_tx2">라이브뷰 제목이 들어가는공간</div>
+							</a>
+						</div>
+					</c:forEach>					
+				</div>
+				<div class="swiper-button-prev2"></div>
+				<div class="swiper-button-next2"></div>				
+			</div> 
+	     </div>
+	     <div class="div_tb">
+			<div class="swiper-container2">
+				<div class="swiper-wrapper">
+		        	<c:forEach var="item" items="${video}">
+						<div class="swiper-slide">
+							<a href="javascript:fnLiveView('${item.VIDEO_URL}');">
+								<div class="main_ebox_img" >
+									<div class="imgbox" style="background: url(<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}&file_sn=${item.FILE_SN})"></div>
+								</div>
+								<div class="main_ebox_tx1">${item.GOODS_NM}</div>
+								<div class="main_ebox_tx2">라이브뷰 제목이 들어가는공간</div>
+							</a>
+						</div>
+					</c:forEach>					
+				</div>
+				<div class="swiper-button-prev2"></div>
+				<div class="swiper-button-next2"></div>				
+			</div> 
+	     </div>
+	     <div class="div_mo">
+			<div class="swiper-container2">
+				<div class="swiper-wrapper">
+		        	<c:forEach var="item" items="${video}">
+						<div class="swiper-slide">
+							<a href="javascript:fnLiveView('${item.VIDEO_URL}');">
+								<div class="main_ebox_img" >
+									<div class="imgbox" style="background: url(<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}&file_sn=${item.FILE_SN})"></div>
+								</div>
+								<div class="main_ebox_tx1">${item.GOODS_NM}</div>
+								<div class="main_ebox_tx2">라이브뷰 제목이 들어가는공간</div>
+							</a>
+						</div>
+					</c:forEach>					
+				</div>
+				<div class="swiper-button-prev2"></div>
+				<div class="swiper-button-next2"></div>				
+			</div> 
+	     </div>
+
+    <!-- Swiper JS -->
+    <script src="/jq/swiper/dist/js/swiper.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+    var swiper = new Swiper('.div_pc .swiper-container2', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 5,
+        paginationClickable: true,  nextButton: '.swiper-button-next2',
+         prevButton: '.swiper-button-prev2',
+        spaceBetween:0,
+		autoplay: 2500,
+        autoplayDisableOnInteraction: false
+    });
+		var swiper = new Swiper('.div_tb .swiper-container2', {
+        pagination: '.swiper-pagination',
+        slidesPerView:3,
+        paginationClickable: true,  nextButton: '.swiper-button-next2',
+            prevButton: '.swiper-button-prev2',
+        spaceBetween:0,
+		autoplay: 2500,
+        autoplayDisableOnInteraction: false
+    });
+		var swiper = new Swiper('.div_mo .swiper-container2', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 2,
+        paginationClickable: true,  nextButton: '.swiper-button-next2',
+         prevButton: '.swiper-button-prev2',
+        spaceBetween:0,
+		autoplay: 2500,
+        autoplayDisableOnInteraction: false
+    });
+    </script>
+	     
+	     
       </div>
     </div>
   </div>
@@ -488,7 +573,105 @@ function fnLiveView(url) {
     </div>
   </div>
   
-<!--팝업 : 1:1문의하기-->
+	<div class="banner_box">
+		<div class="inbox">     
+			<!-- pc-->
+			<div class="div_pc">
+				<div class="swiper-container3">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+					</div>
+					<!-- Add Pagination -->
+					<!-- <div class="swiper-pagination3"></div>-->
+					<!-- Add Arrows -->
+					<div class="swiper-button-prev3"></div>
+					<div class="swiper-button-next3"></div>
+				</div>
+			</div>		  
+			<!-- 테블렛-->
+			<div class="div_tb">
+				<div class="swiper-container3">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+					</div>
+					<!-- Add Pagination -->
+					<!-- <div class="swiper-pagination3"></div>-->
+					<!-- Add Arrows -->
+					<div class="swiper-button-prev3"></div>
+					<div class="swiper-button-next3"></div>
+				</div>
+			</div>		  
+		  	<!-- 모바일-->
+			<div class="div_mo">
+				<div class="swiper-container3">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+					</div>
+					<!-- Add Pagination -->
+					<!-- <div class="swiper-pagination3"></div>-->
+					<!-- Add Arrows -->
+					<div class="swiper-button-prev3"></div>
+					<div class="swiper-button-next3"></div>
+				</div>
+			</div>
+
+    <!-- Swiper JS -->
+    <script src="/jq/swiper/dist/js/swiper.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+    var swiper = new Swiper('.div_pc .swiper-container3', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 5,
+        paginationClickable: true,  nextButton: '.swiper-button-next3',
+            prevButton: '.swiper-button-prev3',
+        spaceBetween:0,
+		autoplay: 2500,
+        autoplayDisableOnInteraction: false
+    });
+		var swiper = new Swiper('.div_tb .swiper-container3', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 3,
+        paginationClickable: true,  nextButton: '.swiper-button-next3',
+            prevButton: '.swiper-button-prev3',
+        spaceBetween:0,
+		autoplay: 2500,
+        autoplayDisableOnInteraction: false
+    });
+		var swiper = new Swiper('.div_mo .swiper-container3', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 2,
+        paginationClickable: true,  nextButton: '.swiper-button-next3',
+            prevButton: '.swiper-button-prev3',
+        spaceBetween:0,
+		autoplay: 2500,
+        autoplayDisableOnInteraction: false
+    });
+    </script>
+		</div>
+	</div>
+  
+  
+  
+<!--팝업 : 라이브뷰 홍보방-->
 <div class="lightbox" id="divVideoPlayer">
   <div class="popup_com2" style="margin-top:30px; width:100%;">
   	<video id="video" class="video-js vjs-default-skin" controls preload="auto" width="640"></video>

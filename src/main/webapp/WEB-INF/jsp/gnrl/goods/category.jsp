@@ -60,7 +60,7 @@ function btnOk() {
 		<c:forEach var="result" items="${upperTourClList}" varStatus="status">
 		<li>
           <div class="inline"></div>
-          <div class="photo" style="background: url()"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1"  alt=""/></div>
+          <div class="photo"><div class="imgbox" style="background: url(<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1)"></div></div>
           <div class="text_box">
             <div class="tx1">${result.DC}</div>
             <div class="tx2">${result.CL_NM}</div>

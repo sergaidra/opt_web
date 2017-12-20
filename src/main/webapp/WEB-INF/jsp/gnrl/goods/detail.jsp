@@ -1670,6 +1670,18 @@ function addWish(goods_code, obj) {
 </div>
 <!--팝업-->
 
+<!--팝업 : 경고안내문구-->
+<div class="lightbox" id="alert_popup">
+  <div class="popup_com3">
+    <div class="icon"><i class="material-icons">&#xE8B2;</i> </div>
+    <div class="text">
+ 옵션을 선택해 주세요 <br>
+경고안내 문구 나오는곳
+    </div>
+	   <div class="popup_btn2"><a href="#" class="btnst1">확인</a><a href="#" class="btnst2">취소</a></div>
+  </div>
+</div>
+<!--팝업-->	  
 
 </section>
 

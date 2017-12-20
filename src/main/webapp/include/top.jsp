@@ -128,7 +128,7 @@ $("#leftside-navigation .sub-menu > a").click(function(e) {
 </script>
 	</nav>
 	<c:if test="${user_id != null}">
-        <div class="pc_open side-right-pushy-button pc_view" ><i class="material-icons">&#xE314;</i></div>
+        <div class="pc_open side-right-pushy-button" ><i class="material-icons">&#xE314;</i></div>
       <!--오른쪽 예약정보-->
       <nav id="sideRightPushy" class="pushy pushy-right pushy_450 pushy_over">
 	<div class="pc_close  pc_view"><a class="side-right-pushy-button"><i class="material-icons" >&#xE5CD;</i></a></div>    

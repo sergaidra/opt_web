@@ -54,8 +54,8 @@ ol,ul,li{list-style:none;padding:0;margin:0;}
 #head_home_m { display:none}
 
 #head_home .inner .toplogo_m{ display: none}
-#head_home .inner .toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; height: 90px; background-position: center left; position: absolute;  left:5%; top: 0px; display: block }
-#head_home .inner .toplogo a{width:174px; height: 90px; display: block}
+#head_home .inner .toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:220px; height: 90px; background-position: center left; position: absolute;  left:5%; top: 0px; display: block }
+#head_home .inner .toplogo a{width:220px; height: 90px; display: block}
 
 	
 #head_home .inner .menu{ position: absolute;  left:20%; top: 40px}
@@ -147,7 +147,7 @@ header.small #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-h
 	
 	
 /**** 테블릿 ****/
-@media all and (max-width:1300px) and (min-width:1001px) {
+@media all and (max-width:1300px) and (min-width:1101px) {
 #head_home {width:100% ; float:left; background:#fff; height:90px;   position:fixed ; z-index:9999}
 #head_home .inner{margin:0px auto; position:relative;left:0px; }
 #head_home_m { display:none}
@@ -155,27 +155,26 @@ header.small #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-h
 	
 #head_home {width:100% ; float:left; background:#fff; height:90px;   position:fixed ; z-index:9999; border-bottom: 1px solid #fff}
 #head_home .inner .toplogo_m{ display: none}	
-#head_home .inner .toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; display: table-cell;  vertical-align: middle; height: 90px; background-position: center left}
-#head_home .inner .toplogo a{width:174px; height: 90px; display: block}
-#head_home .inner .menu{ position: absolute;  left:20%; top: 40px}
+#head_home .inner .toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:160px; display: table-cell;  vertical-align: middle; height: 90px; background-position: center left}
+#head_home .inner .toplogo a{width:160px; height: 90px; display: block}
+#head_home .inner .menu{ position: absolute;  left:200px; top: 40px}
 #head_home .inner .menu ul li{float:left; font-size:20px; text-align: center; margin-right: 30px }
 /**** 대메뉴 폰트수정 /jq/q_menu/****/
 
-#head_home .inner .myinfo{  position:absolute; right:100px; top:20px; }
-	
-
+#head_home .inner .myinfo{  position:absolute; right:80px; top:0px; }
 #head_home .inner .myinfo a{ float: left; margin-right: 10px ; color: #999 }
-#head_home .inner .myinfo a:hover{ float: left; margin-right: 10px; color: #333 }	
-	
+#head_home .inner .myinfo a:hover{ float: left; margin-right: 10px; color: #333 }
 #head_home .inner .myinfo .name{ float: left; margin-right: 30px }
-#head_home .inner .myinfo .name .photo{ float: left; width:50px; height: 50px;  border-radius: 200px; border: 1px solid #ddd;overflow:hidden; margin-right: 10px ; display: none }
+#head_home .inner .myinfo .name .photo{ float: left; width:50px; height: 50px;  border-radius: 200px; border: 1px solid #ddd;overflow:hidden; margin-right: 10px }
 #head_home .inner .myinfo .name .photo img{ float: left; width:100%; }
-#head_home .inner .myinfo .name .name_tx{ float: left; color: #333; font-size: 16px; margin-top: 7px ; display: none}
-#head_home .inner .myinfo .name  .gomy{ float: right; margin-left: 10px; margin-top: 15px }	
-#head_home .inner .myinfo .name  .gomy a{ float: left;  padding: 5px 5px; border: 1px solid #ccc; color: #333; background-color: #f7f7f7; font-size: 11px}	
-#head_home .inner .myinfo .name .gomy a:hover{ float: left;  padding: 5px 5px; border: 1px solid #333; color: #333; background-color: #f7f7f7; font-size: 11px}	
-#head_home .inner .myinfo .name .name_tx{ position:absolute; right:100px}
+#head_home .inner .myinfo .name .name_tx{ float: left; color: #333; font-size: 12px; margin-top: 15px }
 
+#head_home .inner .myinfo .name .gomy{ float: right; margin-left: 10px; margin-top: 12px }	
+#head_home .inner .myinfo .name .gomy a{ float: left;  padding: 5px 5px; border: 1px solid #ccc; color: #333; background-color: #f7f7f7; font-size: 11px}	
+#head_home .inner .myinfo .name  .gomy a:hover{ float: left;  padding: 5px 5px; border: 1px solid #333; color: #333; background-color: #f7f7f7; font-size: 11px}	
+	
+	
+	
 #head_home .inner .allmenu{   position:absolute; right: 0px;  height: 45px; border-left: 1px solid #ddd; padding: 10px 10px;  box-sizing: border-box;  width: 100px; text-align: center}
 #head_home .inner .allmenu i{ float: left; width: 20%; font-size: 20px; color: #333; }
 #head_home .inner .allmenu .tx{ float: left;  width: 80%; float: left; font-size:12px; color: #333;; }
@@ -184,11 +183,12 @@ header.small #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-h
 #head_home .inner .mygo{   position:absolute; right: 0px; top: 45px;  height: 45px; border-left: 1px solid #ddd; padding: 10px 10px;  box-sizing: border-box;  width: 100px; text-align: center; border-top: 1px solid #ccc}
 #head_home .inner .mygo i{ float: left; width: 20%; font-size: 20px; color: #333; }
 #head_home .inner .mygo .tx{ float: left;  width: 80%; float: left; font-size:12px; color: #333;; }
-	
-.lang_sel{  position:absolute; right:100px; top:40px; font-size: 12px }
+.lang_sel{  position:absolute; right:120px; top:45px; font-size: 12px; }
 .lang_sel a{   float: left; margin-right: 15px ; color: #999}
 .lang_sel a:hover{   float: left; margin-right: 15px; color: #333 }
-	
+.lang_sel select{ width: 110px; border: 1px solid #ccc; height: 30px; background-color: #eee}
+
+		
 	
 header.large #head_home {width:100% ; float:left; background:#fff; height:90px;   position:fixed ; z-index:9999; border-bottom: 1px solid #fff}
 header.large #head_home .inner .toplogo_m{ display: none}		
@@ -241,7 +241,7 @@ header.small #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-h
 
 
 /**** 모바일 ****/
-@media only all and (max-width:1000px) {
+@media only all and (max-width:1100px) {
 #head_home {display:none}
 #head_home .inner{margin:0px auto; position:relative;left:0px; }
 #head_home_m { idth:100% ; float:left; background:#fff; height:50px;   position:fixed ; z-index:9999; border-bottom: 1px solid #ddd }
@@ -405,7 +405,7 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 
 }
 /**** 테블릿 ****/
-@media all and (max-width:1300px) and (min-width:769px) {
+@media all and (max-width:1300px) and (min-width:1001px) {
 .quick_info{ width: 100%; float: left;  background-color: #ff6000; height: 135px;  position: relative }	
 .quick_info .info_my{ text-align: center; overflow: hidden;float: left;}	
 .quick_info .info_my .photo{ width:60px; height: 60px;  border-radius: 200px; overflow:hidden; display: inline-block; vertical-align: middle; margin-bottom: 5px;  position: absolute; left: 15px; top: 20px}
@@ -424,7 +424,7 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 .quick_kko img{ width: 100%;   }	
 }
 /**** 모바일 ****/
-@media only all and (max-width:768px) {
+@media only all and (max-width:1000px) {
 .quick_info{ width: 100%; float: left;  background-color: #ff6000; height: 135px;  position: relative }	
 .quick_info .info_my{ text-align: center; overflow: hidden;float: left;}	
 .quick_info .info_my .photo{ width:60px; height: 60px;  overflow:hidden; display: inline-block; vertical-align: middle; margin-bottom: 5px;  position: absolute; left: 15px; top: 20px}
@@ -596,7 +596,7 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 
 /*---------------------- 본문영역 ----------------------*/
 /**** pc ****/
-@media only all and (min-width:1301px) {
+@media only all and (min-width:1001px) {
 	.pc_close{  position: absolute ; top: -5px; right: 20px; color: #000; cursor:pointer;}
 .pc_close i{ color: #000; font-size: 40px}	
 
@@ -605,7 +605,7 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 	
 .ri_box{ width: 100%; float: left; box-sizing: border-box; padding:50px 20px; box-sizing: border-box  }
 .ri_box .title{ width: 100%; float: left; font-size: 20px; color: #333; padding-bottom: 10px;  }
-.ri_box .title .reset{float:right; font-size: 12px; color: #333; padding: 7px 10px; border: 1px solid #ccc; border-radius: 50px}
+.ri_box .title .reset{float:right; font-size: 12px; color: #333; padding: 7px 10px; border: 1px solid #ccc; border-radius: 50px; background-color: #fff}
 
 .ri_box .ri_tab{ width: 100%; float: left; margin-bottom: 10px }
 .ri_box .ri_tab ul li{ width: calc(50% - 1px); float: left;  font-size: 12px; color: #999; margin-left: -1px; position: relative; }
@@ -615,29 +615,21 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 .ri_box .ri_tb{ width: 100%; float: left; }
 }
 /**** 테블릿 ****/
-@media all and (max-width:1300px) and (min-width:769px) {
-.pc_close{  position: absolute ; top: -5px; right: 10px; color: #000;cursor:pointer;}
-.pc_close i{ color: #000; font-size: 30px}	
 
-.pc_open{  position: absolute ; top:50%; right: 100px; color: #000; cursor:pointer;}
+/**** 모바일 ****/
+@media only all and (max-width:1000px) {
+.pc_close{  position: absolute ; top: -5px; right: 20px; color: #000; cursor:pointer;}
+.pc_close i{ color: #000; font-size: 40px}	
+	
+.mobile_close{  position: absolute ; top: -5px; right: 10px; color: #000}
+.mobile_close i{ color: #000; font-size: 30px}
+
+.pc_open{  display: none; position: fixed; top:50%; right: 20px; color: #000; width: 50px; height: 50px; background-color: #333; text-align: center; border-radius: 100px; z-index: 999999; cursor:pointer; }
 .pc_open i{ color: #000; font-size: 30px}	
 	
 .ri_box{ width: 100%; float: left; box-sizing: border-box; padding:50px 20px; box-sizing: border-box  }
 .ri_box .title{ width: 100%; float: left; font-size: 20px; color: #333; padding-bottom: 10px;  }
-.ri_box .title .reset{float:right; font-size: 12px; color: #333; padding: 7px 10px; border: 1px solid #ccc; border-radius: 50px}
-
-.ri_box .ri_tab{ width: 100%; float: left; margin-bottom: 10px }
-.ri_box .ri_tab ul li{ width: calc(50% - 1px); float: left; border: 1px solid #ccc; text-align: center; font-size: 12px; color: #999; margin-left: -1px; position: relative; padding: 10px 0px}
-.ri_box .ri_tab ul li.on{ width:  calc(50% - 1px);  float: left; border: 1px solid #333; text-align: center; font-size: 12px; color: #333; margin-left: -1px; position: relative; padding: 10px 0px; z-index: 99; background-color: #fff }
-.ri_box .ri_tb{ width: 100%; float: left; }
-}
-/**** 모바일 ****/
-@media only all and (max-width:768px) {
-.mobile_close{  position: absolute ; top: -5px; right: 10px; color: #000}
-.mobile_close i{ color: #000; font-size: 30px}
-.ri_box{ width: 100%; float: left; box-sizing: border-box; padding:50px 20px; box-sizing: border-box  }
-.ri_box .title{ width: 100%; float: left; font-size: 20px; color: #333; padding-bottom: 10px;  }
-.ri_box .title .reset{float:right; font-size: 12px; color: #333; padding: 7px 10px; border: 1px solid #ccc; border-radius: 50px}
+.ri_box .title .reset{float:right; font-size: 12px; color: #333; padding: 7px 10px; border: 1px solid #ccc; border-radius: 50px; ; background-color: #fff}
 
 .ri_box .ri_tab{ width: 100%; float: left; margin-bottom: 10px }
 .ri_box .ri_tab ul li{ width: calc(50% - 1px); float: left;  font-size: 12px; color: #999; margin-left: -1px; position: relative; }
