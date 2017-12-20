@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import kr.co.siione.gnrl.cart.service.CartService;
 import kr.co.siione.gnrl.cmmn.service.FileService;
 import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
+import kr.co.siione.gnrl.purchs.service.CancelService;
 import kr.co.siione.gnrl.purchs.service.PointService;
 import kr.co.siione.gnrl.purchs.service.PurchsService;
 import kr.co.siione.mngr.service.CtyManageService;
@@ -39,6 +40,8 @@ public class CancelController {
     private CartService cartService;
 	@Resource
     private PointService pointService;
+	@Resource
+    private CancelService cancelService;
 
 	@RequestMapping(value="/Cancel")
 	public String Cancel(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
@@ -83,13 +86,19 @@ public class CancelController {
     	map.put("endIdx", endIdx);
     	map.put("delete_at", "Y");
     	System.out.println("[getCancelList]map:"+map);
-		int totalCount = purchsService.getPurchsListCount(map);
+		int totalCount = cancelService.getCancelListCount(map);
     	mapResult.put("totalCount", String.valueOf(totalCount));
-    	List<HashMap> list = purchsService.getPurchsList(map);    	
+    	List<HashMap> list = cancelService.getCancelList(map);  
+    	
     	for(int i = 0; i < list.size(); i++) {
     		HashMap nMap = new HashMap();
-    		nMap.put("CART_SN", list.get(i).get("CART_SN"));
-    		list.get(i).put("OPTIONS", cartService.selectCartDetailList(nMap));    		
+    		nMap.put("purchs_sn", list.get(i).get("PURCHS_SN"));    				
+    		List<HashMap> lstCart = cancelService.getPurchsCartList(nMap);
+    		for(int j = 0; j < lstCart.size(); j++) {
+        		nMap.put("CART_SN", lstCart.get(j).get("CART_SN"));
+        		lstCart.get(j).put("OPTIONS", cartService.selectCartDetailList(nMap));    		
+    		}
+    		list.get(i).put("cartlist", lstCart);
     	}
     	mapResult.put("list", list);
 

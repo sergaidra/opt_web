@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
+<sqlMap namespace="gnrl">
+
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<sql id="whereCancelList">
+		AND P.ESNTL_ID = #esntl_id# AND P.DELETE_AT = 'Y'
+	</sql>
+	
+	<select id="gnrl.cancel.selectCancelListCount" parameterClass="hashMap" resultClass="Integer">
+		SELECT COUNT(1)
+		FROM TB_PURCHS P
+		WHERE 1 = 1
+		<include refid="whereCancelList"/>
+	</select>
+		
+	<select id="gnrl.cancel.selectCancelList" parameterClass="hashMap" resultClass="hashMap">
+		SELECT P.PURCHS_SN, P.PURCHS_DE, P.TOT_SETLE_AMOUNT
+		FROM (
+			SELECT A.PURCHS_SN, ROWNUM AS RNUM
+			FROM (
+					SELECT P.PURCHS_SN
+					FROM TB_PURCHS P
+					WHERE 1= 1
+					<include refid="whereCancelList"/>
+					ORDER BY P.PURCHS_SN DESC
+			) A
+		) B
+			INNER JOIN TB_PURCHS P ON B.PURCHS_SN = P.PURCHS_SN			
+		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
+		ORDER BY RNUM
+	</select>
+
+	<select id="gnrl.cancel.selectPurchsCartList" parameterClass="hashMap" resultClass="hashMap">
+		SELECT G.FILE_CODE, P.PURCHS_SN, P.PURCHS_DE, P.TOT_SETLE_AMOUNT, CG.CART_SN, G.GOODS_NM, G.GOODS_CODE
+			, CG.TOUR_DE, CG.CHKIN_DE, CG.CHCKT_DE, CG.BEGIN_TIME, CG.END_TIME, G.CL_SE
+		FROM TB_PURCHS P
+			INNER JOIN TB_PURCHS_GOODS PG ON P.PURCHS_SN = PG.PURCHS_SN
+			INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN
+			INNER JOIN TB_GOODS G ON CG.GOODS_CODE = G.GOODS_CODE
+		WHERE P.PURCHS_SN = #purchs_sn#
+		ORDER BY CG.CART_SN
+	</select>		
+</sqlMap>

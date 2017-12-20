@@ -13,8 +13,9 @@ $(function(){
 });
 
 function search(pageNo) {
-	var url = "<c:url value='/purchs/getPurchsList'/>";
+	var url = "<c:url value='/purchs/getCancelList'/>";
 	$("#tblList tbody").empty(); 
+	$("#tblmList tbody").empty(); 	
 	$("#paging").empty(); 
 	$("#mpaging").empty(); 	
 	
@@ -33,40 +34,78 @@ function search(pageNo) {
         data : JSON.stringify(param ),
         success : function(data,status,request){
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
-        		var tr = $("<tr></tr>");
-        		var td1 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].FILE_CODE + "' width='150' alt='''/></div></td>");
-        		var td2 = $("<td >" + data.list[cnt].PURCHS_SN + "<br /><a href='#' class='big-link button white medium' data-reveal-id='myModal' ></a></td>");
-        		var td3 = $("<td >" + dateWithHyphen(data.list[cnt].PURCHS_DE) + "</td>");
-        		var td4 = $("<td class='left'></td>");
-        		var td5 = $("<td class='right'><span class='point_color_b4'>" + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</span></td>");
-        		var td6 = $("<td >취소</td>");
+        		// PC
+        		{
+        			for(var cnt2 = 0; cnt2 < data.list[cnt].cartlist.length; cnt2++) {
+                		var tr = $("<tr></tr>");
+                		var td1 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].cartlist[cnt2].FILE_CODE + "' width='150' alt='''/></div></td>");
+                		var td2 = $("<td >" + data.list[cnt].PURCHS_SN + "<br /><a href='#' class='big-link button white medium' data-reveal-id='myModal' ></a></td>");
+                		var td3 = $("<td class='left'></td>");
+                		var td4 = $("<td >" + dateWithHyphen(data.list[cnt].PURCHS_DE) + "</td>");
+                		var td5 = $("<td rowspan=" + data.list[cnt].cartlist.length + "><span class='point_color_b4'>" + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</span></td>");
+                		var td6 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">취소</td>");
 
-        		if(data.list[cnt].CL_SE == 'S') {
-            		$(td4).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].CHCKT_DE) + "]</div>");
-        		} else {
-            		$(td4).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].TOUR_DE) + " " + timeWithColon(data.list[cnt].BEGIN_TIME) + " ~ " + timeWithColon(data.list[cnt].END_TIME) + "]</div>");
+                		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S') {
+                    		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE) + "]</div>");
+                		} else {
+                    		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE) + " " + timeWithColon(data.list[cnt].cartlist[cnt2].BEGIN_TIME) + " ~ " + timeWithColon(data.list[cnt].cartlist[cnt2].END_TIME) + "]</div>");
+                		}
+                		$(td3).append("<div class='tx2'>" + data.list[cnt].cartlist[cnt2].GOODS_NM + "</div>");
+                		var td3sub = $("<div class='tx3'></div>");
+                		for(var cnt3 = 0; cnt3 < data.list[cnt].cartlist[cnt2].OPTIONS.length; cnt3++) {
+                    		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S') {
+                    			$(td3sub).append("옵션 : " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].SETUP_NM + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CND);            			
+                    		} else {
+                    			$(td3sub).append("옵션 : " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CND + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CO + "명");
+                    		}           		
+                    		if(cnt2 + 1 != data.list[cnt].cartlist[cnt2].OPTIONS.length)
+                    			$(td3sub).append("<br/>");
+                		}
+                		$(td3).append(td3sub);
+                		
+                		$(tr).append(td1);
+                		$(tr).append(td2);
+                		$(tr).append(td3);
+                		$(tr).append(td4);
+                		if(cnt2 == 0) {
+                    		$(tr).append(td5);
+                    		$(tr).append(td6);
+                		}
+                		
+        	        	$("#tblList tbody").append(tr);        
+        			}
         		}
-        		$(td4).append("<div class='tx2'>" + data.list[cnt].GOODS_NM + "</div>");
-        		var td4sub = $("<div class='tx3'></div>");
-        		for(var cnt2 = 0; cnt2 < data.list[cnt].OPTIONS.length; cnt2++) {
-            		if(data.list[cnt].CL_SE == 'S') {
-            			$(td4sub).append("옵션 : " + data.list[cnt].OPTIONS[cnt2].SETUP_NM + " " + data.list[cnt].OPTIONS[cnt2].NMPR_CND);            			
-            		} else {
-            			$(td4sub).append("옵션 : " + data.list[cnt].OPTIONS[cnt2].NMPR_CND + " " + data.list[cnt].OPTIONS[cnt2].NMPR_CO + "명");
-            		}           		
-            		if(cnt2 + 1 != data.list[cnt].OPTIONS.length)
-            			$(td4sub).append("<br/>");
+        		// 모바일
+        		{
+        			for(var cnt2 = 0; cnt2 < data.list[cnt].cartlist.length; cnt2++) {
+            			var tx1 = "";
+                		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S') {
+                    		tx1 = dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE);
+                		} else {
+                			tx1 = dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE) + " " + timeWithColon(data.list[cnt].cartlist[cnt2].BEGIN_TIME) + " ~ " + timeWithColon(data.list[cnt].cartlist[cnt2].END_TIME);
+                		}
+                		var tx3 = "";
+                		for(var cnt3 = 0; cnt3 < data.list[cnt].cartlist[cnt2].OPTIONS.length; cnt3++) {
+                    		if(data.list[cnt].CL_SE == 'S') {
+                    			tx3 += "옵션 : " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].SETUP_NM + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CND;
+                    		} else {
+                    			tx3 += "옵션 : " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CND + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CO + "명";
+                    		}           		
+                    		if(cnt2 + 1 != data.list[cnt].cartlist[cnt2].OPTIONS.length)
+                    			tx3 += "<br/>";
+                		}
+
+                		var tr = $("<tr></tr>");
+                		var td1 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].cartlist[cnt2].FILE_CODE + "' width='100%' alt=\"\"/></div></td>");
+                		var td2 = $("<td class='left'><div class='tx0'>" + data.list[cnt].PURCHS_SN + "</div><div class='tx1'>[" + tx1 + "]</div><div class='tx2'>" + data.list[cnt].cartlist[cnt2].GOODS_NM + "</div><div class='tx3'>" + tx3 + "</div></td>");
+
+                		$(tr).append(td1);
+                		$(tr).append(td2);
+
+        	        	$("#tblmList tbody").append(tr);        
+        			}
+        			$("#tblmList tbody").append("<tr><td colspan='2' class='totalbg'><div class='total'>  진행상태  <em>취소</em></div>금액 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>");
         		}
-        		$(td4).append(td4sub);
-        		
-        		$(tr).append(td1);
-        		$(tr).append(td2);
-        		$(tr).append(td3);
-        		$(tr).append(td4);
-        		$(tr).append(td5);
-        		$(tr).append(td6);
-        		
-	        	$("#tblList tbody").append(tr);        
         	}
         	
         	// 페이징 처리
@@ -113,12 +152,16 @@ function search(pageNo) {
 
 
 function timeWithColon(x) {
+	if(x == null)
+		return "";
 	if(x.length < 4)
 		return x;
 	return x.substr(0, 2) + ":" + x.substr(2, 2);
 }
 
 function dateWithHyphen(x) {
+	if(x == null)
+		return "";
 	if(x.length < 8)
 		return x;
 	return x.substr(0, 4) + "-" + x.substr(4, 2) + "-" + x.substr(6, 2);
@@ -191,10 +234,10 @@ function lpad(s, padLength, padString){
       </div>
     </div>
     <div class="order_list">
-      <div class="title">취소목록<div class="stex"> 가로 터치 슬라이딩 해주세요 ← →</div></div>
+      <div class="title">취소목록</div>
       <div class="tb_box">
         <div class="tb_05_box">
-          <table id="tblList" width="100%" class="tb_05" >
+          <table id="tblList" width="100%" class="tb_05 pc_view" >
             <col width="15%" />
             <col width="13%" />
             <col width="" />
@@ -205,8 +248,8 @@ function lpad(s, padLength, padString){
               <tr>
                 <th>이미지</th>
                 <th>결제번호</th>
-                <th>구매일</th>
                 <th>여행정보</th>
+                <th>구매일</th>
                 <th >금액</th>
                 <th >결제상태</th>
               </tr>
@@ -214,6 +257,17 @@ function lpad(s, padLength, padString){
             <tbody>
             </tbody>
           </table>
+
+			<!--모바일-->
+		  <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tb_07 mobile_view mb_20" id="tblmList">
+            <col width="10%" />
+            <col width="" />
+        
+            <tbody>
+            </tbody>
+          </table>
+			<!--//모바일-->
+          
         </div>
       </div>
       <!--페이징 -->
