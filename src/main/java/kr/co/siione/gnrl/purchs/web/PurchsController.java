@@ -153,9 +153,15 @@ public class PurchsController {
     	List<HashMap> list = purchsService.getPurchsList(map);    	
     	for(int i = 0; i < list.size(); i++) {
     		HashMap nMap = new HashMap();
-    		nMap.put("CART_SN", list.get(i).get("CART_SN"));
-    		list.get(i).put("OPTIONS", cartService.selectCartDetailList(nMap));    		
+    		nMap.put("purchs_sn", list.get(i).get("PURCHS_SN"));    				
+    		List<HashMap> lstCart = purchsService.getPurchsCartList(nMap);
+    		for(int j = 0; j < lstCart.size(); j++) {
+        		nMap.put("CART_SN", lstCart.get(j).get("CART_SN"));
+        		lstCart.get(j).put("OPTIONS", cartService.selectCartDetailList(nMap));    		
+    		}
+    		list.get(i).put("cartlist", lstCart);
     	}
+    	
     	mapResult.put("list", list);
 
     	return mapResult;

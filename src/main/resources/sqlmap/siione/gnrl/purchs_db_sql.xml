@@ -5,11 +5,9 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 
 	<sql id="wherePurchsList">
+		AND P.ESNTL_ID = #esntl_id# AND P.DELETE_AT = 'N'
 		<isNotEmpty property="start_dt">
 			AND P.PURCHS_DE BETWEEN #start_dt# AND #end_dt#
-		</isNotEmpty>
-		<isNotEmpty property="delete_at">
-			AND P.DELETE_AT = #delete_at#
 		</isNotEmpty>
 	</sql>
 	
@@ -52,32 +50,36 @@
 	<select id="gnrl.purchs.selectPurchsListCount" parameterClass="hashMap" resultClass="Integer">
 		SELECT COUNT(1)
 		FROM TB_PURCHS P
-			INNER JOIN TB_PURCHS_GOODS PG ON P.PURCHS_SN = PG.PURCHS_SN
-			INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN
-		WHERE P.ESNTL_ID = #esntl_id#
+		WHERE 1 = 1
 		<include refid="wherePurchsList"/>
 	</select>
 		
 	<select id="gnrl.purchs.selectPurchsList" parameterClass="hashMap" resultClass="hashMap">
-		SELECT G.FILE_CODE, P.PURCHS_SN, P.PURCHS_DE, P.TOT_SETLE_AMOUNT, CG.CART_SN, G.GOODS_NM, G.GOODS_CODE
-			, CG.TOUR_DE, CG.CHKIN_DE, CG.CHCKT_DE, CG.BEGIN_TIME, CG.END_TIME, G.CL_SE
+		SELECT P.PURCHS_SN, P.PURCHS_DE, P.TOT_SETLE_AMOUNT
 		FROM (
-			SELECT A.PURCHS_SN, A.CART_SN, ROWNUM AS RNUM
+			SELECT A.PURCHS_SN, ROWNUM AS RNUM
 			FROM (
-					SELECT P.PURCHS_SN, CG.CART_SN
+					SELECT P.PURCHS_SN
 					FROM TB_PURCHS P
-						INNER JOIN TB_PURCHS_GOODS PG ON P.PURCHS_SN = PG.PURCHS_SN
-						INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN
-					WHERE P.ESNTL_ID = #esntl_id#
+					WHERE 1= 1
 					<include refid="wherePurchsList"/>
-					ORDER BY P.PURCHS_SN DESC, CG.CART_SN
+					ORDER BY P.PURCHS_SN DESC
 			) A
 		) B
-			INNER JOIN TB_PURCHS P ON B.PURCHS_SN = P.PURCHS_SN
-			INNER JOIN TB_CART_GOODS CG ON B.CART_SN = CG.CART_SN
-			INNER JOIN TB_GOODS G ON CG.GOODS_CODE = G.GOODS_CODE
+			INNER JOIN TB_PURCHS P ON B.PURCHS_SN = P.PURCHS_SN			
 		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
 		ORDER BY RNUM
+	</select>
+	
+	<select id="gnrl.purchs.selectPurchsCartList" parameterClass="hashMap" resultClass="hashMap">
+		SELECT G.FILE_CODE, P.PURCHS_SN, P.PURCHS_DE, P.TOT_SETLE_AMOUNT, CG.CART_SN, G.GOODS_NM, G.GOODS_CODE
+			, CG.TOUR_DE, CG.CHKIN_DE, CG.CHCKT_DE, CG.BEGIN_TIME, CG.END_TIME, G.CL_SE
+		FROM TB_PURCHS P
+			INNER JOIN TB_PURCHS_GOODS PG ON P.PURCHS_SN = PG.PURCHS_SN
+			INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN
+			INNER JOIN TB_GOODS G ON CG.GOODS_CODE = G.GOODS_CODE
+		WHERE P.PURCHS_SN = #purchs_sn#
+		ORDER BY CG.CART_SN
 	</select>
 	
 	<select id="gnrl.purchs.selectPurchsDetail" parameterClass="hashMap" resultClass="hashMap">
@@ -90,7 +92,7 @@
 			
 	<update id="gnrl.purchs.cancelPurchs" parameterClass="hashMap" >
 		UPDATE TB_PURCHS SET DELETE_AT = 'Y', DELETE_ID = #esntl_id#, DELETE_DT = SYSDATE
-		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+		WHERE PURCHS_SN = #purchs_sn#
 	</update>
 	
 	<select id="gnrl.purchs.viewPurchs" parameterClass="hashMap" resultClass="hashMap">

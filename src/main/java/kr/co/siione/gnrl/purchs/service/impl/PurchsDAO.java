@@ -33,6 +33,10 @@ public class PurchsDAO extends EgovComAbstractDAO {
 		return list("gnrl.purchs.selectPurchsList", map);
 	}
 	
+	public List<HashMap> getPurchsCartList(HashMap map) throws Exception {
+		return list("gnrl.purchs.selectPurchsCartList", map);
+	}	
+
 	public List<HashMap> selectPurchsDetail(HashMap map) throws Exception {
 		return list("gnrl.purchs.selectPurchsDetail", map);
 	}
