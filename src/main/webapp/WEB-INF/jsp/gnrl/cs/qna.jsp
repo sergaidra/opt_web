@@ -35,43 +35,18 @@ function search(pageNo) {
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
         		// PC
         		{
-            		//var tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ", \"" + data.list[cnt].GOODS_CODE + "\")' style='cursor:pointer;'></tr>");
-            		var tr = null;
-            		if(data.list[cnt].DEPTH == 1) {
-                		if(data.list[cnt].CHILDCNT == 0 && "${author_cl}" == 'A') {
-                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ", \"" + data.list[cnt].GOODS_CODE + "\");' style='cursor:pointer;'></tr>");
-                		} else {
-                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 0);' style='cursor:pointer;'></tr>");
-                		}            			
-            		} else {
-                		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
-                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ", \"" + data.list[cnt].GOODS_CODE + "\");' style='cursor:pointer;'></tr>");
-                		} else {
-                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 0);' style='cursor:pointer;'></tr>");
-                		}            			
-            		}
-            		var td1 = null;
-            		var td2 = null;
-            		
-            		if(data.list[cnt].DEPTH == 1) {
-            			td1 = $("<td>" + (Number(data.startIdx) + rowCnt) + "</td>");
-            			td2 = $("<td class=\"left\">[" + data.list[cnt].GOODS_NM + "] " + data.list[cnt].OPINION_SJ + "</td>");
-            		} else {
-            			td1 = $("<td></td>");
-            			td2 = $("<td class=\"left\">&nbsp;&nbsp;&nbsp;→ [" + data.list[cnt].GOODS_NM + "] " + data.list[cnt].OPINION_SJ + "</td>");
-            		}
+            		var tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 0);' style='cursor:pointer;'></tr>");
+
+        			var td1 = $("<td>" + (Number(data.startIdx) + rowCnt) + "</td>");
+        			var td2 = $("<td class=\"left\">[" + data.list[cnt].GOODS_NM + "] " + data.list[cnt].OPINION_SJ + "</td>");
             		var td3 = $("<td>" + data.list[cnt].USER_NM + "</td>");
             		var td4 = $("<td>" + data.list[cnt].WRITNG_DT + "</td>");
             		var td5 = null;
-            		if(data.list[cnt].DEPTH == 1) {
-                		if(data.list[cnt].CHILDCNT > 0) {
-                    		td5 = $("<td><div class=\"listin_btn1\">답변완료</div ></td>");
-    					} else {
-                    		td5 = $("<td><div class=\"listin_btn2\">문의접수</div ></td>");
-    					}
-            		} else {
-            			td5 = $("<td></td>");
-            		}
+               		if(data.list[cnt].C_OPINION_SN != null) {
+                   		td5 = $("<td><div class=\"listin_btn1\">답변완료</div ></td>");
+   					} else {
+                   		td5 = $("<td><div class=\"listin_btn2\">문의접수</div ></td>");
+   					}
             		
             		$(tr).append(td1);
             		$(tr).append(td2);
@@ -80,49 +55,56 @@ function search(pageNo) {
             		$(tr).append(td5);
 
     	        	$("#tblList tbody").append(tr);        
-    	        	var tr2 = $("<tr style='display:none;' id='trOpinion_" + data.list[cnt].OPINION_SN + "'><td></td></tr>");
-    	        	var td2_1 = $("<td colspan='4' class=\"left\">내용 : </td>");
-    	        	$(td2_1).append(data.list[cnt].OPINION_CN);
-    	        	$(tr2).append(td2_1);
+    	        	
+            		var tr2 = $("<tr style='display:none;' id='trOpinion_" + data.list[cnt].OPINION_SN + "'></tr>");
+            		var td2_1 = $("<td colspan=\"5\"  class='left color'><div id='re' class='re'></div></td>");
+            		var td2_q_title = $("<div class=\"more_title\"><p>질문내용</p></div>");
+            		var td2_q_cn = $("<div class=\"more_text\">" + data.list[cnt].OPINION_CN + "</div>");
+            		var td2_a_title = $("<div class=\"more_title\"><p>답변내용</p></div>");
+            		var td2_a_cn = $("<div class=\"more_text\">" + data.list[cnt].C_OPINION_CN + "</div>");
+            		var td2_btn = $("<div class=\"btn\"></div>");
+              		if(data.list[cnt].C_OPINION_SN == null && "${author_cl}" == "A") {
+              			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", '" + data.list[cnt].GOODS_CODE + "', 'A');\" class=\"modify\">답변</a>"));
+              		}
+                	if(data.list[cnt].C_OPINION_SN != null && "${author_cl}" == "A") {
+            			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].C_OPINION_SN + ", '" + data.list[cnt].GOODS_CODE + "', 'U');\" class=\"modify\">답변수정</a>"));
+              		}
+            		td2_1.find("#re").append(td2_q_title);
+            		td2_1.find("#re").append(td2_q_cn);
+               		if(data.list[cnt].C_OPINION_SN != null) {
+                		td2_1.find("#re").append(td2_a_title);
+                		td2_1.find("#re").append(td2_a_cn);
+               		}
+            		td2_1.find("#re").append(td2_btn);            		
+            		tr2.append(td2_1);
+    	        	
     	        	$("#tblList tbody").append(tr2);        
         		}
         		
         		// 모바일
         		{
-            		var tr = null;
-            		if(data.list[cnt].DEPTH == 1) {
-                		if(data.list[cnt].CHILDCNT == 0 && "${author_cl}" == 'A') {
-                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ", \"" + data.list[cnt].GOODS_CODE + "\");' style='cursor:pointer;'></tr>");
-                		} else {
-                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 1);' style='cursor:pointer;'></tr>");
-                		}            			
-            		} else {
-                		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
-                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ", \"" + data.list[cnt].GOODS_CODE + "\");' style='cursor:pointer;'></tr>");
-                		} else {
-                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 1);' style='cursor:pointer;'></tr>");
-                		}            			
-            		}        			
-        			var tr1 = null;
+            		var tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 1);' style='cursor:pointer;'></tr>");
+
+            		var tr1 = null;
         			var tr2 = null;
         			var td2span = null;
-            		if(data.list[cnt].DEPTH == 1) {
-            			var divHtml = "";
-                		if(data.list[cnt].CHILDCNT > 0) {
-                			divHtml = "<div class=\"listin_btn1\" style=\"float:right;\">답변완료</div >";
-    					} else {
-    						divHtml = "<div class=\"listin_btn2\" style=\"float:right;\">문의접수</div >";
-    					}
 
-            			td1 = $("<td class='t_center'>" + (Number(data.startIdx) + rowCnt) + "</td>");
-            			td2 = $("<td></td>");
-            			td2span = $("<span class='tb_font1' style='width:100%; float:left; text-align:left;'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]"  + divHtml + "</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
+            		if(data.list[cnt].CHILDCNT > 0) {
+            			divHtml = "<div class=\"listin_btn1\" style=\"float:right;\">답변완료</div >";
+					} else {
+						divHtml = "<div class=\"listin_btn2\" style=\"float:right;\">문의접수</div >";
+					}
 
-            		} else {
-            			td1 = $("<td class='t_center'></td>");
-            			td2 = $("<td></td>");
-            			td2span = $("<span class='tb_font1' style='width:100%; float:left; text-align:left;'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
-            		}
+           			var divHtml = "";
+               		if(data.list[cnt].C_OPINION_SN != null) {
+               			divHtml = "<div class=\"listin_btn1\" style=\"float:right;\">답변완료</div >";
+   					} else {
+   						divHtml = "<div class=\"listin_btn2\" style=\"float:right;\">문의접수</div >";
+   					}
+
+           			td1 = $("<td class='t_center'>" + (Number(data.startIdx) + rowCnt) + "</td>");
+           			td2 = $("<td></td>");
+           			td2span = $("<span class='tb_font1' style='width:100%; float:left; text-align:left;'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]"  + divHtml + "</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
 
             		$(td2).append(td2span);
             		$(tr).append(td1);
@@ -191,9 +173,10 @@ function showOpinion(opinion_sn, mode) {
 }
 
 
-function viewOpinion(opinion_sn, goods_code) {
-	$.featherlight('/cs/popupOpinion?opinion_sn=' + opinion_sn + '&goods_code=' + goods_code + '&callback=saveOpinionComplete', {});
+function viewOpinion(opinion_sn, goods_code, mode) {
+	$.featherlight('/cs/popupOpinion?opinion_sn=' + opinion_sn + '&goods_code=' + goods_code + '&callback=saveOpinionComplete&mode=' + mode, {});
 }
+
 
 function saveOpinionComplete() {
 	search(1);

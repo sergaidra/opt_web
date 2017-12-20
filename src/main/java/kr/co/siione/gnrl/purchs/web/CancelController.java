@@ -59,8 +59,8 @@ public class CancelController {
 		} catch(Exception e) {e.printStackTrace();}
 		
         model.addAttribute("bp", "06");
-       	model.addAttribute("btitle", "취소목록");
-        model.addAttribute("mtitle", "포인트조회");
+       	model.addAttribute("btitle", "마이페이지");
+        model.addAttribute("mtitle", "취소목록");
 		
 		return "gnrl/purchs/Cancel";
 	}

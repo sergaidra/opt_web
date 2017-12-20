@@ -77,6 +77,7 @@ public class QnaController {
     	int totalCount = qnaService.getOpinionListCount(map);
     	List<HashMap> list = qnaService.getOpinionList(map);
     	
+    	/*
     	List<HashMap> result = new ArrayList();
     	
     	for(int i = 0; i < list.size(); i++) {
@@ -86,10 +87,10 @@ public class QnaController {
     		List<HashMap> lstChild = qnaService.getOpinionAnswerList(mapChild);
     		result.addAll(lstChild);
     	}
-    	
+    	*/
     	mapResult.put("totalCount", String.valueOf(totalCount));
     	mapResult.put("startIdx", String.valueOf(startIdx));
-    	mapResult.put("list", result);
+    	mapResult.put("list", list);
 
     	return mapResult;    
     }    
@@ -101,6 +102,7 @@ public class QnaController {
 		String opinion_sn = UserUtils.nvl(request.getParameter("opinion_sn"));
 		String goods_code = UserUtils.nvl(request.getParameter("goods_code"));
 		String callback = UserUtils.nvl(request.getParameter("callback"));		
+		String mode = UserUtils.nvl(request.getParameter("mode"));		
 
     	map.put("opinion_sn", opinion_sn);   
     	map.put("goods_code", goods_code);   
@@ -111,6 +113,7 @@ public class QnaController {
 		model.addAttribute("opinion_sn", opinion_sn);
 		model.addAttribute("goods_code", goods_code);
 		model.addAttribute("callback", callback);
+		model.addAttribute("mode", mode);
 		
 		return "gnrl/popup/opinion";	
     }	

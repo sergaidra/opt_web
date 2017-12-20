@@ -34,7 +34,7 @@
 	      	<a href="javascript:saveOpinion();" id="btnOpinion1">문의하기</a>
 	    </c:if>
       	<c:if test="${opinion != null}">
-	      	<c:if test="${opinion.CHILDCNT == 0 && esntl_id == opinion.WRITNG_ID}">
+	      	<c:if test="${esntl_id == opinion.WRITNG_ID}">
 		      	<a href="javascript:saveOpinion();" id="btnOpinion1">수정하기</a>
 		      	<a href="javascript:deleteOpinion();" id="btnOpinion4">삭제하기</a>
 			   	<c:if test="${author_cl == 'A' and opinion.PARENT_OPINION_SN == null}">
@@ -50,6 +50,9 @@
 
 <script>
 
+if("${mode}" == "A")
+	answerOpinion();
+
 function answerOpinion() {
 	$(".featherlight #parent_opinion_sn").val($(".featherlight #opinion_sn").val());
 	$(".featherlight #opinion_sj").val("[RE] " + $(".featherlight #opinion_sj").val());
@@ -57,7 +60,8 @@ function answerOpinion() {
 	$(".featherlight #opinion_cn").val("");
 	$(".featherlight #btnOpinion1").hide();	
 	$(".featherlight #btnOpinion2").hide();	
-	$(".featherlight #btnOpinion3").show();	
+	$(".featherlight #btnOpinion4").hide();	
+	$(".featherlight #btnOpinion3").show();		
 }
 
 function saveOpinion() {

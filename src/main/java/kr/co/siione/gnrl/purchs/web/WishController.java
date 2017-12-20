@@ -60,8 +60,8 @@ public class WishController {
 		} catch(Exception e) {e.printStackTrace();}
 		
         model.addAttribute("bp", "06");
-       	model.addAttribute("btitle", "찜목록");
-        model.addAttribute("mtitle", "포인트조회");
+       	model.addAttribute("btitle", "마이페이지");
+        model.addAttribute("mtitle", "찜목록");
 		
 		return "gnrl/purchs/Wish";
 	}

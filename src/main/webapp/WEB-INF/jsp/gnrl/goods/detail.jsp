@@ -32,6 +32,8 @@
 
 <style>
 #map { height: 550px; }
+.hit_on i { color:#ff6600; }
+.hit i { color:#ffffff; }
 </style>
 <script>
 $(document).ready(function(){
@@ -326,7 +328,7 @@ $(function() {
 			if(originItem != null) {
 				item = $.extend(true, {}, originItem);
 				item.text = $("#cmbEat option:selected").text();
-				item.nmpr_cnt = optionInfo.room.nmpr_co;
+				item.nmpr_cnt = item.nmpr_co;
 				
 				if(item.fixed_at == "Y")
 					item.nmpr_cnt = 1;
@@ -898,41 +900,18 @@ function goSearchOpinion(pageNo) {
         	var rowCnt = 0;
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
         		{
-            		var tr = null;
-            		if(data.list[cnt].DEPTH == 1) {
-                		if(data.list[cnt].CHILDCNT == 0 && data.list[cnt].WRITNG_ID == "${esntl_id}") {
-                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ");' style='cursor:pointer;'></tr>");
-                		} else {
-                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 0);' style='cursor:pointer;'></tr>");
-                		}            			
-            		} else {
-                		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
-                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ");' style='cursor:pointer;'></tr>");
-                		} else {
-                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 0);' style='cursor:pointer;'></tr>");
-                		}            			
-            		}
-            		var td1 = null;
-            		var td2 = null;
-            		if(data.list[cnt].DEPTH == 1) {
-                		td1 = $("<td class='t_center'>" + (Number(data.startIdx) + rowCnt) + "</td>");
-                		td2 = $("<td>" + data.list[cnt].OPINION_SJ + "</td>");
-            		} else {
-                		td1 = $("<td class='t_center'></td>");
-                		td2 = $("<td>&nbsp;&nbsp;→ " + data.list[cnt].OPINION_SJ + "</td>");
-            		}
+            		var tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 0);' style='cursor:pointer;'></tr>");
+
+            		var td1 = $("<td class='t_center'>" + (Number(data.startIdx) + rowCnt) + "</td>");
+            		var td2 = $("<td>" + data.list[cnt].OPINION_SJ + "</td>");
             		var td3 = $("<td>" + data.list[cnt].USER_NM + "</td>");
             		var td4 = $("<td>" + data.list[cnt].WRITNG_DT + "</td>");
 					var td5 = null;
-            		if(data.list[cnt].DEPTH == 1) {
-                		if(data.list[cnt].CHILDCNT > 0) {
-                    		td5 = $("<td><div class=\"listin_btn1\">답변완료</div ></td>");
-    					} else {
-                    		td5 = $("<td><div class=\"listin_btn2\">문의접수</div ></td>");
-    					}
-            		} else {
-            			td5 = $("<td></td>");
-            		}
+               		if(data.list[cnt].C_OPINION_SN != null) {
+                   		td5 = $("<td><div class=\"ing2\">답변완료</div ></td>");
+   					} else {
+                   		td5 = $("<td><div class=\"ing1\">문의접수</div ></td>");
+   					}
             		
             		$(tr).append(td1);
             		$(tr).append(td2);
@@ -940,47 +919,51 @@ function goSearchOpinion(pageNo) {
             		$(tr).append(td4);
             		$(tr).append(td5);
 
+            		var tr2 = $("<tr style='display:none;' id='trOpinion_" + data.list[cnt].OPINION_SN + "'></tr>");
+            		var td2_1 = $("<td colspan=\"6\" ></td>");
+            		var td2_q_title = $("<div class=\"more_title\"><p>질문내용</p></div>");
+            		var td2_q_cn = $("<div class=\"more_text\">" + data.list[cnt].OPINION_CN + "</div>");
+            		var td2_a_title = $("<div class=\"more_title\"><p>답변내용</p></div>");
+            		var td2_a_cn = $("<div class=\"more_text\">" + data.list[cnt].C_OPINION_CN + "</div>");
+            		var td2_btn = $("<div class=\"btn\"></div>");
+              		if(data.list[cnt].C_OPINION_SN == null && data.list[cnt].WRITNG_ID == "${esntl_id}") {
+              			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", 'U');\" class=\"modify\">수정</a>"));
+              		}
+              		if(data.list[cnt].C_OPINION_SN == null && "${author_cl}" == "A") {
+              			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", 'A');\" class=\"modify\">답변</a>"));
+              		}
+                	if(data.list[cnt].C_OPINION_SN != null && "${author_cl}" == "A") {
+            			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].C_OPINION_SN + ", 'U');\" class=\"modify\">답변수정</a>"));
+              		}
+            		td2_1.append(td2_q_title);
+            		td2_1.append(td2_q_cn);
+               		if(data.list[cnt].C_OPINION_SN != null) {
+                		td2_1.append(td2_a_title);
+                		td2_1.append(td2_a_cn);
+               		}
+            		td2_1.append(td2_btn);            		
+            		tr2.append(td2_1);
+
     	        	$("#tblOpinionPC tbody").append(tr);        
-    	        	var tr2 = $("<tr style='display:none;' id='trOpinion_" + data.list[cnt].OPINION_SN + "'><td></td></tr>");
-    	        	var td2_1 = $("<td colspan='4'>내용 : </td>");
-    	        	$(td2_1).append(data.list[cnt].OPINION_CN);
-    	        	$(tr2).append(td2_1);
     	        	$("#tblOpinionPC tbody").append(tr2);        
         		}
         		{
-            		var tr = null;
-            		if(data.list[cnt].DEPTH == 1) {
-                		if(data.list[cnt].CHILDCNT == 0 && data.list[cnt].WRITNG_ID == "${esntl_id}") {
-                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ");' style='cursor:pointer;'></tr>");
-                		} else {
-                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 1);' style='cursor:pointer;'></tr>");
-                		}            			
-            		} else {
-                		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
-                    		tr = $("<tr onclick='viewOpinion(" + data.list[cnt].OPINION_SN + ");' style='cursor:pointer;'></tr>");
-                		} else {
-                    		tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 1);' style='cursor:pointer;'></tr>");
-                		}            			
-            		}        			
+            		var tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 1);' style='cursor:pointer;'></tr>");
+               	     			
         			var tr1 = null;
         			var tr2 = null;
         			var td2span = null;
             		if(data.list[cnt].DEPTH == 1) {
             			var divHtml = "";
-                		if(data.list[cnt].CHILDCNT > 0) {
-                			divHtml = "<div class=\"listin_btn1\" style=\"float:right;\">답변완료</div >";
+                		if(data.list[cnt].C_OPINION_SN != null) {
+                			divHtml = "<div class=\"ing2\" style=\"float:right;\">답변완료</div >";
     					} else {
-    						divHtml = "<div class=\"listin_btn2\" style=\"float:right;\">문의접수</div >";
+    						divHtml = "<div class=\"ing1\" style=\"float:right;\">문의접수</div >";
     					}
 
             			td1 = $("<td class='t_center'>" + (Number(data.startIdx) + rowCnt) + "</td>");
             			td2 = $("<td></td>");
             			td2span = $("<span class='tb_font1'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]"  + divHtml + "</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
-
-            		} else {
-            			td1 = $("<td class='t_center'></td>");
-            			td2 = $("<td></td>");
-            			td2span = $("<span class='tb_font1'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
             		}
 
             		$(td2).append(td2span);
@@ -990,9 +973,30 @@ function goSearchOpinion(pageNo) {
     	        	$("#tblOpinionMobile tbody").append(tr);
     	        	
     	        	var tr2 = $("<tr style='display:none;' id='trOpinionM_" + data.list[cnt].OPINION_SN + "'><td></td></tr>");
-    	        	var td2_1 = $("<td>내용 : </td>");
-    	        	$(td2_1).append(data.list[cnt].OPINION_CN);
-    	        	$(tr2).append(td2_1);
+            		var td2_1 = $("<td></td>");
+            		var td2_q_title = $("<div class=\"more_title\"><p>질문내용</p></div>");
+            		var td2_q_cn = $("<div class=\"more_text\">" + data.list[cnt].OPINION_CN + "</div>");
+            		var td2_a_title = $("<div class=\"more_title\"><p>답변내용</p></div>");
+            		var td2_a_cn = $("<div class=\"more_text\">" + data.list[cnt].C_OPINION_CN + "</div>");
+            		var td2_btn = $("<div class=\"btn\"></div>");
+              		if(data.list[cnt].C_OPINION_SN == null && data.list[cnt].WRITNG_ID == "${esntl_id}") {
+              			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", 'U');\" class=\"modify\">수정</a>"));
+              		}
+              		if(data.list[cnt].C_OPINION_SN == null && "${author_cl}" == "A") {
+              				$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", 'A');\" class=\"modify\">답변</a>"));
+              		}
+                	if(data.list[cnt].C_OPINION_SN != null && "${author_cl}" == "A") {
+           				$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].C_OPINION_SN + ", 'U');\" class=\"modify\">답변수정</a>"));
+              		}
+            		td2_1.append(td2_q_title);
+            		td2_1.append(td2_q_cn);
+               		if(data.list[cnt].C_OPINION_SN != null) {
+                		td2_1.append(td2_a_title);
+                		td2_1.append(td2_a_cn);
+               		}
+            		td2_1.append(td2_btn);            		
+            		tr2.append(td2_1);
+            		
     	        	$("#tblOpinionMobile tbody").append(tr2);        
         		}
         		if(data.list[cnt].DEPTH == 1) {
@@ -1045,14 +1049,70 @@ function showOpinion(opinion_sn, mode) {
 		$("#trOpinionM_" + opinion_sn).show();
 }
 
-function viewOpinion(opinion_sn) {
+function viewOpinion(opinion_sn, mode) {
 	var goods_code = "${goods_code}";
-	$.featherlight('/cs/popupOpinion?opinion_sn=' + opinion_sn + '&goods_code=' + goods_code + '&callback=saveOpinionComplete', {});
+	$.featherlight('/cs/popupOpinion?opinion_sn=' + opinion_sn + '&goods_code=' + goods_code + '&callback=saveOpinionComplete&mode=' + mode, {});
 }
 
 function saveOpinionComplete() {
 	goSearchOpinion(1);
 }
+
+function addWish(goods_code, obj) {
+	var lst = [];
+	lst.push(goods_code);
+
+	var url = "<c:url value='/purchs/insertWish'/>";
+	var mode = "I";
+	if($(obj).find("i").attr("wish") == "Y") {
+		url = "<c:url value='/purchs/deleteWish'/>";
+		mode = "D";		
+	}
+	var param = {};
+	param.goods_code = lst;
+	console.log(param);
+	
+	if(mode == "I") {
+		if(!confirm("해당 상품을 찜하겠습니까?"))
+			return;
+	} else {
+		if(!confirm("해당 상품의 찜하기를 취소하겠습니까?"))
+			return;
+	}
+		
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( param ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+				if(mode == "I") {
+					alert("찜하였습니다.");
+					$(obj).find("i").attr("wish", "Y");
+					$(obj).find("i").css("color", "#ff6600");
+				} else {
+					alert("찜하기를 취소하였습니다.");
+					$(obj).find("i").attr("wish", "");
+					$(obj).find("i").css("color", "");
+				}
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				go_login();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
+
 
 </script>
 	
@@ -1105,7 +1165,9 @@ function saveOpinionComplete() {
 		  	<img src="/images/com/recom.png" alt=""/>
 		  	</c:if>
 		  </div>
-			<div class="hit_box"><i class="material-icons">&#xE87E;</i><span>${wish_count}</span></div>
+			<div class="hit_box" <c:if test="${esntl_id != null}"> onclick="addWish('${result.GOODS_CODE}', this);"</c:if>>
+				<i class="material-icons" <c:if test="${result.BKMK == 'Y'}">style="color:#ff6600;" wish="Y"</c:if>>favorite</i><span>${wish_count}</span>
+			</div>
           <div class="share_box"> <a  href="#" data-featherlight="#share"><i class="material-icons">&#xE80D;</i> </a></div>
           <div class="qa_btn"><a href="javascript:viewOpinion('');">1:1문의하기</a></div>
           <!-- Swiper -->
@@ -1159,8 +1221,8 @@ function saveOpinionComplete() {
 	              <div class="icon_b">
 	                <div class="icon_in"><img src="/images/sub/detail_icon01.png" alt=""/></div>
 	                <div class="tx1">상품유형</div>
-	                <div class="tx2"><c:if test="${result.INTRCN_GOODS_TY eq 'G'}">단체투어</c:if><c:if test="${result.INTRCN_GOODS_TY eq 'P'}">프라이빗투어</c:if></div>
-	              </div>
+	                <div class="tx2"><c:if test="${result.INTRCN_GOODS_TY eq 'G'}">단체투어</c:if><c:if test="${result.INTRCN_GOODS_TY eq 'P'}">프라이빗투어</c:if>
+	              
 	            </li>
 	            </c:if>
 	            <c:if test="${!empty result.INTRCN_USE_TIME}">
@@ -1360,7 +1422,7 @@ function saveOpinionComplete() {
               <col width="">
               <col width="15%">
               <col width="15%">
-              <col width="55px;">
+              <col width="10%;">
               <tbody>
               </tbody>
             </table>
@@ -1518,12 +1580,7 @@ function saveOpinionComplete() {
 							<option value="">객실선택</option>
 							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
 								<c:if test="${list.SETUP_SE == 'R'}">
-									<option value="${list.NMPR_SN}">
-										${list.NMPR_CND}
-										<c:if test="${list.NMPR_CO != null}" >
-											(기준인원 ${list.NMPR_CO}명)
-										</c:if>
-									</option>
+									<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
 								</c:if>
 							</c:forEach>							
 						</select>
@@ -1546,22 +1603,6 @@ function saveOpinionComplete() {
 					</div>
 				</div>
 	        	</c:if>
-	        	<c:if test="${C_cnt > 0}">
-				<div class="input_box">
-					<div class="tx1"></div>
-					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p" id="cmbCheck">
-							<option value="">선택</option>
-							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
-								<c:if test="${list.SETUP_SE == 'C'}">
-									<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
-								</c:if>
-							</c:forEach>							
-						</select>
-						<!--//기본 셀렉트 박스 -->
-					</div>
-				</div>
-	        	</c:if>
 	        	<c:if test="${P_cnt > 0}">
 				<div class="input_box">
 					<div class="tx1"></div>
@@ -1570,6 +1611,22 @@ function saveOpinionComplete() {
 							<option value=""><c:out value="${optionNm}" />선택</option>
 							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
 								<c:if test="${list.SETUP_SE == 'P'}">
+									<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
+								</c:if>
+							</c:forEach>							
+						</select>
+						<!--//기본 셀렉트 박스 -->
+					</div>
+				</div>
+	        	</c:if>
+	        	<c:if test="${C_cnt > 0}">
+				<div class="input_box">
+					<div class="tx1"></div>
+					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+						<select class="w_100p" id="cmbCheck">
+							<option value="">선택</option>
+							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
+								<c:if test="${list.SETUP_SE == 'C'}">
 									<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
 								</c:if>
 							</c:forEach>							

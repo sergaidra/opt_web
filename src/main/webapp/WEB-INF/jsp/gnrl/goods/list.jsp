@@ -176,6 +176,10 @@ function fnSearch(obj, isNext) {
 				
 				if(data.list[cnt].BKMK == "Y") {
 					$(item).find("#divHit").removeClass("hit").addClass("hit_on");
+					$(item).find("#divHit").click(function(e) {
+						e.stopPropagation();
+						addWish($(this).closest("li").find("input[name='goods_code']").val(), $(this));
+					});
 				} else {
 					$(item).find("#divHit").click(function(e) {
 						e.stopPropagation();
@@ -219,12 +223,22 @@ function addWish(goods_code, obj) {
 	lst.push(goods_code);
 
 	var url = "<c:url value='/purchs/insertWish'/>";
+	var mode = "I";
+	if($(obj).hasClass("hit_on")) {
+		url = "<c:url value='/purchs/deleteWish'/>";
+		mode = "D";		
+	}
 	var param = {};
 	param.goods_code = lst;
 	console.log(param);
 	
-	if(!confirm("해당 상품을 찜하겠습니까?"))
-		return;
+	if(mode == "I") {
+		if(!confirm("해당 상품을 찜하겠습니까?"))
+			return;
+	} else {
+		if(!confirm("해당 상품의 찜하기를 취소하겠습니까?"))
+			return;
+	}
 		
 	$.ajax({
         url : url,
@@ -235,8 +249,13 @@ function addWish(goods_code, obj) {
         data : JSON.stringify( param ),
         success : function(data,status,request){
 			if(data.result == "0") {
-				alert("찜하였습니다.");
-				$(obj).removeClass("hit").addClass("hit_on");
+				if(mode == "I") {
+					alert("찜하였습니다.");
+					$(obj).removeClass("hit").addClass("hit_on");
+				} else {
+					alert("찜하기를 취소하였습니다.");
+					$(obj).removeClass("hit_on").addClass("hit");
+				}
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
@@ -357,7 +376,7 @@ function addWish(goods_code, obj) {
 		  <div class="in">
 		    <div class="tx1"><span name="goods_nm"></span></div>
 			   <div class="tx2"><span name="goods_nm_title"></span></div>
-			   <div id="divHit" class="hit" ><i class="material-icons">favorite</i>
+			   <div id="divHit" class="hit" style="z-index:999999;" ><i class="material-icons">favorite</i>
 
 				   </div>
 			    <div class="total"><span name="cf_reprsnt_amount"></span><em>원</em></div>

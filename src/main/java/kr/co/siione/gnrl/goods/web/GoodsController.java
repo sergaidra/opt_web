@@ -222,10 +222,13 @@ public class GoodsController {
         	if("".equals(category))
         		category = "S";
         	String referer = request.getHeader("referer");
+        	HttpSession session = request.getSession();
+    		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 
             String goods_code = UserUtils.nvl(param.get("hidGoodsCode"));
         	map.put("goods_code", goods_code);
         	map.put("admin_at", UserUtils.nvl(param.get("adminAt"))); // 관리자에서 미리보기할 때
+        	map.put("esntl_id", esntl_id);
         	HashMap result = goodsService.getGoodsDetail(map);
         	HashMap review = goodsService.getReviewScore(map);
         	String ceil_review_score = String.valueOf(review.get("CEIL_REVIEW_SCORE"));
