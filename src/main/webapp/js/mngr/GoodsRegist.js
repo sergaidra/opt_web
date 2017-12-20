@@ -152,8 +152,8 @@ var comboFixedAt = new Ext.create('Ext.form.ComboBox', {
 	store: new Ext.create('Ext.data.ArrayStore', {
 		fields:['code', 'name'],
 		data :[
-			['Y', '단가계산'],
-			['N', '범위인원수']
+			['Y', '단가'],
+			['N', '인원수']
 		]
 	}),
 	displayField: 'name',
@@ -163,7 +163,7 @@ var comboFixedAt = new Ext.create('Ext.form.ComboBox', {
 	triggerAction: 'all',
 	lazyRender: true,
 	editable: false,
-	emptyText: '선택',
+	emptyText: '선택'/*,
 	listeners: {
 		change : function(combo, newValue, oldValue, eOpts ) {
 			var sm = gridNmpr.getSelectionModel();
@@ -183,7 +183,7 @@ var comboFixedAt = new Ext.create('Ext.form.ComboBox', {
 				}
 			}
 		}
-	}	
+	}*/	
 });
 
 var comboBeginTime = new Ext.create('Ext.form.ComboBox', {
@@ -747,6 +747,15 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 			return;
 		}
 
+		// 패키지상품
+		if(Ext.getCmp('form-reg-cl-se').getValue() == 'T') {
+			if(Ext.getCmp('form-reg-tour-days').getValue() == '0' || !Ext.getCmp('form-reg-tour-days').getValue()) {
+				alert('패키지 상품은 여행일수를 입력해야 합니다.');
+				Ext.getCmp('form-reg-tour-days').focus();
+				return;
+			}
+		}
+		
 		if(!fn_checkValue('form-reg-goods-nm')) return;
 		if(!fn_checkValue('form-reg-goods-intrcn-simpl')) return;
 		if(!fn_checkValue('form-reg-vochr-ntss-reqre-time')) return;
@@ -897,6 +906,8 @@ Ext.define('GoodsInfo', {
 			, {name:'VIDEO_URL', type:'string'}
 			, {name:'VIDEO_MAIN_EXPSR_AT', type:'string'}
 			, {name:'KEYWORDS', type:'string'}
+			, {name:'PICKUP_INCLS_AT', type:'string'}
+			, {name:'TOUR_DAYS', type:'string'}
 			]
 });
 
@@ -1082,14 +1093,39 @@ var frReg = Ext.create('Ext.form.Panel', {
 			items: [comboNation, {
 				xtype: 'label',
 				width: 5
-			}, comboCty]
+			}, comboCty, {
+				xtype: 'label',
+				width: 25
+			}, {
+				xtype: 'checkboxfield',
+				id: 'form-reg-pickup-incls-at',
+				name: 'PICKUP_INCLS_AT',
+				hideLabel: true,
+				boxLabel: '픽업포함여부',
+				width: 220,
+				inputValue: 'Y'
+			}]
 		},{
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
 			items: [comboUpperCl, {
 				xtype: 'label',
 				width: 5
-			}, comboCl]
+			}, comboCl, {
+				xtype: 'textfield',
+				id: 'form-reg-tour-days',
+				name: 'TOUR_DAYS',
+				width: 180,
+				fieldLabel: '여행일수',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 80,
+				labelAlign: 'right',
+				maskRe: /[0-9]/,
+				maxLength: 2,
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
+			}]
 		},{
 			xtype: 'textfield',
 			id: 'form-reg-goods-nm',
@@ -1338,7 +1374,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				name: 'HOTDEAL_MAIN_AT',
 				hideLabel: true,
 				boxLabel: '핫딜상품 메인노출여부',
-				width: 220,
+				width: 170,
 				inputValue: 'Y'
 			},{
 				xtype: 'label',
@@ -1381,7 +1417,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				name: 'RECOMEND_MAIN_AT',
 				hideLabel: true,
 				boxLabel: '추천상품 메인노출여부',
-				width: 220,
+				width: 170,
 				inputValue: 'Y'
 			},{
 				xtype: 'label',
@@ -1813,7 +1849,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 	},{
 		xtype: 'fieldset',
 		title: 'Hidden Field',
-		hidden: true,
+		hidden: false,
 		padding: '10 20 10 10',
 		items: [{
 			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',
@@ -1829,8 +1865,8 @@ var frReg = Ext.create('Ext.form.Panel', {
 							data :[
 								['R', '객실'],
 								['E', '식사'],
-								['C', '체크인/아웃'],
-								['P', '단가(인원)']
+								['P', '단가(인원)']								
+								['C', '체크인/아웃']
 							]
 						});
 					} else {

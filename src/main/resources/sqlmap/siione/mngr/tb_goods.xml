@@ -90,6 +90,8 @@
         <result property="VIDEO_URL"                     column="VIDEO_URL"                     jdbcType="string" javaType="string"/>
         <result property="VIDEO_MAIN_EXPSR_AT"           column="VIDEO_MAIN_EXPSR_AT"           jdbcType="string" javaType="string"/>
         <result property="KEYWORDS"                      column="KEYWORDS"                      jdbcType="string" javaType="string"/>
+        <result property="PICKUP_INCLS_AT"               column="PICKUP_INCLS_AT"               jdbcType="string" javaType="string"/>
+        <result property="TOUR_DAYS"                     column="TOUR_DAYS"                     jdbcType="string" javaType="string"/>
     </resultMap>
 
     <insert id="GoodsDAO.insertGoods" parameterClass="hashMap">
@@ -145,7 +147,9 @@
                             , INTRCN_POSBL_AGE
                             , INTRCN_PLACE
                             , VIDEO_URL
-                            , VIDEO_MAIN_EXPSR_AT )
+                            , VIDEO_MAIN_EXPSR_AT
+                            , PICKUP_INCLS_AT
+                            , TOUR_DAYS )
                       VALUES( #GOODS_CODE#
                             , #GOODS_NM#
                             , #GOODS_INTRCN:CLOB#
@@ -192,7 +196,9 @@
                             , #INTRCN_POSBL_AGE#
                             , #INTRCN_PLACE#
                             , #VIDEO_URL#
-                            , #VIDEO_MAIN_EXPSR_AT# );
+                            , #VIDEO_MAIN_EXPSR_AT#
+                            , #PICKUP_INCLS_AT#
+                            , #TOUR_DAYS# );
 
         INSERT INTO TB_GOODS_ENG ( GOODS_NM_ENG
                                  , GOODS_INTRCN_ENG
@@ -292,6 +298,8 @@
                             , INTRCN_PLACE
                             , VIDEO_URL
                             , VIDEO_MAIN_EXPSR_AT
+                            , PICKUP_INCLS_AT
+                            , TOUR_DAYS
                             , DELETE_AT
                             , WRITNG_ID
                             , WRITNG_DT )
@@ -326,6 +334,8 @@
                             , #INTRCN_PLACE#
                             , #VIDEO_URL#
                             , NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+                            , NVL(#PICKUP_INCLS_AT#, 'N')
+                            , #TOUR_DAYS#
                             , 'T'
                             , #WRITNG_ID#
                             , SYSDATE );
@@ -398,8 +408,10 @@
              , INTRCN_PROVD_LANG         =  #INTRCN_PROVD_LANG#
              , INTRCN_POSBL_AGE          =  #INTRCN_POSBL_AGE#
              , INTRCN_PLACE              =  #INTRCN_PLACE#
-             , VIDEO_URL                 = #VIDEO_URL#
-             , VIDEO_MAIN_EXPSR_AT       = NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+             , VIDEO_URL                 =  #VIDEO_URL#
+             , VIDEO_MAIN_EXPSR_AT       =  NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+             , PICKUP_INCLS_AT           =  NVL(#PICKUP_INCLS_AT#, 'N')
+             , TOUR_DAYS                 =  #TOUR_DAYS#
              , UPDT_ID                   =  #WRITNG_ID#
              , UPDT_DT                   =  SYSDATE
          WHERE GOODS_CODE = #GOODS_CODE#
@@ -425,7 +437,7 @@
              , HOTDEAL_AT            = DECODE(#HOTDEAL_MAIN_AT#, 'Y', 'Y', NVL(#HOTDEAL_AT#, 'N'))
              , RECOMEND_AT           = DECODE(#RECOMEND_MAIN_AT#, 'Y', 'Y', NVL(#RECOMEND_AT#, 'N'))
              , HOTDEAL_MAIN_AT       = NVL(#HOTDEAL_MAIN_AT#, 'N')
-             , RECOMEND_MAIN_AT       = NVL(#RECOMEND_MAIN_AT#, 'N')
+             , RECOMEND_MAIN_AT      = NVL(#RECOMEND_MAIN_AT#, 'N')
              , HOTDEAL_SORT_ORDR     = #HOTDEAL_SORT_ORDR#
              , RECOMEND_SORT_ORDR    = #RECOMEND_SORT_ORDR#
              , VOCHR_TICKET_TY       = 'V'
@@ -440,6 +452,8 @@
              , INTRCN_PLACE          = #INTRCN_PLACE#
              , VIDEO_URL             = #VIDEO_URL#
              , VIDEO_MAIN_EXPSR_AT   = NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+             , PICKUP_INCLS_AT       =  NVL(#PICKUP_INCLS_AT#, 'N')
+             , TOUR_DAYS             =  #TOUR_DAYS#             
          WHERE GOODS_CODE = #GOODS_CODE#
     ]]>
     </update>
@@ -647,6 +661,8 @@
              , A.VIDEO_URL
              , A.VIDEO_MAIN_EXPSR_AT
              , (SELECT SUBSTR(XMLAGG(XMLELEMENT(X,',', KWRD) ORDER BY KWRD_SN).EXTRACT('//text()'),2) FROM TB_GOODS_KWRD X WHERE X.GOODS_CODE = A.GOODS_CODE) KEYWORDS
+             , A.PICKUP_INCLS_AT
+             , A.TOUR_DAYS
           FROM TB_GOODS A
              , TB_GOODS_ENG B
          WHERE A.GOODS_CODE = B.GOODS_CODE(+)
