@@ -242,21 +242,25 @@ public class GoodsController {
             	List<HashMap> lstNmpr_P = null;
             	List<HashMap> lstRoom = null;
             	List<HashMap> lstEat = null;
-            	List<HashMap> lstCheck = null;
+            	List<HashMap> lstCheckC = null;
+            	List<HashMap> lstCheckB = null;
         		map.put("setup_se", "R"); // 객실(필수)
         		lstRoom = goodsService.getGoodsNmprBySetupSeList(map);
         		map.put("setup_se", "E"); // 식사
         		lstEat = goodsService.getGoodsNmprBySetupSeList(map);
-        		map.put("setup_se", "C"); // 체크인/아웃
-        		lstCheck = goodsService.getGoodsNmprBySetupSeList(map);
+        		map.put("setup_se", "C"); // 늦은 체크아웃
+        		lstCheckC = goodsService.getGoodsNmprBySetupSeList(map);
+        		map.put("setup_se", "B"); // 이른 체크인
+        		lstCheckB = goodsService.getGoodsNmprBySetupSeList(map);
         		map.put("setup_se", "P"); // 가격/단가(필수) > 숙박 외
         		lstNmpr_P = goodsService.getGoodsNmprBySetupSeList(map);
         		lstNmpr.addAll(lstRoom);
         		lstNmpr.addAll(lstEat);
-        		lstNmpr.addAll(lstCheck);
+        		lstNmpr.addAll(lstCheckB);
+        		lstNmpr.addAll(lstCheckC);
         		lstNmpr.addAll(lstNmpr_P);
         		model.addAttribute("E_cnt", lstEat.size());
-        		model.addAttribute("C_cnt", lstCheck.size());
+        		model.addAttribute("C_cnt", lstCheckB.size() + lstCheckC.size());
         		model.addAttribute("P_cnt", lstNmpr_P.size());
         		//model.addAttribute("lstRoom", lstRoom);
         		//model.addAttribute("lstEat", lstEat);

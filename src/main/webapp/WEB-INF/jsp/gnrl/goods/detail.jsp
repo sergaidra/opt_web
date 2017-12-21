@@ -348,12 +348,13 @@ $(function() {
 			if(validationSelectRoom("cmbCheck", "C") == false)
 				return;
 			var nmpr_sn = $("#cmbCheck").val();
+			var setup_se = $("#cmbCheck option:selected").attr("setup_se");
 			for(var cnt = 0; cnt < optionInfo.check.length; cnt++) {
-				if(optionInfo.check[cnt].nmpr_sn == nmpr_sn)
+				if(optionInfo.check[cnt].nmpr_sn == nmpr_sn && optionInfo.check[cnt].setup_se == setup_se)
 					return;
 			}
 			
-			var originItem = getNmprInfo("C", nmpr_sn);
+			var originItem = getNmprInfo(setup_se, nmpr_sn);
 			var item = null;
 			if(originItem != null) {
 				item = $.extend(true, {}, originItem);
@@ -527,25 +528,6 @@ function displayRoom() {
 			originTotalPrice += item.originPrice;
 		}
 		
-		for(var cnt = 0; cnt < optionInfo.check.length; cnt++) {
-			var item = optionInfo.check[cnt];
-			
-			calcPrice(item, 1);
-			
-			var html = $("<div class='um_box'></div>");
-			var fl_text = $("<div class='fl_text'>" + item.text + "</div>");
-			var fl_total = $("<div class='fl_total'><em></em> <em>\\ " + numberWithCommas(item.price) + "</em></div>");
-			$(fl_text).append(fl_total);
-			var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeCheck(" + item.nmpr_sn + ");'>-</div></div>");
-
-			$(html).append(fl_text);
-			$(html).append(fr_updown);
-			
-			$("#purchInfo").append($(html));
-			totalprice += item.price;
-			originTotalPrice += item.originPrice;
-		}
-		
 		for(var cnt = 0; cnt < optionInfo.nmpr_S.length; cnt++) {
 			var item = optionInfo.nmpr_S[cnt];
 			
@@ -564,6 +546,26 @@ function displayRoom() {
 			totalprice += item.price;
 			originTotalPrice += item.originPrice;
 		}
+		
+		for(var cnt = 0; cnt < optionInfo.check.length; cnt++) {
+			var item = optionInfo.check[cnt];
+			
+			calcPrice(item, 1);
+			
+			var html = $("<div class='um_box'></div>");
+			var fl_text = $("<div class='fl_text'>" + item.text + "</div>");
+			var fl_total = $("<div class='fl_total'><em></em> <em>\\ " + numberWithCommas(item.price) + "</em></div>");
+			$(fl_text).append(fl_total);
+			var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeCheck(" + item.nmpr_sn + ");'>-</div></div>");
+
+			$(html).append(fl_text);
+			$(html).append(fr_updown);
+			
+			$("#purchInfo").append($(html));
+			totalprice += item.price;
+			originTotalPrice += item.originPrice;
+		}
+
 	}
 
 	$("#totalprice").text("￦ " + numberWithCommas(totalprice));
@@ -1627,7 +1629,10 @@ function addWish(goods_code, obj) {
 							<option value="">선택</option>
 							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
 								<c:if test="${list.SETUP_SE == 'C'}">
-									<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
+									<option value="${list.NMPR_SN}" setup_se="C">${list.NMPR_CND}</option>
+								</c:if>
+								<c:if test="${list.SETUP_SE == 'B'}">
+									<option value="${list.NMPR_SN}" setup_se="B">${list.NMPR_CND}</option>
 								</c:if>
 							</c:forEach>							
 						</select>
