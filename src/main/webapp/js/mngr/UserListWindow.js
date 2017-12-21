@@ -6,7 +6,7 @@
  * UserPointManage.js
  */
 
-Ext.define('UserInfo', {
+Ext.define('UserInfo', { 
 	extend: 'Ext.data.Model',
 	fields: ['ESNTL_ID', 'USER_ID', 'USER_NM', 'PASSWORD', 'AUTHOR_CL', 'MOBLPHON_NO', 'CRTFC_AT', 'EMAIL_RECPTN_AT', 'USE_AT', 'WRITNG_DT', 'UPDT_DT']
 });

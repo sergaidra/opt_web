@@ -48,7 +48,7 @@ public class PointManageServiceImpl implements PointManageService {
 		return purchsPointDAO.selectUserPointListCount(param);
 	}
 	
-	public int selectUserPointSum(Map<String, String> param) throws Exception {
+	public Map<String, Object> selectUserPointSum(Map<String, String> param) throws Exception {
 		return purchsPointDAO.selectUserPointSum(param);
 	}	
 }

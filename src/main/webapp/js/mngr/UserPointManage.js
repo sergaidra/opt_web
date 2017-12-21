@@ -6,18 +6,18 @@ Ext.define('PointInfo', {
 var frPoint = Ext.create('Ext.form.Panel', {
 	id: 'form-sch',
 	region: 'north',
-	height: 75,
+	height: 90,
 	items: [{
 		xtype: 'fieldset',
 		title: '검색조건',
-		padding: '10 20 10 10',
+		padding: '5 10 5 10',
 		items: [{
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
 			items: [{
 				xtype: 'hiddenfield',
 				id: 'sch-ds-esntl-id',
-				name: 'ESNTL_ID',
+				name: 'ESNTL_ID'
 			}, {
 				xtype: 'textfield',
 				id: 'sch-ds-user-nm',
@@ -59,6 +59,15 @@ var frPoint = Ext.create('Ext.form.Panel', {
 					}
 				}
 			}, {
+				xtype: 'displayfield', 
+				id: 'dpf-user-point-sum', 
+				flex: 1, 
+				margin: '0 0 0 20'
+			}]
+		}, {
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
 				xtype: 'datefield',
 				vtype: 'daterange',
 				id: 'sch-fr-date',
@@ -143,6 +152,10 @@ var frPoint = Ext.create('Ext.form.Panel', {
 						} else {
 							stPoint.proxy.extraParams = Ext.getCmp('form-sch').getForm().getValues();
 							stPoint.loadPage(1);
+							stPointSum.proxy.extraParams = Ext.getCmp('form-sch').getForm().getValues();
+							stPointSum.loadPage(1);
+							
+							
 						}
 					}
 				}
@@ -178,15 +191,23 @@ var stPoint = Ext.create('Ext.data.JsonStore', {
 });
 
 var stPointSum = Ext.create('Ext.data.JsonStore', {
-	autoLoad: true,
+	autoLoad: false,
 	pageSize: 20,
-	model: ['CF_SUM'],
+	fields: ['CF_SUM'],
 	proxy: {
 		type: 'ajax',
 		url: '../selectUserPointSum/',
 		reader: {
 			type: 'json',
 			root: 'data'
+		}
+	},
+	listeners: {
+		load: function(st, records, successful, eOpts ) {
+			if(successful) {
+				var str = '<b>사용가능 포인트 : ' + Ext.util.Format.number(records[0].data.CF_SUM , '0,000')+'</b>';
+				Ext.getCmp('dpf-user-point-sum').setValue(str);
+			}
 		}
 	}
 });
@@ -276,6 +297,4 @@ Ext.onReady(function(){
 		},
 		items: [frPoint, grPoint]
 	});
-
-	alert(stPointSum.getAt(0).CF_SUM);
 });

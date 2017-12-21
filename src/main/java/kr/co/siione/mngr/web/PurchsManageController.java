@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.co.siione.mngr.service.PurchsManageService;
 import kr.co.siione.utl.UserUtils;
@@ -33,7 +34,20 @@ public class PurchsManageController {
 
 	@RequestMapping(value="/mngr/PurchsManage/")
 	public String PurchsManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) return "/mngr/login";
+		
 		return "/mngr/PurchsManage";
+	}
+	
+	@RequestMapping(value="/mngr/PurchsTourManage/")
+	public String PurchsTourManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) return "/mngr/login";
+				
+		return "/mngr/PurchsTourManage";
 	}
 
 	@RequestMapping(value="/mngr/selectPurchsList/")
@@ -113,4 +127,23 @@ public class PurchsManageController {
 		}
 		return new ModelAndView("PurchsGoodsListExcel", "modelMap", result);
 	}
+	
+	@RequestMapping(value="/mngr/selectPurchsListForSchdul/")
+	public void selectPurchsListForSchdul(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		UserUtils.log("selectPurchsListForSchdul", param);
+		try {
+			int cnt = purchsManageService.selectPurchsListCount(param);
+			List<Map<String,String>> results = purchsManageService.selectPurchsListForSchdul(param);
+			
+			result.put("rows", cnt);
+			result.put("data", results);
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+		}
+		
+		jsonView.render(result, request, response);
+	}	
 }

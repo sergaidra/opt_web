@@ -40,23 +40,26 @@ var comboYn = new Ext.create('Ext.form.ComboBox', {
 	emptyText: '선택'
 });
 
-var storeSetupSe = new Ext.create('Ext.data.ArrayStore', {
-	fields:['code', 'name'],
-	data :[
-		['R', '객실'],
-		['E', '식사'],
-		['P', '단가(인원)'],
-		['B', '빠른체크인'],
-		['C', '늦은체크아웃'],
-		['V', '픽업/드랍']	
-	]
+var storeSetupSe = new Ext.create('Ext.data.JsonStore', {
+	autoLoad: true,
+	fields:['CODE_ID', 'CODE', 'CODE_NM', 'CODE_NM_ENG', 'CODE_DC', 'CODE_NM_2'],
+	pageSize: 100,
+	proxy: {
+		type: 'ajax',
+		url: '../selectCmmnDetailCodeList/?CODE_ID=COM002',
+		reader: {
+			type: 'json',
+			root: 'data',
+			totalProperty: 'rows'
+		}
+	}
 });
 
 var comboSetupSe = new Ext.create('Ext.form.ComboBox', {
 	id: 'combo-setup-se',
 	store: storeSetupSe,
-	displayField: 'name',
-	valueField: 'code',
+	displayField: 'CODE_NM',
+	valueField: 'CODE',
 	mode: 'local',
 	typeAhead: false,
 	triggerAction: 'all',

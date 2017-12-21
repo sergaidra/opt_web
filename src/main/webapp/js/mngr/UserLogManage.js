@@ -167,7 +167,7 @@ var frLog = Ext.create('Ext.form.Panel', {
 
 var stLog = Ext.create('Ext.data.JsonStore', {
 	autoLoad: false,
-	pageSize: 20,
+	pageSize: 100,
 	model: 'LogInfo',
 	proxy: {
 		type: 'ajax',

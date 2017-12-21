@@ -17,6 +17,6 @@ public interface PointManageService {
 
 	public int selectUserPointListCount(Map<String, String> param) throws Exception;
 
-	public int selectUserPointSum(Map<String, String> param) throws Exception;
+	public Map<String, Object> selectUserPointSum(Map<String, String> param) throws Exception;
 		
 }

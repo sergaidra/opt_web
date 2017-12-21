@@ -133,8 +133,8 @@
 		<include refid="PurchsPointDAO.pagingQueryEnd"/>
 	</select>
 
-	<select id="PurchsPointDAO.selectUserPointSum" parameterClass="hashMap" resultClass="java.lang.Integer">
-		SELECT SUM(POINT-USE_POINT) 
+	<select id="PurchsPointDAO.selectUserPointSum" parameterClass="hashMap" resultClass="hashMap">
+		SELECT SUM(POINT-USE_POINT) CF_SUM
 		  FROM TB_PURCHS_POINT
 		 WHERE EXPRTN_AT = 'N'
 		   AND ESNTL_ID = #ESNTL_ID#
