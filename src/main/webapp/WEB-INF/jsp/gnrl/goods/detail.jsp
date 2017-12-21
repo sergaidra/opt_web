@@ -789,9 +789,9 @@ function goSearchReview(pageNo) {
         		{
             		var tr = $("<tr></tr>");
             		var td1 = $("<td class='t_center'>" + (Number(data.startIdx) + cnt) + "</td>");
-            		var td2 = $("<td>" + data.list[cnt].REVIEW_CN + "</td>");
-            		var td3 = $("<td>" + data.list[cnt].USER_NM + "</td>");
-            		var td4 = $("<td>" + data.list[cnt].WRITNG_DT + "</td>");
+            		var td2 = $("<td>" + replaceBrSpace(data.list[cnt].REVIEW_CN) + "</td>");
+            		var td3 = $("<td style='padding-left:15px;'>" + data.list[cnt].USER_NM + "</td>");
+            		var td4 = $("<td style='padding-left:15px;'>" + data.list[cnt].WRITNG_DT + "</td>");
             		var td5 = $("<td></td>");
             		var td5sub = $("<div class='star_icon'></div>");
             		
@@ -819,7 +819,7 @@ function goSearchReview(pageNo) {
         			var tr = $("<tr></tr>");
         			var td1 = $("<td class='t_center'>" + (Number(data.startIdx) + cnt) + "</td>");
         			var td2 = $("<td></td>");
-        			var td2span = $("<span class='tb_font1'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]</span><br>" + data.list[cnt].REVIEW_CN + "<br>");
+        			var td2span = $("<span class='tb_font1'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]</span><br>" + replaceBrSpace(data.list[cnt].REVIEW_CN) + "<br>");
             		var td2sub = $("<div class='star_icon'></div>");
             		
             		for(var cnt2 = 0; cnt2 < 5; cnt2++) {
@@ -924,9 +924,9 @@ function goSearchOpinion(pageNo) {
             		var tr2 = $("<tr style='display:none;' id='trOpinion_" + data.list[cnt].OPINION_SN + "'></tr>");
             		var td2_1 = $("<td colspan=\"6\" ></td>");
             		var td2_q_title = $("<div class=\"more_title\"><p>질문내용</p></div>");
-            		var td2_q_cn = $("<div class=\"more_text\">" + data.list[cnt].OPINION_CN + "</div>");
+            		var td2_q_cn = $("<div class=\"more_text\">" + replaceBrSpace(data.list[cnt].OPINION_CN) + "</div>");
             		var td2_a_title = $("<div class=\"more_title\"><p>답변내용</p></div>");
-            		var td2_a_cn = $("<div class=\"more_text\">" + data.list[cnt].C_OPINION_CN + "</div>");
+            		var td2_a_cn = $("<div class=\"more_text\">" + replaceBrSpace(data.list[cnt].C_OPINION_CN) + "</div>");
             		var td2_btn = $("<div class=\"btn\"></div>");
               		if(data.list[cnt].C_OPINION_SN == null && data.list[cnt].WRITNG_ID == "${esntl_id}") {
               			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", 'U');\" class=\"modify\">수정</a>"));
@@ -977,9 +977,9 @@ function goSearchOpinion(pageNo) {
     	        	var tr2 = $("<tr style='display:none;' id='trOpinionM_" + data.list[cnt].OPINION_SN + "'><td></td></tr>");
             		var td2_1 = $("<td></td>");
             		var td2_q_title = $("<div class=\"more_title\"><p>질문내용</p></div>");
-            		var td2_q_cn = $("<div class=\"more_text\">" + data.list[cnt].OPINION_CN + "</div>");
+            		var td2_q_cn = $("<div class=\"more_text\">" + replaceBrSpace(data.list[cnt].OPINION_CN) + "</div>");
             		var td2_a_title = $("<div class=\"more_title\"><p>답변내용</p></div>");
-            		var td2_a_cn = $("<div class=\"more_text\">" + data.list[cnt].C_OPINION_CN + "</div>");
+            		var td2_a_cn = $("<div class=\"more_text\">" + replaceBrSpace(data.list[cnt].C_OPINION_CN) + "</div>");
             		var td2_btn = $("<div class=\"btn\"></div>");
               		if(data.list[cnt].C_OPINION_SN == null && data.list[cnt].WRITNG_ID == "${esntl_id}") {
               			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", 'U');\" class=\"modify\">수정</a>"));
@@ -1115,7 +1115,11 @@ function addWish(goods_code, obj) {
 	});			
 }
 
-
+function replaceBrSpace(str) {
+	if(str == null)
+		return "";
+	return str.replace(/\n/g, "<br />").replace(/  /g, "&nbsp;");
+}
 </script>
 	
 </head>
@@ -1371,9 +1375,9 @@ function addWish(goods_code, obj) {
             <table width="100%"  class="tb_01 pc_view comf" id="tblReviewPC">
               <col width="5%">
               <col width="">
-              <col width="15%">
-              <col width="15%">
-              <col width="15%">
+              <col width="90px">
+              <col width="90px">
+              <col width="90px">
               <tbody>
               </tbody>
             </table>

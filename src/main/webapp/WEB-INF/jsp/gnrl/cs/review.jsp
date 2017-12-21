@@ -39,7 +39,12 @@ function search(pageNo) {
             		var tr = $("<tr></tr>");
             		var td1 = $("<td>" + (data.startIdx + cnt) + "</td>");
             		var td2 = $("<td ><span class=\"proimg\"><img src=\"<c:url value='/file/getImageThumb/'/>?file_code=" + data.list[cnt].FILE_CODE + "\"  alt=\"\"/></span></td>");
-            		var td3 = $("<td class=\"left\">" + data.list[cnt].GOODS_NM + "<img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /> </td>");
+            		var td3 = null;
+            		if(data.list[cnt].ISNEW == "Y")
+            			td3 = $("<td class=\"left\">" + data.list[cnt].GOODS_NM + "<img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /> </td>");
+            		else
+            			td3 = $("<td class=\"left\">" + data.list[cnt].GOODS_NM + "</td>");
+            			
             		var td4 = $("<td ></td>");
             		var td5 = $("<td >" + data.list[cnt].USER_NM + "</td>");
             		var td6 = $("<td  class=\"end\" >" + data.list[cnt].WRITNG_DT + "</td>");
@@ -53,7 +58,7 @@ function search(pageNo) {
             		}
             		 
             		var tr2 = $("<tr></tr>");
-            		var td2_1 = $("<td colspan=\"6\" class=\"left\"><div class=\"review\"><div class=\"text\">" + data.list[cnt].REVIEW_CN + "</div></div></td>");
+            		var td2_1 = $("<td colspan=\"6\" class=\"left\"><div class=\"review\"><div class=\"text\">" + replaceBrSpace(data.list[cnt].REVIEW_CN) + "</div></div></td>");
         			
             		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
             			//$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:viewReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">수정</a></div>");
@@ -86,7 +91,7 @@ function search(pageNo) {
             		}
             		
             		var tr2 = $("<tr></tr>"); 
-            		var td2_1 = $("<td colspan=\"2\" class=\"left\"><div class=\"review\"><div class=\"text\">" + data.list[cnt].REVIEW_CN + "</div></div></td>");
+            		var td2_1 = $("<td colspan=\"2\" class=\"left\"><div class=\"review\"><div class=\"text\">" + replaceBrSpace(data.list[cnt].REVIEW_CN) + "</div></div></td>");
         			
             		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
             			//$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:viewReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">수정</a></div>");
@@ -149,6 +154,12 @@ function viewReview(purchs_sn, cart_sn, goods_code) {
 
 function saveComplete() {
 	search($("#hidPage").val());
+}
+
+function replaceBrSpace(str) {
+	if(str == null)
+		return "";
+	return str.replace(/\n/g, "<br />").replace(/  /g, "&nbsp;");
 }
 
 </script>
