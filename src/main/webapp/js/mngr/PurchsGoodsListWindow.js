@@ -9,7 +9,7 @@
 Ext.define('PurchsGoodsInfo', {
 	extend: 'Ext.data.Model',
 	fields: ['GOODS_NM', 'CL_SE', 'CART_SN', 'GOODS_CODE', 'ESNTL_ID', 'PURCHS_AMOUNT', 'ORIGIN_AMOUNT', 'TOUR_DE', 'BEGIN_TIME', 'END_TIME', 'CHKIN_DE', 'CHCKT_DE', 'EXPRTN_AT', 'PURCHS_AT', 'DELETE_AT', 'FLIGHT_SN'
-	       , {name:'CART_LIST', type:'object'}]
+	       , {name:'CART_LIST', type:'object'}, 'PICKUP_PLACE', 'DROP_PLACE', 'USE_NMPR', 'USE_PD']
 });
 
 //stPurchsGoodsWin.getAt(0).get('CART_LIST').length : 4
@@ -75,7 +75,7 @@ var grPurchsGoodsWin = Ext.create('Ext.grid.Panel', {
 		emptyText: '등록된 자료가 없습니다.'
 	},
 	columnLines: true,
-	enableLocking: false,
+	//enableLocking: false,
 	/*plugins: [{
 		ptype: 'rowexpander',
 		rowBodyTpl : new Ext.XTemplate(
@@ -93,7 +93,7 @@ var grPurchsGoodsWin = Ext.create('Ext.grid.Panel', {
 		width: 180,
 		style: 'text-align:center',
 		align: 'left',
-		locked: true,
+		//locked: true,
 		dataIndex: 'GOODS_NM'
 	},{
 		text: '선택옵션',
@@ -101,7 +101,7 @@ var grPurchsGoodsWin = Ext.create('Ext.grid.Panel', {
 		flex: 1,
 		style: 'text-align:center',
 		align: 'left',
-		locked: true,
+		//locked: true,
 		dataIndex: 'CART_LIST',
 		//hidden: true,
 		renderer: function(record) {
@@ -117,24 +117,6 @@ var grPurchsGoodsWin = Ext.create('Ext.grid.Panel', {
 				str += '<br>';
 			}
 			return str;
-		}
-	},{
-		text: '실결제금액',
-		width: 120,
-		style: 'text-align:center',
-		align: 'right',
-		dataIndex: 'PURCHS_AMOUNT',
-		renderer: function(value, metaData, record) {
-			return Ext.util.Format.number(value , '0,000');
-		}
-	},{
-		text: '원래결제금액',
-		width: 120,
-		style: 'text-align:center',
-		align: 'right',
-		dataIndex: 'ORIGIN_AMOUNT',
-		renderer: function(value, metaData, record) {
-			return Ext.util.Format.number(value , '0,000');
 		}
 	},{
 		text: '여행일자',
@@ -160,7 +142,49 @@ var grPurchsGoodsWin = Ext.create('Ext.grid.Panel', {
 			} else {
 				return '';
 			}
+		}	
+	},{
+		text: '픽업장소',
+		width: 150,
+		style: 'text-align:center',
+		align: 'left',
+		dataIndex: 'PICKUP_PLACE'
+	},{
+		text: '드랍장소',
+		width: 150,
+		style: 'text-align:center',
+		align: 'left',
+		dataIndex: 'DROP_PLACE'
+	},{
+		text: '이용인원',
+		width: 150,
+		style: 'text-align:center',
+		align: 'left',
+		dataIndex: 'USE_NMPR'
+	},{
+		text: '이용기간',
+		width: 150,
+		style: 'text-align:center',
+		align: 'left',
+		dataIndex: 'USE_PD'					
+	},{
+		text: '실결제금액',
+		width: 120,
+		style: 'text-align:center',
+		align: 'right',
+		dataIndex: 'PURCHS_AMOUNT',
+		renderer: function(value, metaData, record) {
+			return Ext.util.Format.number(value , '0,000');
 		}
+	},{
+		text: '원래결제금액',
+		width: 120,
+		style: 'text-align:center',
+		align: 'right',
+		dataIndex: 'ORIGIN_AMOUNT',
+		renderer: function(value, metaData, record) {
+			return Ext.util.Format.number(value , '0,000');
+		}	
 	},{
 		text: 'FLIGHT_SN',
 		width: 150,

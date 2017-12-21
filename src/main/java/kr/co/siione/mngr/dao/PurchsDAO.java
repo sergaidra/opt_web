@@ -24,4 +24,12 @@ public class PurchsDAO extends EgovComAbstractDAO {
 		return list("PurchsDAO.selectPurchsGoodsList", param);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Map<String, String>> selectPurchsListForSchdul(Map<String, String> param) throws Exception {
+		return list("PurchsDAO.selectPurchsListForSchdul", param);
+	}
+	
+	public int selectPurchsListForSchdulCount(Map<String, String> param) throws Exception {
+		return (Integer)selectByPk("PurchsDAO.selectPurchsListForSchdulCount", param);
+	}
 }

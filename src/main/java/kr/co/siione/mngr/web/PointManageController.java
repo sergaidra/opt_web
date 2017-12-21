@@ -96,13 +96,16 @@ public class PointManageController {
 	@RequestMapping(value="/mngr/selectUserPointSum/")
 	public void selectUserPointSum(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> count = new HashMap<String, Object>();
 		UserUtils.log(param);
 		try {
-			int cnt = pointManageService.selectUserPointSum(param);
+			count = pointManageService.selectUserPointSum(param);
 			
-			result.put("data", cnt);
+			result.put("data", count);			
+			result.put("success", true);
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
+			result.put("CF_SUM", 0);
 			result.put("success", false);
 			result.put("message", e.getLocalizedMessage());
 		}

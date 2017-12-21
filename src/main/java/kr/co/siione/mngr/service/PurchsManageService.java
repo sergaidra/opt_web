@@ -10,4 +10,8 @@ public interface PurchsManageService {
 	public int selectPurchsListCount(Map<String, String> param) throws Exception;
 
 	public List<Map<String, Object>> selectPurchsGoodsList(Map<String, String> param) throws Exception;
+	
+	public List<Map<String, String>> selectPurchsListForSchdul(Map<String, String> param) throws Exception;	
+	
+	public int selectPurchsListForSchdulCount(Map<String, String> param) throws Exception;
 }

@@ -27,8 +27,9 @@ public class PurchsPointDAO extends EgovComAbstractDAO {
 	public int selectUserPointListCount(Map<String, String> param) throws Exception {
 		return (Integer)selectByPk("PurchsPointDAO.selectUserPointListCount", param);
 	}	
-
-	public int selectUserPointSum(Map<String, String> param) throws Exception {
-		return (Integer)selectByPk("PurchsPointDAO.selectUserPointSum", param);
+	
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> selectUserPointSum(Map<String, String> param) throws Exception {
+		return (Map<String, Object>)selectByPk("PurchsPointDAO.selectUserPointSum", param);
 	}	
 }

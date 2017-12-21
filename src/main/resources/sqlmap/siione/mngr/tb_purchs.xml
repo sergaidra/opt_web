@@ -89,6 +89,10 @@
 		<result property="DELETE_AT"     column="DELETE_AT"     jdbcType="string" javaType="string"/>
 		<result property="FLIGHT_SN"     column="FLIGHT_SN"     jdbcType="string" javaType="string"/>
 		<result property="CART_LIST"     column="{CART_SN=CART_SN, GOODS_CODE=GOODS_CODE}" select="PurchsDAO.selectPurchsGoodsNmprList" javaType="java.util.ArrayList"/>
+		<result property="PICKUP_PLACE" column="PICKUP_PLACE" jdbcType="string" javaType="string"/>
+		<result property="DROP_PLACE" column="DROP_PLACE" jdbcType="string" javaType="string"/>
+		<result property="USE_NMPR" column="USE_NMPR" jdbcType="string" javaType="string"/>
+		<result property="USE_PD" column="USE_PD" jdbcType="string" javaType="string"/>	
 	</resultMap>
 
 	<resultMap id="purchsDetailList" class="hashMap">
@@ -124,6 +128,10 @@
 		     , CG.PURCHS_AT
 		     , CG.DELETE_AT
 		     , CG.FLIGHT_SN
+		     , PG.PICKUP_PLACE
+		     , PG.DROP_PLACE
+		     , PG.USE_NMPR
+		     , PG.USE_PD		     
 		  FROM TB_PURCHS P
 		     , TB_PURCHS_GOODS PG
 		     , TB_CART_GOODS CG
@@ -148,7 +156,7 @@
 		     , CM.AMOUNT
 		     , GN.NMPR_CND
 		     , GN.CO_UNIT_SE
-		     , (SELECT CODE_DC FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID='COM008' AND X.CODE=GN.CO_UNIT_SE) CO_UNIT_SE_NM		     
+		     , (SELECT CODE_DC FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID='COM008' AND X.CODE=GN.CO_UNIT_SE) CO_UNIT_SE_NM		
 		  FROM TB_CART_NMPR CM
 		     , TB_GOODS_NMPR GN
 		     , TB_CMMN_DETAIL_CODE C
@@ -162,4 +170,45 @@
 		 ORDER BY C.SORT_ORDR
 	]]>
 	</select>
+	
+	<sql id="PurchsDAO.whereForSelectPurchsListForSchdul">
+		AND CG.PURCHS_AT = 'Y'
+		AND (   CG.CHKIN_DE BETWEEN REPLACE(#FR_TOUR_DE#, '-', '') AND REPLACE(#TO_TOUR_DE#, '-', '')
+		     OR CG.CHCKT_DE BETWEEN REPLACE(#FR_TOUR_DE#, '-', '') AND REPLACE(#TO_TOUR_DE#, '-', '')
+		     OR CG.TOUR_DE  BETWEEN REPLACE(#FR_TOUR_DE#, '-', '') AND REPLACE(#TO_TOUR_DE#, '-', '') )
+	</sql>	
+	
+	<select id="PurchsDAO.selectPurchsListForSchdulCount" parameterClass="hashMap" resultClass="java.lang.Integer">
+		SELECT COUNT(DISTINCT PG.PURCHS_SN) 
+		  FROM TB_CART_GOODS CG
+		     , TB_PURCHS_GOODS PG
+		 WHERE CG.CART_SN = PG.PURCHS_SN
+		<include refid="PurchsDAO.whereForSelectPurchsListForSchdul"/>
+	</select>
+	
+	<select id="PurchsDAO.selectPurchsListForSchdul" parameterClass="hashMap" resultClass="hashMap">
+		<include refid="PurchsDAO.pagingQueryStart"/><![CDATA[
+		SELECT ROW_NUMBER() OVER(ORDER BY P.PURCHS_SN) AS ROWSEQ
+		     , P.PURCHS_SN
+		     , P.ESNTL_ID
+		     , (SELECT X.USER_NM FROM TB_USER X WHERE X.ESNTL_ID = P.ESNTL_ID) USER_NM
+		     , P.PURCHS_DE
+		     , TO_CHAR(P.SETLE_DT, 'YYYY-MM-DD HH24:MI:SS') SETLE_DT
+		     , P.TOT_SETLE_AMOUNT
+		     , P.PYMNT_SE
+		     , (SELECT X.CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID = 'COM006' AND X.CODE = P.PYMNT_SE) PYMNT_SE_NM
+		     , P.TOURIST_NM
+		     , P.TOURIST_CTTPC
+		     , P.KAKAO_ID
+		     , P.DELETE_AT
+		     , TO_CHAR(P.DELETE_DT, 'YYYY-MM-DD HH24:MI:SS') DELETE_DT
+		  FROM TB_PURCHS P
+		 WHERE P.PURCHS_SN IN (SELECT PG.PURCHS_SN 
+		                         FROM TB_CART_GOODS CG
+		                            , TB_PURCHS_GOODS PG
+		                        WHERE CG.CART_SN = PG.PURCHS_SN ]]>
+		<include refid="PurchsDAO.whereForSelectPurchsListForSchdul"/>
+		                      )
+		<include refid="PurchsDAO.pagingQueryEnd"/>
+	</select>	
 </sqlMap>
