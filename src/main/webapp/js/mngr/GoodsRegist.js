@@ -42,7 +42,8 @@ var comboYn = new Ext.create('Ext.form.ComboBox', {
 
 var storeSetupSe = new Ext.create('Ext.data.JsonStore', {
 	autoLoad: true,
-	fields:['CODE_ID', 'CODE', 'CODE_NM', 'CODE_NM_ENG', 'CODE_DC', 'CODE_NM_2'],
+	//fields:['CODE_ID', 'CODE', 'CODE_NM', 'CODE_NM_ENG', 'CODE_DC', 'CODE_NM_2'],
+	fields:['CODE', 'CODE_NM'],
 	pageSize: 100,
 	proxy: {
 		type: 'ajax',
@@ -1865,7 +1866,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				change: function(tf, newValue, oldValue, eOpts ) {
 					if(newValue == 'S') {
 						storeSetupSe = new Ext.create('Ext.data.ArrayStore', {
-							fields:['code', 'name'],
+							fields:['CODE', 'CODE_NM'],
 							data :[
 								['R', '객실'],
 								['E', '식사'],
@@ -1876,7 +1877,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 						});
 					} else {
 						storeSetupSe = new Ext.create('Ext.data.ArrayStore', {
-							fields:['code', 'name'],
+							fields:['CODE', 'CODE_NM'],
 							data :[
 								['P', '단가(인원)'],
 								['V', '픽업/드랍']

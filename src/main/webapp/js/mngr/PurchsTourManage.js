@@ -198,9 +198,9 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		emptyMsg: "조회된 자료가 없습니다."
 	}),
 	listeners: {
-		itemdblclick: function(grid, record, item, index, e, eOpts) {
-			//Ext.getCmp('form-info').getForm().loadRecord(record);
-			
+		celldblclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
+			stPurchsGoods.proxy.extraParams.PURCHS_SN = record.data.PURCHS_SN;
+			stPurchsGoods.load();
 		}
 	}
 });
@@ -252,7 +252,7 @@ var grPurchsGoods = Ext.create('Ext.grid.Panel', {
 		dataIndex: 'GOODS_NM'
 	},{
 		text: '선택옵션',
-		minWidth: 300,
+		minWidth: 250,
 		flex: 1,
 		style: 'text-align:center',
 		align: 'left',
@@ -268,14 +268,14 @@ var grPurchsGoods = Ext.create('Ext.grid.Panel', {
 					str += ' ' + record[i].NMPR_CO;
 					str += record[i].CO_UNIT_SE_NM;
 				}
-				str += ' (' + Ext.util.Format.number(record[i].AMOUNT , '0,000') + '원) ';
+				//str += ' (' + Ext.util.Format.number(record[i].AMOUNT , '0,000') + '원) ';
 				str += '<br>';
 			}
 			return str;
 		}
 	},{
 		text: '여행일자',
-		width: 200,
+		width: 180,
 		//style: 'text-align:center',
 		align: 'center',
 		dataIndex: 'TOUR_DE',
@@ -327,6 +327,7 @@ var grPurchsGoods = Ext.create('Ext.grid.Panel', {
 		width: 120,
 		style: 'text-align:center',
 		align: 'right',
+		hidden: true,
 		dataIndex: 'PURCHS_AMOUNT',
 		renderer: function(value, metaData, record) {
 			return Ext.util.Format.number(value , '0,000');
@@ -336,6 +337,7 @@ var grPurchsGoods = Ext.create('Ext.grid.Panel', {
 		width: 120,
 		style: 'text-align:center',
 		align: 'right',
+		hidden: true,
 		dataIndex: 'ORIGIN_AMOUNT',
 		renderer: function(value, metaData, record) {
 			return Ext.util.Format.number(value , '0,000');
@@ -346,13 +348,7 @@ var grPurchsGoods = Ext.create('Ext.grid.Panel', {
 		align: 'center',
 		hidden: true,
 		dataIndex: 'FLIGHT_SN'
-	}],
-	listeners: {
-		celldblclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
-			stPurchsGoods.proxy.extraParams.PURCHS_SN = record.data.PURCHS_SN;
-			stPurchsGoods.load();
-		}
-	}
+	}]
 });
 
 Ext.onReady(function(){
