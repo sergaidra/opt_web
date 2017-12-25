@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.co.siione.api.facebook.FacebookService;
 import kr.co.siione.api.google.GoogleService;
 import kr.co.siione.api.naver.NaverService;
 import kr.co.siione.dist.utils.SimpleUtils;
@@ -55,6 +56,8 @@ public class LoginController {
 	@Resource
     private GoogleService googleService;
 	@Resource
+    private FacebookService facebookService;
+	@Resource
 	private StplatManageService stplatManageService;
 		
 	@Value("#{globals['naver.client_id']}")
@@ -82,9 +85,13 @@ public class LoginController {
         
         /* 구글code 발행 */
         String google_url = googleService.initGoogleLogin(request);
-        
+
+        /* 페이스북code 발행 */
+        //String facebook_url = facebookService.initFacebookLogin(request);
+
 		System.out.println("구글:" + google_url);
 		model.addAttribute("google_url", google_url);
+		//model.addAttribute("facebook_url", facebook_url);
 
         model.addAttribute("naver_client_id", naver_client_id);
         model.addAttribute("naver_login_redirect_uri", naver_login_redirect_uri);

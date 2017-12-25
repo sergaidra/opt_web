@@ -24,6 +24,7 @@ function closeWin() {
 </script>
 
 <script type="text/javascript">
+
 $(function(){
 	$("#txtKeyword").keydown(function (key) {		 
         if(key.keyCode == 13){
@@ -69,7 +70,31 @@ function fnDetail(goods_code, category) {
 	form.submit();		
 }
 
-function fnLiveView(url) {
+function fnLiveView(url, title, desc) {
+	var width = 0;
+	if($(window).width() > 1294)
+		width = 854;
+	else if($(window).width() > 1000)
+		width = 640;
+	else
+		width = $(window).width() - 100;
+
+	$("#video").attr("width", width);
+
+	$("head").find("style").each(function() {
+		if($(this).attr("class") == "vjs-styles-dimensions") {
+			$(this).remove();
+		}
+	});
+	$('#divVideoPlayer').find("#videoTitle").text(title);
+	$('#divVideoPlayer').find("#videoDesc").text(desc);
+	$('#divVideoPlayer').find("#videoTitle").css("width", width);
+	$('#divVideoPlayer').find("#videoDesc").css("width", width);
+	if(width < 640)
+		$("#video").css("margin-left", "50px");
+	else
+		$("#video").css("margin-left", "");
+	
 	$.featherlight($('#divVideoPlayer'), {});
 	var videoEl = $(".featherlight video").get(0);
 	player = videojs(videoEl, { "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": url}] });
@@ -471,12 +496,12 @@ function fnLiveView(url) {
 				<div class="swiper-wrapper">
 		        	<c:forEach var="item" items="${video}">
 						<div class="swiper-slide">
-							<a href="javascript:fnLiveView('${item.VIDEO_URL}');">
+							<a href="javascript:fnLiveView('${item.VIDEO_URL}', '${item.GOODS_NM}', '${item.GOODS_INTRCN_SIMPL}');">
 								<div class="main_ebox_img" >
 									<div class="imgbox" style="background: url(<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}&file_sn=${item.FILE_SN})"></div>
 								</div>
 								<div class="main_ebox_tx1">${item.GOODS_NM}</div>
-								<div class="main_ebox_tx2">라이브뷰 제목이 들어가는공간</div>
+								<div class="main_ebox_tx2">${item.GOODS_INTRCN_SIMPL}</div>
 							</a>
 						</div>
 					</c:forEach>					
@@ -490,12 +515,12 @@ function fnLiveView(url) {
 				<div class="swiper-wrapper">
 		        	<c:forEach var="item" items="${video}">
 						<div class="swiper-slide">
-							<a href="javascript:fnLiveView('${item.VIDEO_URL}');">
+							<a href="javascript:fnLiveView('${item.VIDEO_URL}', '${item.GOODS_NM}', '${item.GOODS_INTRCN_SIMPL}');">
 								<div class="main_ebox_img" >
 									<div class="imgbox" style="background: url(<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}&file_sn=${item.FILE_SN})"></div>
 								</div>
 								<div class="main_ebox_tx1">${item.GOODS_NM}</div>
-								<div class="main_ebox_tx2">라이브뷰 제목이 들어가는공간</div>
+								<div class="main_ebox_tx2">${item.GOODS_INTRCN_SIMPL}</div>
 							</a>
 						</div>
 					</c:forEach>					
@@ -509,12 +534,12 @@ function fnLiveView(url) {
 				<div class="swiper-wrapper">
 		        	<c:forEach var="item" items="${video}">
 						<div class="swiper-slide">
-							<a href="javascript:fnLiveView('${item.VIDEO_URL}');">
+							<a href="javascript:fnLiveView('${item.VIDEO_URL}', '${item.GOODS_NM}', '${item.GOODS_INTRCN_SIMPL}');">
 								<div class="main_ebox_img" >
 									<div class="imgbox" style="background: url(<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}&file_sn=${item.FILE_SN})"></div>
 								</div>
 								<div class="main_ebox_tx1">${item.GOODS_NM}</div>
-								<div class="main_ebox_tx2">라이브뷰 제목이 들어가는공간</div>
+								<div class="main_ebox_tx2">${item.GOODS_INTRCN_SIMPL}</div>
 							</a>
 						</div>
 					</c:forEach>					
@@ -579,13 +604,9 @@ function fnLiveView(url) {
 			<div class="div_pc">
 				<div class="swiper-container3">
 					<div class="swiper-wrapper">
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<c:forEach var="item" items="${lstBanner}">
+							<div class="swiper-slide"><div class="banner_in"> <div class="in" onclick="window.open('${item.LINK_URL}');" style="background:url(/file/getBannerImage/?banner_sn=${item.BANNER_SN}); background-repeat:no-repeat; background-position:center center; cursor:pointer;"></div></div></div>							
+						</c:forEach>
 					</div>
 					<!-- Add Pagination -->
 					<!-- <div class="swiper-pagination3"></div>-->
@@ -598,13 +619,9 @@ function fnLiveView(url) {
 			<div class="div_tb">
 				<div class="swiper-container3">
 					<div class="swiper-wrapper">
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<c:forEach var="item" items="${lstBanner}">
+							<div class="swiper-slide"><div class="banner_in"> <div class="in" onclick="window.open('${item.LINK_URL}');" style="background:url(/file/getBannerImage/?banner_sn=${item.BANNER_SN}); background-repeat:no-repeat; background-position:center center; cursor:pointer;"></div></div></div>							
+						</c:forEach>
 					</div>
 					<!-- Add Pagination -->
 					<!-- <div class="swiper-pagination3"></div>-->
@@ -617,13 +634,9 @@ function fnLiveView(url) {
 			<div class="div_mo">
 				<div class="swiper-container3">
 					<div class="swiper-wrapper">
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
-						<div class="swiper-slide"><div class="banner_in"> <div class="in">배너들어가는곳</div></div></div>
+						<c:forEach var="item" items="${lstBanner}">
+							<div class="swiper-slide"><div class="banner_in"> <div class="in" onclick="window.open('${item.LINK_URL}');" style="background:url(/file/getBannerImage/?banner_sn=${item.BANNER_SN}); background-repeat:no-repeat; background-position:center center; cursor:pointer;"></div></div></div>							
+						</c:forEach>
 					</div>
 					<!-- Add Pagination -->
 					<!-- <div class="swiper-pagination3"></div>-->
@@ -673,8 +686,10 @@ function fnLiveView(url) {
   
 <!--팝업 : 라이브뷰 홍보방-->
 <div class="lightbox" id="divVideoPlayer">
-  <div class="popup_com2" style="margin-top:30px; width:100%;">
-  	<video id="video" class="video-js vjs-default-skin" controls preload="auto" width="640"></video>
+  <div class="popup_com2" style="/*margin-top:30px;*/ width:100%;">
+  	<div id="videoTitle" style="font-size:26px; font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight:500;"></div>
+  	<div id="videoDesc" style="font-size:14px; color:#999; line-height:20px;"></div>
+  	<video id="video" class="video-js vjs-default-skin" controls preload="auto" ></video>
   </div>
 </div>
 <!--팝업-->
@@ -685,9 +700,12 @@ function fnLiveView(url) {
 <!-- 메인 이벤트 팝업 POPUP  -->
 <div id="divpop" class="popup_st" >
  <!-- 제목을 넣을경우-->
- <div class="popup_head">${popupNotice.SUBJECT}</div>
+ <!-- <div class="popup_head">${popupNotice.SUBJECT}</div> --> 
 	 <div class="popup_body">
-		${popupNotice.CONTENTS}
+	   <div class="popupcont1">
+	 	<div class="tx1">${popupNotice.SUBJECT}</div>
+	 	<div class="tx3">${popupNotice.CONTENTS}</div>
+	   </div>		
 	</div>
 	 <div class="popup_bottom"><form name="notice_form">
     <a href="javascript:closeWin();"><i class="material-icons">&#xE14C;</i></a>

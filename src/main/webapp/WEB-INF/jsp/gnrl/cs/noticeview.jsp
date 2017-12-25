@@ -12,6 +12,16 @@
 <!-- 날짜선택 -->	
 <script src="/jq/time/build/jquery.datetimepicker.full.js"></script> 
 
+<style>
+@media only all and (min-width:1000px) {
+.review_wr tbody td p{ float:none;}
+}
+
+/**** 모바일 ****/
+@media only all and (max-width:999px) {
+}
+
+</style>
 
 <script type="text/javascript">
 
@@ -212,7 +222,9 @@ function deleteNotice() {
                   <tr>
                     <th>내용</th>
                     <td colspan="3" class="end">
-                    	${view.CONTENTS }
+                    	<div>
+                    	<c:out value="${view.CONTENTS}" escapeXml="false" />
+                    	</div>
                     </td>
                   </tr>
 				</c:if>
@@ -222,7 +234,7 @@ function deleteNotice() {
         
          <!--하단버튼/ 페이징 -->
          
-         <div class="bbs_bottom">
+         <div class="bbs_bottom" style="margin-top:30px;">
  			<c:if test="${mode == 'view' and view.WRITNG_ID == esntl_id }" >
                   <div class="left_btn">
                   	<a href="javascript:modifyNotice();" class="button_m2 mr_m1">수정</a>
@@ -248,13 +260,14 @@ function deleteNotice() {
 
 <!-- Sample: Loading Contents -->
 <textarea id="sample_contents_source" style="display:none;">
-${view.CONTENTS }
+<c:out value="${view.CONTENTS}" escapeXml="true" />
 </textarea>     
 
 </section>
 <!-- //본문 -->
 
 <script type="text/javascript">
+<c:if test="${mode == 'write' or mode == 'modify' }" >
 	var config = {
 		txHost: '', /* 런타임 시 리소스들을 로딩할 때 필요한 부분으로, 경로가 변경되면 이 부분 수정이 필요. ex) http://xxx.xxx.com */
 		txPath: '/jq/daumeditor/', /* 런타임 시 리소스들을 로딩할 때 필요한 부분으로, 경로가 변경되면 이 부분 수정이 필요. ex) /xxx/xxx/ */
@@ -308,6 +321,7 @@ ${view.CONTENTS }
 	Editor.modify({
 		"content": document.getElementById("sample_contents_source") /* 내용 문자열, 주어진 필드(textarea) 엘리먼트 */
 	});
+</c:if>
 
 </script>
 </body>

@@ -51,12 +51,15 @@ public class LiveViewController {
 
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		
+		List<HashMap> lstVideo = liveViewService.videolist(null);
 
         model.addAttribute("bp", "07");
        	model.addAttribute("btitle", "라이브뷰 홍보");
         model.addAttribute("mtitle", "");
+        model.addAttribute("lstVideo", lstVideo);
 		
-		return "gnrl/cs/gallery";
+		return "gnrl/cs/liveview";
 	}
 
 }

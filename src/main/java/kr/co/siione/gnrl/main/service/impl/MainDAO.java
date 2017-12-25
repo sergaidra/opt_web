@@ -18,4 +18,7 @@ public class MainDAO extends EgovComAbstractDAO {
 		return list("gnrl.main.getMySchedule", map);
 	}
 	
+	public List getBanner(HashMap map) throws Exception {
+		return list("gnrl.main.getBanner", map);
+	}
 }

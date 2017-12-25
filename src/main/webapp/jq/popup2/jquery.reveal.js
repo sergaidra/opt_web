@@ -18,18 +18,17 @@
 ----------------------------*/
 
 //	$('a[data-reveal-id]').on('click', function(e) {
-//		e.preventDefault();
-//		var modalLocation = $(this).attr('data-reveal-id');
-//		$('#'+modalLocation).reveal($(this).data());
-//	});
+//	e.preventDefault();
+//	var modalLocation = $(this).attr('data-reveal-id');
+//	$('#'+modalLocation).reveal($(this).data());
+//});
 
-	$(document).on('click', "a[data-reveal-id]", function(e) {
-		e.preventDefault();
-		var modalLocation = $(this).attr('data-reveal-id');
-		$('#'+modalLocation).reveal($(this).data());
-		console.log($(this).data());
-	});
-		
+$(document).on('click', "a[data-reveal-id]", function(e) {
+	e.preventDefault();
+	var modalLocation = $(this).attr('data-reveal-id');
+	$('#'+modalLocation).reveal($(this).data());
+	console.log($(this).data());
+});
 
 /*---------------------------
  Extend and Execute

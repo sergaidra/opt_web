@@ -69,9 +69,9 @@ function search(pageNo) {
             		var tr2 = $("<tr style='display:none;' id='trOpinion_" + data.list[cnt].OPINION_SN + "'></tr>");
             		var td2_1 = $("<td colspan=\"5\"  class='left color'><div id='re' class='re'></div></td>");
             		var td2_q_title = $("<div class=\"more_title\"><p>질문내용</p></div>");
-            		var td2_q_cn = $("<div class=\"more_text\">" + data.list[cnt].OPINION_CN + "</div>");
+            		var td2_q_cn = $("<div class=\"more_text\">" + replaceBrSpace(data.list[cnt].OPINION_CN) + "</div>");
             		var td2_a_title = $("<div class=\"more_title\"><p>답변내용</p></div>");
-            		var td2_a_cn = $("<div class=\"more_text\">" + data.list[cnt].C_OPINION_CN + "</div>");
+            		var td2_a_cn = $("<div class=\"more_text\">" + replaceBrSpace(data.list[cnt].C_OPINION_CN) + "</div>");
             		var td2_btn = $("<div class=\"btn\"></div>");
               		if(data.list[cnt].C_OPINION_SN == null && "${author_cl}" == "A") {
               			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", '" + data.list[cnt].GOODS_CODE + "', 'A');\" class=\"modify\">답변</a>"));
@@ -113,22 +113,20 @@ function search(pageNo) {
    						divHtml = "<div class=\"listin_btn2\" style=\"float:right;\">문의접수</div >";
    					}
 
-           			td1 = $("<td class='t_center'>" + (Number(data.startIdx) + rowCnt) + "</td>");
-           			td2 = $("<td></td>");
-           			td2span = $("<span class='tb_font1' style='width:100%; float:left; text-align:left;'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]"  + divHtml + "</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
+           			td1 = $("<td></td>");
+           			td1span = $("<span class='tb_font1' style='width:100%; float:left; text-align:left;'>no." + (Number(data.startIdx) + rowCnt) + " [" + data.list[cnt].USER_NM + "] [" + data.list[cnt].WRITNG_DT + "]"  + divHtml + "</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
 
-            		$(td2).append(td2span);
+            		$(td1).append(td1span);
             		$(tr).append(td1);
-            		$(tr).append(td2);
 
     	        	$("#tblmList tbody").append(tr);
     	        	
             		var tr2 = $("<tr style='display:none;' id='trOpinionM_" + data.list[cnt].OPINION_SN + "'></tr>");
-            		var td2_1 = $("<td colspan='2' class='left color'><div id='re' class='re'></div></td>");
+            		var td2_1 = $("<td class='left color'><div id='re' class='re'></div></td>");
             		var td2_q_title = $("<div class=\"more_title\"><p>질문내용</p></div>");
-            		var td2_q_cn = $("<div class=\"more_text\" style='padding-right:0px;'>" + data.list[cnt].OPINION_CN + "</div>");
+            		var td2_q_cn = $("<div class=\"more_text\" style='padding-right:0px;'>" + replaceBrSpace(data.list[cnt].OPINION_CN) + "</div>");
             		var td2_a_title = $("<div class=\"more_title\"><p>답변내용</p></div>");
-            		var td2_a_cn = $("<div class=\"more_text\" style='padding-right:0px;'>" + data.list[cnt].C_OPINION_CN + "</div>");
+            		var td2_a_cn = $("<div class=\"more_text\" style='padding-right:0px;'>" + replaceBrSpace(data.list[cnt].C_OPINION_CN) + "</div>");
             		var td2_btn = $("<div class=\"btn\"></div>");
               		if(data.list[cnt].C_OPINION_SN == null && "${author_cl}" == "A") {
               			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", '" + data.list[cnt].GOODS_CODE + "', 'A');\" class=\"modify\">답변</a>"));
@@ -212,6 +210,12 @@ function saveOpinionComplete() {
 	search(1);
 }
 
+function replaceBrSpace(str) {
+	if(str == null)
+		return "";
+	return str.replace(/\n/g, "<br />").replace(/  /g, "&nbsp;");
+}
+
 </script>
 	
 </head>
@@ -273,7 +277,6 @@ function saveOpinionComplete() {
           </table>
 			<!--모바일-->
 			<table width="100%" cellpadding="0" cellspacing="0" class="bba_list_m" id="tblmList">
-              <col width="5%">
               <col width="">           
             <tbody>
             </tbody>

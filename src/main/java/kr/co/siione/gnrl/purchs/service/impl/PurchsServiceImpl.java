@@ -16,19 +16,6 @@ public class PurchsServiceImpl implements PurchsService {
 	
 	@Resource(name = "pointDAO")
 	private PointDAO pointDAO;
-	
-	public void addPurchs(HashMap map) throws Exception {
-		int purchs_sn = purchsDAO.selectPurchsSn(map);
-		map.put("purchs_sn", purchs_sn);
-		purchsDAO.insertPurchs(map);
-
-		List<HashMap> nList = (List<HashMap>) map.get("lstCart");
-		for(HashMap nMap:nList) {
-			nMap.put("purchs_sn", purchs_sn);
-			purchsDAO.insertPurchsGoods(nMap);
-			purchsDAO.updCartGoods(nMap);
-		}
-	}
 		
 	public int getPurchsListCount(HashMap map) throws Exception {
 		return purchsDAO.getPurchsListCount(map);
@@ -54,7 +41,8 @@ public class PurchsServiceImpl implements PurchsService {
 		return purchsDAO.viewPurchs(map);
 	}
 	
-	public HashMap chkSchedule(HashMap map)throws Exception {
-		return purchsDAO.chkSchedule(map);
+	public List<HashMap> getOrderInfoGoodsTime(HashMap map) throws Exception {
+		return purchsDAO.getOrderInfoGoodsTime(map);
 	}
+	
 }

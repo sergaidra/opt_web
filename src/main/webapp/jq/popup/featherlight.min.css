@@ -29,7 +29,7 @@
 	display: inline-block;
 	height: 100%;
 	vertical-align: middle;
-	margin-right: -.25em
+	margin-right: 0px
 }
 .featherlight .featherlight-content {
 	position: relative;
@@ -37,7 +37,7 @@
 	vertical-align: middle;
 	display: inline-block;
 	overflow: auto;
-	padding: 0;
+	padding:0px;
 	border-bottom: 25px solid transparent;
 	margin-left: 5%;
 	margin-right: 5%;
@@ -46,6 +46,26 @@
 	cursor: auto;
 	white-space: normal
 }
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+.featherlight .featherlight-content {
+	position: relative;
+	text-align: left;
+	vertical-align: middle;
+	display: inline-block;
+	overflow: auto;
+	padding: 0;
+	border-bottom: 0px solid transparent;
+	margin-left:0px;
+	margin-right: 0px;
+	max-height: 100%;
+	background: #fff;
+	cursor: auto;
+	white-space: normal; width: 100% !important
+}
+}
+
+
 .featherlight .featherlight-inner {
 	display: block
 }
@@ -54,16 +74,16 @@
 	z-index: 9999;
 	top: 0;
 	right: 0;
-	line-height: 70px;
-	width: 70px;
+	line-height: 25px;
+	width: 25px;
 	cursor: pointer;
 	text-align: center;
 	font-family: Arial, sans-serif;
 	background: #fff;
-	background: rgba(255,255,255,.0);
-	color: #fff;
+	background: rgba(255,255,255,.3);
+	color: #000;
 	border: 0;
-	padding: 0; font-size: 30px
+	padding: 0
 }
 .featherlight .featherlight-close-icon::-moz-focus-inner {
 border:0;
@@ -86,14 +106,14 @@ padding:0
 }
 }
 
+
 @media only screen and (max-width:1024px) {
 .featherlight .featherlight-content {
 	margin-left: 0px;
 	margin-right: 0px;
 	max-height:100%;
 	padding: 0px;
-	border-bottom: 0px solid transparent
-}
+	border-bottom: 0px solid transparent}
 	.featherlight .featherlight-close-icon {
 	position: absolute;
 	z-index: 9999;

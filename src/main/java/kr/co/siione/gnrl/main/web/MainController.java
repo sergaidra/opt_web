@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.*;
 
 import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
+import kr.co.siione.gnrl.cs.service.LiveViewService;
 import kr.co.siione.gnrl.cs.service.NoticeService;
 import kr.co.siione.gnrl.goods.service.GoodsService;
 import kr.co.siione.gnrl.main.service.MainService;
@@ -36,6 +37,9 @@ public class MainController {
 	@Resource
     private NoticeService noticeService;
 
+	@Resource
+	private LiveViewService liveViewService;
+
     @RequestMapping(value="/intro/")
     public String intro(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 
@@ -43,7 +47,8 @@ public class MainController {
     	List<HashMap> expsrList1 = goodsService.getGoodsExpsrList1();
     	List<HashMap> expsrList2 = goodsService.getGoodsExpsrList2();
     	List<HashMap> expsrList3 = goodsService.getGoodsExpsrList3();
-    	List<HashMap> expsrList4 = goodsService.getGoodsExpsrList4();
+    	List<HashMap> lstVideo = liveViewService.mainVideolist(null);
+    	List<HashMap> lstBanner = mainService.getBanner(null);
     	
     	HashMap map = new HashMap();
     	List<HashMap> lstNotice = noticeService.mainNoticelist(map);
@@ -58,9 +63,10 @@ public class MainController {
         model.addAttribute("hotdeal", expsrList1);
         model.addAttribute("reco", expsrList2);
         model.addAttribute("self", expsrList3);
-        model.addAttribute("video", expsrList4);
+        model.addAttribute("video", lstVideo);
+        model.addAttribute("lstBanner", lstBanner);        
         model.addAttribute("lstNotice", lstNotice);
-        model.addAttribute("popupNotice", popupNotice);
+        model.addAttribute("popupNotice", popupNotice);        
         
         model.addAttribute("bp", "07");
         model.addAttribute("btitle", "고객지원");

@@ -21,6 +21,11 @@
 		if(sel1 != null) {
 			var td = e.parentNode.parentNode.querySelectorAll('td');
 			_for(td, function(e){ e.classList.remove('range','disabled'); });
+			_for(td, function(e){ 
+				if(e.classList.contains('stop')) {
+					e.classList.add("disabled");
+				}
+			});
 			
 			sel1.removeAttribute('class');
 			sel1.removeAttribute('id');
@@ -121,7 +126,7 @@
 
 				if(i === 1) str += '<tr>';
 				
-				if( key < startDay || key > totalDays + startDay - 1 ) { str += '<td class="notCurMonth disabled"><i class="disabled">'+days[key]+'</i></td>'; }
+				if( key < startDay || key > totalDays + startDay - 1 ) { str += '<td class="notCurMonth disabled stop"><i class="disabled stop">'+days[key]+'</i></td>'; }
 				else { 
 					var isOk = false;
 					var curDt = String(year) + lpad(String(month), 2, "0") + lpad(days[key]+"", 2, "0");
@@ -138,7 +143,7 @@
 					if(isOk == true)
 						str += '<td><i>'+days[key]+'</i></td>';
 					else
-						str += '<td class="disabled"><i class="disabled">'+days[key]+'</i></td>';
+						str += '<td class="disabled stop"><i class="disabled stop">'+days[key]+'</i></td>';
 				}
 				
 				if(i === 7) { str += '</tr>'; i=0; }

@@ -122,6 +122,7 @@
 			
 			selectDt.startDt = null;
 			selectDt.endDt = null;
+			initOptionInfo();
 		} //end else/if
 		
 		setDateRange();

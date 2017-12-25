@@ -209,9 +209,9 @@ function getMyFlightInfo() {
 				var html = ""; 
 				for(var cnt = 0; cnt < data.data.length; cnt++) {
 					var item = data.data[cnt];
-					html += "<tr><td rowspan='2'>출국</td><td>" + nvl(item.DTRMC_START_ARPRT_NM) + " &rarr; " + nvl(item.DTRMC_ARVL_ARPRT_NM) + "</td></tr>";
+					html += "<tr><td rowspan='2'>출국</td><td>" + nvl(item.DTRMC_START_ARPRT_NM) + " &rarr; " + nvl(item.DTRMC_ARVL_ARPRT_NM) + " (항공편명:" + nvl(item.DTRMC_FLIGHT) + ")</td></tr>";
 					html += "<tr><td>[출발] " + nvl(item.DTRMC_START_DT) + "<br>[도착] " + nvl(item.DTRMC_ARVL_DT) + "<br></td></tr>";
-					html += "<tr><td rowspan='2'>입국</td><td>" + nvl(item.HMCMG_START_ARPRT_NM) + " &rarr; " + nvl(item.HMCMG_ARVL_ARPRT_NM) + "</td></tr>";
+					html += "<tr><td rowspan='2'>입국</td><td>" + nvl(item.HMCMG_START_ARPRT_NM) + " &rarr; " + nvl(item.HMCMG_ARVL_ARPRT_NM) + " (항공편명:" + nvl(item.HMCMG_FLIGHT) + ")</td></tr>";
 					html += "<tr><td>[출발] " + nvl(item.HMCMG_START_DT) + "<br>[도착] " + nvl(item.HMCMG_ARVL_DT) + "<br></td></tr>";
 				}
 				$("#tblFlightInfo tbody").append(html);

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
+<sqlMap namespace="gnrl">
+
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	
+	<resultMap id="rmCartList" class="hashMap">
+		<result property="TOT_CNT"       column="TOT_CNT"       jdbcType="string" javaType="string"/>    
+		<result property="ESNTL_ID"      column="ESNTL_ID"    	jdbcType="string" javaType="string"/>
+		<result property="CART_SN"       column="CART_SN"     	jdbcType="string" javaType="string"/>
+		<result property="GOODS_CODE"    column="GOODS_CODE"  	jdbcType="string" javaType="string"/>
+		<result property="PURCHS_AMOUNT" column="PURCHS_AMOUNT"	jdbcType="string" javaType="string"/>
+		<result property="TOUR_DE"       column="TOUR_DE"     	jdbcType="string" javaType="string"/>
+		<result property="BEGIN_TIME"    column="BEGIN_TIME"  	jdbcType="string" javaType="string"/>
+		<result property="END_TIME"      column="END_TIME"    	jdbcType="string" javaType="string"/>
+		<result property="GOODS_NM"      column="GOODS_NM"    	jdbcType="string" javaType="string"/>
+		<result property="CL_SE"         column="CL_SE"       	jdbcType="string" javaType="string"/>
+		<result property="FILE_CODE"     column="FILE_CODE"   	jdbcType="string" javaType="string"/>
+		<result property="WAIT_TIME"     column="WAIT_TIME"   	jdbcType="string" javaType="string"/>
+		<result property="MVMN_TIME"     column="MVMN_TIME"   	jdbcType="string" javaType="string"/>
+		<result property="WRITNG_ID"     column="WRITNG_ID"   	jdbcType="string" javaType="string"/>
+		<result property="WRITNG_DE"     column="WRITNG_DE"   	jdbcType="string" javaType="string"/>
+		<result property="CHKIN_DE"      column="CHKIN_DE"    	jdbcType="string" javaType="string"/>
+		<result property="CHCKT_DE"      column="CHCKT_DE"    	jdbcType="string" javaType="string"/>
+		<result property="DIFF_DAYS"     column="DIFF_DAYS"   	jdbcType="string" javaType="string"/>
+		<result property="SORT_DE"       column="SORT_DE"     	jdbcType="string" javaType="string"/>
+		<result property="CTY_NM"        column="CTY_NM"      	jdbcType="string" javaType="string"/>
+		<result property="UPPER_CL_NM"   column="UPPER_CL_NM" 	jdbcType="string" javaType="string"/>
+		<result property="CL_NM"         column="CL_NM"        	jdbcType="string" javaType="string"/>
+		<result property="ORIGIN_AMOUNT"         column="ORIGIN_AMOUNT"        	jdbcType="string" javaType="string"/>
+		<result property="PURCHS_AT"         column="PURCHS_AT"        	jdbcType="string" javaType="string"/>
+		<result property="PICKUP_INCLS_AT"         column="PICKUP_INCLS_AT"        	jdbcType="string" javaType="string"/>		
+		<result property="OPTIONS"       column="{ESNTL_ID=ESNTL_ID, CART_SN=CART_SN}" select="gnrl.order.selectCartDetailList" javaType="java.util.ArrayList"/>
+	</resultMap>	
+
+	<resultMap id="rmCartDetail" class="hashMap">
+		<result property="SETUP_SE"      column="SETUP_SE"      jdbcType="string" javaType="string"/>
+		<result property="SETUP_NM"      column="SETUP_NM"      jdbcType="string" javaType="string"/>
+		<result property="NMPR_CND"      column="NMPR_CND"      jdbcType="string" javaType="string"/>
+		<result property="NMPR_CO"       column="NMPR_CO"       jdbcType="string" javaType="string"/>
+	</resultMap>	
+
+	<select id="gnrl.order.selectCartDetail" parameterClass="hashMap" resultMap="rmCartList">
+	<![CDATA[
+		SELECT COUNT(*) OVER() AS TOT_CNT
+		     , A.ESNTL_ID
+		     , A.CART_SN
+		     , A.GOODS_CODE
+		     , A.PURCHS_AMOUNT
+		     , A.TOUR_DE
+		     , A.BEGIN_TIME
+		     , A.END_TIME
+		     , X.GOODS_NM
+		     , X.CL_SE
+		     , X.FILE_CODE
+		     , X.WAIT_TIME
+		     , X.MVMN_TIME
+		     , A.WRITNG_ID
+		     , TO_CHAR(A.WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
+		     , A.CHKIN_DE
+		     , A.CHCKT_DE
+		     , DECODE(A.TOUR_DE, NULL, TO_DATE(A.CHCKT_DE, 'YYYYMMDD') - TO_DATE(A.CHKIN_DE, 'YYYYMMDD'), '', TO_DATE(A.CHCKT_DE, 'YYYYMMDD') - TO_DATE(A.CHKIN_DE, 'YYYYMMDD'), 0 ) DIFF_DAYS
+		     , DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE) SORT_DE
+		     , (SELECT CTY_NM FROM TB_CTY Y WHERE Y.CTY_CODE = X.CTY_CODE) CTY_NM         
+		     , (SELECT CL_NM FROM TB_TOUR_CL Y WHERE Y.UPPER_CL_CODE = '00000' START WITH Y.CL_CODE = X.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_NM
+		     , (SELECT CL_NM FROM TB_TOUR_CL Y WHERE Y.CL_CODE = X.CL_CODE) CL_NM
+		     , ORIGIN_AMOUNT 		     
+		     , PURCHS_AT
+		     , X.PICKUP_INCLS_AT
+		  FROM TB_CART_GOODS A
+		 INNER JOIN TB_GOODS X
+		    ON X.GOODS_CODE = A.GOODS_CODE
+		   AND X.DELETE_AT = 'N'
+		 WHERE A.ESNTL_ID = #esntl_id#
+		   AND A.EXPRTN_AT = 'N'
+		   AND A.DELETE_AT = 'N'
+		   AND A.PURCHS_AT = 'N'
+		   AND A.CART_SN = #cart_sn#
+		 ORDER BY DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE), A.BEGIN_TIME
+	]]>
+	</select>
+
+	<select id="gnrl.order.selectCartDetailList" parameterClass="hashMap" resultMap="rmCartDetail">
+		SELECT A.CART_SN
+		     , B.SETUP_SE 
+		     , DECODE(B.SETUP_SE, 'R', '객실', 'E', '식사', 'C', '체크인/아웃', 'P', '인원') SETUP_NM 
+		     , B.NMPR_CND
+		     , B.SETUP_AMOUNT
+		     , B.SETUP_RATE
+		     , A.NMPR_CO
+		  FROM TB_CART_NMPR A
+		     , TB_GOODS_NMPR B
+		 WHERE A.CART_SN = #CART_SN#
+		   AND A.GOODS_CODE = B.GOODS_CODE
+		   AND A.NMPR_SN = B.NMPR_SN
+		   AND A.SETUP_SE = B.SETUP_SE
+		 ORDER BY A.CART_SN, B.SETUP_SE DESC, B.SORT_ORDR, B.NMPR_SN
+	</select>
+
+	<parameterMap class="java.util.HashMap" id="paramChkSchedule">
+		<parameter property="cart_sn" javaType="java.lang.String" mode="IN" jdbcType="VARCHAR"/>
+		<parameter property="can_yn" javaType="java.lang.String" mode="OUT" jdbcType="VARCHAR"/>
+	</parameterMap>
+	
+	<procedure id="gnrl.order.chkSchedule" parameterMap="paramChkSchedule">
+		{ CALL SP_CheckSchedule ( ?, ?) }
+	</procedure>	
+
+	<select id="gnrl.order.selectPurchsSn" parameterClass="hashMap" resultClass="int">
+	<![CDATA[
+		SELECT SQ_PURCHS_SN.nextval  FROM DUAL
+	]]>
+	</select>
+	
+	<insert id="gnrl.order.insertPurchs"  parameterClass="hashMap">
+		INSERT INTO TB_PURCHS (PURCHS_SN, PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT
+			, CRTFC_NO, SETLE_DT, SETLE_IP, ESNTL_ID, WRITNG_ID, WRITNG_DT, DELETE_AT
+			, TOURIST_NM, TOURIST_CTTPC, KAKAO_ID) 
+		VALUES (#purchs_sn#, TO_CHAR(SYSDATE, 'YYYYMMDD'), #tot_setle_amount#, #real_setle_amount#, #use_point#
+			, #crtfc_no#, SYSDATE, #setle_ip#, #esntl_id#, #esntl_id#, SYSDATE ,'N'
+			, #tourist_nm#, #tourist_cttpc#, #kakao_id#)
+	</insert>
+
+	<insert id="gnrl.order.insertPurchsGoods"  parameterClass="hashMap">
+		INSERT INTO TB_PURCHS_GOODS (PURCHS_SN, CART_SN, PICKUP_PLACE, DROP_PLACE, USE_NMPR, USE_PD) 
+		VALUES (#purchs_sn#, #cart_sn#, #pickup_place#, #drop_place#, #use_nmpr#, #use_pd#)
+	</insert>
+
+	<update id="gnrl.order.updCartGoods"  parameterClass="hashMap">
+		UPDATE TB_CART_GOODS SET PURCHS_AT = 'Y'
+		WHERE CART_SN = #cart_sn#
+	</update>
+	
+</sqlMap>

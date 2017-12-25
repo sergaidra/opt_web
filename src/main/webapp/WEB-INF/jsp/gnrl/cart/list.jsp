@@ -124,18 +124,17 @@ function delCart(cart_sn) {
 }
 
 function paymentCart() {
-	var url = "<c:url value='/purchs/addAction'/>";
-	var lst = [];
-	var totalAmount = 0;
+	var lst = "";
+	var lstJson = [];
 
 	for(var cnt = 0; cnt < cartInfo.length; cnt++) {
 		if(cartInfo[cnt].chk == true) {
-			lst.push( {"cart_sn" : cartInfo[cnt].cart_sn } );
-			totalAmount += Number(cartInfo[cnt].purchs_amount);
+			lst += cartInfo[cnt].cart_sn + ",";
+			lstJson.push( { "cart_sn" : cartInfo[cnt].cart_sn })
 		}
 	}
 
-	if(lst.length == 0) {
+	if(lst == "") {
 		alert("선택 건이 없습니다.");
 		return;
 	}
@@ -144,12 +143,9 @@ function paymentCart() {
 		return;
 	
 	var param = {};
-	param.tot_setle_amount = totalAmount;
-	param.real_setle_amount = totalAmount;
-	param.use_point = "0";
-	param.lstCart = lst;
-	console.log(param);
-	
+	param.lstCart = lstJson;
+
+	url = "<c:url value='/purchs/checkReservationSchedule'/>";
 	$.ajax({
         url : url,
         type: "post",
@@ -159,8 +155,12 @@ function paymentCart() {
         data : JSON.stringify( param ),
         success : function(data,status,request){
 			if(data.result == "0") {
-				alert("결제되었습니다.");
-				document.location.reload();
+				url = "<c:url value='/purchs/Order'/>";
+				var frm = $("#frm");
+				$(frm).find("#lstCart").val(lst);
+				$(frm).attr("method", "post");
+				$(frm).attr("action", url);
+				$(frm).submit();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
@@ -175,8 +175,9 @@ function paymentCart() {
         error : function(request,status,error) {
         	alert(error);
         },
-	});			
+	});				
 }
+
 
 function addWish() {
 	var lst = [];
@@ -226,6 +227,10 @@ function addWish() {
 
 }
 
+function orderInfo() {
+	window.open("<c:url value='/purchs/OrderInfo'/>");
+}
+
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -234,6 +239,10 @@ function numberWithCommas(x) {
 </head>
 
 <body>
+
+<form id="frm">
+	<input type="hidden" id="lstCart" name="lstCart" >
+</form>
 
 <!-- 본문 -->
 <div id="container">
@@ -411,7 +420,7 @@ function numberWithCommas(x) {
     </div>
     <div class="right_btn">
       <div class="btn3"><a href="javascript:paymentCart();">선택상품 결제하기</a></div>
-      <div class="btn2"><a href="#">여행상품보기</a></div>
+      <div class="btn2"><a href="javascript:orderInfo();">일정표미리보기</a></div>
     </div>
   </div>
   <!--//컨텐츠영역 -->

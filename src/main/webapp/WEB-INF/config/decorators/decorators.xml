@@ -41,5 +41,7 @@
 
 		<pattern>/jq/**</pattern>
 
+		<pattern>/purchs/OrderInfo*</pattern>
+
 	</excludes>
 </decorators>

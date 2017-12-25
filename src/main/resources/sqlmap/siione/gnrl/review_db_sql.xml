@@ -5,7 +5,7 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 
 	<sql id="whereReviewList">
-		AND 1 = 1
+		AND 1 = 1 AND R.DELETE_AT = 'N'
 	</sql>
 
 	<select id="gnrl.review.getReviewListCount" parameterClass="hashMap" resultClass="Integer">
@@ -36,16 +36,20 @@
 	</select>
 
 	<insert id="gnrl.review.insertPurchsReview" parameterClass="hashMap" >
-		INSERT INTO TB_PURCHS_REVIEW (PURCHS_SN, CART_SN, GOODS_CODE, REVIEW_CN, REVIEW_SCORE, ESNTL_ID, WRITNG_ID, WRITNG_DT)
-		VALUES ( #purchs_sn#, #cart_sn#, #goods_code#, #review_cn#, #review_score#, #esntl_id#, #esntl_id#, SYSDATE )
+		INSERT INTO TB_PURCHS_REVIEW (PURCHS_SN, CART_SN, GOODS_CODE, REVIEW_CN, REVIEW_SCORE, ESNTL_ID, WRITNG_ID, WRITNG_DT, DELETE_AT)
+		VALUES ( #purchs_sn#, #cart_sn#, #goods_code#, #review_cn#, #review_score#, #esntl_id#, #esntl_id#, SYSDATE, 'N' )
 	</insert>
 	<select id="gnrl.review.selectPurchsReview" parameterClass="hashMap" resultClass="hashMap">
 		SELECT PURCHS_SN, CART_SN, GOODS_CODE, REVIEW_CN, REVIEW_SCORE, ESNTL_ID, WRITNG_ID, WRITNG_DT
 		FROM TB_PURCHS_REVIEW
-		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn# AND DELETE_AT = 'N'
 	</select>
 	<update id="gnrl.review.updatePurchsReview"  parameterClass="hashMap">
 		UPDATE TB_PURCHS_REVIEW SET REVIEW_CN = #review_cn#, REVIEW_SCORE = #review_score#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE
+		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+	</update>
+	<update id="gnrl.review.deletePurchsReview"  parameterClass="hashMap">
+		UPDATE TB_PURCHS_REVIEW SET DELETE_AT = 'Y', UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE
 		WHERE PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
 	</update>
 
@@ -58,5 +62,7 @@
 		INSERT INTO TB_PURCHS_POINT (PURCHS_SN, CART_SN, POINT, ACCML_SE, ACCML_DT, VALID_DE, ESNTL_ID)
 		VALUES ( #purchs_sn#, #cart_sn#, #point#, #accml_se#, SYSDATE, #valid_de#, #esntl_id#)
 	</insert>
+	
+	
 	
 </sqlMap>

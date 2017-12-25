@@ -45,5 +45,9 @@ public class ReviewServiceImpl implements ReviewService {
 	public HashMap selectPurchsReview(HashMap map) throws Exception {
 		return reviewDAO.selectPurchsReview(map);
 	}
+	
+	public void deletePurchsReview(HashMap map) throws Exception {
+		reviewDAO.deletePurchsReview(map);
+	}
 
 }

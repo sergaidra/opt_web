@@ -116,6 +116,7 @@
 			
 			selectDt.startDt = null;
 			selectDt.endDt = null;
+			removeRoom();
 		} //end else/if
 		
 		setDateRange();

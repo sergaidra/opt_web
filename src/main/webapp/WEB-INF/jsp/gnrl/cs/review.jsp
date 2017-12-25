@@ -59,7 +59,10 @@ function search(pageNo) {
             		 
             		var tr2 = $("<tr></tr>");
             		var td2_1 = $("<td colspan=\"6\" class=\"left\"><div class=\"review\"><div class=\"text\">" + replaceBrSpace(data.list[cnt].REVIEW_CN) + "</div></div></td>");
-        			
+              		if("${author_cl}" == "A") {
+              			$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:deleteReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">삭제</a></div>");              			
+              		}
+
             		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
             			//$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:viewReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">수정</a></div>");
             		}            		
@@ -93,6 +96,9 @@ function search(pageNo) {
             		var tr2 = $("<tr></tr>"); 
             		var td2_1 = $("<td colspan=\"2\" class=\"left\"><div class=\"review\"><div class=\"text\">" + replaceBrSpace(data.list[cnt].REVIEW_CN) + "</div></div></td>");
         			
+              		if("${author_cl}" == "A") {
+              			$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:deleteReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">삭제</a></div>");              			
+              		}
             		if(data.list[cnt].WRITNG_ID == "${esntl_id}") {
             			//$(td2_1).find(".text").after("<div class=\"btn\"><a href=\"javascript:viewReview(" + data.list[cnt].PURCHS_SN + ", " + data.list[cnt].CART_SN + ", " + data.list[cnt].GOODS_CODE + ");\" class=\"button_st1 fl mr_m1\">수정</a></div>");
             		}            		
@@ -160,6 +166,42 @@ function replaceBrSpace(str) {
 	if(str == null)
 		return "";
 	return str.replace(/\n/g, "<br />").replace(/  /g, "&nbsp;");
+}
+
+function deleteReview(purchs_sn, cart_sn) {
+	if(!confirm("여행후기를 삭제하겠습니까?"))
+		return;
+	
+	var url = "<c:url value='/cs/deletePurchsReview'/>";
+	
+	var param = {};
+	param.purchs_sn = purchs_sn;
+	param.cart_sn = cart_sn;
+	
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify(param ),
+        success : function(data,status,request){
+			if(data.result == "0") {	        	
+				alert("삭제되었습니다.");
+				search(1);
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				go_login();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
 }
 
 </script>

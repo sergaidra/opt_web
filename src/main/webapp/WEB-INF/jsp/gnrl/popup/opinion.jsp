@@ -9,7 +9,7 @@
 	<input type="hidden" id="opinion_sn" value="${opinion_sn}">
 	<input type="hidden" id="goods_code" value="${goods_code}" >	
 	<input type="hidden" id="callback" value="${callback}" >	
-	<input type="hidden" id="parent_opinion_sn">
+	<input type="hidden" id="parent_opinion_sn" value="${opinion.PARENT_OPINION_SN}">
   <div class="popup_com">
     <div class="title">1:1문의하기 </div>
     <div class="popup_cont">
@@ -42,6 +42,9 @@
 			    </c:if>
 		    </c:if>
 	      	<a href="javascript:saveOpinion();" style="display:none;" id="btnOpinion3">답변등록</a>
+			<c:if test="${author_cl == 'A'}">
+		      	<a href="javascript:deleteAdmin();" id="btnOpinion5">문의삭제</a>
+			</c:if>
       	</c:if>
       </div>
     </div>
@@ -61,6 +64,7 @@ function answerOpinion() {
 	$(".featherlight #btnOpinion1").hide();	
 	$(".featherlight #btnOpinion2").hide();	
 	$(".featherlight #btnOpinion4").hide();	
+	$(".featherlight #btnOpinion5").show();	
 	$(".featherlight #btnOpinion3").show();		
 }
 
@@ -125,6 +129,50 @@ function deleteOpinion() {
 	
 	var param = {};
 	param.opinion_sn = $(".featherlight #opinion_sn").val();
+	var callback = $(".featherlight #callback").val();
+
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify(param ),
+        success : function(data,status,request){
+			if(data.result == "0") {	        	
+				alert("삭제되었습니다.");
+				if(callback != "") {
+					var fn = window[callback];
+					// is object a function?
+					if (typeof fn === "function") fn();
+				}
+				$.featherlight.close();
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				go_login();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
+
+function deleteAdmin() {
+	if(!confirm("문의글을 삭제하겠습니까?"))
+		return;
+	
+	var url = "<c:url value='/cs/deleteOpinion'/>";
+	
+	var param = {};
+	if($(".featherlight #parent_opinion_sn").val() == "")
+		param.opinion_sn = $(".featherlight #opinion_sn").val();
+	else
+		param.opinion_sn = $(".featherlight #parent_opinion_sn").val();		
 	var callback = $(".featherlight #callback").val();
 
 	$.ajax({

@@ -89,17 +89,20 @@ function search(pageNo) {
         		{
         			for(var cnt2 = 0; cnt2 < data.list[cnt].cartlist.length; cnt2++) {
                 		var tr = $("<tr></tr>");
-                		var td1 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">" + data.list[cnt].PURCHS_SN + "<br /><a href='#' class='big-link button white medium' data-reveal-id='myModal' ></a></td>");
+                		var td1 = $("<td rowspan=" + (data.list[cnt].cartlist.length + 1) + "><span onclick='orderInfo();' style='cursor:pointer;'>" + data.list[cnt].PURCHS_SN + "</span></td>");
                 		var td2 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].cartlist[cnt2].FILE_CODE + "' width='150' alt='''/></div></td>");
                 		var td3 = $("<td class='left'></td>");
                 		var td4 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">" + dateWithHyphen(data.list[cnt].PURCHS_DE) + "</td>");
-                		var td5 = $("<td rowspan=" + data.list[cnt].cartlist.length + " class='right r_line'><span class='point_color_b4'>" + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</span></td>");
-                		var td6 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">결제진행중<br><a href='javascript:cancelPurchs(\"" + data.list[cnt].PURCHS_SN + "\");' class='sbtn_01'>취소하기</a>");
-                		var td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\");' class='sbtn_01' >후기쓰기</a></td>");
-
+                		var td5 = $("<td class='right r_line'><span class='point_color_b4'>" + numberWithCommas(data.list[cnt].cartlist[cnt2].PURCHS_AMOUNT) + "원</span></td>");
+                		var td6 = $("<td rowspan=" + data.list[cnt].cartlist.length + "><a href='javascript:cancelPurchs(\"" + data.list[cnt].PURCHS_SN + "\");' class='sbtn_01'>취소하기</a>");
+                		var td7 = null;
+                		
+                		var theDate = "";
                 		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S') {
+                			theDate = data.list[cnt].cartlist[cnt2].CHKIN_DE;
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE) + "]</div>");
                 		} else {
+                			theDate = data.list[cnt].cartlist[cnt2].TOUR_DE;
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE) + " " + timeWithColon(data.list[cnt].cartlist[cnt2].BEGIN_TIME) + " ~ " + timeWithColon(data.list[cnt].cartlist[cnt2].END_TIME) + "]</div>");
                 		}
                 		$(td3).append("<div class='tx2'>" + data.list[cnt].cartlist[cnt2].GOODS_NM + "</div>");
@@ -115,6 +118,14 @@ function search(pageNo) {
                 		}
                 		$(td3).append(td3sub);
                 		
+                		if(theDate < getToday()) {
+                			if(data.list[cnt].cartlist[cnt2].EXISTREVIEW == "Y")
+                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\");' class='sbtn_01' >후기수정</a></td>");
+                			else
+                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\");' class='sbtn_01' >후기쓰기</a></td>");
+                		} else
+                			td7 = $("<td ></td>");
+                		
                 		if(cnt2 == 0) {
 							$(tr).append(td1);
                 		}
@@ -122,13 +133,18 @@ function search(pageNo) {
                 		$(tr).append(td3);
                 		if(cnt2 == 0) {
 	                		$(tr).append(td4);
-    	            		$(tr).append(td5);
+                		}
+                		$(tr).append(td5);
+                		if(cnt2 == 0) {
                     		$(tr).append(td6);
                 		}
-                		$(tr).append(td7);
+                		$(tr).append(td7);                		
                 		
         	        	$("#tblList tbody").append(tr);        
         			}
+        			
+            		var tr2 = "<tr><td colspan=\"6\" class=\"totalbg\" >합계 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>";
+    	        	$("#tblList tbody").append(tr2);        
         		}
         		// 모바일
         		{
@@ -159,7 +175,7 @@ function search(pageNo) {
 
         	        	$("#tblmList tbody").append(tr);        
         			}
-        			$("#tblmList tbody").append("<tr><td colspan='2' class='totalbg'><div class='total'>  결제진행중  <a href=\"#\" class=\"sbtn_01\" data-featherlight=\"#secession\">취소하기</a></div>합계 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>");
+        			$("#tblmList tbody").append("<tr><td colspan='2' class='totalbg'><div class='total'>  <a href=\"#\" class=\"sbtn_01\" data-featherlight=\"#secession\">취소하기</a></div>합계 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>");
         		}
         	}
         	
@@ -243,6 +259,10 @@ function cancelPurchs(purchs_sn) {
         	alert(error);
         },
 	});			
+}
+
+function orderInfo() {
+	window.open("<c:url value='/purchs/OrderInfo'/>");
 }
 
 function timeWithColon(x) {

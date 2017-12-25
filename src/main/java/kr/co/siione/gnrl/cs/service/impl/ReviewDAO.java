@@ -29,6 +29,10 @@ public class ReviewDAO extends EgovComAbstractDAO {
 		return (HashMap)selectByPk("gnrl.review.selectPurchsReview", map);
 	}
 
+	public void deletePurchsReview(HashMap map) throws Exception {
+		insert("gnrl.review.deletePurchsReview", map);
+    }
+
     public void insertPurchsPoint(HashMap map) throws Exception {
 		insert("gnrl.review.insertPurchsPoint", map);
     }

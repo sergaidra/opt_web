@@ -16,4 +16,11 @@ public class LiveViewServiceImpl implements LiveViewService {
 	@Resource(name = "liveViewDAO")
 	private LiveViewDAO liveViewDAO;
 
+	public List<HashMap> mainVideolist(HashMap map) throws Exception {
+		return liveViewDAO.mainVideolist(map);
+	}
+	
+	public List<HashMap> videolist(HashMap map) throws Exception {
+		return liveViewDAO.videolist(map);
+	}
 }

@@ -404,12 +404,12 @@
 	
 	<select id="gnrl.goods.getReviewScore" parameterClass="hashMap" resultClass="hashMap">
 		SELECT NVL(CEIL(AVG(REVIEW_SCORE)), 0) AS CEIL_REVIEW_SCORE, TO_CHAR(NVL(AVG(REVIEW_SCORE), 0), 'FM999990.0') AS REVIEW_SCORE, COUNT(1) REVIEW_COUNT FROM TB_PURCHS_REVIEW
-		WHERE GOODS_CODE = #goods_code#
+		WHERE GOODS_CODE = #goods_code# AND DELETE_AT = 'N'
 	</select>
 	
 	<select id="gnrl.goods.getReviewCount" parameterClass="hashMap" resultClass="Integer">
 		SELECT COUNT(1) FROM TB_PURCHS_REVIEW
-		WHERE GOODS_CODE = #goods_code#
+		WHERE GOODS_CODE = #goods_code# AND DELETE_AT = 'N'
 	</select>
 	
 	<select id="gnrl.goods.getReview" parameterClass="hashMap" resultClass="hashMap">
@@ -418,7 +418,7 @@
 			SELECT PURCHS_SN, CART_SN, ROWNUM AS RNUM
 			FROM (
 				SELECT PURCHS_SN, CART_SN FROM TB_PURCHS_REVIEW
-				WHERE GOODS_CODE = #goods_code#
+				WHERE GOODS_CODE = #goods_code# AND DELETE_AT = 'N'
 				ORDER BY WRITNG_DT DESC
 			) A
 		) B

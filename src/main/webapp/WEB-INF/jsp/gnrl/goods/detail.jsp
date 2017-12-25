@@ -142,14 +142,14 @@ $(function() {
 			for(var cnt = 0; cnt < optionInfo.nmpr_P.length; cnt++) {
 				purchs_amount += optionInfo.nmpr_P[cnt].price;
 				origin_amount += optionInfo.nmpr_P[cnt].originPrice;
-				var item = { "setup_se" : optionInfo.nmpr_P[cnt].setup_se, "nmpr_sn" : optionInfo.nmpr_P[cnt].nmpr_sn, "nmpr_co" : optionInfo.nmpr_P[cnt].nmprCnt, "amount" : optionInfo.nmpr_P[cnt].price };
+				var item = { "setup_se" : optionInfo.nmpr_P[cnt].setup_se, "nmpr_sn" : optionInfo.nmpr_P[cnt].nmpr_sn, "nmpr_co" : optionInfo.nmpr_P[cnt].nmpr_cnt, "amount" : optionInfo.nmpr_P[cnt].price };
 				nmprList.push(item);
 			}
 
 			for(var cnt = 0; cnt < optionInfo.nmpr_V.length; cnt++) {
 				purchs_amount += optionInfo.nmpr_V[cnt].price;
 				origin_amount += optionInfo.nmpr_V[cnt].originPrice;
-				var item = { "setup_se" : optionInfo.nmpr_V[cnt].setup_se, "nmpr_sn" : optionInfo.nmpr_V[cnt].nmpr_sn, "nmpr_co" : optionInfo.nmpr_V[cnt].nmprCnt, "amount" : optionInfo.nmpr_V[cnt].price };
+				var item = { "setup_se" : optionInfo.nmpr_V[cnt].setup_se, "nmpr_sn" : optionInfo.nmpr_V[cnt].nmpr_sn, "nmpr_co" : optionInfo.nmpr_V[cnt].nmpr_cnt, "amount" : optionInfo.nmpr_V[cnt].price };
 				nmprList.push(item);
 			}
 
@@ -181,14 +181,14 @@ $(function() {
 			for(var cnt = 0; cnt < optionInfo.nmpr_P.length; cnt++) {
 				purchs_amount += optionInfo.nmpr_P[cnt].price;
 				origin_amount += optionInfo.nmpr_P[cnt].originPrice;
-				var item = { "setup_se" : optionInfo.nmpr_P[cnt].setup_se, "nmpr_sn" : optionInfo.nmpr_P[cnt].nmpr_sn, "nmpr_co" : optionInfo.nmpr_P[cnt].nmprCnt, "amount" : optionInfo.nmpr_P[cnt].price };
+				var item = { "setup_se" : optionInfo.nmpr_P[cnt].setup_se, "nmpr_sn" : optionInfo.nmpr_P[cnt].nmpr_sn, "nmpr_co" : optionInfo.nmpr_P[cnt].nmpr_cnt, "amount" : optionInfo.nmpr_P[cnt].price };
 				nmprList.push(item);
 			}
 
 			for(var cnt = 0; cnt < optionInfo.nmpr_V.length; cnt++) {
 				purchs_amount += optionInfo.nmpr_V[cnt].price;
 				origin_amount += optionInfo.nmpr_V[cnt].originPrice;
-				var item = { "setup_se" : optionInfo.nmpr_V[cnt].setup_se, "nmpr_sn" : optionInfo.nmpr_V[cnt].nmpr_sn, "nmpr_co" : optionInfo.nmpr_V[cnt].nmprCnt, "amount" : optionInfo.nmpr_V[cnt].price };
+				var item = { "setup_se" : optionInfo.nmpr_V[cnt].setup_se, "nmpr_sn" : optionInfo.nmpr_V[cnt].nmpr_sn, "nmpr_co" : optionInfo.nmpr_V[cnt].nmpr_cnt, "amount" : optionInfo.nmpr_V[cnt].price };
 				nmprList.push(item);
 			}
 			
@@ -404,6 +404,16 @@ $(function() {
 	goSearchOpinion(1);
 });
 
+function initOptionInfo() {
+	optionInfo.days = 0;
+	optionInfo.room = null;
+	optionInfo.eat = [];
+	optionInfo.check = [];
+	optionInfo.nmpr_P = [];
+	optionInfo.nmpr_V = [];
+	optionInfo.nmpr_S = [];
+}
+
 function getNmprInfo(setup_se, nmpr_sn) {
 	for(var cnt = 0; cnt < lstOption.length; cnt++) {
 		if(lstOption[cnt].setup_se == setup_se && lstOption[cnt].nmpr_sn == nmpr_sn) {
@@ -584,9 +594,13 @@ function removeRoom() {
 	optionInfo.room = null;
 	optionInfo.eat = [];
 	optionInfo.check = [];
+	optionInfo.nmpr_P = [];
+	optionInfo.nmpr_V = [];
+	optionInfo.nmpr_S = [];
 	$("#cmbRoom").val("");
 	$("#cmbEat").val("");
 	$("#cmbCheck").val("");
+	$("#cmbNmpr_S").val("");
 	displayRoom();
 }
 

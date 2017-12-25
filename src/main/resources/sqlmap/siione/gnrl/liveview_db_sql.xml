@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
+<sqlMap namespace="gnrl">
+
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+
+	<select id="gnrl.liveview.mainVideolist" resultClass="hashMap">
+	<![CDATA[
+		SELECT A.*
+		FROM (
+				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE, GOODS_INTRCN_SIMPL
+					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND LIVEVIEW_AT = 'Y' ) AS FILE_SN, RNUM
+					, G.VIDEO_URL
+				FROM (
+					SELECT GOODS_CODE, ROWNUM AS RNUM
+					FROM (		  
+						SELECT GOODS_CODE
+						FROM TB_GOODS 
+						WHERE DELETE_AT = 'N'  AND VIDEO_MAIN_EXPSR_AT = 'Y'
+						ORDER BY SORT_ORDR
+					)  A		  
+				) AA
+				INNER JOIN TB_GOODS G ON AA.GOODS_CODE = G.GOODS_CODE
+				WHERE AA.RNUM <= 5
+		) A
+		RIGHT OUTER JOIN (SELECT LEVEL AS LV FROM DUAL CONNECT BY LEVEL <= 5) B ON A.RNUM = B.LV
+		ORDER BY B.LV
+	]]>
+	</select>		
+
+	<select id="gnrl.liveview.videolist" resultClass="hashMap">
+		SELECT GOODS_CODE, GOODS_NM, FILE_CODE, GOODS_INTRCN_SIMPL, VIDEO_URL 
+		FROM TB_GOODS G
+		WHERE VIDEO_URL IS NOT NULL AND DELETE_AT = 'N'
+		ORDER BY GOODS_CODE
+	</select>		
+	
+</sqlMap>

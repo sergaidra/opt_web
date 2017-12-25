@@ -10,29 +10,6 @@
 			AND P.PURCHS_DE BETWEEN #start_dt# AND #end_dt#
 		</isNotEmpty>
 	</sql>
-	
-	<select id="gnrl.purchs.selectPurchsSn" parameterClass="hashMap" resultClass="int">
-	<![CDATA[
-		SELECT SQ_PURCHS_SN.nextval  FROM DUAL
-	]]>
-	</select>
-	
-	<insert id="gnrl.purchs.insertPurchs"  parameterClass="hashMap">
-		INSERT INTO TB_PURCHS (PURCHS_SN, PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT
-			, CRTFC_NO, SETLE_DT, SETLE_IP, ESNTL_ID, WRITNG_ID, WRITNG_DT, DELETE_AT) 
-		VALUES (#purchs_sn#, TO_CHAR(SYSDATE, 'YYYYMMDD'), #tot_setle_amount#, #real_setle_amount#, #use_point#
-			, #crtfc_no#, SYSDATE, #setle_ip#, #esntl_id#, #esntl_id#, SYSDATE ,'N')
-	</insert>
-
-	<insert id="gnrl.purchs.insertPurchsGoods"  parameterClass="hashMap">
-		INSERT INTO TB_PURCHS_GOODS (PURCHS_SN, CART_SN) 
-		VALUES (#purchs_sn#, #cart_sn#)
-	</insert>
-
-	<update id="gnrl.purchs.updCartGoods"  parameterClass="hashMap">
-		UPDATE TB_CART_GOODS SET PURCHS_AT = 'Y'
-		WHERE CART_SN = #cart_sn#
-	</update>
 		
 	<select id="gnrl.purchs.selectPurchs" parameterClass="hashMap" resultClass="hashMap">
 		SELECT PURCHS_SN, PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT
@@ -72,14 +49,17 @@
 	</select>
 	
 	<select id="gnrl.purchs.selectPurchsCartList" parameterClass="hashMap" resultClass="hashMap">
+	<![CDATA[
 		SELECT G.FILE_CODE, P.PURCHS_SN, P.PURCHS_DE, P.TOT_SETLE_AMOUNT, CG.CART_SN, G.GOODS_NM, G.GOODS_CODE
-			, CG.TOUR_DE, CG.CHKIN_DE, CG.CHCKT_DE, CG.BEGIN_TIME, CG.END_TIME, G.CL_SE
+			, CG.TOUR_DE, CG.CHKIN_DE, CG.CHCKT_DE, CG.BEGIN_TIME, CG.END_TIME, G.CL_SE, CG.PURCHS_AMOUNT
+			, CASE WHEN (SELECT COUNT(1) FROM TB_PURCHS_REVIEW WHERE PURCHS_SN = P.PURCHS_SN AND CART_SN = CG.CART_SN AND GOODS_CODE = G.GOODS_CODE AND DELETE_AT = 'N' ) > 0 THEN 'Y' ELSE 'N' END EXISTREVIEW
 		FROM TB_PURCHS P
 			INNER JOIN TB_PURCHS_GOODS PG ON P.PURCHS_SN = PG.PURCHS_SN
 			INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN
 			INNER JOIN TB_GOODS G ON CG.GOODS_CODE = G.GOODS_CODE
 		WHERE P.PURCHS_SN = #purchs_sn#
 		ORDER BY CG.CART_SN
+	]]>
 	</select>
 	
 	<select id="gnrl.purchs.selectPurchsDetail" parameterClass="hashMap" resultClass="hashMap">
@@ -101,13 +81,16 @@
 		WHERE P.PURCHS_SN = #purchs_sn#
 	</select>
 
-	<parameterMap class="java.util.HashMap" id="paramChkSchedule">
-		<parameter property="cart_sn" javaType="java.lang.String" mode="IN" jdbcType="VARCHAR"/>
-		<parameter property="can_yn" javaType="java.lang.String" mode="OUT" jdbcType="VARCHAR"/>
-	</parameterMap>
-	
-	<procedure id="gnrl.purchs.chkSchedule" parameterMap="paramChkSchedule">
-		{ CALL SP_CheckSchedule ( ?, ?) }
-	</procedure>	
-	
+	<select id="gnrl.purchs.getOrderInfoGoodsTime" parameterClass="hashMap" resultClass="hashMap">
+	<![CDATA[
+		SELECT CG.CART_SN, CG.TOUR_DE, CG.BEGIN_TIME, CG.END_TIME, CG.CHKIN_DE, CG.CHCKT_DE, GOODS.GOODS_NM, FN_GET_PURCHS_OPTION(CG.CART_SN) AS OPTIONS, GOODS.GOODS_CODE
+		FROM TB_PURCHS P
+		INNER JOIN TB_PURCHS_GOODS  PG ON P.PURCHS_SN = PG.PURCHS_SN
+		INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN
+		INNER JOIN TB_GOODS GOODS ON CG.GOODS_CODE = GOODS.GOODS_CODE
+		WHERE P.ESNTL_ID = #esntl_id# AND CG.DELETE_AT = 'N' AND GOODS.DELETE_AT = 'N' AND CG.EXPRTN_AT = 'N' AND CG.PURCHS_AT = 'Y' AND GOODS.CL_SE <> 'S'		
+			AND CG.TOUR_DE IS NOT NULL
+		ORDER BY CG.TOUR_DE, CG.BEGIN_TIME, CG.CHKIN_DE	
+	]]>
+	</select>	
 </sqlMap>
