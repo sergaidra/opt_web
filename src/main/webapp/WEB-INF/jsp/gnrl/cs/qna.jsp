@@ -291,7 +291,7 @@ function replaceBrSpace(str) {
           <div class="number" id="paging">
           </div>
         </div>
-        <div class="paginate mobile_view">
+        <div class="paginate mobile_view mt_30">
           <div class="number" id="mpaging">
           </div>
         </div>

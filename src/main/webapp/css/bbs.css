@@ -1019,7 +1019,7 @@ padding:8px 10px 8px 10px ;
 /**** 모바일 ****/
 @media only all and (max-width:768px) {
 /* 게시판 뷰 타입1 */
-.tb_06_box{ width:100%; border-top:3px solid #333; float:left; overflow-y: scroll; }
+.tb_06_box{ width:100%; border-top:3px solid #333; float:left; }
 .tb_06 {display: none}	
 .tb_06_m { width:100%;}
 .tb_06_m thead th{  color:#333; font-size:12px;  text-align:center; background-color:#eee;   font-weight:normal; line-height:16px; padding:10px 0px; border-bottom:1px solid #dfdfdf;}
@@ -1063,16 +1063,18 @@ padding:8px 10px 8px 10px ;
 .tb_07 tbody td.totalbg{ background-color:#eee; text-align: right; color: #000; font-weight: 900; padding: 10px 20px !important; box-sizing: border-box}
 }
 
+
+
 /**** 테블릿 ****/
-@media all and (max-width:1300px) and (min-width:768px) {
+@media all and (max-width:1300px) and (min-width:769px) {
 	/* 게시판 뷰 타입1 */
 .tb_07_box{ width:100%; border-top:3px solid #333; float:left}
-.tb_07 { width:100%;}
+.tb_07 { width:100% !important; float:left; }
 .tb_07 thead th{  color:#333; font-size:13px;  text-align:center; background-color:#f7f7f7;   font-weight:normal; line-height:16px; padding:10px 0px; border-bottom:1px solid #dfdfdf;}
 .tb_07 tbody th{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000; background-color:#f7f7f7;  }
 .tb_07 tbody th.color{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000;  background-color:#fafafa; }
-.tb_07 tbody td { padding:8px 10px 8px 10px ;  line-height:20px; border-bottom:1px solid #dfdfdf;border-right:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px ; position: relative}
-.tb_07 tbody td:last-child{ padding:8px 10px 8px 10px ; line-height:20px; border-bottom:1px solid #dfdfdf;border-right:none; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
+.tb_07 tbody td { padding:8px 10px 8px 10px ;  border-bottom:1px solid #dfdfdf;border-right:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px ; position: relative; box-sizing: border-box}
+.tb_07 tbody td:last-child{ padding:8px 10px 8px 10px ;  border-bottom:1px solid #dfdfdf;border-right:none; COLOR:#333; text-align:center; font-size:13px; line-height:16px; box-sizing: border-box }
 .tb_07 tbody td.t_left{ text-align:left}
 .tb_07 tbody td.left{ text-align:left}
 .tb_07 tbody td.right{ text-align:right; padding-right:10px}
@@ -1084,18 +1086,20 @@ padding:8px 10px 8px 10px ;
 .tb_07 tbody td .total em{ font-size: 12px; color: #f00; margin-left: 10px ; float: left!important}
 .tb_07 tbody td.r_line{ border-right: 1px solid #dfdfdf}
 .tb_07 tbody tr.off{ background-color:#eee}
-.tb_07 tbody td.totalbg{ background-color:#eee; text-align: right; color: #000; font-weight: 900; padding: 10px 20px !important; box-sizing: border-box}
+.tb_07 tbody td.totalbg{ background-color:#eee; text-align: left; color: #000; font-weight: 900; padding: 5px 10px !important; box-sizing: border-box; line-height:16px }
+.tb_07 tbody td .total	a{  float: right; color: #fff; padding: 3px 5px !important ;  background-color:#333; line-height: 16px !important; font-size: 11px;  font-weight:200 ; margin-top: 3px; margin-left: 5px}
+	
 }
 /**** 모바일 ****/
-@media only all and (max-width:767px) {
+@media only all and (max-width:768px) {
 	/* 게시판 뷰 타입1 */
 .tb_07_box{ width:100%; border-top:3px solid #333; float:left}
-.tb_07 { width:100%;}
+.tb_07 { width:100%; float:left}
 .tb_07 thead th{  color:#333; font-size:13px;  text-align:center; background-color:#f7f7f7;   font-weight:normal; line-height:16px; padding:10px 0px; border-bottom:1px solid #dfdfdf;}
 .tb_07 tbody th{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000; background-color:#f7f7f7;  }
 .tb_07 tbody th.color{ border-bottom:1px solid #dfdfdf; padding:8px 0px 8px 0px ; text-align:center; font-weight:normal; color:#000;  background-color:#fafafa; }
-.tb_07 tbody td { padding:8px 10px 8px 10px ;  line-height:20px; border-bottom:1px solid #dfdfdf;border-right:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px ; position: relative; }
-.tb_07 tbody td:last-child{ padding:8px 10px 8px 10px ; line-height:20px; border-bottom:1px solid #dfdfdf;border-right:none; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
+.tb_07 tbody td { padding:8px 10px 8px 10px ;  border-bottom:1px solid #dfdfdf;border-right:1px solid #dfdfdf; COLOR:#333; text-align:center; font-size:13px; line-height:16px ; position: relative; box-sizing: border-box }
+.tb_07 tbody td:last-child{ padding:8px 10px 8px 10px ; border-bottom:1px solid #dfdfdf;border-right:none; COLOR:#333; text-align:center; font-size:13px; line-height:16px }
 .tb_07 tbody td.t_left{ text-align:left}
 .tb_07 tbody td.left{ text-align:left}
 .tb_07 tbody td.right{ text-align:right; padding-right:10px}
@@ -1106,11 +1110,13 @@ padding:8px 10px 8px 10px ;
 .tb_07 tbody td .tx4{ COLOR:#333; border-right:none;font-size:12px; line-height:16px; font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 500 }
 	
 .tb_07 tbody td .total .tx1{ ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 500; font-size: 16px; margin-bottom: 5px}
-.tb_07 tbody td .total{  position: absolute; top:5px; right: 10px; width: 100px; line-height:30px; text-align: right}
+.tb_07 tbody td .total{  position: absolute; top:5px; right: 10px; line-height:30px; text-align: right}
 .tb_07 tbody td .total em{ font-size: 12px; color: #f00; margin-left: 10px ; float: right!important}
 	
 .tb_07 tbody tr.off{ background-color:#eee}
-.tb_07 tbody td.totalbg{ background-color:#eee; text-align: left; color: #000; font-weight: 900; padding: 10px 20px !important; box-sizing: border-box}
+.tb_07 tbody td.totalbg{ background-color:#eee; text-align: left; color: #000; font-weight: 900; padding: 10px 10px !important; box-sizing: border-box}
+.tb_07 tbody td .total	a{  float: right; color: #fff; padding: 3px 5px !important ;  background-color:#333; line-height: 16px !important; font-size: 11px;  font-weight:200 ; margin-top: 3px; margin-left: 5px}
+	
 }
 
 

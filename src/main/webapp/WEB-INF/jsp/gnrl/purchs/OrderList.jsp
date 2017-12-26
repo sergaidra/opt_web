@@ -389,7 +389,7 @@ function lpad(s, padLength, padString){
       </div>
     </div>
     <div class="order_list">
-      <div class="title">결제목록<div class="stex"> 가로 터치 슬라이딩 해주세요 ← →</div></div>
+      <div class="title">결제목록</div>
       <div class="tb_box">
         <div class="tb_05_box">
           <table id="tblList" width="100%" class="tb_07 pc_view" >

@@ -1417,28 +1417,30 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 /****리스트 선택하기_리스트 : 우측 pc ****/
 @media only all and (min-width:1301px) {
 .list_box01{ width: 100%; float:left;  }
-.list_box01 ul li{ width: calc(25% - 15px); float:left; margin-right: 15px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px; cursor:pointer; }
-.list_box01 ul li .inline{ width: 100%; float:left; height: 100%; border: 0px solid #ccc; position: absolute; background-color:rgba(0, 0, 0, 0.1); z-index: 9999}
+.list_box01 ul li{ width: calc(25% - 15px); float:left; margin-right: 15px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px; cursor:pointer;  }
+.list_box01 ul li .inline{ width: 100%; float:left; height: 100%; border: 0px solid #ccc; position: absolute; background-color:rgba(0, 0, 0, 0.1); z-index: 9}
 .list_box01 ul li:nth-child(4n) { width: calc(25% -15px); float:left; margin-right: 0px  ; margin-bottom: 15px }
 .list_box01 ul li .photo{ width:100% ; float:left;height: 220px; overflow: hidden; background-size: cover}
-.list_box01 ul li .photo .imgbox{ width:100% ;height: 220px; background-size: cover; position: absolute; top: 0px; left: 0px}
+.list_box01 ul li .photo .imgbox{ width:100% ;height: 220px; background-size: cover !important; position: absolute; top: 0px; left: 0px}
 	
 .list_box01 ul li .photo img{ width:100%; }
-.list_box01 ul li .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
+.list_box01 ul li .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px;  position: relative }
 .list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
 .list_box01 ul li .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li .text_box .ch_icon{  position: absolute; top: 10px; right: 10px; background: url(/images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
+.list_box01 ul li .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(/images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
 .list_box01 ul li:hover{ width: calc(25% - 15px); float:left; margin-right: 15px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px}
 .list_box01 ul li:hover .inline{ width: 100%; float:left; height: 100%; border: 10px solid #ff9600; position: absolute; background-color:rgba(255, 255, 255, 0.0)}
 .list_box01 ul li:nth-child(4n):hover{ width: calc(25% -15px); float:left; margin-right: 0px  ; margin-bottom: 15px }
 	
 .list_box01 ul li:hover .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
+.list_box01 ul li:hover .photo .imgbox{ width:100% ; max-height: 250px;background-size: cover !important; position: absolute; top: 0px; left: 0px}
+	
 .list_box01 ul li:hover .photo img{ width:100%; }
-.list_box01 ul li:hover .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
+.list_box01 ul li:hover .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px; position: relative }
 .list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
 .list_box01 ul li:hover .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li:hover .text_box .ch_icon{  position: absolute; top: 10px; right: 10px; background: url(/images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
+.list_box01 ul li:hover .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(/images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
 	
 .list_box01 ul li.ch{ width: calc(25% - 15px); float:left; margin-right: 15px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px}
@@ -1446,55 +1448,62 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li.ch:nth-child(4n){ width: calc(25% -15px); float:left; margin-right: 0px ; margin-bottom: 15px  }
 .list_box01 ul li.ch .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
 .list_box01 ul li.ch .photo img{ width:100%; }
-.list_box01 ul li.ch .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
+.list_box01 ul li.ch .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px;  position: relative }
 .list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
 .list_box01 ul li.ch .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li.ch .text_box .ch_icon{  position: absolute; top: 10px; right: 10px; background: url(/images/sub/select_on.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
+.list_box01 ul li.ch .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(/images/sub/select_on.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 
 }
 /**** 테블릿 ****/
 @media all and (max-width:1300px) and (min-width:769px) {
 	.list_box01{ width: 100%; float:left;  }
-.list_box01 ul li{ width: calc(33.33% - 15px); float:left; margin-right: 15px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px}
-.list_box01 ul li .inline{ width: 100%; float:left; height: 100%; border: 0px solid #ccc; position: absolute; background-color:rgba(0, 0, 0, 0.1); }
+.list_box01 ul li{ width: calc(33.33% - 15px); float:left; margin-right: 15px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px; height: 320px}
+.list_box01 ul li .inline{ width: 100%; float:left; height: 100%; border: 0px solid #ccc; position: absolute; background-color:rgba(0, 0, 0, 0.1); z-index: 9 }
 .list_box01 ul li:nth-child(3n) { width: calc(33.33%-15px); float:left; margin-right: 0px  ; margin-bottom: 15px }
-.list_box01 ul li .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
+.list_box01 ul li .photo{ width:100% ; float:left;height: 220px; overflow: hidden}
+.list_box01 ul li .photo .imgbox{ width:100% ;height: 220px; background-size: cover !important; position: absolute; top: 0px; left: 0px}
+	
 .list_box01 ul li .photo img{ width:100%; }
 .list_box01 ul li .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
 .list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
 .list_box01 ul li .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li .text_box .ch_icon{  position: absolute; top: 10px; right: 10px; background: url(/images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
+.list_box01 ul li .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(/images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
 .list_box01 ul li:hover{ width: calc(33.33% - 15px); float:left; margin-right: 15px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px}
 .list_box01 ul li:hover .inline{ width: 100%; float:left; height: 100%; border: 10px solid #ff9600; position: absolute; background-color:rgba(255, 255, 255, 0.0)}
 .list_box01 ul li:nth-child(3n):hover{ width: calc(33.33% -15px); float:left; margin-right: 0px  ; margin-bottom: 15px }
 	
 .list_box01 ul li:hover .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
+.list_box01 ul li:hover .photo .imgbox{ width:100% ;height: 220px; background-size: cover !important; position: absolute; top: 0px; left: 0px}
+	
+.li
 .list_box01 ul li:hover .photo img{ width:100%; }
 .list_box01 ul li:hover .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
 .list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
 .list_box01 ul li:hover .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li:hover .text_box .ch_icon{  position: absolute; top: 10px; right: 10px; background: url(/images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
+.list_box01 ul li:hover .text_box .ch_icon{  position: absolute;top: 30px;right: 10px; background: url(/images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
 	
 .list_box01 ul li.ch{ width: calc(33.33% - 15px); float:left; margin-right: 15px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px}
-.list_box01 ul li.ch .inline{ width: 100%; float:left; height: 100%; border: 10px solid #ff9600; position: absolute; background-color:rgba(255, 255, 255, 0.0);}
+.list_box01 ul li.ch .inline{ width: 100%; float:left; height: 100%; border: 10px solid #ff9600; position: absolute; background-color:rgba(255, 255, 255, 0.0); z-index: 9}
 .list_box01 ul li.ch:nth-child(3n){ width: calc(33.33% -15px); float:left; margin-right: 0px ; margin-bottom: 15px  }
 .list_box01 ul li.ch .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
 .list_box01 ul li.ch .photo img{ width:100%; }
 .list_box01 ul li.ch .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
 .list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
 .list_box01 ul li.ch .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li.ch .text_box .ch_icon{  position: absolute; top: 10px; right: 10px; background: url(/images/sub/select_on.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
+.list_box01 ul li.ch .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(/images/sub/select_on.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 
 }
 /**** 리스트 선택하기_리스트: 우측 모바일 ****/
 @media only all and (max-width:768px) {
 .list_box01{ width: 100%; float:left;  }
 .list_box01 ul li{ width: calc(50% - 10px); float:left; margin:0px 5px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px;}
-.list_box01 ul li .inline{ width: 100%; float:left; height: 100%; border: 0px solid #ccc; position: absolute; background-color:rgba(0, 0, 0, 0.1); }
+.list_box01 ul li .inline{ width: 100%; float:left; height: 100%; border: 0px solid #ccc; position: absolute; background-color:rgba(0, 0, 0, 0.1); z-index: 9  }
 
-.list_box01 ul li .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
+.list_box01 ul li .photo{ width:100% ; float:left; height: 180px; overflow: hidden}
+.list_box01 ul li .photo .imgbox{ width:100% ;height: 180px; background-size: cover !important; position: absolute; top: 0px; left: 0px; background-position: center center !important}
+	
 .list_box01 ul li .photo img{ width:100%; }
 .list_box01 ul li .text_box{ width:100%; float: left; padding: 10px ;  position: relative; height: 80px; position: relative }
 .list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }
@@ -1967,7 +1976,7 @@ input.st_w2:checked:not([disabled]) + label:hover{	background-color: #fff;  font
 @media only all and (min-width:769px) {
 a.sbtn_01{ border: 1px solid #333; background-color: #666;  padding: 5px 10px; box-sizing: border-box; color: #fff; margin-top: 5px; display: inline-block}
 a:hover.sbtn_01{ border: 1px solid #333; background-color: #333;  padding: 5px 10px; box-sizing: border-box; color: #fff; margin-top: 5px; display: inline-block}
-a.sbtn_02{ border: 1px solid #333; background-color: #ddd;  padding: 5px 22px; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block}
+a.sbtn_02{ border: 1px solid #333; background-color: #ddd;  padding: 5px 22px; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block;line-height: 12px !important}
 a:hover.sbtn_02{ border: 1px solid #333; background-color: #ccc;  padding: 5px 22px; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block}
 a.sbtn_03{ border: 1px solid #333; background-color: #ddd;  padding: 5px 22px; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block}
 a:hover.sbtn_03{ border: 1px solid #333; background-color: #ccc;  padding: 5px 22px; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block}
@@ -1977,8 +1986,8 @@ a:hover.sbtn_03{ border: 1px solid #333; background-color: #ccc;  padding: 5px 2
 @media only all and (max-width:768px) {
 a.sbtn_01{ border: 1px solid #333; background-color: #666;  padding: 3px 5px; box-sizing: border-box; color: #fff; margin-top: 5px; display: inline-block; font-size: 11px}
 a:hover.sbtn_01{ border: 1px solid #333; background-color: #333;   padding: 3px 5px; box-sizing: border-box; color: #fff; margin-top: 5px; display: inline-block}
-a.sbtn_02{ border: 1px solid #333; background-color: #ddd;   padding: 3px 5px  !important; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block; font-size: 11px; line-height: 12px}
-a:hover.sbtn_02{ border: 1px solid #333; background-color: #ccc;  padding: 3px 5px !important; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block; line-height: 12px}
+a.sbtn_02{ border: 1px solid #333; background-color: #ddd;   padding: 0px 5px  !important; box-sizing: border-box; color: #333; display: inline-block; font-size: 11px; line-height: 12px !important}
+a:hover.sbtn_02{ border: 1px solid #333; background-color: #ccc;  padding: 3px 5px !important; box-sizing: border-box; color: #333;  display: inline-block; line-height: 12px!important}
 a.sbtn_03{ border: 1px solid #999; background-color: #ddd;   padding: 5px 5px  !important; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block; font-size: 11px; line-height: 12px; width:80px; text-align: center}
 a:hover.sbtn_03{ border: 1px solid #999; background-color: #ccc;  padding: 5px 5px !important; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block; line-height: 12px}
 
