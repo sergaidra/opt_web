@@ -10,13 +10,16 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.cs.service.LiveViewService;
 import kr.co.siione.gnrl.cs.service.NoticeService;
 import kr.co.siione.gnrl.goods.service.GoodsService;
 import kr.co.siione.gnrl.main.service.MainService;
+import kr.co.siione.gnrl.mber.service.LoginService;
 import kr.co.siione.utl.UserUtils;
 
 import org.springframework.stereotype.Controller;
@@ -33,6 +36,9 @@ public class MainController {
 
 	@Resource
     private MainService mainService;
+	
+	@Resource
+    private LoginService loginService;
 
 	@Resource
     private NoticeService noticeService;
@@ -56,6 +62,14 @@ public class MainController {
     	
         //model.addAttribute("expsrList1", expsrList1);
         //model.addAttribute("expsrList2", expsrList2);
+    	
+    	//접속이력
+    	HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+    	HashMap map2 = new HashMap();
+    	map2.put("esntl_id", esntl_id);
+    	map2.put("conect_ip", getUserIp(request));
+    	loginService.connectLog(map2);
     	
         model.addAttribute("main_yn", "Y");
     	
@@ -173,4 +187,18 @@ public class MainController {
     	lst.add(map);
     }
 
+	public static String getUserIp(HttpServletRequest request){
+		//HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+		String ip = request.getHeader("X-FORWARDED-FOR");
+		if (ip == null || ip.length() == 0) {
+		   ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0) {
+		   ip = request.getHeader("WL-Proxy-Client-IP");  // 웹로직
+		}
+		if (ip == null || ip.length() == 0) {
+		   ip = request.getRemoteAddr() ;
+		}
+		return ip;
+	}
 }

@@ -24,16 +24,16 @@ public class BannerManageServiceImpl implements BannerManageService {
 	private static final Logger LOG = LoggerFactory.getLogger(BannerManageServiceImpl.class);
 	
 	@Resource(name = "BannerDAO")
-	private BannerDAO mainImageDAO;
+	private BannerDAO bannerDAO;
 	
 	@Override
 	public List<Map<String, String>> selectBannerList(Map<String, String> param) throws Exception {
-		return mainImageDAO.selectBannerList(param);
+		return bannerDAO.selectBannerList(param);
 	}
 	
 	@Override
 	public void insertBanner(Map<String, String> param) throws Exception {
-		mainImageDAO.insertBanner(param);
+		bannerDAO.insertBanner(param);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -42,7 +42,7 @@ public class BannerManageServiceImpl implements BannerManageService {
 		List<Map<String, String>> fileParamList = (List<Map<String, String>>)params.get("fileParamList");
 		
 		for(Map<String, String> fileParam : fileParamList) {
-			mainImageDAO.insertBanner(fileParam);
+			bannerDAO.insertBanner(fileParam);
 		}
 	}	
 	
@@ -63,7 +63,7 @@ public class BannerManageServiceImpl implements BannerManageService {
 
 				UserUtils.log("[saveBanner]("+i+")", userJSONUtils.convertJson2Map(o));
 				
-				mainImageDAO.updateBanner(userJSONUtils.convertJson2Map(o));
+				bannerDAO.updateBanner(userJSONUtils.convertJson2Map(o));
 
 				//if (o.getString("CRUD").equals("C")) goodsNmprDAO.insertGoodsNmpr(userJSONUtils.convertJson2Map(o));
 				//if (o.getString("CRUD").equals("U")) goodsNmprDAO.updateGoodsNmpr(userJSONUtils.convertJson2Map(o));

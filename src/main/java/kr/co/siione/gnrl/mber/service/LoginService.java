@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 public interface LoginService {
     public HashMap userInfo(HashMap map) throws Exception;
     public void userLog(HashMap map) throws Exception;
+    public void connectLog(HashMap map) throws Exception;
     public int chkUserInfo(HashMap map) throws Exception;
     public String getMaxEsntlId(HashMap map) throws Exception;
 	public void insertUser(HashMap map) throws Exception;

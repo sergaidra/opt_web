@@ -40,6 +40,10 @@ public class LoginServiceImpl implements LoginService {
 	public void userLog(HashMap map) throws Exception {
         loginDAO.insertUserLog(map);
 	}
+	
+	public void connectLog(HashMap map) throws Exception {
+        loginDAO.insertConnectLog(map);
+	}	
 
     public int chkUserInfo(HashMap map) throws Exception {
         return loginDAO.chkUserInfo(map);
