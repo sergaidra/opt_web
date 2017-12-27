@@ -29,6 +29,13 @@
 	]]>
 	</insert>
 	
+	<insert id="gnrl.mber.insertConnectLog">
+	<![CDATA[
+		INSERT INTO TB_CONECT_HIST (CONECT_SN, CONECT_ID, CONECT_IP, CONECT_DT)
+		                    VALUES (SQ_CONECT_SN.NEXTVAL, #esntl_id#, #conect_ip#, SYSDATE)	
+	]]>
+	</insert>	
+	
 	<select id="gnrl.mber.chkUserInfo" parameterClass="hashMap" resultClass="Integer"> 
 		SELECT Count(1)
 		  FROM TB_USER

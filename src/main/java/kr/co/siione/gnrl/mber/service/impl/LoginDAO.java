@@ -15,6 +15,10 @@ public class LoginDAO extends EgovComAbstractDAO {
 	public void insertUserLog(HashMap map) throws Exception {
 		insert("gnrl.mber.insertUserLog", map);
 	}
+	
+	public void insertConnectLog(HashMap map) throws Exception {
+		insert("gnrl.mber.insertConnectLog", map);
+	}	
 
 	public int chkUserInfo(HashMap map) throws Exception {
 		return (Integer) selectByPk("gnrl.mber.chkUserInfo", map);

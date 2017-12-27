@@ -48,7 +48,8 @@
 	<select id="gnrl.faq.selectBbsList"  parameterClass="hashMap" resultClass="hashMap">
 		SELECT B.BBS_SN, B.SUBJECT, B.VIEWCNT, TO_CHAR(B.WRITNG_DT, 'YYYY-MM-DD HH24:MI') AS WRITNG_DT
 			, U.USER_NM AS USER_NM, SECRET_AT, B.WRITNG_ID
-			, B.SUBCATEGORY, B.CONTENTS
+			, B.SUBCATEGORY
+			, <![CDATA[REPLACE(REPLACE(REPLACE(B.CONTENTS,CHR(10),'<BR>'),CHR(13),' '), '  ', CHR(38)||'nbsp;'||CHR(38)||'nbsp;')]]> CONTENTS
 		FROM TB_BBS B
 			INNER JOIN TB_USER U ON B.WRITNG_ID = U.ESNTL_ID
 		WHERE 1 = 1

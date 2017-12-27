@@ -30,6 +30,7 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_time.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_nmpr.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_goods_kwrd.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_goods_hit.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_purchs.xml"/>	
 	<sqlMap resource="sqlmap/siione/mngr/tb_purchs_point.xml"/>	
 	

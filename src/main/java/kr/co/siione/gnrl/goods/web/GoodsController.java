@@ -1,8 +1,6 @@
 package kr.co.siione.gnrl.goods.web;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,12 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import kr.co.siione.gnrl.cmmn.service.FileService;
-import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.cs.service.QnaService;
 import kr.co.siione.gnrl.goods.service.GoodsService;
 import kr.co.siione.gnrl.purchs.service.WishService;
 import kr.co.siione.mngr.service.ArprtManageService;
 import kr.co.siione.mngr.service.CtyManageService;
+import kr.co.siione.mngr.service.HitManageService;
 import kr.co.siione.utl.UserUtils;
 
 import org.springframework.stereotype.Controller;
@@ -51,6 +49,9 @@ public class GoodsController {
 	
 	@Resource
 	private QnaService qnaService;
+	
+	@Resource
+	private HitManageService hitManageService;
 
     @RequestMapping(value="/category")
     public String category(HttpServletRequest request, HttpServletResponse response, ModelMap model, @RequestParam HashMap param) throws Exception {
@@ -235,6 +236,11 @@ public class GoodsController {
         	String review_count = String.valueOf(review.get("REVIEW_COUNT"));    
         	String review_score = String.valueOf(review.get("REVIEW_SCORE"));      
         	int wish_count = wishService.GoodsWishCount(map);
+        	
+        	//hit
+        	if(!param.containsKey("adminAt")) {
+        		hitManageService.insertGoodsHit(map);
+        	}
 
         	List<HashMap> lstNmpr = new ArrayList();
         	
