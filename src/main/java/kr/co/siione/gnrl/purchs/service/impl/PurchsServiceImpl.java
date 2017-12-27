@@ -45,4 +45,7 @@ public class PurchsServiceImpl implements PurchsService {
 		return purchsDAO.getOrderInfoGoodsTime(map);
 	}
 	
+	public List<HashMap> getCartInfoGoodsTime(HashMap map) throws Exception {
+		return purchsDAO.getCartInfoGoodsTime(map);
+	}
 }

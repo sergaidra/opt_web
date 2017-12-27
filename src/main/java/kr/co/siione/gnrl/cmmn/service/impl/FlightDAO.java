@@ -18,6 +18,10 @@ public class FlightDAO extends EgovComAbstractDAO {
         return list("gnrl.cmmn.selectCurrentFlight", map);
     }
     
+    public HashMap getFlight(HashMap map) throws Exception {
+        return (HashMap)selectByPk("gnrl.cmmn.getFlight", map);
+    }    
+    
     public int selectFlightSn() throws Exception {
         return (Integer)selectByPk("gnrl.cmmn.selectFlightSn", null);
     }

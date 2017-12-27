@@ -37,4 +37,7 @@ public class PurchsDAO extends EgovComAbstractDAO {
 		return list("gnrl.purchs.getOrderInfoGoodsTime", map);
 	}
 
+	public List<HashMap> getCartInfoGoodsTime(HashMap map) throws Exception {
+		return list("gnrl.purchs.getCartInfoGoodsTime", map);
+	}
 }

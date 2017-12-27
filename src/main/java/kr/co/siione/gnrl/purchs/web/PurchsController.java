@@ -160,85 +160,128 @@ public class PurchsController {
 
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		String purchs_sn = request.getParameter("purchs_sn");
+		String cart_sn = request.getParameter("cart_sn");
 		
 		if("".equals(esntl_id))
 			response.sendRedirect("/member/login/");
 
 		HashMap map = new HashMap();
 		map.put("esntl_id", esntl_id);
-		
-    	List<HashMap> lstFlight = flightService.selectCurrentFlight(map);
-    	List<HashMap> lstGoods = purchsService.getOrderInfoGoodsTime(map);    	
+		map.put("purchs_sn", purchs_sn);
+		map.put("cart_sn", cart_sn);
 
-    	if(lstFlight.size() > 0)
-    		model.addAttribute("flight", lstFlight.get(0));
+    	List<HashMap> lstGoods = null;
     	
+    	if(purchs_sn != null && !"".equals(purchs_sn))
+    		lstGoods = purchsService.getOrderInfoGoodsTime(map);
+    	else
+    		lstGoods = purchsService.getCartInfoGoodsTime(map);
+
+    	List<HashMap> lstFlight = new ArrayList();
+    	List<String> lstFlightSn = new ArrayList();
+
     	SimpleDateFormat format = new SimpleDateFormat("yyyymmdd"); 
     	SimpleDateFormat format2 = new SimpleDateFormat("yyyy-mm-dd"); 
 
     	LinkedHashMap<String, Object> mapDate = new LinkedHashMap<String, Object>();
     	
     	for(int i = 0; i < lstGoods.size(); i++) {
-   			Date dt1 = format.parse(String.valueOf(lstGoods.get(i).get("TOUR_DE")));
-   			String strDt = format.format(dt1);	    			
-   			String BEGIN_TIME = String.valueOf(lstGoods.get(i).get("BEGIN_TIME"));
-   			String END_TIME = String.valueOf(lstGoods.get(i).get("END_TIME"));
-   			String time = BEGIN_TIME.substring(0, 2) + ":" + BEGIN_TIME.substring(2, 4) + " ~ " + END_TIME.substring(0, 2) + ":" + END_TIME.substring(2, 4);
-   			String text = String.valueOf(lstGoods.get(i).get("GOODS_NM"));
-   			String options = String.valueOf(lstGoods.get(i).get("OPTIONS"));
+    		String strDt = "";
+    		String time = "";
+    		String text = "";
+    		String options = "";
+    		if("S".equals(String.valueOf(lstGoods.get(i).get("CL_SE")))) {
+    			// 숙박
+    			try	{
+    				Date dt1 = format.parse(String.valueOf(lstGoods.get(i).get("CHKIN_DE")));
+    				strDt = format.format(dt1);
+    			} catch(Exception ex) {
+    				strDt = "";
+    			}
+       			text = String.valueOf(lstGoods.get(i).get("GOODS_NM"));
+       			options = String.valueOf(lstGoods.get(i).get("OPTIONS"));
+    		} else {
+    			try	{
+    				Date dt1 = format.parse(String.valueOf(lstGoods.get(i).get("TOUR_DE")));
+    				strDt = format.format(dt1);	    			
+    			} catch(Exception ex) {
+    				strDt = "";
+    			}
+       			String BEGIN_TIME = String.valueOf(lstGoods.get(i).get("BEGIN_TIME"));
+       			String END_TIME = String.valueOf(lstGoods.get(i).get("END_TIME"));
+       			time = BEGIN_TIME.substring(0, 2) + ":" + BEGIN_TIME.substring(2, 4) + " ~ " + END_TIME.substring(0, 2) + ":" + END_TIME.substring(2, 4);
+       			text = String.valueOf(lstGoods.get(i).get("GOODS_NM"));
+       			options = String.valueOf(lstGoods.get(i).get("OPTIONS"));
+    		}
    			
           	HashMap mapGoods = new HashMap();
         	map.put("goods_code", String.valueOf(lstGoods.get(i).get("GOODS_CODE")));
         	map.put("esntl_id", esntl_id);
         	HashMap result = goodsService.getGoodsDetail(map);
-        	
-        	List<Map<String, String>> lstVoucher = new ArrayList();
-        	List<Map<String, String>> lstOpGuide = new ArrayList();
-        	List<Map<String, String>> lstEtcInfo = new ArrayList();
 
-        	map.put("file_code", result.get("FILE_CODE"));
-        	map.put("hotdeal_at", "N");
-        	map.put("recomend_at", "N");
-        	map.put("liveview_at", "N");
-        	List<HashMap> lstFile = fileService.getFileList(map);
+        	if(result != null) {
+            	List<Map<String, String>> lstVoucher = new ArrayList();
+            	List<Map<String, String>> lstOpGuide = new ArrayList();
+            	List<Map<String, String>> lstEtcInfo = new ArrayList();
 
-        	// 바우처
-        	if(!isEmpty(result, "VOCHR_TICKET_TY")) {
-        		Map<String, String> m = new HashMap<String, String>();
-        		m.put("text", "티켓형태");
-        		String ty = String.valueOf(result.get("VOCHR_TICKET_TY"));
-        		if("V".equals(ty))
-        			m.put("value", "E-바우처");
-        		else if("T".equals(ty))
-        			m.put("value", "E-티켓(캡쳐가능)");
-        		else if("E".equals(ty))
-        			m.put("value", "확정메일(캡쳐가능)");
-        		
-        		lstVoucher.add(m);
+            	map.put("file_code", result.get("FILE_CODE"));
+            	map.put("hotdeal_at", "N");
+            	map.put("recomend_at", "N");
+            	map.put("liveview_at", "N");
+            	List<HashMap> lstFile = fileService.getFileList(map);
+
+            	// 바우처
+            	if(!isEmpty(result, "VOCHR_TICKET_TY")) {
+            		Map<String, String> m = new HashMap<String, String>();
+            		m.put("text", "티켓형태");
+            		String ty = String.valueOf(result.get("VOCHR_TICKET_TY"));
+            		if("V".equals(ty))
+            			m.put("value", "E-바우처");
+            		else if("T".equals(ty))
+            			m.put("value", "E-티켓(캡쳐가능)");
+            		else if("E".equals(ty))
+            			m.put("value", "확정메일(캡쳐가능)");
+            		
+            		lstVoucher.add(m);
+            	}
+            	addList(result, "VOCHR_NTSS_REQRE_TIME", lstVoucher, "발권소요시간");
+            	addList(result, "VOCHR_USE_MTH", lstVoucher, "사용 방법");
+            	addList(result, "GUIDANCE_USE_TIME", lstOpGuide, "이용시간");
+            	addList(result, "GUIDANCE_REQRE_TIME", lstOpGuide, "소요시간");
+            	addList(result, "GUIDANCE_AGE_DIV", lstOpGuide, "연령구분");
+            	addList(result, "GUIDANCE_TOUR_SCHDUL", lstOpGuide, "여행일정");
+            	addList(result, "GUIDANCE_PRFPLC_LC", lstOpGuide, "공연장위치");
+            	addList(result, "GUIDANCE_EDC_CRSE", lstOpGuide, "교육과정");
+            	addList(result, "GUIDANCE_OPTN_MATTER", lstOpGuide, "옵션사항");
+            	addList(result, "GUIDANCE_PICKUP", lstOpGuide, "픽업");
+            	addList(result, "GUIDANCE_PRPARETG", lstOpGuide, "준비물");
+            	addList(result, "GUIDANCE_INCLS_MATTER", lstOpGuide, "포함사항");
+            	addList(result, "GUIDANCE_NOT_INCLS_MATTER", lstOpGuide, "불포함사항");
+            	addList(result, "ADIT_GUIDANCE", lstEtcInfo, "추가안내");
+            	addList(result, "ATENT_MATTER", lstEtcInfo, "유의사항");
+            	addList(result, "CHANGE_REFND_REGLTN", lstEtcInfo, "변경/환불규정"); 	
+            	
+            	result.put("lstVoucher", lstVoucher);
+            	result.put("lstOpGuide", lstOpGuide);
+            	result.put("lstEtcInfo", lstEtcInfo);
+            	result.put("lstFile", lstFile);        	        		
         	}
-        	addList(result, "VOCHR_NTSS_REQRE_TIME", lstVoucher, "발권소요시간");
-        	addList(result, "VOCHR_USE_MTH", lstVoucher, "사용 방법");
-        	addList(result, "GUIDANCE_USE_TIME", lstOpGuide, "이용시간");
-        	addList(result, "GUIDANCE_REQRE_TIME", lstOpGuide, "소요시간");
-        	addList(result, "GUIDANCE_AGE_DIV", lstOpGuide, "연령구분");
-        	addList(result, "GUIDANCE_TOUR_SCHDUL", lstOpGuide, "여행일정");
-        	addList(result, "GUIDANCE_PRFPLC_LC", lstOpGuide, "공연장위치");
-        	addList(result, "GUIDANCE_EDC_CRSE", lstOpGuide, "교육과정");
-        	addList(result, "GUIDANCE_OPTN_MATTER", lstOpGuide, "옵션사항");
-        	addList(result, "GUIDANCE_PICKUP", lstOpGuide, "픽업");
-        	addList(result, "GUIDANCE_PRPARETG", lstOpGuide, "준비물");
-        	addList(result, "GUIDANCE_INCLS_MATTER", lstOpGuide, "포함사항");
-        	addList(result, "GUIDANCE_NOT_INCLS_MATTER", lstOpGuide, "불포함사항");
-        	addList(result, "ADIT_GUIDANCE", lstEtcInfo, "추가안내");
-        	addList(result, "ATENT_MATTER", lstEtcInfo, "유의사항");
-        	addList(result, "CHANGE_REFND_REGLTN", lstEtcInfo, "변경/환불규정"); 	
         	
-        	result.put("lstVoucher", lstVoucher);
-        	result.put("lstOpGuide", lstOpGuide);
-        	result.put("lstEtcInfo", lstEtcInfo);
-        	result.put("lstFile", lstFile);        	
-        	
-   			addMySchedule(mapDate, strDt, time, text, options, result);
+   			addMySchedule(mapDate, strDt, time, text, options, result, lstGoods.get(i));
+   			
+   			// 항공정보
+   			if(lstGoods.get(i).get("FLIGHT_SN") != null) {
+   				String flight_sn = String.valueOf(lstGoods.get(i).get("FLIGHT_SN"));
+   				if(!lstFlightSn.contains(flight_sn)) {
+   	   				HashMap mFlight = new HashMap();
+   	   				mFlight.put("flight_sn", flight_sn);
+   	   				HashMap mapFlight = flightService.getFlight(mFlight);
+   	   				if(mapFlight != null)
+   	   					lstFlight.add(mapFlight);
+   	   				lstFlightSn.add(flight_sn);
+   				}
+   			}
     	}	
     	
     	List<Map> lstReservation = new ArrayList();
@@ -246,12 +289,16 @@ public class PurchsController {
     	
     	for (Map.Entry<String,Object> entry : mapDate.entrySet()) {
     		String strDt = entry.getKey();
-    		Date dt1 = format.parse(strDt);
-    		Calendar cal = Calendar.getInstance();
-    		cal.setTime(dt1);
-    		int dayNum = cal.get(Calendar.DAY_OF_WEEK);
-    		
-    		strDt = format2.format(dt1) + "(" + weekNm[dayNum - 1] + ")";
+    		try {
+        		Date dt1 = format.parse(strDt);
+        		Calendar cal = Calendar.getInstance();
+        		cal.setTime(dt1);
+        		int dayNum = cal.get(Calendar.DAY_OF_WEEK);
+        		
+        		strDt = format2.format(dt1) + "(" + weekNm[dayNum - 1] + ")";
+    		} catch(Exception ex) {
+    			
+    		}
     		List lstItem = (List)entry.getValue();
     		Map<String, Object> m = new HashMap<String, Object>();
     		m.put("day", strDt);
@@ -261,11 +308,12 @@ public class PurchsController {
 
     	
     	model.addAttribute("lstReservation", lstReservation);
+   		model.addAttribute("lstFlight", lstFlight);
 		
 		return "gnrl/purchs/OrderInfo";
 	}
 
-    private void addMySchedule(LinkedHashMap<String, Object> mapDate, String dt, String time, String text, String options, HashMap goods) {
+    private void addMySchedule(LinkedHashMap<String, Object> mapDate, String dt, String time, String text, String options, HashMap goods, HashMap purchs) {
     	if(!mapDate.containsKey(dt))
     		mapDate.put(dt, new ArrayList());
     	List lst = (List)mapDate.get(dt);
@@ -274,6 +322,7 @@ public class PurchsController {
     	map.put("text", text);
     	map.put("options", options);
     	map.put("goods", goods);
+    	map.put("purchs", purchs);    	
     	lst.add(map);
     }
 

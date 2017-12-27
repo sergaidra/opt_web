@@ -19,37 +19,78 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value='/css/member.css'/>" media="all">
 	<link rel="stylesheet" type="text/css" href="<c:url value='/css/mail.css'/>" media="all">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	
+
+	<script src="<c:url value='/jq/pdf/bluebird.min.js' />" type="text/javascript"></script>
+	<script src="<c:url value='/jq/pdf/html2canvas.min.js' />" type="text/javascript"></script>
+	<script src="<c:url value='/jq/pdf/jspdf.min.js' />" type="text/javascript"></script>
+
+<script>
+function savePDF() {
+	html2canvas(document.getElementById("wrap"), {
+		  onrendered: function(canvas) {
+		 
+		    // 캔버스를 이미지로 변환
+		    var imgData = canvas.toDataURL('image/png');
+		     
+		    var imgWidth = 210; // 이미지 가로 길이(mm) A4 기준
+		    var pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
+		    var imgHeight = canvas.height * imgWidth / canvas.width;
+		    var heightLeft = imgHeight;
+		     
+		        var doc = new jsPDF('p', 'mm');
+		        var position = 0;
+		         
+		        // 첫 페이지 출력
+		        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+		        heightLeft -= pageHeight;
+		         
+		        // 한 페이지 이상일 경우 루프 돌면서 출력
+		        while (heightLeft >= 20) {
+		          position = heightLeft - imgHeight;
+		          doc.addPage();
+		          doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+		          heightLeft -= pageHeight;
+		        }
+		 
+		        // 파일 저장
+		        doc.save('sample_A4.pdf');
+		  }
+		});	
+}
+</script>	
 </head>
 
-<div class="mail_box">
+<body>
+<div id="wrap" class="mail_box">
 	<div class="head_box"><img src="<c:url value='/images/mail/mail_a_01.jpg'/>" width="223" height="53" alt=""/>
-		<div class="go_btn"><a href="#" class="btnst1">저장하기</a><a href="#" class="btnst2">인쇄하기</a></div>
+		<div class="go_btn"><a href="javascript:savePDF();" class="btnst1">저장하기</a><a href="javascript:window.print();" class="btnst2">인쇄하기</a></div>
 	</div>
 	<div class="tb_box ">
-		<div class="tb_01_box">
-			<table class="tb_01">
-				<col width="20%">
-				<col width="">
-				<tbody>
-				<tr>
-					<td rowspan="2">출국</td>
-					<td class="left">${flight.DTRMC_START_ARPRT_NM} &rarr; ${flight.DTRMC_ARVL_ARPRT_NM} (항공편명:${flight.DTRMC_FLIGHT})</td>
-				</tr>
-				<tr>
-					<td class="left">[출발] ${flight.DTRMC_START_DT} [도착] ${flight.DTRMC_ARVL_DT}<br></td>
-				</tr>
-				<tr>
-					<td rowspan="2">입국</td>
-					<td class="left">${flight.HMCMG_START_ARPRT_NM} &rarr; ${flight.HMCMG_ARVL_ARPRT_NM} (항공편명:${flight.HMCMG_FLIGHT})</td>
-				</tr>
-				<tr>
-					<td class="left">[출발] ${flight.HMCMG_START_DT} [도착] ${flight.HMCMG_ARVL_DT}<br></td>
-				</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="sp_box1"></div>
+		<c:forEach var="flight" items="${lstFlight}">
+			<div class="tb_01_box">
+				<table class="tb_01">
+					<col width="20%">
+					<col width="">
+					<tbody>
+					<tr>
+						<td rowspan="2">출국</td>
+						<td class="left">${flight.DTRMC_START_ARPRT_NM} &rarr; ${flight.DTRMC_ARVL_ARPRT_NM} (항공편명:${flight.DTRMC_FLIGHT})</td>
+					</tr>
+					<tr>
+						<td class="left">[출발] ${flight.DTRMC_START_DT} [도착] ${flight.DTRMC_ARVL_DT}<br></td>
+					</tr>
+					<tr>
+						<td rowspan="2">입국</td>
+						<td class="left">${flight.HMCMG_START_ARPRT_NM} &rarr; ${flight.HMCMG_ARVL_ARPRT_NM} (항공편명:${flight.HMCMG_FLIGHT})</td>
+					</tr>
+					<tr>
+						<td class="left">[출발] ${flight.HMCMG_START_DT} [도착] ${flight.HMCMG_ARVL_DT}<br></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="sp_box1"></div>
+		</c:forEach>
 		<div class="tb_01_box">
 			<table class="tb_01">
 				<col width="22%">
@@ -80,8 +121,32 @@
 		</div>
 		<div class="sp_box1"></div>
 		<div class="title">
-			<i class="material-icons">&#xE147;</i>  <div class="tx"><em>${list.text} : </em> ${list.options}</div>
+			<i class="material-icons">&#xE147;</i>  <div class="tx"><em>${list.text} : </em> <c:out value="${fn:replace(list.options, '<br/>', ', ')}"/></div>
 		</div>
+		<c:if test="${list.purchs.PICKUP_PLACE != null }">
+			<div class="sp_box1"></div>
+			<div class="title">
+				<i class="material-icons">&#xE147;</i>  <div class="tx"><em>픽업장소 : </em> ${list.purchs.PICKUP_PLACE}</div>
+			</div>
+		</c:if>
+		<c:if test="${list.purchs.DROP_PLACE != null }">
+			<div class="sp_box1"></div>
+			<div class="title">
+				<i class="material-icons">&#xE147;</i>  <div class="tx"><em>드랍장소 : </em> ${list.purchs.DROP_PLACE}</div>
+			</div>
+		</c:if>
+		<c:if test="${list.purchs.USE_NMPR != null }">
+			<div class="sp_box1"></div>
+			<div class="title">
+				<i class="material-icons">&#xE147;</i>  <div class="tx"><em>이용 인원 : </em> ${list.purchs.USE_NMPR}</div>
+			</div>
+		</c:if>
+		<c:if test="${list.purchs.USE_PD != null }">
+			<div class="sp_box1"></div>
+			<div class="title">
+				<i class="material-icons">&#xE147;</i>  <div class="tx"><em>이용 기간 : </em> ${list.purchs.USE_PD}</div>
+			</div>
+		</c:if>
 		<div class="incont mb_20">
 			<c:if test="${fn:length(list.goods.lstFile) > 0}">
 			<c:set var="doneLoop" value="false"/>

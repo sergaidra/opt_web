@@ -23,6 +23,10 @@ public class FlightServiceImpl implements FlightService {
     public List selectCurrentFlight(HashMap map) throws Exception {
     	return flightDAO.selectCurrentFlight(map);
     }
+    
+    public HashMap getFlight(HashMap map) throws Exception {
+    	return flightDAO.getFlight(map);
+    }
 
     public void insertFlight(HashMap map) throws Exception {
     	if(map.containsKey("flight_sn") && !"".equals(map.get("flight_sn"))) {

@@ -139,6 +139,8 @@ function paymentCart() {
 		return;
 	}
 	
+	lst = lst.substr(0, lst.length - 1);
+
 	if(!confirm("결제하겠습니까?"))
 		return;
 	
@@ -228,7 +230,22 @@ function addWish() {
 }
 
 function orderInfo() {
-	window.open("<c:url value='/purchs/OrderInfo'/>");
+	var lst = "";
+
+	for(var cnt = 0; cnt < cartInfo.length; cnt++) {
+		if(cartInfo[cnt].chk == true) {
+			lst += cartInfo[cnt].cart_sn + ",";
+		}
+	}
+
+	if(lst == "") {
+		alert("선택 건이 없습니다.");
+		return;
+	}
+	
+	lst = lst.substr(0, lst.length - 1);
+	
+	window.open("<c:url value='/purchs/OrderInfo'/>?cart_sn=" + lst);
 }
 
 function numberWithCommas(x) {

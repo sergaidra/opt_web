@@ -89,7 +89,7 @@ function search(pageNo) {
         		{
         			for(var cnt2 = 0; cnt2 < data.list[cnt].cartlist.length; cnt2++) {
                 		var tr = $("<tr></tr>");
-                		var td1 = $("<td rowspan=" + (data.list[cnt].cartlist.length + 1) + "><span onclick='orderInfo();' style='cursor:pointer;'>" + data.list[cnt].PURCHS_SN + "</span></td>");
+                		var td1 = $("<td rowspan=" + (data.list[cnt].cartlist.length + 1) + "><span onclick='orderInfo(" + data.list[cnt].PURCHS_SN + ");' style='cursor:pointer;'>" + data.list[cnt].PURCHS_SN + "</span></td>");
                 		var td2 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].cartlist[cnt2].FILE_CODE + "' width='150' alt='''/></div></td>");
                 		var td3 = $("<td class='left'></td>");
                 		var td4 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">" + dateWithHyphen(data.list[cnt].PURCHS_DE) + "</td>");
@@ -261,8 +261,8 @@ function cancelPurchs(purchs_sn) {
 	});			
 }
 
-function orderInfo() {
-	window.open("<c:url value='/purchs/OrderInfo'/>");
+function orderInfo(purchs_sn) {
+	window.open("<c:url value='/purchs/OrderInfo'/>?purchs_sn=" + purchs_sn);
 }
 
 function timeWithColon(x) {
