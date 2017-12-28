@@ -79,3 +79,6 @@ function go_08_03_01() {	alert("준비중입니다."); }
 
 // 여행 상담 //
 function go_05_01_01() {	document.location.href="/bbs/list";}
+
+// ADMIN //
+function go_09_01_01() {	document.location.href="/mngr/";}

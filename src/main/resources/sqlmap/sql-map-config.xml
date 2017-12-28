@@ -35,6 +35,7 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_purchs_point.xml"/>	
 	
 	<sqlMap resource="sqlmap/siione/mngr/tb_user.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_conect_hist.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_menu.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_author_menu.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_cmmn_code.xml"/>

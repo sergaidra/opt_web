@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="admin">
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<typeAlias alias="string" type="java.lang.String"/>
+
+	<sql id="ConectHistDAO.pagingQueryStart">
+	  SELECT TT.* FROM (
+	</sql>
+	
+	<sql id="ConectHistDAO.pagingQueryEnd">
+	  ) TT WHERE ROWSEQ BETWEEN #start# + 1 AND #page# * #limit#
+	</sql>
+	
+	<sql id="ConectHistDAO.whereForSelectConectHistList">
+		   AND CONECT_DT BETWEEN TO_DATE(#FR_CONECT_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_CONECT_DT#, 'YYYY-MM-DD')+0.99999
+	</sql>
+		
+	<select id="ConectHistDAO.selectConectHistListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
+		SELECT COUNT(CONECT_SN)
+		  FROM TB_CONECT_HIST
+		 WHERE 1 = 1
+		<include refid="ConectHistDAO.whereForSelectConectHistList"/>
+	</select>
+
+	<select id="ConectHistDAO.selectConectHistList" parameterClass="hashMap" resultClass="hashMap">
+		<include refid="ConectHistDAO.pagingQueryStart"/><![CDATA[
+		SELECT ROW_NUMBER() OVER(ORDER BY CONECT_SN DESC) AS ROWSEQ
+		     , CONECT_SN
+		     , CONECT_ID
+		     , (SELECT X.USER_NM FROM TB_USER X WHERE X.ESNTL_ID = A.CONECT_ID) USER_NM
+		     , CONECT_IP
+		     , TO_CHAR(CONECT_DT, 'YYYY-MM-DD HH24:MI:SS') CONECT_DT
+		  FROM TB_CONECT_HIST A 
+		 WHERE 1 = 1]]>
+		<include refid="ConectHistDAO.whereForSelectConectHistList"/>
+		<include refid="ConectHistDAO.pagingQueryEnd"/>
+	</select>
+		
+	<select id="ConectHistDAO.selectConectHistStatsDay" parameterClass="hashMap" resultClass="hashMap">
+		SELECT TO_CHAR(CONECT_DT, 'YYYY-MM-DD') CONECT_DT
+		     , COUNT(CONECT_SN) CONECT_CNT
+		     , SUM(DECODE(CONECT_ID, NULL, 0, '', 0, 1)) CONECT_MBER_CNT
+		     , SUM(DECODE(CONECT_ID, NULL, 1, '', 1, 0)) CONECT_NOT_MBER_CNT
+		  FROM TB_CONECT_HIST
+		 WHERE 1 = 1
+		<include refid="ConectHistDAO.whereForSelectConectHistList"/>
+		 GROUP BY TO_CHAR(CONECT_DT, 'YYYY-MM-DD')
+		 ORDER BY CONECT_DT
+	</select>
+	
+	<select id="ConectHistDAO.selectConectHistStatsMonth" parameterClass="hashMap" resultClass="hashMap">
+		SELECT TO_CHAR(CONECT_DT, 'YYYY-MM') CONECT_DT
+		     , COUNT(CONECT_SN) CONECT_CNT
+		     , SUM(DECODE(CONECT_ID, NULL, 0, '', 0, 1)) CONECT_MBER_CNT
+		     , SUM(DECODE(CONECT_ID, NULL, 1, '', 1, 0)) CONECT_NOT_MBER_CNT
+		  FROM TB_CONECT_HIST
+		 WHERE 1 = 1
+		<include refid="ConectHistDAO.whereForSelectConectHistList"/>
+		 GROUP BY TO_CHAR(CONECT_DT, 'YYYY-MM')
+		 ORDER BY CONECT_DT
+	</select>	
+
+</sqlMap>
