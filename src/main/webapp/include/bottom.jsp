@@ -4,9 +4,8 @@
       <div class="inner2">
     <div class="bt_right">
       <div class="tx1">CUSTOMER CENTER</div>
-          <div class="tx2">0000-0000</div>
-          <div class="tx3">토/일요일 및 공휴일은 휴일<br>
-        평일 : 09:00~18:00 </div>
+          <div class="tx2">(63)927-377-7293<br>070-7422-0153<br>kakao ID : onepasstour</div>
+          <div class="tx3">토/일요일 및 공휴일은 휴일<br>평일 : 09:00~18:00 </div>
           <div class="sns"> <img src="<c:url value='/images/com/sns_03.png' />"  alt=""/> <img src="<c:url value='/images/com/sns_02.png' />"  alt=""/> <img src="<c:url value='/images/com/sns_01.png' />"  alt=""/></div>
         </div>
     <div class="bt_left">
