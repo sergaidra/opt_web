@@ -88,13 +88,64 @@ function write() {
 }
 
 function deleteBbs() {
-	
 	var url = "<c:url value='/bbs/deleteaction'/>";
 	var param = {};
 	param.bbs_sn = $("#bbs_sn").val();
 	console.log(param);
 	
 	if(!confirm("삭제하겠습니까?"))
+		return;
+		
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( param ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+				alert("삭제되었습니다.");
+				go_05_01_01();
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				go_login();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
+
+function deletebbsadmin() {
+	if($.trim($(".featherlight #answer_subject").val()) == "") {
+		alert("제목을 입력해주세요.");
+		$(".featherlight #answer_subject").focus();
+		return ;
+	}
+	if($.trim($(".featherlight #answer_contents").val()) == "") {
+		alert("내용을 입력해주세요.");
+		$(".featherlight #answer_contents").focus();
+		return ;
+	}
+	
+	var url = "<c:url value='/bbs/deleteadminaction'/>";
+	var param = {};
+	param.bbs_sn = $("#bbs_sn").val();
+	param.category = $("#category").val();
+	param.subject = $.trim($(".featherlight #answer_subject").val());
+	param.contents = $.trim($(".featherlight #answer_contents").val());
+	param.secret_at = "Y";
+	param.subcategory = $("#subcategory").val();
+	param.parent_bbs_sn = $.trim($("#bbs_sn").val());
+	console.log(param);
+	
+	if(!confirm("사용자글을 삭제하겠습니까?"))
 		return;
 		
 	$.ajax({
@@ -488,7 +539,7 @@ function writeanswer() {
           </tbody>
         </table>
       </div>
-      <div class="popup_btn"><a href="javascript:writeanswer();">등록하기</a></div>
+      <div class="popup_btn"><a href="javascript:writeanswer();">등록하기</a>&nbsp;&nbsp;<a href="javascript:deletebbsadmin();">사용자글 삭제하기</a></div>
     </div>
   </div>
 </div>

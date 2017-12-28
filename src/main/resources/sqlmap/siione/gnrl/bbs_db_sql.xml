@@ -6,7 +6,13 @@
 	<typeAlias alias="int" type="java.lang.Integer"/>
 
 	<sql id="whereBbsList">
-		AND CATEGORY = #category# AND DELETE_AT = 'N' AND PARENT_BBS_SN IS NULL
+		AND CATEGORY = #category# AND PARENT_BBS_SN IS NULL
+		<isEmpty property="author_cl">
+			AND (DELETE_AT = 'N' OR ( DELETE_AT = 'A' AND WRITNG_ID = #esntl_id#))		
+		</isEmpty>
+		<isNotEmpty property="author_cl">
+			AND DELETE_AT IN ('N', 'A')		
+		</isNotEmpty>
 	 	<isNotEmpty property="keyword">
 			AND (UPPER(SUBJECT) LIKE '%' || UPPER(#keyword#) || '%' OR UPPER(CONTENTS) LIKE '%' || UPPER(#keyword#) || '%' )
 	 	</isNotEmpty>
@@ -26,7 +32,7 @@
 	</update>	
 
 	<update id="gnrl.bbs.deleteBbs" parameterClass="hashMap">
-		UPDATE TB_BBS SET DELETE_AT = 'Y'
+		UPDATE TB_BBS SET DELETE_AT = #delete_at#
 		WHERE BBS_SN = #bbs_sn#
 	</update>	
 
@@ -56,7 +62,7 @@
 	<select id="gnrl.bbs.selectBbsList"  parameterClass="hashMap" resultClass="hashMap">
 		SELECT B.BBS_SN, B.SUBJECT, B.VIEWCNT, TO_CHAR(B.WRITNG_DT, 'YYYY-MM-DD HH24:MI') AS WRITNG_DT, U.USER_NM AS USER_NM, SECRET_AT, B.WRITNG_ID
 			, B.SUBCATEGORY, CASE B.SUBCATEGORY WHEN 'R' THEN '예약문의' WHEN 'G' THEN '상품문의' WHEN 'F' THEN '환불문의' ELSE '' END AS SUBCATEGORYNM
-			, 1 AS LVL
+			, 1 AS LVL, B.DELETE_AT
 		FROM (
 			SELECT BBS_SN, ROWNUM AS RNUM
 			FROM (

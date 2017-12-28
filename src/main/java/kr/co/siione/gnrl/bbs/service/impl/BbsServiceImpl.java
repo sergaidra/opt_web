@@ -23,6 +23,11 @@ public class BbsServiceImpl implements BbsService {
     	bbsDAO.deleteBbs(map);
     }
 
+    public void deleteAdminBbs(HashMap map) throws Exception {
+    	bbsDAO.insertBbs(map);
+    	bbsDAO.deleteBbs(map);
+    }
+
     public void updateBbs(HashMap map) throws Exception {
     	bbsDAO.updateBbs(map);
     }

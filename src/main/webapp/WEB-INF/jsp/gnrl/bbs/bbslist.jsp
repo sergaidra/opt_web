@@ -52,7 +52,7 @@ function search(pageNo) {
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
         		{
             		var tr = null;
-            		if(data.list[cnt].SECRET_AT == "Y" && data.list[cnt].WRITNG_ID != "${esntl_id}" && !("${author_cl}" == "A" || "${author_cl}" == "M")) {
+            		if(data.list[cnt].SECRET_AT == "Y" && data.list[cnt].ORIGIN_WRITNG_ID != "${esntl_id}" && !("${author_cl}" == "A" || "${author_cl}" == "M")) {
         				tr = $("<tr onclick='javascript:viewSecret(" + data.list[cnt].BBS_SN + ");'></tr>");
             		} else {
         				tr = $("<tr onclick='javascript:viewBbs(" + data.list[cnt].BBS_SN + ");'></tr>");
@@ -61,7 +61,14 @@ function search(pageNo) {
             		var td2 = null;
             		if(data.list[cnt].LVL == 1) {
                 		td1 = $("<td>" + (Number(data.startIdx) + rowCnt) + "</td>");
-                		td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "</td>");
+                		if("${author_cl}" == "A" || "${author_cl}" == "M") {
+                			if(data.list[cnt].DELETE_AT == 'A')
+                    			td2 = $("<td class='left'>[삭제] [" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "</td>");
+                			else
+                    			td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "</td>");
+                		} else {
+                    		td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "</td>");
+                		}
                 		rowCnt++;
             		} else {
             			var space = "";
@@ -84,7 +91,7 @@ function search(pageNo) {
         		}
         		{
             		var tr = null;
-            		if(data.list[cnt].SECRET_AT == "Y" && data.list[cnt].WRITNG_ID != "${esntl_id}" && !("${author_cl}" == "A" || "${author_cl}" == "M")) {
+            		if(data.list[cnt].SECRET_AT == "Y" && data.list[cnt].ORIGIN_WRITNG_ID != "${esntl_id}" && !("${author_cl}" == "A" || "${author_cl}" == "M")) {
         				tr = $("<tr onclick='javascript:viewSecret(" + data.list[cnt].BBS_SN + ");'></tr>");
             		} else {
         				tr = $("<tr onclick='javascript:viewBbs(" + data.list[cnt].BBS_SN + ");'></tr>");

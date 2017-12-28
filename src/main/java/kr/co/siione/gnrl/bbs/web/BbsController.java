@@ -90,14 +90,17 @@ public class BbsController {
 
     	HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		String author_cl = UserUtils.nvl((String)session.getAttribute("author_cl"));
 		
 		String category = UserUtils.nvl(param.get("category"));
 		String keyword = UserUtils.nvl(param.get("keyword"));
 		int hidPage = Integer.parseInt(UserUtils.nvl(param.get("hidPage"))); // 페이지번호
 		int startIdx = (hidPage - 1) * 10 + 1;
 		int endIdx = hidPage * 10;
-
+		
     	map.put("esntl_id", esntl_id);   
+    	if("A".equals(author_cl) || "M".equals(author_cl))
+    		map.put("author_cl", author_cl);   
     	map.put("hidPage", hidPage);
     	map.put("startIdx", startIdx);
     	map.put("endIdx", endIdx);
@@ -110,14 +113,17 @@ public class BbsController {
     	List<HashMap> bbsList = new ArrayList();
     	List<HashMap> list = bbsService.selectBbsList(map);    	
     	for(int i = 0; i < list.size(); i++) {
+    		list.get(i).put("ORIGIN_WRITNG_ID", list.get(i).get("WRITNG_ID"));
     		bbsList.add(list.get(i));
     		
     		HashMap mapChild = new HashMap();
     		mapChild.put("bbs_sn", list.get(i).get("BBS_SN"));
     		List<HashMap> lstChild = bbsService.selectChildBbsList(mapChild);
     		if(lstChild.size() > 0) {
-    			for(int j = 0; j < lstChild.size(); j++)
+    			for(int j = 0; j < lstChild.size(); j++) {
+    				lstChild.get(j).put("ORIGIN_WRITNG_ID", list.get(i).get("WRITNG_ID"));
     				bbsList.add(lstChild.get(j));
+    			}
     		}
     	}
     	mapResult.put("list", bbsList);
@@ -222,7 +228,7 @@ public class BbsController {
 			HashMap view = bbsService.viewBbs(map);
 			bbsService.updateBbsViewCnt(map);
 			
-			String contents = String.valueOf(view.get("CONTENTS")).replaceAll("\\n", "<br>");
+			String contents = String.valueOf(view.get("CONTENTS")).replaceAll("\\n", "<br>").replaceAll("  ", "&nbsp;&nbsp;");
 			view.put("CONTENTS", contents);
 			model.addAttribute("view", view);
 			
@@ -258,8 +264,56 @@ public class BbsController {
 
 			HashMap map = new HashMap();	
 			map.put("bbs_sn", bbs_sn);			
+			map.put("delete_at", "Y");
 
 			UserUtils.log("[deleteaction-map]", map);
+			
+			bbsService.deleteBbs(map);
+				
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;
+	}
+	
+	@RequestMapping(value="/deleteadminaction")
+	public @ResponseBody ResponseVo deleteadminaction(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+			HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+
+			String bbs_sn = UserUtils.nvl(param.get("bbs_sn"));
+			String category = UserUtils.nvl(param.get("category"));
+			String subject = UserUtils.nvl(param.get("subject"));
+			String contents = UserUtils.nvl(param.get("contents"));
+			String secret_at = UserUtils.nvl(param.get("secret_at"));
+			String subcategory = UserUtils.nvl(param.get("subcategory"));
+			String parent_bbs_sn = UserUtils.nvl(param.get("parent_bbs_sn"));
+
+			HashMap map = new HashMap();	
+			map.put("esntl_id", esntl_id);			
+			map.put("category", category);			
+			map.put("subject", subject);			
+			map.put("contents", contents);	
+			map.put("secret_at", secret_at);	
+			map.put("subcategory", subcategory);	
+			map.put("parent_bbs_sn", parent_bbs_sn);	
+			map.put("bbs_sn", bbs_sn);			
+			map.put("delete_at", "A");
+
+			UserUtils.log("[deleteadminaction-map]", map);
 			
 			bbsService.deleteBbs(map);
 				
