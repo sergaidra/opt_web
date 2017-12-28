@@ -97,12 +97,9 @@ function search(pageNo) {
                 		var td6 = null;
                 		var td7 = null;                		
                 		
-                		var theDate = "";
                 		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S') {
-                			theDate = data.list[cnt].cartlist[cnt2].CHKIN_DE;
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE) + "]</div>");
                 		} else {
-                			theDate = data.list[cnt].cartlist[cnt2].TOUR_DE;
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE) + " " + timeWithColon(data.list[cnt].cartlist[cnt2].BEGIN_TIME) + " ~ " + timeWithColon(data.list[cnt].cartlist[cnt2].END_TIME) + "]</div>");
                 		}
                 		$(td3).append("<div class='tx2'>" + data.list[cnt].cartlist[cnt2].GOODS_NM + "</div>");
@@ -118,19 +115,24 @@ function search(pageNo) {
                 		}
                 		$(td3).append(td3sub);
                 		
-                		if(getToday() < data.list[cnt].cartlist[cnt2].BEGINDT) {
+                		var today = getToday(); 
+                		if(today < data.list[cnt].cartlist[cnt2].BEGINDT) {
                 			td6 = $("<td rowspan=" + data.list[cnt].cartlist.length + "><a href='javascript:cancelPurchs(\"" + data.list[cnt].PURCHS_SN + "\");' class='sbtn_01'>취소하기</a></td>");
                 		} else {
                 			td6 = $("<td rowspan=" + data.list[cnt].cartlist.length + "></td>");
                 		}
                 		
-                		if(theDate < getToday()) {
+                		if(data.list[cnt].cartlist[cnt2].ENDDT <= today && today <= data.list[cnt].cartlist[cnt2].REVIEWDT) {
                 			if(data.list[cnt].cartlist[cnt2].EXISTREVIEW == "Y")
-                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\");' class='sbtn_01' >후기수정</a></td>");
+                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\");' class='sbtn_01' >후기수정</a></td>");
                 			else
-                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\");' class='sbtn_01' >후기쓰기</a></td>");
-                		} else
-                			td7 = $("<td ></td>");
+                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\");' class='sbtn_01' >후기쓰기</a></td>");
+                		} else {
+                			if(data.list[cnt].cartlist[cnt2].EXISTREVIEW == "Y")
+                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"R\");' class='sbtn_01' >후기보기</a></td>");
+                			else                 			
+                    			td7 = $("<td ></td>");
+                		}
                 		
                 		if(cnt2 == 0) {
 							$(tr).append(td1);
@@ -233,8 +235,8 @@ function search(pageNo) {
 
 }
 
-function openWriteReview(purchs_sn, cart_sn, goods_code) {
-	$.featherlight('/cs/popupReview?purchs_sn=' + purchs_sn + '&cart_sn=' + cart_sn + '&goods_code=' + goods_code + '', {});
+function openWriteReview(purchs_sn, cart_sn, goods_code, mode) {
+	$.featherlight('/cs/popupReview?purchs_sn=' + purchs_sn + '&cart_sn=' + cart_sn + '&goods_code=' + goods_code + '&mode=' + mode + '', {});
 }
 
 function cancelPurchs(purchs_sn) {

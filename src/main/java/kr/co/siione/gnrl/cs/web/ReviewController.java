@@ -97,6 +97,7 @@ public class ReviewController {
 		String cart_sn = UserUtils.nvl(request.getParameter("cart_sn"));
 		String goods_code = UserUtils.nvl(request.getParameter("goods_code"));
 		String callback = UserUtils.nvl(request.getParameter("callback"));		
+		String mode = UserUtils.nvl(request.getParameter("mode"));		
 
     	map.put("purchs_sn", purchs_sn);   
     	map.put("cart_sn", cart_sn);
@@ -110,6 +111,7 @@ public class ReviewController {
 		model.addAttribute("cart_sn", cart_sn);
 		model.addAttribute("goods_code", goods_code);
 		model.addAttribute("callback", callback);
+		model.addAttribute("mode", mode);
 		
 		return "gnrl/popup/review";	
     }	

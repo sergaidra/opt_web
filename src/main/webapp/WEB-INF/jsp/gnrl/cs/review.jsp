@@ -155,7 +155,7 @@ function search(pageNo) {
 }
 
 function viewReview(purchs_sn, cart_sn, goods_code) {
-	$.featherlight('/cs/popupReview?purchs_sn=' + purchs_sn + '&cart_sn=' + cart_sn + '&goods_code=' + goods_code + '&callback=saveComplete', {});
+	$.featherlight('/cs/popupReview?purchs_sn=' + purchs_sn + '&cart_sn=' + cart_sn + '&goods_code=' + goods_code + '&callback=saveComplete&mode=R', {});
 }
 
 function saveComplete() {

@@ -52,7 +52,7 @@
         </table>
       </div>
       <div class="popup_btn">
-      	<c:if test="${esntl_id == purchs.ESNTL_ID}">
+      	<c:if test="${esntl_id == purchs.ESNTL_ID and mode == 'W'}">
       		<a href="javascript:saveReview();">등록하기</a>
       	</c:if>
       </div>
