@@ -68,7 +68,7 @@ public class MainController {
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
     	HashMap map2 = new HashMap();
     	map2.put("esntl_id", esntl_id);
-    	map2.put("conect_ip", getUserIp(request));
+    	map2.put("conect_ip", UserUtils.getUserIp(request));
     	loginService.connectLog(map2);
     	
         model.addAttribute("main_yn", "Y");
@@ -187,18 +187,4 @@ public class MainController {
     	lst.add(map);
     }
 
-	public static String getUserIp(HttpServletRequest request){
-		//HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-		String ip = request.getHeader("X-FORWARDED-FOR");
-		if (ip == null || ip.length() == 0) {
-		   ip = request.getHeader("Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0) {
-		   ip = request.getHeader("WL-Proxy-Client-IP");  // 웹로직
-		}
-		if (ip == null || ip.length() == 0) {
-		   ip = request.getRemoteAddr() ;
-		}
-		return ip;
-	}
 }

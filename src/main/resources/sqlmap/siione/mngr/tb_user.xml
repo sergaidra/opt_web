@@ -10,7 +10,7 @@
 		UPDATE TB_USER
 		   SET USER_NM = #USER_NM# ]]>
 		     <isNotEmpty property="AUTHOR_CL">, AUTHOR_CL = #AUTHOR_CL# </isNotEmpty>
-	<![CDATA[		     
+	<![CDATA[
 		     , MOBLPHON_NO = #MOBLPHON_NO#
 		     , CRTFC_AT = #CRTFC_AT#
 		     , EMAIL_RECPTN_AT = #EMAIL_RECPTN_AT#
@@ -22,7 +22,7 @@
 	</update>
 
 	<sql id="UserDAO.pagingQueryStart">
-	  SELECT TT.* FROM (	
+	  SELECT TT.* FROM (
 	</sql>
 	
 	<sql id="UserDAO.pagingQueryEnd">
@@ -81,7 +81,7 @@
 		     , TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') UPDT_DT
 		  FROM TB_USER A ]]>
 		<include refid="UserDAO.whereForSelectUserList"/>
-		<include refid="UserDAO.pagingQueryEnd"/>		
+		<include refid="UserDAO.pagingQueryEnd"/>
 	</select>
 
 	<sql id="UserDAO.whereForSelectUserLogList">
@@ -90,29 +90,29 @@
 		</isEmpty>	
 		<isNotEmpty property="ESNTL_ID">
 		 WHERE ESNTL_ID = #ESNTL_ID#
-		</isNotEmpty>		 
-		<isNotEmpty property="FR_CONECT_DT">
-		   AND CONECT_DT BETWEEN TO_DATE(#FR_CONECT_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_CONECT_DT#, 'YYYY-MM-DD')+0.99999
+		</isNotEmpty>
+		<isNotEmpty property="FR_LOGIN_DT">
+		   AND LOGIN_DT BETWEEN TO_DATE(#FR_LOGIN_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_LOGIN_DT#, 'YYYY-MM-DD')+0.99999
 		</isNotEmpty>
 	</sql>
 		
 	<select id="UserDAO.selectUserLogListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
-		SELECT COUNT(CONECT_SN)
-		  FROM TB_USER_CONECT_HIST
+		SELECT COUNT(LOGIN_SN)
+		  FROM TB_LOGIN_HIST
 		<include refid="UserDAO.whereForSelectUserLogList"/>
 	</select>
 
 	<select id="UserDAO.selectUserLogList" parameterClass="hashMap" resultClass="hashMap">
 		<include refid="UserDAO.pagingQueryStart"/><![CDATA[
-		SELECT ROW_NUMBER() OVER(ORDER BY CONECT_SN DESC) AS ROWSEQ
-		     , CONECT_SN
+		SELECT ROW_NUMBER() OVER(ORDER BY LOGIN_SN DESC) AS ROWSEQ
+		     , LOGIN_SN
 		     , ESNTL_ID
 		     , (SELECT X.USER_NM FROM TB_USER X WHERE X.ESNTL_ID = A.ESNTL_ID) USER_NM
-		     , CONECT_IP
-		     , TO_CHAR(CONECT_DT, 'YYYY-MM-DD HH24:MI:SS') CONECT_DT
-		  FROM TB_USER_CONECT_HIST A ]]>
+		     , LOGIN_IP
+		     , TO_CHAR(LOGIN_DT, 'YYYY-MM-DD HH24:MI:SS') LOGIN_DT
+		  FROM TB_LOGIN_HIST A ]]>
 		<include refid="UserDAO.whereForSelectUserLogList"/>
-		<include refid="UserDAO.pagingQueryEnd"/>		
+		<include refid="UserDAO.pagingQueryEnd"/>
 	</select>
 	
 </sqlMap>

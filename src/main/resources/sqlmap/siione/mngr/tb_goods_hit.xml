@@ -7,8 +7,8 @@
 
     <insert id="GoodsHitDAO.insertGoodsHit" parameterClass="hashMap">
 	<![CDATA[
-		INSERT INTO TB_GOODS_HIT (HIT_SN, GOODS_CODE, HIT_DT, HIT_ID) 
-		                  VALUES (SQ_HIT_SN.NEXTVAL, #goods_code#, SYSDATE, #esntl_id#)
+		INSERT INTO TB_GOODS_HIT (HIT_SN, GOODS_CODE, HIT_DT, HIT_ID, HIT_IP) 
+		                  VALUES (SQ_HIT_SN.NEXTVAL, #goods_code#, SYSDATE, #esntl_id#, #hit_ip#)
     ]]>
     </insert>
 

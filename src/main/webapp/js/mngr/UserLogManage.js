@@ -1,6 +1,6 @@
 Ext.define('LogInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['CONECT_SN', 'ESNTL_ID', 'USER_NM', 'CONECT_IP', 'CONECT_DT']
+	fields: ['LOGIN_SN', 'ESNTL_ID', 'USER_NM', 'LOGIN_IP', 'LOGIN_DT']
 });
 
 var frLog = Ext.create('Ext.form.Panel', {
@@ -62,7 +62,7 @@ var frLog = Ext.create('Ext.form.Panel', {
 				xtype: 'datefield',
 				vtype: 'daterange',
 				id: 'sch-fr-date',
-				name: 'FR_CONECT_DT',
+				name: 'FR_LOGIN_DT',
 				format: 'Y-m-d',
 				altFormats: 'Y-m-d|Y.m.d|Y/m/d|Ymd',
 				fieldLabel: '검색일자',
@@ -97,7 +97,7 @@ var frLog = Ext.create('Ext.form.Panel', {
 				xtype: 'datefield',
 				vtype: 'daterange',
 				id: 'sch-to-date',
-				name: 'TO_CONECT_DT',
+				name: 'TO_LOGIN_DT',
 				format: 'Y-m-d',
 				altFormats: 'Y-m-d|Y.m.d|Y/m/d|Ymd',
 				fieldLabel: '-',
@@ -203,12 +203,12 @@ var grLog = Ext.create('Ext.grid.Panel', {
 		text: '접속일시',
 		width: 150,
 		align: 'center',
-		dataIndex: 'CONECT_DT'
+		dataIndex: 'LOGIN_DT'
 	},{
 		text: '접속IP',
 		width: 150,
 		align: 'center',
-		dataIndex: 'CONECT_IP'
+		dataIndex: 'LOGIN_IP'
 	},{
 		flex: 1
 	}],

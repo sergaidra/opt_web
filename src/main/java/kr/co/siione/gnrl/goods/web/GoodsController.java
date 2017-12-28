@@ -239,6 +239,7 @@ public class GoodsController {
         	
         	//hit
         	if(!param.containsKey("adminAt")) {
+        		map.put("hit_ip", UserUtils.getUserIp(request));
         		hitManageService.insertGoodsHit(map);
         	}
 
