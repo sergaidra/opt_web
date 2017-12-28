@@ -315,7 +315,7 @@ public class BbsController {
 
 			UserUtils.log("[deleteadminaction-map]", map);
 			
-			bbsService.deleteBbs(map);
+			bbsService.deleteAdminBbs(map);
 				
 			resVo.setResult("0");			
 		} catch(Exception e) {
