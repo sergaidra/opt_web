@@ -162,9 +162,6 @@ public class PurchsController {
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 		String purchs_sn = request.getParameter("purchs_sn");
 		String cart_sn = request.getParameter("cart_sn");
-		
-		if("".equals(esntl_id))
-			response.sendRedirect("/member/login/");
 
 		HashMap map = new HashMap();
 		map.put("esntl_id", esntl_id);

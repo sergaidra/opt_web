@@ -204,8 +204,8 @@
 .bbs_search{	width:100%;	float:left;	border:1px solid #c4c4c4;	background-color:#f7f7f7;	padding:15px;	background-image: url(/_img/cs/notice_img03.gif);	background-position: 250px center;
 	background-repeat: no-repeat; text-align: center; overflow: hidden; }
 .bbs_search .search_text{   display: inline-block; vertical-align: middle; width:100%; margin-right: 20px; margin-bottom: 20px}
-.bbs_search .search_text .tx1{ width:20%;	float:left;font-size: 20px; font-weight: 500; color: #333; text-align: left; line-height: 20PX}
-.bbs_search .search_text .tx2{ width:80%;	float:left;font-size:12px;color: #999; text-align: left}
+.bbs_search .search_text .tx1{ width:100%;	float:left;font-size: 20px; font-weight: 500; color: #333; text-align: left; line-height: 20PX; margin-bottom: 10px}
+.bbs_search .search_text .tx2{ width:100%;	float:left;font-size:12px;color: #999; text-align: left}
 .bbs_search .search_in{   display: inline-block; vertical-align: middle; width:100%; }
 .bbs_search .search_in .dot_text p{ margin-left:10px; font-size:14px; color:#333}
 .bbs_search .search_in .input_box{  float:left; margin-bottom:10px;}
@@ -400,8 +400,9 @@ h6.active {background-position: 10px center;}
 .bba_list tbody td span img{ width:80px; float:left; }
 .bba_list tbody td i{display: inline-block; vertical-align: middle;}
 .bba_list tbody td .re{ background-color:#eee;  padding: 15px 15px 15px 100px; box-sizing: border-box; border: 1px solid #ccc; margin: -1px; position: relative; z-index: 99; font-size: 13px; line-height: 20px; color: #666}
-
-
+.bba_list tbody td .re .t_cont{ font-size: 13px; line-height: 20px; color: #666}
+.bba_list tbody td .re .title_box{ float: left; width: 100%; margin-bottom: 10px}
+.bba_list tbody td .re .title_box .title{ background-color:#333;  padding: 5px 10px; color: #fff; border-radius: 50px; float: left; display: block }
 }
 /**** 모바일 ****/
 @media only all and (max-width:768px) {
@@ -428,6 +429,9 @@ h6.active {background-position: 10px center;}
 .bba_list_m tbody td span img{ width:80px; float:left; }
 .bba_list_m tbody td i{display: inline-block; vertical-align: middle;}
 .bba_list_m  tbody td .re{ background-color:#eee;  padding: 15px 15px 15px 15px; box-sizing: border-box; border: 1px solid #ccc; margin: -1px; position: relative; z-index: 99; font-size: 12px; line-height: 18px; color: #666}
+.bba_list_m tbody td .re .t_cont{ font-size: 13px; line-height: 20px; color: #666}
+.bba_list_m tbody td .re .title_box{ float: left; width: 100%; margin-bottom: 10px}
+.bba_list_m tbody td .re .title_box .title{ background-color:#333;  padding: 5px 10px; color: #fff; border-radius: 50px; float: left; display: block }
 }
 
 

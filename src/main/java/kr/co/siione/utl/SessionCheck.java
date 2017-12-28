@@ -49,6 +49,7 @@ public class SessionCheck extends HandlerInterceptorAdapter {
 			freeAccessUrls.add("/cart/list/");
 			freeAccessUrls.add("/cart/detail/");
 			freeAccessUrls.add("/cart/schedulePopup/");
+			freeAccessUrls.add("/purchs/OrderInfo");
 	
 			if (freeAccessUrls.contains(uri)) {
 				if (request.getSession().getAttribute("esntl_id") == null) {

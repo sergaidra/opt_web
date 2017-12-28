@@ -125,6 +125,10 @@ function addAction() {
 	});			
 }
 
+function orderInfo() {
+	window.open("<c:url value='/purchs/OrderInfo'/>?cart_sn=${cart_sn}");
+}
+
 </script>
 </head>
 
@@ -221,7 +225,7 @@ function addAction() {
 					<div class="tx4"><em><fmt:formatNumber value="${item.ORIGIN_AMOUNT}" pattern="#,###" /></em>원  </div>
 				</div>
 			</div>	
-			<c:if test="${nmpr_setup_se_V eq '1' or item.PICKUP_INCLS_AT eq 'Y'}" >
+			<c:if test="${nmpr_setup_se_V eq '1' or item.CL_SE eq 'P' or item.PICKUP_INCLS_AT eq 'Y'}" >
 				<div class="input_box">
 					<div class="title"><i class="material-icons">&#xE5DB;</i><p>추가 입력사항</p></div>
 					<input name="pickup_place" type="text" class="fl mb_5" id="pickup_place" placeholder="픽업장소를 입력해 주세요 " />
@@ -412,7 +416,7 @@ function addAction() {
       </div>
     
     </div>
-    <div class="btn_sc">일정표 보기</div>
+    <div class="btn_sc" onclick="orderInfo();" style="cursor:pointer;">일정표 보기</div>
   <div class="btn_buy" onclick="addAction();" style="cursor:pointer;">결제하기</div>
 
   </div>

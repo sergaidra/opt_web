@@ -32,7 +32,7 @@ em{ font-style: normal }
 @media only all and (min-width:1025px) {
 	/* 메인 */
 #visual {display:none; position:relative; min-width:1024px; height:867px;overflow: hidden }
-#visual .swiper-container {position:absolute; left:50%; margin-left:-50%; width:2000px; height:757px; top: 90px }
+#visual .swiper-container {position:absolute; left:50%; margin-left:-50%; width:100%; height:757px; top: 90px }
 #visual .swiper-wrapper {display:flex; box-sizing:content-box; transition-property:transform;}
 #visual .swiper-slide {flex-shrink:0;}
 #visual .swiper-slide a {display:block;}
@@ -58,7 +58,7 @@ em{ font-style: normal }
 @media all and (max-width:1024px) and (min-width:768px) {
 	/* 메인 */
 #visual {display:none; position:relative; min-width:1024px; height:757px;overflow: hidden }
-#visual .swiper-container {position:absolute; left:50%; margin-left:-50%; width:2000px; height:757px; top: 90px }
+#visual .swiper-container {position:absolute; left:50%; margin-left:-50%; width:100%;  height:757px; top: 90px }
 #visual .swiper-wrapper {display:flex; box-sizing:content-box; transition-property:transform;}
 #visual .swiper-slide {flex-shrink:0;}
 #visual .swiper-slide a {display:block;}
@@ -114,24 +114,24 @@ em{ font-style: normal }
 /*---------------------- 본문영역 ----------------------*/
 /**** pc ****/
 @media only all and (min-width:1301px) {
-.swiper-slidebg1 { background: url(/opt_design/images/main/main_f01.jpg); background-position:left top; background-size: cover;height:100% !important; float: left; width: 100% }
-.swiper-slidebg2 { background: url(/opt_design/images/main/main_f01.jpg); background-position:left top; background-size: cover;height:100% !important; float: left; width: 100% }
-.swiper-slidebg3 { background: url(/opt_design/images/main/main_f01.jpg); background-position:left top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg1 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg2 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg3 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
 
 
 }
 /**** 테블릿 ****/
 @media all and (max-width:1300px) and (min-width:768px) {
-.swiper-slidebg1 { background: url(/opt_design/images/main/main_f01.jpg); background-position:left top; background-size: cover;height:100% !important; float: left; width: 100% }
-.swiper-slidebg2 { background: url(/opt_design/images/main/main_f01.jpg); background-position:left top; background-size: cover;height:100% !important; float: left; width: 100% }
-.swiper-slidebg3 { background: url(/opt_design/images/main/main_f01.jpg); background-position:left top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg1 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg2 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg3 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
 
 }
 /**** 모바일 ****/
 @media only all and (max-width:767px) {
-.swiper-slidebg1 { background: url(/opt_design/images/main/main_f01.jpg); background-position:left top; background-size: cover;height:100% !important; float: left; width: 100% }
-.swiper-slidebg2 { background: url(/opt_design/images/main/main_f01.jpg); background-position:left top; background-size: cover;height:100% !important; float: left; width: 100% }
-.swiper-slidebg3 { background: url(/opt_design/images/main/main_f01.jpg); background-position:left top; background-size: cover;height:100% !important; float: left; width: 100%; }
+.swiper-slidebg1 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg2 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg3 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100%; }
 
 }
 @media only all and (min-width:1024px) {
@@ -300,12 +300,12 @@ em{ font-style: normal }
 .main_abox .inner2 .title_box .tx2{ width: 100%; float: left; text-align: center; margin-bottom: 50px; font-size: 14px; color: #666}	
 .main_abox .inner2 .cont_box{ width: calc(100% + 18px); float: left; margin-left: -9px}
 .main_abox .inner2 .cont_box .in01{ width: 50%;  float: left; padding:0px 9px; box-sizing: border-box; margin-bottom: 18px; ;position: relative}
-.imgover{ width:  calc(100% - 18px);  height: 100%; background-color:  rgba(255, 255, 255, 0.0); z-index: 999; position: absolute;  -webkit-transition: all 0.5s ease-out;
+.imgover{ width:  calc(100% - 18px);  height: 100%; background-color:  rgba(0, 0, 0, 0.0); z-index: 999; position: absolute;  -webkit-transition: all 0.5s ease-out;
     -moz-transition: all 0.5s ease-out;
     -o-transition: all 0.5s ease-out;
     -ms-transition: all 0.5s ease-out;
     transition: all 0.5s ease-out;; border: 0px solid  rgba(0, 0, 0, 0.0); }
-.imgover:hover{background-color:  rgba(255, 255, 255, 0.3);
+.imgover:hover{background-color:  rgba(0, 0, 0, 0.2);
     -webkit-transition: all 0.5s ease-in;
     -moz-transition: all 0.5s ease-in;
     -o-transition: all 0.5s ease-in;
@@ -1976,7 +1976,7 @@ input.st_w2:checked:not([disabled]) + label:hover{	background-color: #fff;  font
 @media only all and (min-width:769px) {
 a.sbtn_01{ border: 1px solid #333; background-color: #666;  padding: 5px 10px; box-sizing: border-box; color: #fff; margin-top: 5px; display: inline-block}
 a:hover.sbtn_01{ border: 1px solid #333; background-color: #333;  padding: 5px 10px; box-sizing: border-box; color: #fff; margin-top: 5px; display: inline-block}
-a.sbtn_02{ border: 1px solid #333; background-color: #ddd;  padding: 5px 22px; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block;line-height: 12px !important}
+a.sbtn_02{ border: 1px solid #333; background-color: #ddd;  padding: 5px 22px; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block;}
 a:hover.sbtn_02{ border: 1px solid #333; background-color: #ccc;  padding: 5px 22px; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block}
 a.sbtn_03{ border: 1px solid #333; background-color: #ddd;  padding: 5px 22px; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block}
 a:hover.sbtn_03{ border: 1px solid #333; background-color: #ccc;  padding: 5px 22px; box-sizing: border-box; color: #333; margin-top: 5px; display: inline-block}

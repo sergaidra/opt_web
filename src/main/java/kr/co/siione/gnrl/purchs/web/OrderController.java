@@ -67,6 +67,7 @@ public class OrderController {
 		} catch(Exception e) {e.printStackTrace();}
 
         model.addAttribute("lstCart", lstCart);
+        model.addAttribute("cart_sn", strCart);
 
         model.addAttribute("bp", "06");
        	model.addAttribute("btitle", "세부정보입력/결제하기");
@@ -84,6 +85,7 @@ public class OrderController {
 		try {
 			HttpSession session = request.getSession();
 			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+			String email = UserUtils.nvl((String)session.getAttribute("email"));
 
 			if(esntl_id.isEmpty()){
 				resVo.setResult("-2");
@@ -111,6 +113,7 @@ public class OrderController {
 			map.put("tourist_cttpc", tourist_cttpc);
 			map.put("kakao_id", kakao_id);
 			map.put("lstCart", lstCart);
+			map.put("email", email);
 
 			UserUtils.log("[addPurchs-map]", map);
 

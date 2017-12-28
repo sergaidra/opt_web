@@ -67,11 +67,11 @@ function search(pageNo) {
     	        	$("#tblList tbody").append(tr);        
     	        	
             		var tr2 = $("<tr style='display:none;' id='trOpinion_" + data.list[cnt].OPINION_SN + "'></tr>");
-            		var td2_1 = $("<td colspan=\"5\"  class='left color'><div id='re' class='re'></div></td>");
-            		var td2_q_title = $("<div class=\"more_title\"><p>질문내용</p></div>");
-            		var td2_q_cn = $("<div class=\"more_text\">" + replaceBrSpace(data.list[cnt].OPINION_CN) + "</div>");
-            		var td2_a_title = $("<div class=\"more_title\"><p>답변내용</p></div>");
-            		var td2_a_cn = $("<div class=\"more_text\">" + replaceBrSpace(data.list[cnt].C_OPINION_CN) + "</div>");
+            		var td2_1 = $("<td colspan=\"5\"  class='left'><div id='re' class='re'></div></td>");
+            		var td2_q_title = $("<div class=\"title_box\"><div class=\"title\">질문내용</div></div>");
+            		var td2_q_cn = $("<div class=\"t_cont\">" + replaceBrSpace(data.list[cnt].OPINION_CN) + "</div>");
+            		var td2_a_title = $("<div class=\"title_box\"><div class=\"title mt_20\">답변내용</div></div>");
+            		var td2_a_cn = $("<div class=\"t_cont\">" + replaceBrSpace(data.list[cnt].C_OPINION_CN) + "</div>");
             		var td2_btn = $("<div class=\"btn\"></div>");
               		if(data.list[cnt].C_OPINION_SN == null && "${author_cl}" == "A") {
               			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", '" + data.list[cnt].GOODS_CODE + "', 'A');\" class=\"modify\">답변</a>"));
@@ -122,11 +122,11 @@ function search(pageNo) {
     	        	$("#tblmList tbody").append(tr);
     	        	
             		var tr2 = $("<tr style='display:none;' id='trOpinionM_" + data.list[cnt].OPINION_SN + "'></tr>");
-            		var td2_1 = $("<td class='left color'><div id='re' class='re'></div></td>");
-            		var td2_q_title = $("<div class=\"more_title\"><p>질문내용</p></div>");
-            		var td2_q_cn = $("<div class=\"more_text\" style='padding-right:0px;'>" + replaceBrSpace(data.list[cnt].OPINION_CN) + "</div>");
-            		var td2_a_title = $("<div class=\"more_title\"><p>답변내용</p></div>");
-            		var td2_a_cn = $("<div class=\"more_text\" style='padding-right:0px;'>" + replaceBrSpace(data.list[cnt].C_OPINION_CN) + "</div>");
+            		var td2_1 = $("<td class='left'><div id='re' class='re'></div></td>");
+            		var td2_q_title = $("<div class=\"title_box\"><div class=\"title\">질문내용</div></div>");
+            		var td2_q_cn = $("<div class=\"t_cont\" style='padding-right:0px;'>" + replaceBrSpace(data.list[cnt].OPINION_CN) + "</div>");
+            		var td2_a_title = $("<div class=\"title_box\"><div class=\"title mt_20\">답변내용</div></div>");
+            		var td2_a_cn = $("<div class=\"t_cont\" style='padding-right:0px;'>" + replaceBrSpace(data.list[cnt].C_OPINION_CN) + "</div>");
             		var td2_btn = $("<div class=\"btn\"></div>");
               		if(data.list[cnt].C_OPINION_SN == null && "${author_cl}" == "A") {
               			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", '" + data.list[cnt].GOODS_CODE + "', 'A');\" class=\"modify\">답변</a>"));
