@@ -173,9 +173,54 @@ public class OrderController {
 				}
 			}
 			
+			// 항공편 정보
+			for(int i = 0; i < lstCart.size(); i++) {
+				// 항공편 체크
+				if(orderService.chkFlight((HashMap)lstCart.get(i)) > 0) {
+					resVo.setResult("3");			
+					resVo.setMessage("항공정보를 입력해주세요.");
+					isOk = false;
+				}
+			}
+			
 			if(isOk == true) {
 				resVo.setResult("0");			
 			}
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;
+	}
+	
+	@RequestMapping(value="/setFlightCart")
+	public @ResponseBody ResponseVo setFlightCart(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+			HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+			String flight_sn = String.valueOf(param.get("flight_sn"));
+
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+
+
+			HashMap map = new HashMap();	
+			map.put("esntl_id", esntl_id);			
+			map.put("flight_sn", flight_sn);
+
+			UserUtils.log("[setFlightCart-map]", map);
+			
+			orderService.setFlight(map);
+
+			resVo.setResult("0");			
 		} catch(Exception e) {
 			resVo.setResult("9");			
 			resVo.setMessage(e.getMessage());	

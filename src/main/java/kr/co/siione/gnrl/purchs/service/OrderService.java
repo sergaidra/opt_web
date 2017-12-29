@@ -7,5 +7,7 @@ public interface OrderService {
 	public HashMap getCartDetail(HashMap map) throws Exception;
 	public List<HashMap> getCartDetailList(HashMap map) throws Exception;
 	public int chkSchedule(HashMap map)throws Exception;
+	public int chkFlight(HashMap map)throws Exception;
+	public void setFlight(HashMap map) throws Exception;
 	public void addPurchs(HashMap map) throws Exception;
 }

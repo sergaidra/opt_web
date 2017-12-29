@@ -48,6 +48,7 @@ public class FlightController {
 		try {
 	    	HttpSession session = request.getSession();
 			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+			String callback = UserUtils.nvl(request.getParameter("callback"));		
 
 			if(!esntl_id.isEmpty()){
 				HashMap map = new HashMap();
@@ -107,6 +108,7 @@ public class FlightController {
     		
     		model.addAttribute("lstFlight", lstFlight);
     		model.addAttribute("lstYear", lstYear);
+    		model.addAttribute("callback", callback);
 
 		} catch(Exception e) {
 			e.printStackTrace();

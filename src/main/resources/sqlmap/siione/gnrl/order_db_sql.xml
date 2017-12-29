@@ -161,5 +161,23 @@
 			INNER JOIN A ON D.GOODS_CODE = A.GOODS_CODE AND D.RESERVATIONDT BETWEEN A.CHKIN_DE AND A.CHCKT_DE
 	]]>
 	</select>
+
+	<select id="gnrl.order.chkFlight" parameterClass="hashMap" resultClass="int">
+		SELECT COUNT(1)
+		FROM TB_CART_GOODS CG
+			INNER JOIN TB_GOODS G ON CG.GOODS_CODE = G.GOODS_CODE
+			LEFT OUTER JOIN TB_FLIGHT F ON CG.FLIGHT_SN = F.FLIGHT_SN
+		WHERE CART_SN = #cart_sn# AND G.CL_SE = 'P' AND (G.GOODS_NM LIKE '%픽업%' OR G.GOODS_NM LIKE '%드랍%')
+			AND F.FLIGHT_SN IS NULL
+	</select>
+	
+	<update id="gnrl.order.setFlight" parameterClass="hashMap">
+		UPDATE TB_CART_GOODS SET FLIGHT_SN = #flight_sn#
+		WHERE CART_SN IN (SELECT CART_SN
+							FROM TB_CART_GOODS CG
+								INNER JOIN TB_GOODS G ON CG.GOODS_CODE = G.GOODS_CODE
+							WHERE G.CL_SE = 'P' AND (G.GOODS_NM LIKE '%픽업%' OR G.GOODS_NM LIKE '%드랍%')	
+								AND CG.PURCHS_AT = 'N' AND CG.DELETE_AT = 'N' AND G.DELETE_AT = 'N' AND CG.ESNTL_ID = #esntl_id# )	
+	</update>
 	
 </sqlMap>

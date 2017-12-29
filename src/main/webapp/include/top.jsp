@@ -131,7 +131,7 @@ $("#leftside-navigation .sub-menu > a").click(function(e) {
         <div class="pc_open side-right-pushy-button" ><i class="material-icons">&#xE314;</i></div>
       <!--오른쪽 예약정보-->
       <nav id="sideRightPushy" class="pushy pushy-right pushy_450 pushy_over">
-	<div class="pc_close  pc_view"><a class="side-right-pushy-button"><i class="material-icons" >&#xE5CD;</i></a></div>    
+	<div class="pc_close  pc_view"><a class="side-right-pushy-button" style="padding-bottom:0px;"><i class="material-icons" >&#xE5CD;</i></a></div>    
     <div class="mobile_close  mobile_view"><a class="side-right-pushy-button"><i class="material-icons" >&#xE5CD;</i></a></div>
     <div class="ri_box">
 		<div class="title">예약정보

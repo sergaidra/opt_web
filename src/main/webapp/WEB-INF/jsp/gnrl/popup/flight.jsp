@@ -7,6 +7,7 @@
 <!--팝업 : 항공편-->
 <div class="lightbox" id="pa_airpopup">
 	<input type="hidden" id="flight_sn" name="flight_sn" value="${result.FLIGHT_SN}">
+	<input type="hidden" id="callback" value="${callback}" >	
   <div class="popup_com">
     <div class="title">항공편 입력</div>
     <div class="popup_cont">
@@ -291,6 +292,8 @@ function inputAir() {
 	param.hmcmg_arvl_cty = "";
 	param.hmcmg_arvl_dt = hmcmg_arvl_dt;
 
+	var callback = $(".featherlight #callback").val();
+
 	$.ajax({
         url : url,
         type: "post",
@@ -303,6 +306,11 @@ function inputAir() {
 				alert("저장되었습니다.");
 				if(typeof(detail_flight_sn) != "undefined")
 					detail_flight_sn = data.data;
+				if(callback != "") {
+					var fn = window[callback];
+					// is object a function?
+					if (typeof fn === "function") fn(data.data);
+				}
 				$.featherlight.close();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");

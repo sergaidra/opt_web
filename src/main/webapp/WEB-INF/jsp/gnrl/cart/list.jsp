@@ -170,6 +170,9 @@ function paymentCart() {
 				alert(data.message);
 			} else if(data.result == "2") {
 				alert(data.message);
+			} else if(data.result == "3") {
+				alert(data.message);
+				$.featherlight('/cmmn/popupFlight?callback=inputFlightCart', {});
 			} else{
 				alert("작업을 실패하였습니다.");
 			}	        	
@@ -180,6 +183,34 @@ function paymentCart() {
 	});				
 }
 
+function inputFlightCart(flight_sn) {
+	var param = {};
+	param.flight_sn = flight_sn;
+	
+	url = "<c:url value='/purchs/setFlightCart'/>";
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( param ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+			} else if(data.result == "-2") {
+				alert("로그인이 필요합니다.");
+				go_login();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
 
 function addWish() {
 	var lst = [];

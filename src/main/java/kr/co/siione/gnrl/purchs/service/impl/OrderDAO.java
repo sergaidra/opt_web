@@ -21,6 +21,14 @@ public class OrderDAO extends EgovComAbstractDAO {
 		return (Integer)selectByPk("gnrl.order.chkSchedule", map);
 	} 
 
+	public int chkFlight(HashMap map)throws Exception {
+		return (Integer)selectByPk("gnrl.order.chkFlight", map);
+	} 
+	
+    public void setFlight(HashMap map) throws Exception {
+		insert("gnrl.order.setFlight", map);
+    }	
+
     public int selectPurchsSn(HashMap map) throws Exception{
         return (Integer)selectByPk("gnrl.order.selectPurchsSn", map);
     }	

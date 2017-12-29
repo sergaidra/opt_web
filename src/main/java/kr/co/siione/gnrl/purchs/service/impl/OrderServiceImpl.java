@@ -46,6 +46,14 @@ public class OrderServiceImpl implements OrderService {
 		return orderDAO.chkSchedule(map);
 	}
 	
+	public int chkFlight(HashMap map)throws Exception {
+		return orderDAO.chkFlight(map);
+	}
+	
+	public void setFlight(HashMap map) throws Exception {
+		orderDAO.setFlight(map);
+	}
+	
 	private String getMailHtml() {
 		StringBuilder builder = new StringBuilder();
 		org.springframework.core.io.Resource resource = new ClassPathResource("html/mail.htm"); 
