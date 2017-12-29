@@ -1143,6 +1143,27 @@ function replaceBrSpace(str) {
 		return "";
 	return str.replace(/\n/g, "<br />").replace(/  /g, "&nbsp;");
 }
+
+function naverShare() {
+	var url = encodeURI(encodeURIComponent(document.location.href));
+    var title = encodeURI("원패스투어 - ${result.GOODS_NM}");
+    var shareURL = "http://share.naver.com/web/shareView.nhn?url=" + url + "&title=" + title;
+    window.open(shareURL);
+}
+
+function facebookShare() {
+	var url = encodeURIComponent(document.location.href);
+    var title = encodeURIComponent("원패스투어 - ${result.GOODS_NM}");
+    var shareURL = "https://www.facebook.com/sharer/sharer.php?u=" + url + "&t=" + title;
+    window.open(shareURL);
+}
+
+function googleShare() {
+	var url = encodeURIComponent(document.location.href);
+    var shareURL = "https://plus.google.com/share?url=" + url;
+    window.open(shareURL);	
+}
+
 </script>
 	
 </head>
@@ -1696,7 +1717,7 @@ function replaceBrSpace(str) {
   <div class="popup_com2">
     <div class="title">공유하기 </div>
     <div class="popup_cont">
-   <div class="login_div2"><a href="#"><img src="/images/com/sns_login1.gif" alt=""/></a> <a href="#"><img src="/images/com/sns_login2.gif" alt=""/></a>  <a href="#"><img src="/images/com/sns_login3.gif" alt=""/></a> </div>
+   <div class="login_div2"><a href="javascript:facebookShare();"><img src="/images/com/sns_login1.gif" alt=""/></a> <a href="javascript:naverShare();"><img src="/images/com/sns_login2.gif" alt=""/></a>  <a href="javascript:googleShare();"><img src="/images/com/sns_login3.gif" alt=""/></a> </div>
     </div>
   </div>
 </div>
