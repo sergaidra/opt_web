@@ -915,11 +915,16 @@ function goSearchOpinion(pageNo) {
         success : function(data,status,request){
         	var rowCnt = 0;
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
+        		var strDelete = "";
+        		if("${author_cl}" == "A" || "${author_cl}" == "M") {
+        			if(data.list[cnt].DELETE_AT == 'A')
+        				strDelete = "[삭제] ";
+        		}
         		{
             		var tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 0);' style='cursor:pointer;'></tr>");
 
             		var td1 = $("<td class='t_center'>" + (Number(data.startIdx) + rowCnt) + "</td>");
-            		var td2 = $("<td>" + data.list[cnt].OPINION_SJ + "</td>");
+            		var td2 = $("<td>" + strDelete + data.list[cnt].OPINION_SJ + "</td>");
             		var td3 = $("<td>" + data.list[cnt].USER_NM + "</td>");
             		var td4 = $("<td>" + data.list[cnt].WRITNG_DT + "</td>");
 					var td5 = null;
@@ -979,7 +984,7 @@ function goSearchOpinion(pageNo) {
 
             			td1 = $("<td class='t_center'>" + (Number(data.startIdx) + rowCnt) + "</td>");
             			td2 = $("<td></td>");
-            			td2span = $("<span class='tb_font1'>" + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]"  + divHtml + "</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
+            			td2span = $("<span class='tb_font1'>" + strDelete + data.list[cnt].WRITNG_DT + " [" + data.list[cnt].USER_NM + "]"  + divHtml + "</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
             		}
 
             		$(td2).append(td2span);

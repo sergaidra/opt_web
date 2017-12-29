@@ -22,7 +22,13 @@
 	</resultMap>
 
 	<sql id="whereOpinionList">
-		AND PARENT_OPINION_SN IS NULL AND DELETE_AT = 'N'
+		AND PARENT_OPINION_SN IS NULL
+		<isEmpty property="author_cl">
+			AND (DELETE_AT = 'N' OR ( DELETE_AT = 'A' AND WRITNG_ID = #esntl_id#))		
+		</isEmpty>
+		<isNotEmpty property="author_cl">
+			AND DELETE_AT IN ('N', 'A')		
+		</isNotEmpty>
 		<isNotEmpty property="goods_code">
 			AND GOODS_CODE = #goods_code#
 		</isNotEmpty>
@@ -88,7 +94,7 @@
 	</select>
 
 	<update id="gnrl.opinion.deleteOpinion"  parameterClass="hashMap">
-		UPDATE TB_PURCHS_OPINION SET DELETE_AT = 'Y', UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE
+		UPDATE TB_PURCHS_OPINION SET DELETE_AT = #delete_at#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE
 		WHERE OPINION_SN = #opinion_sn#
 	</update>
 

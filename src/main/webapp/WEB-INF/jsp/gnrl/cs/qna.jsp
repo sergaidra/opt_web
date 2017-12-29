@@ -43,12 +43,17 @@ function search(pageNo) {
         success : function(data,status,request){
         	var rowCnt = 0;
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
+        		var strDelete = "";
+        		if("${author_cl}" == "A" || "${author_cl}" == "M") {
+        			if(data.list[cnt].DELETE_AT == 'A')
+        				strDelete = "[삭제] ";
+        		}
         		// PC
         		{
             		var tr = $("<tr onclick='showOpinion(" + data.list[cnt].OPINION_SN + ", 0);' style='cursor:pointer;'></tr>");
 
         			var td1 = $("<td>" + (Number(data.startIdx) + rowCnt) + "</td>");
-        			var td2 = $("<td class=\"left\">[" + data.list[cnt].GOODS_NM + "] " + data.list[cnt].OPINION_SJ + "</td>");
+        			var td2 = $("<td class=\"left\">" + strDelete + "[" + data.list[cnt].GOODS_NM + "] " + data.list[cnt].OPINION_SJ + "</td>");
             		var td3 = $("<td>" + data.list[cnt].USER_NM + "</td>");
             		var td4 = $("<td>" + data.list[cnt].WRITNG_DT + "</td>");
             		var td5 = null;
@@ -114,7 +119,7 @@ function search(pageNo) {
    					}
 
            			td1 = $("<td></td>");
-           			td1span = $("<span class='tb_font1' style='width:100%; float:left; text-align:left;'>no." + (Number(data.startIdx) + rowCnt) + " [" + data.list[cnt].USER_NM + "] [" + data.list[cnt].WRITNG_DT + "]"  + divHtml + "</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
+           			td1span = $("<span class='tb_font1' style='width:100%; float:left; text-align:left;'>" + strDelete + "no." + (Number(data.startIdx) + rowCnt) + " [" + data.list[cnt].USER_NM + "] [" + data.list[cnt].WRITNG_DT + "]"  + divHtml + "</span><br><span>" + data.list[cnt].OPINION_SJ + "</span>");
 
             		$(td1).append(td1span);
             		$(tr).append(td1);

@@ -42,6 +42,18 @@ public class QnaServiceImpl implements QnaService {
 	}
 	
 	public void deleteOpinion(HashMap map) throws Exception {
-		qnaDAO.deleteOpinion(map);
+		if("A".equals(map.get("delete_mode"))) {
+			if("".equals(map.get("opinion_sn")))
+				qnaDAO.insertOpinion(map);
+	    	else
+	    		qnaDAO.updateOpinion(map);
+			
+			map.put("delete_at", "A");
+			map.put("opinion_sn", map.get("parent_opinion_sn"));
+			qnaDAO.deleteOpinion(map);
+		} else {
+			map.put("delete_at", "Y");
+			qnaDAO.deleteOpinion(map);
+		}
 	}
 }

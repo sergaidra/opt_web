@@ -60,15 +60,22 @@ public class QnaController {
 	}
 	
     @RequestMapping(value="/getOpinion")
-    public @ResponseBody Map getOpinion(@RequestBody HashMap param) throws Exception {
+    public @ResponseBody Map getOpinion(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
       	HashMap map = new HashMap();
     	Map<String, Object> mapResult = new HashMap<String, Object>();
+
+    	HttpSession session = request.getSession(); 
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		String author_cl = UserUtils.nvl((String)session.getAttribute("author_cl"));
 
     	String goods_code = UserUtils.nvl(param.get("goods_code"));
 		int hidPage = Integer.parseInt(UserUtils.nvl(param.get("hidPage"))); // 페이지번호
 		int startIdx = (hidPage - 1) * 5 + 1;
 		int endIdx = hidPage * 5;
 
+    	map.put("esntl_id", esntl_id);   
+    	if("A".equals(author_cl) || "M".equals(author_cl))
+    		map.put("author_cl", author_cl);   
     	map.put("goods_code", goods_code); 
     	map.put("hidPage", hidPage);
     	map.put("startIdx", startIdx);
@@ -181,9 +188,19 @@ public class QnaController {
 			HashMap map = new HashMap();
 
 			String opinion_sn = UserUtils.nvl(param.get("opinion_sn"));
+			String opinion_sj = UserUtils.nvl(param.get("opinion_sj"));
+			String opinion_cn = UserUtils.nvl(param.get("opinion_cn"));
+			String delete_mode = UserUtils.nvl(param.get("delete_mode"));
+			String parent_opinion_sn = UserUtils.nvl(param.get("parent_opinion_sn"));
+			String goods_code = UserUtils.nvl(param.get("goods_code"));
 
-	    	map.put("opinion_sn", opinion_sn);
 	    	map.put("esntl_id", esntl_id);
+	    	map.put("opinion_sn", opinion_sn);
+	    	map.put("opinion_sj", opinion_sj);
+	    	map.put("opinion_cn", opinion_cn);
+	    	map.put("delete_mode", delete_mode);
+	    	map.put("parent_opinion_sn", parent_opinion_sn);
+	    	map.put("goods_code", goods_code);
 	    	
 	    	qnaService.deleteOpinion(map);
 	    	

@@ -163,17 +163,30 @@ function deleteOpinion() {
 }
 
 function deleteAdmin() {
+	if($.trim($(".featherlight #opinion_sj").val()) == "") {
+		alert("제목을 입력해주세요.");
+		$(".featherlight #opinion_sj").focus();
+		return;
+	}
+	if($.trim($(".featherlight #opinion_cn").val()) == "") {
+		alert("내용을 입력해주세요.");
+		$(".featherlight #opinion_cn").focus();
+		return;
+	}
+
 	if(!confirm("문의글을 삭제하겠습니까?"))
 		return;
 	
 	var url = "<c:url value='/cs/deleteOpinion'/>";
 	
 	var param = {};
-	if($(".featherlight #parent_opinion_sn").val() == "")
-		param.opinion_sn = $(".featherlight #opinion_sn").val();
-	else
-		param.opinion_sn = $(".featherlight #parent_opinion_sn").val();		
 	var callback = $(".featherlight #callback").val();
+	param.opinion_sn = $(".featherlight #opinion_sn").val();
+	param.parent_opinion_sn = $(".featherlight #parent_opinion_sn").val();		
+	param.opinion_sj = $(".featherlight #opinion_sj").val();
+	param.opinion_cn = $(".featherlight #opinion_cn").val();
+	param.goods_code = $(".featherlight #goods_code").val();
+	param.delete_mode = "A";
 
 	$.ajax({
         url : url,
