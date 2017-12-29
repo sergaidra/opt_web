@@ -427,5 +427,14 @@
 		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
 		ORDER BY B.RNUM	
 	</select>	
+
+	<select id="gnrl.goods.getReservationDt" parameterClass="hashMap" resultClass="hashMap">
+	<![CDATA[	
+		SELECT RESERVATIONDT, SETUP_SE 
+		FROM TB_GOODS_RSV_DAY
+		WHERE GOODS_CODE = #goods_code# AND TO_CHAR(SYSDATE, 'YYYYMMDD') <= RESERVATIONDT
+		ORDER BY RESERVATIONDT	
+	]]>
+	</select>
 	
 </sqlMap>

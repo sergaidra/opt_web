@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
 		return orderDAO.getCartDetailList(map);
 	}
 
-	public HashMap chkSchedule(HashMap map)throws Exception {
+	public int chkSchedule(HashMap map)throws Exception {
 		return orderDAO.chkSchedule(map);
 	}
 	
@@ -70,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
 			nMap.put("purchs_sn", purchs_sn);
 			orderDAO.insertPurchsGoods(nMap);
 			orderDAO.updCartGoods(nMap);
+			orderDAO.insertReservationDay(nMap);
 		}
 		
 		// 메일 발송

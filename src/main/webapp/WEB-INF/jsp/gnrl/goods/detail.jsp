@@ -64,6 +64,7 @@ $(document).ready(function(){
 var optionInfo = { "days" : 0, "room" : null, "eat" : [], "check" : [], "nmpr_P" : [], "nmpr_V" : [], "nmpr_S" : []};
 var selectDt = { "startDt" : null, "endDt" : null };
 var lstSchdul = [];
+var lstRsvSchdul = [];	// 미리 예약된 날짜
 var detail_flight_sn = "";
 var lstOption = [];
 
@@ -71,6 +72,9 @@ var lstOption = [];
 	lstSchdul.push({"BEGIN_DE" : "${list.BEGIN_DE}", "END_DE" : "${list.END_DE}" });
 </c:forEach>
 console.log(lstSchdul);
+<c:forEach var="list" items="${lstRsvSchdul}">
+	lstRsvSchdul.push("${list.RESERVATIONDT}");
+</c:forEach> 
 <c:forEach var="list" items="${lstNmpr}">
 lstOption.push({"nmpr_sn" : "${list.NMPR_SN}", "setup_amount" : "${list.SETUP_AMOUNT}", "nmpr_co" : "${list.NMPR_CO}" , "setup_se" : "${list.SETUP_SE}", "adit_nmpr_amount" : "${list.ADIT_NMPR_AMOUNT}", "dscnt_rate" : "${list.DSCNT_RATE}", "fixed_at" : "${list.FIXED_AT}", "max_nmpr_co" : "${list.MAX_NMPR_CO}", "unit_nm" : "${list.UNIT_NM}", "nmpr_cnd" : "${list.NMPR_CND}" });
 </c:forEach>

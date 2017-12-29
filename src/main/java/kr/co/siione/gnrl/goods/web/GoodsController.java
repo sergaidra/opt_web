@@ -273,6 +273,9 @@ public class GoodsController {
         		//model.addAttribute("lstEat", lstEat);
         		//model.addAttribute("lstCheck", lstCheck);
         		//model.addAttribute("lstNmpr", lstNmpr);
+        		
+        		List<HashMap> lstRsvSchdul = goodsService.getReservationDt(map);
+                model.addAttribute("lstRsvSchdul", lstRsvSchdul);
         	} else {
         		map.put("setup_se", "P"); // 가격/단가(필수) > 숙박 외
         		List<HashMap> lstNmpr_P = goodsService.getGoodsNmprBySetupSeList(map);

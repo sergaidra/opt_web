@@ -17,8 +17,8 @@ public class OrderDAO extends EgovComAbstractDAO {
 		return list("gnrl.order.selectCartDetailList", map);
 	}
 
-	public HashMap chkSchedule(HashMap map)throws Exception {
-		return (HashMap)selectByPk("gnrl.order.chkSchedule", map);
+	public int chkSchedule(HashMap map)throws Exception {
+		return (Integer)selectByPk("gnrl.order.chkSchedule", map);
 	} 
 
     public int selectPurchsSn(HashMap map) throws Exception{
@@ -37,5 +37,8 @@ public class OrderDAO extends EgovComAbstractDAO {
 		update("gnrl.order.updCartGoods", map);
     }
     
+    public void insertReservationDay(HashMap map) throws Exception {
+		insert("gnrl.order.insertReservationDay", map);
+    }
 
 }

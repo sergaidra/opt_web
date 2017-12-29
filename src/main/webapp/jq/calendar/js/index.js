@@ -41,6 +41,7 @@
 		// second doesnt exist
 		else if( selectDt.endDt === null ){ // prevent making #2 to #1
 			if(isDisabled || e.id == 'sel1') return false;
+			
 			e.id = 'sel2';
 			e.classList.add('sel2');
 				
@@ -87,43 +88,62 @@
 					}
 				}
 			
-			})			
+			});		
 			
-			
+			var sDt = new Date(selectDt.startYear, selectDt.startMonth - 1, selectDt.startDay);
+			var eDt = new Date(selectDt.endYear, selectDt.endMonth - 1, selectDt.endDay);
+			while(true) {
+				if(dateToString(sDt) == dateToString(eDt))
+					break;
+				
+				for(var cnt = 0; cnt < lstRsvSchdul.length; cnt++) {
+					if (lstRsvSchdul[cnt] == dateToString(sDt)) {
+						initSelect(e);
+						return;
+					}
+				}
+				
+				sDt.setDate(sDt.getDate() + 1);
+			}
 		}
 		
 		// both selections exist
 		else {
-			var td = e.parentNode.parentNode.querySelectorAll('td');
-			_for(td, function(e){ e.classList.remove('range','disabled'); });
-			_for(td, function(e){ 
-				if(e.classList.contains('stop')) {
-					e.classList.add("disabled");
-				}
-			});
-			
-			if(sel1 != null) {
-				sel1.removeAttribute('class');
-				sel1.removeAttribute('id');
-			}
-			if(sel2 !== null){
-				sel2.removeAttribute('class');
-				sel2.removeAttribute('id');
-			}
-
-			_id('sel1text').innerHTML = "날짜선택";
-			_id('sel2text').innerHTML = "날짜선택";
-			
-			selectDt.startDt = null;
-			selectDt.endDt = null;
-			removeRoom();
+			initSelect(e);
 		} //end else/if
 		
 		setDateRange();
 	} //userSelect(e);
 
 	
+	function initSelect(e) {
+		var sel1 = _id('sel1'),
+		sel2 = _id('sel2');
+		
+		var td = e.parentNode.parentNode.querySelectorAll('td');
+		_for(td, function(e){ e.classList.remove('range','disabled'); });
+		_for(td, function(e){ 
+			if(e.classList.contains('stop')) {
+				e.classList.add("disabled");
+			}
+		});
+		
+		if(sel1 != null) {
+			sel1.removeAttribute('class');
+			sel1.removeAttribute('id');
+		}
+		if(sel2 !== null){
+			sel2.removeAttribute('class');
+			sel2.removeAttribute('id');
+		}
 
+		_id('sel1text').innerHTML = "날짜선택";
+		_id('sel2text').innerHTML = "날짜선택";
+		
+		selectDt.startDt = null;
+		selectDt.endDt = null;
+		removeRoom();
+	}
 	
 	
 	
@@ -220,6 +240,14 @@
 						if(lstSchdul[cnt].BEGIN_DE <= curDt && curDt <= lstSchdul[cnt].END_DE ) {
 							isOk = true;
 							break;
+						}
+					}
+					if(isOk == true) {
+						for(var cnt = 0; cnt < lstRsvSchdul.length; cnt++) {
+							if (lstRsvSchdul[cnt] == curDt) {
+								isOk = false;
+								break;
+							}
 						}
 					}
 					if(isOk == true) {
@@ -331,5 +359,8 @@ function getToday() {
 	return String(d.getFullYear()) + lpad(String(d.getMonth() + 1), 2, "0") + lpad(String(d.getDate()), 2, "0");
 }
 
+function dateToString(d) {
+	return String(d.getFullYear()) + lpad(String(d.getMonth() + 1), 2, "0") + lpad(String(d.getDate()), 2, "0");
+}
 
 })(jQuery, window, document); // end() init

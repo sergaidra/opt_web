@@ -102,7 +102,7 @@
 		<parameter property="can_yn" javaType="java.lang.String" mode="OUT" jdbcType="VARCHAR"/>
 	</parameterMap>
 	
-	<procedure id="gnrl.order.chkSchedule" parameterMap="paramChkSchedule">
+	<procedure id="gnrl.order.chkSchedule_old" parameterMap="paramChkSchedule">
 		{ CALL SP_CheckSchedule ( ?, ?) }
 	</procedure>	
 
@@ -130,5 +130,36 @@
 		UPDATE TB_CART_GOODS SET PURCHS_AT = 'Y'
 		WHERE CART_SN = #cart_sn#
 	</update>
+
+	<insert id="gnrl.order.insertReservationDay"  parameterClass="hashMap">
+	<![CDATA[
+		INSERT INTO TB_GOODS_RSV_DAY (GOODS_CODE, RESERVATIONDT, CART_SN, SETUP_SE)
+		SELECT GOODS_CODE, TO_CHAR(start_day + LEVEL -1, 'yyyymmdd') AS RESERVATIONDT, CART_SN
+			, CASE WHEN LEVEL = 1 AND CHECKIN = 'Y' THEN 'B' ELSE (CASE WHEN LEVEL = MAX(LEVEL) OVER() AND CHECKOUT = 'Y' THEN 'C' ELSE '' END)  END AS SETUP_SE
+		FROM (
+			SELECT TO_DATE(CHKIN_DE, 'yyyymmdd') start_day
+						, 	TO_DATE(CHCKT_DE, 'yyyymmdd') end_day
+						, GOODS_CODE, CART_SN
+						, CASE WHEN ( SELECT COUNT(1) FROM TB_CART_NMPR WHERE CART_SN = #cart_sn# AND SETUP_SE = 'C') > 0 THEN 'Y' ELSE 'N' END AS CHECKOUT
+						, CASE WHEN ( SELECT COUNT(1) FROM TB_CART_NMPR WHERE CART_SN = #cart_sn# AND SETUP_SE = 'B') > 0 THEN 'Y' ELSE 'N' END AS CHECKIN
+			FROM TB_CART_GOODS
+			WHERE CART_SN = #cart_sn# AND CHKIN_DE IS NOT NULL AND CHCKT_DE IS NOT NULL
+			)
+		CONNECT BY start_day + LEVEL - 1 <= end_day - 1 + (CASE WHEN CHECKOUT = 'Y' THEN 1 ELSE 0 END)
+	]]>
+	</insert>
+
+	<select id="gnrl.order.chkSchedule" parameterClass="hashMap" resultClass="int">
+	<![CDATA[
+		WITH A AS (
+		SELECT CHKIN_DE, GOODS_CODE
+			, TO_CHAR(TO_DATE(CHCKT_DE, 'yyyymmdd') - 1 + (CASE WHEN ( SELECT COUNT(1) FROM TB_CART_NMPR WHERE CART_SN = #cart_sn# AND SETUP_SE = 'C') > 0 THEN 1 ELSE 0 END), 'yyyymmdd') AS CHCKT_DE
+		FROM TB_CART_GOODS
+		WHERE CART_SN = #cart_sn# )
+		SELECT COUNT(1)
+		FROM TB_GOODS_RSV_DAY D
+			INNER JOIN A ON D.GOODS_CODE = A.GOODS_CODE AND D.RESERVATIONDT BETWEEN A.CHKIN_DE AND A.CHCKT_DE
+	]]>
+	</select>
 	
 </sqlMap>

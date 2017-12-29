@@ -120,12 +120,7 @@ public class OrderController {
 			Boolean isOk = true;
 			for(int i = 0; i < lstCart.size(); i++) {
 				// 스케줄 체크
-				HashMap map2 = new HashMap();
-				map2.put("can_yn", ""); 
-				map2.put("cart_sn", lstCart.get(i).get("cart_sn"));
-				orderService.chkSchedule(map2);
-				
-				if("N".equals(String.valueOf(map2.get("can_yn")).trim())) {
+				if(orderService.chkSchedule((HashMap)lstCart.get(i)) > 0) {
 					resVo.setResult("2");			
 					resVo.setMessage("해당 날짜에 이미 예약되었습니다.");
 					isOk = false;
@@ -171,12 +166,7 @@ public class OrderController {
 			Boolean isOk = true;
 			for(int i = 0; i < lstCart.size(); i++) {
 				// 스케줄 체크
-				HashMap map2 = new HashMap();
-				map2.put("can_yn", ""); 
-				map2.put("cart_sn", lstCart.get(i).get("cart_sn"));
-				orderService.chkSchedule(map2);
-				
-				if("N".equals(String.valueOf(map2.get("can_yn")).trim())) {
+				if(orderService.chkSchedule((HashMap)lstCart.get(i)) > 0) {
 					resVo.setResult("2");			
 					resVo.setMessage("해당 날짜에 이미 예약되었습니다.");
 					isOk = false;

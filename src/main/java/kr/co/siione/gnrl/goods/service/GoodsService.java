@@ -24,5 +24,5 @@ public interface GoodsService {
     public int getReviewCount(HashMap map) throws Exception;
     public List<HashMap> getReview(HashMap map) throws Exception;
     
-
+    public List<HashMap> getReservationDt(HashMap map) throws Exception;
 }

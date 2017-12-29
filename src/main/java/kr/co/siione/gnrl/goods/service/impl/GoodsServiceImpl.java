@@ -86,4 +86,7 @@ public class GoodsServiceImpl implements GoodsService {
         return goodsDAO.getReview(map);
     }
     
+    public List<HashMap> getReservationDt(HashMap map) throws Exception {
+    	return goodsDAO.getReservationDt(map);
+    }
 }

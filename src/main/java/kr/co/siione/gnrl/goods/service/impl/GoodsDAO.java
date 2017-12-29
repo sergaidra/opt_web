@@ -83,4 +83,7 @@ public class GoodsDAO extends EgovComAbstractDAO {
 		return list("gnrl.goods.getReview", map);
 	}
 
+	public List getReservationDt(HashMap map) throws Exception {
+		return list("gnrl.goods.getReservationDt", map);
+	}
 }
