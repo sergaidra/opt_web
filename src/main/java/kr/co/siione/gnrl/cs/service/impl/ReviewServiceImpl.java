@@ -38,7 +38,7 @@ public class ReviewServiceImpl implements ReviewService {
 			reviewDAO.updatePurchsReview(map);
 		if("Y".equals(map.get("pointYn")) && point == null) {
 			reviewDAO.insertPurchsPoint(map);
-			pointDAO.insertPoint(map);
+			//pointDAO.insertPoint(map);
 		}
     }
     

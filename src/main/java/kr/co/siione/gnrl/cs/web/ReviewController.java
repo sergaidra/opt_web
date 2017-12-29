@@ -156,9 +156,9 @@ public class ReviewController {
 				int REAL_SETLE_AMOUNT = Integer.parseInt(String.valueOf(mPurchs.get(0).get("REAL_SETLE_AMOUNT")));
 				String PURCHS_DE = String.valueOf(mPurchs.get(0).get("PURCHS_DE"));
 				map.put("point", String.valueOf((int)(REAL_SETLE_AMOUNT / 1000)));
-				// 일주일 전인지 계산
+				// 이주일 전인지 계산
 				Calendar cal = Calendar.getInstance();
-				cal.set(Calendar.DATE, -7);
+				cal.set(Calendar.DATE, -14);
 				SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 				String beforeWeek = format.format(cal.getTime());
 				if(beforeWeek.compareTo(PURCHS_DE) <= 0)

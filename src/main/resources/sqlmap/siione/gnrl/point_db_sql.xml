@@ -5,7 +5,7 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 
 	<select id="gnrl.point.getTotalPoint" parameterClass="hashMap" resultClass="int">
-		SELECT NVL(SUM(POINT), 0) FROM TB_POINT WHERE ESNTL_ID = #esntl_id#
+		SELECT NVL(SUM(POINT - USE_POINT), 0) FROM TB_PURCHS_POINT WHERE ESNTL_ID = #esntl_id#
 	</select>
 	
 	<insert id="gnrl.point.insertPoint" parameterClass="hashMap" >
@@ -16,22 +16,22 @@
 	
 	<select id="gnrl.point.selectPointListCount" parameterClass="hashMap" resultClass="Integer">
 		SELECT COUNT(1)
-		FROM TB_POINT
+		FROM TB_PURCHS_POINT
 		WHERE ESNTL_ID = #esntl_id#
 	</select>
 	
 	<select id="gnrl.point.selectPointList"  parameterClass="hashMap" resultClass="hashMap">
 		SELECT C.CODE_NM AS ACCML_SE_NM, TO_CHAR(ACCML_DT,'YYYY-MM-DD') AS ACCML_DT, CASE WHEN P.ACCML_SE = 'A' THEN '+' ELSE '' END || POINT AS POINT
 		FROM (
-			SELECT POINT_SN, ROWNUM AS RNUM
+			SELECT PURCHS_SN, CART_SN, ROWNUM AS RNUM
 			FROM (
-				SELECT POINT_SN 
-				FROM TB_POINT
+				SELECT PURCHS_SN, CART_SN
+				FROM TB_PURCHS_POINT
 				WHERE ESNTL_ID = #esntl_id#
-				ORDER BY POINT_SN DESC
+				ORDER BY ACCML_DT DESC
 			) A
 		) B
-			INNER JOIN TB_POINT P ON B.POINT_SN = P.POINT_SN
+			INNER JOIN TB_PURCHS_POINT P ON B.PURCHS_SN = P.PURCHS_SN AND B.CART_SN = P.CART_SN
 			INNER JOIN TB_CMMN_DETAIL_CODE C ON P.ACCML_SE = C.CODE AND C.CODE_ID = 'COM005'	
 		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
 	</select>
