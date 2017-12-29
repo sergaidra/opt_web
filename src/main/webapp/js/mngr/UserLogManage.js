@@ -181,7 +181,7 @@ var stLog = Ext.create('Ext.data.JsonStore', {
 });
 
 var grLog = Ext.create('Ext.grid.Panel', {
-	title: '회원목록',
+	title: '로그인이력',
 	region:'center',
 	store: stLog,
 	border: true,
@@ -195,17 +195,17 @@ var grLog = Ext.create('Ext.grid.Panel', {
     	align: 'center',
     	width: 50
 	},{
-		text: '이름',
-		width: 100,
+		text: '사용자',
+		width: 120,
 		align: 'center',
 		dataIndex: 'USER_NM'	
 	},{
-		text: '접속일시',
+		text: '로그인일시',
 		width: 150,
 		align: 'center',
 		dataIndex: 'LOGIN_DT'
 	},{
-		text: '접속IP',
+		text: '로그인IP',
 		width: 150,
 		align: 'center',
 		dataIndex: 'LOGIN_IP'

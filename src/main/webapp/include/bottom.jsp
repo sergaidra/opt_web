@@ -43,7 +43,7 @@
       </div>
           <div class="bottom_smenu"><a href="#">회사소개</a> | <a href="#">서비스소개</a> | <a href="#">이용방법</a> | <a href="javascript:go_07_06_01();"">이용약관</a> |
         <div class="mobile_view" ></div>
-        <a href="javascript:go_07_07_01();">여행자약관</a> | <a href="javascript:go_07_08_01();">개인정보 및 취급방침</a></div>
+        <a href="javascript:go_07_07_01();">여행자약관</a> | <a href="javascript:go_07_08_01();">개인정보 및 취급방침</a><c:if test="${author_cl == 'A' or author_cl == 'M'}"> | <a href="javascript:go_09_01_01();">ADMIN</a></c:if></div>
           <div class="bottom_copy" style="line-height:120%;">총괄이사 : 문성철 | 개인정보관리 책임자 : 남용한 (주) SIIONE 네트워크 | 법인등록번호 : A200203945 | 사업자등록번호 : TO-027-2004 <br>
 관광청인허가번호(Accreditation No) : TOP-RO7-00004022-2016 | 시장허가서(PERMIT NO) : 1235 / CY 2017 / DATE ISSUED 01-Mar <br>
 고객센터 : (63)927-377-7293 | 070-7422-0153 | FAX : (63-32)239-7381 | 주소 : 1F Castle Peak Hotel F.cabahug st Mabolo Cabu Phillippines Inc <br>

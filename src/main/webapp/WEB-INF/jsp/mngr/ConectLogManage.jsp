@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>로그인이력조회</title>
+<title>접속이력조회</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/extjs/resources/ext-theme-neptune/ext-theme-neptune-all.css' />">
 <link rel="stylesheet" type="text/css" href="<c:url value='/css/common-extjs.css' />">
@@ -12,8 +12,7 @@
 <script type="text/javascript" src="<c:url value='/js/extjs/locale/ext-lang-ko.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/extjs/ext-theme-neptune.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/mngr/MngrCommon.js' />"></script>
-<script type="text/javascript" src="<c:url value='/js/mngr/UserListWindow.js' />"></script>
-<script type="text/javascript" src="<c:url value='/js/mngr/UserLogManage.js' />"></script>
+<script type="text/javascript" src="<c:url value='/js/mngr/ConectLogManage.js' />"></script>
 </head>
 <body>
 </body>
