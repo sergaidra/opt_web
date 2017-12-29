@@ -280,7 +280,7 @@ function orderInfo(purchs_sn) {
 }
 
 function orderDetail(purchs_sn) {
-	alert("준비중입니다.");
+	document.location.href="<c:url value='/purchs/OrderDetail'/>?purchs_sn=" + purchs_sn;
 }
 
 function timeWithColon(x) {

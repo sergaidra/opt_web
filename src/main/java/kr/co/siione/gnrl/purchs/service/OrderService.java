@@ -10,4 +10,6 @@ public interface OrderService {
 	public int chkFlight(HashMap map)throws Exception;
 	public void setFlight(HashMap map) throws Exception;
 	public void addPurchs(HashMap map) throws Exception;
+	public List<HashMap> getCartPurchsList(HashMap map) throws Exception;
+	public HashMap getPurchs(HashMap map) throws Exception;
 }

@@ -49,4 +49,12 @@ public class OrderDAO extends EgovComAbstractDAO {
 		insert("gnrl.order.insertReservationDay", map);
     }
 
+	public List<HashMap> getCartPurchsList(HashMap map) throws Exception {
+		return list("gnrl.order.getCartPurchsList", map);
+	}
+
+	public HashMap getPurchs(HashMap map) throws Exception {
+		return (HashMap)selectByPk("gnrl.order.getPurchs", map);
+	}
+
 }

@@ -33,7 +33,7 @@
 		<result property="OPTIONS"       column="{ESNTL_ID=ESNTL_ID, CART_SN=CART_SN}" select="gnrl.order.selectCartDetailList" javaType="java.util.ArrayList"/>
 	</resultMap>	
 
-	<resultMap id="rmCartDetail" class="hashMap">
+	<resultMap id="rm" class="hashMap">
 		<result property="SETUP_SE"      column="SETUP_SE"      jdbcType="string" javaType="string"/>
 		<result property="SETUP_NM"      column="SETUP_NM"      jdbcType="string" javaType="string"/>
 		<result property="NMPR_CND"      column="NMPR_CND"      jdbcType="string" javaType="string"/>
@@ -74,7 +74,6 @@
 		 WHERE A.ESNTL_ID = #esntl_id#
 		   AND A.EXPRTN_AT = 'N'
 		   AND A.DELETE_AT = 'N'
-		   AND A.PURCHS_AT = 'N'
 		   AND A.CART_SN = #cart_sn#
 		 ORDER BY DECODE(X.CL_SE, 'S', A.CHKIN_DE, A.TOUR_DE), A.BEGIN_TIME
 	]]>
@@ -179,5 +178,26 @@
 							WHERE G.CL_SE = 'P' AND (G.GOODS_NM LIKE '%픽업%' OR G.GOODS_NM LIKE '%드랍%')	
 								AND CG.PURCHS_AT = 'N' AND CG.DELETE_AT = 'N' AND G.DELETE_AT = 'N' AND CG.ESNTL_ID = #esntl_id# )	
 	</update>
+	
+	<select id="gnrl.order.getCartPurchsList" parameterClass="hashMap" resultClass="hashMap">
+		SELECT PURCHS_SN, CART_SN, PICKUP_PLACE, DROP_PLACE, USE_NMPR, USE_PD 
+		FROM TB_PURCHS_GOODS
+		WHERE PURCHS_SN = #purchs_sn#
+		ORDER BY CART_SN	
+	</select>
+	
+	<select id="gnrl.order.getPurchs" parameterClass="hashMap" resultClass="hashMap">
+		SELECT PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT, TOURIST_NM, TOURIST_CTTPC, KAKAO_ID, BEGINDT
+			, CASE WHEN TO_CHAR(TO_DATE(BEGINDT, 'YYYYMMDD') - 14, 'YYYYMMDD') > TO_CHAR(SYSDATE, 'YYYYMMDD') THEN 'Y' ELSE 'N' END ISCANCEL
+		FROM (
+				SELECT PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT, TOURIST_NM, TOURIST_CTTPC, KAKAO_ID
+					, (	SELECT MIN( CASE WHEN TOUR_DE IS NOT NULL THEN TOUR_DE ELSE CHKIN_DE END)
+						FROM TB_PURCHS_GOODS PG
+							INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN		
+						WHERE PURCHS_SN = #purchs_sn# ) AS BEGINDT
+				FROM TB_PURCHS
+				WHERE PURCHS_SN = #purchs_sn#
+		) A
+	</select>
 	
 </sqlMap>

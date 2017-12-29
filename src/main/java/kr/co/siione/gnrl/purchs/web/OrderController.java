@@ -229,4 +229,56 @@ public class OrderController {
 		
 		return resVo;
 	}
+	
+	@RequestMapping(value="/OrderDetail")
+	public String OrderDetail(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		
+		if("".equals(esntl_id))
+			response.sendRedirect("/member/login/");
+
+		HashMap map = new HashMap();
+		map.put("esntl_id", esntl_id);
+		System.out.println(request.getParameter("purchs_sn"));
+		String purchs_sn = UserUtils.nvl(request.getParameter("purchs_sn"));
+		map.put("purchs_sn", purchs_sn);
+
+		HashMap purchs = orderService.getPurchs(map);
+		if(purchs.get("TOURIST_CTTPC") != null && !"".equals(purchs.get("TOURIST_CTTPC"))) {
+			String [] arrCttPc = String.valueOf(purchs.get("TOURIST_CTTPC")).split("\\-");
+			if(arrCttPc.length == 3) {
+				purchs.put("TOURIST_CTTPC1", arrCttPc[0]);
+				purchs.put("TOURIST_CTTPC2", arrCttPc[1]);
+				purchs.put("TOURIST_CTTPC3", arrCttPc[2]);
+			}
+		}
+		List<HashMap> lstCartPurchs = orderService.getCartPurchsList(map);
+		
+		List<HashMap> lstCart = new ArrayList();
+		try {
+			for(int i = 0; i < lstCartPurchs.size(); i++) {
+				map.put("cart_sn", lstCartPurchs.get(i).get("CART_SN"));
+				HashMap mapCart = orderService.getCartDetail(map);
+				mapCart.put("PICKUP_PLACE", lstCartPurchs.get(i).get("PICKUP_PLACE"));
+				mapCart.put("DROP_PLACE", lstCartPurchs.get(i).get("DROP_PLACE"));
+				mapCart.put("USE_NMPR", lstCartPurchs.get(i).get("USE_NMPR"));
+				mapCart.put("USE_PD", lstCartPurchs.get(i).get("USE_PD"));
+				
+				lstCart.add(mapCart);
+			}
+
+		} catch(Exception e) {e.printStackTrace();}		
+
+        model.addAttribute("lstCart", lstCart);
+        model.addAttribute("purchs_sn", purchs_sn);
+        model.addAttribute("purchs", purchs);
+
+        model.addAttribute("bp", "06");
+       	model.addAttribute("btitle", "결제 상세보기");
+        model.addAttribute("mtitle", "상세보기");
+		
+		return "gnrl/purchs/Order";
+	}	
 }

@@ -148,27 +148,27 @@ function orderInfo() {
       <tbody>
         <tr>
           <th >대표여행자 이름(필수)</th>
-          <td ><input name="tourist_nm" type="text" class="input_st01" id="tourist_nm"  style="width:150px"/></td>
+          <td ><input name="tourist_nm" type="text" class="input_st01" id="tourist_nm"  style="width:150px" value="${purchs.TOURIST_NM}"/></td>
         </tr>
         <tr>
           <th >연락처(필수)</th>
           <td ><!--기본 셀렉트 박스 .w_100p는 사이즈-->
             <select class="w_10p fl" id="tourist_cttpc1" name="tourist_cttpc1">
-              <option selected>010</option>
-              <option>011</option>
-              <option>016</option>
-              <option>017</option>
-              <option>018</option>
-              <option>019</option>
+              <option <c:if test="${purchs.TOURIST_CTTPC1 == '010'}">selected</c:if>>010</option>
+              <option <c:if test="${purchs.TOURIST_CTTPC1 == '011'}">selected</c:if>>011</option>
+              <option <c:if test="${purchs.TOURIST_CTTPC1 == '016'}">selected</c:if>>016</option>
+              <option <c:if test="${purchs.TOURIST_CTTPC1 == '017'}">selected</c:if>>017</option>
+              <option <c:if test="${purchs.TOURIST_CTTPC1 == '018'}">selected</c:if>>018</option>
+              <option <c:if test="${purchs.TOURIST_CTTPC1 == '019'}">selected</c:if>>019</option>
             </select>
             <!--//기본 셀렉트 박스 -->
-            <input name="tourist_cttpc2" type="text" class="input_st01 fl ml_10" id="tourist_cttpc2"  style="width:100px"/>
-            <input name="tourist_cttpc3" type="text" class="input_st01 fl ml_10" id="tourist_cttpc3"  style="width:100px"/></td>
+            <input name="tourist_cttpc2" type="text" class="input_st01 fl ml_10" id="tourist_cttpc2"  style="width:100px" value="${purchs.TOURIST_CTTPC2}"/>
+            <input name="tourist_cttpc3" type="text" class="input_st01 fl ml_10" id="tourist_cttpc3"  style="width:100px" value="${purchs.TOURIST_CTTPC3}"/></td>
           </tr>
         <tr>
           <th>카카오ID</th>
           <td > <!--기본 셀렉트 박스 .w_100p는 사이즈-->
-            <input name="kakao_id" type="text" class="input_st01 fl" id="kakao_id"  style="width:100px"/></td>
+            <input name="kakao_id" type="text" class="input_st01 fl" id="kakao_id"  style="width:100px" value="${purchs.KAKAO_ID}"/></td>
         </tr>
       </tbody>
     </table>
@@ -228,11 +228,11 @@ function orderInfo() {
 			<c:if test="${nmpr_setup_se_V eq '1' or item.CL_SE eq 'P' or item.PICKUP_INCLS_AT eq 'Y'}" >
 				<div class="input_box">
 					<div class="title"><i class="material-icons">&#xE5DB;</i><p>추가 입력사항</p></div>
-					<input name="pickup_place" type="text" class="fl mb_5" id="pickup_place" placeholder="픽업장소를 입력해 주세요 " />
-					<input name="drop_place" type="text" class="fr mb_5" id="drop_place" placeholder="드랍장소를 입력해 주세요 " />
+					<input name="pickup_place" type="text" class="fl mb_5" id="pickup_place" placeholder="픽업장소를 입력해 주세요 " value="${item.PICKUP_PLACE}" />
+					<input name="drop_place" type="text" class="fr mb_5" id="drop_place" placeholder="드랍장소를 입력해 주세요 " value="${item.DROP_PLACE}" />
 					<c:if test="${item.PICKUP_INCLS_AT eq 'Y'}" >
-						<input name="use_nmpr" type="text" class=" fl mb_5" id="use_nmpr" placeholder="이용 인원을 입력해 주세요  (성인1명 / 아동 0명 / 유아 0명)" />               
-		                <input name="use_pd" type="text" class=" fr" id="use_pd" placeholder="이용 기간을 입력해 주세요 " />
+						<input name="use_nmpr" type="text" class=" fl mb_5" id="use_nmpr" placeholder="이용 인원을 입력해 주세요  (성인1명 / 아동 0명 / 유아 0명)"  value="${item.USE_NMPR}"/>               
+		                <input name="use_pd" type="text" class=" fr" id="use_pd" placeholder="이용 기간을 입력해 주세요 " value="${item.USE_PD}" />
 					</c:if>
 				</div>			
 			</c:if>
@@ -417,7 +417,12 @@ function orderInfo() {
     
     </div>
     <div class="btn_sc" onclick="orderInfo();" style="cursor:pointer;">일정표 보기</div>
-  <div class="btn_buy" onclick="addAction();" style="cursor:pointer;">결제하기</div>
+	<c:if test="${purchs_sn == null}">
+		<div class="btn_buy" onclick="addAction();" style="cursor:pointer;">결제하기</div>
+	</c:if>    
+	<c:if test="${purchs_sn != null && purchs.ISCANCEL == 'Y'}">
+		<div class="btn_buy" onclick="addAction();" style="cursor:pointer;">취소하기</div>
+	</c:if>    
 
   </div>
   

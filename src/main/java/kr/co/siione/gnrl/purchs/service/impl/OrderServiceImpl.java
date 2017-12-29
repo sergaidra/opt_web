@@ -96,5 +96,12 @@ public class OrderServiceImpl implements OrderService {
 		mailManager.sendMail(subject, content, String.valueOf(map.get("email")), attachMap);
 	}
 
+	public List<HashMap> getCartPurchsList(HashMap map) throws Exception {
+		return orderDAO.getCartPurchsList(map);
+	}
+	
+	public HashMap getPurchs(HashMap map) throws Exception {
+		return orderDAO.getPurchs(map);
+	}
 }
 
