@@ -43,7 +43,11 @@ function naverLogin() {
 
 function googleLogin() {
 	document.location.href = "${google_url}";
-}	
+}
+
+function facebookLogin() {
+	document.location.href = "${facebook_url}";
+}
 
 </script>
 
@@ -91,7 +95,7 @@ function googleLogin() {
         </div>
       </div>
       <div class="login_div2">
-      	<a href="#"><img src="/images/com/sns_login1.gif" alt=""/></a> 
+      	<a href="javascript:facebookLogin();"><img src="/images/com/sns_login1.gif" alt=""/></a> 
       	<a href="javascript:naverLogin();"><img src="/images/com/sns_login2.gif" alt=""/></a>  
       	<a href="javascript:googleLogin();"><img src="/images/com/sns_login3.gif" alt=""/></a>  
       </div>

@@ -103,5 +103,18 @@ public class OrderServiceImpl implements OrderService {
 	public HashMap getPurchs(HashMap map) throws Exception {
 		return orderDAO.getPurchs(map);
 	}
+	
+	public List<HashMap> getCancelCode(HashMap map) throws Exception {
+		return orderDAO.getCancelCode(map);
+	}
+	
+	public HashMap getCancelRefundAmount(HashMap map) throws Exception {
+		return orderDAO.getCancelRefundAmount(map);
+	}
+	
+	public void cancelPurchs(HashMap map) throws Exception {
+		orderDAO.cancelPurchs(map);
+	}
+
 }
 

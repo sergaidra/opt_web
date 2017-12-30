@@ -31,11 +31,7 @@ public class PurchsServiceImpl implements PurchsService {
     
 	public List<HashMap> selectPurchsDetail(HashMap map) throws Exception {
 		return purchsDAO.selectPurchsDetail(map);
-	}
-	
-	public void cancelPurchs(HashMap map) throws Exception {
-		purchsDAO.cancelPurchs(map);
-	}
+	}	
 	
 	public HashMap viewPurchs(HashMap map) throws Exception {
 		return purchsDAO.viewPurchs(map);

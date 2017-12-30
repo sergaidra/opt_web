@@ -129,6 +129,10 @@ function orderInfo() {
 	window.open("<c:url value='/purchs/OrderInfo'/>?cart_sn=${cart_sn}");
 }
 
+function orderCancel() {
+	$.featherlight('/purchs/popupCancel?purchs_sn=${purchs_sn}' + '&callback=saveComplete', {});
+}
+
 </script>
 </head>
 
@@ -138,6 +142,29 @@ function orderInfo() {
 <div id="container">
   <div class="inner2">
 <div class="sp_50"></div>
+	<c:if test="${purchs.DELETE_AT == 'Y'}">
+		<div class="order_stitle font_st"><i class="material-icons">&#xE5C6;</i>
+			<p>취소정보</p>
+		</div>
+		<div class="tb_04_box">
+			<table  class="tb_01">
+				<col width="18%" />
+				<col width="" />
+				<tbody>
+					<tr>
+						<th >결제취소 구분</th>
+						<td >${purchs.DELETE_RESN_SE}</td>
+					</tr>
+					<tr>
+						<th >결제취소 사유</th>
+						<td >${purchs.DELETE_RESN_ETC}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>		
+		<div class="sp_30"></div>
+	</c:if>    
+
   <div class="order_stitle font_st"><i class="material-icons">&#xE5C6;</i>
     <p>고객정보</p>
   </div>
@@ -397,34 +424,41 @@ function orderInfo() {
       </div>
   
   </div>
-  <div class="order_right">
-    <div class="inbox">
-      <div class="title">최종결제금액</div>
-      <div class="total_1">
-        <div class="t1">
-          <div class="left">총 주문금액</div>
-          <div class="right"><fmt:formatNumber value="${origin_amount}" pattern="#,###" />원</div>
-        </div>
-        <div class="t1">
-          <div class="left">총 할인금액</div>
-          <div class="right"><fmt:formatNumber value="${purchs_amount - origin_amount}" pattern="#,###" />원</div>
-        </div>
-      </div>
-      <div class="total_2">
-        <div class="t1">최종결제금액</div>
-        <div class="t2"><em><fmt:formatNumber value="${purchs_amount}" pattern="#,###" /></em>원</div>
-      </div>
-    
-    </div>
-    <div class="btn_sc" onclick="orderInfo();" style="cursor:pointer;">일정표 보기</div>
-	<c:if test="${purchs_sn == null}">
-		<div class="btn_buy" onclick="addAction();" style="cursor:pointer;">결제하기</div>
-	</c:if>    
-	<c:if test="${purchs_sn != null && purchs.ISCANCEL == 'Y'}">
-		<div class="btn_buy" onclick="addAction();" style="cursor:pointer;">취소하기</div>
-	</c:if>    
-
-  </div>
+	<div class="order_right">
+		<div class="inbox">
+			<div class="title">최종결제금액</div>
+			<div class="total_1">
+				<div class="t1">
+					<div class="left">총 주문금액</div>
+					<div class="right"><fmt:formatNumber value="${origin_amount}" pattern="#,###" />원</div>
+				</div>
+				<div class="t1">
+					<div class="left">총 할인금액</div>
+					<div class="right"><fmt:formatNumber value="${purchs_amount - origin_amount}" pattern="#,###" />원</div>
+				</div>
+			</div>
+			<div class="total_2">
+				<div class="t1">최종결제금액</div>
+				<div class="t2"><em><fmt:formatNumber value="${purchs_amount}" pattern="#,###" /></em>원</div>
+			</div>
+			<c:if test="${purchs.DELETE_AT == 'Y'}">
+				<div class="total_2">
+					<div class="t1">환불금액</div>
+					<div class="t2"><em><fmt:formatNumber value="${purchs.REFUND_AMOUNT}" pattern="#,###" /></em>원</div>
+				</div>
+			</c:if>    
+		</div>
+    <c:if test="${purchs.DELETE_AT != 'Y'}">
+		<div class="btn_sc" onclick="orderInfo();" style="cursor:pointer;">일정표 보기</div>
+			<c:if test="${purchs_sn == null}">
+				<div class="btn_buy" onclick="addAction();" style="cursor:pointer;">결제하기</div>
+			</c:if>    
+			<c:if test="${purchs_sn != null && purchs.ISCANCEL == 'Y'}">
+				<div class="btn_buy" onclick="orderCancel();" style="cursor:pointer;">취소하기</div>
+			</c:if>    
+			<!-- <div class="btn_buy" onclick="orderCancel();" style="cursor:pointer;">취소하기</div> -->
+		</div>
+    </c:if>
   
   <!--//컨텐츠영역 -->
 	  	<div class="sp_50"></div>

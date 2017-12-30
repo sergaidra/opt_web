@@ -117,44 +117,6 @@ public class PurchsController {
     	return mapResult;
     }
 
-
-    @RequestMapping(value="/cancelPurchs")
-    public @ResponseBody ResponseVo cancelPurchs(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
-		ResponseVo resVo = new ResponseVo();
-		resVo.setResult("-1");
-		resVo.setMessage("");
-
-		try {
-	    	HttpSession session = request.getSession();
-			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-
-			if(esntl_id.isEmpty()){
-				resVo.setResult("-2");
-				return resVo;
-			}
-			
-	      	HashMap map = new HashMap();
-
-			String purchs_sn = UserUtils.nvl(param.get("purchs_sn"));
-			String cart_sn = UserUtils.nvl(param.get("cart_sn"));
-
-	    	map.put("purchs_sn", purchs_sn);   
-	    	map.put("cart_sn", cart_sn);
-	    	map.put("esntl_id", esntl_id);
-	    	System.out.println("[cancelPurchs]map:"+map);
-	    	
-	    	purchsService.cancelPurchs(map);
-
-			resVo.setResult("0");			
-		} catch(Exception e) {
-			resVo.setResult("9");			
-			resVo.setMessage(e.getMessage());	
-			e.printStackTrace();
-		}
-		
-		return resVo;    	    	
-    }
-
 	@RequestMapping(value="/OrderInfo")
 	public String OrderInfo(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 

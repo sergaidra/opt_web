@@ -38,10 +38,10 @@ function search(pageNo) {
         		{
         			for(var cnt2 = 0; cnt2 < data.list[cnt].cartlist.length; cnt2++) {
                 		var tr = $("<tr></tr>");
-                		var td1 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].cartlist[cnt2].FILE_CODE + "' width='150' alt='''/></div></td>");
-                		var td2 = $("<td >" + data.list[cnt].PURCHS_SN + "<br /><a href='#' class='big-link button white medium' data-reveal-id='myModal' ></a></td>");
+                		var td1 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">" + data.list[cnt].PURCHS_SN + "<br><br><a href='javascript:orderDetail(" + data.list[cnt].PURCHS_SN + ");'>[상세보기]</a></td>");
+                		var td2 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].cartlist[cnt2].FILE_CODE + "' width='150' alt='''/></div></td>");
                 		var td3 = $("<td class='left'></td>");
-                		var td4 = $("<td >" + dateWithHyphen(data.list[cnt].PURCHS_DE) + "</td>");
+                		var td4 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">" + dateWithHyphen(data.list[cnt].PURCHS_DE) + "</td>");
                 		var td5 = $("<td rowspan=" + data.list[cnt].cartlist.length + "><span class='point_color_b4'>" + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</span></td>");
                 		var td6 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">취소</td>");
 
@@ -63,11 +63,13 @@ function search(pageNo) {
                 		}
                 		$(td3).append(td3sub);
                 		
-                		$(tr).append(td1);
-                		$(tr).append(td2);
-                		$(tr).append(td3);
-                		$(tr).append(td4);
                 		if(cnt2 == 0) {
+	                		$(tr).append(td1);
+                		}
+	               		$(tr).append(td2);
+                		$(tr).append(td3);
+                		if(cnt2 == 0) {
+                    		$(tr).append(td4);
                     		$(tr).append(td5);
                     		$(tr).append(td6);
                 		}
@@ -148,6 +150,10 @@ function search(pageNo) {
         },
 	});			
 
+}
+
+function orderDetail(purchs_sn) {
+	document.location.href="<c:url value='/purchs/OrderDetail'/>?purchs_sn=" + purchs_sn;
 }
 
 
@@ -238,16 +244,16 @@ function lpad(s, padLength, padString){
       <div class="tb_box">
         <div class="tb_05_box">
           <table id="tblList" width="100%" class="tb_05 pc_view" >
-            <col width="15%" />
             <col width="13%" />
+            <col width="15%" />
             <col width="" />
             <col width="17%" />
             <col width="15%" />
             <col width="12%" />
             <thead>
               <tr>
-                <th>이미지</th>
                 <th>결제번호</th>
+                <th>이미지</th>
                 <th>여행정보</th>
                 <th>구매일</th>
                 <th >금액</th>

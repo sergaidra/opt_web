@@ -281,4 +281,66 @@ public class OrderController {
 		
 		return "gnrl/purchs/Order";
 	}	
+	
+    @RequestMapping(value="/popupCancel")
+    public String popupFlight(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+      	HashMap map = new HashMap();
+
+		String purchs_sn = UserUtils.nvl(request.getParameter("purchs_sn"));
+		String callback = UserUtils.nvl(request.getParameter("callback"));		
+
+    	map.put("purchs_sn", purchs_sn);   
+    	System.out.println("[popupCancel]map:"+map);
+    	
+    	List<HashMap> lstCancelCode = orderService.getCancelCode(map);
+    	
+    	model.addAttribute("lstCancelCode", lstCancelCode);
+    	model.addAttribute("purchs_sn", purchs_sn);
+    	model.addAttribute("callback", callback);
+    	
+		return "gnrl/popup/cancel";	
+    }	
+	
+    @RequestMapping(value="/cancelPurchs")
+    public @ResponseBody ResponseVo cancelPurchs(HttpServletRequest request, HttpServletResponse response, @RequestBody HashMap param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+	    	HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+			
+	      	HashMap map = new HashMap();
+
+			String purchs_sn = UserUtils.nvl(param.get("purchs_sn"));
+			String delete_resn_se = UserUtils.nvl(param.get("delete_resn_se"));
+			String delete_resn_etc = UserUtils.nvl(param.get("delete_resn_etc"));
+			String refund_amount = UserUtils.nvl(param.get("refund_amount"));
+
+	    	map.put("purchs_sn", purchs_sn);   
+	    	map.put("delete_resn_se", delete_resn_se);
+	    	map.put("delete_resn_etc", delete_resn_etc);
+	    	map.put("esntl_id", esntl_id);
+	    	System.out.println("[cancelPurchs]map:"+map);
+	    	
+	    	HashMap mapAmount = orderService.getCancelRefundAmount(map);
+	    	map.put("refund_amount", String.valueOf(mapAmount.get("REFUND_AMOUNT")));
+	    	
+	    	orderService.cancelPurchs(map);
+
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;    	    	
+    }
 }

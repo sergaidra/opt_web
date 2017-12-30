@@ -39,7 +39,7 @@ public class FacebookService {
 
 		FacebookConnectionFactory facebookConnectionFactory = new FacebookConnectionFactory(facebook_client_id, facebook_client_secret);
 		OAuth2Parameters googleOAuth2Parameters = new OAuth2Parameters();
-		googleOAuth2Parameters.add("scope", "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.profile.emails.read");
+		googleOAuth2Parameters.add("scope", "public_profile");
 		googleOAuth2Parameters.add("redirect_uri", redirect_url);
 		OAuth2Operations oauthOperations = facebookConnectionFactory.getOAuthOperations();
 		String facebook_url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
@@ -56,7 +56,7 @@ public class FacebookService {
 
 		FacebookConnectionFactory facebookConnectionFactory = new FacebookConnectionFactory(facebook_client_id, facebook_client_secret);
 		OAuth2Parameters googleOAuth2Parameters = new OAuth2Parameters();
-		googleOAuth2Parameters.add("scope", "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.profile.emails.read");
+		googleOAuth2Parameters.add("scope", "public_profile");
 		googleOAuth2Parameters.add("redirect_uri", redirect_url);
     	OAuth2Operations oauthOperations = facebookConnectionFactory.getOAuthOperations(); 
     	AccessGrant accessGrant = oauthOperations.exchangeForAccess(code, googleOAuth2Parameters.getRedirectUri(), null); 

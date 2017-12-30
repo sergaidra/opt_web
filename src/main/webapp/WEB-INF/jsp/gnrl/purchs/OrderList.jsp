@@ -94,8 +94,7 @@ function search(pageNo) {
                 		var td3 = $("<td class='left'></td>");
                 		var td4 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">" + dateWithHyphen(data.list[cnt].PURCHS_DE) + "</td>");
                 		var td5 = $("<td class='right r_line'><span class='point_color_b4'>" + numberWithCommas(data.list[cnt].cartlist[cnt2].PURCHS_AMOUNT) + "원</span></td>");
-                		var td6 = null;
-                		var td7 = null;                		
+                		var td6 = null;                		
                 		
                 		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S') {
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE) + "]</div>");
@@ -116,22 +115,17 @@ function search(pageNo) {
                 		$(td3).append(td3sub);
                 		
                 		var today = getToday(); 
-                		if(today < data.list[cnt].cartlist[cnt2].BEGINDT) {
-                			td6 = $("<td rowspan=" + data.list[cnt].cartlist.length + "><a href='javascript:cancelPurchs(\"" + data.list[cnt].PURCHS_SN + "\");' class='sbtn_01'>취소하기</a></td>");
-                		} else {
-                			td6 = $("<td rowspan=" + data.list[cnt].cartlist.length + "></td>");
-                		}
                 		
                 		if(data.list[cnt].cartlist[cnt2].ENDDT <= today && today <= data.list[cnt].cartlist[cnt2].REVIEWDT) {
                 			if(data.list[cnt].cartlist[cnt2].EXISTREVIEW == "Y")
-                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\");' class='sbtn_01' >후기수정</a></td>");
+                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\");' class='sbtn_01' >후기수정</a></td>");
                 			else
-                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\");' class='sbtn_01' >후기쓰기</a></td>");
+                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\");' class='sbtn_01' >후기쓰기</a></td>");
                 		} else {
                 			if(data.list[cnt].cartlist[cnt2].EXISTREVIEW == "Y")
-                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"R\");' class='sbtn_01' >후기보기</a></td>");
+                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"R\");' class='sbtn_01' >후기보기</a></td>");
                 			else                 			
-                    			td7 = $("<td ></td>");
+                				td6 = $("<td ></td>");
                 		}
                 		
                 		if(cnt2 == 0) {
@@ -143,15 +137,12 @@ function search(pageNo) {
 	                		$(tr).append(td4);
                 		}
                 		$(tr).append(td5);
-                		if(cnt2 == 0) {
-                    		$(tr).append(td6);
-                		}
-                		$(tr).append(td7);                		
+                		$(tr).append(td6);                		
                 		
         	        	$("#tblList tbody").append(tr);        
         			}
         			
-            		var tr2 = "<tr><td colspan=\"6\" class=\"totalbg\" >합계 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>";
+            		var tr2 = "<tr><td colspan=\"5\" class=\"totalbg\" >합계 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>";
     	        	$("#tblList tbody").append(tr2);        
         		}
         		// 모바일
@@ -237,42 +228,6 @@ function search(pageNo) {
 
 function openWriteReview(purchs_sn, cart_sn, goods_code, mode) {
 	$.featherlight('/cs/popupReview?purchs_sn=' + purchs_sn + '&cart_sn=' + cart_sn + '&goods_code=' + goods_code + '&mode=' + mode + '', {});
-}
-
-function cancelPurchs(purchs_sn) {
-	if(!confirm("정말 취소하겠습니까?"))
-		return;
-	
-	var url = "<c:url value='/purchs/cancelPurchs'/>";
-	
-	var param = {};
-	param.purchs_sn = purchs_sn;
-	param.cart_sn = "";
-	
-	$.ajax({
-        url : url,
-        type: "post",
-        dataType : "json",
-        async: "true",
-        contentType: "application/json; charset=utf-8",
-        data : JSON.stringify(param ),
-        success : function(data,status,request){
-			if(data.result == "0") {
-	        	alert("취소되었습니다.");
-	        	document.location.reload();
-			} else if(data.result == "-2") {
-				alert("로그인이 필요합니다.");
-				go_login();
-			} else if(data.result == "9") {
-				alert(data.message);
-			} else{
-				alert("작업을 실패하였습니다.");
-			}
-        },
-        error : function(request,status,error) {
-        	alert(error);
-        },
-	});			
 }
 
 function orderInfo(purchs_sn) {
@@ -425,7 +380,6 @@ function lpad(s, padLength, padString){
                 <th>여행정보</th>
                 <th>구매일</th>
                 <th>금액</th>
-                <th>결제상태</th>
                 <th>후기</th>
               </tr>
             </thead>

@@ -25,10 +25,6 @@ public class PurchsDAO extends EgovComAbstractDAO {
 		return list("gnrl.purchs.selectPurchsDetail", map);
 	}
 
-    public void cancelPurchs(HashMap map) throws Exception {
-		update("gnrl.purchs.cancelPurchs", map);
-    }
-    
 	public HashMap viewPurchs(HashMap map) throws Exception {
 		return (HashMap)selectByPk("gnrl.purchs.viewPurchs", map);
 	}
