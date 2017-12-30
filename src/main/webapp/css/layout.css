@@ -345,7 +345,7 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 45px 0px; bac
 	
 .bt_right{ width: 20%; float: right;}		
 .bt_right .tx1{ width: 100%; float: left; font-size: 14px; color: #ccc; text-align: right; }	
-.bt_right .tx2{ width: 100%; float: left; font-size: 30px; color: #fff;font-weight: 500;  font-family:'Noto Sans Korean', 'Noto Sans KR'; text-align: right; margin-bottom: 5px}
+.bt_right .tx2{ width: 100%; float: left; font-size: 22px; color: #fff;font-weight: 500;  font-family:'Noto Sans Korean', 'Noto Sans KR'; text-align: right; margin-bottom: 5px}
 .bt_right .tx3{ width: 100%; float: left; font-size: 12px; color: #ccc; text-align: right; margin-bottom: 10px}		
 .bt_right .sns{ width: 100%; float: left;  text-align: right; margin-bottom: 20px}	
 .bt_right .sns img{ float:right; margin-left: 5px  }	
@@ -367,7 +367,7 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 	
 .bt_right{ width: 25%; float: right;}		
 .bt_right .tx1{ width: 100%; float: left; font-size: 14px; color: #ccc; text-align: right; }	
-.bt_right .tx2{ width: 100%; float: left; font-size: 30px; color: #fff;font-weight: 500;  font-family:'Noto Sans Korean', 'Noto Sans KR'; text-align: right; margin-bottom: 5px}
+.bt_right .tx2{ width: 100%; float: left; font-size: 22px; color: #fff;font-weight: 500;  font-family:'Noto Sans Korean', 'Noto Sans KR'; text-align: right; margin-bottom: 5px}
 .bt_right .tx3{ width: 100%; float: left; font-size: 12px; color: #ccc; text-align: right; margin-bottom: 10px}		
 .bt_right .sns{ width: 100%; float: left;  text-align: right; margin-bottom: 20px}	
 .bt_right .sns img{ float:right; margin-left: 5px  }	
@@ -389,7 +389,7 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 	
 .bt_right{ width:100%; float: left;}		
 .bt_right .tx1{ width: 100%; float: left; font-size: 14px; color: #ccc; text-align: center; }	
-.bt_right .tx2{ width: 100%; float: left; font-size: 30px; color: #fff;font-weight: 500;  font-family:'Noto Sans Korean', 'Noto Sans KR'; text-align: center; margin-bottom: 5px}
+.bt_right .tx2{ width: 100%; float: left; font-size: 22px; color: #fff;font-weight: 500;  font-family:'Noto Sans Korean', 'Noto Sans KR'; text-align: center; margin-bottom: 5px}
 .bt_right .tx3{ width: 100%; float: left; font-size: 12px; color: #ccc; text-align:center; margin-bottom: 10px}		
 .bt_right .sns{ width: 100%; float: left;  text-align: right; margin-bottom: 20px; text-align:center; }	
 .bt_right .sns img{  margin-left: 5px  }	
