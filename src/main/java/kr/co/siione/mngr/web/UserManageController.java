@@ -33,16 +33,28 @@ public class UserManageController {
 
 	@RequestMapping(value="/mngr/AdminManage/")
 	public String AdminManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		
 		return "/mngr/AdminManage";
 	}
 	
 	@RequestMapping(value="/mngr/UserManage/")
 	public String UserManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		
 		return "/mngr/UserManage";
 	}
 	
 	@RequestMapping(value="/mngr/UserLogManage/")
 	public String UserLogManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		
 		return "/mngr/UserLogManage";
 	}	
 	

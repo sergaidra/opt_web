@@ -19,6 +19,9 @@ public class AdminManageController {
 	public String mngrMain(HttpServletRequest request, HttpServletResponse response, ModelMap map) throws Exception {
 
 		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		
 		String author_cl = UserUtils.nvl((String)session.getAttribute("author_cl"));
 		String user_id = UserUtils.nvl((String)session.getAttribute("user_id"));
 		String user_nm = UserUtils.nvl((String)session.getAttribute("user_nm"));

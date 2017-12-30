@@ -47,11 +47,19 @@ public class GoodsManageController {
 	
 	@RequestMapping(value="/mngr/GoodsManage/")
 	public String GoodsManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		
 		return "/mngr/GoodsManage";
 	}
 
 	@RequestMapping(value="/mngr/GoodsRegist/")
 	public String GoodsRegist(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param, ModelMap model) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		
 		model.put("GOODS_CODE", UserUtils.nvl(param.get("GOODS_CODE")));
 		return "/mngr/GoodsRegist";
 	}

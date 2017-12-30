@@ -34,6 +34,10 @@ public class GoodsInitController {
 	
 	@RequestMapping(value="/mngr/GoodsDtaInit/")
 	public String GoodsInitDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		
 		return "/mngr/GoodsDtaInit";
 	}
 
