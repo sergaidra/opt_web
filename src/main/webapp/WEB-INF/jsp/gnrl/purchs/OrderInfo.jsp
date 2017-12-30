@@ -152,7 +152,7 @@ function savePDF() {
 			<c:set var="doneLoop" value="false"/>
 			<c:forEach var="file" items="${list.goods.lstFile}" varStatus="status3">
 				<c:if test="${not doneLoop}">
-					<img src="<c:url value='/file/getImage/'/>?file_code=${file.FILE_CODE}&file_sn=${file.FILE_SN}" width="300" height="300" alt=""/>
+					<img src="<c:url value='/file/getImageThumb/'/>?file_code=${file.FILE_CODE}&file_sn=${file.FILE_SN}" width="300" height="225" alt=""/>
 				</c:if>
 				<c:if test="${status3.index == 1}">
 					<c:set var="doneLoop" value="true"/>

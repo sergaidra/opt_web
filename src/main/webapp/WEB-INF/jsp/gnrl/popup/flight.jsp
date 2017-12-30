@@ -45,14 +45,14 @@
               	<select name="cmdYear" style="min-width:45%; max-width:100%;">
               		<option value="">=년=</option>
               		<c:forEach var="item" items="${lstYear}">
-	              		<option value="${item}" <c:if test="${result.DTRMC_START_YEAR == item}">selected</c:if>>${item}</option>
+	              		<option value="${item}" <c:if test="${result.DTRMC_START_YEAR == item}">selected</c:if>>${item}년</option>
               		</c:forEach>
               	</select>
               	<select name="cmdMonth" style="min-width:45%; max-width:100%;">
               		<option value="">=월=</option>
               		<c:forEach var="item" begin="1" end="12">              		
               			<fmt:formatNumber minIntegerDigits="2" var="month" value="${item}" type="number"/>
-	              		<option value="${month}" <c:if test="${result.DTRMC_START_MONTH == month}">selected</c:if>>${item}</option>
+	              		<option value="${month}" <c:if test="${result.DTRMC_START_MONTH == month}">selected</c:if>>${item}월</option>
               		</c:forEach>
               	</select>
               	<br/>
@@ -60,7 +60,7 @@
               		<option value="">=일=</option>
               		<c:forEach var="item" begin="1" end="31">
               			<fmt:formatNumber minIntegerDigits="2" var="day" value="${item}" type="number"/>
-	              		<option value="${day}" <c:if test="${result.DTRMC_START_DAY == day}">selected</c:if>>${item}</option>
+	              		<option value="${day}" <c:if test="${result.DTRMC_START_DAY == day}">selected</c:if>>${item}일</option>
               		</c:forEach>
               	</select>
               	<select name="cmdTime" style="min-width:45%; max-width:100%;">
@@ -78,14 +78,14 @@
               	<select name="cmdYear" style="min-width:45%; max-width:100%;">
               		<option value="">=년=</option>
               		<c:forEach var="item" items="${lstYear}">
-	              		<option value="${item}" <c:if test="${result.DTRMC_ARVL_YEAR == item}">selected</c:if>>${item}</option>
+	              		<option value="${item}" <c:if test="${result.DTRMC_ARVL_YEAR == item}">selected</c:if>>${item}년</option>
               		</c:forEach>
               	</select>
               	<select name="cmdMonth" style="min-width:45%; max-width:100%;">
               		<option value="">=월=</option>
               		<c:forEach var="item" begin="1" end="12">              		
               			<fmt:formatNumber minIntegerDigits="2" var="month" value="${item}" type="number"/>
-	              		<option value="${month}" <c:if test="${result.DTRMC_ARVL_MONTH == month}">selected</c:if>>${item}</option>
+	              		<option value="${month}" <c:if test="${result.DTRMC_ARVL_MONTH == month}">selected</c:if>>${item}월</option>
               		</c:forEach>
               	</select>
               	<br/>
@@ -93,7 +93,7 @@
               		<option value="">=일=</option>
               		<c:forEach var="item" begin="1" end="31">
               			<fmt:formatNumber minIntegerDigits="2" var="day" value="${item}" type="number"/>
-	              		<option value="${day}" <c:if test="${result.DTRMC_ARVL_DAY == day}">selected</c:if>>${item}</option>
+	              		<option value="${day}" <c:if test="${result.DTRMC_ARVL_DAY == day}">selected</c:if>>${item}일</option>
               		</c:forEach>
               	</select>
               	<select name="cmdTime" style="min-width:45%; max-width:100%;">
@@ -147,14 +147,14 @@
               	<select name="cmdYear" style="min-width:45%; max-width:100%;">
               		<option value="">=년=</option>
               		<c:forEach var="item" items="${lstYear}">
-	              		<option value="${item}" <c:if test="${result.HMCMG_START_YEAR == item}">selected</c:if>>${item}</option>
+	              		<option value="${item}" <c:if test="${result.HMCMG_START_YEAR == item}">selected</c:if>>${item}년</option>
               		</c:forEach>
               	</select>
               	<select name="cmdMonth" style="min-width:45%; max-width:100%;">
               		<option value="">=월=</option>
               		<c:forEach var="item" begin="1" end="12">              		
               			<fmt:formatNumber minIntegerDigits="2" var="month" value="${item}" type="number"/>
-	              		<option value="${month}" <c:if test="${result.HMCMG_START_MONTH == month}">selected</c:if>>${item}</option>
+	              		<option value="${month}" <c:if test="${result.HMCMG_START_MONTH == month}">selected</c:if>>${item}월</option>
               		</c:forEach>
               	</select>
               	<br/>
@@ -162,7 +162,7 @@
               		<option value="">=일=</option>
               		<c:forEach var="item" begin="1" end="31">
               			<fmt:formatNumber minIntegerDigits="2" var="day" value="${item}" type="number"/>
-	              		<option value="${day}" <c:if test="${result.HMCMG_START_DAY == day}">selected</c:if>>${item}</option>
+	              		<option value="${day}" <c:if test="${result.HMCMG_START_DAY == day}">selected</c:if>>${item}일</option>
               		</c:forEach>
               	</select>
               	<select name="cmdTime" style="min-width:45%; max-width:100%;">
@@ -180,14 +180,14 @@
               	<select name="cmdYear" style="min-width:45%; max-width:100%;">
               		<option value="">=년=</option>
               		<c:forEach var="item" items="${lstYear}">
-	              		<option value="${item}" <c:if test="${result.HMCMG_ARVL_YEAR == item}">selected</c:if>>${item}</option>
+	              		<option value="${item}" <c:if test="${result.HMCMG_ARVL_YEAR == item}">selected</c:if>>${item}년</option>
               		</c:forEach>
               	</select>
               	<select name="cmdMonth" style="min-width:45%; max-width:100%;">
               		<option value="">=월=</option>
               		<c:forEach var="item" begin="1" end="12">              		
               			<fmt:formatNumber minIntegerDigits="2" var="month" value="${item}" type="number"/>
-	              		<option value="${month}" <c:if test="${result.HMCMG_ARVL_MONTH == month}">selected</c:if>>${item}</option>
+	              		<option value="${month}" <c:if test="${result.HMCMG_ARVL_MONTH == month}">selected</c:if>>${item}월</option>
               		</c:forEach>
               	</select>
               	<br/>
@@ -195,7 +195,7 @@
               		<option value="">=일=</option>
               		<c:forEach var="item" begin="1" end="31">
               			<fmt:formatNumber minIntegerDigits="2" var="day" value="${item}" type="number"/>
-	              		<option value="${day}" <c:if test="${result.HMCMG_ARVL_DAY == day}">selected</c:if>>${item}</option>
+	              		<option value="${day}" <c:if test="${result.HMCMG_ARVL_DAY == day}">selected</c:if>>${item}일</option>
               		</c:forEach>
               	</select>
               	<select name="cmdTime" style="min-width:45%; max-width:100%;">
