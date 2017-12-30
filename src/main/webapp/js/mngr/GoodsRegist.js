@@ -1815,7 +1815,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 		}]*/
 	},{
 		xtype: 'fieldset',
-		title: '<span style="font-weight:bold;">라이브뷰 홍보</span>',
+		title: '<span style="font-weight:bold;">동영상 홍보</span>',
 		padding: '10 20 10 10',
 		items: [{
 			xtype: 'fieldcontainer',
@@ -3448,7 +3448,7 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 		dataIndex: 'RECOMEND_AT',
 		renderer: Ext.ux.comboBoxRenderer(comboYn)
 	},{
-		text: '라이브뷰',
+		text: '동영상',
 		width: 80,
 		align: 'center',
 		sortable: false,

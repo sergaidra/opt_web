@@ -61,7 +61,7 @@ function fnLiveView(url, obj) {
 <div class="sp_50 pc_view"></div>
 	 <div class="sp_20 mobile_view"></div>
     <div class="inner2">
-		   <div class="com_stitle">라이브뷰 홍보</div>
+		   <div class="com_stitle">동영상 홍보</div>
 		<div id="grid-gallery" class="grid-gallery">
 				<section class="grid-wrap">
 					<ul class="grid">
@@ -293,7 +293,7 @@ function fnLiveView(url, obj) {
 	 <div class="sp_20 mobile_view"></div><!--여백-->
   </div>
 
-<!--팝업 : 라이브뷰 홍보방-->
+<!--팝업 : 동영상 홍보방-->
 <div class="lightbox" id="divVideoPlayer">
   <div class="popup_com2" style="/*margin-top:30px;*/ width:100%;">
   	<div id="videoTitle" style="font-size:26px; font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight:500;"></div>
