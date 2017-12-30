@@ -8,12 +8,12 @@
 
 <script type="text/javascript">
 $(function() {
-	$.datetimepicker.setLocale('en');
+	//$.datetimepicker.setLocale('en');
 
-	$('#birth').datetimepicker( {
+	/* $('#birth').datetimepicker( {
 		format:'Y-m-d',
 		timepicker:false
-	});
+	}); */
 	
 	$("#password").change(function () { $("#mpassword").val($("#password").val()); });
 	$("#mpassword").change(function () { $("#password").val($("#mpassword").val()); });
@@ -160,8 +160,8 @@ function validation() {
 	var password = $.trim($("#password").val());
 	var passwordchk = $.trim($("#passwordchk").val());
 	
-	if(password.length < 4 || password.length > 12) {
-		alert("비밀번호는 4~12자리 이내로 입력하세요.");
+	if(password.length < 8 || password.length > 12) {
+		alert("비밀번호는 8~12자리 이내로 입력하세요.");
 		$("#password").focus();
 		return false;
 	}
@@ -241,7 +241,7 @@ function validation() {
           <th>비밀번호</th>
           <td class="line"><input id="password" name="password" type="password" class="w_20p pc_view" value=""   />
           	<!--모바일 --><input id="mpassword" name="password" type="password" class="w_50p mobile_view"  value=""   />
-            &nbsp;&nbsp;4~12자리 이내로 입력하세요.</td>
+            &nbsp;&nbsp;8~12자리 이내로 입력하세요.</td>
         </tr>
         <tr>
           <th>비밀번호 확인</th>
@@ -261,8 +261,8 @@ function validation() {
         <tr>
           <th>핸드폰 </th>
           <td class="line"><input id="moblphon_no" name="moblphon_no" type="text"  class="w_30p pc_view" value=""   />
-          <!--모바일 --><input id="mmoblphon_no" name="moblphon_no" name="input3" type="text" class="w_100p mobile_view"  value=""   />
-            &nbsp;&nbsp;&nbsp;
+          <!--모바일 --><input id="mmoblphon_no" name="moblphon_no" type="text" class="w_50p mobile_view"  value=""   />
+            &nbsp;&nbsp;(예)000-0000-0000
             <!-- <div class="btnst2"><a href="#" class="big-link" data-reveal-id="myModal" >인증번호 전송</a></div> --></td>
         </tr>
         <!-- <tr>
@@ -294,7 +294,11 @@ function validation() {
         </tr>
         <tr>
           <th>생년월일</th>
-          <td class="line"><input id="birth" name="birth" type="text" class="w_100p" value=""  /></td>
+          <td class="line">
+          <input id="birth" name="birth" type="text" class="w_20p pc_view" value=""  />
+          <!--모바일 --><input id="mbirth" name="birth" type="text" class="w_50p mobile_view"  value=""   />
+          &nbsp;&nbsp;(예)1980-01-01
+          </td>
         </tr>
       </tbody>
     </table>

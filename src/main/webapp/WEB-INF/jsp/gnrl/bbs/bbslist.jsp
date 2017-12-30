@@ -53,9 +53,9 @@ function search(pageNo) {
         		{
             		var tr = null;
             		if(data.list[cnt].SECRET_AT == "Y" && data.list[cnt].ORIGIN_WRITNG_ID != "${esntl_id}" && !("${author_cl}" == "A" || "${author_cl}" == "M")) {
-        				tr = $("<tr onclick='javascript:viewSecret(" + data.list[cnt].BBS_SN + ");'></tr>");
+        				tr = $("<tr height='35' onclick='javascript:viewSecret(" + data.list[cnt].BBS_SN + ");'></tr>");
             		} else {
-        				tr = $("<tr onclick='javascript:viewBbs(" + data.list[cnt].BBS_SN + ");'></tr>");
+        				tr = $("<tr height='35' onclick='javascript:viewBbs(" + data.list[cnt].BBS_SN + ");'></tr>");
             		}
             		var td1 = null;
             		var td2 = null;
