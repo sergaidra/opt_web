@@ -36,7 +36,7 @@ public class PurchsManageController {
 	public String PurchsManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		if(esntl_id.equals("")) return "/mngr/login";
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
 		
 		return "/mngr/PurchsManage";
 	}
@@ -45,7 +45,7 @@ public class PurchsManageController {
 	public String PurchsTourManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		if(esntl_id.equals("")) return "/mngr/login";
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
 				
 		return "/mngr/PurchsTourManage";
 	}

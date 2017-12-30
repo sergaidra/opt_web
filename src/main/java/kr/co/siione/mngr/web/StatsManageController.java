@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.co.siione.mngr.service.StatsManageService;
 import kr.co.siione.utl.UserUtils;
@@ -32,6 +33,10 @@ public class StatsManageController {
 
 	@RequestMapping(value="/mngr/ConectLogManage/")
 	public String ConectLogManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		
 		return "/mngr/ConectLogManage";
 	}	
 	

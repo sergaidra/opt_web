@@ -41,11 +41,19 @@ public class TourClManageController {
 
 	@RequestMapping(value="/mngr/TourClUpperManage/")
 	public String TourClUpperManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		
 		return "/mngr/TourClUpperManage";
 	}
 
 	@RequestMapping(value="/mngr/TourClManage/")
 	public String TourClManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		
 		return "/mngr/TourClManage";
 	}
 
