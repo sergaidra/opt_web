@@ -539,7 +539,12 @@ function writeanswer() {
           </tbody>
         </table>
       </div>
-      <div class="popup_btn"><a href="javascript:writeanswer();">등록하기</a>&nbsp;&nbsp;<a href="javascript:deletebbsadmin();">사용자글 삭제하기</a></div>
+      <div class="popup_btn">
+      	<a href="javascript:writeanswer();">등록하기</a>&nbsp;&nbsp;
+      	<c:if test="${author_cl == 'A'}">
+      		<a href="javascript:deletebbsadmin();">사용자글 삭제하기</a>
+      	</c:if>
+      </div>
     </div>
   </div>
 </div>

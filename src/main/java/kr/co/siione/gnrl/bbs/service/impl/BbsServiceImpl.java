@@ -25,7 +25,7 @@ public class BbsServiceImpl implements BbsService {
 
     public void deleteAdminBbs(HashMap map) throws Exception {
     	bbsDAO.insertBbs(map);
-    	bbsDAO.deleteBbs(map);
+    	bbsDAO.deleteAdminBbs(map);
     }
 
     public void updateBbs(HashMap map) throws Exception {

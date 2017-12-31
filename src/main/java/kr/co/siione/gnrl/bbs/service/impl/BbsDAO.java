@@ -21,6 +21,10 @@ public class BbsDAO extends EgovComAbstractDAO {
     public void deleteBbs(HashMap map) throws Exception {
 		insert("gnrl.bbs.deleteBbs", map);
     }
+    
+    public void deleteAdminBbs(HashMap map) throws Exception {
+		insert("gnrl.bbs.deleteAdminBbs", map);
+    }    
 
     public void updateBbs(HashMap map) throws Exception {
 		insert("gnrl.bbs.updateBbs", map);

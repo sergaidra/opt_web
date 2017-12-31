@@ -36,6 +36,19 @@
 		WHERE BBS_SN = #bbs_sn#
 	</update>	
 
+	<update id="gnrl.bbs.deleteAdminBbs" parameterClass="hashMap">
+		UPDATE TB_BBS SET DELETE_AT = #delete_at#
+		WHERE BBS_SN IN (SELECT BBS_SN
+							FROM (
+								SELECT BBS_SN, LEVEL AS LVL, MAX (LEVEL) OVER () AS MAXLVL
+								FROM  TB_BBS
+									START WITH BBS_SN = #bbs_sn#
+									CONNECT BY PRIOR PARENT_BBS_SN = BBS_SN
+							)
+							WHERE MAXLVL = LVL
+						)
+	</update>	
+
 	<update id="gnrl.bbs.updateBbs" parameterClass="hashMap">
 		UPDATE TB_BBS SET SUBJECT = #subject#, CONTENTS = #contents#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE, SECRET_AT = #secret_at#
 			, SUBCATEGORY = #subcategory#
