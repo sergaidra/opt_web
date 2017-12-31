@@ -35,7 +35,11 @@ function search(pageNo) {
         		{
             		var tr = $("<tr></tr>");
             		var td1 = $("<td class='left'>" + (data.startIdx + cnt) + "</td>");
-            		var td2 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + "</td>");
+            		var td2 = null;
+            		if(data.list[cnt].ACCML_SE == "A")
+            			td2 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + " (" + data.list[cnt].GOODS_NM + ") </td>");
+            		else
+            			td2 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + "</td>");
             		var td3 = $("<td class='point_color_b4'>" + data.list[cnt].ACCML_DT + "</td>");
             		var td4 = null;
             		
