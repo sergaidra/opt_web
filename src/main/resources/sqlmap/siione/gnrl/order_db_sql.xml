@@ -233,5 +233,9 @@
 		WHERE PURCHS_SN = #purchs_sn#
 	</update>
 	
+	<delete id="gnrl.order.cancelReservationDay" parameterClass="hashMap" >
+		DELETE FROM TB_GOODS_RSV_DAY WHERE (GOODS_CODE, CART_SN) IN ( SELECT GOODS_CODE, CART_SN FROM TB_PURCHS_GOODS WHERE PURCHS_SN = #purchs_sn#  ) 
+	</delete>
+	
 	
 </sqlMap>

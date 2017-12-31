@@ -115,6 +115,7 @@ public class OrderServiceImpl implements OrderService {
 	
 	public void cancelPurchs(HashMap map) throws Exception {
 		orderDAO.cancelPurchs(map);
+		orderDAO.cancelReservationDay(map);
 	}
 
 }
