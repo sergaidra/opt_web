@@ -50,4 +50,7 @@ public class ReviewServiceImpl implements ReviewService {
 		reviewDAO.deletePurchsReview(map);
 	}
 
+	public HashMap getCartPurchsAmount(HashMap map) throws Exception {
+		return reviewDAO.getCartPurchsAmount(map);
+	}
 }

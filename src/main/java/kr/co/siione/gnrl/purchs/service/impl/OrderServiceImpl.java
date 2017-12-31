@@ -93,7 +93,8 @@ public class OrderServiceImpl implements OrderService {
 		content = content.replaceAll("[$]\\{contents\\}", "일정표를 보려면 <a href='http://" + webserverip + "/purchs/OrderInfo?purchs_sn=" + purchs_sn + "' target='_blank'>[여기]</a>를 클릭하세요.");
 		
 		//map.put("email", "leeyikw@gmail.com");		
-		mailManager.sendMail(subject, content, String.valueOf(map.get("email")), attachMap);
+		if(map.get("email") != null && !"".equals(String.valueOf(map.get("email"))))
+			mailManager.sendMail(subject, content, String.valueOf(map.get("email")), attachMap);
 	}
 
 	public List<HashMap> getCartPurchsList(HashMap map) throws Exception {

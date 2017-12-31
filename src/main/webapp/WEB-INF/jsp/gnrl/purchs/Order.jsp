@@ -126,7 +126,10 @@ function addAction() {
 }
 
 function orderInfo() {
-	window.open("<c:url value='/purchs/OrderInfo'/>?cart_sn=${cart_sn}");
+	if("${purchs_sn}" == "") 
+		window.open("<c:url value='/purchs/OrderInfo'/>?cart_sn=${cart_sn}");
+	else
+		window.open("<c:url value='/purchs/OrderInfo'/>?purchs_sn=${purchs_sn}");
 }
 
 function orderCancel() {

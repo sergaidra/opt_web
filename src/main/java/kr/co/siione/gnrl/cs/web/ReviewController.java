@@ -147,23 +147,18 @@ public class ReviewController {
 	    	map.put("esntl_id", esntl_id);
 			map.put("accml_se", "A");
 			map.put("point", "0");
-			map.put("valid_de", "20181231");
-			map.put("valid_dt", "20181231");	// TB_POINT 용
 			map.put("pointYn", "N");
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.YEAR, 1);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			map.put("valid_de", sdf.format(cal.getTime()));
 			
-			List<HashMap> mPurchs = purchsService.selectPurchsDetail(map);
-			if(mPurchs.size() > 0) {
-				int REAL_SETLE_AMOUNT = Integer.parseInt(String.valueOf(mPurchs.get(0).get("REAL_SETLE_AMOUNT")));
-				String PURCHS_DE = String.valueOf(mPurchs.get(0).get("PURCHS_DE"));
-				map.put("point", String.valueOf((int)(REAL_SETLE_AMOUNT / 1000)));
-				// 이주일 전인지 계산
-				Calendar cal = Calendar.getInstance();
-				cal.set(Calendar.DATE, -14);
-				SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-				String beforeWeek = format.format(cal.getTime());
-				if(beforeWeek.compareTo(PURCHS_DE) <= 0)
-					map.put("pointYn", "Y");
-			}
+			HashMap purchsAmount = reviewService.getCartPurchsAmount(map);
+			if(purchsAmount != null) {
+				int PURCHS_AMOUNT = Integer.parseInt(String.valueOf(purchsAmount.get("PURCHS_AMOUNT")));
+				map.put("point", String.valueOf((int)(PURCHS_AMOUNT / 1000)));
+				map.put("pointYn", "Y");
+			}				
 			
 	    	System.out.println("[savePurchsReview]map:"+map);
 	    	

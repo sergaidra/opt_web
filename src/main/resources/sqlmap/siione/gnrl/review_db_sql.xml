@@ -63,6 +63,11 @@
 		VALUES ( #purchs_sn#, #cart_sn#, #point#, #accml_se#, SYSDATE, #valid_de#, #esntl_id#)
 	</insert>
 	
+	<select id="gnrl.review.getCartPurchsAmount" parameterClass="hashMap" resultClass="hashMap">
+		SELECT PURCHS_AMOUNT
+		FROM TB_CART_GOODS
+		WHERE CART_SN = #cart_sn#
+	</select>
 	
 	
 </sqlMap>

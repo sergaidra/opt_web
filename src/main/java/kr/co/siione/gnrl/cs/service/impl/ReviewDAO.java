@@ -41,4 +41,8 @@ public class ReviewDAO extends EgovComAbstractDAO {
 		return (HashMap)selectByPk("gnrl.review.selectPurchsPoint", map);
 	}
 
+	public HashMap getCartPurchsAmount(HashMap map) throws Exception {
+		return (HashMap)selectByPk("gnrl.review.getCartPurchsAmount", map);
+	}
+	
 }

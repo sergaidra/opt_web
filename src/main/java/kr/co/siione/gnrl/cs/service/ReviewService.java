@@ -10,4 +10,5 @@ public interface ReviewService {
 	public void insertPurchsReview(HashMap map) throws Exception;
 	public HashMap selectPurchsReview(HashMap map) throws Exception;
 	public void deletePurchsReview(HashMap map) throws Exception;
+	public HashMap getCartPurchsAmount(HashMap map) throws Exception;
 }
