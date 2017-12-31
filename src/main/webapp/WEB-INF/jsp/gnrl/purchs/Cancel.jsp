@@ -6,10 +6,60 @@
 
 <head>
 
+<!-- 날짜선택 -->	
+<script src="/jq/time/build/jquery.datetimepicker.full.js"></script> 
+
 <script type="text/javascript">
+var DAY = 1000 * 60 * 60 * 24;
 
 $(function(){
-	search(1);
+	$.datetimepicker.setLocale('en');
+
+	$('.some_class').datetimepicker( {
+		format:'Y-m-d',
+		timepicker:false
+	});
+	
+	$("input[name='chkRange']").click(function () {
+		$("input[name='chkRange']").prop("checked", false);
+		$(this).prop("checked", true);
+		$('#end_dt').val(getToday());
+		switch($(this).val()) {
+		case "0":	// 오늘
+			$('#start_dt').val(getToday());
+			break;
+		case "1":	// 1주일
+			$('#start_dt').val(getDateToString(new Date(new Date() - (7 * DAY))));
+			break;
+		case "2":	// 15일
+			$('#start_dt').val(getDateToString(new Date(new Date() - (15 * DAY))));
+			break;
+		case "3":	// 1개월
+			$('#start_dt').val(getDateToString(new Date(new Date() - (30 * DAY))));
+			break;
+		case "4":	// 3개월
+			$('#start_dt').val(getDateToString(new Date(new Date() - (90 * DAY))));
+			break;
+		case "5":	// 6개월
+			$('#start_dt').val(getDateToString(new Date(new Date() - (180 * DAY))));
+			break;
+		case "6":	// 1년
+			var dd = new Date();
+			dd.setFullYear(dd.getFullYear() - 1);
+			$('#start_dt').val(getDateToString(dd));
+			break;
+		}
+	});
+	
+	$("#btnSearch").click(function () {
+		$("#search_start_dt").val($("#start_dt").val().replace(/[\-]/g, ""));
+		$("#search_end_dt").val($("#end_dt").val().replace(/[\-]/g, ""));
+		search(1);
+	});
+		
+	$('.some_class').val(getToday());
+	
+	$("#btnSearch").trigger("click");
 });
 
 function search(pageNo) {
@@ -38,12 +88,12 @@ function search(pageNo) {
         		{
         			for(var cnt2 = 0; cnt2 < data.list[cnt].cartlist.length; cnt2++) {
                 		var tr = $("<tr></tr>");
-                		var td1 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">" + data.list[cnt].PURCHS_SN + "<br><br><a href='javascript:orderDetail(" + data.list[cnt].PURCHS_SN + ");'>[상세보기]</a></td>");
+                		var td1 = $("<td rowspan=" + (data.list[cnt].cartlist.length + 1) + ">" + data.list[cnt].PURCHS_SN + "<br><br><a href='javascript:orderDetail(" + data.list[cnt].PURCHS_SN + ");'>[상세보기]</a></td>");
                 		var td2 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].cartlist[cnt2].FILE_CODE + "' width='150' alt='''/></div></td>");
                 		var td3 = $("<td class='left'></td>");
                 		var td4 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">" + dateWithHyphen(data.list[cnt].PURCHS_DE) + "</td>");
-                		var td5 = $("<td rowspan=" + data.list[cnt].cartlist.length + "><span class='point_color_b4'>" + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</span></td>");
-                		var td6 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">취소</td>");
+                		var td5 = $("<td class='right r_line'><span class='point_color_b4'>" + numberWithCommas(data.list[cnt].cartlist[cnt2].PURCHS_AMOUNT) + "원</span></td>");
+                		var td6 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">" + dateWithHyphen(data.list[cnt].DELETE_DT) + "</td>");
 
                 		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S') {
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE) + "]</div>");
@@ -70,12 +120,17 @@ function search(pageNo) {
                 		$(tr).append(td3);
                 		if(cnt2 == 0) {
                     		$(tr).append(td4);
-                    		$(tr).append(td5);
+                		}
+                   		$(tr).append(td5);
+                   		if(cnt2 == 0) {
                     		$(tr).append(td6);
                 		}
                 		
         	        	$("#tblList tbody").append(tr);        
         			}
+        			
+            		var tr2 = "<tr><td colspan=\"5\" class=\"totalbg\" >합계 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>";
+    	        	$("#tblList tbody").append(tr2);
         		}
         		// 모바일
         		{
@@ -106,7 +161,7 @@ function search(pageNo) {
 
         	        	$("#tblmList tbody").append(tr);        
         			}
-        			$("#tblmList tbody").append("<tr><td colspan='2' class='totalbg'><div class='total'>  진행상태  <em>취소</em></div>금액 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>");
+        			$("#tblmList tbody").append("<tr><td colspan='2' class='totalbg'><div class='total'> <a href='javascript:orderDetail(" + data.list[cnt].PURCHS_SN + ");' class=\"sbtn_01\">상세보기</a> </div>합계 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>");
         		}
         	}
         	
@@ -239,11 +294,52 @@ function lpad(s, padLength, padString){
         </ul>
       </div>
     </div>
+    <div class="order_search">
+      <div class="s_box1">
+        <div class="inbox">
+          <div class="fl_t1">조회기간 선택</div>
+          <div class="fl_t2">
+            <input class="to-labelauty st_w2 input_w30" type="checkbox" name="chkRange" data-labelauty="오늘" value="0" checked/>
+            <input class="to-labelauty st_w2 input_w30" type="checkbox" name="chkRange" data-labelauty="1주일" value="1" />
+            <input class="to-labelauty st_w2 fl" type="checkbox" name="chkRange" data-labelauty="15일" value="2"/>
+            <input class="to-labelauty st_w2 fl" type="checkbox" name="chkRange" data-labelauty="1개월" value="3"/>
+            <input class="to-labelauty st_w2 fl" type="checkbox" name="chkRange" data-labelauty="3개월" value="4"/>
+            <input class="to-labelauty st_w2 fl" type="checkbox" name="chkRange" data-labelauty="6개월" value="5"/>
+            <input class="to-labelauty st_w2 fl" type="checkbox" name="chkRange" data-labelauty="1년" value="6"/>
+          </div>
+        </div>
+        <div class="inbox2">
+          <div class="fl_t1">조회기간 선택</div>
+          <div class="fl_t2">
+            <div class="day_input">
+              <input type="text" class="some_class" value="" id="start_dt"/>
+              <i class="material-icons">date_range</i> </div>
+            <span>~</span>
+            <div class="day_input">
+              <input type="text" class="some_class" value="" id="end_dt"/>
+              <i class="material-icons">date_range</i></div>
+          </div>
+        </div>
+        <div class="inbox3">
+          <div class="fl_t1">통합검색</div>
+          <div class="fl_t2">
+            <select class="w_30p">
+              <option>통합검색</option>
+              <option>통합검색</option>
+            </select>
+            <input type="text"  value="" id="" class="w_60p"/>
+          </div>
+        </div>
+      </div>
+      <div class="s_box2">
+        <div class="search_btn" id="btnSearch">조회하기</div>
+      </div>
+    </div>
     <div class="order_list">
       <div class="title">취소목록</div>
       <div class="tb_box">
         <div class="tb_05_box">
-          <table id="tblList" width="100%" class="tb_05 pc_view" >
+          <table id="tblList" width="100%" class="tb_07 pc_view" >
             <col width="13%" />
             <col width="15%" />
             <col width="" />
@@ -257,7 +353,7 @@ function lpad(s, padLength, padString){
                 <th>여행정보</th>
                 <th>구매일</th>
                 <th >금액</th>
-                <th >결제상태</th>
+                <th >취소일</th>
               </tr>
             </thead>
             <tbody>

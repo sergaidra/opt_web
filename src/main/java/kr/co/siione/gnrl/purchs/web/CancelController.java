@@ -75,12 +75,16 @@ public class CancelController {
 
     	HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		
+		String start_dt = UserUtils.nvl(param.get("start_dt"));
+		String end_dt = UserUtils.nvl(param.get("end_dt"));
+
 		int hidPage = Integer.parseInt(UserUtils.nvl(param.get("hidPage"))); // 페이지번호
 		int startIdx = (hidPage - 1) * 5 + 1;
 		int endIdx = hidPage * 5;
 
     	map.put("esntl_id", esntl_id);   
+    	map.put("start_dt", start_dt);
+    	map.put("end_dt", end_dt);
     	map.put("hidPage", hidPage);
     	map.put("startIdx", startIdx);
     	map.put("endIdx", endIdx);

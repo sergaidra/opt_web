@@ -6,6 +6,9 @@
 
 	<sql id="whereCancelList">
 		AND P.ESNTL_ID = #esntl_id# AND P.DELETE_AT = 'Y'
+		<isNotEmpty property="start_dt">
+			AND TO_CHAR(P.DELETE_DT, 'YYYYMMDD') BETWEEN #start_dt# AND #end_dt#
+		</isNotEmpty>
 	</sql>
 	
 	<select id="gnrl.cancel.selectCancelListCount" parameterClass="hashMap" resultClass="Integer">
@@ -16,7 +19,7 @@
 	</select>
 		
 	<select id="gnrl.cancel.selectCancelList" parameterClass="hashMap" resultClass="hashMap">
-		SELECT P.PURCHS_SN, P.PURCHS_DE, P.TOT_SETLE_AMOUNT
+		SELECT P.PURCHS_SN, P.PURCHS_DE, P.TOT_SETLE_AMOUNT, TO_CHAR(P.DELETE_DT, 'YYYYMMDD') AS DELETE_DT
 		FROM (
 			SELECT A.PURCHS_SN, ROWNUM AS RNUM
 			FROM (
@@ -34,7 +37,7 @@
 
 	<select id="gnrl.cancel.selectPurchsCartList" parameterClass="hashMap" resultClass="hashMap">
 		SELECT G.FILE_CODE, P.PURCHS_SN, P.PURCHS_DE, P.TOT_SETLE_AMOUNT, CG.CART_SN, G.GOODS_NM, G.GOODS_CODE
-			, CG.TOUR_DE, CG.CHKIN_DE, CG.CHCKT_DE, CG.BEGIN_TIME, CG.END_TIME, G.CL_SE
+			, CG.TOUR_DE, CG.CHKIN_DE, CG.CHCKT_DE, CG.BEGIN_TIME, CG.END_TIME, G.CL_SE, CG.PURCHS_AMOUNT
 		FROM TB_PURCHS P
 			INNER JOIN TB_PURCHS_GOODS PG ON P.PURCHS_SN = PG.PURCHS_SN
 			INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN
