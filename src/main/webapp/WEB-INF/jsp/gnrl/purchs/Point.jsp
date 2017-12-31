@@ -62,7 +62,12 @@ function search(pageNo) {
         		// 모바일
         		{
             		var tr = $("<tr></tr>");
-            		var td1 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + "<br><span class='point_color_b4'>" + data.list[cnt].ACCML_DT + "</span></td>");
+            		var td1 = null;
+            		if(data.list[cnt].ACCML_SE == "A")
+            			td1 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + " (" + data.list[cnt].GOODS_NM + ")<br><span class='point_color_b4'>" + data.list[cnt].ACCML_DT + "</span></td>");
+            		else
+            			td1 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + "<br><span class='point_color_b4'>" + data.list[cnt].ACCML_DT + "</span></td>");
+            		
             		var td2 = null;
             		
             		if(data.list[cnt].POINT.substr(0, 1) == "+")
