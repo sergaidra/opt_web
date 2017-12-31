@@ -376,7 +376,7 @@ function addWish(goods_code, obj) {
 		  <div class="in">
 		    <div class="tx1"><span name="goods_nm"></span></div>
 			   <div class="tx2"><span name="goods_nm_title"></span></div>
-			   <div id="divHit" class="hit" style="z-index:999999;" ><i class="material-icons">favorite</i>
+			   <div id="divHit" class="hit" style="z-index:999;" ><i class="material-icons">favorite</i>
 
 				   </div>
 			    <div class="total"><span name="cf_reprsnt_amount"></span><em>원</em></div>
