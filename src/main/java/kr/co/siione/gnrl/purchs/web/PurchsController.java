@@ -132,8 +132,11 @@ public class PurchsController {
 
     	List<HashMap> lstGoods = null;
     	
-    	if(purchs_sn != null && !"".equals(purchs_sn))
+    	if(purchs_sn != null && !"".equals(purchs_sn)) {
     		lstGoods = purchsService.getOrderInfoGoodsTime(map);
+    		HashMap purchs = purchsService.viewPurchs(map);
+    		model.addAttribute("purchs", purchs);
+    	}
     	else
     		lstGoods = purchsService.getCartInfoGoodsTime(map);
 

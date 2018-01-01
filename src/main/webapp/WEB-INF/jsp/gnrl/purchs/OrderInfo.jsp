@@ -24,40 +24,7 @@
 	<script src="<c:url value='/jq/pdf/html2canvas.min.js' />" type="text/javascript"></script>
 	<script src="<c:url value='/jq/pdf/jspdf.min.js' />" type="text/javascript"></script>
 
-<script>
-function savePDF() {
-	html2canvas(document.getElementById("wrap"), {
-		  onrendered: function(canvas) {
-		 
-		    // 캔버스를 이미지로 변환
-		    var imgData = canvas.toDataURL('image/png');
-		     
-		    var imgWidth = 210; // 이미지 가로 길이(mm) A4 기준
-		    var pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
-		    var imgHeight = canvas.height * imgWidth / canvas.width;
-		    var heightLeft = imgHeight;
-		     
-		        var doc = new jsPDF('p', 'mm');
-		        var position = 0;
-		         
-		        // 첫 페이지 출력
-		        doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-		        heightLeft -= pageHeight;
-		         
-		        // 한 페이지 이상일 경우 루프 돌면서 출력
-		        while (heightLeft >= 20) {
-		          position = heightLeft - imgHeight;
-		          doc.addPage();
-		          doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-		          heightLeft -= pageHeight;
-		        }
-		 
-		        // 파일 저장
-		        doc.save('sample_A4.pdf');
-		  }
-		});	
-}
-</script>	
+
 </head>
 
 <body>
@@ -214,6 +181,64 @@ function savePDF() {
 	</c:forEach>	
  
 </div>
+<div id="blankImage" style="width:100%; height:10px; background:white;">
+</div>
 <!-- //본문 -->
+<script>
+var blankImage = null;
+var blankWidth = null;
+var blankHeight = null;
+html2canvas(document.getElementById("blankImage"), {
+	  onrendered: function(canvas) {
+		  blankImage = canvas.toDataURL('image/png');
+		  blankWidth = canvas.width;
+		  blankHeight = canvas.height;
+		  console.log(blankImage);
+	  }
+});
+
+function savePDF() {
+	html2canvas(document.getElementById("wrap"), {
+		  onrendered: function(canvas) {
+				 
+			    // 캔버스를 이미지로 변환
+			    var imgData = canvas.toDataURL('image/png');
+			    var padding = 10;
+			     
+			    var imgWidth = 210; // 이미지 가로 길이(mm) A4 기준
+			    var pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
+			    var imgHeight = canvas.height * imgWidth / canvas.width;
+			    var heightLeft = imgHeight;
+			     
+			        var doc = new jsPDF('p', 'mm');
+			        var position = 0;
+			         
+			        // 첫 페이지 출력
+			        doc.addImage(imgData, 'PNG', padding, padding, imgWidth - (padding * 2), imgHeight);
+			        doc.addImage(blankImage, 'PNG', 0, pageHeight - blankHeight, blankWidth, blankHeight);
+			        heightLeft -= (pageHeight - blankHeight * 3);
+			         
+			        // 한 페이지 이상일 경우 루프 돌면서 출력
+			        while (heightLeft >= 0) {
+			          position = heightLeft - imgHeight;
+			          doc.addPage();
+			          doc.addImage(imgData, 'PNG', padding, position, imgWidth - (padding * 2), imgHeight);
+			          doc.addImage(blankImage, 'PNG', 0, 0, blankWidth, blankHeight);
+			          doc.addImage(blankImage, 'PNG', 0, pageHeight - blankHeight, blankWidth, blankHeight);
+			          heightLeft -= (pageHeight - blankHeight * 2);
+			        }
+			 
+			        // 파일 저장
+			        // 결제일자_대표여행자이름_결제번호.pdf
+			        <c:if test="${purchs != null}">
+				        doc.save('${purchs.PURCHS_DE}_${purchs.TOURIST_NM}_${purchs.PURCHS_SN}.pdf');
+			        </c:if>
+			        <c:if test="${purchs == null}">
+			        	doc.save('Itinerary.pdf');
+			        </c:if>
+		  }
+		});	
+}
+</script>	
 </body>
 </html>
