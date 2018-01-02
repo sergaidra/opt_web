@@ -96,7 +96,7 @@ function search(pageNo) {
                 		var td5 = $("<td class='right r_line'><span class='point_color_b4'>" + numberWithCommas(data.list[cnt].cartlist[cnt2].PURCHS_AMOUNT) + "원</span></td>");
                 		var td6 = null;                		
                 		
-                		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S') {
+                		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S' || data.list[cnt].cartlist[cnt2].CL_SE == 'T') {
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE) + "]</div>");
                 		} else {
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE) + " " + timeWithColon(data.list[cnt].cartlist[cnt2].BEGIN_TIME) + " ~ " + timeWithColon(data.list[cnt].cartlist[cnt2].END_TIME) + "]</div>");
@@ -105,10 +105,11 @@ function search(pageNo) {
                 		var td3sub = $("<div class='tx3'></div>");
                 		for(var cnt3 = 0; cnt3 < data.list[cnt].cartlist[cnt2].OPTIONS.length; cnt3++) {
                     		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S') {
-                    			$(td3sub).append("옵션 : " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].SETUP_NM + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CND);            			
+                    			$(td3sub).append(data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].SETUP_NM + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CND + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CO + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].UNIT_NM);
                     		} else {
-                    			$(td3sub).append("옵션 : " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CND + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CO + "명");
-                    		}           		
+                    			$(td3sub).append(data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CND + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CO + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].UNIT_NM);
+                    		}
+								
                     		if(cnt2 + 1 != data.list[cnt].cartlist[cnt2].OPTIONS.length)
                     			$(td3sub).append("<br/>");
                 		}
@@ -149,18 +150,19 @@ function search(pageNo) {
         		{
         			for(var cnt2 = 0; cnt2 < data.list[cnt].cartlist.length; cnt2++) {
             			var tx1 = "";
-                		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S') {
+                		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S' || data.list[cnt].cartlist[cnt2].CL_SE == 'T') {
                     		tx1 = dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE);
                 		} else {
                 			tx1 = dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE) + " " + timeWithColon(data.list[cnt].cartlist[cnt2].BEGIN_TIME) + " ~ " + timeWithColon(data.list[cnt].cartlist[cnt2].END_TIME);
                 		}
                 		var tx3 = "";
                 		for(var cnt3 = 0; cnt3 < data.list[cnt].cartlist[cnt2].OPTIONS.length; cnt3++) {
-                    		if(data.list[cnt].CL_SE == 'S') {
-                    			tx3 += "옵션 : " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].SETUP_NM + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CND;
+                    		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S') {
+                    			tx3 += data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].SETUP_NM + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CND + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CO + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].UNIT_NM;
                     		} else {
-                    			tx3 += "옵션 : " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CND + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CO + "명";
-                    		}           		
+                    			tx3 += data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CND + " " + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].NMPR_CO + data.list[cnt].cartlist[cnt2].OPTIONS[cnt3].UNIT_NM;
+                    		}    
+                    			
                     		if(cnt2 + 1 != data.list[cnt].cartlist[cnt2].OPTIONS.length)
                     			tx3 += "<br/>";
                 		}

@@ -335,8 +335,8 @@
 		<result property="CTY_NM"        column="CTY_NM"      	jdbcType="string" javaType="string"/>
 		<result property="UPPER_CL_NM"   column="UPPER_CL_NM" 	jdbcType="string" javaType="string"/>
 		<result property="CL_NM"         column="CL_NM"        	jdbcType="string" javaType="string"/>
-		<result property="ORIGIN_AMOUNT"         column="ORIGIN_AMOUNT"        	jdbcType="string" javaType="string"/>
-		<result property="PURCHS_AT"         column="PURCHS_AT"        	jdbcType="string" javaType="string"/>
+		<result property="ORIGIN_AMOUNT" column="ORIGIN_AMOUNT" jdbcType="string" javaType="string"/>
+		<result property="PURCHS_AT"     column="PURCHS_AT"     jdbcType="string" javaType="string"/>
 		<result property="OPTIONS"       column="{ESNTL_ID=ESNTL_ID, CART_SN=CART_SN}" select="gnrl.cart.selectCartDetailList" javaType="java.util.ArrayList"/>
 	</resultMap>	
 	
@@ -345,6 +345,7 @@
 		<result property="SETUP_NM"      column="SETUP_NM"      jdbcType="string" javaType="string"/>
 		<result property="NMPR_CND"      column="NMPR_CND"      jdbcType="string" javaType="string"/>
 		<result property="NMPR_CO"       column="NMPR_CO"       jdbcType="string" javaType="string"/>
+		<result property="UNIT_NM"       column="UNIT_NM"       jdbcType="string" javaType="string"/>
 	</resultMap>	
 	
 	<select id="gnrl.cart.selectCartList" parameterClass="hashMap" resultMap="rmCartList">
@@ -393,6 +394,7 @@
 		     , B.SETUP_AMOUNT
 		     , B.SETUP_RATE
 		     , A.NMPR_CO
+		     , (SELECT X.CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID = 'COM008' AND X.CODE = B.CO_UNIT_SE) UNIT_NM
 		  FROM TB_CART_NMPR A
 		     , TB_GOODS_NMPR B
 		 WHERE A.CART_SN = #CART_SN#

@@ -383,7 +383,11 @@ function writeanswer() {
 	   <div class="sp_50"></div>
   <div class="inner2">
   	<div class="order_list">
-	   <div class="com_stitle">여행상담 작성하기</div>
+	   <div class="com_stitle">여행상담
+	        <c:if test="${mode == 'write'}" >작성하기</c:if>
+	        <c:if test="${mode == 'modify'}" >수정하기</c:if>
+	        <c:if test="${mode == 'view'}" >상세보기</c:if>
+	    </div>
         <div class="review_wr_box">
         	<input type="checkbox" id="secret_at" name="secret_at" checked style="display:none;">
             <table  class="review_wr">
@@ -455,7 +459,7 @@ function writeanswer() {
                   <tr>
                     <th>내용</th>
                     <td colspan="3" class="end">
-                    	${view.CONTENTS }
+                    	${view.CONTENTS_VIEW }
                     </td>
                   </tr>
 				</c:if>

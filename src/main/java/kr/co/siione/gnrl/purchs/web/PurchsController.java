@@ -153,7 +153,7 @@ public class PurchsController {
     		String time = "";
     		String text = "";
     		String options = "";
-    		if("S".equals(String.valueOf(lstGoods.get(i).get("CL_SE")))) {
+    		if("S".equals(String.valueOf(lstGoods.get(i).get("CL_SE"))) || "T".equals(String.valueOf(lstGoods.get(i).get("CL_SE")))) {
     			// 숙박
     			try	{
     				Date dt1 = format.parse(String.valueOf(lstGoods.get(i).get("CHKIN_DE")));

@@ -60,8 +60,8 @@
 		</c:forEach>
 		<div class="tb_01_box">
 			<table class="tb_01">
-				<col width="22%">
-				<col width="30%">
+				<col width="15%">
+				<col width="15%">
 				<col width="">
 				<tbody>
 				<c:forEach var="item" items="${lstReservation}" varStatus="status1">
@@ -70,8 +70,8 @@
 						<c:if test="${status2.index == 0}">
 							<td rowspan='${fn:length(item.list)}'>${item.day}</td>
 						</c:if>
-						<td>${list.time}</td><td>${list.text}</td>
-						<td>${list.options}</td>
+						<td>${list.time}</td><td align="left">${list.text}</td>
+						<td align="left">${list.options}</td>
 						</tr>
 					</c:forEach>
 				</c:forEach>

@@ -345,17 +345,19 @@ function numberWithCommas(x) {
 						</c:if>
 						<br />
 					</div>		
-					<c:if test="${result.CL_SE ne 'S'}">
+					<c:if test="${result.CL_SE ne 'S' && result.CL_SE ne 'T'}">
 						<div class="text1">${fn:substring(result.BEGIN_TIME,0,2)}시 ${fn:substring(result.BEGIN_TIME,2,4)}분 ~ ${fn:substring(result.END_TIME,0,2)}시 ${fn:substring(result.END_TIME,2,4)}분</div>
-						<c:forEach var="options" items="${result.OPTIONS}" varStatus="status">
-							<div class="text1">${options.NMPR_CND} ${options.NMPR_CO}명 </div>
-						</c:forEach>
-					</c:if>					
+					</c:if>
 					<c:if test="${result.CL_SE eq 'S'}">
 						<c:forEach var="options" items="${result.OPTIONS}" varStatus="status">
-							<div class="text1">${options.SETUP_NM} ${options.NMPR_CND} </div>
+							<div class="text1">${options.SETUP_NM} ${options.NMPR_CND} ${options.NMPR_CO}${options.UNIT_NM}</div>
 						</c:forEach>
-					</c:if>					
+					</c:if>				
+					<c:if test="${result.CL_SE ne 'S'}">
+						<c:forEach var="options" items="${result.OPTIONS}" varStatus="status">
+							<div class="text1">${options.NMPR_CND} ${options.NMPR_CO}${options.UNIT_NM}</div>
+						</c:forEach>
+					</c:if>				
 					<!-- <div class="option_re">
 						<div class="select_box">
 							<select name="" class="w_30p">
@@ -402,22 +404,24 @@ function numberWithCommas(x) {
 	  <c:forEach var="result" items="${cartList}" varStatus="status">
 	  <div class="cart_list_box" style="height:130px;">
 	  	<div class="img"><div class="cart_img" style="background: url('<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}'); background-size: cover; "></div></div>
-	  	<div class="title">${result.GOODS_NM}
+	  	<div class="title">${result.GOODS_NM}<br />
 				<c:if test="${!empty result.TOUR_DE}">
-					${fn:substring(result.TOUR_DE,0,4)}년 ${fn:substring(result.TOUR_DE,4,6)}월 ${fn:substring(result.TOUR_DE,6,8)}일
+					${fn:substring(result.TOUR_DE,0,4)}.${fn:substring(result.TOUR_DE,4,6)}.${fn:substring(result.TOUR_DE,6,8)}
 				</c:if>
 				<c:if test="${!empty result.CHKIN_DE}">
-					${fn:substring(result.CHKIN_DE,0,4)}년 ${fn:substring(result.CHKIN_DE,4,6)}월 ${fn:substring(result.CHKIN_DE,6,8)}일 ~ ${fn:substring(result.CHCKT_DE,0,4)}년 ${fn:substring(result.CHCKT_DE,4,6)}월 ${fn:substring(result.CHCKT_DE,6,8)}일
+					${fn:substring(result.CHKIN_DE,0,4)}.${fn:substring(result.CHKIN_DE,4,6)}.${fn:substring(result.CHKIN_DE,6,8)}~${fn:substring(result.CHCKT_DE,0,4)}.${fn:substring(result.CHCKT_DE,4,6)}.${fn:substring(result.CHCKT_DE,6,8)}
 				</c:if>  	
-				<c:if test="${result.CL_SE ne 'S'}">
-					<div class="text1">${fn:substring(result.BEGIN_TIME,0,2)}시 ${fn:substring(result.BEGIN_TIME,2,4)}분 ~ ${fn:substring(result.END_TIME,0,2)}시 ${fn:substring(result.END_TIME,2,4)}분</div>
-					<c:forEach var="options" items="${result.OPTIONS}" varStatus="status">
-						<div class="text1">${options.NMPR_CND} ${options.NMPR_CO}명 </div>
-					</c:forEach>
-				</c:if>					
+				<c:if test="${result.CL_SE ne 'S' && result.CL_SE ne 'T'}">
+					<div class="text1">${fn:substring(result.BEGIN_TIME,0,2)}:${fn:substring(result.BEGIN_TIME,2,4)} ~ ${fn:substring(result.END_TIME,0,2)}:${fn:substring(result.END_TIME,2,4)}</div>
+				</c:if>
 				<c:if test="${result.CL_SE eq 'S'}">
 					<c:forEach var="options" items="${result.OPTIONS}" varStatus="status">
-						<div class="text1">${options.SETUP_NM} ${options.NMPR_CND} </div>
+						<div class="text1">${options.SETUP_NM} ${options.NMPR_CND} ${options.NMPR_CO}${options.UNIT_NM}</div>
+					</c:forEach>
+				</c:if>
+				<c:if test="${result.CL_SE ne 'S'}">
+					<c:forEach var="options" items="${result.OPTIONS}" varStatus="status">
+						<div class="text1">${options.NMPR_CND} ${options.NMPR_CO}${options.UNIT_NM}</div>
 					</c:forEach>
 				</c:if>					
 	  	</div>
