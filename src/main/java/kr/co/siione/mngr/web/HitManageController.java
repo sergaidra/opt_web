@@ -1,7 +1,5 @@
 package kr.co.siione.mngr.web;
 
-import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +19,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 @Controller
@@ -37,28 +32,24 @@ public class HitManageController {
 	@Resource(name = "HitManageService")
 	private HitManageService hitManageService;
 
-	@Resource(name = "FileManageService")
-	private FileManageService fileManageService;
-
-	@RequestMapping(value="/mngr/HitManage/")
-	public String HitManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/mngr/GoodsHitManage/")
+	public String GoodsHitManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
 		
-		return "/mngr/HitManage";
+		return "/mngr/GoodsHitManage";
 	}
 
-	@RequestMapping(value="/mngr/selectHitList/")
-	public void selectHitList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
-		List<Map<String,String>> results = null;
-
+	@RequestMapping(value="/mngr/selectGoodsHitList/")
+	public void selectGoodsHitList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
 		Map<String, Object> result = new HashMap<String, Object>();
-
+		UserUtils.log(param);
 		try {
-			results = hitManageService.selectGoodsHitList(param);
+			int cnt = hitManageService.selectGoodsHitListCount(param);
+			List<Map<String,String>> results = hitManageService.selectGoodsHitList(param);
 
-			result.put("rows", results.size());
+			result.put("rows", cnt);
 			result.put("data", results);
 			result.put("success", true);
 		} catch (Exception e) {

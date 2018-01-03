@@ -691,6 +691,9 @@
     </sql>
 
     <sql id="GoodsDAO.whereForSelectGoodsListForSearch">
+        <isNotEmpty property="GOODS_CODE">
+           AND GOODS_CODE = LPAD(#GOODS_CODE#, 10, '0')
+        </isNotEmpty>
         <isNotEmpty property="DELETE_AT">
            AND DELETE_AT = #DELETE_AT#
         </isNotEmpty>

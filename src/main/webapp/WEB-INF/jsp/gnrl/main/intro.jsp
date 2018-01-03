@@ -597,7 +597,7 @@ function fnLiveView(url, title, desc) {
       </ul>
     </div>
   </div>
-  
+<%--   
 	<div class="banner_box">
 		<div class="inbox">     
 			<!-- pc-->
@@ -681,7 +681,7 @@ function fnLiveView(url, title, desc) {
     </script>
 		</div>
 	</div>
-  
+  --%> 
   
   
 <!--팝업 : 라이브뷰 홍보방-->

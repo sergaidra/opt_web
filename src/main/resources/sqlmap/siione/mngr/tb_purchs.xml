@@ -131,7 +131,7 @@
 		     , PG.PICKUP_PLACE
 		     , PG.DROP_PLACE
 		     , PG.USE_NMPR
-		     , PG.USE_PD		     
+		     , PG.USE_PD
 		  FROM TB_PURCHS P
 		     , TB_PURCHS_GOODS PG
 		     , TB_CART_GOODS CG
@@ -140,7 +140,7 @@
 		   AND PG.CART_SN = CG.CART_SN
 		   AND CG.GOODS_CODE = G.GOODS_CODE
 		   AND P.PURCHS_SN = #PURCHS_SN#
-		 ORDER BY NVL(CG.TOUR_DE, CG.CHKIN_DE), CG.BEGIN_TIME	
+		 ORDER BY NVL(CG.TOUR_DE, CG.CHKIN_DE), CG.BEGIN_TIME
 	]]>
 	</select>
 	
@@ -172,17 +172,22 @@
 	</select>
 	
 	<sql id="PurchsDAO.whereForSelectPurchsListForSchdul">
-		AND CG.PURCHS_AT = 'Y'
-		AND (   CG.CHKIN_DE BETWEEN REPLACE(#FR_TOUR_DE#, '-', '') AND REPLACE(#TO_TOUR_DE#, '-', '')
-		     OR CG.CHCKT_DE BETWEEN REPLACE(#FR_TOUR_DE#, '-', '') AND REPLACE(#TO_TOUR_DE#, '-', '')
-		     OR CG.TOUR_DE  BETWEEN REPLACE(#FR_TOUR_DE#, '-', '') AND REPLACE(#TO_TOUR_DE#, '-', '') )
+		 WHERE P.PURCHS_SN IN (SELECT PG.PURCHS_SN 
+		                         FROM TB_CART_GOODS CG
+		                            , TB_PURCHS_GOODS PG
+		                        WHERE CG.CART_SN = PG.CART_SN 
+		                          AND CG.PURCHS_AT = 'Y'
+		                          AND (   CG.CHKIN_DE BETWEEN REPLACE(#FR_TOUR_DE#, '-', '') AND REPLACE(#TO_TOUR_DE#, '-', '')
+		                               OR CG.CHCKT_DE BETWEEN REPLACE(#FR_TOUR_DE#, '-', '') AND REPLACE(#TO_TOUR_DE#, '-', '')
+		                               OR CG.TOUR_DE  BETWEEN REPLACE(#FR_TOUR_DE#, '-', '') AND REPLACE(#TO_TOUR_DE#, '-', '') ) )
+		<isNotEmpty property="DELETE_AT">
+		   AND P.DELETE_AT = #DELETE_AT#
+		</isNotEmpty>
 	</sql>	
 	
 	<select id="PurchsDAO.selectPurchsListForSchdulCount" parameterClass="hashMap" resultClass="java.lang.Integer">
-		SELECT COUNT(DISTINCT PG.PURCHS_SN) 
-		  FROM TB_CART_GOODS CG
-		     , TB_PURCHS_GOODS PG
-		 WHERE CG.CART_SN = PG.PURCHS_SN
+		SELECT COUNT(DISTINCT P.PURCHS_SN) 
+		  FROM TB_PURCHS P
 		<include refid="PurchsDAO.whereForSelectPurchsListForSchdul"/>
 	</select>
 	
@@ -202,13 +207,8 @@
 		     , P.KAKAO_ID
 		     , P.DELETE_AT
 		     , TO_CHAR(P.DELETE_DT, 'YYYY-MM-DD HH24:MI:SS') DELETE_DT
-		  FROM TB_PURCHS P
-		 WHERE P.PURCHS_SN IN (SELECT PG.PURCHS_SN 
-		                         FROM TB_CART_GOODS CG
-		                            , TB_PURCHS_GOODS PG
-		                        WHERE CG.CART_SN = PG.PURCHS_SN ]]>
+		  FROM TB_PURCHS P ]]>
 		<include refid="PurchsDAO.whereForSelectPurchsListForSchdul"/>
-		                      )
 		<include refid="PurchsDAO.pagingQueryEnd"/>
 	</select>	
 </sqlMap>

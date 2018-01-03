@@ -54,7 +54,7 @@ public class MainController {
     	List<HashMap> expsrList2 = goodsService.getGoodsExpsrList2();
     	List<HashMap> expsrList3 = goodsService.getGoodsExpsrList3();
     	List<HashMap> lstVideo = liveViewService.mainVideolist(null);
-    	List<HashMap> lstBanner = mainService.getBanner(null);
+    	//List<HashMap> lstBanner = mainService.getBanner(null);
     	
     	HashMap map = new HashMap();
     	List<HashMap> lstNotice = noticeService.mainNoticelist(map);
@@ -78,7 +78,7 @@ public class MainController {
         model.addAttribute("reco", expsrList2);
         model.addAttribute("self", expsrList3);
         model.addAttribute("video", lstVideo);
-        model.addAttribute("lstBanner", lstBanner);        
+        //model.addAttribute("lstBanner", lstBanner);        
         model.addAttribute("lstNotice", lstNotice);
         model.addAttribute("popupNotice", popupNotice);        
         

@@ -18,5 +18,8 @@ public class GoodsHitDAO extends EgovComAbstractDAO {
 	public List<Map<String, String>> selectGoodsHitList(Map<String, String> param) throws Exception {
 		return list("GoodsHitDAO.selectGoodsHitList", param);
 	}
-
+	
+	public int selectGoodsHitListCount(Map<String, String> param) throws Exception {
+		return (Integer)selectByPk("GoodsHitDAO.selectGoodsHitListCount", param);
+	}
 }

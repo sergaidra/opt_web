@@ -1,6 +1,6 @@
-Ext.define('ConectInfo', {
+Ext.define('GoodsHitInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['CONECT_SN', 'CONECT_ID', 'USER_NM', 'CONECT_IP', 'CONECT_DT']
+	fields: ['HIT_SN', 'HIT_ID', 'HIT_NM', 'HIT_IP', 'HIT_DT', 'GOODS_CODE', 'GOODS_NM', 'DELETE_AT', 'DELETE_AT_NM']
 });
 
 Ext.define('HistInfo', {
@@ -8,9 +8,9 @@ Ext.define('HistInfo', {
 	fields: ['CONECT_DT', {name:'CONECT_CNT', type:'int'}, {name:'CONECT_MBER_CNT', type:'int'}, {name:'CONECT_NOT_MBER_CNT', type:'int'}]
 });
 
-var frHist = Ext.create('Ext.form.Panel', {
+var frHit = Ext.create('Ext.form.Panel', {
 	title: '접속이력',
-	id: 'form-hist',
+	id: 'form-hit',
 	region: 'north',
 	height: 75,
 	items: [{
@@ -22,7 +22,7 @@ var frHist = Ext.create('Ext.form.Panel', {
 			layout: 'hbox',
 			items: [{
 				xtype: 'datefield',
-				name: 'FR_CONECT_DT',
+				name: 'FR_HIT_DT',
 				width: 180,
 				fieldLabel: '조회기간', 
 				labelSeparator: ': ', 
@@ -34,7 +34,7 @@ var frHist = Ext.create('Ext.form.Panel', {
 				value: new Date(Date.parse(new Date())-1000*60*60*24)				
 			}, {
 				xtype: 'datefield', 
-				name: 'TO_CONECT_DT', 
+				name: 'TO_HIT_DT', 
 				width: 125, 
 				fieldLabel: '~', 
 				labelSeparator: '', 
@@ -51,8 +51,8 @@ var frHist = Ext.create('Ext.form.Panel', {
 				width: 60,
 				listeners: {
 					click: function() {
-						stHist.proxy.extraParams = Ext.getCmp('form-hist').getForm().getValues();
-						stHist.loadPage(1);
+						stHit.proxy.extraParams = Ext.getCmp('form-hit').getForm().getValues();
+						stHit.loadPage(1);
 					}
 				}
 			},{
@@ -61,16 +61,16 @@ var frHist = Ext.create('Ext.form.Panel', {
 				text: '초기화',
 				width: 60,
 				handler: function(){
-					frHist.getForm().reset();
-					stHist.removeAll();
+					frHit.getForm().reset();
+					stHit.removeAll();
 				}
 			}]
 		}]
 	}]
 });
 
-var frHistDay = Ext.create('Ext.form.Panel', {
-	id: 'form-hist-day',
+var frHitDay = Ext.create('Ext.form.Panel', {
+	id: 'form-hit-day',
 	title: '접속이력',
 	region: 'north',
 	height: 75,
@@ -83,7 +83,7 @@ var frHistDay = Ext.create('Ext.form.Panel', {
 			layout: 'hbox',
 			items: [{
 				xtype: 'datefield',
-				name: 'FR_CONECT_DT',
+				name: 'FR_HIT_DT',
 				width: 180,
 				fieldLabel: '조회기간', 
 				labelSeparator: ': ', 
@@ -95,7 +95,7 @@ var frHistDay = Ext.create('Ext.form.Panel', {
 				value: new Date(Date.parse(new Date())-6*1000*60*60*24)				
 			}, {
 				xtype: 'datefield', 
-				name: 'TO_CONECT_DT', 
+				name: 'TO_HIT_DT', 
 				width: 125, 
 				fieldLabel: '~', 
 				labelSeparator: '', 
@@ -112,8 +112,8 @@ var frHistDay = Ext.create('Ext.form.Panel', {
 				width: 60,
 				listeners: {
 					click: function() {
-						stHistDay.proxy.extraParams = Ext.getCmp('form-hist-day').getForm().getValues();
-						stHistDay.loadPage(1);
+						stHitDay.proxy.extraParams = Ext.getCmp('form-hit-day').getForm().getValues();
+						stHitDay.loadPage(1);
 					}
 				}
 			},{
@@ -122,16 +122,16 @@ var frHistDay = Ext.create('Ext.form.Panel', {
 				text: '초기화',
 				width: 60,
 				handler: function(){
-					frHistDay.getForm().reset();
-					stHistDay.removeAll();
+					frHitDay.getForm().reset();
+					stHitDay.removeAll();
 				}
 			}]
 		}]
 	}]
 });
 
-var frHistMonth = Ext.create('Ext.form.Panel', {
-	id: 'form-hist-month',
+var frHitMonth = Ext.create('Ext.form.Panel', {
+	id: 'form-hit-month',
 	region: 'north',
 	height: 75,
 	items: [{
@@ -143,7 +143,7 @@ var frHistMonth = Ext.create('Ext.form.Panel', {
 			layout: 'hbox',
 			items: [{
 				xtype: 'datefield',
-				name: 'FR_CONECT_DT',
+				name: 'FR_HIT_DT',
 				width: 180,
 				fieldLabel: '조회기간', 
 				labelSeparator: ': ', 
@@ -155,7 +155,7 @@ var frHistMonth = Ext.create('Ext.form.Panel', {
 				value: Ext.Date.getFirstDateOfMonth(new Date())		
 			}, {
 				xtype: 'datefield', 
-				name: 'TO_CONECT_DT', 
+				name: 'TO_HIT_DT', 
 				width: 125, 
 				fieldLabel: '~', 
 				labelSeparator: '', 
@@ -172,8 +172,8 @@ var frHistMonth = Ext.create('Ext.form.Panel', {
 				width: 60,
 				listeners: {
 					click: function() {
-						stHistMonth.proxy.extraParams = Ext.getCmp('form-hist-month').getForm().getValues();
-						stHistMonth.loadPage(1);
+						stHitMonth.proxy.extraParams = Ext.getCmp('form-hit-month').getForm().getValues();
+						stHitMonth.loadPage(1);
 					}
 				}
 			},{
@@ -182,21 +182,21 @@ var frHistMonth = Ext.create('Ext.form.Panel', {
 				text: '초기화',
 				width: 60,
 				handler: function(){
-					frHistMonth.getForm().reset();
-					stHistMonth.removeAll();
+					frHitMonth.getForm().reset();
+					stHitMonth.removeAll();
 				}
 			}]
 		}]
 	}]
 });
 
-var stHist = Ext.create('Ext.data.JsonStore', {
+var stHit = Ext.create('Ext.data.JsonStore', {
 	autoLoad: false,
 	pageSize: 100,
-	model: 'ConectInfo',
+	model: 'GoodsHitInfo',
 	proxy: {
 		type: 'ajax',
-		url: '../selectConectHistList/',
+		url: '../selectGoodsHitList/',
 		reader: {
 			type: 'json',
 			root: 'data',
@@ -205,7 +205,7 @@ var stHist = Ext.create('Ext.data.JsonStore', {
 	}
 });
 
-var stHistDay = Ext.create('Ext.data.JsonStore', {
+var stHitDay = Ext.create('Ext.data.JsonStore', {
 	autoLoad: false,
 	pageSize: 100,
 	model: 'HistInfo',
@@ -219,7 +219,7 @@ var stHistDay = Ext.create('Ext.data.JsonStore', {
 	}
 });
 
-var stHistMonth = Ext.create('Ext.data.JsonStore', {
+var stHitMonth = Ext.create('Ext.data.JsonStore', {
 	autoLoad: false,
 	pageSize: 100,
 	model: 'HistInfo',
@@ -233,11 +233,11 @@ var stHistMonth = Ext.create('Ext.data.JsonStore', {
 	}
 });
 
-var grHist = Ext.create('Ext.grid.Panel', {
+var grHit = Ext.create('Ext.grid.Panel', {
 	id: 'grid-hist',
 	title: '접속이력',
 	region:'center',
-	store: stHist,
+	store: stHit,
 	border: true,
 	split : true,
 	viewConfig: {
@@ -249,36 +249,52 @@ var grHist = Ext.create('Ext.grid.Panel', {
     	align: 'center',
     	width: 50
 	},{
+		text: '상품코드',
+		width: 120,
+		align: 'center',
+		dataIndex: 'GOODS_CODE'    	
+	},{
+		text: '상품명',
+		width: 200,
+		style: 'text-align:center',
+		align: 'left',
+		dataIndex: 'GOODS_NM'
+	},{
+		text: '상품상태',
+		width: 100,
+		align: 'center',
+		dataIndex: 'DELETE_AT_NM'
+	},{
 		text: '접속일시',
 		width: 150,
 		align: 'center',
-		dataIndex: 'CONECT_DT'
+		dataIndex: 'HIT_DT'
 	},{
 		text: '접속IP',
 		width: 150,
 		align: 'center',
-		dataIndex: 'CONECT_IP'
+		dataIndex: 'HIT_IP'
 	},{
 		text: '사용자',
 		width: 150,
 		align: 'center',
-		dataIndex: 'USER_NM'
+		dataIndex: 'HIT_NM'
 	},{
 		flex: 1 
 	}],
 	bbar: Ext.create('Ext.PagingToolbar', {
-		store: stHist,
+		store: stHit,
 		displayInfo: true,
 		displayMsg: '전체 {2}건 중 {0} - {1}',
 		emptyMsg: "조회된 자료가 없습니다."
 	})
 });
 
-var grHistDay = Ext.create('Ext.grid.Panel', {
+var grHitDay = Ext.create('Ext.grid.Panel', {
 	id: 'grid-hist-day',
 	title: '일별접속통계',
 	region:'center',
-	store: stHistDay,
+	store: stHitDay,
 	border: true,
 	split : true,
 	viewConfig: {
@@ -323,11 +339,11 @@ var grHistDay = Ext.create('Ext.grid.Panel', {
 	}]
 });
 
-var grHistMonth = Ext.create('Ext.grid.Panel', {
+var grHitMonth = Ext.create('Ext.grid.Panel', {
 	id: 'grid-hist-month',
 	title: '월별접속통계',
 	region:'center',
-	store: stHistMonth,
+	store: stHitMonth,
 	border: true,
 	split : true,
 	viewConfig: {
@@ -379,7 +395,7 @@ var grHistMonth = Ext.create('Ext.grid.Panel', {
 		style: {
 			backgroundColor: '#FFFFFF'
 		},
-		items: [frHist, grHist]
+		items: [frHit, grHit]
 	});
 });*/
 
@@ -391,14 +407,14 @@ var condTab = Ext.create('Ext.tab.Panel', {
 	tabBar: {
 		hidden: true
 	},
-	items: [frHist, frHistDay, frHistMonth]
+	items: [frHit, frHitDay, frHitMonth]
 });
 
 var gridTab = Ext.create('Ext.tab.Panel', {
 	id: 'grid-tab',
 	region: 'center',
 	border: false,
-	items: [grHist, grHistDay, grHistMonth],
+	items: [grHit, grHitDay, grHitMonth],
 	listeners: {
 		tabchange: function (pn, newcard, oldcard, opts) {
 			Ext.getCmp('cond-tab').setActiveTab('form-' + newcard.getId().substring(5));
@@ -416,6 +432,7 @@ var center = Ext.create('Ext.panel.Panel', {
 Ext.onReady(function() {
 	Ext.create('Ext.container.Viewport', {
 	    layout: 'border',
+	    border: false,
 	    padding:'5 10 5 10',
 		style: {
 			backgroundColor: '#FFF'

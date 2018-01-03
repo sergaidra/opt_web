@@ -133,7 +133,7 @@ public class PurchsManageController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		UserUtils.log("selectPurchsListForSchdul", param);
 		try {
-			int cnt = purchsManageService.selectPurchsListCount(param);
+			int cnt = purchsManageService.selectPurchsListForSchdulCount(param);
 			List<Map<String,String>> results = purchsManageService.selectPurchsListForSchdul(param);
 			
 			result.put("rows", cnt);

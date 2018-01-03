@@ -213,6 +213,7 @@ var frCond = Ext.create('Ext.form.Panel', {
 				width: 5
 			}, {
 				xtype: 'button',
+				id: 'btn-search-goods',
 				margin: '0 0 0 10',
 				text: '조회',
 				width: 60,
@@ -312,7 +313,27 @@ var frCond = Ext.create('Ext.form.Panel', {
 			}, comboNation, {
 				xtype: 'label',
 				width: 5
-			}, comboCty]
+			}, comboCty, {
+				xtype: 'label',
+				width: 5
+			}, {
+				xtype: 'textfield',
+				id: 'form-sch-goods-code',
+				name: 'GOODS_CODE',
+				fieldLabel: '상품코드',
+				labelWidth: 70,
+				labelAlign: 'right',
+				border: false,
+				width: 190,
+				enableKeyEvents: true,
+				listeners: {
+					specialkey: function(tf, e){
+						if (e.getKey() == e.ENTER) {
+							fn_search();
+						}
+					}
+				}				
+			}]
 		}]
 	}]
 });

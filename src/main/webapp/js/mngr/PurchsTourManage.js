@@ -93,6 +93,17 @@ var frCond = Ext.create('Ext.form.Panel', {
 					}
 				}
 			}, {
+				xtype: 'radiogroup',
+				id: 'sch-rd-delete-at',
+				fieldLabel: '결제취소여부',
+				labelWidth: 100,
+				labelAlign: 'right',
+				border: false,
+				width: 300,
+				items: [{ boxLabel: '전체', id:'radio-delete-all', name: 'DELETE_AT', inputValue:''},
+						{ boxLabel: '결제', id:'radio-delete-n', name: 'DELETE_AT', inputValue:'N', checked: true},
+						{ boxLabel: '취소', id:'radio-delete-y', name: 'DELETE_AT', inputValue:'Y'}]
+			}, {
 				xtype: 'button',
 				id: 'btn-search-log',
 				margin: '0 0 0 10',
@@ -198,9 +209,12 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		emptyMsg: "조회된 자료가 없습니다."
 	}),
 	listeners: {
-		celldblclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
+		cellclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
 			stPurchsGoods.proxy.extraParams.PURCHS_SN = record.data.PURCHS_SN;
 			stPurchsGoods.load();
+		},
+		celldblclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
+			fn_openPopup('/purchs/OrderInfo?purchs_sn='+record.data.PURCHS_SN, 'winOrderInfo_'+record.data.PURCHS_SN, 950, 600, true);
 		}
 	}
 });

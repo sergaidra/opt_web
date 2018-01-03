@@ -11,67 +11,49 @@
 		                  VALUES (SQ_HIT_SN.NEXTVAL, #goods_code#, SYSDATE, #esntl_id#, #hit_ip#)
     ]]>
     </insert>
+    
+	<sql id="GoodsHitDAO.pagingQueryStart">
+	  SELECT TT.* FROM (
+	</sql>
+	
+	<sql id="GoodsHitDAO.pagingQueryEnd">
+	  ) TT WHERE ROWSEQ BETWEEN #start# + 1 AND #page# * #limit#
+	</sql>    
+	
+	<sql id="GoodsHitDAO.whereForSelectGoodsHitList">
+		   AND A.HIT_DT BETWEEN TO_DATE(#FR_HIT_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_HIT_DT#, 'YYYY-MM-DD')+0.99999
+	</sql>
+		
+	<select id="GoodsHitDAO.selectGoodsHitListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
+		SELECT COUNT(HIT_SN)
+		  FROM TB_GOODS_HIT A
+		 WHERE 1 = 1
+		<include refid="GoodsHitDAO.whereForSelectGoodsHitList"/>
+	</select>	
 
     <select id="GoodsHitDAO.selectGoodsHitList" parameterClass="hashMap" resultClass="hashMap">
-    <![CDATA[
-        SELECT BANNER_SN
-             , LINK_URL
-             , IMAGE_NM
-             , SUBSTR(IMAGE_NM, 1, 15) IMAGE_NM_SHORT
-             , IMAGE_PATH
-             , IMAGE_SIZE
-             , SORT_ORDR
-             , TO_CHAR(TO_DATE(BEGIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') BEGIN_DE
-             , TO_CHAR(TO_DATE(END_DE, 'YYYYMMDD'), 'YYYY-MM-DD') END_DE
-             , '/file/getGoodsHitImage/'||CHR(63)||'banner_sn='||BANNER_SN AS IMAGE_URL
-             , USE_AT
-             , CASE WHEN BEGIN_DE <= TO_CHAR(SYSDATE, 'YYYYMMDD') AND TO_CHAR(SYSDATE, 'YYYYMMDD') <= END_DE THEN 'A'
-                    WHEN TO_CHAR(SYSDATE, 'YYYYMMDD') < BEGIN_DE THEN 'B'
-                    WHEN END_DE < TO_CHAR(SYSDATE, 'YYYYMMDD') THEN 'C'
-                    ELSE 'X' END AS CF_ING
-             , REGIST_ID
-             , REGIST_DT
-             , UPDT_ID
-             , UPDT_DT
-          FROM TB_GOODS_HIT
-         WHERE 1 = 1
-    ]]>
-    	<isNotEmpty property="USE_AT">
-           AND USE_AT = #USE_AT#
-        </isNotEmpty>
-         ORDER BY USE_AT DESC, CF_ING, SORT_ORDR
+    	<include refid="GoodsHitDAO.pagingQueryStart"/><![CDATA[
+		SELECT ROW_NUMBER() OVER(ORDER BY HIT_SN DESC) AS ROWSEQ 
+		     , A.HIT_SN
+		     , A.GOODS_CODE
+		     , B.GOODS_NM
+		     , B.DELETE_AT
+		     , C.CODE_NM AS DELETE_AT_NM
+		     , TO_CHAR(A.HIT_DT, 'YYYY-MM-DD HH24:MI') HIT_DT
+		     , A.HIT_ID
+		     , X.USER_NM AS HIT_NM
+		     , A.HIT_IP
+		  FROM TB_GOODS_HIT A
+		       INNER JOIN TB_GOODS B ON A.GOODS_CODE = B.GOODS_CODE
+		       LEFT OUTER JOIN TB_CMMN_DETAIL_CODE C ON C.CODE_ID = 'COM007' AND C.CODE = B.DELETE_AT
+		       LEFT OUTER JOIN TB_USER X ON X.ESNTL_ID = A.HIT_ID		       
+		 WHERE 1 = 1 ]]>
+		<include refid="GoodsHitDAO.whereForSelectGoodsHitList"/>		 
+		<include refid="GoodsHitDAO.pagingQueryEnd"/>		 
     </select>
 
-	<select id="GoodsHitDAO.selectGoodsHit" parameterClass="hashMap" resultClass="hashMap">
-    <![CDATA[
-        SELECT BANNER_SN
-             , LINK_URL
-             , IMAGE_NM
-             , IMAGE_PATH
-             , IMAGE_SIZE
-             , SORT_ORDR
-             , TO_CHAR(TO_DATE(BEGIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') BEGIN_DE
-             , TO_CHAR(TO_DATE(END_DE, 'YYYYMMDD'), 'YYYY-MM-DD') END_DE
-             , USE_AT
-             , REGIST_ID
-             , REGIST_DT
-             , UPDT_ID
-             , UPDT_DT
-          FROM TB_GOODS_HIT
-         WHERE BANNER_SN = #banner_sn#
-    ]]>
-    </select>
 
-    <update id="GoodsHitDAO.updateGoodsHit" parameterClass="hashMap">
-		UPDATE TB_GOODS_HIT
-		   SET SORT_ORDR = #SORT_ORDR#
-		     , LINK_URL = #LINK_URL#
-		     , BEGIN_DE = REPLACE(#BEGIN_DE#, '-', '')
-		     , END_DE = REPLACE(#END_DE#, '-', '')
-		     , USE_AT = #USE_AT#
-		     , UPDT_ID = #UPDT_ID#
-		     , UPDT_DT = SYSDATE
-		 WHERE BANNER_SN = #BANNER_SN#
-    </update>
+
+
 
 </sqlMap>

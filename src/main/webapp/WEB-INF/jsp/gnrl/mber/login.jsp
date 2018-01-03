@@ -61,7 +61,7 @@ function facebookLogin() {
 		<div class="sp_100 "></div>
     <div class="inner2">
 		<div class="login_box">
-	<form name="frmLogin" action="<c:url value='/member/loginAction/'/>">
+	<form name="frmLogin" method="post" action="<c:url value='/member/loginAction/'/>">
     <div class="inbox">
       <div class="login_div1">
         <div class="text1"><em>Membership</em> Login</div>
