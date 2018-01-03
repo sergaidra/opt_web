@@ -90,7 +90,7 @@
 		<div class="title">
 			<i class="material-icons">&#xE147;</i>  <div class="tx" style="max-width:750px;"><em>${list.text} : </em> <c:out value="${fn:replace(list.options, '<br/>', ', ')}"/></div>
 		</div>
-		<c:if test="${list.purchs.PICKUP_PLACE != null }">
+		<%-- <c:if test="${list.purchs.PICKUP_PLACE != null }">
 			<div class="sp_box1"></div>
 			<div class="title">
 				<i class="material-icons">&#xE147;</i>  <div class="tx"><em>픽업장소 : </em> ${list.purchs.PICKUP_PLACE}</div>
@@ -113,7 +113,28 @@
 			<div class="title">
 				<i class="material-icons">&#xE147;</i>  <div class="tx"><em>이용 기간 : </em> ${list.purchs.USE_PD}</div>
 			</div>
+		</c:if> --%>
+		<c:if test="${list.purchs.PICKUP_PLACE != null }">
+			<div class="incont">
+				<div class="stitle">픽업장소 : ${list.purchs.PICKUP_PLACE}</div> 
+			</div>
+		</c:if>		
+		<c:if test="${list.purchs.DROP_PLACE != null }">
+			<div class="incont">
+				<div class="stitle">드랍장소 : ${list.purchs.DROP_PLACE}</div> 
+			</div>
+		</c:if>		
+		<c:if test="${list.purchs.USE_NMPR != null }">
+			<div class="incont">
+				<div class="stitle">이용인원 : ${list.purchs.USE_NMPR}</div> 
+			</div>
 		</c:if>
+		<c:if test="${list.purchs.USE_PD != null }">
+			<div class="incont">
+				<div class="stitle">이용기간 : ${list.purchs.USE_PD}</div> 
+			</div>
+		</c:if>		
+		
 		<div class="incont mb_20">
 			<c:if test="${fn:length(list.goods.lstFile) > 0}">
 			<c:set var="doneLoop" value="false"/>
