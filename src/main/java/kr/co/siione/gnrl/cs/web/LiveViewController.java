@@ -55,8 +55,8 @@ public class LiveViewController {
 		List<HashMap> lstVideo = liveViewService.videolist(null);
 
         model.addAttribute("bp", "07");
-       	model.addAttribute("btitle", "라이브뷰 홍보");
-        model.addAttribute("mtitle", "");
+       	model.addAttribute("btitle", "고객지원");
+        model.addAttribute("mtitle", "동영상 홍보");
         model.addAttribute("lstVideo", lstVideo);
 		
 		return "gnrl/cs/liveview";

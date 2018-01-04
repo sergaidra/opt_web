@@ -485,8 +485,8 @@ function fnLiveView(url, title, desc) {
     <div class="inner2">
       <div class="title_box">
         <div class="t_inbox">
-          <div class="tx1">라이브뷰 <em>홍보방</em></div>
-          <div class="tx2">라이브 뷰 홍보방에 대한 간단한 소개가 들어가는 공간입니다.</div>
+          <div class="tx1">동영상 <em>홍보방</em></div>
+          <div class="tx2">동영상 홍보방에 대한 간단한 소개가 들어가는 공간입니다.</div>
         </div>
         <a href="javascript:go_07_05_01();"><div class="more">+</div></a>
       </div>
