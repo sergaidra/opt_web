@@ -63,6 +63,7 @@ $(function(){
 });
 
 function fnDetail(goods_code, category) {
+	if(!goods_code) return;
 	var form = $("form[id=frmList]");
 	form.find("input:hidden[id=hidGoodsCode]").val(goods_code);
 	form.find("input:hidden[id=category]").val(category);
@@ -224,7 +225,7 @@ function fnLiveView(url, title, desc) {
       	<c:forEach var="list" items="${hotdeal}" varStatus="status" begin="0" end="2">
       		<div class="in0${status.index + 1}">
       		<c:if test="${list.GOODS_CODE == null}">
-		        <img src="/images/main/main_b0${status.index + 1}.jpg"  alt=""/>
+		        <a href="javascript:fnDetail('${list.GOODS_CODE}', 'H');"><div class="imgover"></div><img src="/images/main/main_b0${status.index + 1}.jpg"  alt=""/></a>
       		</c:if>
       		<c:if test="${list.GOODS_CODE != null}">
       			<a href="javascript:fnDetail('${list.GOODS_CODE}', 'H');"><div class="imgover"></div><img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" /></a>
@@ -236,7 +237,7 @@ function fnLiveView(url, title, desc) {
       	<c:forEach var="list" items="${hotdeal}" varStatus="status" begin="3" end="5">
       		<div class="in0${status.index + 1}">
       		<c:if test="${list.GOODS_CODE == null}">
-		        <img src="/images/main/main_b0${status.index + 1}.jpg"  alt=""/>
+		        <a href="javascript:fnDetail('${list.GOODS_CODE}', 'H');"><div class="imgover"></div><img src="/images/main/main_b0${status.index + 1}.jpg"  alt=""/></a>
       		</c:if>
       		<c:if test="${list.GOODS_CODE != null}">
       			<a href="javascript:fnDetail('${list.GOODS_CODE}', 'H');"><div class="imgover"></div><img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" /></a>
