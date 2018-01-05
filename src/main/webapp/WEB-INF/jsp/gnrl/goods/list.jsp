@@ -166,7 +166,7 @@ function fnSearch(obj, isNext) {
 				$(item).find("span[name='upper_cl_nm']").text(data.list[cnt].UPPER_CL_NM);
 				$(item).find("span[name='cl_nm']").text(data.list[cnt].CL_NM);
 				$(item).find("span[name='cf_reprsnt_amount']").text(data.list[cnt].CF_REPRSNT_AMOUNT);				
-				$(item).find("span[name='goods_nm']").text(data.list[cnt].GOODS_NM);		
+				$(item).find("span[name='goods_nm']").text(data.list[cnt].GOODS_NM_SUB);		
 				$(item).find("span[name='goods_nm_title']").text(data.list[cnt].GOODS_NM);	
 				$(item).find("span[name='favorite']").text("favorite_border");
 				$(item).find("input[name='goods_code']").val(data.list[cnt].GOODS_CODE);

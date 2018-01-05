@@ -762,6 +762,7 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 		}
 		
 		if(!fn_checkValue('form-reg-goods-nm')) return;
+		if(!fn_checkValue('form-reg-goods-nm-sub')) return;
 		if(!fn_checkValue('form-reg-goods-intrcn-simpl')) return;
 		if(!fn_checkValue('form-reg-vochr-ntss-reqre-time')) return;
 		if(!fn_checkValue('form-reg-vochr-use-mth')) return;
@@ -832,6 +833,7 @@ Ext.define('GoodsInfo', {
 	extend: 'Ext.data.Model',
 	fields: [ {name:'GOODS_CODE', type:'string'}
 			, {name:'GOODS_NM', type:'string'}
+			, {name:'GOODS_NM_SUB', type:'string'}
 			, {name:'GOODS_INTRCN', type:'string'}
 			, {name:'GOODS_INTRCN_SIMPL', type:'string'}
 			, {name:'DELETE_AT', type:'string'}
@@ -884,6 +886,7 @@ Ext.define('GoodsInfo', {
 			, {name:'RECOMEND_SORT_ORDR', type:'string'}
 			, {name:'CRUD_SE', type:'string'}
 			, {name:'GOODS_NM_ENG', type:'string'}  // 영문 컬럼
+			, {name:'GOODS_NM_SUB_ENG', type:'string'}
 			, {name:'GOODS_INTRCN_ENG', type:'string'}
 			, {name:'GOODS_INTRCN_SIMPL_ENG', type:'string'}
 			, {name:'VOCHR_NTSS_REQRE_TIME_ENG', type:'string'}
@@ -913,6 +916,8 @@ Ext.define('GoodsInfo', {
 			, {name:'KEYWORDS', type:'string'}
 			, {name:'PICKUP_INCLS_AT', type:'string'}
 			, {name:'TOUR_DAYS', type:'string'}
+			, {name:'HOTDEAL_BEGIN_DE', type:'string'}
+			, {name:'HOTDEAL_END_DE', type:'string'}
 			]
 });
 
@@ -1141,7 +1146,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			labelWidth: 100,
 			labelAlign: 'right',
 			width: 630,
-			maxLength: 200,
+			maxLength: 100,
 			enforceMaxLength: true,
 			allowBlank: false,
 			enableKeyEvents: true
@@ -1155,7 +1160,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			labelWidth: 100,
 			labelAlign: 'right',
 			width: 630,
-			maxLength: 200,
+			maxLength: 100,
 			enforceMaxLength: true,
 			allowBlank: true,
 			enableKeyEvents: true
@@ -1174,6 +1179,34 @@ var frReg = Ext.create('Ext.form.Panel', {
 			//enableColors: false,
 			//enableAlignments: false
 		},{
+			xtype: 'textfield',
+			id: 'form-reg-goods-nm-sub',
+			name: 'GOODS_NM_SUB',
+			fieldLabel: '상품명(2)',
+			fieldStyle: {'ime-mode':'active'},
+			labelSeparator: ':',
+			labelWidth: 100,
+			labelAlign: 'right',
+			width: 630,
+			maxLength: 100,
+			enforceMaxLength: true,
+			allowBlank: false,
+			enableKeyEvents: true
+		},{
+			xtype: 'textfield',
+			id: 'form-reg-goods-nm-sub-eng',
+			name: 'GOODS_NM_SUB_ENG',
+			fieldLabel: '상품명(2)(영문)',
+			fieldStyle: {'ime-mode':'disabled'},
+			labelSeparator: ':',
+			labelWidth: 100,
+			labelAlign: 'right',
+			width: 630,
+			maxLength: 100,
+			enforceMaxLength: true,
+			allowBlank: true,
+			enableKeyEvents: true			
+		},{
 			xtype: 'textareafield',
 			id: 'form-reg-goods-intrcn',
 			name: 'GOODS_INTRCN',
@@ -1184,7 +1217,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			labelAlign: 'right',
 			grow: false,
 			isFocus: false,
-			height: 100,
+			height: 150,
 			width: 630,
 			//maxLength: 100,
 			//enforceMaxLength: true,
@@ -1201,7 +1234,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			labelAlign: 'right',
 			grow: false,
 			isFocus: false,
-			height: 100,
+			height: 150,
 			width: 630,
 			//maxLength: 100,
 			//enforceMaxLength: true,
@@ -1218,7 +1251,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			labelAlign: 'right',
 			grow: false,
 			isFocus: false,
-			height: 100,
+			height: 50,
 			width: 630,
 			maxLength: 300,
 			enforceMaxLength: true,
@@ -1235,7 +1268,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			labelAlign: 'right',
 			grow: false,
 			isFocus: false,
-			height: 100,
+			height: 50,
 			width: 630,
 			maxLength: 300,
 			enforceMaxLength: true,
@@ -1356,6 +1389,49 @@ var frReg = Ext.create('Ext.form.Panel', {
 				keyNavEnabled: false,
 				mouseWheelEnabled: false
 			}]
+		},{			
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'checkboxfield',
+				id: 'form-reg-recomend-at',
+				name: 'RECOMEND_AT',
+				width: 200,
+				fieldLabel: '추천상품',
+				labelWidth: 100,
+				labelAlign: 'right',
+				boxLabel: '추천여부',
+				inputValue: 'Y',
+				value: 'Y'
+			},{
+				xtype: 'label',
+				width: 5
+			},{
+				xtype: 'checkboxfield',
+				id: 'form-reg-recomend-main-at',
+				name: 'RECOMEND_MAIN_AT',
+				hideLabel: true,
+				boxLabel: '추천상품 메인노출여부',
+				width: 170,
+				inputValue: 'Y'
+			},{
+				xtype: 'label',
+				width: 5
+			},{
+				xtype: 'textfield',
+				id: 'form-reg-recomend-sort-ordr',
+				name: 'RECOMEND_SORT_ORDR',
+				width: 250,
+				fieldLabel: '추천상품 메인정렬순서',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 150,
+				labelAlign: 'right',
+				maskRe: /[0-9]/,
+				maxLength: 2,
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
+			}]
 		},{
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
@@ -1403,44 +1479,70 @@ var frReg = Ext.create('Ext.form.Panel', {
 			xtype: 'fieldcontainer',
 			layout: 'hbox',
 			items: [{
-				xtype: 'checkboxfield',
-				id: 'form-reg-recomend-at',
-				name: 'RECOMEND_AT',
-				width: 200,
-				fieldLabel: '추천상품',
+				xtype: 'datefield',
+				vtype: 'daterange',
+				id: 'form-reg-hotdeal-begin-de',
+				name: 'HOTDEAL_BEGIN_DE',
+				format: 'Y-m-d',
+				altFormats: 'Y-m-d|Y.m.d|Y/m/d|Ymd',
+				width: 250,
+				fieldLabel: '핫딜시작일자',
 				labelWidth: 100,
 				labelAlign: 'right',
-				boxLabel: '추천여부',
-				inputValue: 'Y',
-				value: 'Y'
-			},{
-				xtype: 'label',
-				width: 5
-			},{
-				xtype: 'checkboxfield',
-				id: 'form-reg-recomend-main-at',
-				name: 'RECOMEND_MAIN_AT',
-				hideLabel: true,
-				boxLabel: '추천상품 메인노출여부',
-				width: 170,
-				inputValue: 'Y'
-			},{
-				xtype: 'label',
-				width: 5
-			},{
-				xtype: 'textfield',
-				id: 'form-reg-recomend-sort-ordr',
-				name: 'RECOMEND_SORT_ORDR',
-				width: 250,
-				fieldLabel: '추천상품 메인정렬순서',
-				fieldStyle: {'ime-mode':'disabled'},
-				labelWidth: 150,
-				labelAlign: 'right',
-				maskRe: /[0-9]/,
-				maxLength: 2,
-				enforceMaxLength: true,
 				allowBlank: true,
-				enableKeyEvents: true
+				//value: new Date(Date.parse(new Date())-6*1000*60*60*24),
+				endDateField: 'form-reg-hotdeal-end-de',
+				autoCreate: { tag: 'input', type: 'text', maxLength: '10' },
+				style: { 'ime-mode': 'disabled' },
+				maskRe: /[0-9]/,
+				maxLength: 10,
+				enforceMaxLength: true,
+				selectOnFocus: true,
+				enableKeyEvents: true,
+				listeners: {
+					'keyup': function(tf, e) {
+						var dt = tf.getRawValue().replace(/-/gi,'');
+						if(dt.length == 8){
+							if(e.getKey() != 13 && e.getKey() != 39 && e.getKey() != 37 && e.getKey() != 8 && e.getKey() != e.TAB){
+								tf.setValue(fn_renderDate(dt));
+								Ext.getCmp('form-reg-hotdeal-end-de').focus();
+							}
+						}
+					}
+				}
+			},{
+				xtype: 'label',
+				width: 5
+			},{
+				xtype: 'datefield',
+				vtype: 'daterange',
+				id: 'form-reg-hotdeal-end-de',
+				name: 'HOTDEAL_END_DE',
+				format: 'Y-m-d',
+				altFormats: 'Y-m-d|Y.m.d|Y/m/d|Ymd',
+				width: 270,
+				fieldLabel: '핫딜종료일자',
+				labelWidth: 120,
+				labelAlign: 'right',
+				//value: new Date(),
+				startDateField : 'form-reg-hotdeal-begin-de',
+				autoCreate: { tag: 'input', type: 'text', maxLength: '10' },
+				style: { 'ime-mode': 'disabled' },
+				maskRe: /[0-9]/,
+				maxLength: 10,
+				enforceMaxLength: true,
+				selectOnFocus: true,
+				enableKeyEvents: true,
+				listeners: {
+					'keyup': function(tf, e) {
+						var dt = tf.getRawValue().replace(/-/gi,'');
+						if(dt.length == 8){
+							if(e.getKey() != 13 && e.getKey() != 39 && e.getKey() != 37 && e.getKey() != 8 && e.getKey() != e.TAB){
+								tf.setValue(fn_renderDate(dt));
+							}
+						}
+					}
+				}
 			}]
 		},{
 			xtype: 'fieldcontainer',

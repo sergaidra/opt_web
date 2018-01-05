@@ -226,6 +226,7 @@
 	<select id="gnrl.goods.selectGoodsList" parameterClass="hashMap" resultClass="hashMap"> 
 		SELECT A.GOODS_CODE
 			     , A.GOODS_NM
+			     , A.GOODS_NM_SUB
 			     , A.DELETE_AT
 			     , A.FILE_CODE
 			     , A.WAIT_TIME

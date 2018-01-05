@@ -340,7 +340,7 @@ var frCond = Ext.create('Ext.form.Panel', {
 
 Ext.define('GoodsInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['GOODS_CODE', 'CL_NM', 'UPPER_CL_NM', 'GOODS_NM', 'CTY_NM', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'HOTDEAL_AT', 'RECOMEND_AT', 'HOTDEAL_SORT_ORDR', 'RECOMEND_SORT_ORDR', 'DELETE_AT', 'DELETE_AT_NM', 'WRITNG_DT', 'UPDT_DT', 'SLE_BEGIN_DT', 'FILE_CODE', 'CF_FILE_CNT']
+	fields: ['GOODS_CODE', 'CL_NM', 'UPPER_CL_NM', 'GOODS_NM', 'GOODS_NM_SUB', 'CTY_NM', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'HOTDEAL_AT', 'RECOMEND_AT', 'HOTDEAL_SORT_ORDR', 'RECOMEND_SORT_ORDR', 'HOTDEAL_BEGIN_DE', 'HOTDEAL_END_DE', 'DELETE_AT', 'DELETE_AT_NM', 'WRITNG_DT', 'UPDT_DT', 'SLE_BEGIN_DT', 'FILE_CODE', 'CF_FILE_CNT']
 });
 
 var jsGoods = Ext.create('Ext.data.JsonStore', {
@@ -373,6 +373,7 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 	border: true,
 	padding: '10 0 0 0',
 	loadMask : true,
+	columnLines: true,
 	style: {
 		backgroundColor: '#FFFFFF'
 	},
@@ -395,24 +396,24 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		xtype: 'rownumberer'
 	},{
 		text: '상품코드',
-		width: 120,
+		width: 100,
 		align: 'center',
 		dataIndex: 'GOODS_CODE'
 	},{
 		text: '상위분류',
-		width: 150,
+		width: 100,
 		style: 'text-align:center',
 		align: 'left',
 		dataIndex: 'UPPER_CL_NM'
 	},{
 		text: '상세분류',
-		width: 150,
+		width: 120,
 		style: 'text-align:center',
 		align: 'left',
 		dataIndex: 'CL_NM'
 	},{
 		text: '도시',
-		width: 80,
+		width: 70,
 		style: 'text-align:center',
 		align: 'center',
 		dataIndex: 'CTY_NM'
@@ -422,6 +423,12 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		style: 'text-align:center',
 		align: 'left',
 		dataIndex: 'GOODS_NM'
+	},{
+		text: '상품명(2)',
+		width: 300,
+		style: 'text-align:center',
+		align: 'left',
+		dataIndex: 'GOODS_NM_SUB'
 	},{
 		text: '정렬순서',
 		width: 80,
@@ -441,6 +448,16 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		width: 80,
 		align: 'center',
 		dataIndex: 'HOTDEAL_SORT_ORDR'
+	},{
+		text: '핫딜기간',
+		width: 170,
+		align: 'center',
+		dataIndex: 'HOTDEAL_BEGIN_DE',
+		renderer: function(value, metaData, record) {
+			if(value) {
+				return value + '~' + record.data.HOTDEAL_END_DE;
+			}
+		}
 	},{
 		text: '추천상품',
 		width: 80,

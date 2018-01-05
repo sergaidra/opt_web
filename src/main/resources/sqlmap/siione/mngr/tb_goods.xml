@@ -8,6 +8,7 @@
     <resultMap id="rmGoods" class="hashMap">
         <result property="GOODS_CODE"                    column="GOODS_CODE"                    jdbcType="string" javaType="string"/>
         <result property="GOODS_NM"                      column="GOODS_NM"                      jdbcType="string" javaType="string"/>
+        <result property="GOODS_NM_SUB"                  column="GOODS_NM_SUB"                  jdbcType="string" javaType="string"/>
         <result property="GOODS_INTRCN"                  column="GOODS_INTRCN"                  jdbcType="CLOB"   javaType="string"/>
         <result property="GOODS_INTRCN_SIMPL"            column="GOODS_INTRCN_SIMPL"            jdbcType="string" javaType="string"/>
         <result property="DELETE_AT"                     column="DELETE_AT"                     jdbcType="string" javaType="string"/>
@@ -63,6 +64,7 @@
         <result property="RECOMEND_SORT_ORDR"            column="RECOMEND_SORT_ORDR"            jdbcType="string" javaType="string"/>
         <result property="CRUD_SE"                       column="CRUD_SE"                       jdbcType="string" javaType="string"/>
         <result property="GOODS_NM_ENG"                  column="GOODS_NM_ENG"                  jdbcType="string" javaType="string"/><!-- 영문 컬럼 -->
+        <result property="GOODS_NM_SUB_ENG"              column="GOODS_NM_SUB_ENG"              jdbcType="string" javaType="string"/>
         <result property="GOODS_INTRCN_ENG"              column="GOODS_INTRCN_ENG"              jdbcType="CLOB"   javaType="string"/>
         <result property="GOODS_INTRCN_SIMPL_ENG"        column="GOODS_INTRCN_SIMPL_ENG"        jdbcType="string" javaType="string"/>
         <result property="VOCHR_NTSS_REQRE_TIME_ENG"     column="VOCHR_NTSS_REQRE_TIME_ENG"     jdbcType="string" javaType="string"/>
@@ -92,6 +94,8 @@
         <result property="KEYWORDS"                      column="KEYWORDS"                      jdbcType="string" javaType="string"/>
         <result property="PICKUP_INCLS_AT"               column="PICKUP_INCLS_AT"               jdbcType="string" javaType="string"/>
         <result property="TOUR_DAYS"                     column="TOUR_DAYS"                     jdbcType="string" javaType="string"/>
+        <result property="HOTDEAL_BEGIN_DE"              column="HOTDEAL_BEGIN_DE"              jdbcType="string" javaType="string"/>
+        <result property="HOTDEAL_END_DE"                column="HOTDEAL_END_DE"                jdbcType="string" javaType="string"/>
     </resultMap>
 
     <insert id="GoodsDAO.insertGoods" parameterClass="hashMap">
@@ -103,6 +107,7 @@
     BEGIN
         INSERT INTO TB_GOODS( GOODS_CODE
                             , GOODS_NM
+                            , GOODS_NM_SUB
                             , GOODS_INTRCN
                             , GOODS_INTRCN_SIMPL
                             , CL_CODE
@@ -149,9 +154,12 @@
                             , VIDEO_URL
                             , VIDEO_MAIN_EXPSR_AT
                             , PICKUP_INCLS_AT
-                            , TOUR_DAYS )
+                            , TOUR_DAYS 
+                            , HOTDEAL_BEGIN_DE
+                            , HOTDEAL_END_DE )
                       VALUES( #GOODS_CODE#
                             , #GOODS_NM#
+                            , #GOODS_NM_SUB#
                             , #GOODS_INTRCN:CLOB#
                             , #GOODS_INTRCN_SIMPL#
                             , #CL_CODE#
@@ -196,11 +204,14 @@
                             , #INTRCN_POSBL_AGE#
                             , #INTRCN_PLACE#
                             , #VIDEO_URL#
-                            , #VIDEO_MAIN_EXPSR_AT#
-                            , #PICKUP_INCLS_AT#
-                            , #TOUR_DAYS# );
+                            , NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+                            , NVL(#PICKUP_INCLS_AT#, 'N')
+                            , #TOUR_DAYS#
+                            , REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
+                            , REPLACE(#HOTDEAL_END_DE#, '-', ''));
 
         INSERT INTO TB_GOODS_ENG ( GOODS_NM_ENG
+                                 , GOODS_NM_SUB_ENG
                                  , GOODS_INTRCN_ENG
                                  , GOODS_INTRCN_SIMPL_ENG
                                  , VOCHR_NTSS_REQRE_TIME_ENG
@@ -229,6 +240,7 @@
                                  , WRITNG_ID
                                  , WRITNG_DT )
                           VALUES ( #GOODS_NM_ENG#
+                                 , #GOODS_NM_SUB_ENG#
                                  , #GOODS_INTRCN_ENG:CLOB#
                                  , #GOODS_INTRCN_SIMPL_ENG#
                                  , #VOCHR_NTSS_REQRE_TIME_ENG#
@@ -269,6 +281,7 @@
     BEGIN
         INSERT INTO TB_GOODS( GOODS_CODE
                             , GOODS_NM
+                            , GOODS_NM_SUB
                             , GOODS_INTRCN
                             , GOODS_INTRCN_SIMPL
                             , CL_CODE
@@ -300,11 +313,14 @@
                             , VIDEO_MAIN_EXPSR_AT
                             , PICKUP_INCLS_AT
                             , TOUR_DAYS
+                            , HOTDEAL_BEGIN_DE
+                            , HOTDEAL_END_DE
                             , DELETE_AT
                             , WRITNG_ID
                             , WRITNG_DT )
                       VALUES( #GOODS_CODE#
                             , #GOODS_NM#
+                            , #GOODS_NM_SUB#
                             , #GOODS_INTRCN:CLOB#
                             , #GOODS_INTRCN_SIMPL#
                             , #CL_CODE#
@@ -336,12 +352,15 @@
                             , NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
                             , NVL(#PICKUP_INCLS_AT#, 'N')
                             , #TOUR_DAYS#
+                            , REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
+                            , REPLACE(#HOTDEAL_END_DE#, '-', '') 
                             , 'T'
                             , #WRITNG_ID#
                             , SYSDATE );
 
         INSERT INTO TB_GOODS_ENG( GOODS_CODE
                             , GOODS_NM_ENG
+                            , GOODS_NM_SUB_ENG
                             , GOODS_INTRCN_ENG
                             , GOODS_INTRCN_SIMPL_ENG
                             , VOCHR_NTSS_REQRE_TIME_ENG
@@ -356,6 +375,7 @@
                             , WRITNG_DT )
                       VALUES( #GOODS_CODE#
                             , #GOODS_NM_ENG#
+                            , #GOODS_NM_SUB_ENG#
                             , #GOODS_INTRCN_ENG:CLOB#
                             , #GOODS_INTRCN_SIMPL_ENG#
                             , #VOCHR_NTSS_REQRE_TIME_ENG#
@@ -376,6 +396,7 @@
     <![CDATA[
         UPDATE TB_GOODS
            SET GOODS_NM                  =  #GOODS_NM#
+             , GOODS_NM_SUB              =  #GOODS_NM_SUB#
              , GOODS_INTRCN              =  #GOODS_INTRCN:CLOB#
              , GOODS_INTRCN_SIMPL        =  #GOODS_INTRCN_SIMPL#
              , WAIT_TIME                 =  #WAIT_HH#||#WAIT_MI#
@@ -412,6 +433,8 @@
              , VIDEO_MAIN_EXPSR_AT       =  NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
              , PICKUP_INCLS_AT           =  NVL(#PICKUP_INCLS_AT#, 'N')
              , TOUR_DAYS                 =  #TOUR_DAYS#
+             , HOTDEAL_BEGIN_DE          =  REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
+             , HOTDEAL_END_DE            =  REPLACE(#HOTDEAL_END_DE#, '-', '') 
              , UPDT_ID                   =  #WRITNG_ID#
              , UPDT_DT                   =  SYSDATE
          WHERE GOODS_CODE = #GOODS_CODE#
@@ -424,6 +447,7 @@
            SET UPDT_ID               = #UPDT_ID#
              , UPDT_DT               = SYSDATE
              , GOODS_NM              = #GOODS_NM#
+             , GOODS_NM_SUB          = #GOODS_NM_SUB#
              , CL_CODE               = #CL_CODE#
              , CTY_CODE              = #CTY_CODE#
              , GOODS_INTRCN          = #GOODS_INTRCN:CLOB#
@@ -452,8 +476,10 @@
              , INTRCN_PLACE          = #INTRCN_PLACE#
              , VIDEO_URL             = #VIDEO_URL#
              , VIDEO_MAIN_EXPSR_AT   = NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
-             , PICKUP_INCLS_AT       =  NVL(#PICKUP_INCLS_AT#, 'N')
-             , TOUR_DAYS             =  #TOUR_DAYS#             
+             , PICKUP_INCLS_AT       = NVL(#PICKUP_INCLS_AT#, 'N')
+             , TOUR_DAYS             = #TOUR_DAYS#             
+             , HOTDEAL_BEGIN_DE      = REPLACE(#HOTDEAL_BEGIN_DE#, '-', '')              
+             , HOTDEAL_END_DE        = REPLACE(#HOTDEAL_END_DE#, '-', '')              
          WHERE GOODS_CODE = #GOODS_CODE#
     ]]>
     </update>
@@ -464,6 +490,7 @@
            SET UPDT_ID                   = #UPDT_ID#
              , UPDT_DT                   = SYSDATE
              , GOODS_NM_ENG              = #GOODS_NM_ENG#
+             , GOODS_NM_SUB_ENG          = #GOODS_NM_SUB_ENG#
              , GOODS_INTRCN_ENG          = #GOODS_INTRCN_ENG:CLOB#
              , GOODS_INTRCN_SIMPL_ENG    = #GOODS_INTRCN_SIMPL_ENG#
              , VOCHR_NTSS_REQRE_TIME_ENG = #VOCHR_NTSS_REQRE_TIME_ENG#
@@ -579,6 +606,7 @@
     <![CDATA[
         SELECT A.GOODS_CODE
              , A.GOODS_NM
+             , A.GOODS_NM_SUB
              , A.GOODS_INTRCN
              , A.GOODS_INTRCN_SIMPL
              , A.DELETE_AT
@@ -634,6 +662,7 @@
              , A.INTRCN_PLACE
              , 'U' CRUD_SE
              , B.GOODS_NM_ENG
+             , B.GOODS_NM_SUB_ENG
              , B.GOODS_INTRCN_ENG
              , B.GOODS_INTRCN_SIMPL_ENG
              , B.VOCHR_NTSS_REQRE_TIME_ENG
@@ -663,6 +692,8 @@
              , (SELECT SUBSTR(XMLAGG(XMLELEMENT(X,',', KWRD) ORDER BY KWRD_SN).EXTRACT('//text()'),2) FROM TB_GOODS_KWRD X WHERE X.GOODS_CODE = A.GOODS_CODE) KEYWORDS
              , A.PICKUP_INCLS_AT
              , A.TOUR_DAYS
+             , A.HOTDEAL_BEGIN_DE
+             , A.HOTDEAL_END_DE
           FROM TB_GOODS A
              , TB_GOODS_ENG B
          WHERE A.GOODS_CODE = B.GOODS_CODE(+)
@@ -694,6 +725,9 @@
         <isNotEmpty property="GOODS_CODE">
            AND GOODS_CODE = LPAD(#GOODS_CODE#, 10, '0')
         </isNotEmpty>
+        <isNotEmpty property="GOODS_NM">
+           AND GOODS_NM LIKE '%'||#GOODS_NM#||'%'
+        </isNotEmpty>
         <isNotEmpty property="DELETE_AT">
            AND DELETE_AT = #DELETE_AT#
         </isNotEmpty>
@@ -723,6 +757,7 @@
         SELECT ROW_NUMBER() OVER(ORDER BY CL_CODE, SORT_ORDR, GOODS_CODE) AS ROWSEQ
              , GOODS_CODE
              , GOODS_NM
+             , GOODS_NM_SUB
              , CL_CODE
              , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE AND X.UPPER_CL_CODE <> '00000') CL_NM
              , (SELECT X.CL_NM FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00000' START WITH X.CL_CODE = A.CL_CODE CONNECT BY PRIOR X.UPPER_CL_CODE = X.CL_CODE) UPPER_CL_NM
@@ -735,6 +770,8 @@
              , RECOMEND_AT
              , HOTDEAL_SORT_ORDR
              , RECOMEND_SORT_ORDR
+             , TO_CHAR(TO_DATE(HOTDEAL_BEGIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') HOTDEAL_BEGIN_DE
+             , TO_CHAR(TO_DATE(HOTDEAL_END_DE, 'YYYYMMDD'), 'YYYY-MM-DD') HOTDEAL_END_DE             
              , DELETE_AT
              , (SELECT CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID='COM007' AND X.CODE = A.DELETE_AT) DELETE_AT_NM
              , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD HH24:MI:SS') WRITNG_DT
