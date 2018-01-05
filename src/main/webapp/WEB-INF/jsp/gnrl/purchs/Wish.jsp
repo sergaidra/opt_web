@@ -111,7 +111,6 @@ function delWish(goods_code) {
 	var url = "<c:url value='/purchs/deleteWish'/>";
 	var param = {};
 	param.goods_code = lst;
-	console.log(param);
 	
 	if(!confirm("찜 목록에서 삭제하겠습니까?"))
 		return;

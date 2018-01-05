@@ -243,7 +243,6 @@ function getMySchedule() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				$("#tblMyScheduleInfo tbody").empty();
-				console.log(data.data);
 				var html = ""; 
 				for(var cnt = 0; cnt < data.data.length; cnt++) {
 					var item = data.data[cnt];

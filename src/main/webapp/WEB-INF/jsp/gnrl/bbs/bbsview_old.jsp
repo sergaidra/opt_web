@@ -29,7 +29,7 @@ function write() {
 	if($("#secret_at").is(":checked")) {
 		param.secret_at = "Y";
 	}	
-	console.log(param);
+	
 	
 	if(!confirm("등록하겠습니까?"))
 		return false;
@@ -65,7 +65,7 @@ function deleteBbs() {
 	var url = "<c:url value='/bbs/deleteaction'/>";
 	var param = {};
 	param.bbs_sn = $("#bbs_sn").val();
-	console.log(param);
+	
 	
 	if(!confirm("삭제하겠습니까?"))
 		return false;
@@ -124,7 +124,7 @@ function modifyaction() {
 	if($("#secret_at").is(":checked")) {
 		param.secret_at = "Y";
 	}	
-	console.log(param);
+	
 	
 	if(!confirm("수정하겠습니까?"))
 		return false;

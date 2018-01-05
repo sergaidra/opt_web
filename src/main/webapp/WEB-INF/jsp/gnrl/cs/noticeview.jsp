@@ -72,8 +72,6 @@ function setForm(editor) {
 	}
 	param.startdt = $("#start_dt").val().replace(/[\-]/g, "");
 	param.enddt = $("#end_dt").val().replace(/[\-]/g, "");
-
-	console.log(param);
 	
 	if(!confirm("저장하겠습니까?"))
 		return;
@@ -115,7 +113,6 @@ function deleteNotice() {
 	var url = "<c:url value='/bbs/deleteaction'/>";
 	var param = {};
 	param.bbs_sn = $("#bbs_sn").val();
-	console.log(param);
 	
 	if(!confirm("삭제하겠습니까?"))
 		return;

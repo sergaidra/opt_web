@@ -204,7 +204,6 @@ var fnFlightInfo = function(){
 			if(json.result == "0") {
 				var flight = json.flight;
 				if(flight) {
-					console.log(flight.FLIGHT_SN);
 					$('#frmLayout [name="hidFlightSn"]').val(flight.FLIGHT_SN);
 
 					var str1= '<div class="area_airset_01">'+'<p class="air_areatit">'

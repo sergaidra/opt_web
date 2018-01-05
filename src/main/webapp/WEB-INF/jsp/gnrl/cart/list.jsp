@@ -92,7 +92,6 @@ function delCart(cart_sn) {
 	var url = "<c:url value='/cart/delAction'/>";
 	var param = {};
 	param.cart_sn = cart_sn;
-	console.log(param);
 	
 	if(!confirm("정말 삭제하겠습니까?"))
 		return;
@@ -229,7 +228,6 @@ function addWish() {
 	var url = "<c:url value='/purchs/insertWish'/>";
 	var param = {};
 	param.goods_code = lst;
-	console.log(param);
 	
 	if(!confirm("해당 삼품을 찜하겠습니까?"))
 		return;

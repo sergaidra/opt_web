@@ -56,7 +56,6 @@ function write() {
 	//if($("#secret_at").is(":checked")) {
 	//	param.secret_at = "Y";
 	//}	
-	console.log(param);
 	
 	if(!confirm("저장하겠습니까?"))
 		return;
@@ -91,8 +90,7 @@ function deleteBbs() {
 	var url = "<c:url value='/bbs/deleteaction'/>";
 	var param = {};
 	param.bbs_sn = $("#bbs_sn").val();
-	console.log(param);
-	
+
 	if(!confirm("삭제하겠습니까?"))
 		return;
 		
@@ -143,7 +141,6 @@ function deletebbsadmin() {
 	param.secret_at = "Y";
 	param.subcategory = $("#subcategory").val();
 	param.parent_bbs_sn = $.trim($("#bbs_sn").val());
-	console.log(param);
 	
 	if(!confirm("사용자글을 삭제하겠습니까?"))
 		return;
@@ -203,7 +200,6 @@ function modifyaction() {
 	//if($("#secret_at").is(":checked")) {
 	//	param.secret_at = "Y";
 	//}	
-	console.log(param);
 	
 	if(!confirm("수정하겠습니까?"))
 		return ;
@@ -245,7 +241,6 @@ function writeComment() {
 	var param = {};
 	param.cmt = $("#cmt").val();
 	param.bbs_sn = $.trim($("#bbs_sn").val());
-	console.log(param);
 	
 	if(!confirm("댓글을 저장하겠습니까?"))
 		return ;
@@ -281,7 +276,6 @@ function deleteComment(comment_sn) {
 	var url = "<c:url value='/bbs/deletecommentaction'/>";
 	var param = {};
 	param.comment_sn = comment_sn;
-	console.log(param);
 	
 	if(!confirm("댓글 삭제하겠습니까?"))
 		return ;
@@ -335,7 +329,6 @@ function writeanswer() {
 	//if($("#secret_at").is(":checked")) {
 	//	param.secret_at = "Y";
 	//}	
-	console.log(param);
 	
 	if(!confirm("저장하겠습니까?"))
 		return ;

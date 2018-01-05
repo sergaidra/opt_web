@@ -230,7 +230,6 @@ function addWish(goods_code, obj) {
 	}
 	var param = {};
 	param.goods_code = lst;
-	console.log(param);
 	
 	if(mode == "I") {
 		if(!confirm("해당 상품을 찜하겠습니까?"))

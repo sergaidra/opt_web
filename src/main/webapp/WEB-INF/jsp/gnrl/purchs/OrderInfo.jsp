@@ -214,7 +214,6 @@ html2canvas(document.getElementById("blankImage"), {
 		  blankImage = canvas.toDataURL('image/png');
 		  blankWidth = canvas.width;
 		  blankHeight = canvas.height;
-		  console.log(blankImage);
 	  }
 });
 

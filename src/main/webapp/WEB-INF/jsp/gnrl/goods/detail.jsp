@@ -71,7 +71,6 @@ var lstOption = [];
 <c:forEach var="list" items="${lstSchdul}">
 	lstSchdul.push({"BEGIN_DE" : "${list.BEGIN_DE}", "END_DE" : "${list.END_DE}" });
 </c:forEach>
-console.log(lstSchdul);
 <c:forEach var="list" items="${lstRsvSchdul}">
 	lstRsvSchdul.push("${list.RESERVATIONDT}");
 </c:forEach> 
@@ -1095,7 +1094,6 @@ function addWish(goods_code, obj) {
 	}
 	var param = {};
 	param.goods_code = lst;
-	console.log(param);
 	
 	if(mode == "I") {
 		if(!confirm("해당 상품을 찜하겠습니까?"))
@@ -1235,7 +1233,7 @@ function googleShare() {
           </div>
           
           <!-- jQuery 
-    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script> -->
     <!-- Swiper JS --> 
           <script src="/jq/swiper/dist/js/swiper.jquery.min.js"></script> 
           

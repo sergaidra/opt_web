@@ -95,7 +95,6 @@ function addAction() {
 	param.tourist_nm = tourist_nm;
 	param.tourist_cttpc = tourist_cttpc;
 	param.kakao_id = kakao_id;
-	console.log(param);
 	
 	$.ajax({
         url : url,
