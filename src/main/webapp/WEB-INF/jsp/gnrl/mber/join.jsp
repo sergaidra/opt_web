@@ -8,12 +8,12 @@
 
 <script type="text/javascript">
 $(function() {
-	//$.datetimepicker.setLocale('en');
+	$.datetimepicker.setLocale('kr');
 
-	/* $('#birth').datetimepicker( {
+	$('#birth').datetimepicker( {
 		format:'Y-m-d',
 		timepicker:false
-	}); */
+	});
 	
 	$("#password").change(function () { $("#mpassword").val($("#password").val()); });
 	$("#mpassword").change(function () { $("#password").val($("#mpassword").val()); });
@@ -260,7 +260,7 @@ function validation() {
         </tr> -->
         <tr>
           <th>핸드폰 </th>
-          <td class="line"><input id="moblphon_no" name="moblphon_no" type="text"  class="w_30p pc_view" value=""   />
+          <td class="line"><input id="moblphon_no" name="moblphon_no" type="text"  class="w_20p pc_view" value=""   />
           <!--모바일 --><input id="mmoblphon_no" name="moblphon_no" type="text" class="w_50p mobile_view"  value=""   />
             &nbsp;&nbsp;(예)000-0000-0000
             <!-- <div class="btnst2"><a href="#" class="big-link" data-reveal-id="myModal" >인증번호 전송</a></div> --></td>

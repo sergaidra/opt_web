@@ -161,7 +161,7 @@ public class GoodsController {
     	
     	// 도시 목록
     	Map<String, String> mapT2 = new HashMap<String, String>();
-    	mapT2.put("NATION_CODE", "00001");
+    	mapT2.put("NATION_CODE", "00100"); //필리핀
     	List<Map<String,String>> ctyList = ctyManageService.selectCtyList(mapT2);
 
     	Map resultMap = new HashMap();

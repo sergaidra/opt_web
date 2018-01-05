@@ -150,6 +150,7 @@
 	<![CDATA[
 				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE, GOODS_INTRCN_SIMPL
 					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND REPRSNT_AT = 'Y' ) AS FILE_SN, RNUM
+					, (SELECT SETUP_AMOUNT FROM TB_GOODS_NMPR X WHERE X.GOODS_CODE = AA.GOODS_CODE AND X.PC_REPRSNT_AT = 'Y' AND ROWNUM = 1) ORIGIN_AMOUNT
 				FROM (
 					SELECT GOODS_CODE, ROWNUM AS RNUM
 					FROM (		  
@@ -205,6 +206,7 @@
 		     , (SELECT COUNT(1) FROM TB_GOODS X WHERE X.CL_CODE = A.CL_CODE) AS GOODS_CNT
 		     , SORT_ORDR
 		     , DC
+		     , DECODE(A.UPPER_CL_CODE, '00000', A.SORT_ORDR*1000, (SELECT B.SORT_ORDR*1000 FROM TB_TOUR_CL B WHERE B.CL_CODE = A.UPPER_CL_CODE)+A.SORT_ORDR) CF_SORT
 		  FROM TB_TOUR_CL A
 		 WHERE DELETE_AT = 'N'
 		<isNotEmpty property="upper_cl_code">
@@ -213,7 +215,12 @@
 		<isNotEmpty property="cl_code_arr">
 		   AND CL_CODE IN <iterate property="cl_code_arr" open=" (" conjunction="," close=")">#cl_code_arr[]#</iterate>
 		</isNotEmpty>
-		 ORDER BY SORT_ORDR
+		<isEmpty property="upper_cl_code">
+			<isEmpty property="cl_code_arr">
+		   AND UPPER_CL_CODE <![CDATA[<>]]> '00000'
+			</isEmpty>
+		</isEmpty>
+		 ORDER BY CF_SORT
 	</select>
 	
 	<select id="gnrl.goods.selectGoodsListCount" parameterClass="hashMap" resultClass="Integer">

@@ -278,7 +278,7 @@ function fnLiveView(url, title, desc) {
 		                <div class="txt_box">
 		                  <div class="title">${list.GOODS_NM }</div>
 		                  <div class="price">
-		                    <div class="tr_tx1"><!-- ￦ 900,000 --></div>
+		                    <div class="tr_tx1">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
 		                    <div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
 	                      </div>
 	                    </div>
