@@ -10,16 +10,16 @@ import kr.co.siione.utl.egov.EgovComAbstractDAO;
 @Repository
 public class GoodsDAO extends EgovComAbstractDAO {
 
-	public List selectGoodsExpsrList1() throws Exception {
-		return list("gnrl.goods.selectGoodsExpsrList1");
+	public List selectGoodsExpsrList1(HashMap map) throws Exception {
+		return list("gnrl.goods.selectGoodsExpsrList1", map);
 	}
 	
-	public List selectGoodsExpsrList2() throws Exception {
-		return list("gnrl.goods.selectGoodsExpsrList2");
+	public List selectGoodsExpsrList2(HashMap map) throws Exception {
+		return list("gnrl.goods.selectGoodsExpsrList2", map);
 	}	
 
-	public List selectGoodsExpsrList3() throws Exception {
-		return list("gnrl.goods.selectGoodsExpsrList3");
+	public List selectGoodsExpsrList3(HashMap map) throws Exception {
+		return list("gnrl.goods.selectGoodsExpsrList3", map);
 	}	
 
 	public List selectGoodsExpsrList4() throws Exception {

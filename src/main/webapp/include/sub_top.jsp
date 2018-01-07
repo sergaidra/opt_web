@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8" language="java" import="java.sql.*" errorPage="" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <script type="text/javascript">
 $(function(){
@@ -10,7 +11,7 @@ $(function(){
     });
 	$("#imgSubtopSearch").click(function () {
 		if($.trim($("#txtSubtopKeyword").val()) == "") {
-			alert("검색어를 입력하세요.");
+			alert("<spring:message code='info.input.keyword'/>");
 			$("#txtSubtopKeyword").focus();
 			return;
 		}

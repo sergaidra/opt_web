@@ -51,15 +51,19 @@
 
 	<!-- 세션을 이용한 Locale 이용시-->
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
-	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-		<property name="paramName" value="language"/>
-	</bean>
+	
+	<mvc:interceptors>
+		<!-- <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"> -->
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="language"/>
+		</bean>
+	</mvc:interceptors>
 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
 		<property name="interceptors">
 			<list>
 				<ref bean="loginCheckInterceptor" />
-				<ref bean="localeChangeInterceptor"/>
+				<!-- <ref bean="localeChangeInterceptor"/> -->
 			</list>
 		</property>
 		<property name="alwaysUseFullPath" value="true" />

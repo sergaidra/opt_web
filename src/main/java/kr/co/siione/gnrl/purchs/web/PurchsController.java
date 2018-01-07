@@ -150,6 +150,7 @@ public class PurchsController {
     	
     	for(int i = 0; i < lstGoods.size(); i++) {
     		String strDt = "";
+    		String strDt2 = "";
     		String time = "";
     		String text = "";
     		String options = "";
@@ -157,9 +158,12 @@ public class PurchsController {
     			// 숙박
     			try	{
     				Date dt1 = format.parse(String.valueOf(lstGoods.get(i).get("CHKIN_DE")));
+    				Date dt2 = format.parse(String.valueOf(lstGoods.get(i).get("CHCKT_DE")));
     				strDt = format.format(dt1);
+    				strDt2 = format.format(dt2);
     			} catch(Exception ex) {
     				strDt = "";
+    				strDt2 = "";
     			}
        			text = String.valueOf(lstGoods.get(i).get("GOODS_NM"));
        			options = String.valueOf(lstGoods.get(i).get("OPTIONS"));
@@ -230,7 +234,7 @@ public class PurchsController {
             	result.put("lstFile", lstFile);        	        		
         	}
         	
-   			addMySchedule(mapDate, strDt, time, text, options, result, lstGoods.get(i));
+   			addMySchedule(mapDate, strDt, strDt2, time, text, options, result, lstGoods.get(i));
    			
    			// 항공정보
    			if(lstGoods.get(i).get("FLIGHT_SN") != null) {
@@ -250,7 +254,7 @@ public class PurchsController {
     	String[] weekNm = new String[] { "일", "월", "화", "수", "목", "금", "토" };
     	
     	for (Map.Entry<String,Object> entry : mapDate.entrySet()) {
-    		String strDt = entry.getKey();
+    		String strDt = entry.getKey().replace("S", "");
     		try {
         		Date dt1 = format.parse(strDt);
         		Calendar cal = Calendar.getInstance();
@@ -264,6 +268,22 @@ public class PurchsController {
     		List lstItem = (List)entry.getValue();
     		Map<String, Object> m = new HashMap<String, Object>();
     		m.put("day", strDt);
+    		for(int i = 0; i < lstItem.size(); i++) {
+    			LinkedHashMap<String, Object> itemMap = (LinkedHashMap<String, Object>)lstItem.get(i);
+    			if(itemMap.get("chckt_de") != null && !"".equals(String.valueOf(itemMap.get("chckt_de")))) {
+        			String strDt2 = String.valueOf(itemMap.get("chckt_de"));
+            		try {
+                		Date dt1 = format.parse(strDt2);
+                		Calendar cal = Calendar.getInstance();
+                		cal.setTime(dt1);
+                		int dayNum = cal.get(Calendar.DAY_OF_WEEK);
+                		
+                		itemMap.put("chckt_de", format2.format(dt1) + "(" + weekNm[dayNum - 1] + ")");
+            		} catch(Exception ex) {
+            			
+            		}
+    			}
+    		}
     		m.put("list", lstItem);
     		lstReservation.add(m);
     	}
@@ -275,11 +295,19 @@ public class PurchsController {
 		return "gnrl/purchs/OrderInfo";
 	}
 
-    private void addMySchedule(LinkedHashMap<String, Object> mapDate, String dt, String time, String text, String options, HashMap goods, HashMap purchs) {
-    	if(!mapDate.containsKey(dt))
-    		mapDate.put(dt, new ArrayList());
-    	List lst = (List)mapDate.get(dt);
+    private void addMySchedule(LinkedHashMap<String, Object> mapDate, String dt, String dt2, String time, String text, String options, HashMap goods, HashMap purchs) {
+    	List lst = null;
+    	if(dt2 != null && !"".equals(dt2)) {
+        	if(!mapDate.containsKey(dt + "S"))
+        		mapDate.put(dt + "S", new ArrayList());
+        	lst = (List)mapDate.get(dt + "S");
+    	} else {
+        	if(!mapDate.containsKey(dt))
+        		mapDate.put(dt, new ArrayList());
+        	lst = (List)mapDate.get(dt);
+    	}
     	LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+   		map.put("chckt_de", dt2);
     	map.put("time", time);
     	map.put("text", text);
     	map.put("options", options);

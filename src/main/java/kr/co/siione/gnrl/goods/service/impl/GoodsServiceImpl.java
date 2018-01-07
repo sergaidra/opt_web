@@ -14,16 +14,16 @@ public class GoodsServiceImpl implements GoodsService {
 	@Resource(name = "goodsDAO")
 	private GoodsDAO goodsDAO;
 
-    public List<HashMap> getGoodsExpsrList1() throws Exception {
-        return goodsDAO.selectGoodsExpsrList1();
+    public List<HashMap> getGoodsExpsrList1(HashMap map) throws Exception {
+        return goodsDAO.selectGoodsExpsrList1(map);
     }
 
-    public List<HashMap> getGoodsExpsrList2() throws Exception {
-        return goodsDAO.selectGoodsExpsrList2();
+    public List<HashMap> getGoodsExpsrList2(HashMap map) throws Exception {
+        return goodsDAO.selectGoodsExpsrList2(map);
     }
 
-    public List<HashMap> getGoodsExpsrList3() throws Exception {
-        return goodsDAO.selectGoodsExpsrList3();
+    public List<HashMap> getGoodsExpsrList3(HashMap map) throws Exception {
+        return goodsDAO.selectGoodsExpsrList3(map);
     }
 
     public List<HashMap> getGoodsExpsrList4() throws Exception {

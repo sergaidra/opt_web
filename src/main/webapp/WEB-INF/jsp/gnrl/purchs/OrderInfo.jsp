@@ -68,9 +68,19 @@
 					<c:forEach var="list" items="${item.list}" varStatus="status2">
 						<tr>
 						<c:if test="${status2.index == 0}">
-							<td rowspan='${fn:length(item.list)}'>${item.day}</td>
+							<c:if test="${list.chckt_de eq ''}">
+								<td rowspan='${fn:length(item.list)}'>${item.day}</td>
+								<c:set var="isTime" value="1"/>
+							</c:if>
+							<c:if test="${list.chckt_de ne ''}">
+								<td rowspan='${fn:length(item.list)}' colspan="2">${item.day} ~ ${list.chckt_de}</td>
+								<c:set var="isTime" value="0"/>
+							</c:if>
 						</c:if>
-						<td>${list.time}</td><td align="left">${list.text}</td>
+						<c:if test="${isTime eq '1'}">
+							<td>${list.time}</td>
+						</c:if>
+						<td align="left">${list.text}</td>
 						<td align="left">${list.options}</td>
 						</tr>
 					</c:forEach>
@@ -84,7 +94,16 @@
 	<c:forEach var="list" items="${item.list}" varStatus="status2">
 	<div class="info_box">
 		<div class="title">
-			<i class="material-icons">&#xE147;</i>  <div class="tx"><em>여행일자 : </em>  ${item.day} ${list.time}</div>
+			<i class="material-icons">&#xE147;</i>
+			<div class="tx">
+				<em>여행일자 : </em>
+				<c:if test="${list.chckt_de ne ''}">
+					${item.day} ~ ${list.chckt_de}
+				</c:if>  
+				<c:if test="${list.chckt_de eq ''}">
+					${item.day} ${list.time}
+				</c:if>  
+			</div>
 		</div>
 		<div class="sp_box1"></div>
 		<div class="title">

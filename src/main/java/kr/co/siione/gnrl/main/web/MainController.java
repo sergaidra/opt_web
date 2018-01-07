@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.LocaleResolver;
 
 @Controller
 @RequestMapping(value = "/main/")
@@ -46,17 +47,21 @@ public class MainController {
 	@Resource
 	private LiveViewService liveViewService;
 
+	@Resource
+	private LocaleResolver localeResolver;
+	
     @RequestMapping(value="/intro/")
     public String intro(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+    	HashMap map = new HashMap();
+    	map.put("language", localeResolver.resolveLocale(request));
 
     	List<HashMap> lstMainImage = mainService.getMainImageList();
-    	List<HashMap> expsrList1 = goodsService.getGoodsExpsrList1();
-    	List<HashMap> expsrList2 = goodsService.getGoodsExpsrList2();
-    	List<HashMap> expsrList3 = goodsService.getGoodsExpsrList3();
-    	List<HashMap> lstVideo = liveViewService.mainVideolist(null);
+    	List<HashMap> expsrList1 = goodsService.getGoodsExpsrList1(map);
+    	List<HashMap> expsrList2 = goodsService.getGoodsExpsrList2(map);
+    	List<HashMap> expsrList3 = goodsService.getGoodsExpsrList3(map);
+    	List<HashMap> lstVideo = liveViewService.mainVideolist(map);
     	//List<HashMap> lstBanner = mainService.getBanner(null);
     	
-    	HashMap map = new HashMap();
     	List<HashMap> lstNotice = noticeService.mainNoticelist(map);
     	HashMap popupNotice = noticeService.mainPopupNotice(map);
     	

@@ -10,7 +10,7 @@
 var cartInfo = [];
 
 <c:forEach var="item" items="${cartList}" varStatus="status">
-	cartInfo.push({ "cart_sn": "${item.CART_SN}", "purchs_amount": "${item.PURCHS_AMOUNT}", "goods_code": "${item.GOODS_CODE}", "origin_amount": "${item.ORIGIN_AMOUNT}", "chk" : false});
+	cartInfo.push({ "cart_sn": "${item.CART_SN}", "purchs_amount": "${item.PURCHS_AMOUNT}", "goods_code": "${item.GOODS_CODE}", "origin_amount": "${item.ORIGIN_AMOUNT}", "tour_de":"${item.TOUR_DE}", "chkin_de":"${item.CHKIN_DE}", "chckt_de":"${item.CHCKT_DE}", "chk" : false});
 </c:forEach>
 
 $(function(){	
@@ -125,9 +125,21 @@ function delCart(cart_sn) {
 function paymentCart() {
 	var lst = "";
 	var lstJson = [];
+	var today = getToday();
 
 	for(var cnt = 0; cnt < cartInfo.length; cnt++) {
 		if(cartInfo[cnt].chk == true) {
+			if(cartInfo[cnt].tour_de == "") {
+				if(cartInfo[cnt].chkin_de < today) {
+					alert("예약일자가 지난 상품은 결제할 수 없습니다.");
+					return;
+				}
+			} else {
+				if(cartInfo[cnt].tour_de < today) {
+					alert("예약일자가 지난 상품은 결제할 수 없습니다.");
+					return;
+				}
+			}
 			lst += cartInfo[cnt].cart_sn + ",";
 			lstJson.push( { "cart_sn" : cartInfo[cnt].cart_sn })
 		}
@@ -279,6 +291,18 @@ function orderInfo() {
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function getToday() {
+	var d = new Date();
+	return String(d.getFullYear()) + lpad(String(d.getMonth() + 1), 2, "0") + lpad(String(d.getDate()), 2, "0");
+}
+
+function lpad(s, padLength, padString){
+	 
+    while(s.length < padLength)
+        s = padString + s;
+    return s;
 }
 
 </script>

@@ -4,8 +4,23 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <header>
-    
+
+<script language="javascript" type="text/javascript">
+function changeLocale() {	
+	var lang = $("#cmbLocale").val();
+	if(window.location.href.indexOf('?') < 0) {
+		window.location.href = window.location.href + "?language=" + lang;		
+	} else {
+		if(window.location.href.indexOf('language=') < 0) {
+			window.location.href = window.location.href + "&language=" + lang;		
+		} else {
+			window.location.href = window.location.href.replace(/language=[a-z]+/, "language=" + lang);
+		}
+	}
+}
+</script>
 <!--PC 상단메뉴 영역-->
 <div class="comf" id="head_home">
 	<div class="inner">
@@ -25,18 +40,17 @@
 			<c:if test="${user_id != null}">
 			<div class="myinfo">
 				<div class="name">
-					<div class="name_tx">${user_nm}님</div>
+					<div class="name_tx"><spring:message code='top.user.welcome' arguments="${user_nm}"/></div>
 					<div class="gomy">
-						<a href="javascript:go_logout();">로그아웃</a>
+						<a href="javascript:go_logout();"><spring:message code='top.logout'/></a>
 					</div>					
 				</div>
 			</div>			
 			</c:if>
 			<div class="lang_sel">
-				<select name="" class="w_50p">
-					<option>Korean</option>
-					<option>English</option>
-					<option>Chinese</option>
+				<select id="cmbLocale" class="w_50p" onchange="changeLocale();">
+					<option <c:if test="${pageContext.response.locale eq 'ko'}">selected</c:if> value="ko">Korean</option>
+					<option <c:if test="${pageContext.response.locale eq 'en'}">selected</c:if> value="en">English</option>
 				</select>
 			</div>			
 
@@ -44,13 +58,13 @@
 				<a href="javascript:go_login();">
 					<div class="mygo">
 						<i class="material-icons">&#xE899;</i>
-						<div class="tx">로그인 </div>
+						<div class="tx"><spring:message code='top.login'/> </div>
 					</div>
 				</a> 
 				<a href="javascript:go_join();">
 					<div class="allmenu">
 						<i class="material-icons">&#xE853;</i>
-        				<div class="tx">회원가입</div>
+        				<div class="tx"><spring:message code='top.join'/></div>
       				</div>
       			</a>
 			</c:if>			
@@ -58,13 +72,13 @@
 				<a href="javascript:go_mypage();">
 					<div class="mygo">
 						<i class="material-icons">&#xE87C;</i>
-        				<div class="tx">마이페이지</div>
+        				<div class="tx"><spring:message code='top.mypage'/></div>
       				</div>
       			</a> 
       			<a href="javascript:go_cartpage();">
       				<div class="allmenu">
       					<i class="material-icons">&#xE854;</i>
-        				<div class="tx">장바구니</div>
+        				<div class="tx"><spring:message code='top.cart'/></div>
       				</div>
       			</a>
 			</c:if>		  
@@ -94,10 +108,10 @@
 			<c:if test="${user_id == null}">
         	<div class="info_my">
 				<div class="photo"><img src="/images/com/member_icon02.png" alt=""/></div>
-				<div class="name">로그인 해주세요!</div>
+				<div class="name"><spring:message code='top.login.msg'/></div>
 				<div class="info_btn"> 
-					<a href="javascript:go_login();" class="info">로그인</a>
-					<a href="javascript:go_join();" class="logout">회원가입</a>
+					<a href="javascript:go_login();" class="info"><spring:message code='top.login'/></a>
+					<a href="javascript:go_join();" class="logout"><spring:message code='top.join'/></a>
 				</div>
 			</div>
 			</c:if>
@@ -105,7 +119,7 @@
 			<div class="info_my">
         		<div class="photo"><img src="/images/com/member_icon01.png" alt=""/></div>
 				<div class="name"><em>${user_nm}</em></div>
-				<div class="info_btn"> <a href="javascript:go_mypage();" class="info">마이페이지</a><a href="javascript:go_logout();" class="logout">로그아웃</a></div>
+				<div class="info_btn"> <a href="javascript:go_mypage();" class="info"><spring:message code='top.mypage'/></a><a href="javascript:go_logout();" class="logout"><spring:message code='top.logout'/></a></div>
 			</div>  
 			</c:if>
 			<div class="quick_search">
@@ -134,9 +148,9 @@ $("#leftside-navigation .sub-menu > a").click(function(e) {
 	<div class="pc_close  pc_view"><a class="side-right-pushy-button" style="padding-bottom:0px;"><i class="material-icons" >&#xE5CD;</i></a></div>    
     <div class="mobile_close  mobile_view"><a class="side-right-pushy-button"><i class="material-icons" >&#xE5CD;</i></a></div>
     <div class="ri_box">
-		<div class="title">예약정보
-        	<div id="divAirReset" class="reset" style="display:none; cursor:pointer;" onclick="flightInit();">초기화</div>
-        	<div id="divAirUpdate" class="reset" style="display:none; cursor:pointer;" onclick="flightView();">수정</div>
+		<div class="title"><spring:message code='top.reservation'/>
+        	<div id="divAirReset" class="reset" style="display:none; cursor:pointer;" onclick="flightInit();"><spring:message code='top.reservation.flight.init'/></div>
+        	<div id="divAirUpdate" class="reset" style="display:none; cursor:pointer;" onclick="flightView();"><spring:message code='top.reservation.flight.update'/></div>
 		</div>
 <script language="javascript" type="text/javascript">
 function switch_product_img(divName, totalImgs) {
@@ -164,7 +178,7 @@ function flightView() {
 function flightInit() {
 	var url = "<c:url value='/cmmn/initFlight'/>";
 
-	if(!confirm("항공편 정보를 초기화하겠습니까?"))
+	if(!confirm("<spring:message code='confirm.flight.init'/>"))
 		return;
 	
 	$.ajax({
@@ -176,15 +190,15 @@ function flightInit() {
         data : JSON.stringify( {} ),
         success : function(data,status,request){
 			if(data.result == "0") {
-				alert("초기화하였습니다.");
+				alert("<spring:message code='info.init'/>");
 				getMyFlightInfo();
 			} else if(data.result == "-2") {
-				alert("로그인이 필요합니다.");
+				alert("<spring:message code='info.login'/>");
 				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
-				alert("작업을 실패하였습니다.");
+				alert("<spring:message code='info.ajax.fail'/>");
 			}	        	
         },
         error : function(request,status,error) {
@@ -209,19 +223,19 @@ function getMyFlightInfo() {
 				var html = ""; 
 				for(var cnt = 0; cnt < data.data.length; cnt++) {
 					var item = data.data[cnt];
-					html += "<tr><td rowspan='2'>출국</td><td>" + nvl(item.DTRMC_START_ARPRT_NM) + " &rarr; " + nvl(item.DTRMC_ARVL_ARPRT_NM) + " (항공편명:" + nvl(item.DTRMC_FLIGHT) + ")</td></tr>";
-					html += "<tr><td>[출발] " + nvl(item.DTRMC_START_DT) + "<br>[도착] " + nvl(item.DTRMC_ARVL_DT) + "<br></td></tr>";
-					html += "<tr><td rowspan='2'>입국</td><td>" + nvl(item.HMCMG_START_ARPRT_NM) + " &rarr; " + nvl(item.HMCMG_ARVL_ARPRT_NM) + " (항공편명:" + nvl(item.HMCMG_FLIGHT) + ")</td></tr>";
-					html += "<tr><td>[출발] " + nvl(item.HMCMG_START_DT) + "<br>[도착] " + nvl(item.HMCMG_ARVL_DT) + "<br></td></tr>";
+					html += "<tr><td rowspan='2'><spring:message code='flight.leave'/></td><td>" + nvl(item.DTRMC_START_ARPRT_NM) + " &rarr; " + nvl(item.DTRMC_ARVL_ARPRT_NM) + " (<spring:message code='flight.flightname'/>:" + nvl(item.DTRMC_FLIGHT) + ")</td></tr>";
+					html += "<tr><td>[<spring:message code='flight.departure'/>] " + nvl(item.DTRMC_START_DT) + "<br>[<spring:message code='flight.arrival'/>] " + nvl(item.DTRMC_ARVL_DT) + "<br></td></tr>";
+					html += "<tr><td rowspan='2'><spring:message code='flight.entry'/></td><td>" + nvl(item.HMCMG_START_ARPRT_NM) + " &rarr; " + nvl(item.HMCMG_ARVL_ARPRT_NM) + " (<spring:message code='flight.flightname'/>:" + nvl(item.HMCMG_FLIGHT) + ")</td></tr>";
+					html += "<tr><td>[<spring:message code='flight.departure'/>] " + nvl(item.HMCMG_START_DT) + "<br>[<spring:message code='flight.arrival'/>] " + nvl(item.HMCMG_ARVL_DT) + "<br></td></tr>";
 				}
 				$("#tblFlightInfo tbody").append(html);
 			} else if(data.result == "-2") {
-				alert("로그인이 필요합니다.");
+				alert("<spring:message code='info.login'/>");
 				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
-				alert("작업을 실패하였습니다.");
+				alert("<spring:message code='info.ajax.fail'/>");
 			}	        	
         },
         error : function(request,status,error) {
@@ -259,12 +273,12 @@ function getMySchedule() {
 				}
 				$("#tblMyScheduleInfo tbody").append(html);
 			} else if(data.result == "-2") {
-				alert("로그인이 필요합니다.");
+				alert("<spring:message code='info.login'/>");
 				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
-				alert("작업을 실패하였습니다.");
+				alert("<spring:message code='info.ajax.fail'/>");
 			}	        	
         },
         error : function(request,status,error) {
@@ -281,8 +295,8 @@ getMyFlightInfo();
 		<!--일정표 -->
 			<div class="ri_tab">
 				<ul>
-					<li class="on"><a href="javascript:void(0)" onclick="switch_product_img('cont_1', 2);" >일정표</a></li>
-					<li><a href="javascript:void(0)" onclick="switch_product_img('cont_2', 2);" >항공편</a></li>
+					<li class="on"><a href="javascript:void(0)" onclick="switch_product_img('cont_1', 2);" ><spring:message code='top.reservation.schedule'/></a></li>
+					<li><a href="javascript:void(0)" onclick="switch_product_img('cont_2', 2);" ><spring:message code='top.reservation.flight'/></a></li>
 				</ul>
 			</div>
 			<div class="ri_tb">
@@ -302,8 +316,8 @@ getMyFlightInfo();
 		<!--항공 -->
 			<div class="ri_tab">
 				<ul>
-					<li><a href="javascript:void(0)" onclick="switch_product_img('cont_1', 2);" >일정표</a></li>
-					<li  class="on"><a href="javascript:void(0)" onclick="switch_product_img('cont_2', 2);" >항공편</a></li>
+					<li><a href="javascript:void(0)" onclick="switch_product_img('cont_1', 2);" ><spring:message code='top.reservation.schedule'/></a></li>
+					<li  class="on"><a href="javascript:void(0)" onclick="switch_product_img('cont_2', 2);" ><spring:message code='top.reservation.flight'/></a></li>
 				</ul>
 			</div>
 			<div class="ri_tb">

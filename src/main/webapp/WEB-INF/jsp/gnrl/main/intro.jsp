@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <head>
 <link rel="stylesheet" href="/jq/swiper/dist/css/swiper.css">
@@ -49,7 +50,7 @@ $(function(){
 
 	$("#imgSearch").click(function () {
 		if($.trim($("#txtKeyword").val()) == "") {
-			alert("검색어를 입력하세요.");
+			alert("<spring:message code='info.input.keyword'/>");
 			$("#txtKeyword").focus();
 			return;
 		}
@@ -131,12 +132,12 @@ function fnLiveView(url, title, desc) {
 <article id="main">
   <div class="main_f">
   <div class="main_v">
-    <div class="tx1"><em>세부패키지 여행</em>, 고민하지말고 떠나세요</div>
+    <div class="tx1"><spring:message code='intro.main.title'/></div>
     <div class="tx2">Details package tour is <em><img src="/images/com/logo.png"  alt=""/></em></div>
     <div class="msearch_box">
       <div class="icon"><img src="/images/com/search_icon.png" id="imgSearch" alt=""/></div>
-      <input type="text" placeholder="가고 싶은 투어, 여행지, 액티비티 검색어를 입력하세요" id="txtKeyword" class="pc_view">
-      <input type="text" placeholder="검색어를 입력하세요" class="mobile_view" id="txtKeyword2">
+      <input type="text" placeholder="<spring:message code='intro.main.placeholder1'/>" id="txtKeyword" class="pc_view">
+      <input type="text" placeholder="<spring:message code='intro.main.placeholder2'/>" class="mobile_view" id="txtKeyword2">
     </div>
   </div>
 
@@ -169,24 +170,15 @@ function fnLiveView(url, title, desc) {
       <ul>
         <li>
           <div class="left_icon" onclick="go_01_01_01();"><img src="<c:url value='/images/main/main_a_01.png'/>" alt=""/></div>
-          <div class="right_txt"><em>내가 고르는 나만의 여행</em><br>
-            직접 상품을 골라 직접 
-            <div class="pc_view"></div>
-          만드는 셀프여행</div>
+          <div class="right_txt"><spring:message code='intro.main.msg1'/></div>
         </li>
         <li>
           <div class="left_icon" onclick="go_02_01_01();"><img src="<c:url value='/images/main/main_a_02.png'/>" alt=""/></div>
-          <div class="right_txt"><em>이번달의 핫한 여행상품</em><br>
-            여러분들이 가장 많이 
-            <div class="pc_view"></div>
-            찾은 인기 상품들</div>
+          <div class="right_txt"><spring:message code='intro.main.msg2'/></div>
         </li>
         <li>
           <div class="left_icon" onclick="go_03_01_01();"><img src="<c:url value='/images/main/main_a_03.png'/>" alt=""/></div>
-          <div class="right_txt"><em>전문가의 추천 여행</em><br>
-            원패스투어 전문가가 추천하는
-            <div class="pc_view"></div>
-            이번달 추천 여행</div>
+          <div class="right_txt"><spring:message code='intro.main.msg3'/></div>
         </li>
       </ul>
     </div>
@@ -219,7 +211,7 @@ function fnLiveView(url, title, desc) {
     <div class="inner2">
       <div class="title_box">
         <div class="tx1"><img src="<c:url value='/images/main/main_title01.png'/>"  alt=""/></div>
-        <div class="tx2">지금뜨는 따끈따끈한 핫딜 여행정보입니다. 놓치지 마세요 </div>
+        <div class="tx2"><spring:message code='intro.hotdeal.msg'/></div>
       </div>
       <div class="cont_box">
       	<c:forEach var="list" items="${hotdeal}" varStatus="status" begin="0" end="2">
@@ -252,7 +244,7 @@ function fnLiveView(url, title, desc) {
     <div class="inner2">
       <div class="title_box">
         <div class="tx1"><img src="/images/main/main_title02.png"  alt=""/></div>
-        <div class="tx2">원패스투어에서 가장많은 선택을 받은 여행지입니다. 여행선정에 많은 도움이 되시길 바랍니다.</div>
+        <div class="tx2"><spring:message code='intro.self.msg'/></div>
       </div>
       <div class="cont_box"> <!-- Swiper --> 
         <!-- Swiper -->
@@ -276,7 +268,14 @@ function fnLiveView(url, title, desc) {
 		                    </div>
 		                </div>
 		                <div class="txt_box">
-		                  <div class="title">${list.GOODS_NM }</div>
+		                  <div class="title">
+		                  	<c:if test="${pageContext.response.locale == 'en'}">
+		                  		${list.GOODS_NM_ENG }
+		                  	</c:if>
+		                  	<c:if test="${pageContext.response.locale != 'en'}">
+		                  		${list.GOODS_NM }
+		                  	</c:if>
+		                  </div>
 		                  <div class="price">
 		                    <div class="tr_tx1">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
 		                    <div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
@@ -316,7 +315,14 @@ function fnLiveView(url, title, desc) {
 		                    </div>
 		                </div>
 		                <div class="txt_box">
-		                  <div class="title">${list.GOODS_NM }</div>
+		                  <div class="title">
+		                  	<c:if test="${pageContext.response.locale == 'en'}">
+		                  		${list.GOODS_NM_ENG }
+		                  	</c:if>
+		                  	<c:if test="${pageContext.response.locale != 'en'}">
+		                  		${list.GOODS_NM }
+		                  	</c:if>
+		                  </div>
 		                  <div class="price">
 		                    <div class="tr_tx1"><!-- ￦ 900,000 --></div>
 		                    <div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
@@ -356,7 +362,14 @@ function fnLiveView(url, title, desc) {
 		                    </div>
 		                </div>
 		                <div class="txt_box">
-		                  <div class="title">${list.GOODS_NM }</div>
+		                  <div class="title">
+		                  	<c:if test="${pageContext.response.locale == 'en'}">
+		                  		${list.GOODS_NM_ENG }
+		                  	</c:if>
+		                  	<c:if test="${pageContext.response.locale != 'en'}">
+		                  		${list.GOODS_NM }
+		                  	</c:if>
+		                  </div>
 		                  <div class="price">
 		                    <div class="tr_tx1"><!-- ￦ 900,000 --></div>
 		                    <div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
@@ -414,14 +427,20 @@ function fnLiveView(url, title, desc) {
     <div class="inner2">
       <div class="title_box">
         <div class="tx1"><img src="/images/main/main_title03.png"  alt=""/></div>
-        <div class="tx2">지금뜨는 따끈따끈한 핫딜 여행정보입니다. 놓치지 마세요 </div>
+        <div class="tx2"><spring:message code='intro.recom.msg'/> </div>
       </div>
       <a href="javascript:fnDetail('${reco[0].GOODS_CODE}', 'R');">
       <div class="cont_box">
         <div class="in01 fl">
-          <div class="title">${reco[0].GOODS_NM}</div>
-          <div class="text">${reco[0].GOODS_INTRCN_SIMPL}</div>
-          <div class="more" >자세히보기 + </div>
+			<c:if test="${pageContext.response.locale == 'en'}">
+	          <div class="title">${reco[0].GOODS_NM_ENG}</div>
+	          <div class="text">${reco[0].GOODS_INTRCN_SIMPL_ENG}</div>
+			</c:if>        
+			<c:if test="${pageContext.response.locale != 'en'}">
+	          <div class="title">${reco[0].GOODS_NM}</div>
+	          <div class="text">${reco[0].GOODS_INTRCN_SIMPL}</div>
+			</c:if>        
+          <div class="more" ><spring:message code='intro.recom.more'/></div>
         </div>
         <c:set var="url1" value="/images/main/main_d_01.jpg"/>
        	<c:if test="${reco[0].GOODS_CODE != null}">
@@ -435,9 +454,15 @@ function fnLiveView(url, title, desc) {
       </a>
       <div class="cont_box">
         <div class="in01 fl">
-          <div class="title">${reco[1].GOODS_NM}</div>
-          <div class="text">${reco[1].GOODS_INTRCN_SIMPL}</div>
-          <a href="javascript:fnDetail('${reco[1].GOODS_CODE}', 'R');"><div class="more" >자세히보기 + </div></a>
+			<c:if test="${pageContext.response.locale == 'en'}">
+	          <div class="title">${reco[1].GOODS_NM_ENG}</div>
+	          <div class="text">${reco[1].GOODS_INTRCN_SIMPL_ENG}</div>
+			</c:if>        
+			<c:if test="${pageContext.response.locale != 'en'}">
+	          <div class="title">${reco[1].GOODS_NM}</div>
+	          <div class="text">${reco[1].GOODS_INTRCN_SIMPL}</div>
+			</c:if>        
+          <a href="javascript:fnDetail('${reco[1].GOODS_CODE}', 'R');"><div class="more" ><spring:message code='intro.recom.more'/></div></a>
         </div>
         <c:set var="url2" value="/images/main/main_d_02.jpg"/>
        	<c:if test="${reco[1].GOODS_CODE != null}">
@@ -458,9 +483,15 @@ function fnLiveView(url, title, desc) {
 		  <div class="imgbox" style="background: url(<c:out value="${url3}"/>); "></div>          
         </div>
         <div class="in04 fr">
-          <div class="title">${reco[2].GOODS_NM}</div>
-          <div class="text">${reco[2].GOODS_INTRCN_SIMPL}</div>
-          <a href="javascript:fnDetail('${reco[2].GOODS_CODE}', 'R');"><div class="more">자세히보기 + </div></a>
+			<c:if test="${pageContext.response.locale == 'en'}">
+	          <div class="title">${reco[2].GOODS_NM_ENG}</div>
+	          <div class="text">${reco[2].GOODS_INTRCN_SIMPL_ENG}</div>
+			</c:if>        
+			<c:if test="${pageContext.response.locale != 'en'}">
+	          <div class="title">${reco[2].GOODS_NM}</div>
+	          <div class="text">${reco[2].GOODS_INTRCN_SIMPL}</div>
+			</c:if>        
+          <a href="javascript:fnDetail('${reco[2].GOODS_CODE}', 'R');"><div class="more"><spring:message code='intro.recom.more'/></div></a>
         </div>
       </div>
       <div class="cont_box">
@@ -473,9 +504,15 @@ function fnLiveView(url, title, desc) {
 		  <div class="imgbox" style="background: url(<c:out value="${url4}"/>); "></div>          
         </div>
         <div class="in04 fr">
-          <div class="title">${reco[3].GOODS_NM}</div>
-          <div class="text">${reco[3].GOODS_INTRCN_SIMPL}</div>
-          <a href="javascript:fnDetail('${reco[3].GOODS_CODE}', 'R');"><div class="more">자세히보기 + </div></a>
+			<c:if test="${pageContext.response.locale == 'en'}">
+	          <div class="title">${reco[3].GOODS_NM_ENG}</div>
+	          <div class="text">${reco[3].GOODS_INTRCN_SIMPL_ENG}</div>
+			</c:if>        
+			<c:if test="${pageContext.response.locale != 'en'}">
+	          <div class="title">${reco[3].GOODS_NM}</div>
+	          <div class="text">${reco[3].GOODS_INTRCN_SIMPL}</div>
+			</c:if>        
+          <a href="javascript:fnDetail('${reco[3].GOODS_CODE}', 'R');"><div class="more"><spring:message code='intro.recom.more'/></div></a>
         </div>
       </div>
     </div>
@@ -486,8 +523,8 @@ function fnLiveView(url, title, desc) {
     <div class="inner2">
       <div class="title_box">
         <div class="t_inbox">
-          <div class="tx1">동영상 <em>홍보방</em></div>
-          <div class="tx2">동영상 홍보방에 대한 간단한 소개가 들어가는 공간입니다.</div>
+          <div class="tx1"><spring:message code='intro.liveview.msg1'/></div>
+          <div class="tx2"><spring:message code='intro.liveview.msg2'/></div>
         </div>
         <a href="javascript:go_07_05_01();"><div class="more">+</div></a>
       </div>
@@ -497,12 +534,20 @@ function fnLiveView(url, title, desc) {
 				<div class="swiper-wrapper">
 		        	<c:forEach var="item" items="${video}">
 						<div class="swiper-slide">
-							<a href="javascript:fnLiveView('${item.VIDEO_URL}', '${item.GOODS_NM}', '${item.GOODS_INTRCN_SIMPL}');">
+							<c:if test="${pageContext.response.locale == 'en'}">
+								<c:set var="GOODS_NM" value="${item.GOODS_NM_ENG}"/>
+								<c:set var="GOODS_INTRCN_SIMPL" value="${item.GOODS_INTRCN_SIMPL_ENG}"/>
+							</c:if>
+							<c:if test="${pageContext.response.locale != 'en'}">
+								<c:set var="GOODS_NM" value="${item.GOODS_NM}"/>
+								<c:set var="GOODS_INTRCN_SIMPL" value="${item.GOODS_INTRCN_SIMPL}"/>
+							</c:if>
+							<a href="javascript:fnLiveView('${item.VIDEO_URL}', '${GOODS_NM}', '${GOODS_INTRCN_SIMPL}');">
 								<div class="main_ebox_img" >
 									<div class="imgbox" style="background: url(<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}&file_sn=${item.FILE_SN})"></div>
 								</div>
-								<div class="main_ebox_tx1">${item.GOODS_NM}</div>
-								<div class="main_ebox_tx2">${item.GOODS_INTRCN_SIMPL}</div>
+								<div class="main_ebox_tx1">${GOODS_NM}</div>
+								<div class="main_ebox_tx2">${GOODS_INTRCN_SIMPL}</div>
 							</a>
 						</div>
 					</c:forEach>					
@@ -516,12 +561,20 @@ function fnLiveView(url, title, desc) {
 				<div class="swiper-wrapper">
 		        	<c:forEach var="item" items="${video}">
 						<div class="swiper-slide">
-							<a href="javascript:fnLiveView('${item.VIDEO_URL}', '${item.GOODS_NM}', '${item.GOODS_INTRCN_SIMPL}');">
+							<c:if test="${pageContext.response.locale == 'en'}">
+								<c:set var="GOODS_NM" value="${item.GOODS_NM_ENG}"/>
+								<c:set var="GOODS_INTRCN_SIMPL" value="${item.GOODS_INTRCN_SIMPL_ENG}"/>
+							</c:if>
+							<c:if test="${pageContext.response.locale != 'en'}">
+								<c:set var="GOODS_NM" value="${item.GOODS_NM}"/>
+								<c:set var="GOODS_INTRCN_SIMPL" value="${item.GOODS_INTRCN_SIMPL}"/>
+							</c:if>
+							<a href="javascript:fnLiveView('${item.VIDEO_URL}', '${GOODS_NM}', '${GOODS_INTRCN_SIMPL}');">
 								<div class="main_ebox_img" >
 									<div class="imgbox" style="background: url(<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}&file_sn=${item.FILE_SN})"></div>
 								</div>
-								<div class="main_ebox_tx1">${item.GOODS_NM}</div>
-								<div class="main_ebox_tx2">${item.GOODS_INTRCN_SIMPL}</div>
+								<div class="main_ebox_tx1">${GOODS_NM}</div>
+								<div class="main_ebox_tx2">${GOODS_INTRCN_SIMPL}</div>
 							</a>
 						</div>
 					</c:forEach>					
@@ -535,12 +588,20 @@ function fnLiveView(url, title, desc) {
 				<div class="swiper-wrapper">
 		        	<c:forEach var="item" items="${video}">
 						<div class="swiper-slide">
-							<a href="javascript:fnLiveView('${item.VIDEO_URL}', '${item.GOODS_NM}', '${item.GOODS_INTRCN_SIMPL}');">
+							<c:if test="${pageContext.response.locale == 'en'}">
+								<c:set var="GOODS_NM" value="${item.GOODS_NM_ENG}"/>
+								<c:set var="GOODS_INTRCN_SIMPL" value="${item.GOODS_INTRCN_SIMPL_ENG}"/>
+							</c:if>
+							<c:if test="${pageContext.response.locale != 'en'}">
+								<c:set var="GOODS_NM" value="${item.GOODS_NM}"/>
+								<c:set var="GOODS_INTRCN_SIMPL" value="${item.GOODS_INTRCN_SIMPL}"/>
+							</c:if>
+							<a href="javascript:fnLiveView('${item.VIDEO_URL}', '${GOODS_NM}', '${GOODS_INTRCN_SIMPL}');">
 								<div class="main_ebox_img" >
 									<div class="imgbox" style="background: url(<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}&file_sn=${item.FILE_SN})"></div>
 								</div>
-								<div class="main_ebox_tx1">${item.GOODS_NM}</div>
-								<div class="main_ebox_tx2">${item.GOODS_INTRCN_SIMPL}</div>
+								<div class="main_ebox_tx1">${GOODS_NM}</div>
+								<div class="main_ebox_tx2">${GOODS_INTRCN_SIMPL}</div>
 							</a>
 						</div>
 					</c:forEach>					
@@ -590,7 +651,7 @@ function fnLiveView(url, title, desc) {
   </div>
   <div class="notice_box">
     <div class="inner2">
-      <div class="title">공지사항 <em><a href="javascript:go_07_04_01();" style="color:white;">more</a></em></div>
+      <div class="title"><spring:message code='intro.notice'/> <em><a href="javascript:go_07_04_01();" style="color:white;">more</a></em></div>
       <ul>
       	<c:forEach var="item" items="${lstNotice}">
 	        <li style="cursor:pointer;" onclick="document.location.href='/cs/viewNotice?bbs_sn=${item.BBS_SN}';"><em>${item.WRITNG_DT}</em> ${item.SUBJECT} </li>
@@ -710,7 +771,7 @@ function fnLiveView(url, title, desc) {
 	</div>
 	 <div class="popup_bottom"><form name="notice_form">
     <a href="javascript:closeWin();"><i class="material-icons">&#xE14C;</i></a>
-	<div class="tx">오늘 하루 이 창을 열지 않음</div>
+	<div class="tx"><spring:message code='intro.notice.close'/></div>
 <div class="tx">
       <input type="checkbox" name="chkbox" value="checkbox">
     </div>
