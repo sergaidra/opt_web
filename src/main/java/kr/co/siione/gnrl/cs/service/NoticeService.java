@@ -9,6 +9,6 @@ public interface NoticeService {
 	public void updateBbs(HashMap map) throws Exception;	
 	public HashMap viewBbs(HashMap map) throws Exception;
 	public List<HashMap> mainNoticelist(HashMap map) throws Exception;
-	public HashMap mainPopupNotice(HashMap map) throws Exception;
+	public List<HashMap> mainPopupNotice(HashMap map) throws Exception;
 
 }

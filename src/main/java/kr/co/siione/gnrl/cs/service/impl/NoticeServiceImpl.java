@@ -37,7 +37,7 @@ public class NoticeServiceImpl implements NoticeService {
 		return noticeDAO.mainNoticelist(map);
 	}
 
-	public HashMap mainPopupNotice(HashMap map) throws Exception {
+	public List<HashMap> mainPopupNotice(HashMap map) throws Exception {
 		return noticeDAO.mainPopupNotice(map);
 	}
 

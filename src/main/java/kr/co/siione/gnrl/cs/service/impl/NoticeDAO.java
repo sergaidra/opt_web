@@ -29,8 +29,8 @@ public class NoticeDAO extends EgovComAbstractDAO {
         return (List<HashMap>)list("gnrl.notice.mainNoticelist", map);
     }
 
-    public HashMap mainPopupNotice(HashMap map) throws Exception {
-        return (HashMap)selectByPk("gnrl.notice.mainPopupNotice", map);
+    public List<HashMap> mainPopupNotice(HashMap map) throws Exception {
+        return (List<HashMap>)list("gnrl.notice.mainPopupNotice", map);
     }
 
 }

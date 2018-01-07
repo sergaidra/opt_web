@@ -63,7 +63,7 @@ public class MainController {
     	//List<HashMap> lstBanner = mainService.getBanner(null);
     	
     	List<HashMap> lstNotice = noticeService.mainNoticelist(map);
-    	HashMap popupNotice = noticeService.mainPopupNotice(map);
+    	List<HashMap> popupNotice = noticeService.mainPopupNotice(map);
     	
         //model.addAttribute("expsrList1", expsrList1);
         //model.addAttribute("expsrList2", expsrList2);

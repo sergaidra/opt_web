@@ -7,23 +7,6 @@
 <head>
 <link rel="stylesheet" href="/jq/swiper/dist/css/swiper.css">
 
-<script language="JavaScript">
-<!--
-function setCookie( name, value, expiredays ) { 
-	var todayDate = new Date(); 
-		todayDate.setDate( todayDate.getDate() + expiredays ); 
-		document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";" 
-	} 
-
-function closeWin() { 
-	if ( document.notice_form.chkbox.checked ){ 
-		setCookie( "maindiv", "done" , 1 ); 
-	} 
-	document.all['divpop'].style.visibility = "hidden";
-}
-//-->  
-</script>
-
 <script type="text/javascript">
 
 $(function(){
@@ -760,36 +743,49 @@ function fnLiveView(url, title, desc) {
 <!-- //본문 --> 
 
 <!-- 메인 이벤트 팝업 POPUP  -->
-<div id="divpop" class="popup_st" >
- <!-- 제목을 넣을경우-->
- <!-- <div class="popup_head">${popupNotice.SUBJECT}</div> --> 
-	 <div class="popup_body">
-	   <div class="popupcont1">
-	 	<div class="tx1">${popupNotice.SUBJECT}</div>
-	 	<div class="tx3">${popupNotice.CONTENTS}</div>
-	   </div>		
-	</div>
-	 <div class="popup_bottom"><form name="notice_form">
-    <a href="javascript:closeWin();"><i class="material-icons">&#xE14C;</i></a>
-	<div class="tx"><spring:message code='intro.notice.close'/></div>
-<div class="tx">
-      <input type="checkbox" name="chkbox" value="checkbox">
-    </div>
-		</form></div>
+<c:forEach var="item" items="${popupNotice}">
+	<div id="divpop_${item.BBS_SN}" class="popup_st">
+	 <!-- 제목을 넣을경우-->
+	 <!-- <div class="popup_head">${item.SUBJECT}</div> --> 
+		 <div class="popup_body">
+		   <div class="popupcont1">
+		 	<div class="tx1">${item.SUBJECT}</div>
+		 	<div class="tx3">${item.CONTENTS}</div>
+		   </div>		
+		</div>
+		 <div class="popup_bottom"><form name="notice_form">
+	    <a href="javascript:closeWin(this, '${item.BBS_SN}');"><i class="material-icons">&#xE14C;</i></a>
+		<div class="tx"><spring:message code='intro.notice.close'/></div>
+	<div class="tx">
+	      <input type="checkbox" name="chkbox" value="checkbox">
+	    </div>
+			</form></div>
+		
 	
-
-</div>  
+	</div>  
+</c:forEach>
 
 <script language="Javascript">
-cookiedata = document.cookie;    
-if ( cookiedata.indexOf("maindiv=done") < 0 ){   
-	<c:if test="${popupNotice != null}">
-		document.all['divpop'].style.visibility = "visible";
-	</c:if>
-	} 
-	else {
-		document.all['divpop'].style.visibility = "hidden"; 
+cookiedata = document.cookie;
+<c:forEach var="item" items="${popupNotice}">
+if ( cookiedata.indexOf("maindiv_${item.BBS_SN}=done") < 0 ){
+	$("#divpop_${item.BBS_SN}").css("visibility", "visible");
 }
+</c:forEach>
+
+function setCookie( name, value, expiredays ) { 
+	var todayDate = new Date(); 
+		todayDate.setDate( todayDate.getDate() + expiredays ); 
+		document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";" 
+	} 
+
+function closeWin(obj, bbs_sn) {
+	if($("#divpop_" + bbs_sn).find("[name='chkbox']").is(":checked")) {
+		setCookie( "maindiv" + "_" + bbs_sn, "done" , 1 ); 
+	} 
+	$("#divpop_" + bbs_sn).css("visibility", "hidden");
+}
+
 </script>
 
 </body>
