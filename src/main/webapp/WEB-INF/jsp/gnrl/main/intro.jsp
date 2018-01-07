@@ -269,10 +269,10 @@ function fnLiveView(url, title, desc) {
 		                </div>
 		                <div class="txt_box">
 		                  <div class="title">
-		                  	<c:if test="${pageContext.response.locale == 'en'}">
+		                  	<c:if test="${pageContext.response.locale.language == 'en'}">
 		                  		${list.GOODS_NM_ENG }
 		                  	</c:if>
-		                  	<c:if test="${pageContext.response.locale != 'en'}">
+		                  	<c:if test="${pageContext.response.locale.language != 'en'}">
 		                  		${list.GOODS_NM }
 		                  	</c:if>
 		                  </div>
@@ -316,10 +316,10 @@ function fnLiveView(url, title, desc) {
 		                </div>
 		                <div class="txt_box">
 		                  <div class="title">
-		                  	<c:if test="${pageContext.response.locale == 'en'}">
+		                  	<c:if test="${pageContext.response.locale.language == 'en'}">
 		                  		${list.GOODS_NM_ENG }
 		                  	</c:if>
-		                  	<c:if test="${pageContext.response.locale != 'en'}">
+		                  	<c:if test="${pageContext.response.locale.language != 'en'}">
 		                  		${list.GOODS_NM }
 		                  	</c:if>
 		                  </div>
@@ -363,10 +363,10 @@ function fnLiveView(url, title, desc) {
 		                </div>
 		                <div class="txt_box">
 		                  <div class="title">
-		                  	<c:if test="${pageContext.response.locale == 'en'}">
+		                  	<c:if test="${pageContext.response.locale.language == 'en'}">
 		                  		${list.GOODS_NM_ENG }
 		                  	</c:if>
-		                  	<c:if test="${pageContext.response.locale != 'en'}">
+		                  	<c:if test="${pageContext.response.locale.language != 'en'}">
 		                  		${list.GOODS_NM }
 		                  	</c:if>
 		                  </div>
@@ -432,11 +432,11 @@ function fnLiveView(url, title, desc) {
       <a href="javascript:fnDetail('${reco[0].GOODS_CODE}', 'R');">
       <div class="cont_box">
         <div class="in01 fl">
-			<c:if test="${pageContext.response.locale == 'en'}">
+			<c:if test="${pageContext.response.locale.language == 'en'}">
 	          <div class="title">${reco[0].GOODS_NM_ENG}</div>
 	          <div class="text">${reco[0].GOODS_INTRCN_SIMPL_ENG}</div>
 			</c:if>        
-			<c:if test="${pageContext.response.locale != 'en'}">
+			<c:if test="${pageContext.response.locale.language != 'en'}">
 	          <div class="title">${reco[0].GOODS_NM}</div>
 	          <div class="text">${reco[0].GOODS_INTRCN_SIMPL}</div>
 			</c:if>        
@@ -454,11 +454,11 @@ function fnLiveView(url, title, desc) {
       </a>
       <div class="cont_box">
         <div class="in01 fl">
-			<c:if test="${pageContext.response.locale == 'en'}">
+			<c:if test="${pageContext.response.locale.language == 'en'}">
 	          <div class="title">${reco[1].GOODS_NM_ENG}</div>
 	          <div class="text">${reco[1].GOODS_INTRCN_SIMPL_ENG}</div>
 			</c:if>        
-			<c:if test="${pageContext.response.locale != 'en'}">
+			<c:if test="${pageContext.response.locale.language != 'en'}">
 	          <div class="title">${reco[1].GOODS_NM}</div>
 	          <div class="text">${reco[1].GOODS_INTRCN_SIMPL}</div>
 			</c:if>        
@@ -483,11 +483,11 @@ function fnLiveView(url, title, desc) {
 		  <div class="imgbox" style="background: url(<c:out value="${url3}"/>); "></div>          
         </div>
         <div class="in04 fr">
-			<c:if test="${pageContext.response.locale == 'en'}">
+			<c:if test="${pageContext.response.locale.language == 'en'}">
 	          <div class="title">${reco[2].GOODS_NM_ENG}</div>
 	          <div class="text">${reco[2].GOODS_INTRCN_SIMPL_ENG}</div>
 			</c:if>        
-			<c:if test="${pageContext.response.locale != 'en'}">
+			<c:if test="${pageContext.response.locale.language != 'en'}">
 	          <div class="title">${reco[2].GOODS_NM}</div>
 	          <div class="text">${reco[2].GOODS_INTRCN_SIMPL}</div>
 			</c:if>        
@@ -504,11 +504,11 @@ function fnLiveView(url, title, desc) {
 		  <div class="imgbox" style="background: url(<c:out value="${url4}"/>); "></div>          
         </div>
         <div class="in04 fr">
-			<c:if test="${pageContext.response.locale == 'en'}">
+			<c:if test="${pageContext.response.locale.language == 'en'}">
 	          <div class="title">${reco[3].GOODS_NM_ENG}</div>
 	          <div class="text">${reco[3].GOODS_INTRCN_SIMPL_ENG}</div>
 			</c:if>        
-			<c:if test="${pageContext.response.locale != 'en'}">
+			<c:if test="${pageContext.response.locale.language != 'en'}">
 	          <div class="title">${reco[3].GOODS_NM}</div>
 	          <div class="text">${reco[3].GOODS_INTRCN_SIMPL}</div>
 			</c:if>        
@@ -534,11 +534,11 @@ function fnLiveView(url, title, desc) {
 				<div class="swiper-wrapper">
 		        	<c:forEach var="item" items="${video}">
 						<div class="swiper-slide">
-							<c:if test="${pageContext.response.locale == 'en'}">
+							<c:if test="${pageContext.response.locale.language == 'en'}">
 								<c:set var="GOODS_NM" value="${item.GOODS_NM_ENG}"/>
 								<c:set var="GOODS_INTRCN_SIMPL" value="${item.GOODS_INTRCN_SIMPL_ENG}"/>
 							</c:if>
-							<c:if test="${pageContext.response.locale != 'en'}">
+							<c:if test="${pageContext.response.locale.language != 'en'}">
 								<c:set var="GOODS_NM" value="${item.GOODS_NM}"/>
 								<c:set var="GOODS_INTRCN_SIMPL" value="${item.GOODS_INTRCN_SIMPL}"/>
 							</c:if>
@@ -561,11 +561,11 @@ function fnLiveView(url, title, desc) {
 				<div class="swiper-wrapper">
 		        	<c:forEach var="item" items="${video}">
 						<div class="swiper-slide">
-							<c:if test="${pageContext.response.locale == 'en'}">
+							<c:if test="${pageContext.response.locale.language == 'en'}">
 								<c:set var="GOODS_NM" value="${item.GOODS_NM_ENG}"/>
 								<c:set var="GOODS_INTRCN_SIMPL" value="${item.GOODS_INTRCN_SIMPL_ENG}"/>
 							</c:if>
-							<c:if test="${pageContext.response.locale != 'en'}">
+							<c:if test="${pageContext.response.locale.language != 'en'}">
 								<c:set var="GOODS_NM" value="${item.GOODS_NM}"/>
 								<c:set var="GOODS_INTRCN_SIMPL" value="${item.GOODS_INTRCN_SIMPL}"/>
 							</c:if>
@@ -588,11 +588,11 @@ function fnLiveView(url, title, desc) {
 				<div class="swiper-wrapper">
 		        	<c:forEach var="item" items="${video}">
 						<div class="swiper-slide">
-							<c:if test="${pageContext.response.locale == 'en'}">
+							<c:if test="${pageContext.response.locale.language == 'en'}">
 								<c:set var="GOODS_NM" value="${item.GOODS_NM_ENG}"/>
 								<c:set var="GOODS_INTRCN_SIMPL" value="${item.GOODS_INTRCN_SIMPL_ENG}"/>
 							</c:if>
-							<c:if test="${pageContext.response.locale != 'en'}">
+							<c:if test="${pageContext.response.locale.language != 'en'}">
 								<c:set var="GOODS_NM" value="${item.GOODS_NM}"/>
 								<c:set var="GOODS_INTRCN_SIMPL" value="${item.GOODS_INTRCN_SIMPL}"/>
 							</c:if>
