@@ -260,8 +260,13 @@ function fnLiveView(url, title, desc) {
 		                  	</c:if>
 		                  </div>
 		                  <div class="price">
-		                    <div class="tr_tx1">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
-		                    <div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+		                  	<c:if test="${list.HOTDEAL_AT == 'Y'}">
+		                    	<div class="tr_tx1">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+		                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT * list.DSCNT_RATE}" pattern="#,###" /></div>
+		                  	</c:if>
+		                  	<c:if test="${list.HOTDEAL_AT != 'Y'}">
+		                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+		                  	</c:if>
 	                      </div>
 	                    </div>
 	                    </div>
@@ -307,8 +312,13 @@ function fnLiveView(url, title, desc) {
 		                  	</c:if>
 		                  </div>
 		                  <div class="price">
-		                    <div class="tr_tx1"><!-- ￦ 900,000 --></div>
-		                    <div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+		                  	<c:if test="${list.HOTDEAL_AT == 'Y'}">
+		                    	<div class="tr_tx1">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+		                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT * list.DSCNT_RATE}" pattern="#,###" /></div>
+		                  	</c:if>
+		                  	<c:if test="${list.HOTDEAL_AT != 'Y'}">
+		                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+		                  	</c:if>
 	                      </div>
 	                    </div>
 	                    </div>
@@ -354,8 +364,13 @@ function fnLiveView(url, title, desc) {
 		                  	</c:if>
 		                  </div>
 		                  <div class="price">
-		                    <div class="tr_tx1"><!-- ￦ 900,000 --></div>
-		                    <div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+		                  	<c:if test="${list.HOTDEAL_AT == 'Y'}">
+		                    	<div class="tr_tx1">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+		                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT * list.DSCNT_RATE}" pattern="#,###" /></div>
+		                  	</c:if>
+		                  	<c:if test="${list.HOTDEAL_AT != 'Y'}">
+		                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+		                  	</c:if>
 	                      </div>
 	                    </div>
 	                    </div>
