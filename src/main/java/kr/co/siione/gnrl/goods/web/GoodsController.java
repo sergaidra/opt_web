@@ -112,14 +112,17 @@ public class GoodsController {
                 	model.addAttribute("upperTourClList", upperTourClList);
             	} else {
             		// 상위 분류목록
-                   	List<String> clList = new ArrayList<String>();
+                   	//List<String> clList = new ArrayList<String>();
+                   	List<HashMap> upperTourClList = new ArrayList();
             		for(String str:clArr){
-            			if(!str.isEmpty()) clList.add(str);
+            			if(!str.isEmpty()) {
+            				//clList.add(str);
+                    		HashMap mapT = new HashMap();
+                    		mapT.put("cl_code", str);
+                        	System.out.println("[상위 분류목록]map:"+mapT);
+                        	upperTourClList.addAll(goodsService.getUpperTourClMain(mapT));
+            			}
             		}
-            		HashMap mapT = new HashMap();
-            		mapT.put("cl_code_arr", clList);
-                	System.out.println("[상위 분류목록]map:"+mapT);
-                	List<HashMap> upperTourClList = goodsService.getUpperTourClMain(mapT);
                 	model.addAttribute("upperTourClList", upperTourClList);
             	}
         		

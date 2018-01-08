@@ -94,8 +94,20 @@ $(function(){
 		}
 	});
 	
-	$(".list_tab li:eq(0)").trigger("click");
-	
+	if (window.location.hash) {
+		var item = window.location.hash.split("_");
+		if(item[0] == "#ucc") {
+			$(".list_tab li").each(function() {
+				if($(this).find("#cl_code").val() == item[1]) {
+					$(this).trigger("click");
+				}
+			});
+		} else {
+			$(".list_tab li:eq(0)").trigger("click");
+		}
+	} else {
+		$(".list_tab li:eq(0)").trigger("click");
+	}
 });
 
 function nextSearch() {
@@ -211,6 +223,8 @@ function fnSearch(obj, isNext) {
 }
 
 function fnDetail(obj) {
+	var upper_cl_code = $(obj).closest(".panelTab").find("[name='hidUpperClCode']").val();
+	window.location.hash = '#ucc_' + upper_cl_code;
 	var goods_code = $(obj).find("input[name='goods_code']").val();
 	var form = $("form[id=frmList]");
 	$("input:hidden[id=hidGoodsCode]").val(goods_code);

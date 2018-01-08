@@ -4,13 +4,19 @@
 <head>
 
 <script type="text/javascript">
-
+var selectedItem = [];
 $(function(){	
 	$(".list_box01 li").click(function(){
-		if($(this).hasClass("ch"))
+		if($(this).hasClass("ch")) {
 			$(this).removeClass("ch");
-		else
+			for(var cnt = 0; cnt < selectedItem.length; cnt++) {
+				if(selectedItem[cnt] == $(this).find("#cl_code").val())
+					selectedItem.splice(cnt, 1);
+			}
+		} else {
 			$(this).addClass("ch");
+			selectedItem.push($(this).find("#cl_code").val());
+		}
 	});
 	
 });
@@ -18,10 +24,14 @@ $(function(){
 function btnOk() {
 	var form = $("form[id=frmCategory]");
 	var cateList = "";
-	$(".list_box01 .ch").each(function() {
-		cateList += $(this).find("#cl_code").val() + "@";	
-	});
-		
+	//$(".list_box01 .ch").each(function() {
+	//	cateList += $(this).find("#cl_code").val() + "@";	
+	//});
+
+	for(var cnt = 0; cnt < selectedItem.length; cnt++) {
+		cateList += selectedItem[cnt] + "@";	
+	}
+
 	if(cateList == "") {
 		alert('검색할 상품을 선택하세요.');
 		return;

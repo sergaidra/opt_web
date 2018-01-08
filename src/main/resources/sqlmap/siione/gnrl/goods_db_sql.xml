@@ -206,11 +206,14 @@
 		<isNotEmpty property="upper_cl_code">
 		   AND UPPER_CL_CODE = #upper_cl_code#
 		</isNotEmpty>
+		<isNotEmpty property="cl_code">
+		   AND CL_CODE = #cl_code#
+		</isNotEmpty>
 		<isNotEmpty property="cl_code_arr">
 		   AND CL_CODE IN <iterate property="cl_code_arr" open=" (" conjunction="," close=")">#cl_code_arr[]#</iterate>
 		</isNotEmpty>
 		<isEmpty property="upper_cl_code">
-			<isEmpty property="cl_code_arr">
+			<isEmpty property="cl_code">
 		   AND UPPER_CL_CODE <![CDATA[<>]]> '00000'
 			</isEmpty>
 		</isEmpty>
