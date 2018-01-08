@@ -278,7 +278,7 @@ function fnLiveView(url, obj) {
 		<script src="/jq/gallery/js/classie.js"></script>
 		<script src="/jq/gallery/js/cbpGridGallery.js"></script>
 		<script>
-			//new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
+			new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
 		</script>	
 	<!--여백--><div class="sp_50 pc_view"></div>
 	 <div class="sp_20 mobile_view"></div><!--여백-->
