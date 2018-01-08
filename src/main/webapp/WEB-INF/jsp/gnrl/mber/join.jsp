@@ -146,6 +146,13 @@ function validation() {
 		$("#email").focus();
 		return false;
 	}
+	var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	if ($.trim($("#email").val()).match(regExp) == null) {
+		alert("이메일 형식에 맞게 입력해주세요.");
+		$("#email").focus();
+		return false;
+   }
+
 	if($(':radio[name="rdoSex"]:checked').length == 0) {
 		alert("성별을 선택해주세요.");
 		return false;		
