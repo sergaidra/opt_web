@@ -61,8 +61,8 @@ public class NoticeController {
         model.addAttribute("category", "N");
 
         model.addAttribute("bp", "07");
-       	model.addAttribute("btitle", "공지사항");
-        model.addAttribute("mtitle", "");
+       	model.addAttribute("btitle", "고객지원");
+        model.addAttribute("mtitle", "공지사항");
 		
 		return "gnrl/cs/notice";
 	}

@@ -53,8 +53,8 @@ public class QnaController {
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 
         model.addAttribute("bp", "07");
-       	model.addAttribute("btitle", "1:1 문의하기");
-        model.addAttribute("mtitle", "");
+        model.addAttribute("btitle", "고객지원");
+       	model.addAttribute("mtitle", "1:1 문의하기");
 		
 		return "gnrl/cs/qna";
 	}

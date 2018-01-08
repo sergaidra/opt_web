@@ -30,14 +30,14 @@ $(function(){
       <div class="subtop${bp}">
     <div class="inner2">
           <div class="b_title">
-        <div class="tx1">${btitle}</div>
+        <div class="tx1"><c:if test="${bp eq '07'}">${mtitle}</c:if><c:if test="${bp ne '07'}">${btitle}</c:if></div>
         <div class="route_t">HOME > ${btitle} > ${mtitle}</div>
       </div>
           <div class="search_box">
         <div class="btn_icon"><img id="imgSubtopSearch" src="<c:url value='/images/com/search_icon.png' />" width="36" height="36" alt=""/></div>
         <input type="text" id="txtSubtopKeyword">
       </div>
-          <div class="copy_text">Details package tour is <em>OnePassTour</em></div>
+          <div class="copy_text">Self-made package tour - <em>OnePassTour</em></div>
         </div>
   </div>
 <form id="frmSubtopSearch" name="frmSubtopSearch">

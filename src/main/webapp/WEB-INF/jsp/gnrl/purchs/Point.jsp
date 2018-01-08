@@ -172,7 +172,7 @@ function search(pageNo) {
       </div>
     </div>
     <div class="order_list">
-      <div class="title">포인트 사용 내역</div>
+      <div class="title">포인트 적립 및 사용 내역</div>
       <div class="tb_box">
         <div class="tb_06_box">
           <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tb_06" id="tblList">

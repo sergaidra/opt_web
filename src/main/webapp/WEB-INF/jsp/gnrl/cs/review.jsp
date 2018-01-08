@@ -219,7 +219,22 @@ function deleteReview(purchs_sn, cart_sn) {
 	   <div class="sp_50 pc_view"></div>
 	 <div class="sp_20 mobile_view"></div>
   <div class="inner2"><div class="comf">
-	   <div class="com_stitle">여행후기</div>
+	   <!-- <div class="com_stitle">여행후기</div> -->
+		             <!--FAQ검색-->  <div class="bbs_search">
+			    <div class="search_text">
+			      <div class="tx1 fw_500">여행후기</div>
+				  <div class="tx2">다른 여행자의 여행 후기를 보며 추억을 공유합니다.</div>
+			    </div>
+		<!-- <div class="search_in">
+      
+          <div class="search_input w_80p"><input type="text" class="w_100p" id="reviewkeyword" name="reviewkeyword">
+	      <div class="btn" id="btnSearch"><i class="material-icons">&#xE8B6;</i></div>
+	    </div>
+
+        </div> -->
+		 
+      </div> <!--//FAQ검색--> 	
+         
         <div class="review_list_box">
           <table width="100%" class="review_list" id="tblList">
             <col width="8%" />

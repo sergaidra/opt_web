@@ -72,7 +72,7 @@ public class GoodsController {
         else if("R".equals(category))
             model.addAttribute("btitle", "추천여행");
 
-        model.addAttribute("mtitle", "여행상품리스트");
+        model.addAttribute("mtitle", "여행상품카테고리");
         model.addAttribute("category", category);
 
         return "gnrl/goods/category";
@@ -350,7 +350,7 @@ public class GoodsController {
                 model.addAttribute("btitle", "핫딜여행");
             else if("R".equals(category))
                 model.addAttribute("btitle", "추천여행");
-            model.addAttribute("mtitle", "여행상품리스트");
+            model.addAttribute("mtitle", "여행상품상세보기");
             model.addAttribute("category", category);
             
             model.addAttribute("goods_code", goods_code);

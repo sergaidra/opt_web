@@ -147,7 +147,7 @@ function search(pageNo) {
     <div class="inner2"><div class="comf">
 		             <!--FAQ검색-->  <div class="bbs_search">
 			    <div class="search_text">
-			      <div class="tx1 fw_500">Notice</div>
+			      <div class="tx1 fw_500">공지사항</div>
 				  <div class="tx2">원패스투어의 새로운 소식을 전합니다. </div>
 			    </div>
 		<div class="search_in">

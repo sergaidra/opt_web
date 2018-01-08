@@ -116,7 +116,7 @@ function fnLiveView(url, title, desc) {
   <div class="main_f">
   <div class="main_v">
     <div class="tx1"><spring:message code='intro.main.title'/></div>
-    <div class="tx2">Details package tour is <em><img src="/images/com/logo.png"  alt=""/></em></div>
+    <div class="tx2">Self-made package tour - <em><img src="/images/com/logo.png"  alt=""/></em></div>
     <div class="msearch_box">
       <div class="icon"><img src="/images/com/search_icon.png" id="imgSearch" alt=""/></div>
       <input type="text" placeholder="<spring:message code='intro.main.placeholder1'/>" id="txtKeyword" class="pc_view">

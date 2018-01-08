@@ -245,15 +245,16 @@ function replaceBrSpace(str) {
 고객님의 궁금함을 빠르게 해결해 드리겠습니다. </div>
 			    </div>
 <div class="search_in">
-		 <div class="search_select  w_50p"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+		 <!--기본 셀렉트 박스 .w_100p는 사이즈-->
+		 <!-- <div class="search_select  w_50p">
               <select class="w_100p">
                       <option>상세분류</option>
                       <option>상세분류</option>
               </select>
                      
-            <!--//기본 셀렉트 박스 --></div>
+            </div> --><!--//기본 셀렉트 박스 -->
       
-          <div class="search_input w_50p"><input type="text" class="w_100p">
+          <div class="search_input w_80p"><input type="text" class="w_100p">
 	      <div class="btn"><i class="material-icons">&#xE8B6;</i></div>
 	    </div>
 
