@@ -53,8 +53,8 @@ public class FaqController {
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 
         model.addAttribute("bp", "07");
-       	model.addAttribute("btitle", "FAQ");
-        model.addAttribute("mtitle", "");
+       	model.addAttribute("btitle", "고객지원");
+        model.addAttribute("mtitle", "FAQ");
 		
 		return "gnrl/cs/faq";
 	}
