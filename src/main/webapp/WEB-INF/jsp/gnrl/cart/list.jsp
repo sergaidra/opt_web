@@ -10,7 +10,7 @@
 var cartInfo = [];
 
 <c:forEach var="item" items="${cartList}" varStatus="status">
-	cartInfo.push({ "cart_sn": "${item.CART_SN}", "purchs_amount": "${item.PURCHS_AMOUNT}", "goods_code": "${item.GOODS_CODE}", "origin_amount": "${item.ORIGIN_AMOUNT}", "tour_de":"${item.TOUR_DE}", "chkin_de":"${item.CHKIN_DE}", "chckt_de":"${item.CHCKT_DE}", "chk" : false});
+	cartInfo.push({ "cart_sn": "${item.CART_SN}", "purchs_amount": "${item.PURCHS_AMOUNT}", "goods_code": "${item.GOODS_CODE}", "origin_amount": "${item.ORIGIN_AMOUNT}", "tour_de":"${item.TOUR_DE}", "chkin_de":"${item.CHKIN_DE}", "chckt_de":"${item.CHCKT_DE}", "hotdeal_at":"${item.HOTDEAL_AT}", "chk" : false});
 </c:forEach>
 
 $(function(){	

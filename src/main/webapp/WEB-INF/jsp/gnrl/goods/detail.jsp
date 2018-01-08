@@ -67,6 +67,7 @@ var lstSchdul = [];
 var lstRsvSchdul = [];	// 미리 예약된 날짜
 var detail_flight_sn = "";
 var lstOption = [];
+var hotdeal_at = "${result.HOTDEAL_AT}";
 
 <c:forEach var="list" items="${lstSchdul}">
 	lstSchdul.push({"BEGIN_DE" : "${list.BEGIN_DE}", "END_DE" : "${list.END_DE}" });
@@ -75,7 +76,7 @@ var lstOption = [];
 	lstRsvSchdul.push("${list.RESERVATIONDT}");
 </c:forEach> 
 <c:forEach var="list" items="${lstNmpr}">
-lstOption.push({"nmpr_sn" : "${list.NMPR_SN}", "setup_amount" : "${list.SETUP_AMOUNT}", "nmpr_co" : "${list.NMPR_CO}" , "setup_se" : "${list.SETUP_SE}", "adit_nmpr_amount" : "${list.ADIT_NMPR_AMOUNT}", "dscnt_rate" : "${list.DSCNT_RATE}", "fixed_at" : "${list.FIXED_AT}", "max_nmpr_co" : "${list.MAX_NMPR_CO}", "unit_nm" : "${list.UNIT_NM}", "nmpr_cnd" : "${list.NMPR_CND}" });
+	lstOption.push({"nmpr_sn" : "${list.NMPR_SN}", "setup_amount" : "${list.SETUP_AMOUNT}", "nmpr_co" : "${list.NMPR_CO}" , "setup_se" : "${list.SETUP_SE}", "adit_nmpr_amount" : "${list.ADIT_NMPR_AMOUNT}", "dscnt_rate" : "${list.DSCNT_RATE}", "fixed_at" : "${list.FIXED_AT}", "max_nmpr_co" : "${list.MAX_NMPR_CO}", "unit_nm" : "${list.UNIT_NM}", "nmpr_cnd" : "${list.NMPR_CND}" });
 </c:forEach>
 
 
@@ -494,7 +495,10 @@ function calcPrice(item, multiply) {
 	}
 	
 	item.originPrice = originPrice * multiply;
-	item.price = item.originPrice * dscnt_rate;
+	if(hotdeal_at == "Y")
+		item.price = item.originPrice * dscnt_rate;
+	else
+		item.price = item.originPrice;		
 }
 
 function displayRoom() {

@@ -93,4 +93,8 @@ public class CartServiceImpl implements CartService {
 	public List selectCartDetailList(HashMap map) throws Exception {
 		return cartDAO.selectCartDetailList(map);
 	}
+	
+	public void updCartPurchsAmountNoHotdeal(HashMap map) throws Exception {
+		cartDAO.updCartPurchsAmountNoHotdeal(map);
+	}
 }

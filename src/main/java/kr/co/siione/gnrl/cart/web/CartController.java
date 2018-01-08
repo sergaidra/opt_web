@@ -67,6 +67,16 @@ public class CartController {
 
 			//long payment = cartService.getCartPayment(map);			
 			List<HashMap> cartList = cartService.getCartList(map);
+			for(int i = 0; i < cartList.size(); i++) {
+				if("N".equals(String.valueOf(cartList.get(i).get("HOTDEAL_AT")))) {
+					if(!String.valueOf(cartList.get(i).get("ORIGIN_AMOUNT")).equals(String.valueOf(cartList.get(i).get("PURCHS_AMOUNT")))) {
+						cartList.get(i).put("PURCHS_AMOUNT", cartList.get(i).get("ORIGIN_AMOUNT"));
+						HashMap map2 = new HashMap();
+						map2.put("cart_sn", cartList.get(i).get("CART_SN"));
+						cartService.updCartPurchsAmountNoHotdeal(map2);
+					}
+				}
+			}
 			//int list_cnt = 0;
 			//if(cartList.size() > 0)
 			//	list_cnt = Integer.parseInt(cartList.get(0).get("TOT_CNT").toString());

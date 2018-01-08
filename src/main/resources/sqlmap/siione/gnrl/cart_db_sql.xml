@@ -335,6 +335,7 @@
 		<result property="CTY_NM"        column="CTY_NM"      	jdbcType="string" javaType="string"/>
 		<result property="UPPER_CL_NM"   column="UPPER_CL_NM" 	jdbcType="string" javaType="string"/>
 		<result property="CL_NM"         column="CL_NM"        	jdbcType="string" javaType="string"/>
+		<result property="HOTDEAL_AT"    column="HOTDEAL_AT"    jdbcType="string" javaType="string"/>		
 		<result property="ORIGIN_AMOUNT" column="ORIGIN_AMOUNT" jdbcType="string" javaType="string"/>
 		<result property="PURCHS_AT"     column="PURCHS_AT"     jdbcType="string" javaType="string"/>
 		<result property="OPTIONS"       column="{ESNTL_ID=ESNTL_ID, CART_SN=CART_SN}" select="gnrl.cart.selectCartDetailList" javaType="java.util.ArrayList"/>
@@ -372,6 +373,7 @@
 		     , (SELECT CTY_NM FROM TB_CTY Y WHERE Y.CTY_CODE = X.CTY_CODE) CTY_NM         
 		     , (SELECT CL_NM FROM TB_TOUR_CL Y WHERE Y.UPPER_CL_CODE = '00000' START WITH Y.CL_CODE = X.CL_CODE CONNECT BY PRIOR UPPER_CL_CODE = CL_CODE) UPPER_CL_NM
 		     , (SELECT CL_NM FROM TB_TOUR_CL Y WHERE Y.CL_CODE = X.CL_CODE) CL_NM
+		     , CASE WHEN X.HOTDEAL_AT = 'Y' AND (CASE WHEN A.CHKIN_DE IS NULL THEN A.TOUR_DE ELSE A.CHKIN_DE END) BETWEEN X.HOTDEAL_BEGIN_DE AND X.HOTDEAL_END_DE THEN 'Y' ELSE 'N' END AS HOTDEAL_AT
 		     , ORIGIN_AMOUNT 		     
 		     , PURCHS_AT
 		  FROM TB_CART_GOODS A
@@ -470,4 +472,8 @@
 	]]>
 	</select>
 	
+	<update id="gnrl.cart.updCartPurchsAmountNoHotdeal" parameterClass="hashMap">
+		UPDATE TB_CART_GOODS SET PURCHS_AMOUNT = ORIGIN_AMOUNT
+		WHERE CART_SN = #cart_sn#
+	</update>
 </sqlMap>
