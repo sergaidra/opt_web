@@ -575,7 +575,7 @@
            SET DELETE_AT = 'Y'
              , UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
-         WHERE DELETE_AT = 'N'
+         WHERE DELETE_AT <> 'Y'
            AND GOODS_CODE = #GOODS_CODE#
     ]]>
     </delete>
@@ -586,7 +586,7 @@
            SET DELETE_AT = 'Y'
              , UPDT_ID = #UPDT_ID#
              , UPDT_DT = SYSDATE
-         WHERE DELETE_AT = 'N' ]]>
+         WHERE DELETE_AT <> 'Y' ]]>
            AND GOODS_CODE IN <iterate property="GOODS_CODE_LIST" open="(" close=")" conjunction=",">#GOODS_CODE_LIST[]#</iterate>
     </delete>
 
@@ -723,62 +723,65 @@
 
     <sql id="GoodsDAO.whereForSelectGoodsListForSearch">
         <isNotEmpty property="GOODS_CODE">
-           AND GOODS_CODE = LPAD(#GOODS_CODE#, 10, '0')
+           AND A.GOODS_CODE = LPAD(#GOODS_CODE#, 10, '0')
         </isNotEmpty>
         <isNotEmpty property="GOODS_NM">
-           AND GOODS_NM LIKE '%'||#GOODS_NM#||'%'
+           AND A.GOODS_NM LIKE '%'||#GOODS_NM#||'%'
         </isNotEmpty>
         <isNotEmpty property="DELETE_AT">
-           AND DELETE_AT = #DELETE_AT#
+           AND A.DELETE_AT = #DELETE_AT#
         </isNotEmpty>
         <isNotEmpty property="CTY_CODE">
-           AND CTY_CODE = #CTY_CODE#
+           AND A.CTY_CODE = #CTY_CODE#
         </isNotEmpty>
         <isNotEmpty property="CL_CODE">
-           AND CL_CODE = #CL_CODE#
+           AND A.CL_CODE = #CL_CODE#
         </isNotEmpty>
         <isNotEmpty property="GOODS_SE">
-           <isEqual property="GOODS_SE" compareValue="H">AND HOTDEAL_AT = 'Y'</isEqual>
-           <isEqual property="GOODS_SE" compareValue="R">AND RECOMEND_AT = 'Y'</isEqual>
+           <isEqual property="GOODS_SE" compareValue="H">AND A.HOTDEAL_AT = 'Y'</isEqual>
+           <isEqual property="GOODS_SE" compareValue="R">AND A.RECOMEND_AT = 'Y'</isEqual>
         </isNotEmpty>
         <isEmpty property="CL_CODE"><isNotEmpty property="UPPER_CL_CODE">
-           AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL
-                            WHERE UPPER_CL_CODE = #UPPER_CL_CODE#)
+           AND A.CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL
+                              WHERE UPPER_CL_CODE = #UPPER_CL_CODE#)
         </isNotEmpty></isEmpty>
     </sql>
 
     <select id="GoodsDAO.selectGoodsListForSearchCount" parameterClass="hashMap" resultClass="java.lang.Integer">
-        SELECT COUNT(GOODS_CODE) FROM TB_GOODS A WHERE 1 = 1
+        SELECT COUNT(A.GOODS_CODE) FROM TB_GOODS A WHERE 1 = 1
         <include refid="GoodsDAO.whereForSelectGoodsListForSearch"/>
     </select>
 
     <select id="GoodsDAO.selectGoodsListForSearch" parameterClass="hashMap" resultClass="hashMap">
         <include refid="GoodsDAO.pagingQueryStart"/><![CDATA[
-        SELECT ROW_NUMBER() OVER(ORDER BY CL_CODE, SORT_ORDR, GOODS_CODE) AS ROWSEQ
-             , GOODS_CODE
-             , GOODS_NM
-             , GOODS_NM_SUB
-             , CL_CODE
-             , (SELECT CL_NM FROM TB_TOUR_CL X WHERE X.CL_CODE = A.CL_CODE AND X.UPPER_CL_CODE <> '00000') CL_NM
-             , (SELECT X.CL_NM FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00000' START WITH X.CL_CODE = A.CL_CODE CONNECT BY PRIOR X.UPPER_CL_CODE = X.CL_CODE) UPPER_CL_NM
-             , CTY_CODE
+        SELECT ROW_NUMBER() OVER(ORDER BY M.SORT_ORDR*1000 + N.SORT_ORDR, A.DELETE_AT, A.SORT_ORDR) AS ROWSEQ
+             , A.GOODS_CODE
+             , A.GOODS_NM
+             , A.GOODS_NM_SUB
+             , A.CL_CODE
+             , N.CL_NM
+             , M.CL_NM AS UPPER_CL_NM
+             , M.SORT_ORDR*1000 + N.SORT_ORDR AS CF_SORT_ORDR
+             , A.CTY_CODE
              , (SELECT X.CTY_NM FROM TB_CTY X WHERE X.CTY_CODE = A.CTY_CODE AND X.NATION_CODE <> '00000') CTY_NM
-             , CL_SE
-             , SORT_ORDR
-             , FILE_CODE
-             , HOTDEAL_AT
-             , RECOMEND_AT
-             , HOTDEAL_SORT_ORDR
-             , RECOMEND_SORT_ORDR
-             , TO_CHAR(TO_DATE(HOTDEAL_BEGIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') HOTDEAL_BEGIN_DE
-             , TO_CHAR(TO_DATE(HOTDEAL_END_DE, 'YYYYMMDD'), 'YYYY-MM-DD') HOTDEAL_END_DE             
-             , DELETE_AT
+             , A.CL_SE
+             , A.SORT_ORDR
+             , A.FILE_CODE
+             , A.HOTDEAL_AT
+             , A.RECOMEND_AT
+             , A.HOTDEAL_SORT_ORDR
+             , A.RECOMEND_SORT_ORDR
+             , TO_CHAR(TO_DATE(A.HOTDEAL_BEGIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') HOTDEAL_BEGIN_DE
+             , TO_CHAR(TO_DATE(A.HOTDEAL_END_DE, 'YYYYMMDD'), 'YYYY-MM-DD') HOTDEAL_END_DE             
+             , A.DELETE_AT
              , (SELECT CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID='COM007' AND X.CODE = A.DELETE_AT) DELETE_AT_NM
-             , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD HH24:MI:SS') WRITNG_DT
-             , TO_CHAR(UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') UPDT_DT
-             , TO_CHAR(SLE_BEGIN_DT, 'YYYY-MM-DD HH24:MI:SS') SLE_BEGIN_DT
+             , TO_CHAR(A.WRITNG_DT, 'YYYY-MM-DD HH24:MI:SS') WRITNG_DT
+             , TO_CHAR(A.UPDT_DT, 'YYYY-MM-DD HH24:MI:SS') UPDT_DT
+             , TO_CHAR(A.SLE_BEGIN_DT, 'YYYY-MM-DD HH24:MI:SS') SLE_BEGIN_DT
              , (SELECT COUNT(1) FROM TB_FILE_DETAIL X WHERE A.FILE_CODE = X.FILE_CODE) CF_FILE_CNT
           FROM TB_GOODS A
+         INNER JOIN TB_TOUR_CL N ON N.CL_CODE = A.CL_CODE
+         INNER JOIN TB_TOUR_CL M ON M.CL_CODE = N.UPPER_CL_CODE 
          WHERE 1 = 1 ]]>
         <include refid="GoodsDAO.whereForSelectGoodsListForSearch"/>
         <include refid="GoodsDAO.pagingQueryEnd"/>

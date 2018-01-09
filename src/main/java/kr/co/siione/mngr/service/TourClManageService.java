@@ -22,4 +22,6 @@ public interface TourClManageService {
 	public List<Map<String, String>> selectTourClTree(Map<String, String> param) throws Exception;
 	
 	public List<Map<String, String>> selectTourClUpperList(Map<String, String> param) throws Exception;
+	
+	public List<Map<String, String>> selectTourClCombo(Map<String, String> param) throws Exception;
 }
