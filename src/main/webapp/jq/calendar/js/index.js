@@ -230,6 +230,7 @@
 				}
 				else {
 					var isOk = false;
+					var isReservation = false;
 					var curDt = String(year) + lpad(String(month), 2, "0") + lpad(days[key]+"", 2, "0");
 					var curDt2 = String(year) + "-" + lpad(String(month), 2, "0") + "-" + lpad(days[key]+"", 2, "0");
 					var curToday = getToday();
@@ -245,7 +246,7 @@
 					if(isOk == true) {
 						for(var cnt = 0; cnt < lstRsvSchdul.length; cnt++) {
 							if (lstRsvSchdul[cnt] == curDt) {
-								isOk = false;
+								isReservation = true;
 								break;
 							}
 						}
@@ -274,7 +275,11 @@
 								str += '<td><i>'+days[key]+'</i></td>';						
 							}
 						} else {
-							str += '<td><i>'+days[key]+'</i></td>';						
+							if(isReservation == true) {
+								str += '<td class="disabled stop"><i class="disabled stop" style="text-decoration:line-through;">'+days[key]+'</i></td>';						
+							} else {
+								str += '<td><i>'+days[key]+'</i></td>';						
+							}
 						}
 					} else
 						str += '<td class="disabled stop"><i class="disabled stop">'+days[key]+'</i></td>';
