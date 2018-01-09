@@ -44,5 +44,10 @@ public class TourClDAO extends EgovComAbstractDAO {
 	
     public int selectTourClFileCnt(Map<String, String> param) throws Exception{
         return (Integer)selectByPk("TourClDAO.selectTourClFileCnt", param);
-    }	
+    }
+    
+	@SuppressWarnings("unchecked")
+	public List<Map<String, String>> selectTourClCombo(Map<String, String> param) throws Exception {
+		return list("TourClDAO.selectTourClCombo", param);
+	}	    
 }

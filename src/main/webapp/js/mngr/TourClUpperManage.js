@@ -9,7 +9,7 @@ function fn_search() {
 
 Ext.define('TourClInfo', {
     extend: 'Ext.data.Model',
-    fields: ['CL_CODE', 'CL_NM', 'CL_NM_ENG', 'UPPER_CL_CODE', 'CL_SE', 'FILE_CODE', 'FILE_NM', 'SORT_ORDR', 'DELETE_AT', 'DC', 'DC_ENG', 'WRITNG_DE', 'UPDT_DE', 'CF_CNT', 'CRUD']
+    fields: ['CL_CODE', 'CL_NM', 'CL_NM_ENG', 'UPPER_CL_CODE', 'CL_SE', 'FILE_CODE', 'FILE_NM', 'SORT_ORDR', 'DELETE_AT', 'DC', 'DC_ENG', 'WRITNG_DE', 'UPDT_DE', 'CF_CL_CNT', 'CF_GOODS_CNT', 'CRUD']
 });
 
 var comboDeleteAt = new Ext.create('Ext.form.ComboBox', {
@@ -241,6 +241,11 @@ var frCond = Ext.create('Ext.form.Panel', {
 							//modified[i].set('CRUD', 'U');
 							//datas.push(modified[i].data);							
 							if(modified[i].data.DELETE_AT == 'Y') {
+								if(modified[i].data.CF_GOODS_CNT != '0') {
+									if(!confirm('분류 ['+modified[i].data.CL_NM + '] 에 등록된 상세분류 및 상품이 모두 삭제처리됩니다. 계속하시겠습니까?')) {
+										return;
+									}
+								}								
 								modified[i].set('CRUD', 'D');
 								datas.push(modified[i].data);
 							} else {
@@ -375,6 +380,14 @@ var grid = Ext.create('Ext.grid.Panel', {
 		align: 'left',
 		//editor: {xtype:'textfield', allowBlank: true, maxLength: 25, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'FILE_NM'
+	},{
+		text: 'CF_CL_CNT',
+		hidden: true,
+		dataIndex: 'CF_CL_CNT'
+	},{
+		text: 'CF_GOODS_CNT',
+		hidden: true,
+		dataIndex: 'CF_GOODS_CNT'			
 	},{
 		xtype: 'actioncolumn',
 		flex: 1,

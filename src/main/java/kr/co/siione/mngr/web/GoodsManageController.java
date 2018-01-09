@@ -61,6 +61,7 @@ public class GoodsManageController {
 		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
 		
 		model.put("GOODS_CODE", UserUtils.nvl(param.get("GOODS_CODE")));
+		model.put("DELETE_AT", UserUtils.nvl(param.get("DELETE_AT")));
 		return "/mngr/GoodsRegist";
 	}
 
@@ -196,13 +197,13 @@ public class GoodsManageController {
 		
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		param.put("UPDT_ID", esntl_id);
 		
 		try {
 			String[] str = UserUtils.nvl(param.get("GOODS_CODE_LIST")).split(",");
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("GOODS_CODE_LIST", str);
+			map.put("UPDT_ID", esntl_id);
 
 			int iRe = goodsManageService.deleteGoodsMulti(map);
 
