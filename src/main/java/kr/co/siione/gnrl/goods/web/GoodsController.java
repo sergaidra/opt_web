@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.co.siione.gnrl.cmmn.service.CommonService;
 import kr.co.siione.gnrl.cmmn.service.FileService;
 import kr.co.siione.gnrl.cs.service.QnaService;
 import kr.co.siione.gnrl.goods.service.GoodsService;
@@ -19,12 +20,15 @@ import kr.co.siione.mngr.service.CtyManageService;
 import kr.co.siione.mngr.service.HitManageService;
 import kr.co.siione.utl.UserUtils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.LocaleResolver;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -53,6 +57,9 @@ public class GoodsController {
 	@Resource
 	private HitManageService hitManageService;
 
+	@Resource
+	private CommonService commonService;
+
     @RequestMapping(value="/category")
     public String category(HttpServletRequest request, HttpServletResponse response, ModelMap model, @RequestParam HashMap param) throws Exception {
     	String category = UserUtils.nvl(param.get("category"));
@@ -66,13 +73,13 @@ public class GoodsController {
         
         model.addAttribute("bp", "01");
         if("S".equals(category))
-        	model.addAttribute("btitle", "셀프여행");
+        	model.addAttribute("btitle", commonService.getMessage("topmenu.self", request));
         else if("H".equals(category))
-            model.addAttribute("btitle", "핫딜여행");
+            model.addAttribute("btitle", commonService.getMessage("topmenu.hotdeal", request));
         else if("R".equals(category))
-            model.addAttribute("btitle", "추천여행");
+            model.addAttribute("btitle", commonService.getMessage("topmenu.recom", request));
 
-        model.addAttribute("mtitle", "여행상품카테고리");
+        model.addAttribute("mtitle", commonService.getMessage("category.mtitle", request));
         model.addAttribute("category", category);
 
         return "gnrl/goods/category";
@@ -99,13 +106,13 @@ public class GoodsController {
             		if("H".equals(goodskind)) {
             			category = "H";
             			HashMap mapGoods = new HashMap();
-            			mapGoods.put("CL_NM", "핫딜여행");
+            			mapGoods.put("CL_NM", commonService.getMessage("topmenu.hotdeal", request));
             			mapGoods.put("CL_CODE", "H");
             			upperTourClList.add(mapGoods);
             		} else if("R".equals(goodskind)) {
             			category = "R";
             			HashMap mapGoods = new HashMap();
-            			mapGoods.put("CL_NM", "추천여행");
+            			mapGoods.put("CL_NM", commonService.getMessage("topmenu.recom", request));
             			mapGoods.put("CL_CODE", "R");
             			upperTourClList.add(mapGoods);
             		}
@@ -135,12 +142,12 @@ public class GoodsController {
 
             model.addAttribute("bp", "01");
             if("S".equals(category))
-            	model.addAttribute("btitle", "셀프여행");
+            	model.addAttribute("btitle", commonService.getMessage("topmenu.self", request));
             else if("H".equals(category))
-                model.addAttribute("btitle", "핫딜여행");
+                model.addAttribute("btitle", commonService.getMessage("topmenu.hotdeal", request));
             else if("R".equals(category))
-                model.addAttribute("btitle", "추천여행");
-            model.addAttribute("mtitle", "여행상품리스트");
+                model.addAttribute("btitle", commonService.getMessage("topmenu.recom", request));
+            model.addAttribute("mtitle", commonService.getMessage("goodslist.mtitle", request));
             model.addAttribute("category", category);
     	} catch(Exception e) {
     		e.printStackTrace();

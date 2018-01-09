@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <head>
 
@@ -59,7 +60,7 @@ $(function(){
 		}
 	});
 	
-	$(document).on("change", "select", function() {
+	$("#container").on("change", "select", function() {
 		fnSearch($(this), false);
 	});
 	
@@ -174,15 +175,24 @@ function fnSearch(obj, isNext) {
 				var item = $("#liItem").clone();
 				$(item).attr("id", "");
 				
-				$(item).find("span[name='cty_nm']").text(data.list[cnt].CTY_NM);
-				$(item).find("span[name='upper_cl_nm']").text(data.list[cnt].UPPER_CL_NM);
-				$(item).find("span[name='cl_nm']").text(data.list[cnt].CL_NM);
 				if(data.list[cnt].HOTDEAL_AT == "Y")
 					$(item).find("span[name='cf_reprsnt_amount']").text(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT * data.list[cnt].DSCNT_RATE));
 				else
 					$(item).find("span[name='cf_reprsnt_amount']").text(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT));
-				$(item).find("span[name='goods_nm']").text(data.list[cnt].GOODS_NM_SUB);		
-				$(item).find("span[name='goods_nm_title']").text(data.list[cnt].GOODS_NM);	
+              	<c:if test="${pageContext.response.locale.language == 'en'}">
+				$(item).find("span[name='cty_nm']").text(nvl(data.list[cnt].CTY_NM_ENG));
+				$(item).find("span[name='upper_cl_nm']").text(nvl(data.list[cnt].UPPER_CL_NM_ENG));
+				$(item).find("span[name='cl_nm']").text(nvl(data.list[cnt].CL_NM_ENG));
+				$(item).find("span[name='goods_nm']").text(nvl(data.list[cnt].GOODS_NM_SUB_ENG));	
+				$(item).find("span[name='goods_nm_title']").text(nvl(data.list[cnt].GOODS_NM_ENG));
+				</c:if>
+              	<c:if test="${pageContext.response.locale.language != 'en'}">
+				$(item).find("span[name='cty_nm']").text(nvl(data.list[cnt].CTY_NM));
+				$(item).find("span[name='upper_cl_nm']").text(nvl(data.list[cnt].UPPER_CL_NM));
+				$(item).find("span[name='cl_nm']").text(nvl(data.list[cnt].CL_NM));
+				$(item).find("span[name='goods_nm']").text(nvl(data.list[cnt].GOODS_NM_SUB));		
+				$(item).find("span[name='goods_nm_title']").text(nvl(data.list[cnt].GOODS_NM));
+				</c:if>
 				$(item).find("span[name='favorite']").text("favorite_border");
 				$(item).find("input[name='goods_code']").val(data.list[cnt].GOODS_CODE);
 				$(item).find("div[name='imgFile']").css("background", "url(<c:url value='/file/getImageThumb/'/>?file_code=" + data.list[cnt].FILE_CODE + ")");
@@ -249,10 +259,10 @@ function addWish(goods_code, obj) {
 	param.goods_code = lst;
 	
 	if(mode == "I") {
-		if(!confirm("해당 상품을 찜하겠습니까?"))
+		if(!confirm("<spring:message code='confirm.wish'/>"))
 			return;
 	} else {
-		if(!confirm("해당 상품의 찜하기를 취소하겠습니까?"))
+		if(!confirm("<spring:message code='confirm.wish.cancel'/>"))
 			return;
 	}
 		
@@ -266,19 +276,19 @@ function addWish(goods_code, obj) {
         success : function(data,status,request){
 			if(data.result == "0") {
 				if(mode == "I") {
-					alert("찜하였습니다.");
+					alert("<spring:message code='info.wish'/>");
 					$(obj).removeClass("hit").addClass("hit_on");
 				} else {
-					alert("찜하기를 취소하였습니다.");
+					alert("<spring:message code='info.wish.cancel'/>");
 					$(obj).removeClass("hit_on").addClass("hit");
 				}
 			} else if(data.result == "-2") {
-				alert("로그인이 필요합니다.");
+				alert("<spring:message code='info.login'/>");
 				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
-				alert("작업을 실패하였습니다.");
+				alert("<spring:message code='info.ajax.fail'/>");
 			}	        	
         },
         error : function(request,status,error) {
@@ -312,7 +322,12 @@ function numberWithCommas(x) {
 	   <div class="list_tab">
 	   	<ul>
 		<c:forEach var="result" items="${upperTourClList}" varStatus="status">
-	   		<li>${result.CL_NM}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"></li>
+           	<c:if test="${pageContext.response.locale.language == 'en'}">
+		   		<li>${result.CL_NM_ENG}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"></li>
+		   	</c:if>
+           	<c:if test="${pageContext.response.locale.language != 'en'}">
+		   		<li>${result.CL_NM}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"></li>
+		   	</c:if>
 		</c:forEach>
 	   	</ul>
 	   </div>
@@ -344,7 +359,7 @@ function numberWithCommas(x) {
 		<input type="hidden" name="hidTotalcount" value="">
 		<input type="hidden" name="hidPage" value="">
 	    <div class="list_search">
-	      <div class="info_text" style="display:none;">총 <em><span name="totalcount"> </span>개</em>의 상품이 검색되었습니다.</div>
+	      <div class="info_text" style="display:none;"><spring:message code='goodslist.goodscount.msg' arguments="<span name='totalcount'> </span>"/></div>
 		  <div class="inputbox">
 		    <div class="search_input">
 		    	<input name="sboxKeyword" id="sboxKeyword" type="text" value="${keyword}">
@@ -352,21 +367,21 @@ function numberWithCommas(x) {
 		    </div>
 		    <div class="search_select"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
 					<select name="sboxClCode" id="sboxClCode"  class="w_100p">
-						<option value="">상세분류</option>
+						<option value=""><spring:message code='goodslist.search.detail'/></option>
 					</select>
 				
 	<!--//기본 셀렉트 박스 --></div>
 			   <div class="search_select"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
 					<select name="sboxCtyCode" id="sboxCtyCode" class="w_100p">
-						<option value="">도시선택</option>
+						<option value=""><spring:message code='goodslist.search.city'/></option>
 				</select>
 				
 	<!--//기본 셀렉트 박스 --></div>
 			   <div class="search_select"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
 					<select name="sboxSortOrd" id="sboxSortOrd" class="w_100p">
-						<option value="">정렬기준</option>
-						<option value="L">낮은가격순</option>
-						<option value="H">높은가격순</option>
+						<option value=""><spring:message code='goodslist.search.sort'/></option>
+						<option value="L"><spring:message code='goodslist.search.sort.asc'/></option>
+						<option value="H"><spring:message code='goodslist.search.sort.desc'/></option>
 					</select>
 				
 	<!--//기본 셀렉트 박스 --></div>
@@ -380,7 +395,7 @@ function numberWithCommas(x) {
 	 	<div class="sp_20 mobile_view"></div>
 		<div class="list_more" id="divMore">
 			<div class="more_btn">
-				<a href="javascript:nextSearch();"> <div class="ok_btn">더보기</div></a>
+				<a href="javascript:nextSearch();"> <div class="ok_btn"><spring:message code='goodslist.more'/></div></a>
 			</div>
 		</div>	    
     </div>
@@ -400,7 +415,7 @@ function numberWithCommas(x) {
 			   <div id="divHit" class="hit" style="z-index:999;" ><i class="material-icons">favorite</i>
 
 				   </div>
-			    <div class="total"><span name="cf_reprsnt_amount"></span><em>원</em></div>
+			    <div class="total"><spring:message code='goodslist.goodsprice.msg' arguments="<span name='cf_reprsnt_amount'></span>"/></div>
 		  </div>
 			<div class="ar_text"><span name="cty_nm"></span>  >  <span name="upper_cl_nm"></span>  >  <span name="cl_nm"></span></div>
         </div>

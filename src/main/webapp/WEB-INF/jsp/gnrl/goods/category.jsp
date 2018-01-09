@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <head>
 
 <script type="text/javascript">
@@ -33,7 +34,7 @@ function btnOk() {
 	}
 
 	if(cateList == "") {
-		alert('검색할 상품을 선택하세요.');
+		alert("<spring:message code='category.info.msg'/>");
 		return;
 	} else {
 		cateList = cateList.substr(0, cateList.length - 1);
@@ -59,9 +60,9 @@ function btnOk() {
   <div class="inner2">
     <div class="list_title">
       <div class="tx1">Choice!</div>
-      <div class="tx2">여러분이 원하는 모든것을 선택하세요.</div>
+      <div class="tx2"><spring:message code='category.msg'/></div>
       <div class="select_btn">
-       <a href="javascript:btnOk();" id="btnOk"> <div class="ok_btn">선택확인</div></a>
+       <a href="javascript:btnOk();" id="btnOk"> <div class="ok_btn"><spring:message code='category.btnok'/></div></a>
       </div>
     </div>
     <!---->
@@ -72,8 +73,14 @@ function btnOk() {
           <div class="inline"></div>
           <div class="photo"><div class="imgbox" style="background: url(<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=1)"></div></div>
           <div class="text_box">
-            <div class="tx1">${result.DC}</div>
-            <div class="tx2">${result.CL_NM}</div>
+           	<c:if test="${pageContext.response.locale.language == 'en'}">
+	            <div class="tx1">${result.DC_ENG}</div>
+    	        <div class="tx2">${result.CL_NM_ENG}</div>
+           	</c:if>
+           	<c:if test="${pageContext.response.locale.language != 'en'}">
+	            <div class="tx1">${result.DC}</div>
+    	        <div class="tx2">${result.CL_NM}</div>
+           	</c:if>
             <div class="ch_icon"></div>
           </div>
           <input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}" >
@@ -84,7 +91,7 @@ function btnOk() {
     <div class="sp_50 pc_view"></div>
     <div class="list_title">
       <div class="select_btn">
-       <a href="javascript:btnOk();" id="btnOk2"> <div class="ok_btn">선택확인</div></a>
+       <a href="javascript:btnOk();" id="btnOk2"> <div class="ok_btn"><spring:message code='category.btnok'/></div></a>
       </div>
     </div></div>
   <div class="sp_50 pc_view"></div>
