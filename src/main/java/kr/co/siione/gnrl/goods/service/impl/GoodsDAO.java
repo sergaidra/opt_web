@@ -29,7 +29,11 @@ public class GoodsDAO extends EgovComAbstractDAO {
 	public List selectUpperTourClMain(HashMap map) throws Exception {
 		return list("gnrl.goods.selectUpperTourClMain", map);
 	}
-	
+
+	public List selectUpperTourClList(HashMap map) throws Exception {
+		return list("gnrl.goods.selectUpperTourClList", map);
+	}
+
 	public List selectTourClList(HashMap map) throws Exception {
 		return list("gnrl.goods.selectTourClList", map);
 	}

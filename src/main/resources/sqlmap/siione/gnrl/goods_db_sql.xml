@@ -221,6 +221,28 @@
 		</isEmpty>
 		 ORDER BY CF_SORT
 	</select>
+
+	<select id="gnrl.goods.selectUpperTourClList" parameterClass="hashMap" resultClass="hashMap">
+		SELECT CL_CODE
+		     , CL_NM
+		     , FILE_CODE
+		     , DELETE_AT
+		     , WRITNG_ID
+		     , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE 
+		     , UPDT_ID
+		     , TO_CHAR(UPDT_DT,'YYYY-MM-DD') UPDT_DE
+		     , (SELECT COUNT(1) FROM TB_GOODS X WHERE X.CL_CODE = A.CL_CODE) AS GOODS_CNT
+		     , SORT_ORDR
+		     , DC
+		     , DECODE(A.UPPER_CL_CODE, '00000', A.SORT_ORDR*1000, (SELECT B.SORT_ORDR*1000 FROM TB_TOUR_CL B WHERE B.CL_CODE = A.UPPER_CL_CODE)+A.SORT_ORDR) CF_SORT
+		  FROM TB_TOUR_CL A
+		 WHERE DELETE_AT = 'N'
+		   AND CL_CODE IN ( SELECT CL_CODE 
+		   					FROM TB_GOODS 
+		   					WHERE DELETE_AT = 'N' 
+				 			<include refid="whereList"/> )	
+		 ORDER BY CF_SORT
+	</select>
 	
 	<select id="gnrl.goods.selectGoodsListCount" parameterClass="hashMap" resultClass="Integer">
 		SELECT COUNT(1)

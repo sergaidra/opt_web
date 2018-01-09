@@ -33,7 +33,11 @@ public class GoodsServiceImpl implements GoodsService {
     public List<HashMap> getUpperTourClMain(HashMap map) throws Exception {
         return goodsDAO.selectUpperTourClMain(map);
     }
-    
+
+    public List<HashMap> getUpperTourClList(HashMap map) throws Exception {
+        return goodsDAO.selectUpperTourClList(map);
+    }
+
     public List<HashMap> getTourClList(HashMap map) throws Exception {
         return goodsDAO.selectTourClList(map);
     }

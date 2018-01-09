@@ -154,13 +154,13 @@ public class GoodsController {
       	HashMap map = new HashMap();
     	String hidUpperClCode = UserUtils.nvl(param.get("hidUpperClCode"));  // 선택한 여러개의 분류
     	if("H".equals(hidUpperClCode) || "R".equals(hidUpperClCode)) {	// 핫딜이나 추천일때
-    	
+        	map.put("upper_cl_code", hidUpperClCode);  
     	} else {
         	// 상세 분류목록
         	map.put("upper_cl_code", hidUpperClCode);  
     	}
     	System.out.println("[상세 분류목록]map:"+map);
-    	List<HashMap> tourClList = goodsService.getUpperTourClMain(map);
+    	List<HashMap> tourClList = goodsService.getUpperTourClList(map);
     	
     	// 도시 목록
     	Map<String, String> mapT2 = new HashMap<String, String>();

@@ -9,6 +9,7 @@ public interface GoodsService {
     public List<HashMap> getGoodsExpsrList3(HashMap map) throws Exception;	
     public List<HashMap> getGoodsExpsrList4() throws Exception;	
     public List<HashMap> getUpperTourClMain(HashMap map) throws Exception;
+    public List<HashMap> getUpperTourClList(HashMap map) throws Exception;
     public List<HashMap> getTourClList(HashMap map) throws Exception;
     public HashMap getTourClDetail(HashMap map) throws Exception;
     public int getGoodsListCount(HashMap map) throws Exception;
