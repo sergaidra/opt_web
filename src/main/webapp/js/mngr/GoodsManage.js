@@ -118,7 +118,7 @@ var comboUpperCl = new Ext.create('Ext.form.ComboBox', {
 		fields:['CL_CODE', 'CL_NM'],
 		proxy: {
 			type: 'ajax',
-			url: '../selectTourClUpperList/',
+			url: '../selectTourClCombo/',
 			reader: {
 				type: 'json',
 				root: 'data',
@@ -138,7 +138,11 @@ var comboUpperCl = new Ext.create('Ext.form.ComboBox', {
 	listeners: {
 		change: function(combo, newValue, oldValue, eOpts ) {
 			Ext.getCmp('form-cl-code').setValue('');
-			comboCl.getStore().load({params:{UPPER_CL_CODE:newValue, DELETE_AT:Ext.getCmp('radio-gubun').getValue().DELETE_AT}});
+			if(Ext.getCmp('radio-gubun').getValue().DELETE_AT) {
+				comboCl.getStore().load({params:{UPPER_CL_CODE:newValue, DELETE_AT:'N'}});	
+			} else {
+				comboCl.getStore().load({params:{UPPER_CL_CODE:newValue, DELETE_AT:''}});
+			}
 		}
 	}
 });
@@ -152,7 +156,7 @@ var comboCl = new Ext.create('Ext.form.ComboBox', {
 		fields:['CL_CODE', 'CL_NM'],
 		proxy: {
 			type: 'ajax',
-			url: '../selectTourClUpperList/',
+			url: '../selectTourClCombo/',
 			reader: {
 				type: 'json',
 				root: 'data',
@@ -202,7 +206,11 @@ var frCond = Ext.create('Ext.form.Panel', {
 					change : function(radio, newValue, oldValue, eOpts ) {
 						Ext.getCmp('form-upper-cl-code').setValue('');
 						Ext.getCmp('form-cl-code').setValue('');
-						comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000', DELETE_AT:newValue.DELETE_AT}});
+						if(newValue.DELETE_AT) {
+							comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000', DELETE_AT:'N'}});	
+						} else {
+							comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000'}});
+						}
 					}
 				}
 			}, comboUpperCl, {
@@ -243,15 +251,10 @@ var frCond = Ext.create('Ext.form.Panel', {
 						}
 
 						var codes = '';
-
 						for(var i = 0; i < selections.length; i++){
-							if(selections[i].get('DELETE_AT') == 'N') {
+							if(selections[i].get('DELETE_AT') != 'Y') {
 								codes += ''+selections[i].get('GOODS_CODE') + ',';
 							}
-						}
-
-						if(!codes) {
-							alert('이미 사용안함 처리한 상품입니다.');
 						}
 
 						if(codes) {
@@ -276,6 +279,8 @@ var frCond = Ext.create('Ext.form.Panel', {
 									fn_failureMessage(response);
 								}
 							});
+						} else {
+							alert('이미 사용안함 처리한 상품입니다.');
 						}
 					}
 				}
@@ -318,13 +323,33 @@ var frCond = Ext.create('Ext.form.Panel', {
 				width: 5
 			}, {
 				xtype: 'textfield',
-				id: 'form-sch-goods-code',
-				name: 'GOODS_CODE',
-				fieldLabel: '상품코드',
-				labelWidth: 70,
+				id: 'form-sch-goods-nm',
+				name: 'GOODS_NM',
+				fieldLabel: '상품명',
+				labelWidth: 60,
 				labelAlign: 'right',
 				border: false,
-				width: 190,
+				width: 200,
+				enableKeyEvents: true,
+				listeners: {
+					specialkey: function(tf, e){
+						if (e.getKey() == e.ENTER) {
+							fn_search();
+						}
+					}
+				}				
+			}, {
+				xtype: 'label',
+				width: 5
+			}, {
+				xtype: 'textfield',
+				id: 'form-sch-goods-code',
+				name: 'GOODS_CODE',
+				fieldLabel: '코드',
+				labelWidth: 50,
+				labelAlign: 'right',
+				border: false,
+				width: 170,
 				enableKeyEvents: true,
 				listeners: {
 					specialkey: function(tf, e){
@@ -384,6 +409,8 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		getRowClass: function(record, rowIndex, rowParams, store) {
 			if (record.get('DELETE_AT') == 'T') { 
 				return 'row_blue';
+			} else if (record.get('DELETE_AT') == 'Y') { 
+					return 'row_gray';				
 			} else {
 				return 'row_black';
 			}
@@ -479,7 +506,7 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		 dataIndex: 'CF_FILE_CNT'
 	},{
 		text: '사용여부',
-		width: 80,
+		width: 90,
 		align: 'center',
 		dataIndex: 'DELETE_AT_NM'
 	},{
@@ -556,7 +583,7 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 	listeners : {
 		celldblclick: function(grid, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
 			if(cellIndex < 16) {
-				parent.fn_open_menu('01004','여행상품등록','/mngr/GoodsRegist/?GOODS_CODE='+record.data.GOODS_CODE);	
+				parent.fn_open_menu('01004','여행상품등록','/mngr/GoodsRegist/?GOODS_CODE='+record.data.GOODS_CODE+'&DELETE_AT='+record.data.DELETE_AT);	
 			}
 		}
 	}

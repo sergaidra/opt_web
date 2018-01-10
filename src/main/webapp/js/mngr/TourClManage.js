@@ -56,7 +56,7 @@ var tree = Ext.create('Ext.tree.Panel', {
 
 Ext.define('TourClInfo', {
     extend: 'Ext.data.Model',
-    fields: ['CL_CODE', 'CL_NM', 'CL_NM_ENG', 'UPPER_CL_CODE', 'CL_SE', 'SORT_ORDR', 'DELETE_AT', 'CRUD']
+    fields: ['CL_CODE', 'CL_NM', 'CL_NM_ENG', 'UPPER_CL_CODE', 'CL_SE', 'SORT_ORDR', 'DELETE_AT', 'CF_GOODS_CNT', 'CRUD']
 });
 
 var comboDeleteAt = new Ext.create('Ext.form.ComboBox', {
@@ -215,6 +215,14 @@ var grid = Ext.create('Ext.grid.Panel', {
 		dataIndex: 'DELETE_AT',
 		renderer: Ext.ux.comboBoxRenderer(comboDeleteAt)
 	},{
+		text: 'CF_CL_CNT',
+		hidden: true,
+		dataIndex: 'CF_CL_CNT'
+	},{
+		text: 'CF_GOODS_CNT',
+		hidden: true,
+		dataIndex: 'CF_GOODS_CNT'
+	},{
 		flex: 1
 	}],
 	tbar: ['->', {
@@ -280,8 +288,13 @@ var grid = Ext.create('Ext.grid.Panel', {
 			if (modified.length + inserted.length + deleted.length > 0) {
 				for (var i = 0; i < modified.length; i++) {
 					//modified[i].set('CRUD', 'U');
-					//datas.push(modified[i].data);					
+					//datas.push(modified[i].data);
 					if(modified[i].data.DELETE_AT == 'Y') {
+						if(modified[i].data.CF_GOODS_CNT != '0') {
+							if(!confirm('분류 ['+modified[i].data.CL_NM + '] 에 등록된 상품이 모두 삭제처리됩니다. 계속하시겠습니까?')) {
+								return;
+							}
+						}
 						modified[i].set('CRUD', 'D');
 						datas.push(modified[i].data);
 					} else {
@@ -314,7 +327,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 					}
 				});
 			} else {
-				alert('변경된 자료가 없습니다.');
+				Ext.Msg.alert('알림', '변경된 자료가 없습니다.');
 			}
 		}
 	}],

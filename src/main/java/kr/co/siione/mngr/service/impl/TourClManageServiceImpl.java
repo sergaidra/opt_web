@@ -164,4 +164,9 @@ public class TourClManageServiceImpl implements TourClManageService {
 	public List<Map<String, String>> selectTourClTree(Map<String, String> param) throws Exception {
 		return tourClDAO.selectTourClTree(param);
 	}	
+	
+	@Override
+	public List<Map<String, String>> selectTourClCombo(Map<String, String> param) throws Exception {
+		return tourClDAO.selectTourClCombo(param);
+	}	
 }

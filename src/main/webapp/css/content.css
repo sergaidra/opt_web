@@ -558,7 +558,7 @@ em{ font-style: normal }
 .main_dbox .inner2 .title_box .tx2{ width: 100%; float: left; text-align: center; margin-bottom: 50px; font-size: 14px; color: #666}
 .main_dbox .inner2 .cont_box{ width: 50%;float: left;  position: relative;background-color: #f9f9f9; position: relative  }
 .main_dbox .inner2 .cont_box .in01{ width:50%; background-color: #f9f9f9; padding: 30px; box-sizing: border-box}
-.main_dbox .inner2 .cont_box .in01 .title{float: left; padding-top: 10px; border-top: 1px solid #333; font-size: 26px; margin-bottom: 20px;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 500}
+.main_dbox .inner2 .cont_box .in01 .title{float: left; padding-top: 10px; border-top: 1px solid #333; font-size: 25px; margin-bottom: 8px;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 500}
 .main_dbox .inner2 .cont_box .in01 .text{float: left; font-size: 14px; margin-bottom: 20px; color: #999; line-height: 20px}
 .main_dbox .inner2 .cont_box .in01 .more{float: left; padding: 5px 10px; border: 1px solid #666; font-size: 12px; color: #333; position: absolute; bottom: 40px}
 	

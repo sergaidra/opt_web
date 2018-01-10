@@ -62,10 +62,6 @@ public class TourClManageController {
 		List<Map<String,String>> results = null;
 
 		Map<String, Object> result = new HashMap<String, Object>();
-		
-		HttpSession session = request.getSession();
-		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		param.put("USER_ID", esntl_id);		
 
 		try {
 			results = tourClManageService.selectTourClUpperList(param);
@@ -88,10 +84,6 @@ public class TourClManageController {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		HttpSession session = request.getSession();
-		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		param.put("USER_ID", esntl_id);
-
 		if(!param.containsKey("UPPER_CL_CODE")) {
 			param.put("UPPER_CL_CODE", (String)param.get("node"));
 		}
@@ -110,6 +102,27 @@ public class TourClManageController {
 			jsonView.render(result, request, response);
 		}
 	}
+	
+	@RequestMapping(value="/mngr/selectTourClCombo/")
+	public void selectTourClCombo(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
+		List<Map<String,String>> results = null;
+
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		try {
+			results = tourClManageService.selectTourClCombo(param);
+
+			result.put("rows", results.size());
+			result.put("data", results);
+			result.put("success", true);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			result.put("message", e.getMessage());
+			result.put("success", false);
+		} finally {
+			jsonView.render(result, request, response);
+		}
+	}	
 
 	@RequestMapping(value="/mngr/saveTourClInfo/")
 	public void saveTourClInfo(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {

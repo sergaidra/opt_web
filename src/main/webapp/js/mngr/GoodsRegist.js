@@ -3,6 +3,7 @@ Ext.tip.QuickTipManager.init();  // enable tooltips
 var formSave = Ext.create('Ext.form.Panel', {});
 
 var selGridNmprIdx = 0;
+var newAt = 'Y';
 
 var combo = new Ext.create('Ext.form.ComboBox', {
 	store: new Ext.create('Ext.data.ArrayStore', {
@@ -595,11 +596,11 @@ var comboUpperCl = new Ext.create('Ext.form.ComboBox', {
 	labelAlign: 'right',
 	labelWidth: 100,
 	store: new Ext.create('Ext.data.JsonStore', {
-		autoLoad: true,
+		autoLoad: false,
 		fields:['CL_CODE', 'CL_NM', 'CL_SE', 'DELETE_AT'],
 		proxy: {
 			type: 'ajax',
-			url: '../selectTourClUpperList/?UPPER_CL_CODE=00000',
+			url: '../selectTourClCombo/?UPPER_CL_CODE=00000',
 			reader: {
 				type: 'json',
 				root: 'data',
@@ -635,12 +636,18 @@ var comboUpperCl = new Ext.create('Ext.form.ComboBox', {
 	),
 	listeners: {
 		change: function(combo, newValue, oldValue, eOpts ) {
+			//var idx = combo.getStore().find('CL_CODE', newValue);
+			//var deleteAt = combo.getStore().getAt(idx).get('DELETE_AT');
 			var rec = combo.getStore().findRecord('CL_CODE', newValue);
 			if(rec) {
 				Ext.getCmp('form-reg-cl-se').setValue(rec.get('CL_SE'));
 				Ext.getCmp('form-reg-cl-code').setValue('');
-				comboCl.getStore().load({params:{UPPER_CL_CODE:newValue}});
-			}
+				if(newAt == 'Y' && Ext.getCmp('form-reg-delete-at').getValue() != 'Y') {
+					comboCl.getStore().load({params:{UPPER_CL_CODE:newValue, DELETE_AT:'N'}});	
+				} else {
+					comboCl.getStore().load({params:{UPPER_CL_CODE:newValue}});
+				}
+			}	
 		}
 	}
 });
@@ -657,7 +664,7 @@ var comboCl = new Ext.create('Ext.form.ComboBox', {
 		fields:['CL_CODE', 'CL_NM', 'CL_SE', 'DELETE_AT'],
 		proxy: {
 			type: 'ajax',
-			url: '../selectTourClUpperList/',
+			url: '../selectTourClCombo/',
 			reader: {
 				type: 'json',
 				root: 'data',
@@ -694,6 +701,18 @@ var comboCl = new Ext.create('Ext.form.ComboBox', {
 	)
 });
 
+function fn_preview() {
+	var winGoodsDetail = null;
+	if(winGoodsDetail == null) {
+		if(!sGoodsCode) {
+			sGoodsCode = Ext.getCmp('form-reg-goods-code').getValue();
+		}
+		winGoodsDetail = fn_openPopup('/goods/detail?adminAt=Y&hidGoodsCode='+sGoodsCode, 'winGoodsDetail'+sGoodsCode, 1250, 700);
+	} else {
+		winGoodsDetail.close();	
+	}
+}
+
 function fn_activeNextTab() {
 	if(Ext.getCmp('form-reg-crud-se').getValue() == 'C') {
 		Ext.Msg.confirm('확인', '상품 내용을 계속 입력하시겠습니까?', function(btn) {
@@ -705,7 +724,7 @@ function fn_activeNextTab() {
 			}
 		});
 	}
-};
+}
 
 function fn_getByteLength(s) {
 	var b, i, c;
@@ -1030,7 +1049,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 		xtype: 'button',
 		id: 'btn-save1',
 		text: '저장',
-		margin: '0 0 0 420',
+		margin: '0 8 0 285',
 		width: 60,
 		handler: function() {
 			if(Ext.getCmp('form-reg-goods-code').getValue()) {
@@ -1042,12 +1061,13 @@ var frReg = Ext.create('Ext.form.Panel', {
 	}, {
 		xtype: 'button',
 		id: 'btn-add',
-		text: '신규',
-		margin: '0 0 0 5',
-		width: 60,
+		text: '새상품등록하기',
+		width: 110,
 		handler: function() {
 			Ext.Msg.confirm('확인', '작업을 중단하고 신규로 작성하시겠습니까?', function(btn) {
-				 if(btn == 'yes') {
+				if(btn == 'yes') {
+					newAt = 'Y';
+					
 					Ext.getCmp('btn-save1').enable();
 					Ext.getCmp('btn-save2').enable();
 					Ext.getCmp('btn-save3').enable();
@@ -1076,6 +1096,8 @@ var frReg = Ext.create('Ext.form.Panel', {
 					storeTime.removeAll();
 					storeNmpr.removeAll();
 					storeFile.removeAll();
+					
+					comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000', DELETE_AT:'N'}});					
 				}
 			});
 		}
@@ -1083,7 +1105,6 @@ var frReg = Ext.create('Ext.form.Panel', {
 		xtype: 'button',
 		id: 'btn-del',
 		text: '사용안함',
-		margin: '0 0 0 5',
 		width: 80,
 		handler: function() {
 			if(Ext.getCmp('form-reg-goods-code').getValue()) {
@@ -1092,6 +1113,13 @@ var frReg = Ext.create('Ext.form.Panel', {
 				return;
 			}
 		}
+	}, {
+		xtype: 'button',
+		text: '미리보기',
+		width: 80,
+		handler: function() {
+			fn_preview();
+		}	
 	}],
 	items: [{
 		xtype: 'fieldset',
@@ -2013,11 +2041,18 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 		xtype: 'button',
 		id: 'btn-save2',
 		text: '저장',
-		margin: '0 0 0 570',
+		margin: '0 8 0 490',
 		width: 60,
 		handler: function() {
 			fn_saveGoodsInfo('G', frReg2);
 		}
+	}, {
+		xtype: 'button',
+		text: '미리보기',
+		width: 80,
+		handler: function() {
+			fn_preview();
+		}	
 	}],
 	items: [{
 		xtype: 'fieldset',
@@ -2503,11 +2538,18 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 		xtype: 'button',
 		id: 'btn-save3',
 		text: '저장',
-		margin: '0 0 0 540',
+		margin: '0 8 0 490',
 		width: 60,
 		handler: function() {
 			fn_saveGoodsInfo('E', frReg3);
 		}
+	}, {
+		xtype: 'button',
+		text: '미리보기',
+		width: 80,
+		handler: function() {
+			fn_preview();
+		}	
 	}],
 	items: [{
 		xtype: 'fieldset',
@@ -2730,6 +2772,7 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
 			}
 		}
 	}, {
+		xtype: 'button',
 		text: '조회',
 		id: 'btn-sch-schdul',
 		width: 60,
@@ -2743,6 +2786,7 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
 			}
 		}
 	}, {
+		xtype: 'button',
 		text: '추가',
 		id: 'btn-add-schdul',
 		width: 60,
@@ -2764,6 +2808,7 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
 			}
 		}
 	}, {
+		xtype: 'button',
 		text: '삭제',
 		id: 'btn-del-schdul',
 		width: 60,
@@ -2775,6 +2820,7 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
 			}*/
 		}
 	}, {
+		xtype: 'button',
 		text: '저장',
 		id: 'btn-save-schdul',
 		width: 60,
@@ -2833,6 +2879,13 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
 				alert('변경된 자료가 없습니다.');
 			}
 		}
+	}, {
+		xtype: 'button',
+		text: '미리보기',
+		width: 80,
+		handler: function() {
+			fn_preview();
+		}	
 	}],
 	plugins: [cellEditing]
 });
@@ -2937,6 +2990,7 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 			}
 		}
 	}, {
+		xtype: 'button',
 		text: '조회',
 		id: 'btn-sch-time',
 		width: 60,
@@ -2950,6 +3004,7 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 			}
 		}
 	}, {
+		xtype: 'button',
 		text: '추가',
 		id: 'btn-add-time',
 		width: 60,
@@ -2975,6 +3030,7 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 			}
 		}
 	}, {
+		xtype: 'button',
 		text: '삭제',
 		id: 'btn-del-time',
 		width: 60,
@@ -2986,6 +3042,7 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 			}*/
 		}
 	}, {
+		xtype: 'button',
 		text: '저장',
 		id: 'btn-save-time',
 		width: 60,
@@ -3030,6 +3087,13 @@ var gridTime = Ext.create('Ext.grid.Panel', {
 				Ext.Msg.alert('확인', '변경된 자료가 없습니다.', function(){return;});
 			}
 		}
+	}, {
+		xtype: 'button',
+		text: '미리보기',
+		width: 80,
+		handler: function() {
+			fn_preview();
+		}	
 	}],
 	plugins: [cellEditing2]
 });
@@ -3231,6 +3295,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 			}
 		}
 	}, {
+		xtype: 'button',
 		text: '조회',
 		id: 'btn-sch-nmpr',
 		width: 60,
@@ -3244,6 +3309,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 			}
 		}
 	}, {
+		xtype: 'button',
 		text: '추가',
 		id: 'btn-add-nmpr',
 		width: 60,
@@ -3283,6 +3349,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 			}
 		}
 	}, {
+		xtype: 'button',
 		text: '삭제',
 		id: 'btn-del-nmpr',
 		width: 60,
@@ -3294,6 +3361,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 			}*/
 		}
 	}, {
+		xtype: 'button',
 		text: '저장',
 		id: 'btn-save-nmpr',
 		width: 60,
@@ -3362,15 +3430,11 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 			}
 		}
 	},{
+		xtype: 'button',
 		text: '미리보기',
 		width: 80,
 		handler: function() {
-			var winGoodsDetail = null;
-			if(winGoodsDetail == null) {
-				winGoodsDetail = fn_openPopup('/goods/detail?adminAt=Y&hidGoodsCode='+sGoodsCode, 'winGoodsDetail'+sGoodsCode, 1250, 700);
-			} else {
-				winGoodsDetail.close();	
-			}
+			fn_preview();
 		}	
 	}],
 	plugins: [cellEditing3],
@@ -3396,7 +3460,7 @@ var frFile = Ext.create('Ext.form.Panel', {
 		items: [{
 			xtype: 'fieldset',
 			title: '<span style="font-weight:bold;">이미지 등록</span>',
-			padding: '10 20 10 10',
+			padding: '10 10 10 10',
 			items: [{
 				xtype: 'fieldcontainer',
 				layout: 'hbox',
@@ -3411,7 +3475,7 @@ var frFile = Ext.create('Ext.form.Panel', {
 					labelSeparator: ':',
 					labelWidth: 70,
 					allowBlank: false,
-					width: 400,
+					width: 410,
 					listeners:{
 						afterrender : function(ff, eOpts ){
 							//파일태그옵션에 multiple이라는 옵션을 정의
@@ -3425,7 +3489,7 @@ var frFile = Ext.create('Ext.form.Panel', {
 					id: 'btn-upload-file',
 					text: '업로드',
 					width: 60,
-					margin: '0 0 0 5',
+					margin: '0 0 0 7',
 					listeners: {
 						click: function (btn, e, opts) {
 							var form = Ext.getCmp('form-file').getForm();
@@ -3592,10 +3656,11 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 		dataIndex: 'FILE_PATH'
 	}],
 	tbar: ['->', {
+		xtype: 'button',
 		text: '삭제',
 		id: 'btn-del-file',
 		width: 60,
-		margin: '0 5 0 10',
+		//margin: '0 5 0 10',
 		handler: function() {
 			var sm = gridFile.getSelectionModel();
 			storeFile.remove(sm.getSelection());
@@ -3604,6 +3669,7 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 			}*/
 		}
 	}, {
+		xtype: 'button',
 		text: '저장',
 		id: 'btn-save-file',
 		width: 60,
@@ -3642,6 +3708,13 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 				alert('변경된 자료가 없습니다.');
 			}
 		}
+	}, {
+		xtype: 'button',
+		text: '미리보기',
+		width: 80,
+		handler: function() {
+			fn_preview();
+		}	
 	}]
 });
 
@@ -3738,6 +3811,12 @@ Ext.onReady(function(){
 	});
 
 	if(sGoodsCode) {
+		if(sDeleteAt == 'Y') {
+			comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000'}});	
+		} else {
+			comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000', DELETE_AT:'N'}});
+		}
+			
 		storeGoods.load({params:{GOODS_CODE:sGoodsCode}});
 	}
 });
