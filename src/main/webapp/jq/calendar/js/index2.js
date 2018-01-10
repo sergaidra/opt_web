@@ -126,6 +126,13 @@
 
 				if(i === 1) str += '<tr>';
 				
+				var color = "black";
+				
+				if(i == 6)
+					color = "blue";
+				if(i == 7)
+					color = "red";
+
 				if( key < startDay || key > totalDays + startDay - 1 ) { str += '<td class="notCurMonth disabled stop"><i class="disabled stop">'+days[key]+'</i></td>'; }
 				else { 
 					var isOk = false;
@@ -141,7 +148,7 @@
 						}
 					}
 					if(isOk == true)
-						str += '<td><i>'+days[key]+'</i></td>';
+						str += '<td><i style="color:' + color + ';">'+days[key]+'</i></td>';
 					else
 						str += '<td class="disabled stop"><i class="disabled stop">'+days[key]+'</i></td>';
 				}

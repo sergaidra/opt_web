@@ -225,10 +225,16 @@
 
 				if(i === 1) str += '<tr>';
 				
+				var color = "black";
+				
+				if(i == 6)
+					color = "blue";
+				if(i == 7)
+					color = "red";
+				
 				if( key < startDay || key > totalDays + startDay - 1 ) { 
 					str += '<td class="notCurMonth disabled stop"><i class="disabled stop">'+days[key]+'</i></td>'; 
-				}
-				else {
+				} else {
 					var isOk = false;
 					var isReservation = false;
 					var curDt = String(year) + lpad(String(month), 2, "0") + lpad(days[key]+"", 2, "0");
@@ -238,11 +244,15 @@
 						if(curDt < curToday)
 							continue;
 						//console.log(lstSchdul[cnt].BEGIN_DE + "-" + lstSchdul[cnt].END_DE + "-" + curDt);
-						if(lstSchdul[cnt].BEGIN_DE <= curDt && curDt <= lstSchdul[cnt].END_DE ) {
+						if(lstSchdul[cnt].BEGIN_DE <= curDt && curDt <= lstSchdul[cnt].END_DE && lstSchdul[cnt].POSBL_AT == "Y") {
 							isOk = true;
+						}
+						if(lstSchdul[cnt].BEGIN_DE <= curDt && curDt <= lstSchdul[cnt].END_DE && lstSchdul[cnt].POSBL_AT == "N") {
+							isOk = false;
 							break;
 						}
 					}
+					
 					if(isOk == true) {
 						for(var cnt = 0; cnt < lstRsvSchdul.length; cnt++) {
 							if (lstRsvSchdul[cnt] == curDt) {
@@ -252,34 +262,32 @@
 						}
 					}
 					if(isOk == true) {
-						if(selectDt.startDt != null && selectDt.endDt != null) {
+						if(isReservation == true) {
+							str += '<td class="disabled stop" style="background:#eee; color:' + color + ';" title="sold out"><i class="disabled stop" >'+days[key]+'</i></td>';						
+						} else if(selectDt.startDt != null && selectDt.endDt != null) {
 							if(curDt2 == selectDt.startDt) {
-								str += '<td class="sel1" id="sel1"><i>'+days[key]+'</i></td>';
+								str += '<td class="sel1" id="sel1"><i style="color:' + color + ';">'+days[key]+'</i></td>';
 							} else if(curDt2 == selectDt.endDt) {
-								str += '<td class="sel2" id="sel2"><i>'+days[key]+'</i></td>';
+								str += '<td class="sel2" id="sel2"><i style="color:' + color + ';">'+days[key]+'</i></td>';
 							} else if(curDt2 > selectDt.startDt && curDt2 < selectDt.endDt) {
-								str += '<td class="range"><i>'+days[key]+'</i></td>';
+								str += '<td class="range"><i style="color:' + color + ';">'+days[key]+'</i></td>';
 							} else {
-								str += '<td><i>'+days[key]+'</i></td>';						
+								str += '<td><i style="color:' + color + ';">'+days[key]+'</i></td>';						
 							}
 						} else if(selectDt.startDt != null) {
 							if(curDt2 == selectDt.startDt) {
-								str += '<td class="sel1" id="sel1"><i>'+days[key]+'</i></td>';
+								str += '<td class="sel1" id="sel1"><i style="color:' + color + ';">'+days[key]+'</i></td>';
 							} else {
-								str += '<td><i>'+days[key]+'</i></td>';						
+								str += '<td><i style="color:' + color + ';">'+days[key]+'</i></td>';						
 							}
 						} else if(selectDt.endDt != null) {
 							if(curDt2 == selectDt.endDt) {
-								str += '<td class="sel2" id="sel2"><i>'+days[key]+'</i></td>';
+								str += '<td class="sel2" id="sel2"><i style="color:' + color + ';">'+days[key]+'</i></td>';
 							} else {
-								str += '<td><i>'+days[key]+'</i></td>';						
+								str += '<td><i style="color:' + color + ';">'+days[key]+'</i></td>';						
 							}
 						} else {
-							if(isReservation == true) {
-								str += '<td class="disabled stop"><i class="disabled stop" style="text-decoration:line-through;">'+days[key]+'</i></td>';						
-							} else {
-								str += '<td><i>'+days[key]+'</i></td>';						
-							}
+							str += '<td><i style="color:' + color + ';">'+days[key]+'</i></td>';						
 						}
 					} else
 						str += '<td class="disabled stop"><i class="disabled stop">'+days[key]+'</i></td>';

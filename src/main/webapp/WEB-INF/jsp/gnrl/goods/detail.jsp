@@ -71,7 +71,7 @@ var lstOption = [];
 var hotdeal_at = "${result.HOTDEAL_AT}";
 
 <c:forEach var="list" items="${lstSchdul}">
-	lstSchdul.push({"BEGIN_DE" : "${list.BEGIN_DE}", "END_DE" : "${list.END_DE}" });
+	lstSchdul.push({"BEGIN_DE" : "${list.BEGIN_DE}", "END_DE" : "${list.END_DE}", "POSBL_AT" : "${list.POSBL_AT}" });
 </c:forEach>
 <c:forEach var="list" items="${lstRsvSchdul}">
 	lstRsvSchdul.push("${list.RESERVATIONDT}");

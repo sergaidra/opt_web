@@ -381,7 +381,7 @@
 	</select>
 
 	<select id="gnrl.goods.selectGoodsSchdulList" parameterClass="hashMap" resultClass="hashMap">
-		SELECT BEGIN_DE, END_DE 
+		SELECT BEGIN_DE, END_DE, NVL(POSBL_AT, 'Y') AS POSBL_AT
 		  FROM TB_GOODS_SCHDUL GS
 		 WHERE DELETE_AT = 'N'
 		   AND GOODS_CODE = #goods_code#
