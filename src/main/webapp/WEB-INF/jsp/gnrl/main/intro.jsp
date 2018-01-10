@@ -33,8 +33,11 @@ $(function(){
 
 	$("#imgSearch").click(function () {
 		if($.trim($("#txtKeyword").val()) == "") {
-			alert("<spring:message code='info.input.keyword'/>");
-			$("#txtKeyword").focus();
+			alertPopup("<spring:message code='info.input.keyword'/>"
+					, function() {
+						$.featherlight.close();
+						$("#txtKeyword").focus();
+					}, null);
 			return;
 		}
 		

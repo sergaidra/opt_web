@@ -53,7 +53,7 @@ $(function(){
 					$(search).find("#btnSearch").trigger("click");
 		        },
 		        error : function(request,status,error) {
-		        	alert(error);
+		        	alertPopup(error, null, null);
 		        },
 			});			
 			
@@ -230,7 +230,7 @@ function fnSearch(obj, isNext) {
 			}
         },
         error : function(request,status,error) {
-        	alert(error);
+        	alertPopup(error, null, null);
         },
 	});
 }
@@ -246,26 +246,42 @@ function fnDetail(obj) {
 }
 
 function addWish(goods_code, obj) {
+	var mode = "I";
+	if($(obj).hasClass("hit_on")) {
+		mode = "D";		
+	}
+	
+	var msg = "";
+	if(mode == "I") {
+		msg = "<spring:message code='confirm.wish'/>";
+	} else {
+		msg = "<spring:message code='confirm.wish.cancel'/>";
+	}
+	confirmPopup(msg
+			, function() {
+				$.featherlight.close();
+				addWishAction(goods_code, obj);
+			}, null);
+}
+
+function addWishAction(goods_code, obj) {		
 	var lst = [];
 	lst.push(goods_code);
 
-	var url = "<c:url value='/purchs/insertWish'/>";
+	var param = {};
+	param.goods_code = lst;
+
 	var mode = "I";
+	if($(obj).hasClass("hit_on")) {
+		mode = "D";		
+	}
+
+	var url = "<c:url value='/purchs/insertWish'/>";
 	if($(obj).hasClass("hit_on")) {
 		url = "<c:url value='/purchs/deleteWish'/>";
 		mode = "D";		
 	}
-	var param = {};
-	param.goods_code = lst;
-	
-	if(mode == "I") {
-		if(!confirm("<spring:message code='confirm.wish'/>"))
-			return;
-	} else {
-		if(!confirm("<spring:message code='confirm.wish.cancel'/>"))
-			return;
-	}
-		
+
 	$.ajax({
         url : url,
         type: "post",
@@ -276,23 +292,26 @@ function addWish(goods_code, obj) {
         success : function(data,status,request){
 			if(data.result == "0") {
 				if(mode == "I") {
-					alert("<spring:message code='info.wish'/>");
+					alertPopup("<spring:message code='info.wish'/>", null, null);
 					$(obj).removeClass("hit").addClass("hit_on");
 				} else {
-					alert("<spring:message code='info.wish.cancel'/>");
+					alertPopup("<spring:message code='info.wish.cancel'/>", null, null);
 					$(obj).removeClass("hit_on").addClass("hit");
 				}
 			} else if(data.result == "-2") {
-				alert("<spring:message code='info.login'/>");
-				go_login();
+				alertPopup("<spring:message code='info.login'/>"
+						, function() {
+							$.featherlight.close();
+							go_login();
+						}, null);
 			} else if(data.result == "9") {
-				alert(data.message);
+				alertPopup(data.message, null, null);
 			} else{
-				alert("<spring:message code='info.ajax.fail'/>");
+				alertPopup("<spring:message code='info.ajax.fail'/>", null, null);
 			}	        	
         },
         error : function(request,status,error) {
-        	alert(error);
+        	alertPopup(error, null, null);
         },
 	});			
 }

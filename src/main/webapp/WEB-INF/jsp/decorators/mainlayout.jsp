@@ -118,5 +118,6 @@ $(document).ready(function(){
 
 <c:import url="/include/bottom.jsp" />
 
+
 </body>
 </html>

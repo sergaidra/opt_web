@@ -377,5 +377,61 @@ getMyFlightInfo();
         </script> 
       <!-- //left: 푸시영역 --> 
       
-    </header>
+</header>
+
+<!--팝업 : 경고안내문구-->
+<div class="lightbox" id="alert_popup">
+  <div class="popup_com3">
+    <div class="icon"><i class="material-icons">&#xE8B2;</i> </div>
+    <div class="text">
+ 옵션을 선택해 주세요 <br>
+경고안내 문구 나오는곳
+    </div>
+	<div class="popup_btn2">
+	   	<a href="javascript:dialogOkFunc();" class="btnst1">확인</a>
+	   	<a href="javascript:dialogCancelFunc();" class="btnst2" id="btnDialogCalc">취소</a>
+	</div>
+  </div>
+</div>
+<!--팝업-->	  
+
+<script>
+var dialogOkFunc = null;
+var dialogCancelFunc = null;
+
+function alertPopup(text, okFunc, closeFunc) {
+	var config = {};
+	if(okFunc == null) {
+		okFunc = function() {
+			$.featherlight.close();
+		}
+	}
+	if(closeFunc != null) 
+		config.afterClose = closeFunc;
+	else
+		config.afterClose = okFunc;
+	dialogOkFunc = okFunc;
+	$.featherlight($("#alert_popup"), config);
+	$(".featherlight #btnDialogCalc").hide();
+	$(".featherlight .text").text(text);
+}
+
+function confirmPopup(text, okFunc, closeFunc) {
+	var config = {};
+	if(closeFunc != null) {
+		config.afterClose = closeFunc;
+		dialogCancelFunc = closeFunc;
+	} else {
+		dialogCancelFunc = function() {
+			$.featherlight.close();
+		}
+	}
+	dialogOkFunc = okFunc;
+	$.featherlight($("#alert_popup"), config);
+	$(".featherlight #btnDialogCalc").show();
+	$(".featherlight .text").text(text);
+}
+
+</script>
+
     

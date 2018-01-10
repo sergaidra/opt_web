@@ -34,7 +34,10 @@ function btnOk() {
 	}
 
 	if(cateList == "") {
-		alert("<spring:message code='category.info.msg'/>");
+		alertPopup("<spring:message code='category.info.msg'/>"
+				, function() {
+					$.featherlight.close();
+				}, null);
 		return;
 	} else {
 		cateList = cateList.substr(0, cateList.length - 1);
