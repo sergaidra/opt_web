@@ -240,7 +240,7 @@ function replaceBrSpace(str) {
     <div class="inner2"><div class="comf">
 		             <!--FAQ검색-->  <div class="bbs_search">
 			    <div class="search_text">
-			      <div class="tx1 fw_500">1:1 문의하기</div>
+			      <div class="tx1 fw_500">문의하기</div>
 				  <div class="tx2">무엇을 도와드릴까요? <br>
 고객님의 궁금함을 빠르게 해결해 드리겠습니다. </div>
 			    </div>

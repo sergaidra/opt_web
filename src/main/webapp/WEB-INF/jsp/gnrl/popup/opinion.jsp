@@ -11,7 +11,7 @@
 	<input type="hidden" id="callback" value="${callback}" >	
 	<input type="hidden" id="parent_opinion_sn" value="${opinion.PARENT_OPINION_SN}">
   <div class="popup_com">
-    <div class="title">1:1문의하기 </div>
+    <div class="title">문의하기 </div>
     <div class="popup_cont">
       <div class="tb_01_box">
         <table width="100%"  class="tb_01">

@@ -19,7 +19,7 @@ $(function(){
 		var frm = $("#frmSubtopSearch");
 		frm.attr("action", "<c:url value='/goods/list'/>");
 		frm.attr("method", "get");
-		frm.find("input[name='keyword']").val($.trim($("#txtSubtopKeyword").val()));
+		frm.find("input[name='keyword']").val(encodeURI($.trim($("#txtSubtopKeyword").val())));
 		frm.submit();
 	});
 });
@@ -34,7 +34,7 @@ $(function(){
         <div class="route_t">HOME > ${btitle} > ${mtitle}</div>
       </div>
           <div class="search_box">
-        <div class="btn_icon"><img id="imgSubtopSearch" src="<c:url value='/images/com/search_icon.png' />" width="36" height="36" alt=""/></div>
+        <div class="btn_icon"><img id="imgSubtopSearch" src="<c:url value='/images/com/search_icon.png' />" width="36" height="36" alt="" style="cursor:pointer;"/></div>
         <input type="text" id="txtSubtopKeyword">
       </div>
           <div class="copy_text">Self-made package tour - <em>OnePassTour</em></div>

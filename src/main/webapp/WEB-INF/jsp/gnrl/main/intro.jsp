@@ -44,7 +44,8 @@ $(function(){
 		var frm = $("#frmSearch");
 		frm.attr("action", "<c:url value='/goods/list'/>");
 		frm.attr("method", "get");
-		frm.find("input[name='keyword']").val($.trim($("#txtKeyword").val()));
+		frm.find("input[name='keyword']").val(encodeURI($.trim($("#txtKeyword").val())));
+		frm.find("input[name='category']").val("");
 		frm.submit();
 	});
 });
@@ -56,6 +57,15 @@ function fnDetail(goods_code, category) {
 	form.find("input:hidden[id=category]").val(category);
 	form.attr({"method":"get","action":"<c:url value='/goods/detail'/>"});
 	form.submit();		
+}
+
+function fnHotDeal(kwrd) {
+	var frm = $("#frmSearch");
+	frm.attr("action", "<c:url value='/goods/list'/>");
+	frm.attr("method", "get");
+	frm.find("input[name='keyword']").val(encodeURI(kwrd));
+	frm.find("input[name='category']").val("H");
+	frm.submit();
 }
 
 function fnLiveView(url, title, desc) {
@@ -108,6 +118,7 @@ function fnLiveView(url, title, desc) {
 
 <form id="frmSearch" name="frmSearch">
 	<input type="hidden" id="keyword" name="keyword">
+	<input type="hidden" id="category" name="category">
 </form>
 
 <form id="frmList" name="frmList" action="<c:url value='/goods/detail'/>">
@@ -121,7 +132,7 @@ function fnLiveView(url, title, desc) {
     <div class="tx1"><spring:message code='intro.main.title'/></div>
     <div class="tx2">Self-made package tour - <em><img src="/images/com/logo.png"  alt=""/></em></div>
     <div class="msearch_box">
-      <div class="icon"><img src="/images/com/search_icon.png" id="imgSearch" alt=""/></div>
+      <div class="icon"><img src="/images/com/search_icon.png" id="imgSearch" alt="" style="cursor:pointer;"/></div>
       <input type="text" placeholder="<spring:message code='intro.main.placeholder1'/>" id="txtKeyword" class="pc_view">
       <input type="text" placeholder="<spring:message code='intro.main.placeholder2'/>" class="mobile_view" id="txtKeyword2">
     </div>
@@ -155,16 +166,16 @@ function fnLiveView(url, title, desc) {
     <div class="inner2">
       <ul>
         <li>
-          <div class="left_icon" onclick="go_01_01_01();"><img src="<c:url value='/images/main/main_a_01.png'/>" alt=""/></div>
-          <div class="right_txt"><spring:message code='intro.main.msg1'/></div>
+          <div class="left_icon" onclick="go_01_01_01();" style="cursor:pointer;"><img src="<c:url value='/images/main/main_a_01.png'/>" alt=""/></div>
+          <div class="right_txt" onclick="go_01_01_01();" style="cursor:pointer;"><spring:message code='intro.main.msg1'/></div>
         </li>
         <li>
-          <div class="left_icon" onclick="go_02_01_01();"><img src="<c:url value='/images/main/main_a_02.png'/>" alt=""/></div>
-          <div class="right_txt"><spring:message code='intro.main.msg2'/></div>
+          <div class="left_icon" onclick="go_02_01_01();" style="cursor:pointer;"><img src="<c:url value='/images/main/main_a_02.png'/>" alt=""/></div>
+          <div class="right_txt" onclick="go_02_01_01();" style="cursor:pointer;"><spring:message code='intro.main.msg2'/></div>
         </li>
         <li>
-          <div class="left_icon" onclick="go_03_01_01();"><img src="<c:url value='/images/main/main_a_03.png'/>" alt=""/></div>
-          <div class="right_txt"><spring:message code='intro.main.msg3'/></div>
+          <div class="left_icon" onclick="go_03_01_01();" style="cursor:pointer;"><img src="<c:url value='/images/main/main_a_03.png'/>" alt=""/></div>
+          <div class="right_txt" onclick="go_03_01_01();" style="cursor:pointer;"><spring:message code='intro.main.msg3'/></div>
         </li>
       </ul>
     </div>
@@ -176,6 +187,8 @@ function fnLiveView(url, title, desc) {
         pagination: '.swiper-pagination',
         paginationClickable: true,
 		autoplay: 3500,
+		speed: 2000,
+		loop: true,
         nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
 		autoplayDisableOnInteraction: false
@@ -184,6 +197,8 @@ function fnLiveView(url, title, desc) {
 				pagination: '.swiper-pagination',
 				paginationClickable: true,
 				autoplay: 3500,
+				speed: 2000,
+				loop: true,
 				nextButton: '.swiper-button-next',
 		        prevButton: '.swiper-button-prev',
 				autoplayDisableOnInteraction: false
@@ -203,7 +218,7 @@ function fnLiveView(url, title, desc) {
       	<c:forEach var="list" items="${hotdeal}" varStatus="status" begin="0" end="2">
       		<div class="in0${status.index + 1}">
       		<c:if test="${list.GOODS_CODE == null}">
-		        <a href="javascript:fnDetail('${list.GOODS_CODE}', 'H');"><div class="imgover"></div><img src="/images/main/main_b0${status.index + 1}.jpg"  alt=""/></a>
+		        <a href="javascript:fnHotDeal('반딧불');"><div class="imgover"></div><img src="/images/main/main_b0${status.index + 1}.jpg"  alt=""/></a>
       		</c:if>
       		<c:if test="${list.GOODS_CODE != null}">
       			<a href="javascript:fnDetail('${list.GOODS_CODE}', 'H');"><div class="imgover"></div><img src="<c:url value='/file/getImage/'/>?file_code=${list.FILE_CODE}&file_sn=${list.FILE_SN}"  alt="" /></a>
@@ -775,7 +790,7 @@ function fnLiveView(url, title, desc) {
 	    <a href="javascript:closeWin(this, '${item.BBS_SN}');"><i class="material-icons">&#xE14C;</i></a>
 		<div class="tx"><spring:message code='intro.notice.close'/></div>
 	<div class="tx">
-	      <input type="checkbox" name="chkbox" value="checkbox">
+	      <input type="checkbox" name="chkbox" value="checkbox" style="cursor:pointer;">
 	    </div>
 			</form></div>
 		

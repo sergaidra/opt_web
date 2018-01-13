@@ -105,6 +105,8 @@ $(document).ready(function(){
 
 <style>
 .featherlight .featherlight-close-icon { color:#000000; }
+.pointer { cursor: pointer; }
+
 </style>
 
 <decorator:head />		

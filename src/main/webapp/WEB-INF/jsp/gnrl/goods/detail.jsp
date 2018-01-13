@@ -1218,11 +1218,11 @@ function googleShare() {
 		  	<img src="/images/com/recom.png" alt=""/>
 		  	</c:if>
 		  </div>
-			<div class="hit_box" <c:if test="${esntl_id != null}"> onclick="addWish('${result.GOODS_CODE}', this);"</c:if>>
+			<div class="hit_box" style="cursor:pointer;" <c:if test="${esntl_id != null}"> onclick="addWish('${result.GOODS_CODE}', this);"</c:if>>
 				<i class="material-icons" <c:if test="${result.BKMK == 'Y'}">style="color:#ff6600;" wish="Y"</c:if>>favorite</i><span>${wish_count}</span>
 			</div>
           <div class="share_box"> <a  href="#" data-featherlight="#share"><i class="material-icons">&#xE80D;</i> </a></div>
-          <div class="qa_btn"><a href="javascript:viewOpinion('');">1:1문의하기</a></div>
+          <div class="qa_btn"><a href="javascript:viewOpinion('');">문의하기</a></div>
           <!-- Swiper -->
           <div class="swiper-container">
             <div class="swiper-wrapper">
@@ -1404,7 +1404,7 @@ function googleShare() {
           <div class="tab_box">
             <ul>
               <li class="on tab_btn1">후기(<span id="spnReviewCount"></span>건)</li>
-              <li class="off tab_btn2">1:1문의하기</li>
+              <li class="off tab_btn2">문의하기</li>
             </ul>
           </div>
           <!--//탭-->
@@ -1458,15 +1458,15 @@ function googleShare() {
           <div class="tab_box">
             <ul>
               <li class="off tab_btn1">후기(<span id="spnReviewCount2"></span>건)</li>
-              <li class="on tab_btn2">1:1문의하기</li>
+              <li class="on tab_btn2">문의하기</li>
             </ul>
           </div>
           <!--//탭-->
           <div class="title_box">
-            <div class="title tw_500">1:1문의하기</div>
+            <div class="title tw_500">문의하기</div>
             <div class="star_um">총<em><span id="spnOpinionCount"></span>명</em></div>
             <a  href="javascript:viewOpinion('');">
-            <input type="button" class="btn" value="1:1문의하기">
+            <input type="button" class="btn" value="문의하기">
             </a> </div>
           <div class="tb_01_box"> 
             <!--pc 테블릿 일때 -->
@@ -1582,7 +1582,7 @@ function googleShare() {
 				<div class="input_box">
 					<div class="tx1">시간</div>
 					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p" id="cmbTime">
+						<select class="w_100p pointer" id="cmbTime">
 							<option value="">시간선택</option>
 							<c:forEach var="list" items="${lstTime}" varStatus="status">
 								<option value="${list.TOUR_TIME}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~ ${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</option>
@@ -1599,7 +1599,7 @@ function googleShare() {
 					</c:if>
 					<div class="tx1"><c:out value="${optionNm}" /></div>
 					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p" id="cmbNmpr_P">
+						<select class="w_100p pointer" id="cmbNmpr_P">
 							<option value=""><c:out value="${optionNm}" />선택</option>
 							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
 								<c:if test="${list.SETUP_SE == 'P'}">
@@ -1612,7 +1612,7 @@ function googleShare() {
 					<c:if test="${V_cnt > 0}">
 					<div class="tx1"></div>
 					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p" id="cmbNmpr_V">
+						<select class="w_100p pointer" id="cmbNmpr_V">
 							<option value="">옵션선택</option>
 							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
 								<c:if test="${list.SETUP_SE == 'V'}">
@@ -1629,7 +1629,7 @@ function googleShare() {
 				<div class="input_box">
 					<div class="tx1">객실선택</div>
 					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p" id="cmbRoom">
+						<select class="w_100p pointer" id="cmbRoom">
 							<option value="">객실선택</option>
 							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
 								<c:if test="${list.SETUP_SE == 'R'}">
@@ -1644,7 +1644,7 @@ function googleShare() {
 				<div class="input_box">
 					<div class="tx1">옵션선택</div>
 					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p" id="cmbEat">
+						<select class="w_100p pointer" id="cmbEat">
 							<option value="">옵션선택</option>
 							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
 								<c:if test="${list.SETUP_SE == 'E'}">
@@ -1660,7 +1660,7 @@ function googleShare() {
 				<div class="input_box">
 					<div class="tx1"></div>
 					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p" id="cmbNmpr_S">
+						<select class="w_100p pointer" id="cmbNmpr_S">
 							<option value=""><c:out value="${optionNm}" />선택</option>
 							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
 								<c:if test="${list.SETUP_SE == 'P'}">
@@ -1676,7 +1676,7 @@ function googleShare() {
 				<div class="input_box">
 					<div class="tx1"></div>
 					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p" id="cmbCheck">
+						<select class="w_100p pointer" id="cmbCheck">
 							<option value="">선택</option>
 							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
 								<c:if test="${list.SETUP_SE == 'C'}">
@@ -1703,7 +1703,7 @@ function googleShare() {
 				<div class="tx2" id="totalprice"></div>
 				<div class="icon"><img id="imgSale" src="/images/sub/icon_sale.png" alt="" style="display:none;"/> </div>
 			</div>
-        	<div class="btn_box" id="reservation">예약하기</div>
+        	<div class="btn_box" id="reservation" style="cursor:pointer;">예약하기</div>
       	</div>
     </div>
   </div>

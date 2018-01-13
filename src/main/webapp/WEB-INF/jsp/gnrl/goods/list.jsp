@@ -27,7 +27,7 @@ $(function(){
 		        dataType : "json",
 		        async: "true",
 		        contentType: "application/json; charset=utf-8",
-		        data : JSON.stringify({ "hidUpperClCode" : upper_cl_code } ),
+		        data : JSON.stringify({ "hidUpperClCode" : upper_cl_code, "keyword" : "${keyword}" } ),
 		        //data : "hidUpperClCode=00411",
 		        success : function(data,status,request){
 					var search = $("#pan").clone();

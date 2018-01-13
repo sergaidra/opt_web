@@ -1,5 +1,6 @@
 package kr.co.siione.gnrl.goods.web;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,7 +92,7 @@ public class GoodsController {
           	HashMap map = new HashMap();
         	UserUtils.log("[goods_list]param:", param);
 
-        	String keyword = UserUtils.nvl(param.get("keyword"));
+        	String keyword = URLDecoder.decode(UserUtils.nvl(param.get("keyword")), "UTF-8");
         	String category = UserUtils.nvl(param.get("category"));
         	if("".equals(category))
         		category = "S";
@@ -160,12 +161,14 @@ public class GoodsController {
     public @ResponseBody Map getClInfo(@RequestBody HashMap param) throws Exception {
       	HashMap map = new HashMap();
     	String hidUpperClCode = UserUtils.nvl(param.get("hidUpperClCode"));  // 선택한 여러개의 분류
+    	String keyword = UserUtils.nvl(param.get("keyword"));  // 검색어
     	if("H".equals(hidUpperClCode) || "R".equals(hidUpperClCode)) {	// 핫딜이나 추천일때
         	map.put("upper_cl_code", hidUpperClCode);  
     	} else {
         	// 상세 분류목록
         	map.put("upper_cl_code", hidUpperClCode);  
     	}
+    	map.put("keyword", keyword);
     	System.out.println("[상세 분류목록]map:"+map);
     	List<HashMap> tourClList = goodsService.getUpperTourClList(map);
     	

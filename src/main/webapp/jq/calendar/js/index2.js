@@ -148,7 +148,7 @@
 						}
 					}
 					if(isOk == true)
-						str += '<td><i style="color:' + color + ';">'+days[key]+'</i></td>';
+						str += '<td style="cursor:pointer;"><i style="color:' + color + ';">'+days[key]+'</i></td>';
 					else
 						str += '<td class="disabled stop"><i class="disabled stop">'+days[key]+'</i></td>';
 				}
