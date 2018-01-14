@@ -176,7 +176,7 @@ function fnSearch(obj, isNext) {
 				$(item).attr("id", "");
 				
 				if(data.list[cnt].HOTDEAL_AT == "Y")
-					$(item).find("span[name='cf_reprsnt_amount']").text(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT * data.list[cnt].DSCNT_RATE));
+					$(item).find("span[name='cf_reprsnt_amount']").text(numberWithCommas(Math.round(data.list[cnt].CF_REPRSNT_AMOUNT * data.list[cnt].DSCNT_RATE)));
 				else
 					$(item).find("span[name='cf_reprsnt_amount']").text(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT));
               	<c:if test="${pageContext.response.locale.language == 'en'}">
