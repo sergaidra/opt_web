@@ -1,0 +1,43 @@
+	<div style="float:left; width:100%; border-bottom: 1px solid #ccc;">
+		<div style="float:left; width:100%;  box-sizing: border-box; padding-bottom: 10px; margin-bottom: 10px;  padding: 20px 20px 20px 0px;">
+			<div style="float:left; width:150px; text-align: center;">
+				<div style="background: url(http://${webserverdomain}/file/getImage/?file_code=${file_code}); width:150px; height: 130px;  background-size: cover !important; background-position: center center !important;"></div>
+			</div>
+			<div style="float:left; width:calc(100% - 170px); padding-left:20px;">
+				<div style="float:left; width:100%; font-size: 13px; color: #FF5F00; margin-bottom: 5px;">
+							${date}
+				</div>
+				<div style="float:left; width:100%; font-size: 15px; color: #000; margin-bottom:10px;">${goods_nm}</div>
+				<div style="float:left; width:100%; font-size: 13px; color: #666; margin-bottom:3px; line-height: 16px;">
+							${options}
+				</div>					
+				<div style="float:left; width:100%; font-size: 14px; color: #333; text-align: left; margin-top: 10px;"><em style="font-size: 20px; color: #ff6600; font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; margin-right: 5px;">${item_amount}</em>원  </div>
+            </div>
+            <div style="float:left; width:100%;">
+                <table style="width:100%!important; ; float:left; border-collapse: collapse; box-sizing: border-box;">
+                    <colgroup>
+                        <col width="18%">
+                        <col width="">
+                    </colgroup>
+                    <tbody style="box-sizing: border-box;">
+                    <tr style="box-sizing: border-box; display:${pickup_place_display};">
+                        <th style="border: none;  color: #000; padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative; text-align: left;">픽업장소</th>
+                        <td style="border: none;  padding:10px 0px 10px 0px ; box-sizing: border-box; font-size: 13px; position: relative;">${pickup_place}</td>
+                    </tr>
+                    <tr style="box-sizing: border-box; display:${drop_place_display};">
+                        <th style="border: none;  color: #000; padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative; text-align: left;">드랍장소</th>
+                        <td style="border: none; padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative;">${drop_place}</td>
+                    </tr>
+                    <tr style="box-sizing: border-box; display:${use_nmpr_display};">
+                        <th style="border: none;  color: #000; padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative; text-align: left;">이용 인원</th>
+                        <td style="border: none; padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative;">${use_nmpr}</td>
+                    </tr>
+                    <tr style="box-sizing: border-box; display:${use_pd_display};">
+                        <th style="border: none;  color: #000; padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative; text-align: left;">이용 기간</th>
+                        <td style="border: none; padding:10px 0px 10px 0px ; border-left:none; box-sizing: border-box; font-size: 13px; position: relative;">${use_pd}</td>
+                    </tr>
+                    </tbody>
+                </table>                                
+            </div>
+		</div>	
+	</div>

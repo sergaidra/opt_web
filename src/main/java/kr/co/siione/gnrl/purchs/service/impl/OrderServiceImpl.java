@@ -54,9 +54,9 @@ public class OrderServiceImpl implements OrderService {
 		orderDAO.setFlight(map);
 	}
 	
-	private String getMailHtml() {
+	private String getHtml(String filename) {
 		StringBuilder builder = new StringBuilder();
-		org.springframework.core.io.Resource resource = new ClassPathResource("html/mail.htm"); 
+		org.springframework.core.io.Resource resource = new ClassPathResource("html/" + filename); 
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
 			String line = null;
@@ -85,12 +85,100 @@ public class OrderServiceImpl implements OrderService {
 		Map<String, Object> attachMap = new HashMap<String, Object>();
 		attachMap.put("images", new ArrayList());
 		String subject = "원패스투어 결제내역입니다.";
-		String content = getMailHtml();
+		String content = getHtml("mail.htm");
+		String order = getHtml("order.htm");
+		String orderitem = getHtml("orderitem.htm");
+		String orderlist = "";
+		
+		List<HashMap> lstCartPurchs = getCartPurchsList(map);		
+			for(int i = 0; i < lstCartPurchs.size(); i++) {
+				map.put("cart_sn", lstCartPurchs.get(i).get("CART_SN"));
+				HashMap mapCart = getCartDetail(map);
+				String str = orderitem;
+				String date = "";
+				String options = "";
+				
+				if(mapCart.get("TOUR_DE") != null && !"".equals(String.valueOf(mapCart.get("TOUR_DE")))) {
+					String tour_de = String.valueOf(mapCart.get("TOUR_DE"));
+					date = String.format("%s년 %s월 %s일", tour_de.substring(0, 4), tour_de.substring(4, 6), tour_de.substring(6, 8));
+				} else {
+					String chkin_de = String.valueOf(mapCart.get("CHKIN_DE"));
+					String chckt_de = String.valueOf(mapCart.get("CHCKT_DE"));
+					date = String.format("%s년 %s월 %s일 ~ %s년 %s월 %s일", chkin_de.substring(0, 4), chkin_de.substring(4, 6), chkin_de.substring(6, 8), chckt_de.substring(0, 4), chckt_de.substring(4, 6), chckt_de.substring(6, 8));
+				}
+				
+				if("S".equals(String.valueOf(mapCart.get("CL_SE")))) {
+					List<HashMap> lstOption = (List<HashMap>)mapCart.get("OPTIONS");
+					for(int j = 0; j < lstOption.size(); j++) {
+						options += String.format("%s %s<br>", lstOption.get(j).get("SETUP_NM"), lstOption.get(j).get("NMPR_CND"));
+					}
+				} else {
+					String begin_time = String.valueOf(mapCart.get("BEGIN_TIME"));
+					String end_time = String.valueOf(mapCart.get("END_TIME"));
+					options = String.format("%s시 %s분 ~ %s시 %s분", begin_time.substring(0, 2), begin_time.substring(2, 4), end_time.substring(0, 2), end_time.substring(2, 4));
+					List<HashMap> lstOption = (List<HashMap>)mapCart.get("OPTIONS");
+					for(int j = 0; j < lstOption.size(); j++) {
+						options += String.format("%s %s명<br>", lstOption.get(j).get("NMPR_CND"), lstOption.get(j).get("NMPR_CO"));
+					}
+				}
+
+				str = str.replaceAll("[$]\\{webserverdomain\\}", webserverdomain);
+				str = str.replaceAll("[$]\\{file_code\\}", String.valueOf(mapCart.get("FILE_CODE")));
+				str = str.replaceAll("[$]\\{goods_nm\\}", String.valueOf(mapCart.get("GOODS_NM")));
+				str = str.replaceAll("[$]\\{date\\}", date);
+				str = str.replaceAll("[$]\\{options\\}", options);
+				str = str.replaceAll("[$]\\{item_amount\\}", String.format("%,d", Integer.valueOf(String.valueOf(mapCart.get("ORIGIN_AMOUNT")))));
+				
+				if(lstCartPurchs.get(i).get("PICKUP_PLACE") != null && !"".equals(String.valueOf(lstCartPurchs.get(i).get("PICKUP_PLACE")))) {
+					str = str.replaceAll("[$]\\{pickup_place\\}", String.valueOf(lstCartPurchs.get(i).get("PICKUP_PLACE")));
+					str = str.replaceAll("[$]\\{pickup_place_display\\}", "block");
+				} else {
+					str = str.replaceAll("[$]\\{pickup_place\\}", "");
+					str = str.replaceAll("[$]\\{pickup_place_display\\}", "none");
+				}
+				if(lstCartPurchs.get(i).get("DROP_PLACE") != null && !"".equals(String.valueOf(lstCartPurchs.get(i).get("DROP_PLACE")))) {
+					str = str.replaceAll("[$]\\{drop_place\\}", String.valueOf(lstCartPurchs.get(i).get("DROP_PLACE")));
+					str = str.replaceAll("[$]\\{drop_place_display\\}", "block");
+				} else {
+					str = str.replaceAll("[$]\\{drop_place\\}", "");
+					str = str.replaceAll("[$]\\{drop_place_display\\}", "none");
+				}
+				if(lstCartPurchs.get(i).get("USE_NMPR") != null && !"".equals(String.valueOf(lstCartPurchs.get(i).get("USE_NMPR")))) {
+					str = str.replaceAll("[$]\\{use_nmpr\\}", String.valueOf(lstCartPurchs.get(i).get("USE_NMPR")));
+					str = str.replaceAll("[$]\\{use_nmpr_display\\}", "block");
+				} else {
+					str = str.replaceAll("[$]\\{use_nmpr\\}", "");
+					str = str.replaceAll("[$]\\{use_nmpr_display\\}", "none");
+				}
+				if(lstCartPurchs.get(i).get("USE_PD") != null && !"".equals(String.valueOf(lstCartPurchs.get(i).get("USE_PD")))) {
+					str = str.replaceAll("[$]\\{use_pd\\}", String.valueOf(lstCartPurchs.get(i).get("USE_PD")));
+					str = str.replaceAll("[$]\\{use_pd_display\\}", "block");
+				} else {
+					str = str.replaceAll("[$]\\{use_pd\\}", "");
+					str = str.replaceAll("[$]\\{use_pd_display\\}", "none");
+				}
+				orderlist += str;
+			}		
+		
+		order = order.replaceAll("[$]\\{orderitem\\}", orderlist);
+		
+		int saleAmount = Integer.valueOf(String.valueOf(map.get("real_setle_amount"))) - Integer.valueOf(String.valueOf(map.get("tot_setle_amount")));
+		order = order.replaceAll("[$]\\{tourist_nm\\}", String.valueOf(map.get("tourist_nm")));
+		order = order.replaceAll("[$]\\{tourist_cttpc\\}", String.valueOf(map.get("tourist_cttpc")));
+		order = order.replaceAll("[$]\\{kakao_id\\}", String.valueOf(map.get("kakao_id")));
+		order = order.replaceAll("[$]\\{origin_amount\\}", String.format("%,d", Integer.valueOf(String.valueOf(map.get("real_setle_amount")))));
+		order = order.replaceAll("[$]\\{sale_amount\\}", String.format("%,d", saleAmount));
+		order = order.replaceAll("[$]\\{purchs_amount\\}", String.format("%,d", Integer.valueOf(String.valueOf(map.get("tot_setle_amount")))));
+		order = order.replaceAll("[$]\\{webserverdomain\\}", webserverdomain);
+		order = order.replaceAll("[$]\\{purchs_sn\\}", String.valueOf(purchs_sn));		
+		
 		content = content.replaceAll("[$]\\{webserverip\\}", webserverip);
 		content = content.replaceAll("[$]\\{webserverdomain\\}", webserverdomain);		
 		content = content.replaceAll("[$]\\{title\\}", "결제내역입니다.");
-		content = content.replaceAll("[$]\\{title2\\}", "");
-		content = content.replaceAll("[$]\\{contents\\}", "일정표를 보려면 <a href='http://" + webserverip + "/purchs/OrderInfo?purchs_sn=" + purchs_sn + "' target='_blank'>[여기]</a>를 클릭하세요.");
+		content = content.replaceAll("[$]\\{title2\\}", "");		
+		content = content.replaceAll("[$]\\{contents\\}", order);
+		
+		//content = content.replaceAll("[$]\\{contents\\}", "일정표를 보려면 <a href='http://" + webserverip + "/purchs/OrderInfo?purchs_sn=" + purchs_sn + "' target='_blank'>[여기]</a>를 클릭하세요.");
 		
 		//map.put("email", "leeyikw@gmail.com");		
 		if(map.get("email") != null && !"".equals(String.valueOf(map.get("email"))))
