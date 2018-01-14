@@ -132,7 +132,12 @@ function orderInfo() {
 }
 
 function orderCancel() {
-	$.featherlight('/purchs/popupCancel?purchs_sn=${purchs_sn}' + '&callback=saveComplete', {});
+	if("${purchs.ISCANCEL}" == "Y")
+		$.featherlight('/purchs/popupCancel?purchs_sn=${purchs_sn}' + '&callback=saveComplete', {});
+	else {
+		alert("14일 이내에는 취소할 수 없습니다.");
+		return;
+	}
 }
 
 </script>
@@ -395,7 +400,7 @@ function orderCancel() {
           </div>
           <div class="stext">입금예정일</div>
           <div class="div_com"> 2016년 01월 27일 까지미입금 시 자동 취소 처리 됩니다. </div>
-          <div class="stext">환불계좌정보</div>
+          <!-- <div class="stext">환불계좌정보</div>
           <div class="div_com">
             <div class="tb_04_box">
               <table  class="tb_01">
@@ -421,8 +426,8 @@ function orderCancel() {
                 </tbody>
               </table>
             </div>
-          </div>
-        </div>
+          </div>-->
+        </div> 
       </div>
   
   </div>
@@ -455,8 +460,13 @@ function orderCancel() {
 			<c:if test="${purchs_sn == null}">
 				<div class="btn_buy" onclick="addAction();" style="cursor:pointer;">결제하기</div>
 			</c:if>    
-			<c:if test="${purchs_sn != null && purchs.ISCANCEL == 'Y'}">
-				<div class="btn_buy" onclick="orderCancel();" style="cursor:pointer;">취소하기</div>
+			<c:if test="${purchs_sn != null}">
+				<c:if test="${purchs.ISCANCEL == 'Y'}">
+					<div class="btn_buy" onclick="orderCancel();" style="cursor:pointer;">취소하기</div>
+				</c:if>
+				<c:if test="${purchs.ISCANCEL != 'Y'}">
+					<div class="btn_buy" onclick="orderCancel();" style="cursor:not-allowed; background-color:#333;">취소하기</div>
+				</c:if>
 			</c:if>    
 			<!-- <div class="btn_buy" onclick="orderCancel();" style="cursor:pointer;">취소하기</div> -->
 		</div>
