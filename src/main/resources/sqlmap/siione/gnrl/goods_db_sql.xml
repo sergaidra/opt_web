@@ -389,7 +389,7 @@
 		 ORDER BY BEGIN_DE ASC
 	</select>
 
-	<select id="gnrl.goods.selectGoodsNmprList" parameterClass="hashMap" resultClass="hashMap">
+	<select id="gnrl.goods.selectGoodsNmprList" parameterClass="hashMap" resultClass="hashMap"> 
 		SELECT GN.GOODS_CODE
 		     , GN.SETUP_SE
 		     , GN.NMPR_SN
@@ -397,7 +397,7 @@
 		     , GN.FIXED_AT
 		     , GN.SETUP_AMOUNT
 		     , GN.SETUP_RATE
-		     , GN.NMPR_CO
+		     , NVL(GN.NMPR_CO, 1) AS NMPR_CO
 		     , GN.MAX_NMPR_CO
 		     , GN.ADIT_NMPR_AMOUNT
 		     , NVL(GN.DSCNT_RATE, 1) AS DSCNT_RATE
@@ -419,7 +419,7 @@
 		     , GN.FIXED_AT
 		     , GN.SETUP_AMOUNT
 		     , GN.SETUP_RATE
-		     , GN.NMPR_CO
+		     , NVL(GN.NMPR_CO, 1) AS NMPR_CO
 		     , GN.MAX_NMPR_CO
 		     , GN.ADIT_NMPR_AMOUNT
 		     , NVL(GN.DSCNT_RATE, 1) AS DSCNT_RATE

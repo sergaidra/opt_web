@@ -262,8 +262,8 @@ $(function() {
 			item.text = $("#cmbNmpr_P option:selected").text();
 			item.nmpr_cnt = item.nmpr_co;
 			
-			if(item.fixed_at == "Y")
-				item.nmpr_cnt = 1;
+			//if(item.fixed_at == "Y")
+			//	item.nmpr_cnt = 1;
 			
 			optionInfo.nmpr_P.push(item);					
 		}
@@ -289,8 +289,8 @@ $(function() {
 			item.text = $("#cmbNmpr_V option:selected").text();
 			item.nmpr_cnt = item.nmpr_co;
 			
-			if(item.fixed_at == "Y")
-				item.nmpr_cnt = 1;
+			//if(item.fixed_at == "Y")
+			//	item.nmpr_cnt = 1;
 			
 			optionInfo.nmpr_V.push(item);					
 		}
@@ -637,6 +637,10 @@ function plusRoom(nmpr_sn) {
 }
 
 function minusRoom(nmpr_sn) {
+	if(optionInfo.room.nmpr_cnt == optionInfo.room.nmpr_co) {
+		alert("최소 " + optionInfo.room.nmpr_co + optionInfo.room.unit_nm + " 입니다.");
+		return;
+	}
 	optionInfo.room.nmpr_cnt--;
 	if(optionInfo.room.nmpr_cnt == 0)
 		removeRoom();
@@ -697,6 +701,10 @@ function minusOption(nmpr_sn, mode) {
 
 	for(var cnt = 0; cnt < lst.length; cnt++) {
 		if(lst[cnt].nmpr_sn == nmpr_sn) {
+			if(lst[cnt].nmpr_cnt == lst[cnt].nmpr_co) {
+				alert("최소 " + lst[cnt].nmpr_co + lst[cnt].unit_nm + " 입니다.");
+				return;
+			}
 			lst[cnt].nmpr_cnt--;
 			if(lst[cnt].nmpr_cnt == 0)
 				lst.splice(cnt, 1);
