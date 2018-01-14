@@ -30,7 +30,7 @@
 <body>
 <div id="wrap" class="mail_box">
 	<div class="head_box"><img src="<c:url value='/images/mail/mail_a_01.jpg'/>" width="223" height="53" alt=""/>
-		<div class="go_btn"><a href="javascript:savePDF();" class="btnst1">저장하기</a><a href="javascript:window.print();" class="btnst2">인쇄하기</a></div>
+		<div class="go_btn"><a href="javascript:savePDF();" class="btnst1">저장하기</a><!-- <a href="javascript:window.print();" class="btnst2">인쇄하기</a> --></div>
 	</div>
 	<div class="tb_box ">
 		<c:forEach var="flight" items="${lstFlight}">
@@ -221,18 +221,30 @@
 	</c:forEach>	
  
 </div>
-<div id="blankImage" style="width:100%; height:10px; background:white;">
+<div id="blankImageBottom" style="width:900px; height:50px; margin: 0 auto; box-sizing: border-box; background:white; border-top:10px solid #ff6600;">
+</div>
+<div id="blankImageTop" style="width:900px; height:50px; margin: 0 auto; box-sizing: border-box; background:white; border-bottom:10px solid #ff6600;">
 </div>
 <!-- //본문 -->
 <script>
-var blankImage = null;
+var blankImageBottom = null;
+var blankImageTop = null;
 var blankWidth = null;
 var blankHeight = null;
-html2canvas(document.getElementById("blankImage"), {
+html2canvas(document.getElementById("blankImageBottom"), {
 	  onrendered: function(canvas) {
-		  blankImage = canvas.toDataURL('image/png');
+		  blankImageBottom = canvas.toDataURL('image/png');
 		  blankWidth = canvas.width;
 		  blankHeight = canvas.height;
+		  document.getElementById("blankImageBottom").style.display = "none";
+	  }
+});
+html2canvas(document.getElementById("blankImageTop"), {
+	  onrendered: function(canvas) {
+		  blankImageTop = canvas.toDataURL('image/png');
+		  //blankWidth = canvas.width;
+		  //blankHeight = canvas.height;
+		  document.getElementById("blankImageTop").style.display = "none";
 	  }
 });
 
@@ -245,8 +257,10 @@ function savePDF() {
 			    var padding = 10;
 			     
 			    var imgWidth = 210; // 이미지 가로 길이(mm) A4 기준
+			    var blankImgWidth = 210;
 			    var pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
 			    var imgHeight = canvas.height * imgWidth / canvas.width;
+			    var blankImgHeight = blankHeight * blankImgWidth / blankWidth;
 			    var heightLeft = imgHeight;
 			     
 			        var doc = new jsPDF('p', 'mm');
@@ -254,17 +268,19 @@ function savePDF() {
 			         
 			        // 첫 페이지 출력
 			        doc.addImage(imgData, 'PNG', padding, padding, imgWidth - (padding * 2), imgHeight);
-			        doc.addImage(blankImage, 'PNG', 0, pageHeight - blankHeight, blankWidth, blankHeight);
-			        heightLeft -= (pageHeight - blankHeight * 3);
+			        doc.addImage(blankImageBottom, 'PNG', padding, pageHeight - padding, blankImgWidth - (padding * 2), blankImgHeight);
+			        heightLeft -= (pageHeight - blankImgHeight * 3);
 			         
 			        // 한 페이지 이상일 경우 루프 돌면서 출력
 			        while (heightLeft >= 0) {
 			          position = heightLeft - imgHeight;
 			          doc.addPage();
 			          doc.addImage(imgData, 'PNG', padding, position, imgWidth - (padding * 2), imgHeight);
-			          doc.addImage(blankImage, 'PNG', 0, 0, blankWidth, blankHeight);
-			          doc.addImage(blankImage, 'PNG', 0, pageHeight - blankHeight, blankWidth, blankHeight);
-			          heightLeft -= (pageHeight - blankHeight * 2);
+			          doc.addImage(blankImageTop, 'PNG', padding, 0, blankImgWidth - (padding * 2), blankImgHeight);
+			          heightLeft -= (pageHeight - blankImgHeight * 2);
+			          if(heightLeft >= 0) {
+				          doc.addImage(blankImageBottom, 'PNG', padding, pageHeight - padding, blankImgWidth - (padding * 2), blankImgHeight);
+			          }
 			        }
 			 
 			        // 파일 저장
