@@ -1,5 +1,7 @@
 package kr.co.siione.gnrl.mber.service.impl;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import kr.co.siione.gnrl.mber.service.LoginService;
@@ -31,6 +34,8 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Value("#{globals['server.ip']}")
 	private String webserverip;
+	@Value("#{globals['server.domain']}")
+	private String webserverdomain;
 
 
     public HashMap userInfo(HashMap map) throws Exception {
@@ -53,6 +58,20 @@ public class LoginServiceImpl implements LoginService {
         return loginDAO.getMaxEsntlId(map);
     }
     
+	private String getMailHtml() {
+		StringBuilder builder = new StringBuilder();
+		org.springframework.core.io.Resource resource = new ClassPathResource("html/mail.htm"); 
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
+			String line = null;
+            while ((line = reader.readLine()) != null)
+                builder.append(line);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return builder.toString();
+	}	
+
 	public void insertUser(HashMap map) throws Exception {
         loginDAO.insertUser(map);
         
@@ -61,8 +80,15 @@ public class LoginServiceImpl implements LoginService {
     		Map<String, Object> attachMap = new HashMap<String, Object>();
     		attachMap.put("images", new ArrayList());
     		String subject = "원패스투어 회원가입을 위한 인증메일입니다.";
-    		String content = "회원가입 인증을 하려면 <a href='http://" + webserverip + "/member/loginCert?key=" + String.valueOf(map.get("certkey")) + "' target='_blank'>[여기]</a>를 클릭하세요.";
-    		mailManager.sendMail(subject, content, String.valueOf(map.get("email")), attachMap);	
+    		String content = getMailHtml();
+    		content = content.replaceAll("[$]\\{webserverip\\}", webserverip);
+    		content = content.replaceAll("[$]\\{webserverdomain\\}", webserverdomain);		
+    		content = content.replaceAll("[$]\\{title\\}", "원패스투어 회원가입을 위한 인증메일입니다.");
+    		content = content.replaceAll("[$]\\{title2\\}", "");
+    		content = content.replaceAll("[$]\\{contents\\}", "회원가입 인증을 하려면 <a href='http://" + webserverip + "/member/loginCert?key=" + String.valueOf(map.get("certkey")) + "' target='_blank'>[여기]</a>를 클릭하세요.");
+    		
+    		//String content = "회원가입 인증을 하려면 <a href='http://" + webserverip + "/member/loginCert?key=" + String.valueOf(map.get("certkey")) + "' target='_blank'>[여기]</a>를 클릭하세요.";
+    		mailManager.sendMail(subject, content, String.valueOf(map.get("email")), attachMap);    		
         }
 	}
 
@@ -90,7 +116,13 @@ public class LoginServiceImpl implements LoginService {
 		Map<String, Object> attachMap = new HashMap<String, Object>();
 		attachMap.put("images", new ArrayList());
 		String subject = "원패스투어 비밀번호 찾기 메일입니다.";
-		String content = "비밀번호를 재설정하려면 <a href='http://" + webserverip + "/member/pwsetup?key=" + String.valueOf(map.get("certkey")) + "' target='_blank'>[여기]</a>를 클릭하세요.";
+		String content = getMailHtml();
+		content = content.replaceAll("[$]\\{webserverip\\}", webserverip);
+		content = content.replaceAll("[$]\\{webserverdomain\\}", webserverdomain);		
+		content = content.replaceAll("[$]\\{title\\}", "원패스투어 비밀번호 찾기 메일입니다.");
+		content = content.replaceAll("[$]\\{title2\\}", "");
+		content = content.replaceAll("[$]\\{contents\\}", "비밀번호를 재설정하려면 <a href='http://" + webserverip + "/member/pwsetup?key=" + String.valueOf(map.get("certkey")) + "' target='_blank'>[여기]</a>를 클릭하세요.");
+		
 		mailManager.sendMail(subject, content, String.valueOf(map.get("email")), attachMap);	
 	}
 
