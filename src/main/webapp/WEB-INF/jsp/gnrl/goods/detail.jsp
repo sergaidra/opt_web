@@ -514,10 +514,10 @@ function displayRoom() {
 			calcPrice(item, optionInfo.days);
 
 			var html = $("<div class='um_box'></div>");
-			var fl_text = $("<div class='fl_text'>" + item.text + "</div>");
+			var fl_text = $("<div class='fl_text'>" + item.text + " <i class='material-icons pointer' onclick='removeRoom();'>&#xE5CD;</i></div>");
 			var fl_total = $("<div class='fl_total'><em>" + optionInfo.days + "</em>박 <em>\\ " + numberWithCommas(item.price) + "</em></div>");
 			$(fl_text).append(fl_total);
-			var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusRoom(" + item.nmpr_sn + ");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d' onclick='plusRoom(" + item.nmpr_sn + ");'>+</div></div>");
+			var fr_updown = $("<div class='fr_updown'><div class='um_d pointer' onclick='minusRoom(" + item.nmpr_sn + ");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d pointer' onclick='plusRoom(" + item.nmpr_sn + ");'>+</div></div>");
 			
 			$(html).append(fl_text);
 			$(html).append(fr_updown);
@@ -533,10 +533,10 @@ function displayRoom() {
 			calcPrice(item, optionInfo.days);
 
 			var html = $("<div class='um_box'></div>");
-			var fl_text = $("<div class='fl_text'>" + item.text + "</div>");
+			var fl_text = $("<div class='fl_text'>" + item.text + " <i class='material-icons pointer' onclick='removeOption(" + item.nmpr_sn + ", \"E\");'>&#xE5CD;</i></div>");
 			var fl_total = $("<div class='fl_total'><em>" + item.nmpr_cnt + "</em>인 <em>" + optionInfo.days + "</em>식 <em>\\ " + numberWithCommas(item.price) + "</em></div>");
 			$(fl_text).append(fl_total);
-			var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusOption(" + item.nmpr_sn + ", \"E\");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d' onclick='plusOption(" + item.nmpr_sn + ", \"E\");'>+</div></div>");
+			var fr_updown = $("<div class='fr_updown'><div class='um_d pointer' onclick='minusOption(" + item.nmpr_sn + ", \"E\");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d pointer' onclick='plusOption(" + item.nmpr_sn + ", \"E\");'>+</div></div>");
 
 			$(html).append(fl_text);
 			$(html).append(fr_updown);
@@ -552,10 +552,10 @@ function displayRoom() {
 			calcPrice(item, 1);
 			
 			var html = $("<div class='um_box'></div>");
-			var fl_text = $("<div class='fl_text'>" + item.text + "</div>");
+			var fl_text = $("<div class='fl_text'>" + item.text + " <i class='material-icons pointer' onclick='removeOption(" + item.nmpr_sn + ", \"S\");'>&#xE5CD;</i></div>");
 			var fl_total = $("<div class='fl_total'><em>" + item.nmpr_cnt + "</em>" + item.unit_nm + " <em>\\ " + numberWithCommas(item.price) + "</em></div>");
 			$(fl_text).append(fl_total);
-			var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusOption(" + item.nmpr_sn + ", \"S\");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d' onclick='plusOption(" + item.nmpr_sn + ", \"S\");'>+</div></div>");
+			var fr_updown = $("<div class='fr_updown'><div class='um_d pointer' onclick='minusOption(" + item.nmpr_sn + ", \"S\");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d pointer' onclick='plusOption(" + item.nmpr_sn + ", \"S\");'>+</div></div>");
 
 			$(html).append(fl_text);
 			$(html).append(fr_updown);
@@ -571,13 +571,13 @@ function displayRoom() {
 			calcPrice(item, 1);
 			
 			var html = $("<div class='um_box'></div>");
-			var fl_text = $("<div class='fl_text'>" + item.text + "</div>");
+			var fl_text = $("<div class='fl_text'>" + item.text + " <i class='material-icons pointer' onclick='removeCheck(" + item.nmpr_sn + ");'>&#xE5CD;</i></div>");
 			var fl_total = $("<div class='fl_total'><em></em> <em>\\ " + numberWithCommas(item.price) + "</em></div>");
 			$(fl_text).append(fl_total);
-			var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeCheck(" + item.nmpr_sn + ");'>-</div></div>");
+			//var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeCheck(" + item.nmpr_sn + ");'>-</div></div>");
 
 			$(html).append(fl_text);
-			$(html).append(fr_updown);
+			//$(html).append(fr_updown);
 			
 			$("#purchInfo").append($(html));
 			totalprice += item.price;
@@ -709,6 +709,28 @@ function minusOption(nmpr_sn, mode) {
 		displayNmpr();
 }
 
+function removeOption(nmpr_sn, mode) {
+	var lst = null;
+	
+	if(mode == "E")
+		lst = optionInfo.eat;
+	else if(mode == "S")
+		lst = optionInfo.nmpr_S;
+	else if(mode == "P")
+		lst = optionInfo.nmpr_P;
+	else if(mode == "V")
+		lst = optionInfo.nmpr_V;
+
+	for(var cnt = 0; cnt < lst.length; cnt++)
+		if(lst[cnt].nmpr_sn == nmpr_sn)
+			lst.splice(cnt, 1);
+	
+	if(mode == "E" || mode == "S")
+		displayRoom();
+	else
+		displayNmpr();
+}
+
 
 function displayNmpr() {
 	$("#purchInfo").empty();
@@ -721,10 +743,10 @@ function displayNmpr() {
 		calcPrice(item, 1);
 
 		var html = $("<div class='um_box'></div>");
-		var fl_text = $("<div class='fl_text'>" + item.text + "</div>");
+		var fl_text = $("<div class='fl_text'>" + item.text + " <i class='material-icons pointer' onclick='removeOption(" + item.nmpr_sn + ", \"P\");'>&#xE5CD;</i></div>");
 		var fl_total = $("<div class='fl_total'><em>" + item.nmpr_cnt + "</em>" + item.unit_nm + " <em>\\ " + numberWithCommas(item.price) + "</em></div>");
 		$(fl_text).append(fl_total);
-		var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusOption(" + item.nmpr_sn + ", \"P\");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d' onclick='plusOption(" + item.nmpr_sn + ", \"P\");'>+</div></div>");
+		var fr_updown = $("<div class='fr_updown'><div class='um_d pointer' onclick='minusOption(" + item.nmpr_sn + ", \"P\");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d pointer' onclick='plusOption(" + item.nmpr_sn + ", \"P\");'>+</div></div>");
 		
 		$(html).append(fl_text);
 		$(html).append(fr_updown);
@@ -740,10 +762,10 @@ function displayNmpr() {
 		calcPrice(item, 1);
 
 		var html = $("<div class='um_box'></div>");
-		var fl_text = $("<div class='fl_text'>" + item.text + "</div>");
+		var fl_text = $("<div class='fl_text'>" + item.text + " <i class='material-icons pointer' onclick='removeOption(" + item.nmpr_sn + ", \"V\");'>&#xE5CD;</i></div>");
 		var fl_total = $("<div class='fl_total'><em>" + item.nmpr_cnt + "</em>" + item.unit_nm + " <em>\\ " + numberWithCommas(item.price) + "</em></div>");
 		$(fl_text).append(fl_total);
-		var fr_updown = $("<div class='fr_updown'><div class='um_d' onclick='minusOption(" + item.nmpr_sn + ", \"V\");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d' onclick='plusOption(" + item.nmpr_sn + ", \"V\");'>+</div></div>");
+		var fr_updown = $("<div class='fr_updown'><div class='um_d pointer' onclick='minusOption(" + item.nmpr_sn + ", \"V\");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d pointer' onclick='plusOption(" + item.nmpr_sn + ", \"V\");'>+</div></div>");
 		
 		$(html).append(fl_text);
 		$(html).append(fr_updown);

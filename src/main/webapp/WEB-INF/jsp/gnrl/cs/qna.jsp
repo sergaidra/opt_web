@@ -238,7 +238,7 @@ function replaceBrSpace(str) {
 	<div class="sp_50 pc_view"></div>
 	 <div class="sp_20 mobile_view"></div>
     <div class="inner2"><div class="comf">
-		             <!--FAQ검색-->  <div class="bbs_search">
+		             <!--FAQ검색  <div class="bbs_search">
 			    <div class="search_text">
 			      <div class="tx1 fw_500">문의하기</div>
 				  <div class="tx2">무엇을 도와드릴까요? <br>
@@ -252,7 +252,7 @@ function replaceBrSpace(str) {
                       <option>상세분류</option>
               </select>
                      
-            </div> --><!--//기본 셀렉트 박스 -->
+            </div> 
       
           <div class="search_input w_80p"><input type="text" class="w_100p">
 	      <div class="btn"><i class="material-icons">&#xE8B6;</i></div>
@@ -260,7 +260,7 @@ function replaceBrSpace(str) {
 
                 </div>
 		 
-      </div> <!--//FAQ검색--> 
+      </div> //FAQ검색--> 
 
         <div class="bba_list_box">
           <table width="100%" cellpadding="0" cellspacing="0" class="bba_list" id="tblList">

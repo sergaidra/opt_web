@@ -12,8 +12,8 @@
 
 .mail_box .info_box{width:100% ; float: left;}
 .mail_box .info_box .title{width:100% ; float: left; font-size: 20px; color: #333; line-height: 20px;padding-bottom:5px; text-align: left}
-.mail_box .info_box .title i{ font-size:25px; color: #333; line-height: 25px; margin-right: 5px;  float: left;}
-.mail_box .info_box .title .tx{ font-size:16px; color: #666; line-height: 20px; float: left ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 400}
+.mail_box .info_box .title i{ font-size:25px; color: #333; line-height: 25px; margin-right: 5px;  float: left; width: 30px;}
+.mail_box .info_box .title .tx{width: calc(100% - 50px);float: left; font-size:16px; color: #666; line-height: 20px; float: left ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 400}
 .mail_box .info_box .title .tx em{ font-size: 20px; color: #000; line-height: 20px; float: left ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 500}
 
 .mail_box .info_box .incont{width:100% ; float: left; padding-left:30px; box-sizing: border-box; ; text-align: left;font-size: 13px; line-height: 20px; margin-bottom: 0px }

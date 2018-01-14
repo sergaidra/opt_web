@@ -107,7 +107,7 @@
 		</div>
 		<div class="sp_box1"></div>
 		<div class="title">
-			<i class="material-icons">&#xE147;</i>  <div class="tx" style="max-width:750px;"><em>${list.text} : </em> <c:out value="${fn:replace(list.options, '<br/>', ', ')}"/></div>
+			<i class="material-icons">&#xE147;</i>  <div class="tx" ><em>${list.text} : </em> <c:out value="${fn:replace(list.options, '<br/>', ', ')}"/></div>
 		</div>
 		<%-- <c:if test="${list.purchs.PICKUP_PLACE != null }">
 			<div class="sp_box1"></div>

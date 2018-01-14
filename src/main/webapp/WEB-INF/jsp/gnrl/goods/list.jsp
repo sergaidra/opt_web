@@ -183,15 +183,15 @@ function fnSearch(obj, isNext) {
 				$(item).find("span[name='cty_nm']").text(nvl(data.list[cnt].CTY_NM_ENG));
 				$(item).find("span[name='upper_cl_nm']").text(nvl(data.list[cnt].UPPER_CL_NM_ENG));
 				$(item).find("span[name='cl_nm']").text(nvl(data.list[cnt].CL_NM_ENG));
-				$(item).find("span[name='goods_nm']").text(nvl(data.list[cnt].GOODS_NM_SUB_ENG));	
-				$(item).find("span[name='goods_nm_title']").text(nvl(data.list[cnt].GOODS_NM_ENG));
+				$(item).find("div[name='goods_nm']").text(nvl(data.list[cnt].GOODS_NM_SUB_ENG));	
+				$(item).find("div[name='goods_nm_title']").text(nvl(data.list[cnt].GOODS_NM_ENG));
 				</c:if>
               	<c:if test="${pageContext.response.locale.language != 'en'}">
 				$(item).find("span[name='cty_nm']").text(nvl(data.list[cnt].CTY_NM));
 				$(item).find("span[name='upper_cl_nm']").text(nvl(data.list[cnt].UPPER_CL_NM));
 				$(item).find("span[name='cl_nm']").text(nvl(data.list[cnt].CL_NM));
-				$(item).find("span[name='goods_nm']").text(nvl(data.list[cnt].GOODS_NM_SUB));		
-				$(item).find("span[name='goods_nm_title']").text(nvl(data.list[cnt].GOODS_NM));
+				$(item).find("div[name='goods_nm']").text(nvl(data.list[cnt].GOODS_NM_SUB));		
+				$(item).find("div[name='goods_nm_title']").text(nvl(data.list[cnt].GOODS_NM));
 				</c:if>
 				$(item).find("span[name='favorite']").text("favorite_border");
 				$(item).find("input[name='goods_code']").val(data.list[cnt].GOODS_CODE);
@@ -429,8 +429,8 @@ function numberWithCommas(x) {
 	  </div>
 		<div class="fr_info">
 		  <div class="in">
-		    <div class="tx1"><span name="goods_nm"></span></div>
-			   <div class="tx2"><span name="goods_nm_title"></span></div>
+		    <div class="tx1" name="goods_nm"></div>
+			   <div class="tx2" name="goods_nm_title"></span></div>
 			   <div id="divHit" class="hit" style="z-index:999;" ><i class="material-icons">favorite</i>
 
 				   </div>

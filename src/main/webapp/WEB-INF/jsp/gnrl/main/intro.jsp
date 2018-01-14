@@ -271,10 +271,12 @@ function fnLiveView(url, title, desc) {
 		                <div class="txt_box">
 		                  <div class="title">
 		                  	<c:if test="${pageContext.response.locale.language == 'en'}">
-		                  		${list.GOODS_NM_ENG }
+								<div class="tx1">${list.GOODS_NM_SUB_ENG}</div>
+              					<div class="tx2">${list.GOODS_NM_ENG }</div>	                  	
 		                  	</c:if>
 		                  	<c:if test="${pageContext.response.locale.language != 'en'}">
-		                  		${list.GOODS_NM }
+								<div class="tx1">${list.GOODS_NM_SUB}</div>
+              					<div class="tx2">${list.GOODS_NM }</div>	                  	
 		                  	</c:if>
 		                  </div>
 		                  <div class="price">
@@ -323,10 +325,12 @@ function fnLiveView(url, title, desc) {
 		                <div class="txt_box">
 		                  <div class="title">
 		                  	<c:if test="${pageContext.response.locale.language == 'en'}">
-		                  		${list.GOODS_NM_ENG }
+								<div class="tx1">${list.GOODS_NM_SUB_ENG}</div>
+              					<div class="tx2">${list.GOODS_NM_ENG }</div>	                  	
 		                  	</c:if>
 		                  	<c:if test="${pageContext.response.locale.language != 'en'}">
-		                  		${list.GOODS_NM }
+								<div class="tx1">${list.GOODS_NM_SUB}</div>
+              					<div class="tx2">${list.GOODS_NM }</div>	                  	
 		                  	</c:if>
 		                  </div>
 		                  <div class="price">
@@ -375,10 +379,12 @@ function fnLiveView(url, title, desc) {
 		                <div class="txt_box">
 		                  <div class="title">
 		                  	<c:if test="${pageContext.response.locale.language == 'en'}">
-		                  		${list.GOODS_NM_ENG }
+								<div class="tx1">${list.GOODS_NM_SUB_ENG}</div>
+              					<div class="tx2">${list.GOODS_NM_ENG }</div>	                  	
 		                  	</c:if>
 		                  	<c:if test="${pageContext.response.locale.language != 'en'}">
-		                  		${list.GOODS_NM }
+								<div class="tx1">${list.GOODS_NM_SUB}</div>
+              					<div class="tx2">${list.GOODS_NM }</div>	                  	
 		                  	</c:if>
 		                  </div>
 		                  <div class="price">
