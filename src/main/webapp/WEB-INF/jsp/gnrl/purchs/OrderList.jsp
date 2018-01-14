@@ -119,14 +119,14 @@ function search(pageNo) {
                 		
                 		if(data.list[cnt].cartlist[cnt2].ENDDT <= today && today <= data.list[cnt].cartlist[cnt2].REVIEWDT) {
                 			if(data.list[cnt].cartlist[cnt2].EXISTREVIEW == "Y")
-                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\");' class='sbtn_01' >후기수정</a></td>");
+                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\", \"Y\");' class='sbtn_01' style='background-color:#ff6600; border:none;'>후기수정</a></td>");
                 			else
-                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\");' class='sbtn_01' >후기쓰기</a></td>");
+                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\", \"Y\");' class='sbtn_01' style='background-color:#ff6600; border:none;' >후기쓰기</a></td>");
                 		} else {
                 			if(data.list[cnt].cartlist[cnt2].EXISTREVIEW == "Y")
-                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"R\");' class='sbtn_01' >후기보기</a></td>");
+                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"R\", \"Y\");' class='sbtn_01' style='background-color:#ff6600; border:none;'>후기보기</a></td>");
                 			else                 			
-                				td6 = $("<td ></td>");
+                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"R\", \"N\");' class='sbtn_01' style='cursor:not-allowed;' >후기</a></td>");
                 		}
                 		
                 		if(cnt2 == 0) {
@@ -228,8 +228,11 @@ function search(pageNo) {
 
 }
 
-function openWriteReview(purchs_sn, cart_sn, goods_code, mode) {
-	$.featherlight('/cs/popupReview?purchs_sn=' + purchs_sn + '&cart_sn=' + cart_sn + '&goods_code=' + goods_code + '&mode=' + mode + '', {});
+function openWriteReview(purchs_sn, cart_sn, goods_code, mode, isCan) {
+	if(isCan == "Y")
+		$.featherlight('/cs/popupReview?purchs_sn=' + purchs_sn + '&cart_sn=' + cart_sn + '&goods_code=' + goods_code + '&mode=' + mode + '', {});
+	else
+		alert("후기 작성 시기가 아닙니다.");
 }
 
 function orderInfo(purchs_sn) {
@@ -348,7 +351,7 @@ function lpad(s, padLength, padString){
               <i class="material-icons">date_range</i></div>
           </div>
         </div>
-        <div class="inbox3">
+        <!-- <div class="inbox3">
           <div class="fl_t1">통합검색</div>
           <div class="fl_t2">
             <select class="w_30p">
@@ -357,10 +360,10 @@ function lpad(s, padLength, padString){
             </select>
             <input type="text"  value="" id="" class="w_60p"/>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="s_box2">
-        <div class="search_btn" id="btnSearch">조회하기</div>
+        <div class="search_btn pointer" id="btnSearch">조회하기</div>
       </div>
     </div>
     <div class="order_list">
