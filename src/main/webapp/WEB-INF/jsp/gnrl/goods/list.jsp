@@ -6,6 +6,25 @@
 
 <head>
 
+<style>
+/**** pc ****/
+@media only all and (min-width:1101px) {
+.list_box02 ul li .fr_info .in .origin{ position: absolute; right: 20px; bottom:70px; color: #999; font-size: 15px; font-weight: normal; font-family:'Noto Sans Korean', 'Noto Sans KR'; text-decoration: line-through; }
+.list_box02 ul li .fr_info .in .origin em{  font-size: 12px;; color: #999;}
+}
+
+@media all and (max-width:1100px) and (min-width:769px) {
+.list_box02 ul li .fr_info .in .origin{ position: absolute; right: 20px; bottom:60px; color: #999; font-size: 13px; font-weight: normal; font-family:'Noto Sans Korean', 'Noto Sans KR'; text-decoration: line-through; }
+.list_box02 ul li .fr_info .in .origin em{  font-size: 12px;; color: #999;}
+}
+
+/**** 모바일 ****/
+@media only all and (max-width:768px) {	
+.list_box02 ul li .fr_info .in .origin{ position: absolute; right: 10px; bottom: 50px; color: #999; font-size: 13px; font-weight: normal; font-family:'Noto Sans Korean', 'Noto Sans KR'; text-decoration: line-through; }
+.list_box02 ul li .fr_info .in .origin em{  font-size: 12px;; color: #999;}
+}
+
+</style>
 <script type="text/javascript">
 $(function(){	
 	$(".list_tab li").click(function(){
@@ -175,10 +194,14 @@ function fnSearch(obj, isNext) {
 				var item = $("#liItem").clone();
 				$(item).attr("id", "");
 				
-				if(data.list[cnt].HOTDEAL_AT == "Y")
-					$(item).find("span[name='cf_reprsnt_amount']").text(numberWithCommas(Math.round(data.list[cnt].CF_REPRSNT_AMOUNT * data.list[cnt].DSCNT_RATE)));
-				else
-					$(item).find("span[name='cf_reprsnt_amount']").text(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT));
+				if(data.list[cnt].HOTDEAL_AT == "Y") {
+					$(item).find("span[name='cf_reprsnt_amount']").text(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT));				
+					$(item).find("span[name='cf_hotdeal_amount']").text(numberWithCommas(Math.round(data.list[cnt].CF_REPRSNT_AMOUNT * data.list[cnt].DSCNT_RATE)));
+					$(item).find(".origin").show();
+				} else {
+					$(item).find("span[name='cf_hotdeal_amount']").text(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT));
+					$(item).find(".origin").hide();
+				}
               	<c:if test="${pageContext.response.locale.language == 'en'}">
 				$(item).find("span[name='cty_nm']").text(nvl(data.list[cnt].CTY_NM_ENG));
 				$(item).find("span[name='upper_cl_nm']").text(nvl(data.list[cnt].UPPER_CL_NM_ENG));
@@ -434,7 +457,8 @@ function numberWithCommas(x) {
 			   <div id="divHit" class="hit" style="z-index:999;" ><i class="material-icons">favorite</i>
 
 				   </div>
-			    <div class="total"><spring:message code='goodslist.goodsprice.msg' arguments="<span name='cf_reprsnt_amount'></span>"/></div>
+			    <div class="origin"><spring:message code='goodslist.goodsprice.msg' arguments="<span name='cf_reprsnt_amount'></span>"/></div>
+			    <div class="total"><spring:message code='goodslist.goodsprice.msg' arguments="<span name='cf_hotdeal_amount'></span>"/></div>
 		  </div>
 			<div class="ar_text"><span name="cty_nm"></span>  >  <span name="upper_cl_nm"></span>  >  <span name="cl_nm"></span></div>
         </div>
