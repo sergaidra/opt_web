@@ -3722,14 +3722,14 @@ var imageTpl = new Ext.XTemplate(
 	 '<div class="thumb-wrap" style="margin-bottom: 10px;">'
 	,'<table width="97%">'
 	,'<tpl for=".">'
-	,'{[xindex % 5 == 1 ? "<tr height=100 valign=top>" : ""]}'
-	,'<td width="20%"><img src="{FILE_URL}"/><br>{[xindex]}.{FILE_NM}'
+	,'{[xindex % 3 == 1 ? "<tr height=100 valign=top>" : ""]}'
+	,'<td width="33%"><img src="{FILE_URL}"/><br>{[xindex]}.{FILE_NM}'
 	,'<tpl if="REPRSNT_AT==\'Y\'"><font color="red"> P</font></tpl>'
 	,'<tpl if="HOTDEAL_AT==\'Y\'"><font color="blue"> H</font></tpl>'
 	,'<tpl if="RECOMEND_AT==\'Y\'"><font color="blue"> R</font></tpl>'
 	,'<tpl if="LIVEVIEW_AT==\'Y\'"><font color="green"> L</font></tpl>'
 	,'</td>'
-	,'{[xindex % 5 == 0 ? "</tr>" : ""]}'
+	,'{[xindex % 3 == 0 ? "</tr>" : ""]}'
 	,'</tpl>'
 	,'</table>'
 	,'</div>'
@@ -3738,6 +3738,7 @@ var imageTpl = new Ext.XTemplate(
 var imageView = Ext.create('Ext.view.View', {
 	store: storeFile,
 	tpl: imageTpl,
+	minHeight : 900,
 	itemSelector: 'div.thumb-wrap',
 	emptyText: '&nbsp;&nbsp;&nbsp;&nbsp;이미지가 없습니다.<br>&nbsp;&nbsp;&nbsp;'
 });
@@ -3776,6 +3777,7 @@ var filePanel = Ext.create('Ext.panel.Panel', {
 		title: '이미지 미리보기',
 		region: 'center',
 		autoScroll: true,
+		height: 700,
 		flex: 1,
 		//layout: 'border',
 		padding : '5 5 5 5',
