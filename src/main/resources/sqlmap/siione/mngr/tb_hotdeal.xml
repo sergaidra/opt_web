@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="mngr">
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="string" type="java.lang.String"/>
+
+    <insert id="HotdealDAO.insertHotdeal" parameterClass="hashMap">
+    <![CDATA[
+        INSERT INTO TB_HOTDEAL ( HOTDEAL_SN
+                               , KWRD
+                               , SORT_ORDR
+                               , FILE_CODE_L
+                               , FILE_CODE_S
+                               , USE_AT
+                               , REGIST_ID
+                               , REGIST_DT)
+                          SELECT NVL(MAX(HOTDEAL_SN), 0)+1
+                               , #KWRD#
+                               , #SORT_ORDR#
+                               , #FILE_CODE_L#
+                               , #FILE_CODE_S#
+                               , NVL(#USE_AT#, 'Y')
+                               , #REGIST_ID#
+                               , SYSDATE
+                            FROM TB_HOTDEAL
+    ]]>
+    </insert>
+
+    <update id="HotdealDAO.updateHotdeal" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_HOTDEAL
+           SET KWRD = TRIM(#KWRD#)
+             , SORT_ORDR = #SORT_ORDR#
+             , USE_AT = #USE_AT#
+             , UPDT_ID = #UPDT_ID#
+             , UPDT_DT = SYSDATE
+         WHERE HOTDEAL_SN = #HOTDEAL_SN#
+    ]]>
+    </update>
+
+    <delete id="HotdealDAO.deleteHotdeal" parameterClass="hashMap">
+    <![CDATA[
+        DELETE TB_HOTDEAL
+         WHERE HOTDEAL_SN = #HOTDEAL_SN#
+    ]]>
+    </delete>
+
+    <select id="HotdealDAO.selectHotdealByPk" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+		SELECT HOTDEAL_SN
+		     , KWRD
+		     , SORT_ORDR
+		     , FILE_CODE_L
+		     , FILE_CODE_S
+		     , '/file/getImage/'||CHR(63)||'file_code='||FILE_CODE_L||CHR(38)||'file_sn=1' AS FILE_URL_L
+		     , '/file/getImage/'||CHR(63)||'file_code='||FILE_CODE_S||CHR(38)||'file_sn=1' AS FILE_URL_S
+		     , '' FILE_NM_L
+		     , '' FILE_NM_L
+		     , USE_AT
+		     , REGIST_ID
+		     , TO_CHAR(REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+		     , UPDT_ID
+		     , TO_CHAR(UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+		  FROM TB_HOTDEAL
+		 WHERE HOTDEAL_SN = #HOTDEAL_SN#
+    ]]>
+    </select>
+
+    <select id="HotdealDAO.selectHotdealList" parameterClass="hashMap" resultClass="hashMap">
+    <![CDATA[
+		SELECT A.HOTDEAL_SN
+		     , A.KWRD
+		     , A.SORT_ORDR
+		     , A.FILE_CODE_L
+		     , A.FILE_CODE_S
+		     , '/file/getImage/'||CHR(63)||'file_code='||A.FILE_CODE_L||CHR(38)||'file_sn=1' AS FILE_URL_L
+		     , '/file/getImage/'||CHR(63)||'file_code='||A.FILE_CODE_S||CHR(38)||'file_sn=1' AS FILE_URL_S
+		     , X.FILE_NM FILE_NM_L
+		     , Y.FILE_NM FILE_NM_S
+		     , A.USE_AT
+		     , A.REGIST_ID
+		     , TO_CHAR(A.REGIST_DT, 'YYYY-MM-DD') REGIST_DT
+		     , A.UPDT_ID
+		     , TO_CHAR(A.UPDT_DT, 'YYYY-MM-DD') UPDT_DT
+		  FROM TB_HOTDEAL A
+		  LEFT OUTER JOIN TB_FILE_DETAIL X ON A.FILE_CODE_L = X.FILE_CODE AND X.FILE_SN = 1
+		  LEFT OUTER JOIN TB_FILE_DETAIL Y ON A.FILE_CODE_S = Y.FILE_CODE AND Y.FILE_SN = 1
+	]]>
+		<isNotEmpty property="USE_AT">
+		 WHERE USE_AT = #USE_AT#
+		</isNotEmpty>
+		ORDER BY SORT_ORDR
+    </select>
+
+</sqlMap>

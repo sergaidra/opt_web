@@ -14,7 +14,7 @@
                                  , WRITNG_DT )
                            VALUES( #GOODS_CODE#
                                  , (SELECT NVL(MAX(KWRD_SN), 0)+1 FROM TB_GOODS_KWRD WHERE GOODS_CODE = #GOODS_CODE#)
-                                 , #KWRD#
+                                 , TRIM(#KWRD#)
                                  , #WRITNG_ID#
                                  , SYSDATE )
     ]]>
@@ -23,7 +23,7 @@
     <update id="GoodsKwrdDAO.updateGoodsKwrd" parameterClass="hashMap">
     <![CDATA[
         UPDATE TB_GOODS_KWRD
-           SET KWRD = #KWRD#
+           SET KWRD = TRIM(#KWRD#)
          WHERE GOODS_CODE = #GOODS_CODE#
            AND KWRD_SN = #KWRD_SN#
     ]]>

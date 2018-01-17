@@ -359,8 +359,8 @@ var imageTpl = new Ext.XTemplate(
 	 '<div class="thumb-wrap" style="margin-bottom: 10px;">'
 	,'<table width="97%">'
 	,'<tpl for=".">'
-	,'{[xindex % 5 == 1 ? "<tr height=100 valign=top>" : ""]}'
-	,'<td width="20%"><img src="{IMAGE_URL}"/><br>'
+	,'{[xindex % 3 == 1 ? "<tr height=100 valign=top>" : ""]}'
+	,'<td width="33%"><img src="{IMAGE_URL}"/><br>'
 	,'<tpl if="USE_AT == \'Y\'">'
 	,'<tpl if="CF_ING == \'A\'">'
 	,'<font color="red">{[xindex]}.{IMAGE_NM_SHORT}</font>'
@@ -376,7 +376,7 @@ var imageTpl = new Ext.XTemplate(
 	,'{[xindex]}.{IMAGE_NM_SHORT}'
 	,'</tpl>'
 	, '</td>'
-	,'{[xindex % 5 == 0 ? "</tr>" : ""]}'
+	,'{[xindex % 3 == 0 ? "</tr>" : ""]}'
 	,'</tpl>'
 	,'</table>'
 	,'</div>'
@@ -394,6 +394,7 @@ var imageTpl = new Ext.XTemplate(
 var imageView = Ext.create('Ext.view.View', {
     store: storeFile,
     tpl: imageTpl,
+    height: 1500,
     itemSelector: 'div.thumb-wrap',
     emptyText: '&nbsp;&nbsp;&nbsp;&nbsp;이미지가 없습니다.<br>&nbsp;&nbsp;&nbsp;'
 });
@@ -405,7 +406,7 @@ var imagePanel = new Ext.create('Ext.panel.Panel', {
 	//layout: 'fit',
 	//autoScroll: true,
 	//width: '100%',
-	border: true,
+	//border: true,
 	///// padding: '5 5 0 0',
 	style: {
 		backgroundColor: '#FFFFFF'
@@ -437,9 +438,10 @@ Ext.onReady(function(){
 	    	region: 'center',
 	    	autoScroll: true,
 	    	width: 550,
+	    	border: true,
 	    	//flex: 1,
 			//layout: 'border',
-	    	padding : '5 5 5 5',
+	    	padding : '5 5 0 5',
 	    	style: {
 				backgroundColor: '#FFFFFF'
 			},

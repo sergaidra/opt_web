@@ -370,7 +370,7 @@ Ext.define('GoodsInfo', {
 
 var jsGoods = Ext.create('Ext.data.JsonStore', {
 	//autoLoad: true,
-	pageSize: 50,
+	pageSize: 100,
 	model: 'GoodsInfo',
 	proxy: {
 		type: 'ajax',

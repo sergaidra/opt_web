@@ -424,6 +424,7 @@ var imageTpl = new Ext.XTemplate(
 var imageView = Ext.create('Ext.view.View', {
 	store: storeFile,
 	tpl: imageTpl,
+	height: 800, 
 	padding: '10 5 0 10',
 	itemSelector: 'div.thumb-wrap',
 	emptyText: '&nbsp;&nbsp;&nbsp;&nbsp;이미지가 없습니다.<br>&nbsp;&nbsp;&nbsp;'
@@ -436,7 +437,7 @@ var imagePanel = new Ext.create('Ext.panel.Panel', {
 	//layout: 'fit',
 	//autoScroll: true,
 	//width: '100%',
-	border: true,
+	//border: true,
 	/////padding: '5 5 0 0',
 	style: {
 		backgroundColor: '#FFFFFF'
@@ -470,7 +471,8 @@ Ext.onReady(function(){
 			width: 450,
 			//flex: 1,
 			//layout: 'border',
-			padding : '5 5 5 5',
+			border: true,
+			padding : '5 5 0 5',
 			style: {
 				backgroundColor: '#FFFFFF'
 			},
