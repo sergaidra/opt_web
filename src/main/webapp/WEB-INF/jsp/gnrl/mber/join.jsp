@@ -172,7 +172,9 @@ function validation() {
 		$("#password").focus();
 		return false;
 	}
-	
+	if(!chkPwd(password)) {
+		return false;
+	}	
 	if(password != passwordchk) {
 		alert("비밀번호와 비밀번호 확인이 맞지 않습니다.")
 		return false;
@@ -182,6 +184,23 @@ function validation() {
 	//	alert("아이디 중복 확인해주세요.");
 	//	return false;
 	//}
+}
+
+function chkPwd(str){
+	var pw = str;
+	var num = pw.search(/[0-9]/g);
+	var eng = pw.search(/[a-z]/ig);
+	var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+	if(pw.search(/₩s/) != -1){
+		alert("비밀번호는 공백없이 입력해주세요.");
+		return false;
+	}
+	if(num < 0 || eng < 0 || spe < 0 ){
+		alert("영문, 숫자, 특수문자를 혼합하여 입력해주세요.");
+		return false;
+	}
+	return true;
 }
 </script>
 </head>

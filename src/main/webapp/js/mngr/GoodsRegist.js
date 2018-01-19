@@ -3822,6 +3822,8 @@ Ext.onReady(function(){
 		}
 			
 		storeGoods.load({params:{GOODS_CODE:sGoodsCode}});
+	} else {
+		comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000', DELETE_AT:'N'}});
 	}
 });
 

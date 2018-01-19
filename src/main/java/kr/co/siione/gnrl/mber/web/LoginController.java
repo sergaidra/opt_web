@@ -345,6 +345,7 @@ public class LoginController {
     @RequestMapping(value="/pwsetup")
     public String pwsearch(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		String certkey = UserUtils.nvl(request.getParameter("key"));
+        if(certkey.equals("")) response.sendRedirect("/member/login/");
 		
         model.addAttribute("certkey", certkey);
         model.addAttribute("bp", "07");

@@ -71,7 +71,7 @@ function facebookLogin() {
           <div class="idpw">
           
             <p class="input">
-              <input  id="txtID" name="txtID" type="text" placeholder="아이디"/>
+              <input  id="txtID" name="txtID" type="text" placeholder="이메일주소"/>
             </p>
           </div>
           <div class="idpw">

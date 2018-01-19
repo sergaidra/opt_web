@@ -214,7 +214,7 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 			stPurchsGoods.load();
 		},
 		celldblclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
-			fn_openPopup('/purchs/OrderInfo?purchs_sn='+record.data.PURCHS_SN, 'winOrderInfo_'+record.data.PURCHS_SN, 950, 600, true);
+			fn_openPopup('/purchs/OrderInfoAdmin?purchs_sn='+record.data.PURCHS_SN, 'winOrderInfo_'+record.data.PURCHS_SN, 950, 600, true);
 		}
 	}
 });
