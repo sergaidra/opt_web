@@ -14,7 +14,7 @@
 var DAY = 1000 * 60 * 60 * 24;
 
 $(function(){	
-	$.datetimepicker.setLocale('en');
+	$.datetimepicker.setLocale('kr');
 
 	$('.some_class').datetimepicker( {
 		format:'Y-m-d',
@@ -264,12 +264,12 @@ function numberWithCommas(x) {
 }
 
 function getDateToString(d) {
-	return String(d.getFullYear()) + lpad(String(d.getMonth() + 1), 2, "0") + lpad(String(d.getDate()), 2, "0");
+	return String(d.getFullYear()) + '-' + lpad(String(d.getMonth() + 1), 2, "0") + '-' + lpad(String(d.getDate()), 2, "0");
 }
 
 function getToday() {
 	var d = new Date();
-	return String(d.getFullYear()) + lpad(String(d.getMonth() + 1), 2, "0") + lpad(String(d.getDate()), 2, "0");
+	return String(d.getFullYear()) + '-' + lpad(String(d.getMonth() + 1), 2, "0") + '-' + lpad(String(d.getDate()), 2, "0");
 }
 
 function lpad(s, padLength, padString){

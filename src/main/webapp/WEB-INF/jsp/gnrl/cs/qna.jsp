@@ -242,7 +242,7 @@ function replaceBrSpace(str) {
       <div class="bbs_search">
         <div class="search_text">
           <div class="tx1"><i class="material-icons">&#xE8FD;</i></div>
-          <div class="tx2">1:1 문의 게시판은 회원의 전용 게시판입니다 </div>
+          <div class="tx2">문의하기 게시판은 회원의 전용 게시판입니다. </div>
         </div>
         <!-- <div class="search_in">
           <div class="search_select ">기본 셀렉트 박스 .w_100p는 사이즈

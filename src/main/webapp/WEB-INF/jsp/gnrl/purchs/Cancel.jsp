@@ -13,7 +13,7 @@
 var DAY = 1000 * 60 * 60 * 24;
 
 $(function(){
-	$.datetimepicker.setLocale('en');
+	$.datetimepicker.setLocale('kr');
 
 	$('.some_class').datetimepicker( {
 		format:'Y-m-d',
@@ -233,12 +233,12 @@ function numberWithCommas(x) {
 }
 
 function getDateToString(d) {
-	return String(d.getFullYear()) + lpad(String(d.getMonth() + 1), 2, "0") + lpad(String(d.getDate()), 2, "0");
+	return String(d.getFullYear()) + '-' + lpad(String(d.getMonth() + 1), 2, "0") + '-' + lpad(String(d.getDate()), 2, "0");
 }
 
 function getToday() {
 	var d = new Date();
-	return String(d.getFullYear()) + lpad(String(d.getMonth() + 1), 2, "0") + lpad(String(d.getDate()), 2, "0");
+	return String(d.getFullYear()) + '-' + lpad(String(d.getMonth() + 1), 2, "0") + '-' + lpad(String(d.getDate()), 2, "0");
 }
 
 function lpad(s, padLength, padString){
@@ -320,7 +320,7 @@ function lpad(s, padLength, padString){
               <i class="material-icons">date_range</i></div>
           </div>
         </div>
-        <div class="inbox3">
+        <!-- <div class="inbox3">
           <div class="fl_t1">통합검색</div>
           <div class="fl_t2">
             <select class="w_30p">
@@ -329,7 +329,7 @@ function lpad(s, padLength, padString){
             </select>
             <input type="text"  value="" id="" class="w_60p"/>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="s_box2">
         <div class="search_btn" id="btnSearch">조회하기</div>
