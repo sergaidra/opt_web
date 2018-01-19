@@ -140,9 +140,9 @@ function addAction() {
 function getSignature(param) {
 	var v_param = {};
 	v_param.oid = "${oid}";
-	//v_param.price = param.real_setle_amount;
-	//Text
-	v_param.price = 1000;
+	v_param.price = param.real_setle_amount;
+	//Test
+	//v_param.price = 1000;
 	v_param.timestamp = "${timestamp}";
 	
 	var url = "<c:url value='/purchs/getSignature'/>";
@@ -157,8 +157,8 @@ function getSignature(param) {
 			if(data.result == "0") {
 				var merchantData = JSON.stringify( param );
 				// Test
-				$("#SendPayForm_id").find("input[name='price']").val("1000");
-				//$("#SendPayForm_id").find("input[name='price").val(param.real_setle_amount);
+				//$("#SendPayForm_id").find("input[name='price']").val("1000");
+				$("#SendPayForm_id").find("input[name='price").val(param.real_setle_amount);
 				$("#SendPayForm_id").find("input[name='signature']").val(data.data);
 				$("#SendPayForm_id").find("input[name='merchantData']").val(merchantData);
 				var returnUrl = location.protocol + "//" + location.host + "/purchs/payComplete";
