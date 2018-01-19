@@ -61,8 +61,28 @@ function fnLiveView(url, obj) {
 <div class="sp_50 pc_view"></div>
 	 <div class="sp_20 mobile_view"></div>
     <div class="inner2">
-		   <div class="com_stitle">동영상 홍보</div>
-		<div id="grid-gallery" class="grid-gallery">
+				<!--게시판 검색-->
+      <div class="bbs_search comf">
+        <div class="search_text">
+          <div class="tx1"><i class="material-icons">&#xE412;</i></div>
+          <div class="tx2">원패스투어의 동영상 홍보갤러리입니다. </div>
+        </div>
+        <!-- <div class="search_in">
+          <div class="search_select ">기본 셀렉트 박스 .w_100p는 사이즈
+            <select class="w_100p">
+              <option>상세분류</option>
+              <option>상세분류</option>
+            </select>
+            
+            //기본 셀렉트 박스</div>
+          <div class="search_input  search_input_w">
+            <input type="text" class="w_100p">
+            <div class="btn"><i class="material-icons">&#xE8B6;</i></div>
+          </div>
+        </div> -->
+      </div>
+      <!--//게시판 검색-->
+			<div id="grid-gallery" class="grid-gallery comf">
 				<section class="grid-wrap">
 					<ul class="grid">
 						<li class="grid-sizer"></li><!-- for Masonry column width -->
