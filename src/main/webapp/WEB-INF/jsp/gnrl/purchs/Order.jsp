@@ -397,7 +397,7 @@ function orderCancel() {
   <div class="sp_50"></div>
   <div class="order_left">
     <div class="order_stitle"><i class="material-icons">&#xE5C6;</i>
-      <p>쿠폰/적립금 사용하기</p>
+      <p>포인트 사용하기</p>
     </div>
     <div class="tb_04_box">
       <table  class="tb_01">
@@ -405,21 +405,21 @@ function orderCancel() {
         <col width="" />
         <col width="35%" />
         <tbody>
-          <tr>
+          <!-- <tr>
             <th >할인/쿠폰</th>
             <td class="end"><div class="order_font1"> 쿠폰적용후 결제금액</div></td>
             <td class="end"><select name="select5" id="select5" style="width:200px">
                 <option>쿠폰을 선택해 주세요</option>
               </select></td>
-          </tr>
+          </tr> -->
           <tr>
-            <th >적립금</th>
+            <th >포인트</th>
             <td ><div class="order_font1"> 총 34,000점 </div>
               <div class="order_ch"><input type="checkbox"> </div>
 			  <div class="order_font2"> 전액사용</div>
 			  </td>
             <td ><input name="textfield" type="text" class="input_stst fl w_50p" id="textfield"   value="20,000원"/>
-              <a href="#" class="order_tb_btn fl">적립금  </a></td>
+              <a href="#" class="order_tb_btn fl">포인트  </a></td>
           </tr>
         </tbody>
       </table>
@@ -427,7 +427,7 @@ function orderCancel() {
     <div class="sp_30"></div>
 
       <div class="order_stitle"><i class="material-icons">&#xE5C6;</i>
-        <p>쿠폰/적립금 사용하기</p>
+        <p>결제 수단 선택</p>
       </div>
       <div class="order_select">
         <div class="inbox">
@@ -436,11 +436,11 @@ function orderCancel() {
             신용카드 &nbsp;&nbsp;&nbsp;
             <input type="radio" name="radio" id="radio2" value="radio" />
             실시간 계좌이체&nbsp;&nbsp;&nbsp;
-            <input type="radio" name="radio" id="radio3" value="radio" />
-            휴대폰 소액결제&nbsp;&nbsp;&nbsp;
+            <!-- <input type="radio" name="radio" id="radio3" value="radio" />
+            휴대폰 소액결제&nbsp;&nbsp;&nbsp; -->
             <input type="radio" name="radio" id="radio3" value="radio" />
             무통장입금&nbsp;&nbsp;&nbsp;
-            <input type="radio" name="radio" id="radio3" value="radio" />
+            
           </div>
           <div class="stext">무통장입금</div>
           <div class="div_com">
@@ -454,7 +454,7 @@ function orderCancel() {
             <input name="textfield9" type="text" class="input_st01" id="textfield11"  />
           </div>
           <div class="stext">입금예정일</div>
-          <div class="div_com"> 2016년 01월 27일 까지미입금 시 자동 취소 처리 됩니다. </div>
+          <div class="div_com"> 2017년 01월 27일까지 미입금 시 자동 취소 처리됩니다. </div>
           <!-- <div class="stext">환불계좌정보</div>
           <div class="div_com">
             <div class="tb_04_box">
