@@ -158,7 +158,7 @@ function paymentCart() {
 	var param = {};
 	param.lstCart = lstJson;
 
-	url = "<c:url value='/purchs/checkReservationSchedule'/>";
+	url = "<c:url value='/purchs/checkReservationScheduleFlight'/>";
 	$.ajax({
         url : url,
         type: "post",

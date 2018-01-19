@@ -147,13 +147,13 @@ function search(pageNo) {
     <div class="inner2"><div class="comf">
 		             <!--FAQ검색-->  <div class="bbs_search">
 			    <div class="search_text">
-			      <div class="tx1 fw_500">공지사항</div>
+			      <div class="tx1"><i class="material-icons">&#xE02A;</i></div>
 				  <div class="tx2">원패스투어의 새로운 소식을 전합니다. </div>
 			    </div>
 		<div class="search_in">
       
-          <div class="search_input w_80p"><input type="text" class="w_100p" id="noticekeyword" name="noticekeyword">
-	      <div class="btn" id="btnSearch"><i class="material-icons">&#xE8B6;</i></div>
+          <div class="search_input search_input_w"><input type="text" class="w_100p" id="noticekeyword" name="noticekeyword">
+	      <div class="btn pointer" id="btnSearch"><i class="material-icons">&#xE8B6;</i></div>
 	    </div>
 
         </div>

@@ -5,10 +5,23 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <head>
+	<!-- 이니시스 표준결제 js -->
+  <!--
+    연동시 유의 사항!!
+    1) 테스트 URL(stgstdpay.inicis.com) - 샘플에 제공된 테스트 MID 전용으로 실제 가맹점 MID 사용 시 에러가 발생 할 수 있습니다.
+    2) 상용 URL(stdpay.inicis.com) - 실제 가맹점 MID 로 테스트 및 오픈 시 해당 URL 변경하여 사용합니다.
+    3) 가맹점의 URL이 http: 인경우 js URL도 https://stgstdpay.inicis.com/stdjs/INIStdPay.js 로 변경합니다.	
+    4) 가맹점에서 사용하는 케릭터셋이 EUC-KR 일 경우 charset="UTF-8"로 UTF-8 일 경우 charset="UTF-8"로 설정합니다.
+  -->	
+  
+  <!-- 상용 JS(가맹점 MID 변경 시 주석 해제, 테스트용 JS 주석 처리 필수!) -->
+	<script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
+  
+  <!-- 테스트 JS(샘플에 제공된 테스트 MID 전용) -->
+	<!--script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script-->
 
 <script type="text/javascript">
 function addAction() {
-	var url = "<c:url value='/purchs/addAction'/>";
 	var lst = [];
 	var totalAmount = 0;
 	
@@ -95,7 +108,8 @@ function addAction() {
 	param.tourist_nm = tourist_nm;
 	param.tourist_cttpc = tourist_cttpc;
 	param.kakao_id = kakao_id;
-	
+
+	var url = "<c:url value='/purchs/checkReservationSchedule'/>";
 	$.ajax({
         url : url,
         type: "post",
@@ -105,14 +119,55 @@ function addAction() {
         data : JSON.stringify( param ),
         success : function(data,status,request){
 			if(data.result == "0") {
-				alert("결제되었습니다.");
-				go_mypage();
+				getSignature(param);
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
 			} else if(data.result == "9") {
 				alert(data.message);
 			} else if(data.result == "2") {
+				alert(data.message);
+			} else{
+				alert("작업을 실패하였습니다.");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
+
+function getSignature(param) {
+	var v_param = {};
+	v_param.oid = "${oid}";
+	//v_param.price = param.real_setle_amount;
+	//Text
+	v_param.price = 1000;
+	v_param.timestamp = "${timestamp}";
+	
+	var url = "<c:url value='/purchs/getSignature'/>";
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( v_param ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+				var merchantData = JSON.stringify( param );
+				// Test
+				$("#SendPayForm_id").find("input[name='price']").val("1000");
+				//$("#SendPayForm_id").find("input[name='price").val(param.real_setle_amount);
+				$("#SendPayForm_id").find("input[name='signature']").val(data.data);
+				$("#SendPayForm_id").find("input[name='merchantData']").val(merchantData);
+				var returnUrl = location.protocol + "//" + location.host + "/purchs/payComplete";
+				$("#SendPayForm_id").find("input[name='returnUrl']").val(returnUrl);
+				
+				INIStdPay.pay('SendPayForm_id');
+				//alert("결제되었습니다.");
+				//go_mypage();
+			} else if(data.result == "9") {
 				alert(data.message);
 			} else{
 				alert("작업을 실패하였습니다.");
@@ -478,5 +533,33 @@ function orderCancel() {
 </div>
 
 <!-- //본문 -->
+
+										<form id="SendPayForm_id" name="" method="POST" >
+											<input type="hidden" name="version" value="1.0" >
+											<input type="hidden" name="mid" value="${mid}" >
+											<input type="hidden" name="goodname" value="test" >
+											<input type="hidden" name="oid" value="${oid}" >
+											<input type="hidden" name="price" value="" >
+											<input type="hidden" name="currency" value="WON" >
+											<input type="hidden" name="buyername" value="${user_nm}" >
+											<input type="hidden" name="buyertel" value="1" >
+											<input type="hidden" name="buyeremail" value="${email}" >
+											<input type="hidden" name="timestamp" value="${timestamp}" >
+											<input type="hidden" name="signature" value="" >
+											<input type="hidden" name="returnUrl" value="" >
+											<input type="hidden" name="mKey" value="${mKey}" >
+											
+											<input type="hidden" name="gopaymethod" value="" >
+											<input type="hidden" name="offerPeriod" value="20151001-20151231" >
+											<input type="hidden" name="acceptmethod" value="CARDPOINT:HPP(1):no_receipt:va_receipt:vbanknoreg(0):below1000" >
+
+											<input type="hidden" name="languageView" value="" >
+											<input type="hidden" name="charset" value="UTF-8" >
+											<input type="hidden" name="payViewType" value="overlay" >
+											<input type="hidden" name="closeUrl" value="" >
+											<input type="hidden" name="popupUrl" value="" >
+
+											<input type="hidden" name="merchantData" value="" >																						
+										</form>
 
 </body>

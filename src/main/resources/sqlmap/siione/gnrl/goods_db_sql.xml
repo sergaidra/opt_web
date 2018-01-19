@@ -90,7 +90,12 @@
 			</isNotEmpty>
 		</isEmpty>
 		<isNotEmpty property="keyword">
-		   AND GOODS_CODE IN ( SELECT GOODS_CODE FROM TB_GOODS_KWRD WHERE UPPER(KWRD) LIKE '%' || UPPER(#keyword#) || '%' )
+		   AND GOODS_CODE IN
+		   		( SELECT GOODS_CODE FROM TB_GOODS_KWRD WHERE
+		    <iterate property="keyword" conjunction=" OR ">
+		             UPPER(KWRD) LIKE '%' || UPPER(#keyword[]#) || '%'
+		    </iterate>
+		    	)
 		</isNotEmpty>
 		<isEqual property="category" compareValue="H">
 		   AND HOTDEAL_AT = 'Y' AND TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN HOTDEAL_BEGIN_DE AND HOTDEAL_END_DE
@@ -101,24 +106,10 @@
 	</sql>
 
 	<select id="gnrl.goods.selectGoodsExpsrList1" parameterClass="hashMap" resultClass="hashMap">
-		SELECT A.*
-		FROM (
-				SELECT G.GOODS_CODE, GOODS_NM, GOODS_INTRCN, FILE_CODE, GOODS_INTRCN_SIMPL, GOODS_NM_ENG, GOODS_INTRCN_ENG, GOODS_INTRCN_SIMPL_ENG
-					, ( SELECT NVL(MAX(FILE_SN), '') FROM TB_FILE_DETAIL WHERE FILE_CODE = G.FILE_CODE AND HOTDEAL_AT = 'Y' ) AS FILE_SN, RNUM
-				FROM (
-					SELECT GOODS_CODE, ROWNUM AS RNUM
-					FROM (		  
-						SELECT GOODS_CODE
-						FROM TB_GOODS
-						WHERE DELETE_AT = 'N' AND HOTDEAL_AT = 'Y' AND TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN HOTDEAL_BEGIN_DE AND HOTDEAL_END_DE AND HOTDEAL_MAIN_AT = 'Y'
-						ORDER BY HOTDEAL_SORT_ORDR
-					)  A		  
-				) AA
-				INNER JOIN VW_GOODS G ON AA.GOODS_CODE = G.GOODS_CODE
-				WHERE AA.RNUM <![CDATA[<=]]> 6
-		) A
-		RIGHT OUTER JOIN (SELECT LEVEL AS LV FROM DUAL CONNECT BY LEVEL <![CDATA[<=]]> 6) B ON A.RNUM = B.LV
-		ORDER BY B.LV	
+		SELECT HOTDEAL_SN, KWRD, FILE_CODE_L, FILE_CODE_S 
+		FROM TB_HOTDEAL
+		WHERE USE_AT = 'Y'
+		ORDER BY SORT_ORDR		
 	</select>
 	
 	<select id="gnrl.goods.selectGoodsExpsrList2" parameterClass="hashMap" resultClass="hashMap">

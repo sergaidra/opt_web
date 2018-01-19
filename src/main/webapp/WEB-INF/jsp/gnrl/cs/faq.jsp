@@ -193,18 +193,19 @@ function changeKind(obj, subcategory) {
 	 <div class="sp_20 mobile_view"></div>
     <div class="inner2">
 		<div class="cont_all">
-            <!--FAQ검색-->  <div class="faq_search">
+            <!--FAQ검색-->  <div class="bbs_search">
 			    <div class="search_text">
-			      <div class="tx1 fw_500">FAQ</div>
-				  <div class="tx2">무엇을 도와드릴까요? <br>
-고객님의 궁금함을 빠르게 해결해 드리겠습니다. </div>
+			      <div class="tx1"><i class="material-icons">&#xE8FD;</i></div>
+				  <div class="tx2">무엇을 도와드릴까요? 고객님의 궁금함을 빠르게 해결해 드리겠습니다. </div>
 			    </div>
-<div class="search_in w_50p">
-                 <div class="search_input w_100p"><input type="text" id="faqkeyword" name="faqkeyword">
-	      <div class="btn" id="btnSearch"><i class="material-icons">&#xE8B6;</i></div>
-	    </div>
-                </div>
-      </div> 
+        <div class="search_in">
+          <div class="search_input  search_input_w">
+            <input type="text" class="w_100p" id="faqkeyword" name="faqkeyword">
+            <div class="btn pointer" id="btnSearch"><i class="material-icons">&#xE8B6;</i></div>
+          </div>
+        </div>
+      </div>
+			    
       <!--//FAQ검색-->
        
 	<!--faq 아이콘 탭 -->
@@ -218,12 +219,12 @@ function changeKind(obj, subcategory) {
 			<li class="line"></li>
 			<li class="icon" onclick="changeKind(this, 'U');" style="cursor:pointer;">
 				<p class="img"><i class="material-icons">&#xE85E;</i></p>
-				<p class="text">회원관련</p>
+				<p class="text"><a href="javascript:changeKind(this, 'U');">회원관련</a></p>
 			</li>
 			<li class="line"></li>
 			<li class="icon" onclick="changeKind(this, 'G');" style="cursor:pointer;">
 				<p class="img"><i class="material-icons">&#xE8B1;</i></p>
-				<p class="text">상품관련</p>
+				<p class="text"><a href="javascript:changeKind(this, 'G');">상품관련</a></p>
 			</li>
 			<li class="line"></li>
 			<li class="icon">

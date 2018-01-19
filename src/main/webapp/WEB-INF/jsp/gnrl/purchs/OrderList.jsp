@@ -296,7 +296,6 @@ function lpad(s, padLength, padString){
   <div class="inner2">
     <div class="my_box01">
       <div class="info">
-        <div class="photo"><!-- <img src="/images/com/me_photo.jpg" alt=""/> --></div>
         <div class="text"><em>${user_nm} 회원님</em><br>
           환영합니다.</div>
       </div>
@@ -306,6 +305,10 @@ function lpad(s, padLength, padString){
       </div>
       <div class="mymenu">
         <ul>
+		  <li class="on"><a href="javascript:document.location.href='/purchs/OrderList';">
+			<div class="img"><img src="/images/sub/my_icon06.png"  alt=""/></div>
+			<div class="tx"> 쿠폰조회</div>
+            </a> </li>
           <li class="on"><a href="javascript:document.location.href='/purchs/OrderList';">
             <div class="img"><img src="/images/sub/my_icon01.png"  alt=""/></div>
             <div class="tx"> 결제목록</div>

@@ -5,7 +5,8 @@
       <div class="inner2">
     <div class="bt_right">
       <div class="tx1">CUSTOMER CENTER</div>
-          <div class="tx2">(63)927-377-7293<br>070-7422-0153<br>kakao ID : onepasstour</div>
+          <div class="tx2">(63)927-377-7293  <br>070-7422-0153</div>
+          <div class="tx4">kakao ID : onepasstour</div>
           <div class="tx3"><spring:message code='bottom.msg1'/></div>
           <div class="sns"> <img src="<c:url value='/images/com/sns_03.png' />"  alt=""/> <img src="<c:url value='/images/com/sns_02.png' />"  alt=""/> <img src="<c:url value='/images/com/sns_01.png' />"  alt=""/></div>
         </div>
@@ -33,11 +34,13 @@
           <div class="bottom_smenu"><a href="#"><spring:message code='bottom.introducecom'/></a> | <a href="#"><spring:message code='bottom.introduceservice'/></a> | <a href="javascript:go_08_03_01();"><spring:message code='topmenu.usemethod'/></a> | <a href="javascript:go_07_06_01();"><spring:message code='topmenu.usetext1'/></a> |
         <div class="mobile_view" ></div>
         <a href="javascript:go_07_07_01();"><spring:message code='topmenu.usetext2'/></a> | <a href="javascript:go_07_08_01();"><spring:message code='topmenu.usetext3'/></a><c:if test="${author_cl == 'A' or author_cl == 'M'}"> | <a href="javascript:go_09_01_01();">ADMIN</a></c:if></div>
-          <div class="bottom_copy" style="line-height:120%;"><spring:message code='bottom.copyright'/></div>
+          <div class="bottom_copy" style="line-height:120%;">
+          	<div class="fl_box"><spring:message code='bottom.copyright_1'/></div>
+          	<div class="fr_box"><spring:message code='bottom.copyright_2'/></div>
           </div>
-        </div>
-  </div>
-    </footer>
+         </div>
+       </div>
+</footer>
 <!-- 팝업 js --> 
 <script src="<c:url value='/jq/popup/featherlight.min.js' />" type="text/javascript" charset="utf-8"></script> 
 <script>

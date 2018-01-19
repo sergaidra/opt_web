@@ -46,7 +46,7 @@ $(function(){
 		        dataType : "json",
 		        async: "true",
 		        contentType: "application/json; charset=utf-8",
-		        data : JSON.stringify({ "hidUpperClCode" : upper_cl_code, "keyword" : "${keyword}" } ),
+		        data : JSON.stringify({ "hidUpperClCode" : upper_cl_code, "keyword" : "${keyword}", "category" : "${category}" } ),
 		        //data : "hidUpperClCode=00411",
 		        success : function(data,status,request){
 					var search = $("#pan").clone();
@@ -197,10 +197,10 @@ function fnSearch(obj, isNext) {
 				if(data.list[cnt].HOTDEAL_AT == "Y") {
 					$(item).find("span[name='cf_reprsnt_amount']").text(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT));				
 					$(item).find("span[name='cf_hotdeal_amount']").text(numberWithCommas(Math.round(data.list[cnt].CF_REPRSNT_AMOUNT * data.list[cnt].DSCNT_RATE)));
-					$(item).find(".origin").show();
+					$(item).find(".total_s").show();
 				} else {
 					$(item).find("span[name='cf_hotdeal_amount']").text(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT));
-					$(item).find(".origin").hide();
+					$(item).find(".total_s").hide();
 				}
               	<c:if test="${pageContext.response.locale.language == 'en'}">
 				$(item).find("span[name='cty_nm']").text(nvl(data.list[cnt].CTY_NM_ENG));
@@ -457,7 +457,7 @@ function numberWithCommas(x) {
 			   <div id="divHit" class="hit" style="z-index:999;" ><i class="material-icons">favorite</i>
 
 				   </div>
-			    <div class="origin"><spring:message code='goodslist.goodsprice.msg' arguments="<span name='cf_reprsnt_amount'></span>"/></div>
+			    <div class="total_s"><spring:message code='goodslist.goodsprice.msg' arguments="<span name='cf_reprsnt_amount'></span>"/></div>
 			    <div class="total"><spring:message code='goodslist.goodsprice.msg' arguments="<span name='cf_hotdeal_amount'></span>"/></div>
 		  </div>
 			<div class="ar_text"><span name="cty_nm"></span>  >  <span name="upper_cl_nm"></span>  >  <span name="cl_nm"></span></div>

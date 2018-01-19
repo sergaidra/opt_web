@@ -11,7 +11,7 @@
   <div class="sp_50"></div>
   <div class="inner2">
     <div class="use_box"> 
-<div class="com_stitle">${mtitle}</div>
+<!--  <div class="com_stitle">${mtitle}</div>-->
 ${stplat_cn_html}
     </div>
   </div>

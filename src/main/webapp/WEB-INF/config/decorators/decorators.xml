@@ -43,5 +43,7 @@
 
 		<pattern>/purchs/OrderInfo*</pattern>
 
+		<pattern>/INIpayStdSample/**</pattern>
+
 	</excludes>
 </decorators>

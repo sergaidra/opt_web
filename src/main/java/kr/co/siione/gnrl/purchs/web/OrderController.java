@@ -1,9 +1,12 @@
 package kr.co.siione.gnrl.purchs.web;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +24,8 @@ import kr.co.siione.gnrl.purchs.service.PurchsService;
 import kr.co.siione.mngr.service.CtyManageService;
 import kr.co.siione.utl.UserUtils;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,8 +35,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
+import com.inicis.std.util.HttpUtil;
+import com.inicis.std.util.ParseUtil;
+import com.inicis.std.util.SignatureUtil;
+
 @Controller
 @RequestMapping(value = "/purchs/")
+@PropertySource("classpath:property/globals.properties")
 public class OrderController {
 
 	@Resource
@@ -41,6 +51,11 @@ public class OrderController {
 	@Resource
     private PointService pointService;
 	
+	@Value("#{globals['inicis.mid']}")
+	private String inicis_mid;
+	@Value("#{globals['inicis.signKey']}")
+	private String inicis_signKey;
+
 	@RequestMapping(value="/Order")
 	public String Order(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 
@@ -69,13 +84,245 @@ public class OrderController {
         model.addAttribute("lstCart", lstCart);
         model.addAttribute("cart_sn", strCart);
 
+        model.addAttribute("mid", inicis_mid);
+        model.addAttribute("oid", inicis_mid + "_" + com.inicis.std.util.SignatureUtil.getTimestamp());
+        model.addAttribute("timestamp", com.inicis.std.util.SignatureUtil.getTimestamp());
+        model.addAttribute("mKey", com.inicis.std.util.SignatureUtil.hash(inicis_signKey, "SHA-256"));
+        model.addAttribute("user_nm", UserUtils.nvl((String)session.getAttribute("user_nm")));
+        model.addAttribute("email", UserUtils.nvl((String)session.getAttribute("email")));
+                
         model.addAttribute("bp", "06");
        	model.addAttribute("btitle", "세부정보입력/결제하기");
         model.addAttribute("mtitle", "결제하기");
 		
 		return "gnrl/purchs/Order";
 	}	
+	
+	@RequestMapping(value="/getSignature")
+	public @ResponseBody ResponseVo getSignature(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
 
+		try {
+			String oid = UserUtils.nvl(param.get("oid"));
+			String price = UserUtils.nvl(param.get("price"));
+			String timestamp = UserUtils.nvl(param.get("timestamp"));
+			
+			Map<String, String> signParam = new HashMap<String, String>();
+
+			signParam.put("oid",		oid); 							// 필수
+			signParam.put("price", price);							// 필수
+			signParam.put("timestamp",	timestamp);		// 필수
+
+			// signature 데이터 생성 (모듈에서 자동으로 signParam을 알파벳 순으로 정렬후 NVP 방식으로 나열해 hash)
+			String signature = com.inicis.std.util.SignatureUtil.makeSignature(signParam);
+
+			resVo.setData(signature);
+			resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;
+	}
+
+	@RequestMapping(value="/payComplete")
+	public String payComplete(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+		Map<String,String> paramMap = new Hashtable<String,String>();
+		Enumeration elems = request.getParameterNames();
+		String temp = "";
+		while(elems.hasMoreElements())
+		{
+			temp = (String) elems.nextElement();
+			paramMap.put(temp, request.getParameter(temp));
+		}
+		
+		System.out.println("paramMap : "+ paramMap.toString());
+		
+		//#####################
+		// 인증이 성공일 경우만
+		//#####################
+		if("0000".equals(paramMap.get("resultCode"))){
+			System.out.println("####인증성공/승인요청####");
+			
+			//############################################
+			// 1.전문 필드 값 설정(***가맹점 개발수정***)
+			//############################################
+			String mid 		= paramMap.get("mid");					        // 가맹점 ID 수신 받은 데이터로 설정			
+			String signKey	= inicis_signKey;	// 가맹점에 제공된 키(이니라이트키) (가맹점 수정후 고정) !!!절대!! 전문 데이터로 설정금지			
+			String timestamp= SignatureUtil.getTimestamp();			  // util에 의해서 자동생성
+			String charset 	= "UTF-8";								            // 리턴형식[UTF-8,EUC-KR](가맹점 수정후 고정)			
+			String format 	= "JSON";								              // 리턴형식[XML,JSON,NVP](가맹점 수정후 고정)			
+			String authToken= paramMap.get("authToken");			    // 취소 요청 tid에 따라서 유동적(가맹점 수정후 고정)
+			String authUrl	= paramMap.get("authUrl");				    // 승인요청 API url(수신 받은 값으로 설정, 임의 세팅 금지)
+			String netCancel= paramMap.get("netCancelUrl");			  // 망취소 API url(수신 받은 값으로 설정, 임의 세팅 금지)
+			String ackUrl = paramMap.get("checkAckUrl");			    // 가맹점 내부 로직 처리후 최종 확인 API URL(수신 받은 값으로 설정, 임의 세팅 금지)
+			String cardnum = paramMap.get("cardnum");				      //갤러리아 카드번호(카드끝자리 '*' 처리) 2016-01-12
+			
+			//#####################
+			// 2.signature 생성
+			//#####################
+			Map<String, String> signParam = new HashMap<String, String>();
+
+			signParam.put("authToken",	authToken);		// 필수
+			signParam.put("timestamp",	timestamp);		// 필수
+
+			// signature 데이터 생성 (모듈에서 자동으로 signParam을 알파벳 순으로 정렬후 NVP 방식으로 나열해 hash)
+			String signature = SignatureUtil.makeSignature(signParam);
+
+			//#####################
+			// 3.API 요청 전문 생성
+			//#####################
+			Map<String, String> authMap = new Hashtable<String, String>();
+
+			authMap.put("mid"			    ,mid);			  // 필수
+			authMap.put("authToken"		,authToken);	// 필수
+			authMap.put("signature"		,signature);	// 필수
+			authMap.put("timestamp"		,timestamp);	// 필수
+			authMap.put("charset"		  ,charset);		// default=UTF-8
+			authMap.put("format"		  ,format);		  // default=XML
+      
+			System.out.println("##승인요청 API 요청##");
+
+			HttpUtil httpUtil = new HttpUtil();
+			
+			try{
+				//#####################
+				// 4.API 통신 시작
+				//#####################
+
+				String authResultString = "";
+
+				authResultString = httpUtil.processHTTP(authMap, authUrl);
+				
+				//############################################################
+				//5.API 통신결과 처리(***가맹점 개발수정***)
+				//############################################################
+				System.out.println("## 승인 API 결과 ##");
+				
+				String test = authResultString.replace(",", "&").replace(":", "=").replace("\"", "").replace(" ","").replace("\n", "").replace("}", "").replace("{", "");				
+				Map<String, String> resultMap = new HashMap<String, String>();				
+				resultMap = ParseUtil.parseStringToMap(test); //문자열을 MAP형식으로 파싱
+								
+				System.out.println("resultMap == " + resultMap);
+				
+				/*************************  결제보안 강화 2016-05-18 START ****************************/ 
+				Map<String , String> secureMap = new HashMap<String, String>();
+				secureMap.put("mid"			, mid);								//mid
+				secureMap.put("tstamp"		, timestamp);						//timestemp
+				secureMap.put("MOID"		, resultMap.get("MOID"));			//MOID
+				secureMap.put("TotPrice"	, resultMap.get("TotPrice"));		//TotPrice
+				
+				// signature 데이터 생성 
+				String secureSignature = SignatureUtil.makeSignatureAuth(secureMap);
+				/*************************  결제보안 강화 2016-05-18 END ****************************/
+
+				if("0000".equals(resultMap.get("resultCode")) && secureSignature.equals(resultMap.get("authSignature")) ){	//결제보안 강화 2016-05-18
+				   /*****************************************************************************
+			       * 여기에 가맹점 내부 DB에 결제 결과를 반영하는 관련 프로그램 코드를 구현한다.  
+				   
+					 [중요!] 승인내용에 이상이 없음을 확인한 뒤 가맹점 DB에 해당건이 정상처리 되었음을 반영함
+							  처리중 에러 발생시 망취소를 한다.
+			       ******************************************************************************/	
+					//공통 부분만
+					String tid = resultMap.get("tid"); // 거래번호
+					String payMethod = resultMap.get("payMethod"); // 결제방법(지불수단)
+					String TotPrice = resultMap.get("TotPrice"); // 결제완료금액
+					String MOID = resultMap.get("MOID"); // 주문 번호
+					String applDate = resultMap.get("applDate"); // 승인날짜
+					String applTime = resultMap.get("applTime"); // 승인시간
+
+					if("VBank".equals(resultMap.get("payMethod"))){ //가상계좌
+						String VACT_Num = resultMap.get("VACT_Num");	// 입금 계좌번호
+						String VACT_BankCode = resultMap.get("VACT_BankCode");	// 입금 은행코드
+						String vactBankName = resultMap.get("vactBankName");	// 입금 은행명
+						String VACT_Name = resultMap.get("VACT_Name");	// 예금주 명
+						String VACT_InputName = resultMap.get("VACT_InputName");	// 송금자 명
+						String VACT_Date = resultMap.get("VACT_Date");	// 송금 일자
+						String VACT_Time = resultMap.get("VACT_Time");	// 송금 시간
+					} else{//카드
+						String CARD_Num = resultMap.get("CARD_Num");	// 카드번호
+						String applNum = resultMap.get("applNum");	// 승인번호
+						String CARD_Quota = resultMap.get("CARD_Quota");	// 할부기간
+						String CARD_Code = resultMap.get("VACT_Num");	// 카드 종류
+						String CARD_BankCode = resultMap.get("VACT_Num");	// 카드 발급사
+				    }						  
+				} else {
+					//결제보안키가 다른 경우
+					if (!secureSignature.equals(resultMap.get("authSignature"))) {
+						//결과정보
+						System.out.println("* 데이터 위변조 체크 실패");
+						
+						//망취소
+						if ("0000".equals(resultMap.get("resultCode"))) {
+							throw new Exception("데이터 위변조 체크 실패");
+						}
+					}
+				}
+			} catch (Exception ex) {
+
+				//####################################
+				// 실패시 처리(***가맹점 개발수정***)
+				//####################################
+
+				//---- db 저장 실패시 등 예외처리----//
+				System.out.println(ex);
+
+				//#####################
+				// 망취소 API
+				//#####################
+				String netcancelResultString = httpUtil.processHTTP(authMap, netCancel);	// 망취소 요청 API url(고정, 임의 세팅 금지)
+
+				System.out.println("## 망취소 API 결과 ##");
+
+				// 취소 결과 확인
+				System.out.println(netcancelResultString);
+			}
+		} else {
+			System.out.println("####인증실패####");
+
+		}
+
+		if("".equals(esntl_id))
+			response.sendRedirect("/member/login/");
+
+		HashMap map = new HashMap();
+		map.put("esntl_id", esntl_id);
+		System.out.println(request.getParameter("lstCart"));
+		String strCart = UserUtils.nvl(request.getParameter("lstCart"));
+
+		String[] arrCart = strCart.split(",");
+		List<HashMap> lstCart = new ArrayList();
+		try {
+			for(int i = 0; i < arrCart.length; i++) {
+				map.put("cart_sn", arrCart[i]);
+				HashMap mapCart = orderService.getCartDetail(map);
+				lstCart.add(mapCart);
+			}
+
+		} catch(Exception e) {e.printStackTrace();}
+
+        model.addAttribute("lstCart", lstCart);
+        model.addAttribute("cart_sn", strCart);
+
+        model.addAttribute("mid", inicis_mid);
+        model.addAttribute("oid", inicis_mid + "_" + com.inicis.std.util.SignatureUtil.getTimestamp());
+        model.addAttribute("timestamp", com.inicis.std.util.SignatureUtil.getTimestamp());
+        model.addAttribute("mKey", com.inicis.std.util.SignatureUtil.hash(inicis_signKey, "SHA-256"));
+                
+        model.addAttribute("bp", "06");
+       	model.addAttribute("btitle", "세부정보입력/결제하기");
+        model.addAttribute("mtitle", "결제하기");
+		
+		return "gnrl/purchs/Order";
+	}	
 	@RequestMapping(value="/addAction")
 	public @ResponseBody ResponseVo addAction(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
 		ResponseVo resVo = new ResponseVo();
@@ -162,6 +409,51 @@ public class OrderController {
 			map.put("lstCart", lstCart);
 
 			UserUtils.log("[checkReservationSchedule-map]", map);
+
+			Boolean isOk = true;
+			for(int i = 0; i < lstCart.size(); i++) {
+				// 스케줄 체크
+				if(orderService.chkSchedule((HashMap)lstCart.get(i)) > 0) {
+					resVo.setResult("2");			
+					resVo.setMessage("해당 날짜에 이미 예약되었습니다.");
+					isOk = false;
+				}
+			}
+						
+			if(isOk == true) {
+				resVo.setResult("0");			
+			}
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;
+	}
+	
+	@RequestMapping(value="/checkReservationScheduleFlight")
+	public @ResponseBody ResponseVo checkReservationScheduleFlight(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+			HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+
+			List<Map> lstCart = (List<Map>)param.get("lstCart");
+
+			HashMap map = new HashMap();	
+			map.put("esntl_id", esntl_id);			
+			map.put("lstCart", lstCart);
+
+			UserUtils.log("[checkReservationScheduleFlight-map]", map);
 
 			Boolean isOk = true;
 			for(int i = 0; i < lstCart.size(); i++) {

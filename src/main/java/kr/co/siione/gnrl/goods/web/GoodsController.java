@@ -162,13 +162,19 @@ public class GoodsController {
       	HashMap map = new HashMap();
     	String hidUpperClCode = UserUtils.nvl(param.get("hidUpperClCode"));  // 선택한 여러개의 분류
     	String keyword = UserUtils.nvl(param.get("keyword"));  // 검색어
+		String category = UserUtils.nvl(param.get("category")); // 셀프, 핫딜, 추천
     	if("H".equals(hidUpperClCode) || "R".equals(hidUpperClCode)) {	// 핫딜이나 추천일때
         	map.put("upper_cl_code", hidUpperClCode);  
+        	map.put("category", hidUpperClCode);
     	} else {
         	// 상세 분류목록
         	map.put("upper_cl_code", hidUpperClCode);  
+        	map.put("category", category);
     	}
-    	map.put("keyword", keyword);
+    	if(!"".equals(keyword)) {
+        	String[] arrKeyword = keyword.split(",");
+        	map.put("keyword", arrKeyword);
+    	}
     	System.out.println("[상세 분류목록]map:"+map);
     	List<HashMap> tourClList = goodsService.getUpperTourClList(map);
     	
@@ -205,11 +211,15 @@ public class GoodsController {
 		int startIdx = (hidPage - 1) * 10 + 1;
 		int endIdx = hidPage * 10;
 
+    	if(!"".equals(hidKeyword)) {
+        	String[] arrKeyword = hidKeyword.split(",");
+        	map.put("keyword", arrKeyword);
+    	}
+
     	map.put("cty_code", hidCtyCode);   
     	map.put("cl_code", hidClCode);   
     	map.put("upper_cl_code", hidUpperClCode);   
     	map.put("sortOrd", hidSortOrd);   
-    	map.put("keyword", hidKeyword);   
     	map.put("category", category);       	
     	map.put("hidPage", hidPage);
     	map.put("startIdx", startIdx);
