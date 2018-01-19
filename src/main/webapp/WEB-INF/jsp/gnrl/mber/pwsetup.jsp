@@ -20,14 +20,27 @@ function changePw() {
 	var password = $.trim($("#password").val());
 	var passwordchk = $.trim($("#passwordchk").val());
 	
-	if(password.length < 4 || password.length > 12) {
-		alert("비밀번호는 4~12자리 이내로 입력하세요.");
+	if(password.length < 8 || password.length > 12) {
+		alert("비밀번호는 8~12자리 이내로 입력하세요.");
 		$("#password").focus();
 		return ;
 	}
 	
+	var num = password.search(/[0-9]/g);
+	var eng = password.search(/[a-z]/ig);
+	var spe = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+	if(password.search(/₩s/) != -1){
+		alert("비밀번호는 공백없이 입력해주세요.");
+		return;
+	}
+	if(num < 0 || eng < 0 || spe < 0 ){
+		alert("영문, 숫자, 특수문자를 혼합하여 입력해주세요.");
+		return;
+	}
+	
 	if(password != passwordchk) {
-		alert("비밀본호와 비밀번호 확인이 맞지 않습니다.")
+		alert("비밀번호와 비밀번호 확인이 맞지 않습니다.")
 		return ;
 	}
 
@@ -78,7 +91,7 @@ function changePw() {
       </div>
       <div class="texttbox">비밀번호를 재설정합니다.</div>
       <div class="inputbox">
-        <input name="password" type="password" id="password"  placeholder="비밀번호"/>&nbsp;&nbsp;4~12자리 이내로 입력하세요.
+        <input name="password" type="password" id="password"  placeholder="비밀번호"/>&nbsp;&nbsp;8~12자리 이내로 입력하세요.
         <br />
         <input name="passwordchk" type="password" id="passwordchk"  placeholder="비밀번호 확인"/>
       </div>
