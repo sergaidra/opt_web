@@ -23,6 +23,24 @@ var combo = new Ext.create('Ext.form.ComboBox', {
 	emptyText: '선택'
 });
 
+var comboPosblAt = new Ext.create('Ext.form.ComboBox', {
+	store: new Ext.create('Ext.data.ArrayStore', {
+		fields:['code', 'name'],
+		data :[
+			['Y', '가능'],
+			['N', '불가능']			
+		]
+	}),
+	displayField: 'name',
+	valueField: 'code',
+	mode: 'local',
+	typeAhead: false,
+	triggerAction: 'all',
+	lazyRender: true,
+	editable: false,
+	emptyText: '선택'
+});
+
 var comboYn = new Ext.create('Ext.form.ComboBox', {
 	store: new Ext.create('Ext.data.ArrayStore', {
 		fields:['code', 'name'],
@@ -2695,6 +2713,7 @@ Ext.define('GoodsSchdulInfo', {
 			, {name:'BEGIN_DE', type:'string'}
 			, {name:'END_DE', type:'string'}
 			, {name:'DELETE_AT', type:'string'}
+			, {name:'POSBL_AT', type:'string'}
 			, {name:'CRUD', type:'string'}]
 });
 
@@ -2751,6 +2770,15 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
 		dataIndex: 'DELETE_AT',
 		renderer: Ext.ux.comboBoxRenderer(combo)
 	},{
+		text: '예약가능여부',
+		width: 100,
+		align: 'center',
+		sortable: false,
+		menuDisabled: true,
+		editor: comboPosblAt,
+		dataIndex: 'POSBL_AT',
+		renderer: Ext.ux.comboBoxRenderer(comboPosblAt)		
+	},{
 		sortable: false,
 		menuDisabled: true,
 		flex: 1
@@ -2801,6 +2829,7 @@ var gridSchdul = Ext.create('Ext.grid.Panel', {
 					BEGIN_DE : '',
 					END_DE : '',
 					DELETE_AT : 'N',
+					POSBL_AT : 'Y',
 					CRUD : 'I'
 				});
 				storeSchdul.insert(idx, r);

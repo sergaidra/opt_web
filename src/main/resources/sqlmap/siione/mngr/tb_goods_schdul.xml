@@ -12,6 +12,7 @@
                                    , BEGIN_DE
                                    , END_DE
                                    , DELETE_AT
+                                   , POSBL_AT
                                    , MONDAY_POSBL_AT
                                    , TUSDAY_POSBL_AT
                                    , WDNSDY_POSBL_AT
@@ -25,7 +26,8 @@
                                    , (SELECT NVL(MAX(SCHDUL_SN), 0)+1 FROM TB_GOODS_SCHDUL WHERE GOODS_CODE = #GOODS_CODE#)
                                    , REPLACE(#BEGIN_DE#, '-', '')
                                    , REPLACE(#END_DE#, '-', '')
-                                   , 'N'
+                                   , NVL(#DELETE_AT#, 'N')
+                                   , NVL(#POSBL_AT#, 'Y')
                                    , NVL(#MONDAY_POSBL_AT#, 'Y')
                                    , NVL(#TUSDAY_POSBL_AT#, 'Y')
                                    , NVL(#WDNSDY_POSBL_AT#, 'Y')
@@ -45,7 +47,8 @@
              , UPDT_DT = SYSDATE
              , BEGIN_DE = SUBSTR(REPLACE(#BEGIN_DE#, '-', ''), 1, 8)
              , END_DE = SUBSTR(REPLACE(#END_DE#, '-', ''), 1, 8)
-             , DELETE_AT = #DELETE_AT#
+             , DELETE_AT = NVL(#DELETE_AT#, 'N')
+             , POSBL_AT = NVL(#POSBL_AT#, 'Y')
          WHERE GOODS_CODE = #GOODS_CODE#
            AND SCHDUL_SN = #SCHDUL_SN#
     ]]>
@@ -88,6 +91,7 @@
              , TO_CHAR(TO_DATE(BEGIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') BEGIN_DE
              , TO_CHAR(TO_DATE(END_DE, 'YYYYMMDD'), 'YYYY-MM-DD') END_DE
              , DELETE_AT
+             , POSBL_AT
              , WRITNG_ID
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , MONDAY_POSBL_AT
@@ -110,6 +114,7 @@
              , TO_CHAR(TO_DATE(BEGIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') BEGIN_DE
              , TO_CHAR(TO_DATE(END_DE, 'YYYYMMDD'), 'YYYY-MM-DD') END_DE
              , DELETE_AT
+             , POSBL_AT
              , WRITNG_ID
              , TO_CHAR(WRITNG_DT,'YYYY-MM-DD') WRITNG_DE
              , MONDAY_POSBL_AT
