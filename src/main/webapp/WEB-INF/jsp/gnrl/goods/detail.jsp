@@ -165,9 +165,11 @@ $(function() {
 				alert('일정을 선택하세요.');
 				return;
 			}
-			if(!$('#cmbTime').val()) {
-				alert('시간을 선택하세요.');
-				return;				
+			if($('#hidClSe').val() != 'M') {
+				if(!$('#cmbTime').val()) {
+					alert('시간을 선택하세요.');
+					return;				
+				}
 			}
 			// to do
 			if(goods_nm.indexOf("픽업") > -1 || goods_nm.indexOf("드랍") > -1) {
@@ -514,7 +516,7 @@ function displayRoom() {
 			calcPrice(item, optionInfo.days);
 
 			var html = $("<div class='um_box'></div>");
-			var fl_text = $("<div class='fl_text'>" + item.text + " <i class='material-icons pointer' onclick='removeRoom();'>&#xE5CD;</i></div>");
+			var fl_text = $("<div class='fl_text'>" + item.text + " <div class='iconbox'><i class='material-icons pointer' onclick='removeRoom();'>&#xE5CD;</i></div></div>");
 			var fl_total = $("<div class='fl_total'><em>" + optionInfo.days + "</em>박 <em>\\ " + numberWithCommas(item.price) + "</em></div>");
 			$(fl_text).append(fl_total);
 			var fr_updown = $("<div class='fr_updown'><div class='um_d pointer' onclick='minusRoom(" + item.nmpr_sn + ");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d pointer' onclick='plusRoom(" + item.nmpr_sn + ");'>+</div></div>");
@@ -533,7 +535,7 @@ function displayRoom() {
 			calcPrice(item, optionInfo.days);
 
 			var html = $("<div class='um_box'></div>");
-			var fl_text = $("<div class='fl_text'>" + item.text + " <i class='material-icons pointer' onclick='removeOption(" + item.nmpr_sn + ", \"E\");'>&#xE5CD;</i></div>");
+			var fl_text = $("<div class='fl_text'>" + item.text + " <div class='iconbox'><i class='material-icons pointer' onclick='removeOption(" + item.nmpr_sn + ", \"E\");'>&#xE5CD;</i></div></div>");
 			var fl_total = $("<div class='fl_total'><em>" + item.nmpr_cnt + "</em>인 <em>" + optionInfo.days + "</em>식 <em>\\ " + numberWithCommas(item.price) + "</em></div>");
 			$(fl_text).append(fl_total);
 			var fr_updown = $("<div class='fr_updown'><div class='um_d pointer' onclick='minusOption(" + item.nmpr_sn + ", \"E\");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d pointer' onclick='plusOption(" + item.nmpr_sn + ", \"E\");'>+</div></div>");
@@ -552,7 +554,7 @@ function displayRoom() {
 			calcPrice(item, 1);
 			
 			var html = $("<div class='um_box'></div>");
-			var fl_text = $("<div class='fl_text'>" + item.text + " <i class='material-icons pointer' onclick='removeOption(" + item.nmpr_sn + ", \"S\");'>&#xE5CD;</i></div>");
+			var fl_text = $("<div class='fl_text'>" + item.text + " <div class='iconbox'><i class='material-icons pointer' onclick='removeOption(" + item.nmpr_sn + ", \"S\");'>&#xE5CD;</i></div></div>");
 			var fl_total = $("<div class='fl_total'><em>" + item.nmpr_cnt + "</em>" + item.unit_nm + " <em>\\ " + numberWithCommas(item.price) + "</em></div>");
 			$(fl_text).append(fl_total);
 			var fr_updown = $("<div class='fr_updown'><div class='um_d pointer' onclick='minusOption(" + item.nmpr_sn + ", \"S\");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d pointer' onclick='plusOption(" + item.nmpr_sn + ", \"S\");'>+</div></div>");
@@ -571,7 +573,7 @@ function displayRoom() {
 			calcPrice(item, 1);
 			
 			var html = $("<div class='um_box'></div>");
-			var fl_text = $("<div class='fl_text'>" + item.text + " <i class='material-icons pointer' onclick='removeCheck(" + item.nmpr_sn + ");'>&#xE5CD;</i></div>");
+			var fl_text = $("<div class='fl_text'>" + item.text + " <div class='iconbox'><i class='material-icons pointer' onclick='removeCheck(" + item.nmpr_sn + ");'>&#xE5CD;</i></div></div>");
 			var fl_total = $("<div class='fl_total'><em></em> <em>\\ " + numberWithCommas(item.price) + "</em></div>");
 			$(fl_text).append(fl_total);
 			//var fr_updown = $("<div class='fr_updown'><div class='um_d' style='float:right;' onclick='removeCheck(" + item.nmpr_sn + ");'>-</div></div>");
@@ -753,7 +755,7 @@ function displayNmpr() {
 		calcPrice(item, 1);
 
 		var html = $("<div class='um_box'></div>");
-		var fl_text = $("<div class='fl_text'>" + item.text + " <i class='material-icons pointer' onclick='removeOption(" + item.nmpr_sn + ", \"P\");'>&#xE5CD;</i></div>");
+		var fl_text = $("<div class='fl_text'>" + item.text + " <div class='iconbox'><i class='material-icons pointer' onclick='removeOption(" + item.nmpr_sn + ", \"P\");'>&#xE5CD;</i></div></div>");
 		var fl_total = $("<div class='fl_total'><em>" + item.nmpr_cnt + "</em>" + item.unit_nm + " <em>\\ " + numberWithCommas(item.price) + "</em></div>");
 		$(fl_text).append(fl_total);
 		var fr_updown = $("<div class='fr_updown'><div class='um_d pointer' onclick='minusOption(" + item.nmpr_sn + ", \"P\");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d pointer' onclick='plusOption(" + item.nmpr_sn + ", \"P\");'>+</div></div>");
@@ -772,7 +774,7 @@ function displayNmpr() {
 		calcPrice(item, 1);
 
 		var html = $("<div class='um_box'></div>");
-		var fl_text = $("<div class='fl_text'>" + item.text + " <i class='material-icons pointer' onclick='removeOption(" + item.nmpr_sn + ", \"V\");'>&#xE5CD;</i></div>");
+		var fl_text = $("<div class='fl_text'>" + item.text + " <div class='iconbox'><i class='material-icons pointer' onclick='removeOption(" + item.nmpr_sn + ", \"V\");'>&#xE5CD;</i></div></div>");
 		var fl_total = $("<div class='fl_total'><em>" + item.nmpr_cnt + "</em>" + item.unit_nm + " <em>\\ " + numberWithCommas(item.price) + "</em></div>");
 		$(fl_text).append(fl_total);
 		var fr_updown = $("<div class='fr_updown'><div class='um_d pointer' onclick='minusOption(" + item.nmpr_sn + ", \"V\");'>-</div><div class='um_input'><input type='text' value='" + item.nmpr_cnt + "' readonly></div><div class='um_d pointer' onclick='plusOption(" + item.nmpr_sn + ", \"V\");'>+</div></div>");
@@ -1545,7 +1547,13 @@ function googleShare() {
 	    <div class="title_popup">예약하기	<a class="close-reveal-modal">&#215;</a></div>
 	    <div class="sp_50 mobile_view"></div>
         <div class="day_box">
-          <div class="title">RESERVATION
+			<c:if test="${result.CL_SE eq 'M'}">
+				<c:set var="reservationTitle" value="수령일자"/>
+			</c:if>
+			<c:if test="${result.CL_SE ne 'M'}">
+				<c:set var="reservationTitle" value="RESERVATION"/>
+			</c:if>
+          <div class="title">${reservationTitle}
             <div class="star_box">
               <div class="star_i">
             	<c:forEach begin="1" end="5"  var="x">
@@ -1566,7 +1574,12 @@ function googleShare() {
 					</div>
 					<div id="cal" ></div>
 					<div id="calHelp">
-						<div class="first active"><i>일정</i> <b id="sel1text">날짜선택</b></div>
+						<c:if test="${result.CL_SE eq 'M'}">
+							<div class="first active" style="width:100%;"><i style="width:60px;">수령일자</i> <b id="sel1text">날짜선택</b></div>
+						</c:if>
+						<c:if test="${result.CL_SE ne 'M'}">
+							<div class="first active"><i>일정</i> <b id="sel1text">날짜선택</b></div>
+						</c:if>
 					</div>
 				</div>
 				<!-- /#c --> 
@@ -1610,7 +1623,7 @@ function googleShare() {
 		</div>
         <div class="day_box3 ">
         	<c:if test="${result.CL_SE ne 'S'}">
-	        	<c:if test="${result.CL_SE ne 'T'}">
+	        	<c:if test="${result.CL_SE ne 'T' and result.CL_SE ne 'M'}">
 				<div class="input_box">
 					<div class="tx1">시간</div>
 					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
@@ -1626,7 +1639,7 @@ function googleShare() {
 				</c:if>
 				<div class="input_box">
 					<c:set var="optionNm" value="인원" />
-					<c:if test="${result.CL_SE == 'P'}">
+					<c:if test="${result.CL_SE == 'P' or result.CL_SE == 'M'}">
 						<c:set var="optionNm" value="옵션" />
 					</c:if>
 					<div class="tx1"><c:out value="${optionNm}" /></div>

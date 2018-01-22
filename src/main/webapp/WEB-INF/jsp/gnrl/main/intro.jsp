@@ -189,6 +189,7 @@ function fnLiveView(url, title, desc) {
 		autoplay: 3500,
 		speed: 2000,
 		loop: true,
+		effect: 'fade', // 'slide' or 'fade' or 'cube' or 'coverflow' or 'flip'
         nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
 		autoplayDisableOnInteraction: false
@@ -199,6 +200,7 @@ function fnLiveView(url, title, desc) {
 				autoplay: 3500,
 				speed: 2000,
 				loop: true,
+				effect: 'fade', // 'slide' or 'fade' or 'cube' or 'coverflow' or 'flip'
 				nextButton: '.swiper-button-next',
 		        prevButton: '.swiper-button-prev',
 				autoplayDisableOnInteraction: false

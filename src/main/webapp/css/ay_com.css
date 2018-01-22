@@ -13,16 +13,27 @@ div{box-sizing:border-box}
 input[type=text]::-ms-clear{display: none} 
 .font_st {font-weight: 500;font-family:'Noto Sans Korean', 'Noto Sans KR'; }
 
+
 /**** pc ****/
-@media only all and (min-width:769px) {
+@media only all and (min-width:1301px) {
 .pc_view { }
+.tb_view { display:none !important}
 .mobile_view { display:none !important}
 }
-/**** 모바일 ****/
-@media only all and (max-width:768px) {
+/**** 테블릿 ****/
+@media all and (max-width:1300px) and (min-width:768px) {
 .pc_view {display:none  !important}
+.tb_view { display:block !important}
+.mobile_view {display:none  !important}
+}
+/**** 모바일 ****/
+@media only all and (max-width:767px) {
+.pc_view {display:none  !important}
+.tb_view { display:none !important}
 .mobile_view {display:block  !important}
 }
+
+
 
 
 /**** pc ****/
@@ -39,6 +50,8 @@ img.mobile_view {display:block   !important}
 ul.pc_view {display:none  !important}
 ul.mobile_view {display:block  !important}
 }
+
+
 
 
 /**** 타이틀 : pc ****/

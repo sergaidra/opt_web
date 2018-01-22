@@ -30,7 +30,11 @@
 		<result property="ORIGIN_AMOUNT"         column="ORIGIN_AMOUNT"        	jdbcType="string" javaType="string"/>
 		<result property="PURCHS_AT"         column="PURCHS_AT"        	jdbcType="string" javaType="string"/>
 		<result property="PICKUP_INCLS_AT"         column="PICKUP_INCLS_AT"        	jdbcType="string" javaType="string"/>		
-		<result property="OPTIONS"       column="{ESNTL_ID=ESNTL_ID, CART_SN=CART_SN}" select="gnrl.order.selectCartDetailList" javaType="java.util.ArrayList"/>
+		<result property="GOODS_OPTION"         column="GOODS_OPTION"        	jdbcType="string" javaType="string"/>		
+		<result property="GOODS_DATE"         column="GOODS_DATE"        	jdbcType="string" javaType="string"/>		
+		<result property="GOODS_TIME"         column="GOODS_TIME"        	jdbcType="string" javaType="string"/>		
+		<result property="SETUP_SE_V"         column="SETUP_SE_V"        	jdbcType="string" javaType="string"/>
+		<!-- <result property="OPTIONS"       column="{ESNTL_ID=ESNTL_ID, CART_SN=CART_SN}" select="gnrl.order.selectCartDetailList" javaType="java.util.ArrayList"/> -->
 	</resultMap>	
 
 	<resultMap id="rm" class="hashMap">
@@ -67,6 +71,13 @@
 		     , ORIGIN_AMOUNT 		     
 		     , PURCHS_AT
 		     , X.PICKUP_INCLS_AT
+		     , FN_GET_PURCHS_OPTION(A.CART_SN, 'KO') AS GOODS_OPTION
+		     , FN_GET_PURCHS_DATE(A.CART_SN, 'KO') AS GOODS_DATE
+		     , FN_GET_PURCHS_TIME(A.CART_SN, 'KO') AS GOODS_TIME
+		     , CASE WHEN (SELECT COUNT(1) 
+		     	FROM TB_CART_NMPR AAA
+		     		INNER JOIN TB_GOODS_NMPR BBB ON AAA.GOODS_CODE = BBB.GOODS_CODE AND AAA.NMPR_SN = BBB.NMPR_SN AND AAA.SETUP_SE = BBB.SETUP_SE 
+		     	WHERE BBB.SETUP_SE = 'V' AND AAA.CART_SN = A.CART_SN ) > 0 THEN 'Y' ELSE 'N' END SETUP_SE_V
 		  FROM TB_CART_GOODS A
 		 INNER JOIN TB_GOODS X
 		    ON X.GOODS_CODE = A.GOODS_CODE

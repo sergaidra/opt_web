@@ -197,19 +197,19 @@ function lpad(s, padLength, padString){
       </div>
       <div class="mymenu">
         <ul>
-          <li><a href="javascript:document.location.href='/purchs/OrderList';">
+          <li style="width:25%;"><a href="javascript:document.location.href='/purchs/OrderList';">
             <div class="img"><img src="/images/sub/my_icon01.png"  alt=""/></div>
             <div class="tx"> 결제목록</div>
             </a> </li>
-          <li> <a href="javascript:document.location.href='/purchs/Cancel';">
+          <li style="width:25%;"> <a href="javascript:document.location.href='/purchs/Cancel';">
             <div class="img"><img src="/images/sub/my_icon02.png"  alt=""/></div>
             <div class="tx"> 취소목록</div>
             </a> </li>
-          <li class="on"> <a href="javascript:document.location.href='/purchs/Wish';">
+          <li class="on" style="width:25%;"> <a href="javascript:document.location.href='/purchs/Wish';">
             <div class="img"><img src="/images/sub/my_icon03.png"  alt=""/></div>
             <div class="tx"> 찜목록</div>
             </a> </li>
-          <li> <a href="javascript:document.location.href='/cart/list';">
+          <li style="width:25%;"> <a href="javascript:document.location.href='/cart/list';">
             <div class="img"><img src="/images/sub/my_icon04.png"  alt=""/></div>
             <div class="tx"> 예약목록<div class="mobile_view"></div>(장바구니)</div>
             </a> </li>

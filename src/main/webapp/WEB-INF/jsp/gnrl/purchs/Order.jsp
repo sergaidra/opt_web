@@ -158,7 +158,7 @@ function getSignature(param) {
 				var merchantData = JSON.stringify( param );
 				// Test
 				//$("#SendPayForm_id").find("input[name='price']").val("1000");
-				$("#SendPayForm_id").find("input[name='price").val(param.real_setle_amount);
+				$("#SendPayForm_id").find("input[name='price']").val(param.real_setle_amount);
 				$("#SendPayForm_id").find("input[name='signature']").val(data.data);
 				$("#SendPayForm_id").find("input[name='merchantData']").val(merchantData);
 				var returnUrl = location.protocol + "//" + location.host + "/purchs/payComplete";
@@ -272,8 +272,12 @@ function orderCancel() {
   </div>
   <c:set var="purchs_amount" value="0" />
   <c:set var="origin_amount" value="0" />
+  <c:set var="purchs_goods_nm" value="" />
   <div class="order_detail_box">
-	  <c:forEach var="item" items="${lstCart}">
+	  <c:forEach var="item" items="${lstCart}" varStatus="statusCart">
+	  	<c:if test="${statusCart.index == 0}">
+			<c:set var="purchs_goods_nm" value="${item.GOODS_NM}" />
+	  	</c:if>
 	  	<c:set var="nmpr_setup_se_V" value="0"/>
 		<div class="order_detailinput">
 			<input type="hidden" id="cart_sn" name="cart_sn" value="${item.CART_SN}"/>
@@ -288,37 +292,25 @@ function orderCancel() {
 				</div>
 				<div class="text_box">
 					<div class="tx1">
-						<c:if test="${!empty item.TOUR_DE}">
-							${fn:substring(item.TOUR_DE,0,4)}년 ${fn:substring(item.TOUR_DE,4,6)}월 ${fn:substring(item.TOUR_DE,6,8)}일
-						</c:if>
-						<c:if test="${!empty item.CHKIN_DE}">
-							${fn:substring(item.CHKIN_DE,0,4)}년 ${fn:substring(item.CHKIN_DE,4,6)}월 ${fn:substring(item.CHKIN_DE,6,8)}일 ~ ${fn:substring(item.CHCKT_DE,0,4)}년 ${fn:substring(item.CHCKT_DE,4,6)}월 ${fn:substring(item.CHCKT_DE,6,8)}일
-						</c:if>
+						${item.GOODS_DATE}
 					</div>
 					<div class="tx2">${item.GOODS_NM}</div>
 					<div class="tx3">
-						<c:if test="${item.CL_SE ne 'S'}">
-							${fn:substring(item.BEGIN_TIME,0,2)}시 ${fn:substring(item.BEGIN_TIME,2,4)}분 ~ ${fn:substring(item.END_TIME,0,2)}시 ${fn:substring(item.END_TIME,2,4)}분
-							<c:forEach var="options" items="${item.OPTIONS}" varStatus="status">
-								<br>${options.NMPR_CND} ${options.NMPR_CO}명
-								<c:if test="${options.SETUP_SE eq 'V'}"><c:set var="nmpr_setup_se_V" value="1"/></c:if>
-							</c:forEach>
-						</c:if>					
-						<c:if test="${item.CL_SE eq 'S'}">
-							<c:forEach var="options" items="${item.OPTIONS}" varStatus="status">
-								${options.SETUP_NM} ${options.NMPR_CND}<br>
-								<c:if test="${options.SETUP_SE eq 'V'}"><c:set var="nmpr_setup_se_V" value="1"/></c:if>
-							</c:forEach>
+						<c:if test="${item.GOODS_TIME != null}">
+							${item.GOODS_TIME}<br/>
 						</c:if>
+						${item.GOODS_OPTION}
 					</div>					
 					<div class="tx4"><em><fmt:formatNumber value="${item.ORIGIN_AMOUNT}" pattern="#,###" /></em>원  </div>
 				</div>
 			</div>	
-			<c:if test="${nmpr_setup_se_V eq '1' or item.CL_SE eq 'P' or item.PICKUP_INCLS_AT eq 'Y'}" >
+			<c:if test="${item.SETUP_SE_V eq 'Y' or item.CL_SE eq 'P' or item.CL_SE eq 'M' or item.PICKUP_INCLS_AT eq 'Y'}" >
 				<div class="input_box">
 					<div class="title"><i class="material-icons">&#xE5DB;</i><p>추가 입력사항</p></div>
 					<input name="pickup_place" type="text" class="fl mb_5" id="pickup_place" placeholder="픽업장소를 입력해 주세요 " value="${item.PICKUP_PLACE}" />
-					<input name="drop_place" type="text" class="fr mb_5" id="drop_place" placeholder="드랍장소를 입력해 주세요 " value="${item.DROP_PLACE}" />
+					<c:if test="${item.CL_SE ne 'M'}">
+						<input name="drop_place" type="text" class="fr mb_5" id="drop_place" placeholder="드랍장소를 입력해 주세요 " value="${item.DROP_PLACE}" />
+					</c:if>
 					<c:if test="${item.PICKUP_INCLS_AT eq 'Y'}" >
 						<input name="use_nmpr" type="text" class=" fl mb_5" id="use_nmpr" placeholder="이용 인원을 입력해 주세요  (성인1명 / 아동 0명 / 유아 0명)"  value="${item.USE_NMPR}"/>               
 		                <input name="use_pd" type="text" class=" fr" id="use_pd" placeholder="이용 기간을 입력해 주세요 " value="${item.USE_PD}" />
@@ -537,7 +529,7 @@ function orderCancel() {
 										<form id="SendPayForm_id" name="" method="POST" >
 											<input type="hidden" name="version" value="1.0" >
 											<input type="hidden" name="mid" value="${mid}" >
-											<input type="hidden" name="goodname" value="test" >
+											<input type="hidden" name="goodname" value="${purchs_goods_nm}" >
 											<input type="hidden" name="oid" value="${oid}" >
 											<input type="hidden" name="price" value="" >
 											<input type="hidden" name="currency" value="WON" >
