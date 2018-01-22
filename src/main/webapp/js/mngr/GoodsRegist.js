@@ -725,7 +725,7 @@ function fn_preview() {
 		if(!sGoodsCode) {
 			sGoodsCode = Ext.getCmp('form-reg-goods-code').getValue();
 		}
-		winGoodsDetail = fn_openPopup('/goods/detail?adminAt=Y&hidGoodsCode='+sGoodsCode, 'winGoodsDetail'+sGoodsCode, 1250, 700);
+		winGoodsDetail = fn_openPopup('/goods/detail?adminAt=Y&hidGoodsCode='+sGoodsCode, 'winGoodsDetail'+sGoodsCode, 1250, 700, 'yes');
 	} else {
 		winGoodsDetail.close();	
 	}

@@ -199,7 +199,7 @@ function bind(month,year){
 			month++;
 			if(month>12){ year++; month=1; } // switch year and reset month
 		}
-		else {
+		else if(t.id == 'prev') {
 			month--;
 			if(month<1){ year--; month=12; } // switch year and reset month
 		}
