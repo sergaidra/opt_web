@@ -250,36 +250,38 @@
 						var tdclass = "";
 						var istyle = "color:" + color + ";";
 						var iclass = "";
+						var tdtitle = "";
 						if(hotdeal == true) {
 							tdclass += " hotdeal";
 							istyle += " text-decoration:underline;";
 							iclass += " hotdeal";
+							tdtitle = "HOT DEAL";
 						}
 						
 						if(selectDt.startDt != null && selectDt.endDt != null) {
 							if(curDt2 == selectDt.startDt) {
-								str += '<td class="sel1 ' + tdclass + '" id="sel1" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
+								str += '<td class="sel1 ' + tdclass + '" id="sel1" style="' + tdstyle + '" title="' + tdtitle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
 							} else if(curDt2 == selectDt.endDt) {
-								str += '<td class="sel2 ' + tdclass + '" id="sel2" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
+								str += '<td class="sel2 ' + tdclass + '" id="sel2" style="' + tdstyle + '" title="' + tdtitle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
 							} else if(curDt2 > selectDt.startDt && curDt2 < selectDt.endDt) {
-								str += '<td class="range ' + tdclass + '" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
+								str += '<td class="range ' + tdclass + '" style="' + tdstyle + '" title="' + tdtitle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
 							} else {
-								str += '<td class=" ' + tdclass + '" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';						
+								str += '<td class=" ' + tdclass + '" style="' + tdstyle + '" title="' + tdtitle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';						
 							}
 						} else if(selectDt.startDt != null) {
 							if(curDt2 == selectDt.startDt) {
-								str += '<td class="sel1 ' + tdclass + '" id="sel1" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
+								str += '<td class="sel1 ' + tdclass + '" id="sel1" style="' + tdstyle + '" title="' + tdtitle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
 							} else {
-								str += '<td class=" ' + tdclass + '" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';						
+								str += '<td class=" ' + tdclass + '" style="' + tdstyle + '" title="' + tdtitle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';						
 							}
 						} else if(selectDt.endDt != null) {
 							if(curDt2 == selectDt.endDt) {
-								str += '<td class="sel2 ' + tdclass + '" id="sel2" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
+								str += '<td class="sel2 ' + tdclass + '" id="sel2" style="' + tdstyle + '" title="' + tdtitle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
 							} else {
-								str += '<td class=" ' + tdclass + '" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';						
+								str += '<td class=" ' + tdclass + '" style="' + tdstyle + '" title="' + tdtitle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';						
 							}
 						} else {
-							str += '<td class=" ' + tdclass + '" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';						
+							str += '<td class=" ' + tdclass + '" style="' + tdstyle + '" title="' + tdtitle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';						
 						}
 					} else {
 						str += '<td class="disabled stop"><i class="disabled stop">'+days[key]+'</i></td>';
