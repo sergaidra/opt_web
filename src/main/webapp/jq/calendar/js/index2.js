@@ -38,7 +38,13 @@
 			e.classList.add('sel1');
 			
 			_id('sel1text').innerHTML = year + '-' + lpad(month.toString(), 2, "0") + '-' + lpad(e.innerText, 2, "0");
-			selectDt.startDt = year + '-' + lpad(month.toString(), 2, "0") + '-' + lpad(e.innerText, 2, "0");			
+			selectDt.startDt = year + '-' + lpad(month.toString(), 2, "0") + '-' + lpad(e.innerText, 2, "0");	
+			if(e.classList.contains('hotdeal')) {
+				optionInfo.hotdeal = true;
+			} else {
+				optionInfo.hotdeal = false;
+			}
+			setDateRefresh();
 		}
 		
 	} //userSelect(e);
@@ -147,10 +153,21 @@
 							break;
 						}
 					}
-					if(isOk == true)
-						str += '<td style="cursor:pointer;"><i style="color:' + color + ';">'+days[key]+'</i></td>';
-					else
+					if(isOk == true) {
+						var hotdeal = false;
+						if(hotdeal_applc_begin_de != "" && hotdeal_applc_end_de != "") {
+							if(hotdeal_applc_begin_de <= curDt && curDt <= hotdeal_applc_end_de )
+								hotdeal = true;
+						}
+						
+						if(hotdeal == true) {
+							str += '<td style="cursor:pointer;" title="HOT DEAL" class="hotdeal"><i style="color:' + color + '; text-decoration:underline;" class="hotdeal">'+days[key]+'</i></td>';
+						} else {
+							str += '<td style="cursor:pointer;"><i style="color:' + color + ';">'+days[key]+'</i></td>';						
+						}
+					} else {
 						str += '<td class="disabled stop"><i class="disabled stop">'+days[key]+'</i></td>';
+					}
 				}
 				
 				if(i === 7) { str += '</tr>'; i=0; }

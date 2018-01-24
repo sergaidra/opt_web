@@ -48,7 +48,7 @@ function go_03_01_01() {
 
 
 // 여행체크리스트 ///
-function go_04_01_01() {	alert("준비중입니다."); }
+function go_04_01_01() {	document.location.href="/cs/checklist"; }
 
 
 

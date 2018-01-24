@@ -62,13 +62,15 @@ $(document).ready(function(){
 });
 
 //var lstNmpr = [];
-var optionInfo = { "days" : 0, "room" : null, "eat" : [], "check" : [], "nmpr_P" : [], "nmpr_V" : [], "nmpr_S" : []};
+var optionInfo = { "days" : 0, "room" : null, "hotdeal" : false, "eat" : [], "check" : [], "nmpr_P" : [], "nmpr_V" : [], "nmpr_S" : []};
 var selectDt = { "startDt" : null, "endDt" : null };
 var lstSchdul = [];
 var lstRsvSchdul = [];	// 미리 예약된 날짜
 var detail_flight_sn = "";
 var lstOption = [];
 var hotdeal_at = "${result.HOTDEAL_AT}";
+var hotdeal_applc_begin_de = "${result.HOTDEAL_APPLC_BEGIN_DE}";
+var hotdeal_applc_end_de = "${result.HOTDEAL_APPLC_END_DE}";
 
 <c:forEach var="list" items="${lstSchdul}">
 	lstSchdul.push({"BEGIN_DE" : "${list.BEGIN_DE}", "END_DE" : "${list.END_DE}", "POSBL_AT" : "${list.POSBL_AT}" });
@@ -414,6 +416,7 @@ $(function() {
 function initOptionInfo() {
 	optionInfo.days = 0;
 	optionInfo.room = null;
+	optionInfo.hotdeal = false;
 	optionInfo.eat = [];
 	optionInfo.check = [];
 	optionInfo.nmpr_P = [];
@@ -459,6 +462,10 @@ function setDateRange() {
 	displayRoom();
 }
 
+function setDateRefresh() {
+	displayNmpr();
+}
+
 function calcPrice(item, multiply) {
 	var nmpr_cnt = item.nmpr_cnt;	// 선택 개수
 	var nmpr_co = item.nmpr_co;		// 정원
@@ -498,7 +505,7 @@ function calcPrice(item, multiply) {
 	}
 	
 	item.originPrice = originPrice * multiply;
-	if(hotdeal_at == "Y")
+	if(hotdeal_at == "Y" && optionInfo.hotdeal == true)
 		item.price = item.originPrice * dscnt_rate;
 	else
 		item.price = item.originPrice;		

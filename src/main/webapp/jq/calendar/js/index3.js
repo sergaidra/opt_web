@@ -50,6 +50,12 @@
 			selectDt.endMonth = endMonth;
 			selectDt.endDay = endDay;
 
+			if(e.classList.contains('hotdeal')) {
+				optionInfo.hotdeal = true;
+			} else {
+				optionInfo.hotdeal = false;
+			}
+
 			var par = e.parentNode,			// tr
 			parPar = par.parentNode;	// tbody (main)			
 			var td = parPar.querySelectorAll('td');
@@ -125,7 +131,7 @@
 			initOptionInfo();
 		} //end else/if
 		
-		setDateRange();
+		setDateRefresh();
 	} //userSelect(e);
 
 	
@@ -235,30 +241,45 @@
 						}
 					}
 					if(isOk == true) {
+						var hotdeal = false;
+						if(hotdeal_applc_begin_de != "" && hotdeal_applc_end_de != "") {
+							if(hotdeal_applc_begin_de <= curDt && curDt <= hotdeal_applc_end_de )
+								hotdeal = true;
+						}
+						var tdstyle = "cursor:pointer;";
+						var tdclass = "";
+						var istyle = "color:" + color + ";";
+						var iclass = "";
+						if(hotdeal == true) {
+							tdclass += " hotdeal";
+							istyle += " text-decoration:underline;";
+							iclass += " hotdeal";
+						}
+						
 						if(selectDt.startDt != null && selectDt.endDt != null) {
 							if(curDt2 == selectDt.startDt) {
-								str += '<td class="sel1" id="sel1" style="cursor:pointer;"><i style="color:' + color + ';">'+days[key]+'</i></td>';
+								str += '<td class="sel1 ' + tdclass + '" id="sel1" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
 							} else if(curDt2 == selectDt.endDt) {
-								str += '<td class="sel2" id="sel2" style="cursor:pointer;"><i style="color:' + color + ';">'+days[key]+'</i></td>';
+								str += '<td class="sel2 ' + tdclass + '" id="sel2" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
 							} else if(curDt2 > selectDt.startDt && curDt2 < selectDt.endDt) {
-								str += '<td class="range" style="cursor:pointer;"><i style="color:' + color + ';">'+days[key]+'</i></td>';
+								str += '<td class="range ' + tdclass + '" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
 							} else {
-								str += '<td style="cursor:pointer;"><i style="color:' + color + ';">'+days[key]+'</i></td>';						
+								str += '<td class=" ' + tdclass + '" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';						
 							}
 						} else if(selectDt.startDt != null) {
 							if(curDt2 == selectDt.startDt) {
-								str += '<td class="sel1" id="sel1" style="cursor:pointer;"><i style="color:' + color + ';">'+days[key]+'</i></td>';
+								str += '<td class="sel1 ' + tdclass + '" id="sel1" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
 							} else {
-								str += '<td style="cursor:pointer;"><i style="color:' + color + ';">'+days[key]+'</i></td>';						
+								str += '<td class=" ' + tdclass + '" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';						
 							}
 						} else if(selectDt.endDt != null) {
 							if(curDt2 == selectDt.endDt) {
-								str += '<td class="sel2" id="sel2" style="cursor:pointer;"><i style="color:' + color + ';">'+days[key]+'</i></td>';
+								str += '<td class="sel2 ' + tdclass + '" id="sel2" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';
 							} else {
-								str += '<td style="cursor:pointer;"><i style="color:' + color + ';">'+days[key]+'</i></td>';						
+								str += '<td class=" ' + tdclass + '" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';						
 							}
 						} else {
-							str += '<td style="cursor:pointer;"><i style="color:' + color + ';">'+days[key]+'</i></td>';						
+							str += '<td class=" ' + tdclass + '" style="' + tdstyle + '"><i class=" ' + iclass + '" style="' + istyle + '">'+days[key]+'</i></td>';						
 						}
 					} else {
 						str += '<td class="disabled stop"><i class="disabled stop">'+days[key]+'</i></td>';

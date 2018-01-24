@@ -55,6 +55,8 @@
         <result property="HOTDEAL_AT"        		column="HOTDEAL_AT"             jdbcType="string" javaType="string"/>        
         <result property="RECOMEND_AT"        		column="RECOMEND_AT"             jdbcType="string" javaType="string"/>    
         <result property="TOUR_DAYS"        		column="TOUR_DAYS"             jdbcType="string" javaType="string"/>            
+        <result property="HOTDEAL_APPLC_BEGIN_DE"   column="HOTDEAL_APPLC_BEGIN_DE"             jdbcType="string" javaType="string"/>            
+        <result property="HOTDEAL_APPLC_END_DE"     column="HOTDEAL_APPLC_END_DE"             jdbcType="string" javaType="string"/>            
         <result property="BKMK"        		column="BKMK"             jdbcType="string" javaType="string"/>       
 	</resultMap>
 
@@ -366,6 +368,8 @@
              , CASE WHEN A.HOTDEAL_AT = 'Y' AND TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN A.HOTDEAL_BEGIN_DE AND A.HOTDEAL_END_DE THEN 'Y' ELSE 'N' END AS HOTDEAL_AT
              , RECOMEND_AT     
              , TOUR_DAYS
+             , HOTDEAL_APPLC_BEGIN_DE
+             , HOTDEAL_APPLC_END_DE
 		     , (SELECT CASE WHEN COUNT(1) > 0 THEN 'Y' ELSE 'N' END FROM TB_BKMK WHERE ESNTL_ID = #esntl_id# AND GOODS_CODE = A.GOODS_CODE) BKMK
           FROM TB_GOODS A 
          WHERE GOODS_CODE = #goods_code# ]]>
