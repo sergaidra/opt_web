@@ -499,11 +499,11 @@ function fn_cmmnCombo(sLabel, objId, objName, sCodeId, sUseAt, bAll, iWidth, iWi
 	return cbCmmnCode;
 }
 
-function fn_openPopup(sUrl, sName, iWidth, iHeigth, sResizable){
+function fn_openPopup(sUrl, sName, iWidth, iHeigth, sResizable, sMenubar){
     var sw = screen.width;
     var sh = screen.height;
     var x = (sw-iWidth)/2;
     var y = (sh-iHeigth)/2;
-    var opts = "width="+iWidth+", height="+iHeigth+", left="+x+", top="+y+", scrollbars=yes, menubar=no, location=no, resizable="+sResizable;
+    var opts = "width="+iWidth+", height="+iHeigth+", left="+x+", top="+y+", scrollbars=yes, menubar="+(sMenubar?sMenubar:'no')+", location=no, resizable="+sResizable;
     window.open(sUrl, sName, opts).focus();
 }

@@ -152,9 +152,23 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
     	width: 50
 	},{
 		text: '결제번호',
-		width: 150,
+		width: 100,
 		align: 'center',
 		dataIndex: 'PURCHS_SN'
+	},{
+		text: '일정표',
+		align: 'center',
+		menuDisabled: true,
+		xtype: 'actioncolumn',
+		width: 60,
+		items: [{
+    		altText: '일정표(가이드)',
+    		iconCls: 'icon-search',
+			handler: function(grid, rowIndex, colIndex){
+				var record = stPurchs.getAt(rowIndex);
+				fn_openPopup('/purchs/OrderInfoAdmin?purchs_sn='+record.data.PURCHS_SN, 'winOrderInfoAdmin_'+record.data.PURCHS_SN, 950, 600, 'yes', 'yes');
+			}
+		}]	
 	},{
 		text: '결제자',
 		width: 120,
@@ -209,12 +223,9 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		emptyMsg: "조회된 자료가 없습니다."
 	}),
 	listeners: {
-		cellclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
+		celldblclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
 			stPurchsGoods.proxy.extraParams.PURCHS_SN = record.data.PURCHS_SN;
 			stPurchsGoods.load();
-		},
-		celldblclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
-			fn_openPopup('/purchs/OrderInfoAdmin?purchs_sn='+record.data.PURCHS_SN, 'winOrderInfo_'+record.data.PURCHS_SN, 950, 600, true);
 		}
 	}
 });

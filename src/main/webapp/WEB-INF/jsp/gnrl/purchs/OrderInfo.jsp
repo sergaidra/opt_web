@@ -289,7 +289,7 @@ function savePDF() {
 				        doc.save('${purchs.PURCHS_DE}_${purchs.TOURIST_NM}_${purchs.PURCHS_SN}.pdf');
 			        </c:if>
 			        <c:if test="${purchs == null}">
-			        	doc.save('Itinerary.pdf');
+			        	doc.save('일정표(임시).pdf');
 			        </c:if>
 		  }
 		});	

@@ -73,7 +73,7 @@
 	</select>
 			
 	<select id="gnrl.purchs.viewPurchs" parameterClass="hashMap" resultClass="hashMap">
-		SELECT P.PURCHS_SN, P.ESNTL_ID, P.PURCHS_DE, P.TOURIST_NM
+		SELECT P.PURCHS_SN, P.ESNTL_ID, P.PURCHS_DE, P.TOURIST_NM, P.TOURIST_CTTPC, P.KAKAO_ID, TO_CHAR(SYSDATE, 'YYYY-MM-DD') CURR_DT
 		FROM TB_PURCHS P
 		WHERE P.PURCHS_SN = #purchs_sn#
 	</select>

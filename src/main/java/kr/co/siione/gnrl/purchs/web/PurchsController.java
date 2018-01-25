@@ -174,9 +174,11 @@ public class PurchsController {
     			} catch(Exception ex) {
     				strDt = "";
     			}
-       			String BEGIN_TIME = String.valueOf(lstGoods.get(i).get("BEGIN_TIME"));
-       			String END_TIME = String.valueOf(lstGoods.get(i).get("END_TIME"));
-       			time = BEGIN_TIME.substring(0, 2) + ":" + BEGIN_TIME.substring(2, 4) + " ~ " + END_TIME.substring(0, 2) + ":" + END_TIME.substring(2, 4);
+       			String BEGIN_TIME = UserUtils.nvl(String.valueOf(lstGoods.get(i).get("BEGIN_TIME")));
+       			String END_TIME = UserUtils.nvl(String.valueOf(lstGoods.get(i).get("END_TIME")));
+       			if(!BEGIN_TIME.equals("")) {
+       				time = BEGIN_TIME.substring(0, 2) + ":" + BEGIN_TIME.substring(2, 4) + " ~ " + END_TIME.substring(0, 2) + ":" + END_TIME.substring(2, 4);	
+       			}
        			text = String.valueOf(lstGoods.get(i).get("GOODS_NM"));
        			options = String.valueOf(lstGoods.get(i).get("OPTIONS"));
     		}
@@ -352,9 +354,11 @@ public class PurchsController {
     			} catch(Exception ex) {
     				strDt = "";
     			}
-       			String BEGIN_TIME = String.valueOf(lstGoods.get(i).get("BEGIN_TIME"));
-       			String END_TIME = String.valueOf(lstGoods.get(i).get("END_TIME"));
-       			time = BEGIN_TIME.substring(0, 2) + ":" + BEGIN_TIME.substring(2, 4) + " ~ " + END_TIME.substring(0, 2) + ":" + END_TIME.substring(2, 4);
+    			String BEGIN_TIME = UserUtils.nvl(String.valueOf(lstGoods.get(i).get("BEGIN_TIME")));
+       			String END_TIME = UserUtils.nvl(String.valueOf(lstGoods.get(i).get("END_TIME")));
+       			if(!BEGIN_TIME.equals("")) {
+       				time = BEGIN_TIME.substring(0, 2) + ":" + BEGIN_TIME.substring(2, 4) + " ~ " + END_TIME.substring(0, 2) + ":" + END_TIME.substring(2, 4);	
+       			}
        			text = String.valueOf(lstGoods.get(i).get("GOODS_NM"));
        			options = String.valueOf(lstGoods.get(i).get("OPTIONS"));
     		}
