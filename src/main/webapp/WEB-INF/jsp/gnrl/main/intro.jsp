@@ -421,7 +421,7 @@ function fnLiveView(url, title, desc) {
         <script>
     var swiper = new Swiper('#pro_sw .swiper-container', {
         pagination: '.swiper-pagination',
-        slidesPerView: 3,
+        slidesPerView: 4,
         paginationClickable: true,  nextButton: '.swiper-button-next',
             prevButton: '.swiper-button-prev',
         spaceBetween:0

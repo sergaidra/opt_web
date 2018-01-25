@@ -433,8 +433,8 @@ em{ font-style: normal }
 .sw_out .sw_box .img .um{ position: absolute; left: 10px; top: 10px; width: 70px; height: 70px ; border-radius: 150px; background-color:rgba(0, 0, 0, 0.8);z-index: 9999;}	
 .sw_out .sw_box .img .um .tx1{ width: 100%;float: left; font-size: 12px; color: #fff; text-align: center; margin-top:10px}	
 .sw_out .sw_box .img .um .tx2{ width: 100%;float: left; font-size: 24px; color: #FFAE39; text-align: center; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 700}	
-.sw_out .sw_box .txt_box{ width: 100%;float: left; box-sizing: border-box; padding: 17px 15px; background-color: #fff; position: relative; height:90PX} 
-.sw_out .sw_box .txt_box .title{ width: 65%;float: left;  font-size: 16px; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; ; font-weight: 400; text-align: left } 
+.sw_out .sw_box .txt_box{ width: 100%;float: left; box-sizing: border-box; padding: 17px 15px; background-color: #fff; position: relative; height:140PX} 
+.sw_out .sw_box .txt_box .title{ width: 100%;float: left;  font-size: 16px; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; ; font-weight: 400; text-align: left } 
 .sw_out .sw_box .txt_box .title .tx1{ width: 100%;float: left;  font-size: 12px; ;  text-align: left; color: #999; margin-bottom: 5px;  line-height: 14px } 
 .sw_out .sw_box .txt_box .title .tx2{ width: 100%;float: left;  font-size: 16px; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; ; font-weight: 400; text-align: left } 
 .sw_out .sw_box .txt_box .price{float: right; } 
