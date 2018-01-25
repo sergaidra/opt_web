@@ -365,7 +365,10 @@ var frCond = Ext.create('Ext.form.Panel', {
 
 Ext.define('GoodsInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['GOODS_CODE', 'CL_NM', 'UPPER_CL_NM', 'GOODS_NM', 'GOODS_NM_SUB', 'CTY_NM', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 'HOTDEAL_AT', 'RECOMEND_AT', 'HOTDEAL_SORT_ORDR', 'RECOMEND_SORT_ORDR', 'HOTDEAL_BEGIN_DE', 'HOTDEAL_END_DE', 'DELETE_AT', 'DELETE_AT_NM', 'WRITNG_DT', 'UPDT_DT', 'SLE_BEGIN_DT', 'FILE_CODE', 'CF_FILE_CNT']
+	fields: ['GOODS_CODE', 'CL_NM', 'UPPER_CL_NM', 'GOODS_NM', 'GOODS_NM_SUB', 'CTY_NM', 'STAYNG_FCLTY_AT', 'SORT_ORDR', 
+	         'HOTDEAL_AT', 'RECOMEND_AT', 'HOTDEAL_SORT_ORDR', 'RECOMEND_SORT_ORDR', 'HOTDEAL_BEGIN_DE', 'HOTDEAL_END_DE', 
+	         'HOTDEAL_APPLC_BEGIN_DE', 'HOTDEAL_APPLC_END_DE', 
+	         'DELETE_AT', 'DELETE_AT_NM', 'WRITNG_DT', 'UPDT_DT', 'SLE_BEGIN_DT', 'FILE_CODE', 'CF_FILE_CNT']
 });
 
 var jsGoods = Ext.create('Ext.data.JsonStore', {
@@ -457,59 +460,6 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 		align: 'left',
 		dataIndex: 'GOODS_NM_SUB'
 	},{
-		text: '정렬순서',
-		width: 80,
-		align: 'center',
-		dataIndex: 'SORT_ORDR'			
-	},{
-		text: '핫딜상품',
-		width: 80,
-		align: 'center',
-		dataIndex: 'HOTDEAL_AT',
-		renderer: function(value) {
-			if(value == 'Y') return '예';
-			else return '아니오';
-		}
-	},{
-		text: '핫딜순서',
-		width: 80,
-		align: 'center',
-		dataIndex: 'HOTDEAL_SORT_ORDR'
-	},{
-		text: '핫딜기간',
-		width: 170,
-		align: 'center',
-		dataIndex: 'HOTDEAL_BEGIN_DE',
-		renderer: function(value, metaData, record) {
-			if(value) {
-				return value + '~' + record.data.HOTDEAL_END_DE;
-			}
-		}
-	},{
-		text: '추천상품',
-		width: 80,
-		align: 'center',
-		dataIndex: 'RECOMEND_AT',
-		renderer: function(value) {
-			if(value == 'Y') return '예';
-			else return '아니오';
-		}
-	},{
-		text: '추천순서',
-		width: 80,
-		align: 'center',
-		dataIndex: 'RECOMEND_SORT_ORDR'	
-	},{
-		 text: '사진수',
-		 width: 80,
-		 align: 'center',
-		 dataIndex: 'CF_FILE_CNT'
-	},{
-		text: '사용여부',
-		width: 90,
-		align: 'center',
-		dataIndex: 'DELETE_AT_NM'
-	},{
 		text: '미리보기',
 		align: 'center',
 		menuDisabled: true,
@@ -551,7 +501,71 @@ var grGoods = Ext.create('Ext.grid.Panel', {
 					}
 				});
 			}
-		}]			 
+		}]	
+	},{
+		text: '정렬순서',
+		width: 80,
+		align: 'center',
+		dataIndex: 'SORT_ORDR'	
+	},{
+		text: '핫딜상품',
+		width: 80,
+		align: 'center',
+		dataIndex: 'HOTDEAL_AT',
+		renderer: function(value) {
+			if(value == 'Y') return '예';
+			else return '아니오';
+		}
+	},{
+		text: '핫딜순서',
+		width: 80,
+		align: 'center',
+		hidden: true,
+		dataIndex: 'HOTDEAL_SORT_ORDR'
+	},{
+		text: '핫딜기간',
+		width: 170,
+		align: 'center',
+		dataIndex: 'HOTDEAL_BEGIN_DE',
+		renderer: function(value, metaData, record) {
+			if(value) {
+				return value + '~' + record.data.HOTDEAL_END_DE;
+			}
+		}
+	},{
+		text: '핫딜적용기간',
+		width: 170,
+		align: 'center',
+		dataIndex: 'HOTDEAL_APPLC_BEGIN_DE',
+		renderer: function(value, metaData, record) {
+			if(value) {
+				return value + '~' + record.data.HOTDEAL_APPLC_END_DE;
+			}
+		}	
+	},{
+		text: '추천상품',
+		width: 80,
+		align: 'center',
+		dataIndex: 'RECOMEND_AT',
+		renderer: function(value) {
+			if(value == 'Y') return '예';
+			else return '아니오';
+		}
+	},{
+		text: '추천순서',
+		width: 80,
+		align: 'center',
+		dataIndex: 'RECOMEND_SORT_ORDR'	
+	},{
+		 text: '사진수',
+		 width: 80,
+		 align: 'center',
+		 dataIndex: 'CF_FILE_CNT'
+	},{
+		text: '사용여부',
+		width: 90,
+		align: 'center',
+		dataIndex: 'DELETE_AT_NM'
 	},{
 		 text: '작성일시',
 		 width: 150,

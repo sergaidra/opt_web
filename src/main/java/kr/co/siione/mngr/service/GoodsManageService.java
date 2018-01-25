@@ -16,6 +16,8 @@ public interface GoodsManageService {
 	public int deleteGoods(Map<String, String> param) throws Exception;
 
 	public int deleteGoodsMulti(Map<String, Object> param) throws Exception;
+
+	public int recoverGoods(Map<String, String> param) throws Exception;
 	
 	public Map<String, Object> saveGoodsSchdul(Map<String, String> param) throws Exception;
 

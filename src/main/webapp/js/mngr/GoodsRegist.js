@@ -762,9 +762,59 @@ function fn_checkValue(objId) {
 	}
 }
 
+function fn_setButton(sDiv) {
+	
+	if(sDiv == 'EDIT') { // 수정모드
+		Ext.getCmp('btn-save1').enable();
+		Ext.getCmp('btn-save2').enable();
+		Ext.getCmp('btn-save3').enable();
+		Ext.getCmp('btn-del').enable();
+		Ext.getCmp('btn-rec').disable();
+
+		Ext.getCmp('btn-add-schdul').enable();
+		Ext.getCmp('btn-del-schdul').enable();
+		Ext.getCmp('btn-save-schdul').enable();
+
+		Ext.getCmp('btn-add-time').enable();
+		Ext.getCmp('btn-del-time').enable();
+		Ext.getCmp('btn-save-time').enable();
+
+		Ext.getCmp('btn-add-nmpr').enable();
+		Ext.getCmp('btn-del-nmpr').enable();
+		Ext.getCmp('btn-save-nmpr').enable();
+
+		Ext.getCmp('btn-del-file').enable();
+		Ext.getCmp('btn-save-file').enable();
+		Ext.getCmp('btn-upload-file').enable();
+		
+	} else if(sDiv == 'READ'){ // 삭제모드
+		Ext.getCmp('btn-save1').disable();
+		Ext.getCmp('btn-save2').disable();
+		Ext.getCmp('btn-save3').disable();
+		Ext.getCmp('btn-del').disable();
+		Ext.getCmp('btn-rec').enable();
+
+		Ext.getCmp('btn-add-schdul').disable();
+		Ext.getCmp('btn-del-schdul').disable();
+		Ext.getCmp('btn-save-schdul').disable();
+
+		Ext.getCmp('btn-add-time').disable();
+		Ext.getCmp('btn-del-time').disable();
+		Ext.getCmp('btn-save-time').disable();
+
+		Ext.getCmp('btn-add-nmpr').disable();
+		Ext.getCmp('btn-del-nmpr').disable();
+		Ext.getCmp('btn-save-nmpr').disable();
+
+		Ext.getCmp('btn-del-file').disable();
+		Ext.getCmp('btn-save-file').disable();
+		Ext.getCmp('btn-upload-file').disable();
+	}
+}
+
 /**
  * 상품저장
- * @param sDiv (I:기본정보저장, G:이용안내저장, E:기타정보저장, D:상품삭제)
+ * @param sDiv (I:기본정보저장, G:이용안내저장, E:기타정보저장, D:상품삭제, R:삭제상품 대기처리)
  * @param frSave
  */
 function fn_saveGoodsInfo(sDiv, frSave) {
@@ -775,6 +825,9 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 	if(sDiv == 'D') {
 		sUrl = '../deleteGoods/';
 		sMsg = '사용안함 처리';
+	} else if(sDiv == 'R') {
+		sUrl = '../recoverGoods/';
+		sMsg = '대기처리';
 	} else if(sDiv != 'I') {
 		sUrl = '../updateGoods/';
 		stParams = {
@@ -783,7 +836,7 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 		};
 	}
 
-	if(sDiv != 'D') {
+	if(sDiv != 'D' && sDiv != 'R') {
 		if(!frSave.getForm().isValid()) {
 			alert('입력값 오류');
 			return;
@@ -849,6 +902,8 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 								storeTime.removeAll();
 								storeNmpr.removeAll();
 								storeFile.removeAll();
+							} else if(sDiv == 'R') {
+								fn_setButton('EDIT');
 							}
 							fn_activeNextTab();
 						});
@@ -987,27 +1042,7 @@ var storeGoods = Ext.create('Ext.data.JsonStore', {
 				storeFile.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
 
 				if(store.getAt(0).data.DELETE_AT == 'Y') {
-					Ext.getCmp('btn-save1').disable();
-					Ext.getCmp('btn-save2').disable();
-					Ext.getCmp('btn-save3').disable();
-					//Ext.getCmp('btn-add').disable();
-					Ext.getCmp('btn-del').disable();
-
-					Ext.getCmp('btn-add-schdul').disable();
-					Ext.getCmp('btn-del-schdul').disable();
-					Ext.getCmp('btn-save-schdul').disable();
-
-					Ext.getCmp('btn-add-time').disable();
-					Ext.getCmp('btn-del-time').disable();
-					Ext.getCmp('btn-save-time').disable();
-
-					Ext.getCmp('btn-add-nmpr').disable();
-					Ext.getCmp('btn-del-nmpr').disable();
-					Ext.getCmp('btn-save-nmpr').disable();
-
-					Ext.getCmp('btn-del-file').disable();
-					Ext.getCmp('btn-save-file').disable();
-					Ext.getCmp('btn-upload-file').disable();
+					fn_setButton('READ');
 				}
 			}
 			Ext.getBody().unmask();
@@ -1088,27 +1123,8 @@ var frReg = Ext.create('Ext.form.Panel', {
 				if(btn == 'yes') {
 					newAt = 'Y';
 					
-					Ext.getCmp('btn-save1').enable();
-					Ext.getCmp('btn-save2').enable();
-					Ext.getCmp('btn-save3').enable();
-					Ext.getCmp('btn-del').enable();
-
-					Ext.getCmp('btn-add-schdul').enable();
-					Ext.getCmp('btn-del-schdul').enable();
-					Ext.getCmp('btn-save-schdul').enable();
-
-					Ext.getCmp('btn-add-time').enable();
-					Ext.getCmp('btn-del-time').enable();
-					Ext.getCmp('btn-save-time').enable();
-
-					Ext.getCmp('btn-add-nmpr').enable();
-					Ext.getCmp('btn-del-nmpr').enable();
-					Ext.getCmp('btn-save-nmpr').enable();
-
-					Ext.getCmp('btn-del-file').enable();
-					Ext.getCmp('btn-save-file').enable();
-					Ext.getCmp('btn-upload-file').enable();
-
+					fn_setButton('EDIT');
+					
 					frReg.getForm().reset();
 					frReg2.getForm().reset();
 					frReg3.getForm().reset();
@@ -1125,6 +1141,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 		xtype: 'button',
 		id: 'btn-del',
 		text: '사용안함',
+		tooltip: '상품을 판매중지하고 삭제처리합니다.',
 		width: 80,
 		handler: function() {
 			if(Ext.getCmp('form-reg-goods-code').getValue()) {
@@ -1139,6 +1156,20 @@ var frReg = Ext.create('Ext.form.Panel', {
 		width: 80,
 		handler: function() {
 			fn_preview();
+		}
+	}, {
+		xtype: 'button',
+		id: 'btn-rec',
+		text: '대기처리',
+		width: 80,
+		tooltip: '삭제된 상품을 대기처리합니다.',
+		disabled: true,
+		handler: function() {
+			if(Ext.getCmp('form-reg-goods-code').getValue()) {
+				fn_saveGoodsInfo('R', frReg)
+			} else {
+				return;
+			}
 		}	
 	}],
 	items: [{
@@ -2079,8 +2110,9 @@ var frReg = Ext.create('Ext.form.Panel', {
 		}]
 	},{
 		xtype: 'fieldset',
+		id: 'admin-hidden-fields',
 		title: 'Hidden Field',
-		hidden: false,
+		hidden: true,
 		padding: '10 20 10 10',
 		items: [{
 			xtype: 'textfield', width: 600, labelWidth: 200, labelAlign: 'right',
@@ -3714,6 +3746,7 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 		menuDisabled: true,
 		editor: comboYn,
 		dataIndex: 'HOTDEAL_AT',
+		hidden: true,
 		renderer: Ext.ux.comboBoxRenderer(comboYn)
 	},{
 		text: '추천',
@@ -3726,7 +3759,7 @@ var gridFile = Ext.create('Ext.grid.Panel', {
 		renderer: Ext.ux.comboBoxRenderer(comboYn)
 	},{
 		text: '동영상',
-		width: 80,
+		width: 60,
 		align: 'center',
 		sortable: false,
 		menuDisabled: true,
@@ -3936,5 +3969,7 @@ Ext.onReady(function(){
 	} else {
 		comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000', DELETE_AT:'N'}});
 	}
+	
+	if(ssTemp == 'O') Ext.getCmp('admin-hidden-fields').show();
 });
 

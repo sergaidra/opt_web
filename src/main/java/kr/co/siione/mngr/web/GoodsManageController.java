@@ -2,7 +2,9 @@ package kr.co.siione.mngr.web;
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ import kr.co.siione.mngr.service.GoodsManageService;
 import kr.co.siione.mngr.service.TourClManageService;
 import kr.co.siione.utl.UserUtils;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
@@ -59,6 +62,12 @@ public class GoodsManageController {
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		
+		if(UserUtils.nvl((String)session.getAttribute("user_id")).equals("admin")) {
+			model.put("DIV", "O");
+		} else {
+			model.put("DIV", "X");
+		}
 		
 		model.put("GOODS_CODE", UserUtils.nvl(param.get("GOODS_CODE")));
 		model.put("DELETE_AT", UserUtils.nvl(param.get("DELETE_AT")));
@@ -125,6 +134,7 @@ public class GoodsManageController {
 		
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
 		param.put("WRITNG_ID", esntl_id);
 		param.put("UPDT_ID", esntl_id);
 
@@ -170,6 +180,7 @@ public class GoodsManageController {
 		
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
 		param.put("UPDT_ID", esntl_id);
 
 		try {
@@ -222,6 +233,35 @@ public class GoodsManageController {
 
 		jsonView.render(result, request, response);
 	}
+	
+	@RequestMapping(value="/mngr/recoverGoods/")
+	public void recoverGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception{
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		param.put("UPDT_ID", esntl_id);
+
+		try {
+			int iRe = goodsManageService.recoverGoods(param);
+
+			if(iRe > 0) {
+				result.put("success", true);
+				result.put("message", "대기처리 성공");
+			} else {
+				result.put("success", false);
+				result.put("message", "대기처리 실패");
+			}
+		}  catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("error"  , e.getMessage());
+		}
+
+		jsonView.render(result, request, response);
+	}
+	
 	
 	@RequestMapping(value="/mngr/startSellingGoods/")
 	public void startSellingGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception{

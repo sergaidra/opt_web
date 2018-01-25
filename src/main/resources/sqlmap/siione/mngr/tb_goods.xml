@@ -587,8 +587,8 @@
     <![CDATA[
         UPDATE TB_GOODS
            SET DELETE_AT = 'Y'
-             , UPDT_ID = #UPDT_ID#
-             , UPDT_DT = SYSDATE
+             , DELETE_ID = #UPDT_ID#
+             , DELETE_DT = SYSDATE
          WHERE DELETE_AT <> 'Y'
            AND GOODS_CODE = #GOODS_CODE#
     ]]>
@@ -598,12 +598,23 @@
     <![CDATA[
         UPDATE TB_GOODS
            SET DELETE_AT = 'Y'
-             , UPDT_ID = #UPDT_ID#
-             , UPDT_DT = SYSDATE
+             , DELETE_ID = #UPDT_ID#
+             , DELETE_DT = SYSDATE           
          WHERE DELETE_AT <> 'Y' ]]>
            AND GOODS_CODE IN <iterate property="GOODS_CODE_LIST" open="(" close=")" conjunction=",">#GOODS_CODE_LIST[]#</iterate>
     </delete>
 
+	<delete id="GoodsDAO.recoverGoods" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_GOODS
+           SET DELETE_AT = 'T'
+             , WAIT_ID = #UPDT_ID#
+             , WAIT_DT = SYSDATE           
+         WHERE DELETE_AT = 'Y'
+           AND GOODS_CODE = #GOODS_CODE#
+    ]]>
+    </delete>
+    
     <update id="GoodsDAO.startSellingGoods" parameterClass="hashMap">
     <![CDATA[
         UPDATE TB_GOODS

@@ -1,7 +1,6 @@
 package kr.co.siione.mngr.service.impl;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +137,11 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 	public int deleteGoodsMulti(Map<String, Object> param) throws Exception {
 		return goodsDAO.deleteGoodsMulti(param);
 	}
+	
+	@Override
+	public int recoverGoods(Map<String, String> param) throws Exception {
+		return goodsDAO.recoverGoods(param);
+	}	
 	
 	@Override
 	public Map<String, Object> saveGoodsSchdul(Map<String, String> map) throws Exception {

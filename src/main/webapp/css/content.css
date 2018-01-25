@@ -458,16 +458,16 @@ em{ font-style: normal }
    overflow: hidden;}	
 .sw_out .sw_box .img img{ width: 100%;}	
 	
-.sw_out .sw_box .img .um{ position: absolute; left: 0px; top: 0px; width: 70px; height: 70px ; background-color:rgba(0, 0, 0, 0.8);}	
+.sw_out .sw_box .img .um{ position: absolute; left: 10px; top: 10px; width: 70px; height: 70px ; border-radius: 150px; background-color:rgba(0, 0, 0, 0.8);z-index: 9999;}	
 .sw_out .sw_box .img .um .tx1{ width: 100%;float: left; font-size: 12px; color: #fff; text-align: center; margin-top:10px}	
-.sw_out .sw_box .img .um .tx2{ width: 100%;float: left; font-size: 24px; color: #fff; text-align: center; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 700}	
-.sw_out .sw_box .txt_box{ width: 100%;float: left; box-sizing: border-box; padding: 15px 10px; background-color: #fff; position: relative; height:90PX} 
+.sw_out .sw_box .img .um .tx2{ width: 100%;float: left; font-size: 24px; color: #FFAE39; text-align: center; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 700}	
+.sw_out .sw_box .txt_box{ width: 100%;float: left; box-sizing: border-box; padding: 17px 15px; background-color: #fff; position: relative; height:150PX} 
 .sw_out .sw_box .txt_box .title{ width: 100%;float: left;  font-size: 16px; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; ; font-weight: 400; text-align: left } 
-.sw_out .sw_box .txt_box .title .tx1{ width: 100%;float: left;  font-size: 11px; ;  text-align: left; color: #999; margin-bottom: 5px;  line-height: 13px } 
-.sw_out .sw_box .txt_box .title .tx2{ width:60%;float: left;  font-size: 13px; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; ; font-weight: 400; text-align: left } 
+.sw_out .sw_box .txt_box .title .tx1{ width: 100%;float: left;  font-size: 12px; ;  text-align: left; color: #999; margin-bottom: 5px;  line-height: 14px } 
+.sw_out .sw_box .txt_box .title .tx2{ width: 100%;float: left;  font-size: 16px; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; ; font-weight: 400; text-align: left } 
 .sw_out .sw_box .txt_box .price{float: right; } 
-.sw_out .sw_box .txt_box .price .tr_tx1{ position: absolute; right: 10px;  bottom: 30px ; font-size: 11px; width: 100%; text-align: right; margin-bottom: 0px; color: #999; text-decoration: line-through} 
-.sw_out .sw_box .txt_box .price .tr_tx2{ position: absolute; right: 10px; bottom:10px ; font-size: 16px; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 400; width: 100%; text-align: right; color: #ff6600; line-height: 22PX } 
+.sw_out .sw_box .txt_box .price .tr_tx1{ position: absolute; right: 15px;  bottom: 43px ; font-size: 12px; width: 100%; text-align: right; margin-bottom: 0px; color: #999; text-decoration: line-through} 
+.sw_out .sw_box .txt_box .price .tr_tx2{ position: absolute; right: 15px; bottom:20px ; font-size: 20px; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 400; width: 100%; text-align: right; color: #ff6600; line-height: 22PX } 
 }
 
 
@@ -491,9 +491,10 @@ em{ font-style: normal }
    overflow: hidden;}	
 .sw_out .sw_box .img img{ width: 100%;}	
 	
-.sw_out .sw_box .img .um{ position: absolute; left: 0px; top: 0px; width: 70px; height: 70px ; background-color:rgba(0, 0, 0, 0.8);}	
-.sw_out .sw_box .img .um .tx1{ width: 100%;float: left; font-size: 12px; color: #fff; text-align: center; margin-top:10px}	
-.sw_out .sw_box .img .um .tx2{ width: 100%;float: left; font-size: 24px; color: #fff; text-align: center; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 700}	
+.sw_out .sw_box .img .um{ position: absolute; left: 17px; top: 7px; width: 50px; height: 50px ; border-radius: 150px; background-color:rgba(0, 0, 0, 0.8);z-index: 9999;}	
+.sw_out .sw_box .img .um .tx1{ width: 100%;float: left; font-size: 11px; color: #fff; text-align: center; margin-top:10px}	
+.sw_out .sw_box .img .um .tx2{ width: 100%;float: left; font-size: 16px; color: #FFAE39; text-align: center; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; font-weight: 700}	
+
 .sw_out .sw_box .txt_box{ width: 100%;float: left; box-sizing: border-box; padding: 15px 10px; background-color: #fff; position: relative; height:90PX} 
 .sw_out .sw_box .txt_box .title{ width: 100%;float: left;  font-size: 16px; ;font-family:'Noto Sans Korean', 'Noto Sans KR'; ; font-weight: 400; text-align: left } 
 .sw_out .sw_box .txt_box .title .tx1{ width: 100%;float: left;  font-size: 11px; ;  text-align: left; color: #999; margin-bottom: 5px;  line-height: 13px } 

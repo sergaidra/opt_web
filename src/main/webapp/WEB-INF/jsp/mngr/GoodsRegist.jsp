@@ -14,6 +14,7 @@
 <script type="text/javascript">
 var sGoodsCode = "${GOODS_CODE}";
 var sDeleteAt = "${DELETE_AT}";
+var ssTemp = "${DIV}";
 </script>
 <script type="text/javascript" src="<c:url value='/js/mngr/MngrCommon.js' />"></script>
 <script type="text/javascript" src="<c:url value='/js/mngr/GoodsRegist.js' />"></script>
