@@ -63,7 +63,7 @@
         <result property="HOTDEAL_SORT_ORDR"             column="HOTDEAL_SORT_ORDR"             jdbcType="string" javaType="string"/>
         <result property="RECOMEND_SORT_ORDR"            column="RECOMEND_SORT_ORDR"            jdbcType="string" javaType="string"/>
         <result property="CRUD_SE"                       column="CRUD_SE"                       jdbcType="string" javaType="string"/>
-        <result property="GOODS_NM_ENG"                  column="GOODS_NM_ENG"                  jdbcType="string" javaType="string"/><!-- 영문 컬럼 -->
+        <result property="GOODS_NM_ENG"                  column="GOODS_NM_ENG"                  jdbcType="string" javaType="string"/><!-- 영문 컬럼 S -->
         <result property="GOODS_NM_SUB_ENG"              column="GOODS_NM_SUB_ENG"              jdbcType="string" javaType="string"/>
         <result property="GOODS_INTRCN_ENG"              column="GOODS_INTRCN_ENG"              jdbcType="CLOB"   javaType="string"/>
         <result property="GOODS_INTRCN_SIMPL_ENG"        column="GOODS_INTRCN_SIMPL_ENG"        jdbcType="string" javaType="string"/>
@@ -88,7 +88,7 @@
         <result property="INTRCN_REQRE_TIME_ENG"         column="INTRCN_REQRE_TIME_ENG"         jdbcType="string" javaType="string"/>
         <result property="INTRCN_PROVD_LANG_ENG"         column="INTRCN_PROVD_LANG_ENG"         jdbcType="string" javaType="string"/>
         <result property="INTRCN_POSBL_AGE_ENG"          column="INTRCN_POSBL_AGE_ENG"          jdbcType="string" javaType="string"/>
-        <result property="INTRCN_PLACE_ENG"              column="INTRCN_PLACE_ENG"              jdbcType="string" javaType="string"/>
+        <result property="INTRCN_PLACE_ENG"              column="INTRCN_PLACE_ENG"              jdbcType="string" javaType="string"/><!-- 영문 컬럼 E -->
         <result property="VIDEO_URL"                     column="VIDEO_URL"                     jdbcType="string" javaType="string"/>
         <result property="VIDEO_MAIN_EXPSR_AT"           column="VIDEO_MAIN_EXPSR_AT"           jdbcType="string" javaType="string"/>
         <result property="KEYWORDS"                      column="KEYWORDS"                      jdbcType="string" javaType="string"/>
@@ -96,6 +96,8 @@
         <result property="TOUR_DAYS"                     column="TOUR_DAYS"                     jdbcType="string" javaType="string"/>
         <result property="HOTDEAL_BEGIN_DE"              column="HOTDEAL_BEGIN_DE"              jdbcType="string" javaType="string"/>
         <result property="HOTDEAL_END_DE"                column="HOTDEAL_END_DE"                jdbcType="string" javaType="string"/>
+		<result property="HOTDEAL_APPLC_BEGIN_DE"        column="HOTDEAL_APPLC_BEGIN_DE"        jdbcType="string" javaType="string"/>
+        <result property="HOTDEAL_APPLC_END_DE"          column="HOTDEAL_APPLC_END_DE"          jdbcType="string" javaType="string"/>        
     </resultMap>
 
     <insert id="GoodsDAO.insertGoods" parameterClass="hashMap">
@@ -156,7 +158,9 @@
                             , PICKUP_INCLS_AT
                             , TOUR_DAYS 
                             , HOTDEAL_BEGIN_DE
-                            , HOTDEAL_END_DE )
+                            , HOTDEAL_END_DE
+                            , HOTDEAL_APPLC_BEGIN_DE
+                            , HOTDEAL_APPLC_END_DE )
                       VALUES( #GOODS_CODE#
                             , #GOODS_NM#
                             , #GOODS_NM_SUB#
@@ -208,7 +212,9 @@
                             , NVL(#PICKUP_INCLS_AT#, 'N')
                             , #TOUR_DAYS#
                             , REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
-                            , REPLACE(#HOTDEAL_END_DE#, '-', ''));
+                            , REPLACE(#HOTDEAL_END_DE#, '-', '')
+                            , REPLACE(#HOTDEAL_APPLC_BEGIN_DE#, '-', '')
+                            , REPLACE(#HOTDEAL_APPLC_END_DE#, '-', ''));
 
         INSERT INTO TB_GOODS_ENG ( GOODS_NM_ENG
                                  , GOODS_NM_SUB_ENG
@@ -315,6 +321,8 @@
                             , TOUR_DAYS
                             , HOTDEAL_BEGIN_DE
                             , HOTDEAL_END_DE
+                            , HOTDEAL_APPLC_BEGIN_DE
+                            , HOTDEAL_APPLC_END_DE
                             , DELETE_AT
                             , WRITNG_ID
                             , WRITNG_DT )
@@ -354,6 +362,8 @@
                             , #TOUR_DAYS#
                             , REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
                             , REPLACE(#HOTDEAL_END_DE#, '-', '') 
+                            , REPLACE(#HOTDEAL_APPLC_BEGIN_DE#, '-', '') 
+                            , REPLACE(#HOTDEAL_APPLC_END_DE#, '-', '') 
                             , 'T'
                             , #WRITNG_ID#
                             , SYSDATE );
@@ -435,6 +445,8 @@
              , TOUR_DAYS                 =  #TOUR_DAYS#
              , HOTDEAL_BEGIN_DE          =  REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
              , HOTDEAL_END_DE            =  REPLACE(#HOTDEAL_END_DE#, '-', '') 
+             , HOTDEAL_APPLC_BEGIN_DE    =  REPLACE(#HOTDEAL_APPLC_BEGIN_DE#, '-', '') 
+             , HOTDEAL_APPLC_END_DE      =  REPLACE(#HOTDEAL_APPLC_END_DE#, '-', '') 
              , UPDT_ID                   =  #WRITNG_ID#
              , UPDT_DT                   =  SYSDATE
          WHERE GOODS_CODE = #GOODS_CODE#
@@ -480,6 +492,8 @@
              , TOUR_DAYS             = #TOUR_DAYS#             
              , HOTDEAL_BEGIN_DE      = REPLACE(#HOTDEAL_BEGIN_DE#, '-', '')              
              , HOTDEAL_END_DE        = REPLACE(#HOTDEAL_END_DE#, '-', '')              
+             , HOTDEAL_APPLC_BEGIN_DE = REPLACE(#HOTDEAL_APPLC_BEGIN_DE#, '-', '')              
+             , HOTDEAL_APPLC_END_DE  = REPLACE(#HOTDEAL_APPLC_END_DE#, '-', '')              
          WHERE GOODS_CODE = #GOODS_CODE#
     ]]>
     </update>
@@ -694,6 +708,8 @@
              , A.TOUR_DAYS
              , A.HOTDEAL_BEGIN_DE
              , A.HOTDEAL_END_DE
+             , A.HOTDEAL_APPLC_BEGIN_DE
+             , A.HOTDEAL_APPLC_END_DE
           FROM TB_GOODS A
              , TB_GOODS_ENG B
          WHERE A.GOODS_CODE = B.GOODS_CODE(+)
@@ -773,6 +789,8 @@
              , A.RECOMEND_SORT_ORDR
              , TO_CHAR(TO_DATE(A.HOTDEAL_BEGIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') HOTDEAL_BEGIN_DE
              , TO_CHAR(TO_DATE(A.HOTDEAL_END_DE, 'YYYYMMDD'), 'YYYY-MM-DD') HOTDEAL_END_DE             
+             , TO_CHAR(TO_DATE(A.HOTDEAL_APPLC_BEGIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') HOTDEAL_APPLC_BEGIN_DE             
+             , TO_CHAR(TO_DATE(A.HOTDEAL_APPLC_END_DE, 'YYYYMMDD'), 'YYYY-MM-DD') HOTDEAL_APPLC_END_DE             
              , A.DELETE_AT
              , (SELECT CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID='COM007' AND X.CODE = A.DELETE_AT) DELETE_AT_NM
              , TO_CHAR(A.WRITNG_DT, 'YYYY-MM-DD HH24:MI:SS') WRITNG_DT

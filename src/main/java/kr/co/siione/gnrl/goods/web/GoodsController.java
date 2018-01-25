@@ -352,8 +352,8 @@ public class GoodsController {
         	addList(result, "GUIDANCE_REQRE_TIME", lstOpGuide, "소요시간");
         	addList(result, "GUIDANCE_AGE_DIV", lstOpGuide, "연령구분");
         	addList(result, "GUIDANCE_TOUR_SCHDUL", lstOpGuide, "여행일정");
-        	addList(result, "GUIDANCE_PRFPLC_LC", lstOpGuide, "공연장위치");
-        	addList(result, "GUIDANCE_EDC_CRSE", lstOpGuide, "교육과정");
+        	addList(result, "GUIDANCE_PRFPLC_LC", lstOpGuide, "가격구성"); //공연장위치
+        	addList(result, "GUIDANCE_EDC_CRSE", lstOpGuide, "긴급연락처"); //교육과정
         	addList(result, "GUIDANCE_OPTN_MATTER", lstOpGuide, "옵션사항");
         	addList(result, "GUIDANCE_PICKUP", lstOpGuide, "픽업");
         	addList(result, "GUIDANCE_PRPARETG", lstOpGuide, "준비물");
