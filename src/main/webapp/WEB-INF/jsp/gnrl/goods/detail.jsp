@@ -5,7 +5,16 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <head>
-
+<c:set var="req" value="${pageContext.request}" />
+<c:set var="baseURL" value="${fn:replace(req.requestURL, req.requestURI, '')}" />
+<c:set var="params" value="${requestScope['javax.servlet.forward.query_string']}"/>
+<c:set var="requestPath" value="${requestScope['javax.servlet.forward.request_uri']}"/>
+<c:set var="pageUrl" value="${ baseURL }${ requestPath }?${params}"/>
+	<meta property="og:url"           content="${pageUrl}" />
+	<meta property="og:type"          content="website" />
+	<meta property="og:title"         content="원패스투어 - ${result.GOODS_NM}" />
+	<meta property="og:description"   content="${fn:replace(result.GOODS_INTRCN_SIMPL, '<BR>', ' ')}" />
+	<meta property="og:image"         content="${ baseURL }<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" />
 
 	<!-- Attach our CSS -->
   	<link rel="stylesheet" href="<c:url value='/jq/popup2/reveal.css'/>">	
@@ -1198,7 +1207,7 @@ function naverShare() {
 function facebookShare() {
 	var url = encodeURIComponent(document.location.href);
     var title = encodeURIComponent("원패스투어 - ${result.GOODS_NM}");
-    var shareURL = "https://www.facebook.com/sharer/sharer.php?u=" + url + "&t=" + title;
+    var shareURL = "https://www.facebook.com/sharer/sharer.php?u=" + url;
     window.open(shareURL);
 }
 
