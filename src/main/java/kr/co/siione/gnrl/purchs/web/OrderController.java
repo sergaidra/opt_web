@@ -55,6 +55,10 @@ public class OrderController {
 	private String inicis_mid;
 	@Value("#{globals['inicis.signKey']}")
 	private String inicis_signKey;
+	@Value("#{globals['inicis.subdomain']}")
+	private String inicis_subdomain;
+	@Value("#{globals['inicis.mode']}")
+	private String inicis_mode;	
 
 	@RequestMapping(value="/Order")
 	public String Order(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
@@ -90,6 +94,8 @@ public class OrderController {
         model.addAttribute("mKey", com.inicis.std.util.SignatureUtil.hash(inicis_signKey, "SHA-256"));
         model.addAttribute("user_nm", UserUtils.nvl((String)session.getAttribute("user_nm")));
         model.addAttribute("email", UserUtils.nvl((String)session.getAttribute("email")));
+        model.addAttribute("inicis_subdomain", inicis_subdomain);
+        model.addAttribute("inicis_mode", inicis_mode);
                 
         model.addAttribute("bp", "06");
        	model.addAttribute("btitle", "세부정보입력/결제하기");

@@ -15,7 +15,7 @@
   -->	
   
   <!-- 상용 JS(가맹점 MID 변경 시 주석 해제, 테스트용 JS 주석 처리 필수!) -->
-	<script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
+	<script language="javascript" type="text/javascript" src="https://${inicis_subdomain}.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
   
   <!-- 테스트 JS(샘플에 제공된 테스트 MID 전용) -->
 	<!--script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script-->
@@ -142,7 +142,8 @@ function getSignature(param) {
 	v_param.oid = "${oid}";
 	v_param.price = param.real_setle_amount;
 	//Test
-	//v_param.price = 1000;
+	if("${inicis_mode}" == "Test")
+		v_param.price = 1000;
 	v_param.timestamp = "${timestamp}";
 	
 	var url = "<c:url value='/purchs/getSignature'/>";
@@ -157,8 +158,9 @@ function getSignature(param) {
 			if(data.result == "0") {
 				var merchantData = JSON.stringify( param );
 				// Test
-				//$("#SendPayForm_id").find("input[name='price']").val("1000");
 				$("#SendPayForm_id").find("input[name='price']").val(param.real_setle_amount);
+				if("${inicis_mode}" == "Test")
+					$("#SendPayForm_id").find("input[name='price']").val("1000");
 				$("#SendPayForm_id").find("input[name='signature']").val(data.data);
 				$("#SendPayForm_id").find("input[name='merchantData']").val(merchantData);
 				var returnUrl = location.protocol + "//" + location.host + "/purchs/payComplete";
@@ -237,27 +239,46 @@ function orderCancel() {
       <tbody>
         <tr>
           <th >대표여행자 이름(필수)</th>
-          <td ><input name="tourist_nm" type="text" class="input_st01" id="tourist_nm"  style="width:150px" value="${purchs.TOURIST_NM}"/></td>
+          <td >
+          	<c:if test="${purchs == null}">
+	          	<input name="tourist_nm" type="text" class="input_st01" id="tourist_nm"  style="width:150px" value="${purchs.TOURIST_NM}"/>
+          	</c:if>
+          	<c:if test="${purchs != null}">
+          		${purchs.TOURIST_NM}
+          	</c:if>
+          </td>
         </tr>
         <tr>
           <th >연락처(필수)</th>
           <td ><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-            <select class="w_10p fl" id="tourist_cttpc1" name="tourist_cttpc1">
-              <option <c:if test="${purchs.TOURIST_CTTPC1 == '010'}">selected</c:if>>010</option>
-              <option <c:if test="${purchs.TOURIST_CTTPC1 == '011'}">selected</c:if>>011</option>
-              <option <c:if test="${purchs.TOURIST_CTTPC1 == '016'}">selected</c:if>>016</option>
-              <option <c:if test="${purchs.TOURIST_CTTPC1 == '017'}">selected</c:if>>017</option>
-              <option <c:if test="${purchs.TOURIST_CTTPC1 == '018'}">selected</c:if>>018</option>
-              <option <c:if test="${purchs.TOURIST_CTTPC1 == '019'}">selected</c:if>>019</option>
-            </select>
-            <!--//기본 셀렉트 박스 -->
-            <input name="tourist_cttpc2" type="text" class="input_st01 fl ml_10" id="tourist_cttpc2"  style="width:100px" value="${purchs.TOURIST_CTTPC2}"/>
-            <input name="tourist_cttpc3" type="text" class="input_st01 fl ml_10" id="tourist_cttpc3"  style="width:100px" value="${purchs.TOURIST_CTTPC3}"/></td>
+          	<c:if test="${purchs == null}">
+	            <select class="w_10p fl" id="tourist_cttpc1" name="tourist_cttpc1">
+	              <option <c:if test="${purchs.TOURIST_CTTPC1 == '010'}">selected</c:if>>010</option>
+	              <option <c:if test="${purchs.TOURIST_CTTPC1 == '011'}">selected</c:if>>011</option>
+	              <option <c:if test="${purchs.TOURIST_CTTPC1 == '016'}">selected</c:if>>016</option>
+	              <option <c:if test="${purchs.TOURIST_CTTPC1 == '017'}">selected</c:if>>017</option>
+	              <option <c:if test="${purchs.TOURIST_CTTPC1 == '018'}">selected</c:if>>018</option>
+	              <option <c:if test="${purchs.TOURIST_CTTPC1 == '019'}">selected</c:if>>019</option>
+	            </select>
+	            <!--//기본 셀렉트 박스 -->
+	            <input name="tourist_cttpc2" type="text" class="input_st01 fl ml_10" id="tourist_cttpc2"  style="width:100px" value="${purchs.TOURIST_CTTPC2}"/>
+	            <input name="tourist_cttpc3" type="text" class="input_st01 fl ml_10" id="tourist_cttpc3"  style="width:100px" value="${purchs.TOURIST_CTTPC3}"/>
+            </c:if>
+          	<c:if test="${purchs != null}">
+          		${purchs.TOURIST_CTTPC}
+          	</c:if>
+          	</td>
           </tr>
         <tr>
           <th>카카오ID</th>
           <td > <!--기본 셀렉트 박스 .w_100p는 사이즈-->
-            <input name="kakao_id" type="text" class="input_st01 fl" id="kakao_id"  style="width:100px" value="${purchs.KAKAO_ID}"/></td>
+          	<c:if test="${purchs == null}">
+            	<input name="kakao_id" type="text" class="input_st01 fl" id="kakao_id"  style="width:100px" value="${purchs.KAKAO_ID}"/>
+            </c:if>
+          	<c:if test="${purchs != null}">
+          		${purchs.KAKAO_ID}
+          	</c:if>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -304,10 +325,12 @@ function orderCancel() {
 					<div class="tx4"><em><fmt:formatNumber value="${item.ORIGIN_AMOUNT}" pattern="#,###" /></em>원  </div>
 				</div>
 			</div>	
+          	<c:if test="${purchs == null}">
 			<c:if test="${item.SETUP_SE_V eq 'Y' or item.CL_SE eq 'P' or item.CL_SE eq 'M' or item.PICKUP_INCLS_AT eq 'Y'}" >
 				<div class="input_box">
 					<div class="title"><i class="material-icons">&#xE5DB;</i><p>추가 입력사항</p></div>
 					<input name="pickup_place" type="text" class="fl mb_5" id="pickup_place" placeholder="픽업장소를 입력해 주세요 " value="${item.PICKUP_PLACE}" />
+					
 					<c:if test="${item.CL_SE ne 'M'}">
 						<input name="drop_place" type="text" class="fr mb_5" id="drop_place" placeholder="드랍장소를 입력해 주세요 " value="${item.DROP_PLACE}" />
 					</c:if>
@@ -316,6 +339,23 @@ function orderCancel() {
 		                <input name="use_pd" type="text" class=" fr" id="use_pd" placeholder="이용 기간을 입력해 주세요 " value="${item.USE_PD}" />
 					</c:if>
 				</div>			
+			</c:if>
+			</c:if>
+          	<c:if test="${purchs != null}">
+			<c:if test="${item.SETUP_SE_V eq 'Y' or item.CL_SE eq 'P' or item.CL_SE eq 'M' or item.PICKUP_INCLS_AT eq 'Y'}" >
+				<div class="input_box">
+					<div class="title"><i class="material-icons">&#xE5DB;</i><p>추가 입력사항</p></div>
+					픽업장소 : ${item.PICKUP_PLACE}<br/>
+					
+					<c:if test="${item.CL_SE ne 'M'}">
+						드랍장소 : ${item.DROP_PLACE}<br/>
+					</c:if>
+					<c:if test="${item.PICKUP_INCLS_AT eq 'Y'}" >
+						이용인원 : ${item.USE_NMPR}<br/>
+						이용기간 : ${item.USE_PD}<br/>
+					</c:if>
+				</div>			
+			</c:if>
 			</c:if>
     	</div>
 	  </c:forEach>
@@ -542,7 +582,7 @@ function orderCancel() {
 											<input type="hidden" name="mKey" value="${mKey}" >
 											
 											<input type="hidden" name="gopaymethod" value="" >
-											<input type="hidden" name="offerPeriod" value="20151001-20151231" >
+											<input type="hidden" name="offerPeriod" value="20181001-20181231" >
 											<input type="hidden" name="acceptmethod" value="CARDPOINT:HPP(1):no_receipt:va_receipt:vbanknoreg(0):below1000" >
 
 											<input type="hidden" name="languageView" value="" >

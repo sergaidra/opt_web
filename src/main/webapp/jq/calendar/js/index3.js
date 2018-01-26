@@ -242,7 +242,7 @@
 					}
 					if(isOk == true) {
 						var hotdeal = false;
-						if(hotdeal_applc_begin_de != "" && hotdeal_applc_end_de != "") {
+						if(hotdeal_applc_begin_de != "" && hotdeal_applc_end_de != "" && hotdeal_at == "Y") {
 							if(hotdeal_applc_begin_de <= curDt && curDt <= hotdeal_applc_end_de )
 								hotdeal = true;
 						}
