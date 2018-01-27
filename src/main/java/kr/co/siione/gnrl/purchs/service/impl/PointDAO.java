@@ -24,5 +24,17 @@ public class PointDAO extends EgovComAbstractDAO {
 	public List<HashMap> getPointList(HashMap map) throws Exception {
 		return list("gnrl.point.selectPointList", map);
 	}
+	
+	public List<HashMap> getMyUsePoint(HashMap map) throws Exception {
+		return list("gnrl.point.getMyUsePoint", map);
+	}
+	
+    public void updateUsePoint(HashMap map) throws Exception {
+		insert("gnrl.point.updateUsePoint", map);
+    }
+
+    public void insertPointHistory(HashMap map) throws Exception {
+		insert("gnrl.point.insertPointHistory", map);
+    }
 
 }

@@ -21,8 +21,10 @@
 	</select>
 	
 	<select id="gnrl.point.selectPointList"  parameterClass="hashMap" resultClass="hashMap">
-		SELECT C.CODE_NM AS ACCML_SE_NM, TO_CHAR(ACCML_DT,'YYYY-MM-DD') AS ACCML_DT, CASE WHEN P.ACCML_SE = 'A' THEN '+' ELSE '' END || POINT AS POINT
-			, G.GOODS_NM, P.ACCML_SE
+		SELECT C.CODE_NM AS ACCML_SE_NM, TO_CHAR(ACCML_DT,'YYYY-MM-DD') AS ACCML_DT
+			, G.GOODS_NM, P.ACCML_SE, P.POINT, P.USE_POINT
+			, TO_CHAR(RECENT_USE_DT,'YYYY-MM-DD') AS RECENT_USE_DT
+			, P.POINT - P.USE_POINT AS REST_POINT
 		FROM (
 			SELECT PURCHS_SN, CART_SN, ROWNUM AS RNUM
 			FROM (
@@ -38,4 +40,21 @@
 			LEFT OUTER JOIN TB_GOODS G ON CG.GOODS_CODE = G.GOODS_CODE	
 		WHERE RNUM BETWEEN #startIdx# AND #endIdx#
 	</select>
+	
+	<select id="gnrl.point.getMyUsePoint" parameterClass="hashMap" resultClass="hashMap">
+		SELECT PURCHS_SN, CART_SN, POINT - USE_POINT AS POINT
+		FROM TB_PURCHS_POINT
+		WHERE ESNTL_ID = #esntl_id# AND POINT - USE_POINT > 0 AND EXPRTN_AT = 'N'
+		ORDER BY PURCHS_SN	
+	</select>
+	
+	<update id="gnrl.point.updateUsePoint" parameterClass="hashMap">
+		UPDATE TB_PURCHS_POINT SET USE_POINT = USE_POINT + #point#, RECENT_USE_DT = SYSDATE
+		WHERE ESNTL_ID = #esntl_id# AND PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+	</update>
+	
+	<insert id="gnrl.point.insertPointHistory" parameterClass="hashMap">
+		INSERT INTO TB_PURCHS_POINT_HISTORY ( PURCHS_SN, POINT_PURCHS_SN, CART_SN, ESNTL_ID, POINT, USE_DT)
+		VALUES (#point_purchs_sn#, #purchs_sn#, #cart_sn#, #esntl_id#, #point#, SYSDATE)
+	</insert>
 </sqlMap>

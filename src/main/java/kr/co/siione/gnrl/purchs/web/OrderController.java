@@ -99,6 +99,8 @@ public class OrderController {
         model.addAttribute("email", UserUtils.nvl((String)session.getAttribute("email")));
         model.addAttribute("inicis_subdomain", inicis_subdomain);
         model.addAttribute("inicis_mode", inicis_mode);
+        
+        model.addAttribute("point", pointService.getTotalPoint(map));
                 
         model.addAttribute("bp", "06");
        	model.addAttribute("btitle", "세부정보입력/결제하기");
@@ -409,21 +411,10 @@ public class OrderController {
 			map.put("email", email);
 
 			UserUtils.log("[addPurchs-map]", map);
-
-			Boolean isOk = true;
-			for(int i = 0; i < lstCart.size(); i++) {
-				// 스케줄 체크
-				if(orderService.chkSchedule((HashMap)lstCart.get(i)) > 0) {
-					resVo.setResult("2");			
-					resVo.setMessage("해당 날짜에 이미 예약되었습니다.");
-					isOk = false;
-				}
-			}
 			
-			if(isOk == true) {
-				//orderService.addPurchs(map);
-				resVo.setResult("0");			
-			}
+			String purchs_sn = orderService.addPurchs(map, null);
+			resVo.setResult("0");	
+			resVo.setData(purchs_sn);
 		} catch(Exception e) {
 			resVo.setResult("9");			
 			resVo.setMessage(e.getMessage());	

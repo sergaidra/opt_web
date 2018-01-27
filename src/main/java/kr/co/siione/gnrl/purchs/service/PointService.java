@@ -7,4 +7,6 @@ public interface PointService {
 	public int getTotalPoint(HashMap map) throws Exception;
 	public int getPointListCount(HashMap map) throws Exception;
 	public List<HashMap> getPointList(HashMap map) throws Exception;
+	
+	public void usePoint(HashMap map) throws Exception;
 }

@@ -16,6 +16,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import kr.co.siione.gnrl.purchs.service.OrderService;
+import kr.co.siione.gnrl.purchs.service.PointService;
 import kr.co.siione.gnrl.purchs.service.PurchsService;
 import kr.co.siione.utl.MailManager;
 
@@ -28,6 +29,9 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Resource
     private	MailManager mailManager;
+	
+	@Resource
+    private PointService pointService;
 	
 	@Value("#{globals['server.ip']}")
 	private String webserverip;
@@ -80,8 +84,24 @@ public class OrderServiceImpl implements OrderService {
 			orderDAO.updCartGoods(nMap);
 			orderDAO.insertReservationDay(nMap);
 		}
-		mapPay.put("purchs_sn", purchs_sn);
-		orderDAO.insertPay(mapPay);
+		
+		//포인트 사용
+		if(map.get("use_point") != null) {
+			String strPoint = String.valueOf(map.get("use_point"));
+			if(!"".equals(strPoint) && !"0".equals(strPoint)) {
+				int point = Integer.valueOf(strPoint);
+				HashMap mapPoint = new HashMap();
+				mapPoint.put("use_point", point);
+				mapPoint.put("purchs_sn", purchs_sn);
+				mapPoint.put("esntl_id", String.valueOf(map.get("esntl_id")));
+				pointService.usePoint(mapPoint);
+			}
+		}
+		
+		if(mapPay != null) {
+			mapPay.put("purchs_sn", purchs_sn);
+			orderDAO.insertPay(mapPay);
+		}
 		
 		// 메일 발송
 		Map<String, Object> attachMap = new HashMap<String, Object>();

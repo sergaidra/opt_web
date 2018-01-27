@@ -21,6 +21,17 @@
 	<!--script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script-->
 
 <script type="text/javascript">
+var real_setle_amount = 0;
+var use_point = 0;
+var total_point = ${point};
+
+$(function() {
+	$(".order_detailinput").each(function () {
+		var purchs_amount = $(this).find("#purchs_amount").val();
+		real_setle_amount += Number(purchs_amount);
+	});	
+});
+
 function addAction() {
 	var lst = [];
 	var totalAmount = 0;
@@ -102,8 +113,8 @@ function addAction() {
 	
 	var param = {};
 	param.tot_setle_amount = totalAmount;
-	param.real_setle_amount = totalAmount;
-	param.use_point = "0";
+	param.real_setle_amount = real_setle_amount - use_point;
+	param.use_point = use_point;
 	param.lstCart = lst;
 	param.tourist_nm = tourist_nm;
 	param.tourist_cttpc = tourist_cttpc;
@@ -119,7 +130,32 @@ function addAction() {
         data : JSON.stringify( param ),
         success : function(data,status,request){
 			if(data.result == "0") {
-				getSignature(param);
+				if(param.real_setle_amount == 0) {
+					// 결제금액이 0원인경우			
+					var url = "<c:url value='/purchs/addAction'/>";
+					$.ajax({
+				        url : url,
+				        type: "post",
+				        dataType : "json",
+				        async: "true",
+				        contentType: "application/json; charset=utf-8",
+				        data : JSON.stringify( param ),
+				        success : function(data,status,request){
+							if(data.result == "0") {
+								document.location.href = "/purchs/OrderDetail?purchs_sn=" + data.data;
+							} else if(data.result == "9") {
+								alert(data.message);
+							} else{
+								alert("작업을 실패하였습니다.");
+							}	        	
+				        },
+				        error : function(request,status,error) {
+				        	alert(error);
+				        },
+					});			
+				} else {
+					getSignature(param);
+				}
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
@@ -215,12 +251,43 @@ function orderCancel() {
 	}
 }
 
+function viewPoint() {
+	$.featherlight("/purchs/popupPoint?esntl_id=${esntl_id}&maxpoint=" + real_setle_amount + "&callback=setPoint", {});
+}
+
+function setPoint(point) {
+	use_point = Number(point);
+	$("#txtPoint").val(numberWithCommas(point));
+	setAmount();
+}
+
+function allPointUse(obj) {
+	var point = 0;
+	if(total_point > real_setle_amount)
+		point = real_setle_amount;
+	else
+		point = total_point;
+	use_point = Number(point);
+	$("#txtPoint").val(numberWithCommas(point));
+	setAmount();
+	$(obj).prop('checked', false); 
+}
+
+function setAmount() {
+	$("#finalAmount").text(numberWithCommas(real_setle_amount - use_point));
+}
+
 function lpad(s, padLength, padString){
 	 
     while(s.length < padLength)
         s = padString + s;
     return s;
 }
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 
 </script>
 </head>
@@ -471,12 +538,12 @@ function lpad(s, padLength, padString){
           </tr> -->
           <tr>
             <th >포인트</th>
-            <td ><div class="order_font1"> 총 34,000점 </div>
-              <div class="order_ch"><input type="checkbox"> </div>
+            <td ><div class="order_font1"> 총 <fmt:formatNumber value="${point}" pattern="#,###" />점 </div>
+              <div class="order_ch"><input type="checkbox" onclick="allPointUse(this);"> </div>
 			  <div class="order_font2"> 전액사용</div>
 			  </td>
-            <td ><input name="textfield" type="text" class="input_stst fl w_50p" id="textfield"   value="20,000원"/>
-              <a href="#" class="order_tb_btn fl">포인트  </a></td>
+            <td ><input name="textfield" type="text" class="input_stst fl w_50p" id="txtPoint"   value="0" readonly style="text-align:right;"/>
+              <a href="javascript:viewPoint();" class="order_tb_btn fl">포인트  </a></td>
           </tr>
         </tbody>
       </table>
@@ -557,7 +624,7 @@ function lpad(s, padLength, padString){
 			</div>
 			<div class="total_2">
 				<div class="t1">최종결제금액</div>
-				<div class="t2"><em><fmt:formatNumber value="${purchs_amount}" pattern="#,###" /></em>원</div>
+				<div class="t2"><em id="finalAmount"><fmt:formatNumber value="${purchs_amount}" pattern="#,###" /></em>원</div>
 			</div>
 			<c:if test="${purchs.DELETE_AT == 'Y'}">
 				<div class="total_2">

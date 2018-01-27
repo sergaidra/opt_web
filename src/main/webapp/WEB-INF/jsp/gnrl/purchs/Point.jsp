@@ -41,20 +41,18 @@ function search(pageNo) {
             		else
             			td2 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + "</td>");
             		var td3 = $("<td class='point_color_b4'>" + data.list[cnt].ACCML_DT + "</td>");
-            		var td4 = null;
-            		
-            		if(data.list[cnt].POINT.substr(0, 1) == "+")
-            			td4 = $("<td class='font_color1'>" + data.list[cnt].POINT + "</td>");
-            		else
-            			td4 = $("<td class='font_color2'>" + data.list[cnt].POINT + "</td>");
-            			
-            		var td5 = $("<td class='font_color3'>" + "" + "</td>");
+            		var td4 = $("<td class='point_color_b4'>" + data.list[cnt].POINT + "</td>");
+            		var td5 = $("<td class='point_color_b4'>" + nvl(data.list[cnt].RECENT_USE_DT) + "</td>");
+            		var td6 = $("<td class='point_color_b4'>" + nvl(data.list[cnt].USE_POINT) + "</td>");
+            		var td7 = $("<td class='point_color_b4'>" + data.list[cnt].REST_POINT + "</td>");
             		
             		$(tr).append(td1);
             		$(tr).append(td2);
             		$(tr).append(td3);
             		$(tr).append(td4);
             		$(tr).append(td5);
+            		$(tr).append(td6);
+            		$(tr).append(td7);
             		
     	        	$("#tblList tbody").append(tr);        
         		}
@@ -62,20 +60,9 @@ function search(pageNo) {
         		// 모바일
         		{
             		var tr = $("<tr></tr>");
-            		var td1 = null;
-            		if(data.list[cnt].ACCML_SE == "A")
-            			td1 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + " (" + data.list[cnt].GOODS_NM + ")<br><span class='point_color_b4'>" + data.list[cnt].ACCML_DT + "</span></td>");
-            		else
-            			td1 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + "<br><span class='point_color_b4'>" + data.list[cnt].ACCML_DT + "</span></td>");
-            		
-            		var td2 = null;
-            		
-            		if(data.list[cnt].POINT.substr(0, 1) == "+")
-            			td2 = $("<td class='font_color1'>" + data.list[cnt].POINT + "</td>");
-            		else
-            			td2 = $("<td class='font_color2'>" + data.list[cnt].POINT + "</td>");
-            			
-            		var td3 = $("<td class='font_color3'>" + "" + "</td>");
+            		var td1 = $("<td class='left'>" + data.list[cnt].ACCML_SE_NM + " (" + data.list[cnt].GOODS_NM + ")<br>" + data.list[cnt].ACCML_DT + "<br>" + data.list[cnt].POINT + "</td>");
+            		var td2 = $("<td class='left'>" + nvl(data.list[cnt].RECENT_USE_DT) + "<br>" + nvl(data.list[cnt].USE_POINT) + "</td>");
+            		var td3 = $("<td class='font_color3'>" + data.list[cnt].REST_POINT + "</td>");
             		
             		$(tr).append(td1);
             		$(tr).append(td2);
@@ -185,9 +172,11 @@ function search(pageNo) {
               <tr>
                 <th>번호</th>
                 <th>포인트 내용</th>
-                <th >사용/적립날짜</th>
+                <th >적립날짜</th>
                 <th >포인트</th>
-                <th >총 보유포인트</th>
+                <th >사용날짜</th>
+                <th >사용포인트</th>
+                <th >보유포인트</th>
               </tr>
             </thead>
             <tbody>
@@ -201,9 +190,9 @@ function search(pageNo) {
             <col width="30%" />
             <thead>
               <tr>               
-                <th>포인트 내용 /사용,적립날짜</th>               
-                <th >포인트</th>
-                <th >총 보유포인트</th>
+                <th>포인트 내용 /적립날짜/포인트</th>               
+                <th >사용날짜/포인트</th>
+                <th >보유포인트</th>
               </tr>
             </thead>
             <tbody>

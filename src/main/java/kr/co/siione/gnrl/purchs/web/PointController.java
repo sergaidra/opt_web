@@ -88,4 +88,24 @@ public class PointController {
 
     	return mapResult;
     }
+    
+    @RequestMapping(value="/popupPoint")
+    public String popupFlight(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+      	HashMap map = new HashMap();
+
+		String esntl_id = UserUtils.nvl(request.getParameter("esntl_id"));
+		String maxpoint = UserUtils.nvl(request.getParameter("maxpoint"));
+		String callback = UserUtils.nvl(request.getParameter("callback"));
+
+    	map.put("esntl_id", esntl_id);   
+    	
+    	int point = pointService.getTotalPoint(map);
+    	
+		model.addAttribute("point", point);		
+		model.addAttribute("maxpoint", maxpoint);
+		model.addAttribute("callback", callback);
+		
+		return "gnrl/popup/point";	
+    }	
+
 }
