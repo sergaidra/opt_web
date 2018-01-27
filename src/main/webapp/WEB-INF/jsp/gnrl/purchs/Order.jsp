@@ -23,7 +23,7 @@
 <script type="text/javascript">
 var real_setle_amount = 0;
 var use_point = 0;
-var total_point = ${point};
+var total_point = Number("${point}");
 
 $(function() {
 	$(".order_detailinput").each(function () {
