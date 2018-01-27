@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
 		return builder.toString();
 	}	
 
-	public void addPurchs(HashMap map) throws Exception {
+	public String addPurchs(HashMap map, HashMap mapPay) throws Exception {
 		int purchs_sn = orderDAO.selectPurchsSn(map);
 		map.put("purchs_sn", purchs_sn);
 		orderDAO.insertPurchs(map);
@@ -80,6 +80,8 @@ public class OrderServiceImpl implements OrderService {
 			orderDAO.updCartGoods(nMap);
 			orderDAO.insertReservationDay(nMap);
 		}
+		mapPay.put("purchs_sn", purchs_sn);
+		orderDAO.insertPay(mapPay);
 		
 		// 메일 발송
 		Map<String, Object> attachMap = new HashMap<String, Object>();
@@ -98,29 +100,11 @@ public class OrderServiceImpl implements OrderService {
 				String date = "";
 				String options = "";
 				
-				if(mapCart.get("TOUR_DE") != null && !"".equals(String.valueOf(mapCart.get("TOUR_DE")))) {
-					String tour_de = String.valueOf(mapCart.get("TOUR_DE"));
-					date = String.format("%s년 %s월 %s일", tour_de.substring(0, 4), tour_de.substring(4, 6), tour_de.substring(6, 8));
-				} else {
-					String chkin_de = String.valueOf(mapCart.get("CHKIN_DE"));
-					String chckt_de = String.valueOf(mapCart.get("CHCKT_DE"));
-					date = String.format("%s년 %s월 %s일 ~ %s년 %s월 %s일", chkin_de.substring(0, 4), chkin_de.substring(4, 6), chkin_de.substring(6, 8), chckt_de.substring(0, 4), chckt_de.substring(4, 6), chckt_de.substring(6, 8));
-				}
-				
-				if("S".equals(String.valueOf(mapCart.get("CL_SE")))) {
-					List<HashMap> lstOption = (List<HashMap>)mapCart.get("OPTIONS");
-					for(int j = 0; j < lstOption.size(); j++) {
-						options += String.format("%s %s<br>", lstOption.get(j).get("SETUP_NM"), lstOption.get(j).get("NMPR_CND"));
-					}
-				} else {
-					String begin_time = String.valueOf(mapCart.get("BEGIN_TIME"));
-					String end_time = String.valueOf(mapCart.get("END_TIME"));
-					options = String.format("%s시 %s분 ~ %s시 %s분", begin_time.substring(0, 2), begin_time.substring(2, 4), end_time.substring(0, 2), end_time.substring(2, 4));
-					List<HashMap> lstOption = (List<HashMap>)mapCart.get("OPTIONS");
-					for(int j = 0; j < lstOption.size(); j++) {
-						options += String.format("%s %s명<br>", lstOption.get(j).get("NMPR_CND"), lstOption.get(j).get("NMPR_CO"));
-					}
-				}
+				date = String.valueOf(mapCart.get("GOODS_DATE"));
+				options = String.valueOf(mapCart.get("GOODS_TIME"));
+				if(!"".equals(options))
+					options += "<br/>";
+				options += String.valueOf(mapCart.get("GOODS_OPTION"));
 
 				str = str.replaceAll("[$]\\{webserverdomain\\}", webserverdomain);
 				str = str.replaceAll("[$]\\{file_code\\}", String.valueOf(mapCart.get("FILE_CODE")));
@@ -183,6 +167,8 @@ public class OrderServiceImpl implements OrderService {
 		//map.put("email", "leeyikw@gmail.com");		
 		if(map.get("email") != null && !"".equals(String.valueOf(map.get("email"))))
 			mailManager.sendMail(subject, content, String.valueOf(map.get("email")), attachMap);
+		
+		return String.valueOf(purchs_sn);
 	}
 
 	public List<HashMap> getCartPurchsList(HashMap map) throws Exception {

@@ -9,7 +9,7 @@ public interface OrderService {
 	public int chkSchedule(HashMap map)throws Exception;
 	public int chkFlight(HashMap map)throws Exception;
 	public void setFlight(HashMap map) throws Exception;
-	public void addPurchs(HashMap map) throws Exception;
+	public String addPurchs(HashMap map, HashMap mapPay) throws Exception;
 	public List<HashMap> getCartPurchsList(HashMap map) throws Exception;
 	public HashMap getPurchs(HashMap map) throws Exception;
 	public List<HashMap> getCancelCode(HashMap map) throws Exception;

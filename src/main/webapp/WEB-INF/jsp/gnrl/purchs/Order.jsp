@@ -143,7 +143,7 @@ function getSignature(param) {
 	v_param.price = param.real_setle_amount;
 	//Test
 	if("${inicis_mode}" == "Test")
-		v_param.price = 1000;
+		v_param.price = 100;
 	v_param.timestamp = "${timestamp}";
 	
 	var url = "<c:url value='/purchs/getSignature'/>";
@@ -160,11 +160,29 @@ function getSignature(param) {
 				// Test
 				$("#SendPayForm_id").find("input[name='price']").val(param.real_setle_amount);
 				if("${inicis_mode}" == "Test")
-					$("#SendPayForm_id").find("input[name='price']").val("1000");
+					$("#SendPayForm_id").find("input[name='price']").val("100");
 				$("#SendPayForm_id").find("input[name='signature']").val(data.data);
 				$("#SendPayForm_id").find("input[name='merchantData']").val(merchantData);
 				var returnUrl = location.protocol + "//" + location.host + "/purchs/payComplete";
+				var closeUrl = location.protocol + "//" + location.host + "/purchs/close";
 				$("#SendPayForm_id").find("input[name='returnUrl']").val(returnUrl);
+				$("#SendPayForm_id").find("input[name='closeUrl']").val(closeUrl);
+				$("#SendPayForm_id").find("input[name='gopaymethod']").val($(":input:radio[name=rdoPayMethod]:checked").val());
+				
+				var gopaymethod = $("#SendPayForm_id").find("input[name='gopaymethod']").val();
+				if(gopaymethod == "Card") {
+					$("#SendPayForm_id").find("input[name='acceptmethod']").val("below1000:CARDPOINT");
+				} else if(gopaymethod == "VBank") {
+					// 기한을 하루 뒤로 설정
+					var tomorrow = new Date();
+					tomorrow.setDate(tomorrow.getDate() + 1);
+					var vbankdate = String(tomorrow.getFullYear()) + lpad(String(tomorrow.getMonth() + 1), 2, "0") + lpad(String(tomorrow.getDate()), 2, "0");
+					vbankdate += lpad(String(tomorrow.getHours()), 2, "0") + lpad(String(tomorrow.getMinutes()), 2, "0");
+
+					$("#SendPayForm_id").find("input[name='acceptmethod']").val("vbank(" + vbankdate + ")");
+				} else {
+					$("#SendPayForm_id").find("input[name='acceptmethod']").val("");
+				}
 				
 				INIStdPay.pay('SendPayForm_id');
 				//alert("결제되었습니다.");
@@ -195,6 +213,13 @@ function orderCancel() {
 		alert("14일 이내에는 취소할 수 없습니다.");
 		return;
 	}
+}
+
+function lpad(s, padLength, padString){
+	 
+    while(s.length < padLength)
+        s = padString + s;
+    return s;
 }
 
 </script>
@@ -464,16 +489,14 @@ function orderCancel() {
       <div class="order_select">
         <div class="inbox">
           <div class="select1">
-            <input type="radio" name="radio" id="radio" value="radio" />
+            <input type="radio" name="rdoPayMethod" id="radio" value="Card" checked />
             신용카드 &nbsp;&nbsp;&nbsp;
-            <input type="radio" name="radio" id="radio2" value="radio" />
+            <input type="radio" name="rdoPayMethod" id="radio2" value="DirectBank" />
             실시간 계좌이체&nbsp;&nbsp;&nbsp;
-            <!-- <input type="radio" name="radio" id="radio3" value="radio" />
-            휴대폰 소액결제&nbsp;&nbsp;&nbsp; -->
-            <input type="radio" name="radio" id="radio3" value="radio" />
-            무통장입금&nbsp;&nbsp;&nbsp;
-            
+            <input type="radio" name="rdoPayMethod" id="radio3" value="VBank" />
+            무통장입금&nbsp;&nbsp;&nbsp;            
           </div>
+          <!-- 
           <div class="stext">무통장입금</div>
           <div class="div_com">
             <select name="select5" id="select5"  class="w_50p fl">
@@ -487,6 +510,7 @@ function orderCancel() {
           </div>
           <div class="stext">입금예정일</div>
           <div class="div_com"> 2017년 01월 27일까지 미입금 시 자동 취소 처리됩니다. </div>
+           -->
           <!-- <div class="stext">환불계좌정보</div>
           <div class="div_com">
             <div class="tb_04_box">
@@ -582,8 +606,8 @@ function orderCancel() {
 											<input type="hidden" name="mKey" value="${mKey}" >
 											
 											<input type="hidden" name="gopaymethod" value="" >
-											<input type="hidden" name="offerPeriod" value="20181001-20181231" >
-											<input type="hidden" name="acceptmethod" value="CARDPOINT:HPP(1):no_receipt:va_receipt:vbanknoreg(0):below1000" >
+											<!-- <input type="hidden" name="offerPeriod" value="20181001-20181231" > -->
+											<input type="hidden" name="acceptmethod" value="" >
 
 											<input type="hidden" name="languageView" value="" >
 											<input type="hidden" name="charset" value="UTF-8" >

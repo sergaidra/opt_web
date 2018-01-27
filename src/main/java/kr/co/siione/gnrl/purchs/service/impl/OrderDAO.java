@@ -73,4 +73,8 @@ public class OrderDAO extends EgovComAbstractDAO {
 		update("gnrl.order.cancelReservationDay", map);
     }   
 
+    public void insertPay(HashMap map) throws Exception {
+		insert("gnrl.order.insertPay", map);
+    }
+
 }

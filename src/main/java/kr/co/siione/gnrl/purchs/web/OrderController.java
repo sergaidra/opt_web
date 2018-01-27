@@ -24,6 +24,8 @@ import kr.co.siione.gnrl.purchs.service.PurchsService;
 import kr.co.siione.mngr.service.CtyManageService;
 import kr.co.siione.utl.UserUtils;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import com.inicis.std.util.HttpUtil;
 import com.inicis.std.util.ParseUtil;
 import com.inicis.std.util.SignatureUtil;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 @Controller
 @RequestMapping(value = "/purchs/")
@@ -103,7 +106,13 @@ public class OrderController {
 		
 		return "gnrl/purchs/Order";
 	}	
-	
+
+	@RequestMapping(value="/close")
+	public String close(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		
+		return "gnrl/purchs/close";
+	}	
+
 	@RequestMapping(value="/getSignature")
 	public @ResponseBody ResponseVo getSignature(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
 		ResponseVo resVo = new ResponseVo();
@@ -136,11 +145,12 @@ public class OrderController {
 	}
 
 	@RequestMapping(value="/payComplete")
-	public String payComplete(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+	public void payComplete(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-
+		String email = UserUtils.nvl((String)session.getAttribute("email"));
+		
 		Map<String,String> paramMap = new Hashtable<String,String>();
 		Enumeration elems = request.getParameterNames();
 		String temp = "";
@@ -171,7 +181,32 @@ public class OrderController {
 			String netCancel= paramMap.get("netCancelUrl");			  // 망취소 API url(수신 받은 값으로 설정, 임의 세팅 금지)
 			String ackUrl = paramMap.get("checkAckUrl");			    // 가맹점 내부 로직 처리후 최종 확인 API URL(수신 받은 값으로 설정, 임의 세팅 금지)
 			String cardnum = paramMap.get("cardnum");				      //갤러리아 카드번호(카드끝자리 '*' 처리) 2016-01-12
+			String merchantData = paramMap.get("merchantData");				      //원패스투어 결제정보
 			
+			HashMap mapPurchs = new HashMap();	
+			mapPurchs.put("esntl_id", esntl_id);			
+			
+            JSONParser parser = new JSONParser();
+            JSONObject jsonObj = new JSONObject();
+            try { 
+            	merchantData = merchantData.replaceAll("&quot", "\"");
+            	jsonObj = (JSONObject)parser.parse(merchantData);
+            	List<Map> lstCart = (List<Map>)jsonObj.get("lstCart");
+            	
+            	mapPurchs.put("tot_setle_amount", UserUtils.nvl(jsonObj.get("tot_setle_amount")));
+            	mapPurchs.put("real_setle_amount", UserUtils.nvl(jsonObj.get("real_setle_amount")));
+            	mapPurchs.put("use_point", UserUtils.nvl(jsonObj.get("use_point")));
+            	mapPurchs.put("crtfc_no", "");
+            	mapPurchs.put("setle_ip", "");
+            	mapPurchs.put("tourist_nm", UserUtils.nvl(jsonObj.get("tourist_nm")));
+            	mapPurchs.put("tourist_cttpc", UserUtils.nvl(jsonObj.get("tourist_cttpc")));
+    			mapPurchs.put("kakao_id", UserUtils.nvl(jsonObj.get("kakao_id")));
+    			mapPurchs.put("lstCart", lstCart);
+    			mapPurchs.put("email", email);
+            } catch(ParseException e) {
+            	e.printStackTrace();
+            }
+
 			//#####################
 			// 2.signature 생성
 			//#####################
@@ -237,6 +272,8 @@ public class OrderController {
 					 [중요!] 승인내용에 이상이 없음을 확인한 뒤 가맹점 DB에 해당건이 정상처리 되었음을 반영함
 							  처리중 에러 발생시 망취소를 한다.
 			       ******************************************************************************/	
+					HashMap mapPay = new HashMap();	
+					
 					//공통 부분만
 					String tid = resultMap.get("tid"); // 거래번호
 					String payMethod = resultMap.get("payMethod"); // 결제방법(지불수단)
@@ -244,6 +281,17 @@ public class OrderController {
 					String MOID = resultMap.get("MOID"); // 주문 번호
 					String applDate = resultMap.get("applDate"); // 승인날짜
 					String applTime = resultMap.get("applTime"); // 승인시간
+					
+					mapPay.put("tid", tid);
+					mapPay.put("resultcode", resultMap.get("resultCode"));
+					mapPay.put("resultmsg", resultMap.get("resultMsg"));
+					mapPay.put("eventcode", resultMap.get("EventCode"));
+					mapPay.put("totprice", TotPrice);
+					mapPay.put("moid", MOID);
+					mapPay.put("paymethod", payMethod);
+					mapPay.put("applnum", resultMap.get("applNum"));
+					mapPay.put("appldate", applDate);
+					mapPay.put("appltime", applTime);
 
 					if("VBank".equals(resultMap.get("payMethod"))){ //가상계좌
 						String VACT_Num = resultMap.get("VACT_Num");	// 입금 계좌번호
@@ -253,13 +301,37 @@ public class OrderController {
 						String VACT_InputName = resultMap.get("VACT_InputName");	// 송금자 명
 						String VACT_Date = resultMap.get("VACT_Date");	// 송금 일자
 						String VACT_Time = resultMap.get("VACT_Time");	// 송금 시간
+						mapPay.put("vact_num", VACT_Num);
+						mapPay.put("vact_bankcode", VACT_BankCode);
+						mapPay.put("vactbankname", vactBankName);
+						mapPay.put("vact_name", VACT_Name);
+						mapPay.put("vact_inputname", VACT_InputName);
+						mapPay.put("vact_date", VACT_Date);
+						mapPay.put("vact_time", VACT_Time);
+					} else if("DirectBank".equals(resultMap.get("payMethod"))){ //실시간계좌이체
+						String ACCT_BankCode = resultMap.get("ACCT_BankCode");	// 은행코드
+						String CSHR_ResultCode = resultMap.get("CSHR_ResultCode");	// 현금영수증 발급결과코드
+						String CSHR_Type = resultMap.get("CSHR_Type");	// 현금영수증 발급구분코드
+						mapPay.put("acct_bankcode", ACCT_BankCode);
+						mapPay.put("cshr_resultcode", CSHR_ResultCode);
+						mapPay.put("cshr_type", CSHR_Type);
 					} else{//카드
 						String CARD_Num = resultMap.get("CARD_Num");	// 카드번호
-						String applNum = resultMap.get("applNum");	// 승인번호
+						String CARD_Interest = resultMap.get("CARD_Interest");	// 할부여부
 						String CARD_Quota = resultMap.get("CARD_Quota");	// 할부기간
 						String CARD_Code = resultMap.get("VACT_Num");	// 카드 종류
 						String CARD_BankCode = resultMap.get("VACT_Num");	// 카드 발급사
-				    }						  
+						mapPay.put("card_num", CARD_Num);
+						mapPay.put("card_interest", CARD_Interest);
+						mapPay.put("card_quota", CARD_Quota);
+						mapPay.put("card_code", CARD_Code);
+						mapPay.put("card_bankcode", CARD_BankCode);
+				    }	
+					
+					String purchs_sn = orderService.addPurchs(mapPurchs, mapPay);
+					
+					response.sendRedirect("/purchs/OrderDetail?purchs_sn=" + purchs_sn);
+					return;
 				} else {
 					//결제보안키가 다른 경우
 					if (!secureSignature.equals(resultMap.get("authSignature"))) {
@@ -293,42 +365,10 @@ public class OrderController {
 			}
 		} else {
 			System.out.println("####인증실패####");
-
 		}
-
-		if("".equals(esntl_id))
-			response.sendRedirect("/member/login/");
-
-		HashMap map = new HashMap();
-		map.put("esntl_id", esntl_id);
-		System.out.println(request.getParameter("lstCart"));
-		String strCart = UserUtils.nvl(request.getParameter("lstCart"));
-
-		String[] arrCart = strCart.split(",");
-		List<HashMap> lstCart = new ArrayList();
-		try {
-			for(int i = 0; i < arrCart.length; i++) {
-				map.put("cart_sn", arrCart[i]);
-				HashMap mapCart = orderService.getCartDetail(map);
-				lstCart.add(mapCart);
-			}
-
-		} catch(Exception e) {e.printStackTrace();}
-
-        model.addAttribute("lstCart", lstCart);
-        model.addAttribute("cart_sn", strCart);
-
-        model.addAttribute("mid", inicis_mid);
-        model.addAttribute("oid", inicis_mid + "_" + com.inicis.std.util.SignatureUtil.getTimestamp());
-        model.addAttribute("timestamp", com.inicis.std.util.SignatureUtil.getTimestamp());
-        model.addAttribute("mKey", com.inicis.std.util.SignatureUtil.hash(inicis_signKey, "SHA-256"));
-                
-        model.addAttribute("bp", "06");
-       	model.addAttribute("btitle", "세부정보입력/결제하기");
-        model.addAttribute("mtitle", "결제하기");
-		
-		return "gnrl/purchs/Order";
+		response.sendRedirect("/purchs/OrderDetail");
 	}	
+	
 	@RequestMapping(value="/addAction")
 	public @ResponseBody ResponseVo addAction(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
 		ResponseVo resVo = new ResponseVo();
@@ -381,7 +421,7 @@ public class OrderController {
 			}
 			
 			if(isOk == true) {
-				orderService.addPurchs(map);
+				//orderService.addPurchs(map);
 				resVo.setResult("0");			
 			}
 		} catch(Exception e) {
