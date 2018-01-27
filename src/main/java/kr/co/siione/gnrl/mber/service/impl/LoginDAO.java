@@ -57,4 +57,12 @@ public class LoginDAO extends EgovComAbstractDAO {
 		insert("gnrl.mber.updatePassword", map);
 	}
 
+    public HashMap viewUserInfo(HashMap map) throws Exception {
+        return (HashMap)selectByPk("gnrl.mber.viewUserInfo", map);
+    }	
+
+	public void modifyUser(HashMap map) throws Exception {
+		insert("gnrl.mber.modifyUser", map);
+	}
+	
 }

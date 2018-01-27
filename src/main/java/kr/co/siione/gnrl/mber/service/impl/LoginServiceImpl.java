@@ -174,5 +174,12 @@ public class LoginServiceImpl implements LoginService {
     		response.sendRedirect("/main/indexAction/");	
     	}
     }
+    
+    public HashMap viewUserInfo(HashMap map) throws Exception {
+    	return loginDAO.viewUserInfo(map);
+    }
 
+    public void modifyUser(HashMap map) throws Exception {
+    	loginDAO.modifyUser(map);
+    }
 }

@@ -9,6 +9,7 @@ function go_logout() {	document.location.href="/member/logoutAction/";}
 function go_join() {	document.location.href="/member/join";}
 function go_mypage() { document.location.href="/purchs/OrderList"; }
 function go_cartpage() { document.location.href="/cart/list"; }
+function go_myinfo() { document.location.href="/member/info/"; }
 
 // 셀프여행 ///
 function go_01_01_01() {

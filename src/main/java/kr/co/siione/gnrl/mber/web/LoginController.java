@@ -382,4 +382,83 @@ public class LoginController {
 		return resVo;
 	}
 
+    @RequestMapping(value="/info")
+    public String info(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+        model.addAttribute("bp", "07");
+       	model.addAttribute("btitle", "회원정보수정");
+        model.addAttribute("mtitle", "");
+
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		
+		if("".equals(esntl_id))
+			response.sendRedirect("/member/login/");
+
+		HashMap map = new HashMap();
+		map.put("esntl_id", esntl_id);
+		
+		HashMap result = loginService.viewUserInfo(map);
+
+        model.addAttribute("result", result);
+
+        return "gnrl/mber/info";
+    }
+
+	@RequestMapping(value="/modifyUser")
+	public @ResponseBody ResponseVo modifyUser(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		
+		if("".equals(esntl_id))
+			response.sendRedirect("/member/login/");
+
+		try {
+			//String user_id = UserUtils.nvl(param.get("user_id"));
+			String user_nm = UserUtils.nvl(param.get("user_nm"));
+			String password = UserUtils.nvl(param.get("password"));
+			String c_password = UserUtils.nvl(param.get("c_password"));
+			String moblphon_no = UserUtils.nvl(param.get("moblphon_no"));
+			String birth = UserUtils.nvl(param.get("birth"));
+			String sex = UserUtils.nvl(param.get("sex"));
+			String email_recptn_at = UserUtils.nvl(param.get("email_recptn_at"));
+
+			HashMap map = new HashMap();
+			map.put("esntl_id", esntl_id);			
+
+			if(!"".equals(c_password)) {
+				c_password = Sha256.encrypt(c_password).toUpperCase();
+				password = Sha256.encrypt(password).toUpperCase();
+
+				HashMap result = loginService.viewUserInfo(map);
+				if(!c_password.equals(result.get("PASSWORD"))) {
+					resVo.setResult("9");			
+					resVo.setMessage("현재 비밀번호가 맞지 않습니다."); 
+					return resVo;
+				}
+				map.put("password", password);			
+			}
+
+			map.put("user_nm", user_nm);			
+			map.put("moblphon_no", moblphon_no);			
+			map.put("birth", birth.replace("-", ""));			
+			map.put("sex", sex);			
+			map.put("email_recptn_at", email_recptn_at);
+			
+			UserUtils.log("[modifyUser-map]", map);
+
+			loginService.modifyUser(map);
+			
+			resVo.setResult("0");
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;
+	}
 }

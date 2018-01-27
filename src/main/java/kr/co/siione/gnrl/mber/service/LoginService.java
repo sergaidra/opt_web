@@ -22,4 +22,7 @@ public interface LoginService {
     public void sendPwSearchEmail(HashMap map) throws Exception;
     
     public void loginSuccess(HttpServletRequest request, HttpServletResponse response, HashMap result) throws Exception;
+    
+    public HashMap viewUserInfo(HashMap map) throws Exception;
+    public void modifyUser(HashMap map) throws Exception;
 }
