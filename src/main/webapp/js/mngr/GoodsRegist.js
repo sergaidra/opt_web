@@ -769,8 +769,13 @@ function fn_setButton(sDiv) {
 		Ext.getCmp('btn-save2').enable();
 		Ext.getCmp('btn-save3').enable();
 		Ext.getCmp('btn-del').enable();
+		if(Ext.getCmp('form-reg-delete-at').getValue() == 'T') {
+			Ext.getCmp('btn-sell').enable();	
+		} else {
+			Ext.getCmp('btn-sell').disable();
+		}
 		Ext.getCmp('btn-rec').disable();
-
+		
 		Ext.getCmp('btn-add-schdul').enable();
 		Ext.getCmp('btn-del-schdul').enable();
 		Ext.getCmp('btn-save-schdul').enable();
@@ -792,6 +797,7 @@ function fn_setButton(sDiv) {
 		Ext.getCmp('btn-save2').disable();
 		Ext.getCmp('btn-save3').disable();
 		Ext.getCmp('btn-del').disable();
+		Ext.getCmp('btn-sell').disable();		
 		Ext.getCmp('btn-rec').enable();
 
 		Ext.getCmp('btn-add-schdul').disable();
@@ -814,10 +820,10 @@ function fn_setButton(sDiv) {
 
 /**
  * 상품저장
- * @param sDiv (I:기본정보저장, G:이용안내저장, E:기타정보저장, D:상품삭제, R:삭제상품 대기처리)
+ * @param sDiv (I:기본정보저장, U:기본정보수정, G:이용안내저장, E:기타정보저장, D:상품삭제, R:삭제상품 대기처리, S:판매시작)
  * @param frSave
  */
-function fn_saveGoodsInfo(sDiv, frSave) {
+function fn_saveGoodsInfo(sDiv, frSave) {alert(sDiv);
 	var sUrl = '../insertGoods/';
 	var stParams = {};
 	var sMsg = '저장';
@@ -828,6 +834,9 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 	} else if(sDiv == 'R') {
 		sUrl = '../recoverGoods/';
 		sMsg = '대기처리';
+	} else if(sDiv == 'S') {
+		sUrl = '../startSellingGoods/';
+		sMsg = '판매시작';		
 	} else if(sDiv != 'I') {
 		sUrl = '../updateGoods/';
 		stParams = {
@@ -893,7 +902,10 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 						Ext.Msg.alert('알림', action.result.message, function(){
 							if(sDiv == 'I') {
 								Ext.getCmp('form-reg-goods-code').setValue(action.result.GOODS_CODE);
+								Ext.getCmp('form-reg-delete-at').setValue('T');
 								Ext.getCmp('form-reg-crud-se').setValue('C');
+							} else if(sDiv == 'R' || sDiv == 'S') { //대기처리, 판매시작
+								storeGoods.reload(); //삭제여부 상태 확인
 							} else if(sDiv == 'D') {
 								frReg.getForm().reset();
 								frReg2.getForm().reset();
@@ -902,8 +914,6 @@ function fn_saveGoodsInfo(sDiv, frSave) {
 								storeTime.removeAll();
 								storeNmpr.removeAll();
 								storeFile.removeAll();
-							} else if(sDiv == 'R') {
-								fn_setButton('EDIT');
 							}
 							fn_activeNextTab();
 						});
@@ -1032,17 +1042,20 @@ var storeGoods = Ext.create('Ext.data.JsonStore', {
 		},
 		'load': function(store, records, successful, eOpts) {
 			if(store.getCount()) {
-				frReg.getForm().loadRecord(store.getAt(0));
-				frReg2.getForm().loadRecord(store.getAt(0));
-				frReg3.getForm().loadRecord(store.getAt(0));
+				if(Ext.getCmp('form-reg-crud-se').getValue() != 'C') {
+					frReg.getForm().loadRecord(store.getAt(0));
+					frReg2.getForm().loadRecord(store.getAt(0));
+					frReg3.getForm().loadRecord(store.getAt(0));
 
-				storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-schdul').getValue().DELETE_AT_SCHDUL}});
-				storeTime.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-time').getValue().DELETE_AT_TIME}});
-				storeNmpr.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-nmpr').getValue().DELETE_AT_NMPR}});
-				storeFile.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
-
+					storeSchdul.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-schdul').getValue().DELETE_AT_SCHDUL}});
+					storeTime.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-time').getValue().DELETE_AT_TIME}});
+					storeNmpr.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue(), DELETE_AT:Ext.getCmp('delete-at-nmpr').getValue().DELETE_AT_NMPR}});
+					storeFile.load({params:{GOODS_CODE:Ext.getCmp('form-reg-goods-code').getValue()}});
+				}
 				if(store.getAt(0).data.DELETE_AT == 'Y') {
 					fn_setButton('READ');
+				} else {
+					fn_setButton('EDIT');
 				}
 			}
 			Ext.getBody().unmask();
@@ -1122,9 +1135,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			Ext.Msg.confirm('확인', '작업을 중단하고 신규로 작성하시겠습니까?', function(btn) {
 				if(btn == 'yes') {
 					newAt = 'Y';
-					
-					fn_setButton('EDIT');
-					
+			
 					frReg.getForm().reset();
 					frReg2.getForm().reset();
 					frReg3.getForm().reset();
@@ -1132,6 +1143,8 @@ var frReg = Ext.create('Ext.form.Panel', {
 					storeTime.removeAll();
 					storeNmpr.removeAll();
 					storeFile.removeAll();
+					
+					fn_setButton('EDIT');					
 					
 					comboUpperCl.getStore().load({params:{UPPER_CL_CODE:'00000', DELETE_AT:'N'}});					
 				}
@@ -1157,6 +1170,20 @@ var frReg = Ext.create('Ext.form.Panel', {
 		handler: function() {
 			fn_preview();
 		}
+	}, {
+		xtype: 'button',
+		id: 'btn-sell',
+		text: '판매시작',
+		width: 80,
+		tooltip: '신규등록하거나 대기처리한 상품을 판매 시작합니다.',
+		disabled: true,
+		handler: function() {
+			if(Ext.getCmp('form-reg-goods-code').getValue()) {
+				fn_saveGoodsInfo('S', frReg)
+			} else {
+				return;
+			}
+		}		
 	}, {
 		xtype: 'button',
 		id: 'btn-rec',

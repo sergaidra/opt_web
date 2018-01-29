@@ -196,7 +196,7 @@ function getSignature(param) {
 				// Test
 				$("#SendPayForm_id").find("input[name='price']").val(param.real_setle_amount);
 				if("${inicis_mode}" == "Test")
-					$("#SendPayForm_id").find("input[name='price']").val("100");
+					$("#SendPayForm_id").find("input[name='price']").val("150");
 				$("#SendPayForm_id").find("input[name='signature']").val(data.data);
 				$("#SendPayForm_id").find("input[name='merchantData']").val(merchantData);
 				var returnUrl = location.protocol + "//" + location.host + "/purchs/payComplete";
@@ -258,6 +258,7 @@ function viewPoint() {
 function setPoint(point) {
 	use_point = Number(point);
 	$("#txtPoint").val(numberWithCommas(point));
+	$("#discountAmount").text('-'+numberWithCommas(point));
 	setAmount();
 }
 
@@ -538,11 +539,11 @@ function numberWithCommas(x) {
           </tr> -->
           <tr>
             <th >포인트</th>
-            <td ><div class="order_font1"> 총 <fmt:formatNumber value="${point}" pattern="#,###" />점 </div>
+            <td ><div class="order_font1"> <fmt:formatNumber value="${point}" pattern="#,###" /> P </div>
               <div class="order_ch"><input type="checkbox" onclick="allPointUse(this);"> </div>
 			  <div class="order_font2"> 전액사용</div>
 			  </td>
-            <td ><input name="textfield" type="text" class="input_stst fl w_50p" id="txtPoint"   value="0" readonly style="text-align:right;"/>
+            <td ><input name="textfield" type="text" class="input_stst fl w_50p" id="txtPoint"   value="0" readonly/>
               <a href="javascript:viewPoint();" class="order_tb_btn fl">포인트  </a></td>
           </tr>
         </tbody>
@@ -619,7 +620,7 @@ function numberWithCommas(x) {
 				</div>
 				<div class="t1">
 					<div class="left">총 할인금액</div>
-					<div class="right"><fmt:formatNumber value="${purchs_amount - origin_amount}" pattern="#,###" />원</div>
+					<div class="right"><em id="discountAmount"><fmt:formatNumber value="${purchs_amount - origin_amount}" pattern="#,###" /></em>원</div>
 				</div>
 			</div>
 			<div class="total_2">
