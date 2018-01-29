@@ -296,7 +296,7 @@ function lpad(s, padLength, padString){
   <div class="inner2">
     <div class="my_box01">
       <div class="info">
-      	<div class="photo"><!-- <img src="/images/com/me_photo.jpg" alt=""/> --></div>
+      	<!-- <div class="photo"><img src="/images/com/me_photo.jpg" alt=""/></div> -->
         <div class="text pointer" onclick="go_myinfo();"><em>${user_nm} 회원님</em><br>
           환영합니다.</div>
       </div>
