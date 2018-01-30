@@ -97,6 +97,8 @@ function search(pageNo) {
 
                 		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S' || data.list[cnt].cartlist[cnt2].CL_SE == 'T') {
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE) + "]</div>");
+                		} else if(data.list[cnt].cartlist[cnt2].CL_SE == 'M') {
+                    		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE) + "]</div>");
                 		} else {
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE) + " " + timeWithColon(data.list[cnt].cartlist[cnt2].BEGIN_TIME) + " ~ " + timeWithColon(data.list[cnt].cartlist[cnt2].END_TIME) + "]</div>");
                 		}
@@ -138,6 +140,8 @@ function search(pageNo) {
             			var tx1 = "";
                 		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S' || data.list[cnt].cartlist[cnt2].CL_SE == 'T') {
                     		tx1 = dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE);
+                		} else if(data.list[cnt].cartlist[cnt2].CL_SE == 'M') {
+                    		tx1 = dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE);
                 		} else {
                 			tx1 = dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE) + " " + timeWithColon(data.list[cnt].cartlist[cnt2].BEGIN_TIME) + " ~ " + timeWithColon(data.list[cnt].cartlist[cnt2].END_TIME);
                 		}

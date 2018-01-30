@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -24,10 +25,10 @@ $(function(){
 	$("input[name='chkRange']").click(function () {
 		$("input[name='chkRange']").prop("checked", false);
 		$(this).prop("checked", true);
-		$('#end_dt').val(getToday());
+		$('#end_dt').val(dateWithHyphen(getToday()));
 		switch($(this).val()) {
 		case "0":	// 오늘
-			$('#start_dt').val(getToday());
+			$('#start_dt').val(dateWithHyphen(getToday()));
 			break;
 		case "1":	// 1주일
 			$('#start_dt').val(getDateToString(new Date(new Date() - (7 * DAY))));
@@ -58,7 +59,7 @@ $(function(){
 		search(1);
 	});
 		
-	$('.some_class').val(getToday());
+	$('.some_class').val(dateWithHyphen(getToday()));
 	
 	$("#btnSearch").trigger("click");
 });
@@ -98,6 +99,8 @@ function search(pageNo) {
                 		
                 		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S' || data.list[cnt].cartlist[cnt2].CL_SE == 'T') {
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE) + "]</div>");
+                		} else if(data.list[cnt].cartlist[cnt2].CL_SE == 'M') {
+                    		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE) + "]</div>");
                 		} else {
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE) + " " + timeWithColon(data.list[cnt].cartlist[cnt2].BEGIN_TIME) + " ~ " + timeWithColon(data.list[cnt].cartlist[cnt2].END_TIME) + "]</div>");
                 		}
@@ -152,6 +155,8 @@ function search(pageNo) {
             			var tx1 = "";
                 		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S' || data.list[cnt].cartlist[cnt2].CL_SE == 'T') {
                     		tx1 = dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE);
+                		} else if(data.list[cnt].cartlist[cnt2].CL_SE == 'M') {
+                    		tx1 = dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE);
                 		} else {
                 			tx1 = dateWithHyphen(data.list[cnt].cartlist[cnt2].TOUR_DE) + " " + timeWithColon(data.list[cnt].cartlist[cnt2].BEGIN_TIME) + " ~ " + timeWithColon(data.list[cnt].cartlist[cnt2].END_TIME);
                 		}
@@ -269,7 +274,7 @@ function getDateToString(d) {
 
 function getToday() {
 	var d = new Date();
-	return String(d.getFullYear()) + '-' + lpad(String(d.getMonth() + 1), 2, "0") + '-' + lpad(String(d.getDate()), 2, "0");
+	return String(d.getFullYear()) + lpad(String(d.getMonth() + 1), 2, "0") + lpad(String(d.getDate()), 2, "0");
 }
 
 function lpad(s, padLength, padString){

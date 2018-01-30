@@ -367,7 +367,7 @@ function lpad(s, padLength, padString){
 						</c:if>
 						<br />
 					</div>		
-					<c:if test="${result.CL_SE ne 'S' && result.CL_SE ne 'T'}">
+					<c:if test="${result.CL_SE ne 'S' && result.CL_SE ne 'T' && result.CL_SE ne 'M'}">
 						<div class="text1">${fn:substring(result.BEGIN_TIME,0,2)}시 ${fn:substring(result.BEGIN_TIME,2,4)}분 ~ ${fn:substring(result.END_TIME,0,2)}시 ${fn:substring(result.END_TIME,2,4)}분</div>
 					</c:if>
 					<c:if test="${result.CL_SE eq 'S'}">
