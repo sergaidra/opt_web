@@ -258,9 +258,18 @@ public class UserUtils {
 		String sFileStorePath = EgovProperties.getProperty("Globals.fileStorePath");
 		String sFileSeparator = File.separator;
 		String sPreFix = UserUtils.getDate("yyyyMMddHHmmss");
-
+		
 		try {
-			String fileName = file.getOriginalFilename();
+			//핫딜이미지 (파일2개 이름이 같으면 덮어버림)
+			String sDiv = sDirName;
+			if(sDirName.startsWith("HOTDEAL")) {
+				sDirName = "HOTDEAL";
+				sDiv = StringUtils.replace(sDiv, "HOTDEAL_", "") + "_";
+			} else {
+				sDiv = "";
+			}
+			
+			String fileName = sDiv + file.getOriginalFilename();
 			String saveFileNm = sPreFix + "_" + fileName;
 
 			String storePath  = sFileStorePath + sDirName + sFileSeparator;
@@ -281,6 +290,11 @@ public class UserUtils {
 
 				int scaledWidth = 200; //bi.getWidth();    //x
 				int scaledHeight = 148;
+				
+				if(sDirName.equals("MAIN")) {
+					scaledWidth = 280;
+					scaledHeight = 112;
+				}
 				//int scaledHeight = Math.round((bi.getHeight()*200)/bi.getWidth());; //bi.getHeight();  //y    z=(y*200)/x
 
 				/*if(bi.getWidth() > 3000) {

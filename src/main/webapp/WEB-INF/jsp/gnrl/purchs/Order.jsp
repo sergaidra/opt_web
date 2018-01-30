@@ -345,7 +345,7 @@ function numberWithCommas(x) {
           <th >연락처(필수)</th>
           <td ><!--기본 셀렉트 박스 .w_100p는 사이즈-->
           	<c:if test="${purchs == null}">
-	            <select class="w_10p fl" id="tourist_cttpc1" name="tourist_cttpc1">
+	            <select class="w_80px fl" id="tourist_cttpc1" name="tourist_cttpc1">
 	              <option <c:if test="${purchs.TOURIST_CTTPC1 == '010'}">selected</c:if>>010</option>
 	              <option <c:if test="${purchs.TOURIST_CTTPC1 == '011'}">selected</c:if>>011</option>
 	              <option <c:if test="${purchs.TOURIST_CTTPC1 == '016'}">selected</c:if>>016</option>
@@ -354,8 +354,8 @@ function numberWithCommas(x) {
 	              <option <c:if test="${purchs.TOURIST_CTTPC1 == '019'}">selected</c:if>>019</option>
 	            </select>
 	            <!--//기본 셀렉트 박스 -->
-	            <input name="tourist_cttpc2" type="text" class="input_st01 fl ml_10" id="tourist_cttpc2"  style="width:100px" value="${purchs.TOURIST_CTTPC2}"/>
-	            <input name="tourist_cttpc3" type="text" class="input_st01 fl ml_10" id="tourist_cttpc3"  style="width:100px" value="${purchs.TOURIST_CTTPC3}"/>
+	            <input name="tourist_cttpc2" type="text" class="input_st01 fl ml_10" id="tourist_cttpc2"  style="width:70px" value="${purchs.TOURIST_CTTPC2}"/>
+	            <input name="tourist_cttpc3" type="text" class="input_st01 fl ml_10" id="tourist_cttpc3"  style="width:70px" value="${purchs.TOURIST_CTTPC3}"/>
             </c:if>
           	<c:if test="${purchs != null}">
           		${purchs.TOURIST_CTTPC}
@@ -366,7 +366,7 @@ function numberWithCommas(x) {
           <th>카카오ID</th>
           <td > <!--기본 셀렉트 박스 .w_100p는 사이즈-->
           	<c:if test="${purchs == null}">
-            	<input name="kakao_id" type="text" class="input_st01 fl" id="kakao_id"  style="width:100px" value="${purchs.KAKAO_ID}"/>
+            	<input name="kakao_id" type="text" class="input_st01 fl" id="kakao_id"  style="width:150px" value="${purchs.KAKAO_ID}"/>
             </c:if>
           	<c:if test="${purchs != null}">
           		${purchs.KAKAO_ID}
