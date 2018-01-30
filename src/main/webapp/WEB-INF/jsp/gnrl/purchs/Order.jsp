@@ -179,7 +179,7 @@ function getSignature(param) {
 	v_param.price = param.real_setle_amount;
 	//Test
 	if("${inicis_mode}" == "Test")
-		v_param.price = 100;
+		v_param.price = 150;
 	v_param.timestamp = "${timestamp}";
 	
 	var url = "<c:url value='/purchs/getSignature'/>";
@@ -196,7 +196,7 @@ function getSignature(param) {
 				// Test
 				$("#SendPayForm_id").find("input[name='price']").val(param.real_setle_amount);
 				if("${inicis_mode}" == "Test")
-					$("#SendPayForm_id").find("input[name='price']").val("100");
+					$("#SendPayForm_id").find("input[name='price']").val("150");
 				$("#SendPayForm_id").find("input[name='signature']").val(data.data);
 				$("#SendPayForm_id").find("input[name='merchantData']").val(merchantData);
 				var returnUrl = location.protocol + "//" + location.host + "/purchs/payComplete";
@@ -522,7 +522,12 @@ function numberWithCommas(x) {
   <div class="sp_50"></div>
   <div class="order_left">
     <div class="order_stitle"><i class="material-icons">&#xE5C6;</i>
+   	<c:if test="${purchs != null}">
+      <p>포인트</p>
+   	</c:if>
+   	<c:if test="${purchs == null}">
       <p>포인트 사용하기</p>
+   	</c:if>
     </div>
     <div class="tb_04_box">
       <table  class="tb_01">
@@ -530,14 +535,12 @@ function numberWithCommas(x) {
         <col width="" />
         <col width="35%" />
         <tbody>
-          <!-- <tr>
-            <th >할인/쿠폰</th>
-            <td class="end"><div class="order_font1"> 쿠폰적용후 결제금액</div></td>
-            <td class="end"><select name="select5" id="select5" style="width:200px">
-                <option>쿠폰을 선택해 주세요</option>
-              </select></td>
-          </tr> -->
           <tr>
+		   	<c:if test="${purchs != null}">
+            <th >사용 포인트</th>
+            <td colspan="2"><div class="order_font1"> <fmt:formatNumber value="${purchs.USE_POINT}" pattern="#,###" /> P </div></td>            
+		   	</c:if>
+		   	<c:if test="${purchs == null}">
             <th >포인트</th>
             <td ><div class="order_font1"> <fmt:formatNumber value="${point}" pattern="#,###" /> P </div>
               <div class="order_ch"><input type="checkbox" onclick="allPointUse(this);"> </div>
@@ -545,12 +548,193 @@ function numberWithCommas(x) {
 			  </td>
             <td ><input name="textfield" type="text" class="input_stst fl w_50p" id="txtPoint"   value="0" readonly/>
               <a href="javascript:viewPoint();" class="order_tb_btn fl">포인트  </a></td>
+		   	</c:if>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="sp_30"></div>
 
+   	<c:if test="${purchs != null && pay != null}">
+      <div class="order_stitle"><i class="material-icons">&#xE5C6;</i>
+        <p>결제 정보</p>
+      </div>
+		<div class="tb_04_box">
+		<table  class="tb_01">
+			<col width="18%" />
+			<col width="" />
+			<tbody>
+			<tr>
+				<th>결제수단</th>
+				<td>
+					<c:if test="${pay.PAYMETHOD == 'VCard' or pay.PAYMETHOD == 'Card'}">신용카드</c:if>
+					<c:if test="${pay.PAYMETHOD == 'DirectBank'}">실시간 계좌이체</c:if>
+					<c:if test="${pay.PAYMETHOD == 'VBank'}">무통장입금</c:if>
+				</td>
+			</tr>
+			<tr><th>결제금액</th><td><fmt:formatNumber value="${pay.TOTPRICE}" pattern="#,###" /> 원</td></tr>
+			<tr><th>거래번호</th><td>${pay.TID}</td></tr>
+			<tr><th>승인일자</th><td>${pay.APPLDATE}</td></tr>
+			<tr><th>승인시간</th><td>${pay.APPLTIME}</td></tr>
+			<c:if test="${pay.PAYMETHOD == 'VCard' or pay.PAYMETHOD == 'Card'}">
+			<tr><th>신용카드번호</th><td>${pay.CARD_NUM}</td></tr>
+			<tr>
+				<th>카드 종류</th>
+				<td>
+					<c:if test="${pay.CARD_CODE == '01'}">하나(외환)</c:if>				
+					<c:if test="${pay.CARD_CODE == '03'}">롯데</c:if>				
+					<c:if test="${pay.CARD_CODE == '04'}">현대</c:if>				
+					<c:if test="${pay.CARD_CODE == '06'}">국민</c:if>				
+					<c:if test="${pay.CARD_CODE == '11'}">BC</c:if>				
+					<c:if test="${pay.CARD_CODE == '12'}">삼성</c:if>				
+					<c:if test="${pay.CARD_CODE == '14'}">신한</c:if>				
+					<c:if test="${pay.CARD_CODE == '21'}">해외 VISA</c:if>				
+					<c:if test="${pay.CARD_CODE == '22'}">해외마스터</c:if>				
+					<c:if test="${pay.CARD_CODE == '23'}">해외 JCB</c:if>				
+					<c:if test="${pay.CARD_CODE == '26'}">중국은련</c:if>				
+					<c:if test="${pay.CARD_CODE == '32'}">광주</c:if>				
+					<c:if test="${pay.CARD_CODE == '33'}">전북</c:if>				
+					<c:if test="${pay.CARD_CODE == '34'}">하나</c:if>				
+					<c:if test="${pay.CARD_CODE == '35'}">산업카드</c:if>				
+					<c:if test="${pay.CARD_CODE == '41'}">NH</c:if>				
+					<c:if test="${pay.CARD_CODE == '43'}">씨티</c:if>				
+					<c:if test="${pay.CARD_CODE == '44'}">우리</c:if>				
+					<c:if test="${pay.CARD_CODE == '48'}">신협체크</c:if>				
+					<c:if test="${pay.CARD_CODE == '51'}">수협</c:if>				
+					<c:if test="${pay.CARD_CODE == '52'}">제주</c:if>				
+					<c:if test="${pay.CARD_CODE == '54'}">MG새마을금고체크</c:if>				
+					<c:if test="${pay.CARD_CODE == '55'}">케이뱅크</c:if>				
+					<c:if test="${pay.CARD_CODE == '56'}">카카오뱅크</c:if>				
+					<c:if test="${pay.CARD_CODE == '71'}">우체국체크</c:if>				
+					<c:if test="${pay.CARD_CODE == '95'}">저축은행체크</c:if>				
+				</td>
+			</tr>
+			<tr>
+				<th>카드 발급사</th>
+				<td>
+					<c:if test="${pay.CARD_BANKCODE == '04'}">국민은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '05'}">하나은행 (구외환)</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '06'}">국민은행 (구 주택)</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '07'}">수협중앙회</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '11'}">농협중앙회</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '12'}">단위농협</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '16'}">축협중앙회</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '20'}">우리은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '21'}">신한은행 (조흥은행)</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '23'}">제일은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '25'}">하나은행 (서울은행)</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '26'}">신한은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '27'}">한국씨티은행 (한미은행)</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '31'}">대구은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '32'}">부산은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '34'}">광주은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '35'}">제주은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '37'}">전북은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '38'}">강원은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '39'}">경남은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '41'}">비씨카드</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '53'}">씨티은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '54'}">홍콩상하이은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '71'}">우체국</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '81'}">하나은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '83'}">평화은행</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '87'}">신세계</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '88'}">신한은행(조흥 통합)</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '97'}">카카오 머니</c:if>			
+					<c:if test="${pay.CARD_BANKCODE == '98'}">페이코 (포인트 100% 사용)</c:if>			
+				</td>
+			</tr>
+			</c:if>
+			<c:if test="${pay.PAYMETHOD == 'DirectBank'}">
+			<tr>
+				<th>은행</th>
+				<td>
+					<c:if test="${pay.ACCT_BANKCODE == '02'}">한국산업은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '03'}">기업은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '04'}">국민은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '05'}">하나은행 (구 외환)</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '06'}">국민은행 (구 주택)</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '07'}">수협중앙회</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '11'}">농협중앙회</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '12'}">단위농협</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '16'}">축협중앙회</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '20'}">우리은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '21'}">구)조흥은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '22'}">상업은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '23'}">SC제일은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '24'}">한일은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '25'}">서울은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '26'}">구)신한은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '27'}">한국씨티은행 (구 한미)</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '31'}">대구은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '32'}">부산은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '34'}">광주은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '35'}">제주은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '37'}">전북은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '38'}">강원은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '39'}">경남은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '41'}">비씨카드</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '45'}">새마을금고</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '48'}">신용협동조합중앙회</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '50'}">상호저축은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '53'}">한국씨티은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '54'}">홍콩상하이은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '55'}">도이치은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '56'}">ABN 암로</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '57'}">JP모건</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '59'}">미쓰비시도쿄은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '60'}">BOA(Bank of America)</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '64'}">산립조합</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '70'}">신안상호저축은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '71'}">우체국</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '81'}">하나은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '83'}">평화은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '87'}">신세계</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == '88'}">신한(통합)은행</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'D1'}">유안타증권(구 동양증권)</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'D2'}">현대증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'D3'}">미래에셋증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'D4'}">한국투자증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'D5'}">우리투자증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'D6'}">하이투자증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'D7'}">HMC 투자증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'D8'}">SK 증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'D9'}">대신증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DA'}">하나대투증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DB'}">굿모닝신한증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DC'}">동부증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DD'}">유진투자증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DE'}">메리츠증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DF'}">신영증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DG'}">대우증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DH'}">삼성증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DI'}">교보증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DJ'}">키움증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DK'}">이트레이드</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DL'}">솔로몬증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DM'}">한화증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DN'}">NH증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DO'}">부국증권</c:if>			
+					<c:if test="${pay.ACCT_BANKCODE == 'DP'}">LIG증권</c:if>			
+				</td>
+			</tr>
+			<tr><th>현금영수증 발행 정상여부</th><td>${pay.CSHR_RESULTCODE}</td></tr>
+			<tr><th>현금영수증구분</th><td>${pay.CSHR_TYPE}</td></tr>
+			</c:if>
+			<c:if test="${pay.PAYMETHOD == 'VBank'}">
+			<tr><th>입금계좌번호</th><td>${pay.VACT_NUM}</td></tr>
+			<tr><th>입금은행명</th><td>${pay.VACTBANKNAME}</td></tr>
+			<tr><th>예금주명</th><td>${pay.VACT_NAME}</td></tr>
+			<tr><th>송금자명</th><td>${pay.VACT_INPUTNAME}</td></tr>
+			<tr><th>송금일자</th><td>${pay.VACT_DATE}</td></tr>
+			<tr><th>송금시각</th><td>${pay.VACT_TIME}</td></tr>
+			</c:if>
+		</tbody>
+		</table>
+		</div>
+
+   	</c:if>
+   	<c:if test="${purchs == null}">
       <div class="order_stitle"><i class="material-icons">&#xE5C6;</i>
         <p>결제 수단 선택</p>
       </div>
@@ -563,7 +747,11 @@ function numberWithCommas(x) {
             실시간 계좌이체&nbsp;&nbsp;&nbsp;
             <input type="radio" name="rdoPayMethod" id="radio3" value="VBank" />
             무통장입금&nbsp;&nbsp;&nbsp;            
-          </div>
+		  </div>
+		</div> 
+      </div>
+   	</c:if>
+
           <!-- 
           <div class="stext">무통장입금</div>
           <div class="div_com">
@@ -606,8 +794,6 @@ function numberWithCommas(x) {
               </table>
             </div>
           </div>-->
-        </div> 
-      </div>
   
   </div>
 	<div class="order_right">
@@ -625,7 +811,12 @@ function numberWithCommas(x) {
 			</div>
 			<div class="total_2">
 				<div class="t1">최종결제금액</div>
+	          	<c:if test="${purchs != null}">
+				<div class="t2"><em id="finalAmount"><fmt:formatNumber value="${purchs.REAL_SETLE_AMOUNT}" pattern="#,###" /></em>원</div>
+				</c:if>
+	          	<c:if test="${purchs == null}">
 				<div class="t2"><em id="finalAmount"><fmt:formatNumber value="${purchs_amount}" pattern="#,###" /></em>원</div>
+				</c:if>
 			</div>
 			<c:if test="${purchs.DELETE_AT == 'Y'}">
 				<div class="total_2">

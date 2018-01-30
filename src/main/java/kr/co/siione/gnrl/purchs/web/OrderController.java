@@ -323,8 +323,8 @@ public class OrderController {
 						String CARD_Num = resultMap.get("CARD_Num");	// 카드번호
 						String CARD_Interest = resultMap.get("CARD_Interest");	// 할부여부
 						String CARD_Quota = resultMap.get("CARD_Quota");	// 할부기간
-						String CARD_Code = resultMap.get("VACT_Num");	// 카드 종류
-						String CARD_BankCode = resultMap.get("VACT_Num");	// 카드 발급사
+						String CARD_Code = resultMap.get("CARD_Code");	// 카드 종류
+						String CARD_BankCode = resultMap.get("CARD_BankCode");	// 카드 발급사
 						mapPay.put("card_num", CARD_Num);
 						mapPay.put("card_interest", CARD_Interest);
 						mapPay.put("card_quota", CARD_Quota);
@@ -577,6 +577,7 @@ public class OrderController {
 		map.put("purchs_sn", purchs_sn);
 
 		HashMap purchs = orderService.getPurchs(map);
+		HashMap pay = orderService.getPay(map);
 		if(purchs.get("TOURIST_CTTPC") != null && !"".equals(purchs.get("TOURIST_CTTPC"))) {
 			String [] arrCttPc = String.valueOf(purchs.get("TOURIST_CTTPC")).split("\\-");
 			if(arrCttPc.length == 3) {
@@ -605,6 +606,7 @@ public class OrderController {
         model.addAttribute("lstCart", lstCart);
         model.addAttribute("purchs_sn", purchs_sn);
         model.addAttribute("purchs", purchs);
+        model.addAttribute("pay", pay);        
 
         model.addAttribute("bp", "06");
        	model.addAttribute("btitle", "결제 상세보기");

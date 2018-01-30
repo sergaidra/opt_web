@@ -261,4 +261,11 @@
 			#vact_num#, #vact_bankcode#, #vactbankname#, #vact_name#, #vact_inputname#, #vact_date#, #vact_time#,
 			#acct_bankcode#, #cshr_resultcode#, #cshr_type# )
 	</insert>
+	
+	<select id="gnrl.order.getPay" parameterClass="hashMap" resultClass="hashMap">
+		SELECT *
+		FROM TB_PAY
+		WHERE PURCHS_SN = #purchs_sn#
+	</select>
+	
 </sqlMap>

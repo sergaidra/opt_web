@@ -77,4 +77,8 @@ public class OrderDAO extends EgovComAbstractDAO {
 		insert("gnrl.order.insertPay", map);
     }
 
+	public HashMap getPay(HashMap map) throws Exception {
+		return (HashMap)selectByPk("gnrl.order.getPay", map);
+	}
+
 }

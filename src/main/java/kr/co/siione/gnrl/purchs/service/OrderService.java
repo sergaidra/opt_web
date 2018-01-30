@@ -12,6 +12,7 @@ public interface OrderService {
 	public String addPurchs(HashMap map, HashMap mapPay) throws Exception;
 	public List<HashMap> getCartPurchsList(HashMap map) throws Exception;
 	public HashMap getPurchs(HashMap map) throws Exception;
+	public HashMap getPay(HashMap map) throws Exception;
 	public List<HashMap> getCancelCode(HashMap map) throws Exception;
 	public HashMap getCancelRefundAmount(HashMap map) throws Exception;
 	public void cancelPurchs(HashMap map) throws Exception;
