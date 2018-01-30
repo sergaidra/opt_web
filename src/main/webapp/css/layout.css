@@ -54,7 +54,7 @@ ol,ul,li{list-style:none;padding:0;margin:0;}
 #head_home_m { display:none}
 
 #head_home .inner .toplogo_m{ display: none}
-#head_home .inner .toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:220px; height: 90px; background-position: center left; position: absolute;  left:5%; top: 0px; display: block }
+#head_home .inner .toplogo{ float:left; background: url( ../images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:190px; height: 90px; background-position: center left; position: absolute;  left:5%; top: 0px; display: block }
 #head_home .inner .toplogo a{width:220px; height: 90px; display: block}
 
 	
@@ -86,7 +86,7 @@ ol,ul,li{list-style:none;padding:0;margin:0;}
 header.large #head_home {width:100% ; float:left; background:#fff; height:90px;   position:fixed ; z-index:9999; border-bottom: 1px solid #fff}
 header.large #head_home .inner{margin:0px auto; position:relative;left:0px; width:100% ;  height:90px;  }
 header.large #head_home .inner .toplogo_m{ display: none}
-header.large #head_home .inner .toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; height: 90px; background-position: center left; position: absolute;  left:5%; top: 0px; display: block}
+header.large #head_home .inner .toplogo{ float:left; background: url( ../images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; height: 90px; background-position: center left; position: absolute;  left:5%; top: 0px; display: block}
 header.large #head_home .inner .menu{ position: absolute;  left:20%; top: 40px}
 header.large #head_home .inner .menu ul li{float:left; font-size:20px; text-align: center; margin-right: 50px }
 /**** 대메뉴 폰트수정 /jq/q_menu/****/
@@ -114,7 +114,7 @@ header.large #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-h
 header.small #head_home {width:100% ; float:left; background:#fff;   height:70px;   position:fixed ; z-index:9999; border-bottom: 1px solid #ccc}	
 header.small #head_home .inner{margin:0px auto; position:relative;left:0px; width:100% ;  height:90px;  }
 header.small #head_home .inner .toplogo_m{ display: none}
-header.small #head_home .inner .toplogo{ ffloat:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; height: 70px; background-position: center left; position: absolute;  left:5%; top: 0px; display: block}
+header.small #head_home .inner .toplogo{ ffloat:left; background: url( ../images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; height: 70px; background-position: center left; position: absolute;  left:5%; top: 0px; display: block}
 header.small #head_home .inner .menu{ position: absolute;  left:20%; top: 30px}
 header.small #head_home .inner .menu ul li{float:left; font-size:20px; text-align: center; margin-right: 50px }
 /**** 대메뉴 폰트수정 /jq/q_menu/****/
@@ -155,7 +155,7 @@ header.small #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-h
 	
 #head_home {width:100% ; float:left; background:#fff; height:90px;   position:fixed ; z-index:9999; border-bottom: 1px solid #fff}
 #head_home .inner .toplogo_m{ display: none}	
-#head_home .inner .toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:160px; display: table-cell;  vertical-align: middle; height: 90px; background-position: center left}
+#head_home .inner .toplogo{ float:left; background: url( ../images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:160px; display: table-cell;  vertical-align: middle; height: 90px; background-position: center left}
 #head_home .inner .toplogo a{width:160px; height: 90px; display: block}
 #head_home .inner .menu{ position: absolute;  left:200px; top: 40px}
 #head_home .inner .menu ul li{float:left; font-size:20px; text-align: center; margin-right: 30px }
@@ -192,7 +192,7 @@ header.small #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-h
 	
 header.large #head_home {width:100% ; float:left; background:#fff; height:90px;   position:fixed ; z-index:9999; border-bottom: 1px solid #fff}
 header.large #head_home .inner .toplogo_m{ display: none}		
-header.large #head_home .inner .toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; display: table-cell;  vertical-align: middle; height: 90px; background-position: center left}
+header.large #head_home .inner .toplogo{ float:left; background: url( ../images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; display: table-cell;  vertical-align: middle; height: 90px; background-position: center left}
 header.large #head_home .inner .menu{ position: absolute;  left:20%; top: 40px}
 header.large #head_home .inner .menu ul li{float:left; font-size:20px; text-align: center; margin-right: 50px }
 /**** 대메뉴 폰트수정 /jq/q_menu/****/
@@ -210,7 +210,7 @@ header.large #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-h
 
 header.small #head_home {width:100% ; float:left; background:#fff;   height:70px;   position:fixed ; z-index:9999; border-bottom: 1px solid #ccc}	
 header.small #head_home .inner .toplogo_m{ display: none}		
-header.small #head_home .inner .toplogo{ float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; display: table-cell;  vertical-align: middle; height: 70px; background-position: center left}
+header.small #head_home .inner .toplogo{ float:left; background: url( ../images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:174px; display: table-cell;  vertical-align: middle; height: 70px; background-position: center left}
 header.small #head_home .inner .menu{ position: absolute;  left:20%; top: 30px}
 header.small #head_home .inner .menu ul li{float:left; font-size:20px; text-align: center; margin-right: 50px }
 /**** 대메뉴 폰트수정 /jq/q_menu/****/
@@ -246,7 +246,7 @@ header.small #head_home .inner .allmenu i{  font-size: 40px; color: #333; line-h
 #head_home .inner{margin:0px auto; position:relative;left:0px; }
 #head_home_m { idth:100% ; float:left; background:#fff; height:50px;   position:fixed ; z-index:9999; border-bottom: 1px solid #ddd }
 #head_home_m .inner .toplogo{ display: none}	
-#head_home_m .inner .toplogo_m{ width:100% ;float:left; background: url( /images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:140px; display: table-cell;  vertical-align: middle; height: 50px; background-position: center left; left:50%; margin-left: -70px; position: absolute }
+#head_home_m .inner .toplogo_m{ width:100% ;float:left; background: url( ../images/com/logo.png); background-size: 100%; background-repeat: no-repeat; width:140px; display: table-cell;  vertical-align: middle; height: 50px; background-position: center left; left:50%; margin-left: -70px; position: absolute }
 #head_home_m .inner .toplogo_m a{width:174px; height: 90px; display: block}
 	
 #head_home_m .inner .menu{ display: none }
@@ -490,83 +490,83 @@ footer{ width: 100%; float: left; box-sizing: border-box; padding: 20px 0px; bac
 /*---------------------- 본문영역 ----------------------*/
 /**** pc ****/
 @media only all and (min-width:1301px) {
-.subtop01{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop01{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop01 .inner2{ position: relative; }
 	
-.subtop02{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop02{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop02 .inner2{ position: relative; }
 
-.subtop03{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop03{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop03 .inner2{ position: relative; }
 	
-.subtop04{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop04{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop04 .inner2{ position: relative; }
 	
-.subtop05{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop05{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop05 .inner2{ position: relative; }
 	
-.subtop06{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop06{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop06 .inner2{ position: relative; }
 	
-.subtop07{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop07{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop07 .inner2{ position: relative; }
 	
-.subtop08{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop08{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop08 .inner2{ position: relative; }
 	
 	
 }
 /**** 테블릿 ****/
 @media all and (max-width:1300px) and (min-width:769px) {
-.subtop01{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop01{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop01 .inner2{ position: relative; }
 	
-.subtop02{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop02{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop02 .inner2{ position: relative; }
 	
-.subtop03{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop03{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop03 .inner2{ position: relative; }
 	
-.subtop04{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop04{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop04 .inner2{ position: relative; }
 	
-.subtop05{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop05{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop05 .inner2{ position: relative; }
 	
-.subtop06{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop06{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop06 .inner2{ position: relative; }
 	
-.subtop07{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop07{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop07 .inner2{ position: relative; }
 	
-.subtop08{ width: 100%; float: left; height: 156px; background: url(/images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
+.subtop08{ width: 100%; float: left; height: 156px; background: url(../images/com/sub_topimg.jpg); background-position: center top; margin-top: 90px}
 .subtop08 .inner2{ position: relative; }
 	
 }
 /**** 모바일 ****/
 @media only all and (max-width:768px) {
-.subtop01{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop01{ width: 100%; float: left; height: 100px; background: url(../images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
 .subtop01 .inner2{ position: relative; }
 
-.subtop02{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop02{ width: 100%; float: left; height: 100px; background: url(../images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
 .subtop02 .inner2{ position: relative; }
 	
-.subtop03{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop03{ width: 100%; float: left; height: 100px; background: url(../images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
 .subtop03 .inner2{ position: relative; }
 	
-.subtop04{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop04{ width: 100%; float: left; height: 100px; background: url(../images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
 .subtop04 .inner2{ position: relative; }
 	
-.subtop05{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop05{ width: 100%; float: left; height: 100px; background: url(../images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
 .subtop05 .inner2{ position: relative; }
 	
-.subtop06{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop06{ width: 100%; float: left; height: 100px; background: url(../images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
 .subtop06 .inner2{ position: relative; }
 	
-.subtop07{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop07{ width: 100%; float: left; height: 100px; background: url(../images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
 .subtop07 .inner2{ position: relative; }
 
-.subtop08{ width: 100%; float: left; height: 100px; background: url(/images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
+.subtop08{ width: 100%; float: left; height: 100px; background: url(../images/com/sub_topimg.jpg); background-position: center top; background-size: cover ;margin-top: 50px}
 .subtop08 .inner2{ position: relative; }
 }
 

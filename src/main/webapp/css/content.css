@@ -40,8 +40,8 @@ em{ font-style: normal }
 #visual .service li {padding-top:34px; float:left;}
 #visual .service li:last-child {padding-top:0;}
 #visual .swiper-button-prev, #visual .swiper-button-next {position:absolute; top:290px; width:38px; height:74px; cursor:pointer;}
-#visual .swiper-button-prev {left:75px; background:url(/images/main/btn_visual_prev.png) no-repeat;}
-#visual .swiper-button-next {right:75px; background:url(/images/main/btn_visual_next.png) no-repeat;}
+#visual .swiper-button-prev {left:75px; background:url(../images/main/btn_visual_prev.png) no-repeat;}
+#visual .swiper-button-next {right:75px; background:url(../images/main/btn_visual_next.png) no-repeat;}
 #visual .swiper-button-disabled {opacity:0.3;}
 #visual_mobile {position:relative; width:100%; height:0; margin:auto; padding-top:61.9%; overflow:hidden;}
 #visual_mobile .swiper-container {position:absolute; top:0; left:0; right:0; left:0; height:100%;  }
@@ -66,8 +66,8 @@ em{ font-style: normal }
 #visual .service li {padding-top:34px; float:left;}
 #visual .service li:last-child {padding-top:0;}
 #visual .swiper-button-prev, #visual .swiper-button-next {position:absolute; top:290px; width:38px; height:74px; cursor:pointer;}
-#visual .swiper-button-prev {left:75px; background:url(/images/main/btn_visual_prev.png) no-repeat;}
-#visual .swiper-button-next {right:75px; background:url(/images/main/btn_visual_next.png) no-repeat;}
+#visual .swiper-button-prev {left:75px; background:url(../images/main/btn_visual_prev.png) no-repeat;}
+#visual .swiper-button-next {right:75px; background:url(../images/main/btn_visual_next.png) no-repeat;}
 #visual .swiper-button-disabled {opacity:0.3;}
 #visual_mobile {position:relative; width:100%; height:60vh; margin:auto; padding-top:61.9%; overflow:hidden;}
 #visual_mobile .swiper-container {position:absolute; top:0; left:0; right:0; left:0; height:100%;}
@@ -92,8 +92,8 @@ em{ font-style: normal }
 #visual .service li {padding-top:34px; float:left;}
 #visual .service li:last-child {padding-top:0;}
 #visual .swiper-button-prev, #visual .swiper-button-next {position:absolute; top:290px; width:38px; height:74px; cursor:pointer;}
-#visual .swiper-button-prev {left:75px; background:url(/images/main/btn_visual_prev.png) no-repeat;}
-#visual .swiper-button-next {right:75px; background:url(/images/main/btn_visual_next.png) no-repeat;}
+#visual .swiper-button-prev {left:75px; background:url(../images/main/btn_visual_prev.png) no-repeat;}
+#visual .swiper-button-next {right:75px; background:url(../images/main/btn_visual_next.png) no-repeat;}
 #visual .swiper-button-disabled {opacity:0.3;}
 #visual_mobile {position:relative; width:100%; height:100%;  min-height:300px; margin:auto; padding-top:61.9%; overflow:hidden;}
 #visual_mobile .swiper-container {position:absolute; top:0; left:0; right:0px; height:100%; width:100%;}
@@ -116,23 +116,44 @@ em{ font-style: normal }
 @media only all and (min-width:1301px) {
 .swiper-slidebg1 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
 .swiper-slidebg2 { background: url(/opt_design/images/main/main_f02.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
-.swiper-slidebg3 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg3 { background: url(/opt_design/images/main/main_f03.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg4 { background: url(/opt_design/images/main/main_f04.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg5 { background: url(/opt_design/images/main/main_f05.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg6 { background: url(/opt_design/images/main/main_f06.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg7 { background: url(/opt_design/images/main/main_f07.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg8 { background: url(/opt_design/images/main/main_f08.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg9 { background: url(/opt_design/images/main/main_f09.jpg); background-position:center center; background-size: cover;height:100% !important; float: left; width: 100% }
 
+	
 
 }
 /**** 테블릿 ****/
 @media all and (max-width:1300px) and (min-width:768px) {
 .swiper-slidebg1 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
-.swiper-slidebg2 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
-.swiper-slidebg3 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg2 { background: url(/opt_design/images/main/main_f02.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg3 { background: url(/opt_design/images/main/main_f03.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg4 { background: url(/opt_design/images/main/main_f04.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg5 { background: url(/opt_design/images/main/main_f05.jpg); background-position:center  top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg6 { background: url(/opt_design/images/main/main_f06.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg7 { background: url(/opt_design/images/main/main_f07.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg8 { background: url(/opt_design/images/main/main_f08.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg9 { background: url(/opt_design/images/main/main_f09.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
 
+	
 }
 /**** 모바일 ****/
 @media only all and (max-width:767px) {
 .swiper-slidebg1 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
-.swiper-slidebg2 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
-.swiper-slidebg3 { background: url(/opt_design/images/main/main_f01.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100%; }
+.swiper-slidebg2 { background: url(/opt_design/images/main/main_f02.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg3 { background: url(/opt_design/images/main/main_f03.jpg); background-position:center top; background-size: cover;height:100% !important; float: left; width: 100%; }
+.swiper-slidebg4 { background: url(/opt_design/images/main/main_f04.jpg); background-position:center  top;  background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg5 { background: url(/opt_design/images/main/main_f05.jpg); background-position:center  top;  background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg6 { background: url(/opt_design/images/main/main_f06.jpg); background-position:center top;  background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg7 { background: url(/opt_design/images/main/main_f07.jpg); background-position:center top;  background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg8 { background: url(/opt_design/images/main/main_f08.jpg); background-position:center  top;  background-size: cover;height:100% !important; float: left; width: 100% }
+.swiper-slidebg9 { background: url(/opt_design/images/main/main_f09.jpg); background-position:center  top;  background-size: cover;height:100% !important; float: left; width: 100% }
 
+	
 }
 @media only all and (min-width:1024px) {
 	#visual {display:block;}
@@ -166,7 +187,7 @@ em{ font-style: normal }
 .main_v .tx1 em{  font-weight: 500 ; color: #000}
 .main_v .tx2{ width: 100%; float: left; font-size:24px; font-weight: 200 ; color: #000; margin-bottom: 20px ; ;font-family:'Noto Sans Korean', 'Noto Sans KR';; text-align: center }
 .main_v .tx2 em{  font-weight: 500 ; color: #ff9900; text-transform: uppercase; text-align: center  }
-	
+
 .main_v .msearch_box{ margin: 0px auto; width: 420px; height: 60px; position: relative; display: inline-block; vertical-align: middle;}
 .main_v .msearch_box input{ width: 100%; height: 60px; background-color: rgba(255, 255, 255, 0.8);  box-sizing: border-box; padding: 0px 40px 0px 15px; line-height: 60px ; color: #999;}
 .main_v .msearch_box .icon{ position: absolute; right: 15px; top: 15px }
@@ -206,6 +227,7 @@ em{ font-style: normal }
 .main_v .tx1 em{  font-weight: 500 ; color: #000}
 .main_v .tx2{ width: 100%; float: left; font-size:14px; font-weight: 200 ; color: #000; margin-bottom: 20px ; ;font-family:'Noto Sans Korean', 'Noto Sans KR';; text-align: center }
 .main_v .tx2 em{  font-weight: 500 ; color: #ff9900; text-transform: uppercase; text-align: center  }
+.main_v .tx2 em img{ width: 130px;  }
 	
 .main_v .msearch_box{ margin: 0px auto; width: 80%; height: 40px; position: relative; display: inline-block; vertical-align: middle;}
 .main_v .msearch_box input{ width: 100%; height: 40px; background-color: rgba(255, 255, 255, 0.9);  box-sizing: border-box; padding: 0px 10px; line-height: 40px }
@@ -403,7 +425,7 @@ em{ font-style: normal }
 /*---------------------- 메인 셀프여행----------------------*/
 /**** pc ****/
 @media only all and (min-width:1301px) {
-.main_cbox{ width: 100%; float: left; padding: 80px 0px 0px 0px; background: url(/images/main/main_c_bg.jpg); height: 737px; background-repeat: no-repeat; background-position: center top; box-sizing: border-box}
+.main_cbox{ width: 100%; float: left; padding: 80px 0px 0px 0px; background: url(../images/main/main_c_bg.jpg); height: 737px; background-repeat: no-repeat; background-position: center top; box-sizing: border-box}
 .main_cbox .inner2 .title_box{ width: 100%; float: left;}
 .main_cbox .inner2 .title_box .tx1{ width: 100%; float: left; text-align: center; margin-bottom: 10px}
 .main_cbox .inner2 .title_box .tx2{ width: 100%; float: left; text-align: center; margin-bottom: 50px; font-size: 14px; color: #fff}
@@ -443,7 +465,7 @@ em{ font-style: normal }
 }
 /**** 테블릿 ****/
 @media all and (max-width:1300px) and (min-width:769px) {
-.main_cbox{ width: 100%; float: left; padding: 80px 0px 0px 0px; background: url(/images/main/main_c_bg.jpg); height: 737px; background-repeat: no-repeat; background-position: center top; box-sizing: border-box}
+.main_cbox{ width: 100%; float: left; padding: 80px 0px 0px 0px; background: url(../images/main/main_c_bg.jpg); height: 737px; background-repeat: no-repeat; background-position: center top; box-sizing: border-box}
 .main_cbox .inner2 .title_box{ width: 100%; float: left;}
 .main_cbox .inner2 .title_box .tx1{ width: 100%; float: left; text-align: center; margin-bottom: 10px}
 .main_cbox .inner2 .title_box .tx2{ width: 100%; float: left; text-align: center; margin-bottom: 50px; font-size: 14px; color: #fff}
@@ -475,7 +497,7 @@ em{ font-style: normal }
 
 /**** 모바일 ****/
 @media only all and (max-width:768px) {
-.main_cbox{ width: 100%; float: left; padding: 40px 0px 0px 0px; background: url(/images/main/main_c_bg.jpg); min-height:500px; background-repeat: no-repeat; background-position: center top; box-sizing: border-box}
+.main_cbox{ width: 100%; float: left; padding: 40px 0px 0px 0px; background: url(../images/main/main_c_bg.jpg); min-height:500px; background-repeat: no-repeat; background-position: center top; box-sizing: border-box}
 .main_cbox .inner2 .title_box{ width: 100%; float: left;}
 .main_cbox .inner2 .title_box img{  height: 35px }
 .main_cbox .inner2 .title_box .tx1{ width: 100%; float: left; text-align: center; margin-bottom: 10px}
@@ -754,7 +776,7 @@ em{ font-style: normal }
 /**** pc ****/
 @media only all and (min-width:1301px) {
 .main_ebox{ width: 100%; float: left; padding: 80px 0px 80px 0px;  box-sizing: border-box; background-color: #e2e5eb}
-.main_ebox .title_box{ width: 100%; float: left; background: url(/images/main/line.jpg); background-repeat: repeat-x;  background-position: center center; margin-bottom: 50px; position: relative}
+.main_ebox .title_box{ width: 100%; float: left; background: url(../images/main/line.jpg); background-repeat: repeat-x;  background-position: center center; margin-bottom: 50px; position: relative}
 .main_ebox .title_box .t_inbox{ margin: 0px auto; width:370px; position: relative; background-color: #e2e5eb; height: 40px }
 .main_ebox .title_box .t_inbox .tx1{ width: 100%; float: left; font-size: 34px; color: #333; font-weight: 300; text-align: center;font-family:'Noto Sans Korean', 'Noto Sans KR'; letter-spacing: -1px}
 .main_ebox .title_box .t_inbox .tx1 em{  font-size: 34px; color: #000; font-weight: 500}	
@@ -784,7 +806,7 @@ a:hover .main_ebox_img .imgbox{ width: 112%; height: 112%;  background-size: cov
 @media all and (max-width:1300px) and (min-width:769px) {
 
 .main_ebox{ width: 100%; float: left; padding: 80px 0px 80px 0px;  box-sizing: border-box; background-color: #e2e5eb}
-.main_ebox .title_box{ width: 100%; float: left; background: url(/images/main/line.jpg); background-repeat: repeat-x;  background-position: center center; margin-bottom: 50px; position: relative}
+.main_ebox .title_box{ width: 100%; float: left; background: url(../images/main/line.jpg); background-repeat: repeat-x;  background-position: center center; margin-bottom: 50px; position: relative}
 .main_ebox .title_box .t_inbox{ margin: 0px auto; width:370px; position: relative; background-color: #e2e5eb; height: 40px }
 .main_ebox .title_box .t_inbox .tx1{ width: 100%; float: left; font-size: 34px; color: #333; font-weight: 300; text-align: center;font-family:'Noto Sans Korean', 'Noto Sans KR'; letter-spacing: -1px}
 .main_ebox .title_box .t_inbox .tx1 em{  font-size: 34px; color: #000; font-weight: 500}	
@@ -812,7 +834,7 @@ a:hover .main_ebox_img .imgbox{ width: 112%; height: 112%;  background-size: cov
 /**** 모바일 ****/
 @media only all and (max-width:768px) {
 .main_ebox{ width: 100%; float: left; padding: 30px 0px 30px 0px;  box-sizing: border-box; background-color: #e2e5eb}
-.main_ebox .title_box{ width: 100%; float: left; background: url(/images/main/line.jpg); background-repeat: repeat-x;  background-position: center center; margin-bottom:20px; position: relative}
+.main_ebox .title_box{ width: 100%; float: left; background: url(../images/main/line.jpg); background-repeat: repeat-x;  background-position: center center; margin-bottom:20px; position: relative}
 .main_ebox .title_box .t_inbox{ margin: 0px auto; width:100%; position: relative; background-color: #e2e5eb; height: 40px }
 .main_ebox .title_box .t_inbox .tx1{ width: 100%; float: left; font-size: 22px; color: #333; font-weight: 300; text-align: center;font-family:'Noto Sans Korean', 'Noto Sans KR'; letter-spacing: -1px; margin-bottom: 10px}
 .main_ebox .title_box .t_inbox .tx1 em{  color: #000; font-weight: 500}	
@@ -1309,7 +1331,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .fl_right .day_box4 .um_box .fr_updown .um_d{ width:25px; height: 30px; line-height: 30px;float:left; border: 1px solid #ccc; ; text-align: center ;margin-left: -1px; background-color: #fff }
 .fl_right .day_box4 .um_box .fr_updown .um_input{ width:40px; height: 30px; line-height: 30px;float:left; margin-left: -1px  }
 .fl_right .day_box4 .um_box .fr_updown .um_input input{ width:100%; height: 30px; line-height: 30px;float:left; border: 1px solid #ccc;  background-color: #eee; text-align: center; padding: 0px ; font-size: 12px }
-.fl_right .btn_box{ width: 100%; float:left; color: #fff; height: 70px; line-height: 70px; padding: 0px 30px 0px 0px; text-align: center; background:url(/images/sub/bt_bgar.png) ; background-position: 70% center ;  background-repeat: no-repeat; background-color: #ff6600;font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 500 ; font-size: 18px}
+.fl_right .btn_box{ width: 100%; float:left; color: #fff; height: 70px; line-height: 70px; padding: 0px 30px 0px 0px; text-align: center; background:url(../images/sub/bt_bgar.png) ; background-position: 70% center ;  background-repeat: no-repeat; background-color: #ff6600;font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 500 ; font-size: 18px}
 .fl_right .btn_box:hover{ background-color: #ff4800;}
 }
 /**** 테블릿 ****/
@@ -1332,7 +1354,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .fl_right .day_box3 .total_box .tx2{width: 100%;  float:left; font-size: 20px; color: #000 ; font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 500 ;}
 .fl_right .day_box3 .total_box .tx2 em{ font-size: 12px; color: #666 ; font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 400 ;}
 .fl_right .day_box3 .total_box .icon{ position: absolute;right: 0px ; top: 0px}
-.fl_right .btn_box{ width: 100%; float:left; color: #fff; height: 70px; line-height: 70px; padding: 0px 30px 0px 0px; text-align: center; background:url(/images/sub/bt_bgar.png) ; background-position: 70% center ;  background-repeat: no-repeat; background-color: #ff6600;font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 500 ; font-size: 18px}
+.fl_right .btn_box{ width: 100%; float:left; color: #fff; height: 70px; line-height: 70px; padding: 0px 30px 0px 0px; text-align: center; background:url(../images/sub/bt_bgar.png) ; background-position: 70% center ;  background-repeat: no-repeat; background-color: #ff6600;font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 500 ; font-size: 18px}
 .fl_right .btn_box:hover{ background-color: #ff4800;}
 .fl_right .day_box4{ width: 100%; float:left; padding:0px !important;border-top: 1px solid #eee; margin-top: -1px }
 .fl_right .day_box4 .um_box{ width: 100%; float:left; padding: 15px 20px  !important; position: relative;; border-bottom: 1px solid #eee; }
@@ -1367,7 +1389,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .fl_right .day_box3 .total_box .tx2{width: 100%;  float:left; font-size: 20px; color: #000 ; font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 500 ;}
 .fl_right .day_box3 .total_box .tx2 em{ font-size: 12px; color: #666 ; font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 400 ;}
 .fl_right .day_box3 .total_box .icon{ position: absolute;right: 0px ; top: 0px}
-.fl_right .btn_box{ width: 100%; float:left; color: #fff; height: 70px; line-height: 70px; padding: 0px 30px 0px 0px; text-align: center; background:url(/images/sub/bt_bgar.png) ; background-position: 70% center ;  background-repeat: no-repeat; background-color: #ff6600;font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 500 ; font-size: 18px;box-sizing: border-box }
+.fl_right .btn_box{ width: 100%; float:left; color: #fff; height: 70px; line-height: 70px; padding: 0px 30px 0px 0px; text-align: center; background:url(../images/sub/bt_bgar.png) ; background-position: 70% center ;  background-repeat: no-repeat; background-color: #ff6600;font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 500 ; font-size: 18px;box-sizing: border-box }
 .fl_right .btn_box:hover{ background-color: #ff4800;}
 .fl_right .day_box4{ width: 100%; float:left; padding:0px !important;border-top: 1px solid #eee; margin-top: -1px }
 .fl_right .day_box4 .um_box{ width: 100%; float:left; padding: 15px 20px  !important; position: relative;; border-bottom: 1px solid #eee; }
@@ -1392,8 +1414,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	.list_title{ width: 100%; float:left;  }
 	.list_title .tx1{ width: 100%; float:left; font-size: 30px; font-weight: 500 ; font-family:'Noto Sans Korean', 'Noto Sans KR'; color: #000; text-align: center; margin-bottom: 10px}
 	.list_title .tx2{ width: 100%; float:left; font-size: 18px; font-weight: 300 ; font-family:'Noto Sans Korean', 'Noto Sans KR'; color: #000; text-align: center; margin-bottom: 30px}
-	.select_btn{ width: 100%; float:left; background: url(/images/sub/btn_line.png); background-repeat:repeat-x; background-position: center center;  text-align: center; overflow: hidden; margin-bottom: 50px}
-   .select_btn .ok_btn{ display: inline-block; vertical-align: middle; padding: 15px 60px 15px 30px; border-radius: 100px; color: #fff; font-size: 20px; font-weight: 500 ; font-family:'Noto Sans Korean', 'Noto Sans KR'; background: url(/images/sub/bt_bgar2.png) ; background-position:  90% center ; background-color: #ff9900; background-repeat: no-repeat; background-size: 40px}
+	.select_btn{ width: 100%; float:left; background: url(../images/sub/btn_line.png); background-repeat:repeat-x; background-position: center center;  text-align: center; overflow: hidden; margin-bottom: 50px}
+   .select_btn .ok_btn{ display: inline-block; vertical-align: middle; padding: 15px 60px 15px 30px; border-radius: 100px; color: #fff; font-size: 20px; font-weight: 500 ; font-family:'Noto Sans Korean', 'Noto Sans KR'; background: url(../images/sub/bt_bgar2.png) ; background-position:  90% center ; background-color: #ff9900; background-repeat: no-repeat; background-size: 40px}
 
 }
 /**** 리스트 선택하기: 우측 모바일 ****/
@@ -1401,8 +1423,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	.list_title{ width: 100%; float:left;  }
 	.list_title .tx1{ width: 100%; float:left; font-size: 20px; font-weight: 500 ; font-family:'Noto Sans Korean', 'Noto Sans KR'; color: #000; text-align: center; margin-bottom: 5px}
 	.list_title .tx2{ width: 100%; float:left; font-size: 13px; font-weight: 300 ; font-family:'Noto Sans Korean', 'Noto Sans KR'; color: #000; text-align: center; }
-	.select_btn{ width: 100%; float:left; background: url(/images/sub/btn_line.png); background-repeat:repeat-x; background-position: center center;  text-align: center; overflow: hidden; margin-bottom: 50px; margin-top: 20px}
-   .select_btn .ok_btn{ display: inline-block; vertical-align: middle; padding: 7px 50px 7px 20px; border-radius: 100px; color: #fff; font-size: 15px; font-weight: 500 ; font-family:'Noto Sans Korean', 'Noto Sans KR'; background: url(/images/sub/bt_bgar2.png) ; background-position:  90% center ; background-color: #ff9900; background-repeat: no-repeat; background-size: 30px}
+	.select_btn{ width: 100%; float:left; background: url(../images/sub/btn_line.png); background-repeat:repeat-x; background-position: center center;  text-align: center; overflow: hidden; margin-bottom: 50px; margin-top: 20px}
+   .select_btn .ok_btn{ display: inline-block; vertical-align: middle; padding: 7px 50px 7px 20px; border-radius: 100px; color: #fff; font-size: 15px; font-weight: 500 ; font-family:'Noto Sans Korean', 'Noto Sans KR'; background: url(../images/sub/bt_bgar2.png) ; background-position:  90% center ; background-color: #ff9900; background-repeat: no-repeat; background-size: 30px}
 
 
 }
@@ -1414,7 +1436,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	.list_more{ width: 100%; float:left;  }
 	.list_more .tx1{ width: 100%; float:left; font-size: 30px; font-weight: 500 ; font-family:'Noto Sans Korean', 'Noto Sans KR'; color: #000; text-align: center; margin-bottom: 10px}
 	.list_more .tx2{ width: 100%; float:left; font-size: 18px; font-weight: 300 ; font-family:'Noto Sans Korean', 'Noto Sans KR'; color: #000; text-align: center; margin-bottom: 30px}
-	.more_btn{ width: 100%; float:left; background: url(/images/sub/btn_line.png); background-repeat:repeat-x; background-position: center center;  text-align: center; overflow: hidden; margin-bottom: 50px}
+	.more_btn{ width: 100%; float:left; background: url(../images/sub/btn_line.png); background-repeat:repeat-x; background-position: center center;  text-align: center; overflow: hidden; margin-bottom: 50px}
    .more_btn .ok_btn{ display: inline-block; vertical-align: middle; padding: 10px 30px 10px 30px; border-radius: 100px; color: #fff; font-size: 16px; font-weight: 500 ; font-family:'Noto Sans Korean', 'Noto Sans KR';background-position:  90% center ; background-color: #666; background-repeat: no-repeat; background-size: 40px}
    .more_btn .ok_btn:hover{ display: inline-block; vertical-align: middle; padding: 10px 30px 10px 30px; border-radius: 100px; color: #fff; font-size: 16px; font-weight: 500 ; font-family:'Noto Sans Korean', 'Noto Sans KR';background-position:  90% center ; background-color: #333; background-repeat: no-repeat; background-size: 40px}
 
@@ -1424,7 +1446,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	.list_more{ width: 100%; float:left;  }
 	.list_more .tx1{ width: 100%; float:left; font-size: 30px; font-weight: 500 ; font-family:'Noto Sans Korean', 'Noto Sans KR'; color: #000; text-align: center; margin-bottom: 5px}
 	.list_more .tx2{ width: 100%; float:left; font-size: 16px; font-weight: 300 ; font-family:'Noto Sans Korean', 'Noto Sans KR'; color: #000; text-align: center; margin-bottom: 15px}
-	.more_btn{ width: 100%; float:left; background: url(/images/sub/btn_line.png); background-repeat:repeat-x; background-position: center center;  text-align: center; overflow: hidden; margin-bottom: 50px}
+	.more_btn{ width: 100%; float:left; background: url(../images/sub/btn_line.png); background-repeat:repeat-x; background-position: center center;  text-align: center; overflow: hidden; margin-bottom: 50px}
    .more_btn .ok_btn{ display: inline-block; vertical-align: middle; padding: 5px 30px 5px 30px; border-radius: 100px; color: #fff; font-size: 12px; font-weight: 500 ; font-family:'Noto Sans Korean', 'Noto Sans KR';background-position:  90% center ; background-color: #666; background-repeat: no-repeat; background-size: 40px}
 
 
@@ -1445,7 +1467,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px;  position: relative }
 .list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
 .list_box01 ul li .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(/images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
+.list_box01 ul li .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
 .list_box01 ul li:hover{ width: calc(25% - 15px); float:left; margin-right: 15px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px}
 .list_box01 ul li:hover .inline{ width: 100%; float:left; height: 100%; border: 10px solid #ff9600; position: absolute; background-color:rgba(255, 255, 255, 0.0)}
@@ -1458,7 +1480,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li:hover .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px; position: relative }
 .list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
 .list_box01 ul li:hover .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li:hover .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(/images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
+.list_box01 ul li:hover .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
 	
 .list_box01 ul li.ch{ width: calc(25% - 15px); float:left; margin-right: 15px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px}
@@ -1469,7 +1491,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li.ch .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px;  position: relative }
 .list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
 .list_box01 ul li.ch .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li.ch .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(/images/sub/select_on.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
+.list_box01 ul li.ch .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_on.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 
 }
 /**** 테블릿 ****/
@@ -1485,7 +1507,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
 .list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
 .list_box01 ul li .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(/images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
+.list_box01 ul li .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
 .list_box01 ul li:hover{ width: calc(33.33% - 15px); float:left; margin-right: 15px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px}
 .list_box01 ul li:hover .inline{ width: 100%; float:left; height: 100%; border: 10px solid #ff9600; position: absolute; background-color:rgba(255, 255, 255, 0.0)}
@@ -1499,7 +1521,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li:hover .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
 .list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
 .list_box01 ul li:hover .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li:hover .text_box .ch_icon{  position: absolute;top: 30px;right: 10px; background: url(/images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
+.list_box01 ul li:hover .text_box .ch_icon{  position: absolute;top: 30px;right: 10px; background: url(../images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
 	
 .list_box01 ul li.ch{ width: calc(33.33% - 15px); float:left; margin-right: 15px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px}
@@ -1510,7 +1532,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li.ch .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
 .list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
 .list_box01 ul li.ch .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li.ch .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(/images/sub/select_on.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
+.list_box01 ul li.ch .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_on.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 
 }
 /**** 리스트 선택하기_리스트: 우측 모바일 ****/
@@ -1526,7 +1548,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li .text_box{ width:100%; float: left; padding: 10px ;  position: relative; height: 80px; position: relative }
 .list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }
 .list_box01 ul li .text_box .tx2{ width:100%; float: left; font-size: 16px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li .text_box .ch_icon{  position: absolute;  bottom: 8px; right: 10px; background: url(/images/sub/select_off.png); background-size: 30px;; background-position: right center;  background-repeat: no-repeat; width: 30px; height: 30px }
+.list_box01 ul li .text_box .ch_icon{  position: absolute;  bottom: 8px; right: 10px; background: url(../images/sub/select_off.png); background-size: 30px;; background-position: right center;  background-repeat: no-repeat; width: 30px; height: 30px }
 	
 .list_box01 ul li:hover{ width: calc(50% - 10px); float:left; margin:0px 5px ; border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px}
 .list_box01 ul li:hover .inline{ width: 100%; float:left; height: 100%; border: 5px solid #ff9600; position: absolute; background-color:rgba(255, 255, 255, 0.0)}
@@ -1536,7 +1558,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li:hover .text_box{ width:100%; float: left; padding: 10px ;   position: relative }
 .list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }
 .list_box01 ul li:hover .text_box .tx2{ width:100%; float: left; font-size:16px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li:hover .text_box .ch_icon{  position: absolute;  bottom: 8px; right: 10px; background: url(/images/sub/select_off.png); background-size: 30px;; background-position: right center;  background-repeat: no-repeat; width: 30px; height: 30px}
+.list_box01 ul li:hover .text_box .ch_icon{  position: absolute;  bottom: 8px; right: 10px; background: url(../images/sub/select_off.png); background-size: 30px;; background-position: right center;  background-repeat: no-repeat; width: 30px; height: 30px}
 	
 	
 .list_box01 ul li.ch{ width: calc(50% - 10px); float:left; margin:0px 5px ;border: 1px solid #ccc; background:  #fff; position: relative; margin-bottom: 15px}
@@ -1547,7 +1569,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li.ch .text_box{ width:100%; float: left;padding: 10px ;   position: relative }
 .list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }
 .list_box01 ul li.ch .text_box .tx2{ width:100%; float: left; font-size: 16px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
-.list_box01 ul li.ch .text_box .ch_icon{ position: absolute;  bottom: 8px; right: 10px; background: url(/images/sub/select_on.png); background-size: 30px;; background-position: right center;  background-repeat: no-repeat; width: 30px; height: 30px}
+.list_box01 ul li.ch .text_box .ch_icon{ position: absolute;  bottom: 8px; right: 10px; background: url(../images/sub/select_on.png); background-size: 30px;; background-position: right center;  background-repeat: no-repeat; width: 30px; height: 30px}
 
 }
 
@@ -1558,7 +1580,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_tab ul li{width: calc(10% + 1px);   float:left; padding: 0px ; background-color: #f5f5f5; border: 1px solid #ccc; color: #999 ; text-align: center; height: 45px; line-height: 45px; cursor:pointer; margin-left: -1px; margin-top: -1px}
 .list_tab ul li.on{  width: calc(10% + 1px);     float:left; padding: 0px;  background-color: #ff9600; border: 1px solid #ff5400; color: #fff ; text-align: center; height: 45px; line-height: 45px; cursor:pointer; margin-left: -1px; margin-top: -1px; position: relative; z-index: 99}	 
 .list_search{ width: 100%; float:left; border: 1px solid #ddd; margin-bottom: 30px; background-color: #fff; padding: 30px; box-sizing: border-box}
-.list_search .info_text{ width: 35%; float:left; background: url(/images/sub/bt_bgar2.png); background-repeat: no-repeat; background-size:40px; background-position: left center; padding-left: 50px; color: #666; font-size: 16px; padding: 15px 20px 15px 50px }
+.list_search .info_text{ width: 35%; float:left; background: url(../images/sub/bt_bgar2.png); background-repeat: no-repeat; background-size:40px; background-position: left center; padding-left: 50px; color: #666; font-size: 16px; padding: 15px 20px 15px 50px }
 .list_search .info_text  em{color: #ff4800;}
 .list_search .inputbox{ float:right }
 .list_search .inputbox .search_input{ width: 230px; float:left; position: relative;}
@@ -1566,7 +1588,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_search .inputbox .search_input .btn{ width: 40px; position: absolute; right: 0px; top: 0px; height: 40px; background-color: #333; text-align: center } 
 .list_search .inputbox .search_input .btn i{ color: #fff; font-size: 20px; line-height: 40px } 
 .list_search .inputbox .search_select{ width: 150px; float:left; position: relative; margin-left: -1px}
-.list_search .inputbox .search_select select{  width: 100%; float:left; background: #fff; border: 1px solid #ccc;; height: 40px; line-height: 40px; padding-left: 15px; box-sizing: border-box; font-size: 14px; color: #666;  background: url( /images/com/select_icon.png) no-repeat 98% 50%;}
+.list_search .inputbox .search_select select{  width: 100%; float:left; background: #fff; border: 1px solid #ccc;; height: 40px; line-height: 40px; padding-left: 15px; box-sizing: border-box; font-size: 14px; color: #666;  background: url( ../images/com/select_icon.png) no-repeat 98% 50%;}
 }
 /**** 테블릿 ****/
 @media all and (max-width:1300px) and (min-width:769px) {.list_tab{ width: 100%; float:left;margin-bottom: 20px}
@@ -1574,7 +1596,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_tab ul li.on{  min-width: 20%;     float:left; padding: 0px 15px;  background-color: #ff9600; border: 1px solid #ff5400; color: #fff ; text-align: center; height: 40px; line-height: 40px; cursor:pointer; font-size: 13px;  margin-left: -1px; margin-bottom: -1px}
 	 
 .list_search{ width: 100%; float:left; border: 1px solid #ddd; margin-bottom: 10px; background-color: #fff; padding: 10px; box-sizing: border-box}
-.list_search .info_text{ width: 100%; float:left; background: url(/images/sub/bt_bgar2.png); background-repeat: no-repeat; background-size:35px; background-position: left center; padding-left:40px; color: #666; font-size: 14px; padding: 10px 0px 15px 40px }
+.list_search .info_text{ width: 100%; float:left; background: url(../images/sub/bt_bgar2.png); background-repeat: no-repeat; background-size:35px; background-position: left center; padding-left:40px; color: #666; font-size: 14px; padding: 10px 0px 15px 40px }
 .list_search .info_text  em{color: #ff4800;}
 .list_search .inputbox{ width: 100%; float:right }
 .list_search .inputbox .search_input{ width: calc(100% - 2px);; float:left; position: relative; margin-bottom: 5px}
@@ -1582,7 +1604,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_search .inputbox .search_input .btn{ width: 40px; position: absolute; right: 0px; top: 0px; height: 40px; background-color: #333; text-align: center ; cursor:pointer;} 
 .list_search .inputbox .search_input .btn i{ color: #fff; font-size: 20px; line-height: 40px } 
 .list_search .inputbox .search_select{ width: 33.33%; float:left; position: relative; margin-left: -1px}
-.list_search .inputbox .search_select select{  width: 100%; float:left; background: #fff; border: 1px solid #ccc;; height: 40px; line-height: 40px; padding-left: 15px; box-sizing: border-box; font-size: 14px; color: #666;  background: url( /images/com/select_icon.png) no-repeat 98% 50%;}
+.list_search .inputbox .search_select select{  width: 100%; float:left; background: #fff; border: 1px solid #ccc;; height: 40px; line-height: 40px; padding-left: 15px; box-sizing: border-box; font-size: 14px; color: #666;  background: url( ../images/com/select_icon.png) no-repeat 98% 50%;}
 
 }
 /**** 모바일 ****/
@@ -1591,7 +1613,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_tab ul li.on{ min-width: 33%;  float:left; padding: 0px 15px;  background-color: #ff9600; border: 1px solid #ff5400; color: #fff ; text-align: center; height: 40px; line-height: 40px; cursor:pointer; font-size: 13px;  margin-left: -1px; margin-bottom: -1px}
 	 
 .list_search{ width: 100%; float:left; border: 1px solid #ddd; margin-bottom: 10px; background-color: #fff; padding: 10px; box-sizing: border-box}
-.list_search .info_text{ width: 100%; float:left; background: url(/images/sub/bt_bgar2.png); background-repeat: no-repeat; background-size:35px; background-position: left center; padding-left:40px; color: #666; font-size: 14px; padding: 10px 0px 15px 40px }
+.list_search .info_text{ width: 100%; float:left; background: url(../images/sub/bt_bgar2.png); background-repeat: no-repeat; background-size:35px; background-position: left center; padding-left:40px; color: #666; font-size: 14px; padding: 10px 0px 15px 40px }
 .list_search .info_text  em{color: #ff4800;}
 .list_search .inputbox{ width: 100%; float:right }
 .list_search .inputbox .search_input{ width: calc(100% - 2px);; float:left; position: relative; margin-bottom: 5px}
@@ -1599,7 +1621,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_search .inputbox .search_input .btn{ width: 40px; position: absolute; right: 0px; top: 0px; height: 40px; background-color: #333; text-align: center ;cursor:pointer;} 
 .list_search .inputbox .search_input .btn i{ color: #fff; font-size: 20px; line-height: 40px } 
 .list_search .inputbox .search_select{ width: 33.33%; float:left; position: relative; margin-left: -1px}
-.list_search .inputbox .search_select select{  width: 100%; float:left; background: #fff; border: 1px solid #ccc;; height: 40px; line-height: 40px; padding-left: 15px; box-sizing: border-box; font-size: 14px; color: #666;  background: url( /images/com/select_icon.png) no-repeat 98% 50%;}
+.list_search .inputbox .search_select select{  width: 100%; float:left; background: #fff; border: 1px solid #ccc;; height: 40px; line-height: 40px; padding-left: 15px; box-sizing: border-box; font-size: 14px; color: #666;  background: url( ../images/com/select_icon.png) no-repeat 98% 50%;}
 
 }
 
@@ -1876,7 +1898,7 @@ input.st_w2:checked:not([disabled]) + label:hover{	background-color: #fff;  font
 
 /**** pc ****/
 @media only all and (min-width:1301px) {
-	.order_search{width: 100%; float:left; border: 1px solid #b9b9b9; background-color: #fff; height: 140px; padding: 30px; box-sizing: border-box; background: url(/images/sub/my_icon05.png); background-position: 50px  center;  background-repeat: no-repeat ; padding-left: 170px; box-sizing: border-box; border-bottom: none}
+	.order_search{width: 100%; float:left; border: 1px solid #b9b9b9; background-color: #fff; height: 140px; padding: 30px; box-sizing: border-box; background: url(../images/sub/my_icon05.png); background-position: 50px  center;  background-repeat: no-repeat ; padding-left: 170px; box-sizing: border-box; border-bottom: none}
 .order_search .s_box1{width: calc(100% - 100px) ; float:left;}
 .order_search .s_box1 .inbox{width: 100% ; float:left; margin-bottom: 10px }
 .order_search .s_box1 .inbox .fl_t1{width: 120px; float:left; font-size: 16px; font-weight: 400;  font-family:'Noto Sans Korean', 'Noto Sans KR'; color: #000}
@@ -2278,7 +2300,7 @@ a:hover.sbtn_03{ border: 1px solid #999; background-color: #ccc;  padding: 5px 5
 
 
 
-.reservation_mobile_btn{  width: 100%;float:left; color: #fff; height: 50px; ;line-height: 50px; padding: 0px 30px 0px 0px; text-align: center; background:url(/images/sub/bt_bgar.png) ; background-position: 70% center ;  background-repeat: no-repeat; background-color: #ff6600;font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 500 ; font-size: 18px; position: fixed; bottom: 0px; z-index: 9999999}
+.reservation_mobile_btn{  width: 100%;float:left; color: #fff; height: 50px; ;line-height: 50px; padding: 0px 30px 0px 0px; text-align: center; background:url(../images/sub/bt_bgar.png) ; background-position: 70% center ;  background-repeat: no-repeat; background-color: #ff6600;font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 500 ; font-size: 18px; position: fixed; bottom: 0px; z-index: 9999999}
 .reservation_mobile_btn a{ width: 100%; float:left; height: 50px; display: block;background-color: #ff6600;font-family:'Noto Sans Korean', 'Noto Sans KR';;font-weight: 500 ; font-size: 18px; position: fixed; bottom: 0px; z-index: 9999999; text-align: center; color: #fff;line-height: 50px; }
 .reservation_mobile_btn:hover{ background-color: #ff4800;}
 
@@ -2690,14 +2712,14 @@ a.order_tb_btn {  padding:0px 10px 0px; background-color:#c0c0c0; border:1px sol
 .check_list .inbox03 .tx2{ float:left; width:100%; font-size:14px; color: #666;; line-height: 20px;} 
 	
 .check_list .inbox04{float:left; width:100%; margin-bottom: 50px; position: relative ; }
-.check_list .inbox04 .img01{ position: absolute; left: 0px ; top: 0px; width: 45%; height: 270px; background: url(/images/sub/check_03.jpg); background-size: cover; background-position: center center}
+.check_list .inbox04 .img01{ position: absolute; left: 0px ; top: 0px; width: 45%; height: 270px; background: url(../images/sub/check_03.jpg); background-size: cover; background-position: center center}
 .check_list .inbox04 .txbox1{float:left; width:100%; box-sizing: border-box; padding-left:48% ; font-size: 13px; color: #666; line-height: 22px ; margin-bottom: 30px }
 
 .check_list .inbox05{float:left; width:100%; margin-bottom: 50px; position: relative ;  }
-.check_list .inbox05 .img02{ position: absolute; right: 0px ; top: 0px; width: 410px; height: 260px; background: url(/images/sub/check_05.jpg); background-size: cover; background-position: center center}
-.check_list .inbox05 .img03{ position: absolute; right: 30% ; top: 150px; width: 320px; height: 240px; background: url(/images/sub/check_04.jpg); background-size: cover; background-position: center center}
-.check_list .inbox05 .img04{ position: absolute; right: 30px ; top: 290px; width: 270px; height: 200px; background: url(/images/sub/check_06.jpg); background-size: cover; background-position: center center}
-.check_list .inbox05 .img05{ position: absolute; left: 0px ; bottom: 0px; width: 500px; height: 320px; background: url(/images/sub/check_07.jpg); background-size: cover; background-position: center center}
+.check_list .inbox05 .img02{ position: absolute; right: 0px ; top: 0px; width: 410px; height: 260px; background: url(../images/sub/check_05.jpg); background-size: cover; background-position: center center}
+.check_list .inbox05 .img03{ position: absolute; right: 30% ; top: 150px; width: 320px; height: 240px; background: url(../images/sub/check_04.jpg); background-size: cover; background-position: center center}
+.check_list .inbox05 .img04{ position: absolute; right: 30px ; top: 290px; width: 270px; height: 200px; background: url(../images/sub/check_06.jpg); background-size: cover; background-position: center center}
+.check_list .inbox05 .img05{ position: absolute; left: 0px ; bottom: 0px; width: 500px; height: 320px; background: url(../images/sub/check_07.jpg); background-size: cover; background-position: center center}
 .check_list .inbox05 .txbox1{float:left; width:50%; box-sizing: border-box; padding-left:0% ; font-size: 13px; color: #666; line-height: 22px ; margin-top:30px}
 .check_list .inbox05 .txbox1_2{ clear: both; width:38%; box-sizing: border-box; padding-left:0% ; font-size: 13px; color: #666; line-height: 22px ; margin-top:0px;margin-bottom: 30px}
 	
@@ -2705,9 +2727,9 @@ a.order_tb_btn {  padding:0px 10px 0px; background-color:#c0c0c0; border:1px sol
 	
 	
 .check_list .inbox06{float:left; width:100%; margin-bottom: 50px; position: relative ; }
-.check_list .inbox06 .img01{ position: absolute; right: 0px ; top: 0px; width: 300px; height: 390px; background: url(/images/sub/check_08.jpg); background-size: cover; background-position: center center; z-index: 3}
-.check_list .inbox06 .img02{ position: absolute; right: 230px ; top: 200px; width: 320px; height: 250px; background: url(/images/sub/check_09.jpg); background-size: cover; background-position: center center; z-index: 2}
-.check_list .inbox06 .img03{ position: absolute; left: 0px ; bottom: 0px; width: 410px; height: 260px; background: url(/images/sub/check_10.jpg); background-size: cover; background-position: center center; z-index: 4}
+.check_list .inbox06 .img01{ position: absolute; right: 0px ; top: 0px; width: 300px; height: 390px; background: url(../images/sub/check_08.jpg); background-size: cover; background-position: center center; z-index: 3}
+.check_list .inbox06 .img02{ position: absolute; right: 230px ; top: 200px; width: 320px; height: 250px; background: url(../images/sub/check_09.jpg); background-size: cover; background-position: center center; z-index: 2}
+.check_list .inbox06 .img03{ position: absolute; left: 0px ; bottom: 0px; width: 410px; height: 260px; background: url(../images/sub/check_10.jpg); background-size: cover; background-position: center center; z-index: 4}
 .check_list .inbox06 .txbox1{float:left; width:100%; box-sizing: border-box; padding-left:0% ; font-size: 13px; color: #666; line-height: 22px ; margin-top: 30px}
 .check_list .inbox06 .txbox1_2{float:left; width:100%; box-sizing: border-box; padding-right:55% ; font-size: 13px; color: #666; line-height: 22px ; margin-top: 30px}
 	
@@ -2766,14 +2788,14 @@ a.order_tb_btn {  padding:0px 10px 0px; background-color:#c0c0c0; border:1px sol
 .check_list .inbox03 .tx2{ float:left; width:100%; font-size:13px; color: #666;; line-height: 20px;} 
 	
 .check_list .inbox04{float:left; width:100%; margin-bottom: 30px; position: relative ; }
-.check_list .inbox04 .img01{ position: absolute; left: 0px ; top: 0px; width: 45%; height: 270px; background: url(/images/sub/check_03.jpg); background-size: cover; background-position: center center}
+.check_list .inbox04 .img01{ position: absolute; left: 0px ; top: 0px; width: 45%; height: 270px; background: url(../images/sub/check_03.jpg); background-size: cover; background-position: center center}
 .check_list .inbox04 .txbox1{float:left; width:100%; box-sizing: border-box; padding-left:48% ; font-size: 13px; color: #666; line-height: 22px ; margin-bottom: 30px ; height: 270px;}
 
 .check_list .inbox05{float:left; width:100%;  position: relative ; }
-.check_list .inbox05 .img02{ position: absolute; right: 0px ; top: 0px; width: 35%; height: 260px; background: url(/images/sub/check_05.jpg); background-size: cover; background-position: center center}
-.check_list .inbox05 .img03{ position: absolute; right: 20% ; top: 150px; width: 35%; height: 240px; background: url(/images/sub/check_04.jpg); background-size: cover; background-position: center center}
-.check_list .inbox05 .img04{ position: absolute; right: 30px ; top: 290px; width: 30%; height: 200px; background: url(/images/sub/check_06.jpg); background-size: cover; background-position: center center}
-.check_list .inbox05 .img05{ position: absolute; left: 0px ; bottom: 0px; width: 45%; height: 320px; background: url(/images/sub/check_07.jpg); background-size: cover; background-position: center center}
+.check_list .inbox05 .img02{ position: absolute; right: 0px ; top: 0px; width: 35%; height: 260px; background: url(../images/sub/check_05.jpg); background-size: cover; background-position: center center}
+.check_list .inbox05 .img03{ position: absolute; right: 20% ; top: 150px; width: 35%; height: 240px; background: url(../images/sub/check_04.jpg); background-size: cover; background-position: center center}
+.check_list .inbox05 .img04{ position: absolute; right: 30px ; top: 290px; width: 30%; height: 200px; background: url(../images/sub/check_06.jpg); background-size: cover; background-position: center center}
+.check_list .inbox05 .img05{ position: absolute; left: 0px ; bottom: 0px; width: 45%; height: 320px; background: url(../images/sub/check_07.jpg); background-size: cover; background-position: center center}
 .check_list .inbox05 .txbox1{float:left; width:45%; box-sizing: border-box; padding-left:0% ; font-size: 13px; color: #666; line-height: 22px ; margin-top:0px; }
 .check_list .inbox05 .txbox1_2{clear: both;  width:40%; box-sizing: border-box; padding-left:0% ; font-size: 13px; color: #666; line-height: 22px ; margin-top:0px;  height: 380px}
 	
@@ -2781,9 +2803,9 @@ a.order_tb_btn {  padding:0px 10px 0px; background-color:#c0c0c0; border:1px sol
 	
 	
 .check_list .inbox06{float:left; width:100%; margin-bottom: 50px; position: relative ; margin-top: 30px }
-.check_list .inbox06 .img01{ position: absolute; right: 0px ; top: 0px; width: 30%; height: 390px; background: url(/images/sub/check_08.jpg); background-size: cover; background-position: center center; z-index: 3}
-.check_list .inbox06 .img02{ position: absolute; right: 20% ; top: 200px; width:  28%; height: 250px; background: url(/images/sub/check_09.jpg); background-size: cover; background-position: center center; z-index: 2}
-.check_list .inbox06 .img03{ position: absolute; left: 0px ; bottom: 0px; width:  40%; height: 200px; background: url(/images/sub/check_10.jpg); background-size: cover; background-position: center center; z-index: 4}
+.check_list .inbox06 .img01{ position: absolute; right: 0px ; top: 0px; width: 30%; height: 390px; background: url(../images/sub/check_08.jpg); background-size: cover; background-position: center center; z-index: 3}
+.check_list .inbox06 .img02{ position: absolute; right: 20% ; top: 200px; width:  28%; height: 250px; background: url(../images/sub/check_09.jpg); background-size: cover; background-position: center center; z-index: 2}
+.check_list .inbox06 .img03{ position: absolute; left: 0px ; bottom: 0px; width:  40%; height: 200px; background: url(../images/sub/check_10.jpg); background-size: cover; background-position: center center; z-index: 4}
 .check_list .inbox06 .txbox1{float:left; width:100%; box-sizing: border-box; padding-right:40% ; font-size: 13px; color: #666; line-height: 22px ; margin-top: 30px}
 .check_list .inbox06 .txbox1_2{float:left; width:100%; box-sizing: border-box; padding-right:55% ; font-size: 13px; color: #666; line-height: 22px ; margin-top: 30px; height: 400px}
 	
@@ -2842,14 +2864,14 @@ a.order_tb_btn {  padding:0px 10px 0px; background-color:#c0c0c0; border:1px sol
 .check_list .inbox03 .tx2{ float:left; width:100%; font-size:12px; color: #666;; line-height: 18px;} 
 	
 .check_list .inbox04{float:left; width:100%; margin-bottom: 30px; position: relative ; }
-.check_list .inbox04 .img01{float:left; width:100%;  height: 150px; background: url(/images/sub/check_03.jpg); background-size: cover; background-position: center center; margin-bottom: 10px }
+.check_list .inbox04 .img01{float:left; width:100%;  height: 150px; background: url(../images/sub/check_03.jpg); background-size: cover; background-position: center center; margin-bottom: 10px }
 .check_list .inbox04 .txbox1{float:left; width:100%; box-sizing: border-box;  font-size: 12px; color: #666; line-height: 18px ; }
 
 .check_list .inbox05{float:left; width:100%;  position: relative ; }
-.check_list .inbox05 .img02{ float:left; width:100%; height: 150px; background: url(/images/sub/check_05.jpg); background-size: cover; background-position: center center; order: 1;}
-.check_list .inbox05 .img03{ float:left; width:50%; height: 150px;  background: url(/images/sub/check_04.jpg); background-size: cover; background-position: center center; order: 2;}
-.check_list .inbox05 .img04{ float:left; width:50%; height: 150px;  background: url(/images/sub/check_06.jpg); background-size: cover; background-position: center center; order: 3; margin-bottom: 10px}
-.check_list .inbox05 .img05{ float:left; width:100%; height: 150px; background: url(/images/sub/check_07.jpg); background-size: cover; background-position: center center; order: 7; margin-bottom: 10px }
+.check_list .inbox05 .img02{ float:left; width:100%; height: 150px; background: url(../images/sub/check_05.jpg); background-size: cover; background-position: center center; order: 1;}
+.check_list .inbox05 .img03{ float:left; width:50%; height: 150px;  background: url(../images/sub/check_04.jpg); background-size: cover; background-position: center center; order: 2;}
+.check_list .inbox05 .img04{ float:left; width:50%; height: 150px;  background: url(../images/sub/check_06.jpg); background-size: cover; background-position: center center; order: 3; margin-bottom: 10px}
+.check_list .inbox05 .img05{ float:left; width:100%; height: 150px; background: url(../images/sub/check_07.jpg); background-size: cover; background-position: center center; order: 7; margin-bottom: 10px }
 .check_list .inbox05 .txbox1{float:left; width:100%; box-sizing: border-box; padding-left:0% ; font-size: 12px; color: #666; line-height: 18px ; margin-top:0px; ; order: 5;}
 .check_list .inbox05 .txbox1_2{clear: both;  width:100%; box-sizing: border-box; padding-left:0% ; font-size: 12px; color: #666; line-height: 18px ; margin-top:0px;   ; order: 6; margin-bottom: 20px}
 	
@@ -2857,10 +2879,10 @@ a.order_tb_btn {  padding:0px 10px 0px; background-color:#c0c0c0; border:1px sol
 	
 	
 .check_list .inbox06{float:left; width:100%; margin-bottom: 20px; position: relative ; margin-top:20px }
-.check_list .inbox06 .img01{  float:left; width:50%; height:200px; background: url(/images/sub/check_08.jpg); background-size: cover; background-position: center center; z-index: 3; order: 1;}
-.check_list .inbox06 .img02{ float:right;  width:50%; height:200px;  background: url(/images/sub/check_09.jpg); background-size: cover; background-position: center center; z-index: 2; order: 2;}
+.check_list .inbox06 .img01{  float:left; width:50%; height:200px; background: url(../images/sub/check_08.jpg); background-size: cover; background-position: center center; z-index: 3; order: 1;}
+.check_list .inbox06 .img02{ float:right;  width:50%; height:200px;  background: url(../images/sub/check_09.jpg); background-size: cover; background-position: center center; z-index: 2; order: 2;}
 	
-.check_list .inbox06 .img03{float:left; width:100%; height:200px;  background: url(/images/sub/check_10.jpg); background-size: cover; background-position: center center; z-index: 4; margin-bottom: 20px; order: 5;}
+.check_list .inbox06 .img03{float:left; width:100%; height:200px;  background: url(../images/sub/check_10.jpg); background-size: cover; background-position: center center; z-index: 4; margin-bottom: 20px; order: 5;}
 .check_list .inbox06 .txbox1{float:left; width:100%; box-sizing: border-box; font-size: 12px; color: #666; line-height: 18px ;  ; order: 3;}
 .check_list .inbox06 .txbox1_2{float:left; width:100%; box-sizing: border-box;  font-size: 12px; color: #666; line-height: 18px ; order: 4;}
 	

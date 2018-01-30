@@ -225,6 +225,8 @@ a:hover{text-decoration:none}
 .w_15p{ width:15% ;box-sizing:border-box }
 .w_10p{ width:10% ;box-sizing:border-box }
 
+.w_80px{ width:80px ;box-sizing:border-box }
+
 
 /**** 영역 ****/
 .w_90p_center{width:90% ;box-sizing:border-box; margin:0px auto }

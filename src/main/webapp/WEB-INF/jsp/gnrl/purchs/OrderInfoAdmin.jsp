@@ -26,7 +26,7 @@
 </head>
 <body>
 <div id="wrap" class="mail_box">
-	<div class="head_box"><img src="<c:url value='/images/mail/mail_a_01.jpg'/>" width="223" height="53" alt=""/>
+	<div class="head_box"><img src="<c:url value='/images/mail/mailto_01.jpg'/>" alt=""/>
 		<div class="go_ga">가이드용</div>
 		<div class="go_btn"><a href="javascript:savePDF();" class="btnst1">저장하기</a><!-- <a href="javascript:window.print();" class="btnst2">인쇄하기</a> --></div>
 	</div>
