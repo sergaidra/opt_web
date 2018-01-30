@@ -1,5 +1,6 @@
 package kr.co.siione.gnrl.purchs.web;
 
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -191,7 +192,8 @@ public class OrderController {
             JSONParser parser = new JSONParser();
             JSONObject jsonObj = new JSONObject();
             try { 
-            	merchantData = merchantData.replaceAll("&quot", "\"");
+            	//merchantData = merchantData.replaceAll("&quot", "\"");
+            	merchantData = URLDecoder.decode(UserUtils.nvl(merchantData), "UTF-8");
             	jsonObj = (JSONObject)parser.parse(merchantData);
             	List<Map> lstCart = (List<Map>)jsonObj.get("lstCart");
             	

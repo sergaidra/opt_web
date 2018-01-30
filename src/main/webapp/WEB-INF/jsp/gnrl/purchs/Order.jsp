@@ -192,11 +192,11 @@ function getSignature(param) {
         data : JSON.stringify( v_param ),
         success : function(data,status,request){
 			if(data.result == "0") {
-				var merchantData = JSON.stringify( param );
+				var merchantData = encodeURI(JSON.stringify( param ));
 				// Test
 				$("#SendPayForm_id").find("input[name='price']").val(param.real_setle_amount);
 				if("${inicis_mode}" == "Test")
-					$("#SendPayForm_id").find("input[name='price']").val("150");
+					$("#SendPayForm_id").find("input[name='price']").val("100");
 				$("#SendPayForm_id").find("input[name='signature']").val(data.data);
 				$("#SendPayForm_id").find("input[name='merchantData']").val(merchantData);
 				var returnUrl = location.protocol + "//" + location.host + "/purchs/payComplete";
