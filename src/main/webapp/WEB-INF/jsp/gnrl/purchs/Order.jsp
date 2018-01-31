@@ -565,6 +565,14 @@ function numberWithCommas(x) {
 			<col width="" />
 			<tbody>
 			<tr>
+				<th>결제상태</th>
+				<td>
+					<c:if test="${purchs.STATUS == 'C'}">결제 완료</c:if>				
+					<c:if test="${purchs.STATUS == 'W'}">무통장입금 대기</c:if>				
+					<c:if test="${purchs.STATUS == 'R'}">환불</c:if>				
+				</td>
+			</tr>
+			<tr>
 				<th>결제수단</th>
 				<td>
 					<c:if test="${pay.PAYMETHOD == 'VCard' or pay.PAYMETHOD == 'Card'}">신용카드</c:if>

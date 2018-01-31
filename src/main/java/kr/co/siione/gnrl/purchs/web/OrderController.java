@@ -22,6 +22,7 @@ import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.purchs.service.OrderService;
 import kr.co.siione.gnrl.purchs.service.PointService;
 import kr.co.siione.gnrl.purchs.service.PurchsService;
+import kr.co.siione.gnrl.purchs.service.impl.OrderDAO;
 import kr.co.siione.mngr.service.CtyManageService;
 import kr.co.siione.utl.UserUtils;
 
@@ -312,6 +313,7 @@ public class OrderController {
 						mapPay.put("vact_inputname", VACT_InputName);
 						mapPay.put("vact_date", VACT_Date);
 						mapPay.put("vact_time", VACT_Time);
+						mapPurchs.put("status", "W");
 					} else if("DirectBank".equals(resultMap.get("payMethod"))){ //실시간계좌이체
 						String ACCT_BankCode = resultMap.get("ACCT_BankCode");	// 은행코드
 						String CSHR_ResultCode = resultMap.get("CSHR_ResultCode");	// 현금영수증 발급결과코드
@@ -319,6 +321,7 @@ public class OrderController {
 						mapPay.put("acct_bankcode", ACCT_BankCode);
 						mapPay.put("cshr_resultcode", CSHR_ResultCode);
 						mapPay.put("cshr_type", CSHR_Type);
+						mapPurchs.put("status", "C");
 					} else{//카드
 						String CARD_Num = resultMap.get("CARD_Num");	// 카드번호
 						String CARD_Interest = resultMap.get("CARD_Interest");	// 할부여부
@@ -330,6 +333,7 @@ public class OrderController {
 						mapPay.put("card_quota", CARD_Quota);
 						mapPay.put("card_code", CARD_Code);
 						mapPay.put("card_bankcode", CARD_BankCode);
+						mapPurchs.put("status", "C");
 				    }	
 					
 					String purchs_sn = orderService.addPurchs(mapPurchs, mapPay);
@@ -411,6 +415,7 @@ public class OrderController {
 			map.put("kakao_id", kakao_id);
 			map.put("lstCart", lstCart);
 			map.put("email", email);
+			map.put("status", "C");
 
 			UserUtils.log("[addPurchs-map]", map);
 			
@@ -425,6 +430,32 @@ public class OrderController {
 		
 		return resVo;
 	}
+
+	@RequestMapping(value="/VBankInput")
+	@ResponseBody
+	public String VBankInput(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String,String> paramMap = new Hashtable<String,String>();
+		Enumeration elems = request.getParameterNames();
+		String temp = "";
+		while(elems.hasMoreElements())
+		{
+			temp = (String) elems.nextElement();
+			paramMap.put(temp, request.getParameter(temp));
+		}
+		UserUtils.log("[VBankInput paramMap]", paramMap);
+
+		try {
+			HashMap map = new HashMap();
+			map.put("status", "C");
+			map.put("oid", String.valueOf(paramMap.get("no_oid")));
+			orderService.updateStatus(map);
+			return "OK";
+		} catch(Exception e) {
+			return e.getMessage();
+		}
+	}
+	
+	
 	
 	@RequestMapping(value="/checkReservationSchedule")
 	public @ResponseBody ResponseVo checkReservationSchedule(HttpServletRequest request, HttpServletResponse response, @RequestBody Map param) throws Exception {

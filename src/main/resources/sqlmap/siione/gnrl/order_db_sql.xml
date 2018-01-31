@@ -126,10 +126,10 @@
 	<insert id="gnrl.order.insertPurchs"  parameterClass="hashMap">
 		INSERT INTO TB_PURCHS (PURCHS_SN, PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT
 			, CRTFC_NO, SETLE_DT, SETLE_IP, ESNTL_ID, WRITNG_ID, WRITNG_DT, DELETE_AT
-			, TOURIST_NM, TOURIST_CTTPC, KAKAO_ID) 
+			, TOURIST_NM, TOURIST_CTTPC, KAKAO_ID, STATUS) 
 		VALUES (#purchs_sn#, TO_CHAR(SYSDATE, 'YYYYMMDD'), #tot_setle_amount#, #real_setle_amount#, #use_point#
 			, #crtfc_no#, SYSDATE, #setle_ip#, #esntl_id#, #esntl_id#, SYSDATE ,'N'
-			, #tourist_nm#, #tourist_cttpc#, #kakao_id#)
+			, #tourist_nm#, #tourist_cttpc#, #kakao_id#, #status#)
 	</insert>
 
 	<insert id="gnrl.order.insertPurchsGoods"  parameterClass="hashMap">
@@ -202,14 +202,14 @@
 	<select id="gnrl.order.getPurchs" parameterClass="hashMap" resultClass="hashMap">
 		SELECT PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT, TOURIST_NM, TOURIST_CTTPC, KAKAO_ID, BEGINDT
 			, CASE WHEN TO_CHAR(TO_DATE(BEGINDT, 'YYYYMMDD') - 14, 'YYYYMMDD') > TO_CHAR(SYSDATE, 'YYYYMMDD') THEN 'Y' ELSE 'N' END ISCANCEL
-			, DELETE_AT, DELETE_RESN_SE, DELETE_RESN_ETC, REFUND_AMOUNT
+			, DELETE_AT, DELETE_RESN_SE, DELETE_RESN_ETC, REFUND_AMOUNT, STATUS
 		FROM (
 				SELECT P.PURCHS_DE, P.TOT_SETLE_AMOUNT, P.REAL_SETLE_AMOUNT, P.USE_POINT, P.TOURIST_NM, P.TOURIST_CTTPC, P.KAKAO_ID
 					, (	SELECT MIN( CASE WHEN TOUR_DE IS NOT NULL THEN TOUR_DE ELSE CHKIN_DE END)
 						FROM TB_PURCHS_GOODS PG
 							INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN		
 						WHERE PURCHS_SN = #purchs_sn# ) AS BEGINDT
-					, P.DELETE_AT, DC.CODE_NM AS DELETE_RESN_SE, P.DELETE_RESN_ETC, P.REFUND_AMOUNT
+					, P.DELETE_AT, DC.CODE_NM AS DELETE_RESN_SE, P.DELETE_RESN_ETC, P.REFUND_AMOUNT, P.STATUS
 				FROM TB_PURCHS P
 					LEFT OUTER JOIN TB_CMMN_DETAIL_CODE DC ON P.DELETE_RESN_SE = DC.CODE AND DC.CODE_ID = 'COM009'
 				WHERE PURCHS_SN = #purchs_sn# 
@@ -267,5 +267,10 @@
 		FROM TB_PAY
 		WHERE PURCHS_SN = #purchs_sn#
 	</select>
+
+	<update id="gnrl.order.updateStatus" parameterClass="hashMap" >
+		UPDATE TB_PURCHS SET STATUS = #status#
+		WHERE PURCHS_SN IN (SELECT PURCHS_SN FROM TB_PAY WHERE MOID = #oid#)
+	</update>
 	
 </sqlMap>

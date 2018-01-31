@@ -81,4 +81,8 @@ public class OrderDAO extends EgovComAbstractDAO {
 		return (HashMap)selectByPk("gnrl.order.getPay", map);
 	}
 
+    public void updateStatus(HashMap map) throws Exception {
+		update("gnrl.order.updateStatus", map);
+    }   
+
 }

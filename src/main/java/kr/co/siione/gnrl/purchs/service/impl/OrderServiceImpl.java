@@ -215,6 +215,10 @@ public class OrderServiceImpl implements OrderService {
 		orderDAO.cancelPurchs(map);
 		orderDAO.cancelReservationDay(map);
 	}
+	
+	public void updateStatus(HashMap map) throws Exception {
+		orderDAO.updateStatus(map);		
+	}
 
 }
 
