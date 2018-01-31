@@ -252,11 +252,11 @@
 	
 	
 	<insert id="gnrl.order.insertPay" parameterClass="hashMap">
-		INSERT INTO TB_PAY (PURCHS_SN, TID, RESULTCODE, RESULTMSG, EVENTCODE, TOTPRICE, MOID, PAYMETHOD, APPLNUM, APPLDATE, APPLTIME,
+		INSERT INTO TB_PAY (PURCHS_SN, TID, RESULTCODE, RESULTMSG, EVENTCODE, TOTPRICE, MOID, PAYMETHOD, APPLNUM, APPLDATE, APPLTIME, PAY_DEVICE,
   					CARD_NUM, CARD_INTEREST, CARD_QUOTA, CARD_CODE, CARD_BANKCODE, 
 					VACT_NUM, VACT_BANKCODE, VACTBANKNAME, VACT_NAME, VACT_INPUTNAME, VACT_DATE, VACT_TIME,
 					ACCT_BANKCODE, CSHR_RESULTCODE, CSHR_TYPE)
-		VALUES ( #purchs_sn#, #tid#, #resultcode#, #resultmsg#, #eventcode#, #totprice#, #moid#, #paymethod#, #applnum#, #appldate#, #appltime#,
+		VALUES ( #purchs_sn#, #tid#, #resultcode#, #resultmsg#, #eventcode#, #totprice#, #moid#, #paymethod#, #applnum#, #appldate#, #appltime#, #pay_device#, 
 			#card_num#, #card_interest#, #card_quota#, #card_code#, #card_bankcode#,
 			#vact_num#, #vact_bankcode#, #vactbankname#, #vact_name#, #vact_inputname#, #vact_date#, #vact_time#,
 			#acct_bankcode#, #cshr_resultcode#, #cshr_type# )

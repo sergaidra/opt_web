@@ -1,5 +1,7 @@
 package kr.co.siione.gnrl.purchs.web;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 
@@ -26,6 +28,12 @@ import kr.co.siione.gnrl.purchs.service.impl.OrderDAO;
 import kr.co.siione.mngr.service.CtyManageService;
 import kr.co.siione.utl.UserUtils;
 
+import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
@@ -148,6 +156,154 @@ public class OrderController {
 		return resVo;
 	}
 
+	private String eucToUtf(String value) {
+		if(value == null || "".equals(value))
+			return "";
+		else
+			try {
+				return new String(value.getBytes("euc-kr"), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return value;
+			}
+	}
+	@RequestMapping(value="/payNext")
+	public void payNext(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		String email = UserUtils.nvl((String)session.getAttribute("email"));
+
+		Map<String,String> paramMap = new Hashtable<String,String>();
+		Enumeration elems = request.getParameterNames();
+		String temp = "";
+		while(elems.hasMoreElements())
+		{
+			temp = (String) elems.nextElement();
+			paramMap.put(temp, request.getParameter(temp));
+		} 
+		
+		System.out.println("paramMap : "+ paramMap.toString());
+		
+		if("01".equals(String.valueOf(paramMap.get("P_STATUS")))) {
+			// 인증 실패
+		} else {
+			System.out.println("####인증성공/승인요청####");
+			String p_req_url = String.valueOf(paramMap.get("P_REQ_URL"));
+			String p_tid = String.valueOf(paramMap.get("P_TID"));
+			String p_mid = inicis_mid;
+			p_req_url = p_req_url + "?P_TID=" + p_tid + "&P_MID=" + p_mid;
+
+		    // Create an instance of HttpClient.
+		    HttpClient client = new HttpClient();
+
+		    // Create a method instance.
+		    GetMethod method = new GetMethod(p_req_url);
+		    
+		    // Provide custom retry handler is necessary
+		    method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(3, false));
+		    
+		    HashMap<String, String> map = new HashMap<String, String>();
+		    
+		    try {
+		      // Execute the method.
+		      int statusCode = client.executeMethod(method);
+
+		      if (statusCode != HttpStatus.SC_OK) {
+		    	  System.out.println("Method failed: " + method.getStatusLine());
+		      }
+
+		      // Read the response body.
+		      byte[] responseBody = method.getResponseBody();   //  승인결과 파싱
+			  String[] values = new String(responseBody, "euc-kr").split("&");
+			  
+				for( int x = 0; x < values.length; x++ ) 
+				  {
+					System.out.println(values[x]);
+					
+					// 승인결과를 파싱값 잘라 hashmap에 저장
+					int i = values[x].indexOf("=");			
+					String key1 = values[x].substring(0, i);
+					String value1 = values[x].substring(i+1);
+					map.put(key1, value1);			  
+				  }
+				
+				UserUtils.log("[payNext-map]", map);
+				
+				if("00".equals(map.get("P_STATUS"))) {
+					HashMap mapPay = new HashMap();	
+					HashMap mapPurchs = new HashMap();
+					
+		            JSONParser parser = new JSONParser();
+		            JSONObject jsonObj = new JSONObject();
+		            try { 
+		            	//merchantData = merchantData.replaceAll("&quot", "\"");
+		            	String p_noti = URLDecoder.decode(UserUtils.nvl(map.get("P_NOTI")), "UTF-8");
+		            	jsonObj = (JSONObject)parser.parse(p_noti);
+		            	List<Map> lstCart = (List<Map>)jsonObj.get("lstCart");
+		            	
+		    			mapPurchs.put("esntl_id", esntl_id);			
+		            	mapPurchs.put("tot_setle_amount", UserUtils.nvl(jsonObj.get("tot_setle_amount")));
+		            	mapPurchs.put("real_setle_amount", UserUtils.nvl(jsonObj.get("real_setle_amount")));
+		            	mapPurchs.put("use_point", UserUtils.nvl(jsonObj.get("use_point")));
+		            	mapPurchs.put("crtfc_no", "");
+		            	mapPurchs.put("setle_ip", "");
+		            	mapPurchs.put("tourist_nm", UserUtils.nvl(jsonObj.get("tourist_nm")));
+		            	mapPurchs.put("tourist_cttpc", UserUtils.nvl(jsonObj.get("tourist_cttpc")));
+		    			mapPurchs.put("kakao_id", UserUtils.nvl(jsonObj.get("kakao_id")));
+		    			mapPurchs.put("lstCart", lstCart);
+		    			mapPurchs.put("email", email);
+						mapPurchs.put("status", "C");
+		            } catch(ParseException e) {
+		            	e.printStackTrace();
+		            }
+					
+		            String appldate = String.valueOf(map.get("P_AUTH_DT")).substring(0, 8);
+		            String appltime = String.valueOf(map.get("P_AUTH_DT")).substring(8);
+		            
+					mapPay.put("tid", map.get("P_TID"));
+					mapPay.put("resultcode", map.get("P_STATUS"));
+					mapPay.put("resultmsg", map.get("P_RMESG1"));
+					mapPay.put("eventcode", "");
+					mapPay.put("totprice", map.get("P_AMT"));
+					mapPay.put("moid", map.get("P_OID"));
+					mapPay.put("paymethod", "Card");
+					mapPay.put("applnum", map.get("P_AUTH_NO"));
+					mapPay.put("appldate", appldate);
+					mapPay.put("appltime", appltime);
+					mapPay.put("pay_device", "M");
+
+					String CARD_Num = map.get("P_CARD_NUM");	// 카드번호
+					String CARD_Interest = map.get("P_CARD_INTEREST");	// 할부여부
+					String CARD_Quota = map.get("P_RMESG2");	// 할부기간
+					String CARD_Code = map.get("P_FN_CD1");	// 카드 종류
+					String CARD_BankCode = map.get("P_CARD_ISSUER_CODE");	// 카드 발급사
+					mapPay.put("card_num", CARD_Num);
+					mapPay.put("card_interest", CARD_Interest);
+					mapPay.put("card_quota", CARD_Quota);
+					mapPay.put("card_code", CARD_Code);
+					mapPay.put("card_bankcode", CARD_BankCode);
+
+					String purchs_sn = orderService.addPurchs(mapPurchs, mapPay);
+					
+					response.sendRedirect("/purchs/OrderDetail?purchs_sn=" + purchs_sn);
+					return;					
+				} else {
+			    	System.out.println("승인 실패 : " + map.get("P_RMESG1"));
+				}
+		    } catch (HttpException e) {
+		    	System.out.println("Fatal protocol violation: " + e.getMessage());
+		    	e.printStackTrace();
+		    } catch (IOException e) {
+		    	System.out.println("Fatal transport error: " + e.getMessage());
+		    	e.printStackTrace();
+		    } finally {
+		      // Release the connection.
+		      method.releaseConnection();
+		    }  
+		}
+	}
+	
 	@RequestMapping(value="/payComplete")
 	public void payComplete(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 
@@ -335,7 +491,9 @@ public class OrderController {
 						mapPay.put("card_bankcode", CARD_BankCode);
 						mapPurchs.put("status", "C");
 				    }	
-					
+
+					mapPay.put("pay_device", "P");		// PC
+
 					String purchs_sn = orderService.addPurchs(mapPurchs, mapPay);
 					
 					response.sendRedirect("/purchs/OrderDetail?purchs_sn=" + purchs_sn);

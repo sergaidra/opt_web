@@ -195,12 +195,17 @@ function getSignature(param) {
 				var merchantData = encodeURI(JSON.stringify( param ));
 				// Test
 				$("#SendPayForm_id").find("input[name='price']").val(param.real_setle_amount);
-				if("${inicis_mode}" == "Test")
+				$("#mobileweb_form").find("input[name='P_AMT']").val(param.real_setle_amount);				
+				if("${inicis_mode}" == "Test") {
 					$("#SendPayForm_id").find("input[name='price']").val("150");
+					$("#mobileweb_form").find("input[name='P_AMT']").val("150");
+				}
 				$("#SendPayForm_id").find("input[name='signature']").val(data.data);
 				$("#SendPayForm_id").find("input[name='merchantData']").val(merchantData);
+				
 				var returnUrl = location.protocol + "//" + location.host + "/purchs/payComplete";
 				var closeUrl = location.protocol + "//" + location.host + "/purchs/close";
+				var nextUrl = location.protocol + "//" + location.host + "/purchs/payNext";	// 모바일 신용카드
 				$("#SendPayForm_id").find("input[name='returnUrl']").val(returnUrl);
 				$("#SendPayForm_id").find("input[name='closeUrl']").val(closeUrl);
 				$("#SendPayForm_id").find("input[name='gopaymethod']").val($(":input:radio[name=rdoPayMethod]:checked").val());
@@ -220,7 +225,27 @@ function getSignature(param) {
 					$("#SendPayForm_id").find("input[name='acceptmethod']").val("");
 				}
 				
-				INIStdPay.pay('SendPayForm_id');
+				if(false) {
+					INIStdPay.pay('SendPayForm_id');
+				} else {
+					var myform = $("#mobileweb_form");
+					if(gopaymethod == "Card") {
+						$(myform).attr("action", "https://mobile.inicis.com/smart/wcard/");
+					} else if(gopaymethod == "VBank") {
+						$(myform).attr("action", "https://mobile.inicis.com/smart/vbank/");
+					} else {
+						$(myform).attr("action", "https://mobile.inicis.com/smart/bank/");
+					}
+					
+					$("#mobileweb_form").find("input[name='P_NEXT_URL']").val(nextUrl);
+					$("#mobileweb_form").find("input[name='P_NOTI']").val(merchantData);
+					
+					$(myform).attr("target", "_self");
+					var p_oid = $(myform).find("input[name='P_OID']").val();
+					var p_return_url = $(myform).find("input[name='P_RETURN_URL']").val();
+					$(myform).find("input[name='P_RETURN_URL']").val(p_return_url + "?P_OID=" + p_oid); // 계좌이체 결제시 P_RETURN_URL로 P_OID값 전송(GET방식 호출)
+					$(myform).submit(); 
+				}
 				//alert("결제되었습니다.");
 				//go_mypage();
 			} else if(data.result == "9") {
@@ -885,4 +910,20 @@ function numberWithCommas(x) {
 											<input type="hidden" name="merchantData" value="" >																						
 										</form>
 
+			<form id="mobileweb_form" name="ini" method="post" action="" accept-charset="euc-kr">
+				<input type="hidden" name="P_OID" id="textfield2" value="${oid}" />
+				<input type="hidden" name="P_GOODS" value="${purchs_goods_nm}" id="textfield3" />
+				<input type="hidden" name="P_AMT" value="" id="P_AMT" />
+				<input type="hidden" name="P_UNAME" value="${user_nm}" id="textfield5"/>
+				<!-- <input type="hidden" name="P_MNAME" value="이니시스 쇼핑몰" id="textfield6"/> -->
+				<input type="hidden" name="P_MOBILE" id="textfield7" />
+				<input type="hidden" name="P_EMAIL" value="${email}" id="textfield8"/>
+				<input type="hidden" name="P_MID" value="${mid}"> 
+				<input type=hidden name="P_NEXT_URL" value="">
+				<input type=hidden name="P_NOTI_URL" value="https://mobile.inicis.com/rnoti/rnoti.php">
+				<input type=hidden name="P_RETURN_URL" value="https://mobile.inicis.com/rnoti/rnoti.php">
+				<input type=hidden name="P_HPP_METHOD" value="1">
+				<input type="hidden" name="P_NOTI" value="">
+				<input type="hidden" name="P_RESERVED" value="twotrs_isp=Y&block_isp=Y&twotrs_isp_noti=N&below1000=Y"></td> 
+			</form>
 </body>
