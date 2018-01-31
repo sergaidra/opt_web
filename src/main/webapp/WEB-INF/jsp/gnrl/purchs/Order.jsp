@@ -806,7 +806,12 @@ function numberWithCommas(x) {
 				</div>
 				<div class="t1">
 					<div class="left">총 할인금액</div>
+					<c:if test="${purchs != null}">
+					<div class="right"><em id="discountAmount"><fmt:formatNumber value="${purchs.USE_POINT}" pattern="#,###" /></em>원</div>
+					</c:if>
+					<c:if test="${purchs == null}">
 					<div class="right"><em id="discountAmount"><fmt:formatNumber value="${purchs_amount - origin_amount}" pattern="#,###" /></em>원</div>
+					</c:if>
 				</div>
 			</div>
 			<div class="total_2">
