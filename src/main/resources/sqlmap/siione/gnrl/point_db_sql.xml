@@ -54,7 +54,26 @@
 	</update>
 	
 	<insert id="gnrl.point.insertPointHistory" parameterClass="hashMap">
-		INSERT INTO TB_PURCHS_POINT_HISTORY ( PURCHS_SN, POINT_PURCHS_SN, CART_SN, ESNTL_ID, POINT, USE_DT)
-		VALUES (#point_purchs_sn#, #purchs_sn#, #cart_sn#, #esntl_id#, #point#, SYSDATE)
+		INSERT INTO TB_PURCHS_POINT_HISTORY ( PURCHS_SN, POINT_PURCHS_SN, CART_SN, ESNTL_ID, POINT, USE_DT, ACCML_SE)
+		VALUES (#point_purchs_sn#, #purchs_sn#, #cart_sn#, #esntl_id#, #point#, SYSDATE, #accml_se#)
 	</insert>
+	
+	<select id="gnrl.point.getMyLastUsePoint" parameterClass="hashMap" resultClass="hashMap">
+		SELECT PURCHS_SN, CART_SN, POINT,  USE_POINT
+		FROM TB_PURCHS_POINT
+		WHERE ESNTL_ID = #esntl_id# AND NVL(USE_POINT, 0) > 0 AND EXPRTN_AT = 'N'
+		ORDER BY PURCHS_SN DESC, USE_POINT DESC
+	</select>
+
+	<update id="gnrl.point.updateCancelPoint" parameterClass="hashMap">
+		UPDATE TB_PURCHS_POINT SET USE_POINT = USE_POINT - #point#
+		WHERE ESNTL_ID = #esntl_id# AND PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+	</update>
+
+	<select id="gnrl.point.getPurchsPoint" parameterClass="hashMap" resultClass="Integer">
+		SELECT NVL(USE_POINT, 0) AS USE_POINT
+		FROM TB_PURCHS
+		WHERE ESNTL_ID = #esntl_id# AND PURCHS_SN = #purchs_sn#
+	</select>
+	
 </sqlMap>

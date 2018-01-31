@@ -50,12 +50,51 @@ public class PointServiceImpl implements PointService {
     		mapPoint.put("cart_sn", cart_sn);
     		mapPoint.put("point", this_use_point);
     		mapPoint.put("point_purchs_sn", point_purchs_sn);
+    		mapPoint.put("accml_se", "A");
     		
     		pointDAO.updateUsePoint(mapPoint);
     		pointDAO.insertPointHistory(mapPoint);
     		
     		use_point -= this_use_point;
     		if(use_point <= 0)
+    			break;
+    	}
+    }
+    
+    public void cancelPoint(HashMap map) throws Exception {
+    	//int cancel_point = Integer.valueOf(String.valueOf(map.get("cancel_point")));
+    	int cancel_point = pointDAO.getPurchsPoint(map);
+    	if(cancel_point == 0)
+    		return;
+    	String point_purchs_sn = String.valueOf(map.get("purchs_sn"));
+    	String esntl_id = String.valueOf(map.get("esntl_id"));
+    	List<HashMap> lst = pointDAO.getMyLastUsePoint(map);
+    	
+    	for(int i = 0; i < lst.size(); i++) {
+    		String purchs_sn = String.valueOf(lst.get(i).get("PURCHS_SN"));
+    		String cart_sn = String.valueOf(lst.get(i).get("CART_SN"));
+    		//int point = Integer.valueOf(String.valueOf(lst.get(i).get("POINT")));
+    		int use_point = Integer.valueOf(String.valueOf(lst.get(i).get("USE_POINT")));
+    		int this_use_point = 0;
+    		
+    		if(use_point > cancel_point)
+    			this_use_point = cancel_point;
+    		else
+    			this_use_point = use_point;
+    		
+    		HashMap mapPoint = new HashMap();
+    		mapPoint.put("esntl_id", esntl_id);
+    		mapPoint.put("purchs_sn", purchs_sn);
+    		mapPoint.put("cart_sn", cart_sn);
+    		mapPoint.put("point", this_use_point);
+    		mapPoint.put("point_purchs_sn", point_purchs_sn);
+    		mapPoint.put("accml_se", "C");
+    		
+    		pointDAO.updateCancelPoint(mapPoint);
+    		pointDAO.insertPointHistory(mapPoint);
+    		
+    		cancel_point -= this_use_point;
+    		if(cancel_point <= 0)
     			break;
     	}
     }

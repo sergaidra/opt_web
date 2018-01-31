@@ -9,4 +9,5 @@ public interface PointService {
 	public List<HashMap> getPointList(HashMap map) throws Exception;
 	
 	public void usePoint(HashMap map) throws Exception;
+	public void cancelPoint(HashMap map) throws Exception;
 }
