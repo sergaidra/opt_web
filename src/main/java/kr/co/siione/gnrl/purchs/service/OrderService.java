@@ -3,6 +3,8 @@ package kr.co.siione.gnrl.purchs.service;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 public interface OrderService {
 	public HashMap getCartDetail(HashMap map) throws Exception;
 	public List<HashMap> getCartDetailList(HashMap map) throws Exception;
@@ -17,4 +19,6 @@ public interface OrderService {
 	public HashMap getCancelRefundAmount(HashMap map) throws Exception;
 	public void cancelPurchs(HashMap map) throws Exception;
 	public void updateStatus(HashMap map) throws Exception;
+	public void updatePay(HashMap mapPurchs, HashMap mapPay) throws Exception;
+	public HashMap getPurchInfoSession(HttpSession session);
 }

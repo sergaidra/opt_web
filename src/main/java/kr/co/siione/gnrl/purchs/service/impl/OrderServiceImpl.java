@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -19,6 +20,7 @@ import kr.co.siione.gnrl.purchs.service.OrderService;
 import kr.co.siione.gnrl.purchs.service.PointService;
 import kr.co.siione.gnrl.purchs.service.PurchsService;
 import kr.co.siione.utl.MailManager;
+import kr.co.siione.utl.UserUtils;
 
 @Service("OrderService")
 @PropertySource("classpath:property/globals.properties")
@@ -219,6 +221,41 @@ public class OrderServiceImpl implements OrderService {
 	public void updateStatus(HashMap map) throws Exception {
 		orderDAO.updateStatus(map);		
 	}
+	
+	public void updatePay(HashMap mapPurchs, HashMap mapPay) throws Exception {
+		orderDAO.updateStatus(mapPurchs);		
+		orderDAO.updatePay(mapPay);		
+	}	
 
+	public HashMap getPurchInfoSession(HttpSession session) {
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		String email = UserUtils.nvl((String)session.getAttribute("email"));
+		HashMap purchInfo = (HashMap)session.getAttribute("purchInfo");
+		
+		String tot_setle_amount = UserUtils.nvl(purchInfo.get("tot_setle_amount"));
+		String real_setle_amount = UserUtils.nvl(purchInfo.get("real_setle_amount"));
+		String use_point = UserUtils.nvl(purchInfo.get("use_point"));
+		String tourist_nm = UserUtils.nvl(purchInfo.get("tourist_nm"));
+		String tourist_cttpc = UserUtils.nvl(purchInfo.get("tourist_cttpc"));
+		String kakao_id = UserUtils.nvl(purchInfo.get("kakao_id"));
+		String crtfc_no = "";
+		String setle_ip = "";
+        List<Map> lstCart = (List<Map>)purchInfo.get("lstCart");
+
+		HashMap map = new HashMap();	
+		map.put("esntl_id", esntl_id);			
+		map.put("tot_setle_amount", tot_setle_amount);
+		map.put("real_setle_amount", real_setle_amount);
+		map.put("use_point", use_point);
+		map.put("crtfc_no", crtfc_no);
+		map.put("setle_ip", setle_ip);
+		map.put("tourist_nm", tourist_nm);
+		map.put("tourist_cttpc", tourist_cttpc);
+		map.put("kakao_id", kakao_id);
+		map.put("lstCart", lstCart);
+		map.put("email", email);
+
+		return map;
+	}
 }
 

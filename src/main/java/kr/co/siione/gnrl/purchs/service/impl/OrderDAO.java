@@ -85,4 +85,7 @@ public class OrderDAO extends EgovComAbstractDAO {
 		update("gnrl.order.updateStatus", map);
     }   
 
+    public void updatePay(HashMap map) throws Exception {
+		update("gnrl.order.updatePay", map);
+    }   
 }

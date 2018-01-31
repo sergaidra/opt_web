@@ -272,5 +272,11 @@
 		UPDATE TB_PURCHS SET STATUS = #status#
 		WHERE PURCHS_SN IN (SELECT PURCHS_SN FROM TB_PAY WHERE MOID = #oid#)
 	</update>
+
+	<update id="gnrl.order.updatePay" parameterClass="hashMap">
+		UPDATE TB_PAY SET TID = #tid#, RESULTCODE = #resultcode#, APPLDATE = #appldate#, APPLTIME = #appltime#, APPLNUM = #applnum#
+			, PAYMETHOD = #paymethod#, TOTPRICE = #totprice#, RESULTMSG = #resultmsg#, ACCT_BANKCODE = #acct_bankcode#
+		WHERE MOID = #moid#
+	</update>
 	
 </sqlMap>

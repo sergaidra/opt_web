@@ -129,6 +129,24 @@ function addAction() {
         contentType: "application/json; charset=utf-8",
         data : JSON.stringify( param ),
         success : function(data,status,request){
+        	purchInfoStore(param);	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});			
+}
+
+function purchInfoStore(param) {
+	var url = "<c:url value='/purchs/purchInfoStore'/>";
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( param ),
+        success : function(data,status,request){
 			if(data.result == "0") {
 				if(param.real_setle_amount == 0) {
 					// 결제금액이 0원인경우			
@@ -139,7 +157,7 @@ function addAction() {
 				        dataType : "json",
 				        async: "true",
 				        contentType: "application/json; charset=utf-8",
-				        data : JSON.stringify( param ),
+				        data : null,
 				        success : function(data,status,request){
 							if(data.result == "0") {
 								document.location.href = "/purchs/OrderDetail?purchs_sn=" + data.data;
@@ -192,7 +210,6 @@ function getSignature(param) {
         data : JSON.stringify( v_param ),
         success : function(data,status,request){
 			if(data.result == "0") {
-				var merchantData = encodeURI(JSON.stringify( param ));
 				// Test
 				$("#SendPayForm_id").find("input[name='price']").val(param.real_setle_amount);
 				$("#mobileweb_form").find("input[name='P_AMT']").val(param.real_setle_amount);				
@@ -201,11 +218,9 @@ function getSignature(param) {
 					$("#mobileweb_form").find("input[name='P_AMT']").val("150");
 				}
 				$("#SendPayForm_id").find("input[name='signature']").val(data.data);
-				$("#SendPayForm_id").find("input[name='merchantData']").val(merchantData);
 				
 				var returnUrl = location.protocol + "//" + location.host + "/purchs/payComplete";
 				var closeUrl = location.protocol + "//" + location.host + "/purchs/close";
-				var nextUrl = location.protocol + "//" + location.host + "/purchs/payNext";	// 모바일 신용카드
 				$("#SendPayForm_id").find("input[name='returnUrl']").val(returnUrl);
 				$("#SendPayForm_id").find("input[name='closeUrl']").val(closeUrl);
 				$("#SendPayForm_id").find("input[name='gopaymethod']").val($(":input:radio[name=rdoPayMethod]:checked").val());
@@ -225,9 +240,13 @@ function getSignature(param) {
 					$("#SendPayForm_id").find("input[name='acceptmethod']").val("");
 				}
 				
-				if(false) {
+				if(isPC()) {
 					INIStdPay.pay('SendPayForm_id');
 				} else {
+					var mobileNextUrl = location.protocol + "//" + location.host + "/purchs/payNext";	// 모바일 신용카드
+					var mobileReturnUrl = location.protocol + "//" + location.host + "/purchs/payReturn";	// 모바일
+					var mobileNotiUrl = location.protocol + "//" + location.host + "/purchs/payNoti";	// 모바일
+					
 					var myform = $("#mobileweb_form");
 					if(gopaymethod == "Card") {
 						$(myform).attr("action", "https://mobile.inicis.com/smart/wcard/");
@@ -237,13 +256,12 @@ function getSignature(param) {
 						$(myform).attr("action", "https://mobile.inicis.com/smart/bank/");
 					}
 					
-					$("#mobileweb_form").find("input[name='P_NEXT_URL']").val(nextUrl);
-					$("#mobileweb_form").find("input[name='P_NOTI']").val(merchantData);
+					var p_oid = $(myform).find("input[name='P_OID']").val();
+					$("#mobileweb_form").find("input[name='P_NEXT_URL']").val(mobileNextUrl);
+					$("#mobileweb_form").find("input[name='P_RETURN_URL']").val(mobileReturnUrl + "?P_OID=" + p_oid); // 계좌이체 결제시 P_RETURN_URL로 P_OID값 전송(GET방식 호출)
+					$("#mobileweb_form").find("input[name='P_NOTI_URL']").val(mobileNotiUrl);	
 					
 					$(myform).attr("target", "_self");
-					var p_oid = $(myform).find("input[name='P_OID']").val();
-					var p_return_url = $(myform).find("input[name='P_RETURN_URL']").val();
-					$(myform).find("input[name='P_RETURN_URL']").val(p_return_url + "?P_OID=" + p_oid); // 계좌이체 결제시 P_RETURN_URL로 P_OID값 전송(GET방식 호출)
 					$(myform).submit(); 
 				}
 				//alert("결제되었습니다.");
@@ -301,6 +319,18 @@ function allPointUse(obj) {
 
 function setAmount() {
 	$("#finalAmount").text(numberWithCommas(real_setle_amount - use_point));
+}
+
+function isPC() {
+	var filter = "win16|win32|win64|mac|macintel";
+	if (navigator.platform ) {
+		if (filter.indexOf(navigator.platform.toLowerCase()) < 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	return true;
 }
 
 function lpad(s, padLength, padString){
@@ -595,6 +625,7 @@ function numberWithCommas(x) {
 					<c:if test="${purchs.STATUS == 'C'}">결제 완료</c:if>				
 					<c:if test="${purchs.STATUS == 'W'}">무통장입금 대기</c:if>				
 					<c:if test="${purchs.STATUS == 'R'}">환불</c:if>				
+					<c:if test="${purchs.STATUS == 'M'}">결제정보 요청 대기</c:if>				
 				</td>
 			</tr>
 			<tr>
@@ -925,8 +956,8 @@ function numberWithCommas(x) {
 				<input type="hidden" name="P_EMAIL" value="${email}" id="textfield8"/>
 				<input type="hidden" name="P_MID" value="${mid}"> 
 				<input type=hidden name="P_NEXT_URL" value="">
-				<input type=hidden name="P_NOTI_URL" value="https://mobile.inicis.com/rnoti/rnoti.php">
-				<input type=hidden name="P_RETURN_URL" value="https://mobile.inicis.com/rnoti/rnoti.php">
+				<input type=hidden name="P_NOTI_URL" value="">
+				<input type=hidden name="P_RETURN_URL" value="">
 				<input type=hidden name="P_HPP_METHOD" value="1">
 				<input type="hidden" name="P_NOTI" value="">
 				<input type="hidden" name="P_RESERVED" value="twotrs_isp=Y&block_isp=Y&twotrs_isp_noti=N&below1000=Y"></td> 
