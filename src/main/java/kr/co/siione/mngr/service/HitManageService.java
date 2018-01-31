@@ -10,5 +10,9 @@ public interface HitManageService {
 	public List<Map<String, String>> selectGoodsHitList(Map<String, String> param) throws Exception;
 
 	public void insertGoodsHit(Map<String, String> param) throws Exception;
+	
+	public List<Map<String, String>> selectGoodsHitStatsDay(Map<String, String> param) throws Exception;
+	
+	public List<Map<String, String>> selectGoodsHitStatsMonth(Map<String, String> param) throws Exception;
 }
 

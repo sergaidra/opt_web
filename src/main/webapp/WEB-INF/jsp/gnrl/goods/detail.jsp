@@ -1279,6 +1279,9 @@ function googleShare() {
 				<c:forEach var="result" items="${lstFile}" varStatus="status">
 	              <div class="swiper-slide"><img src="<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}&file_sn=${result.FILE_SN}" width="100%" alt=""/></div>
 				</c:forEach>
+				<c:if test="${fn:length(lstFile) == 0}">
+	              <div class="swiper-slide"><img src="<c:url value='/file/getImage/'/>?file_code=9999999999&file_sn=999" width="100%" alt=""/></div>
+				</c:if>
             </div>
             <!-- Add Pagination 
         <div class="swiper-pagination"></div>--> 

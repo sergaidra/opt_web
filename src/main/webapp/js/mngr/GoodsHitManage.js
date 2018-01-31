@@ -1,11 +1,11 @@
 Ext.define('GoodsHitInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['HIT_SN', 'HIT_ID', 'HIT_NM', 'HIT_IP', 'HIT_DT', 'GOODS_CODE', 'GOODS_NM', 'DELETE_AT', 'DELETE_AT_NM']
+	fields: ['HIT_SN', 'HIT_ID', 'HIT_NM', 'HIT_IP', 'USER_ID', 'HIT_DT', 'GOODS_CODE', 'GOODS_NM', 'DELETE_AT', 'DELETE_AT_NM']
 });
 
 Ext.define('HistInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['CONECT_DT', {name:'CONECT_CNT', type:'int'}, {name:'CONECT_MBER_CNT', type:'int'}, {name:'CONECT_NOT_MBER_CNT', type:'int'}]
+	fields: ['HIT_DT', {name:'HIT_CNT', type:'int'}, {name:'HIT_MBER_CNT', type:'int'}, {name:'HIT_NOT_MBER_CNT', type:'int'}]
 });
 
 var frHit = Ext.create('Ext.form.Panel', {
@@ -211,7 +211,7 @@ var stHitDay = Ext.create('Ext.data.JsonStore', {
 	model: 'HistInfo',
 	proxy: {
 		type: 'ajax',
-		url: '../selectConectHistStatsDay/',
+		url: '../selectGoodsHitStatsDay/',
 		reader: {
 			type: 'json',
 			root: 'data'
@@ -225,7 +225,7 @@ var stHitMonth = Ext.create('Ext.data.JsonStore', {
 	model: 'HistInfo',
 	proxy: {
 		type: 'ajax',
-		url: '../selectConectHistStatsMonth/',
+		url: '../selectGoodsHitStatsMonth/',
 		reader: {
 			type: 'json',
 			root: 'data'
@@ -234,8 +234,8 @@ var stHitMonth = Ext.create('Ext.data.JsonStore', {
 });
 
 var grHit = Ext.create('Ext.grid.Panel', {
-	id: 'grid-hist',
-	title: '접속이력',
+	id: 'grid-hit',
+	title: '조회이력',
 	region:'center',
 	store: stHit,
 	border: true,
@@ -280,6 +280,12 @@ var grHit = Ext.create('Ext.grid.Panel', {
 		align: 'center',
 		dataIndex: 'HIT_NM'
 	},{
+		text: '사용자ID',
+		width: 150,
+		align: 'center',
+		hidden: true,
+		dataIndex: 'USER_ID'			
+	},{
 		flex: 1 
 	}],
 	bbar: Ext.create('Ext.PagingToolbar', {
@@ -291,8 +297,8 @@ var grHit = Ext.create('Ext.grid.Panel', {
 });
 
 var grHitDay = Ext.create('Ext.grid.Panel', {
-	id: 'grid-hist-day',
-	title: '일별접속통계',
+	id: 'grid-hit-day',
+	title: '일별조회통계',
 	region:'center',
 	store: stHitDay,
 	border: true,
@@ -306,42 +312,42 @@ var grHitDay = Ext.create('Ext.grid.Panel', {
     	align: 'center',
     	width: 50
 	},{
-		text: '접속일자',
+		text: '조회일자',
 		width: 120,
 		align: 'center',
-		dataIndex: 'CONECT_DT'
+		dataIndex: 'HIT_DT'
 	},{
 		xtype: 'numbercolumn',
 		format: '0,000',
-		text : '접속건수',
+		text : '조회건수',
 		width : 120,
         style: 'text-align:center',
 		align: 'right',
-		dataIndex : 'CONECT_CNT'
+		dataIndex : 'HIT_CNT'
 	},{
 		xtype: 'numbercolumn',
 		format: '0,000',
-		text : '회원 접속',
+		text : '회원 조회',
 		width : 120,
         style: 'text-align:center',
 		align: 'right',
-		dataIndex : 'CONECT_MBER_CNT'
+		dataIndex : 'HIT_MBER_CNT'
 	},{
 		xtype: 'numbercolumn',
 		format: '0,000',
-		text : '비회원 접속',
+		text : '비회원 조회',
 		width : 120,
         style: 'text-align:center',
 		align: 'right',
-		dataIndex : 'CONECT_NOT_MBER_CNT'				
+		dataIndex : 'HIT_NOT_MBER_CNT'				
 	},{
 		flex: 1 
 	}]
 });
 
 var grHitMonth = Ext.create('Ext.grid.Panel', {
-	id: 'grid-hist-month',
-	title: '월별접속통계',
+	id: 'grid-hit-month',
+	title: '월별조회통계',
 	region:'center',
 	store: stHitMonth,
 	border: true,
@@ -355,34 +361,34 @@ var grHitMonth = Ext.create('Ext.grid.Panel', {
     	align: 'center',
     	width: 50
 	},{
-		text: '접속월',
+		text: '조회월',
 		width: 120,
 		align: 'center',
-		dataIndex: 'CONECT_DT'
+		dataIndex: 'HIT_DT'
 	},{
 		xtype: 'numbercolumn',
 		format: '0,000',
-		text : '접속건수',
+		text : '조회건수',
 		width : 120,
         style: 'text-align:center',
 		align: 'right',
-		dataIndex : 'CONECT_CNT'
+		dataIndex : 'HIT_CNT'
 	},{
 		xtype: 'numbercolumn',
 		format: '0,000',
-		text : '회원 접속',
+		text : '회원 조회',
 		width : 120,
         style: 'text-align:center',
 		align: 'right',
-		dataIndex : 'CONECT_MBER_CNT'
+		dataIndex : 'HIT_MBER_CNT'
 	},{
 		xtype: 'numbercolumn',
 		format: '0,000',
-		text : '비회원 접속',
+		text : '비회원 조회',
 		width : 120,
         style: 'text-align:center',
 		align: 'right',
-		dataIndex : 'CONECT_NOT_MBER_CNT'					
+		dataIndex : 'HIT_NOT_MBER_CNT'					
 	},{
 		flex: 1 
 	}]

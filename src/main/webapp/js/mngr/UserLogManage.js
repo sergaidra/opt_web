@@ -1,6 +1,6 @@
 Ext.define('LogInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['LOGIN_SN', 'ESNTL_ID', 'USER_NM', 'LOGIN_IP', 'LOGIN_DT']
+	fields: ['LOGIN_SN', 'ESNTL_ID', 'USER_ID', 'USER_NM', 'LOGIN_IP', 'LOGIN_DT']
 });
 
 var frLog = Ext.create('Ext.form.Panel', {
@@ -199,6 +199,12 @@ var grLog = Ext.create('Ext.grid.Panel', {
 		width: 120,
 		align: 'center',
 		dataIndex: 'USER_NM'	
+	},{
+		text: '사용자ID',
+		width: 120,
+		align: 'center',
+		hidden: true,
+		dataIndex: 'USER_ID'				
 	},{
 		text: '로그인일시',
 		width: 150,

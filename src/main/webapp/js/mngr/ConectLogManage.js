@@ -1,6 +1,6 @@
 Ext.define('ConectInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['CONECT_SN', 'CONECT_ID', 'USER_NM', 'CONECT_IP', 'CONECT_DT']
+	fields: ['CONECT_SN', 'CONECT_ID', 'USER_NM', 'USER_ID', 'CONECT_IP', 'CONECT_DT']
 });
 
 Ext.define('HistInfo', {
@@ -263,6 +263,12 @@ var grHist = Ext.create('Ext.grid.Panel', {
 		width: 150,
 		align: 'center',
 		dataIndex: 'USER_NM'
+	},{
+		text: '사용자ID',
+		width: 150,
+		align: 'center',
+		hidden: true,
+		dataIndex: 'USER_ID'			
 	},{
 		flex: 1 
 	}],

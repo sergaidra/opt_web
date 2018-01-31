@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class FileController {
 
     private String RESOURCE_PATH = "C:" + File.separator + "optFiles" + File.separator;
-    private String NO_IMAGE_NAME = "no_img.gif";
+    private String NO_IMAGE_NAME = "no_img.jpg";
     private String NO_IMAGE_PATH = "/images/" + NO_IMAGE_NAME;
 
 	@Resource

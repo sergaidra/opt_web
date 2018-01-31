@@ -823,7 +823,7 @@ function fn_setButton(sDiv) {
  * @param sDiv (I:기본정보저장, U:기본정보수정, G:이용안내저장, E:기타정보저장, D:상품삭제, R:삭제상품 대기처리, S:판매시작)
  * @param frSave
  */
-function fn_saveGoodsInfo(sDiv, frSave) {alert(sDiv);
+function fn_saveGoodsInfo(sDiv, frSave) {
 	var sUrl = '../insertGoods/';
 	var stParams = {};
 	var sMsg = '저장';

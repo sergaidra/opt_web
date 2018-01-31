@@ -42,6 +42,7 @@
 		     , TO_CHAR(A.HIT_DT, 'YYYY-MM-DD HH24:MI') HIT_DT
 		     , A.HIT_ID
 		     , X.USER_NM AS HIT_NM
+		     , X.USER_ID AS USER_ID
 		     , A.HIT_IP
 		  FROM TB_GOODS_HIT A
 		       INNER JOIN TB_GOODS B ON A.GOODS_CODE = B.GOODS_CODE
@@ -52,8 +53,30 @@
 		<include refid="GoodsHitDAO.pagingQueryEnd"/>		 
     </select>
 
+	<select id="GoodsHitDAO.selectGoodsHitStatsDay" parameterClass="hashMap" resultClass="hashMap">
+	<![CDATA[	
+		SELECT TO_CHAR(HIT_DT, 'YYYY-MM-DD') HIT_DT
+		     , COUNT(HIT_SN) HIT_CNT
+		     , SUM(DECODE(HIT_ID, NULL, 0, '', 0, 1)) HIT_MBER_CNT
+				 , SUM(DECODE(HIT_ID, NULL, 1, '', 1, 0)) HIT_NOT_MBER_CNT
+		  FROM TB_GOODS_HIT
+		 WHERE HIT_DT BETWEEN TO_DATE(#FR_HIT_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_HIT_DT#, 'YYYY-MM-DD')+0.99999
+		 GROUP BY TO_CHAR(HIT_DT, 'YYYY-MM-DD')
+		 ORDER BY HIT_DT	
+	]]>
+	</select>
 
-
-
+	<select id="GoodsHitDAO.selectGoodsHitStatsMonth" parameterClass="hashMap" resultClass="hashMap">
+	<![CDATA[	
+		SELECT TO_CHAR(HIT_DT, 'YYYY-MM') HIT_DT
+		     , COUNT(HIT_SN) HIT_CNT
+		     , SUM(DECODE(HIT_ID, NULL, 0, '', 0, 1)) HIT_MBER_CNT
+				 , SUM(DECODE(HIT_ID, NULL, 1, '', 1, 0)) HIT_NOT_MBER_CNT
+		  FROM TB_GOODS_HIT
+		 WHERE HIT_DT BETWEEN TO_DATE(#FR_HIT_DT#, 'YYYY-MM-DD') AND TO_DATE(#TO_HIT_DT#, 'YYYY-MM-DD')+0.99999
+		 GROUP BY TO_CHAR(HIT_DT, 'YYYY-MM')
+		 ORDER BY HIT_DT	
+	]]>
+	</select>
 
 </sqlMap>

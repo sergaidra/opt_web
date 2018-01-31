@@ -61,8 +61,43 @@ public class HitManageController {
 		}
 	}
 
+	@RequestMapping(value="/mngr/selectGoodsHitStatsDay/")
+	public void selectGoodsHitStatsDay(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
+		Map<String, Object> result = new HashMap<String, Object>();
+		UserUtils.log(param);
+		try {
+			int cnt = hitManageService.selectGoodsHitListCount(param);
+			List<Map<String,String>> results = hitManageService.selectGoodsHitStatsDay(param);
 
-	
+			result.put("rows", cnt);
+			result.put("data", results);
+			result.put("success", true);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			result.put("message", e.getMessage());
+			result.put("success", false);
+		} finally {
+			jsonView.render(result, request, response);
+		}
+	}
 		
-	
+	@RequestMapping(value="/mngr/selectGoodsHitStatsMonth/")
+	public void selectGoodsHitStatsMonth(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception  {
+		Map<String, Object> result = new HashMap<String, Object>();
+		UserUtils.log(param);
+		try {
+			int cnt = hitManageService.selectGoodsHitListCount(param);
+			List<Map<String,String>> results = hitManageService.selectGoodsHitStatsMonth(param);
+
+			result.put("rows", cnt);
+			result.put("data", results);
+			result.put("success", true);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			result.put("message", e.getMessage());
+			result.put("success", false);
+		} finally {
+			jsonView.render(result, request, response);
+		}
+	}
 }

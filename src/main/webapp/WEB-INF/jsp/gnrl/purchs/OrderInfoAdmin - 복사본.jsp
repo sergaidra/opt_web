@@ -6,7 +6,7 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-	<head>
+<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=euc-kr" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=0.1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,17 +23,15 @@
 	<script src="<c:url value='/jq/pdf/bluebird.min.js' />" type="text/javascript"></script>
 	<script src="<c:url value='/jq/pdf/html2canvas.min.js' />" type="text/javascript"></script>
 	<script src="<c:url value='/jq/pdf/jspdf.min.js' />" type="text/javascript"></script>
-
-
 </head>
-
 <body>
 <div id="wrap" class="mail_box">
 	<div class="head_box"><img src="<c:url value='/images/mail/mailto_01.jpg'/>" alt=""/>
-	<div class="go_ga">가이드용</div>
+		<div class="go_ga">가이드용</div>
 		<div class="go_btn"><a href="javascript:savePDF();" class="btnst1">저장하기</a><!-- <a href="javascript:window.print();" class="btnst2">인쇄하기</a> --></div>
 	</div>
 	<div class="tb_box ">
+		<div class="oder_guide "><em>대표 여행자1</em> : ${purchs.TOURIST_NM}  / <em>연락처 </em>: ${purchs.TOURIST_CTTPC} / <em>kakao ID</em> : ${purchs.KAKAO_ID}  </div>
 		<c:forEach var="flight" items="${lstFlight}">
 			<div class="tb_01_box">
 				<table class="tb_01">
@@ -106,10 +104,11 @@
 				</c:if>  
 			</div>
 		</div>
-		<div class="sp_box1"></div>
+		<!-- <div class="sp_box1"></div> -->
 		<div class="title">
 			<i class="material-icons">&#xE147;</i>  <div class="tx" ><em>${list.text} : </em> <c:out value="${fn:replace(list.options, '<br/>', ', ')}"/></div>
 		</div>
+		
 		<c:if test="${list.purchs.PICKUP_PLACE != null }">
 			<div class="incont">
 				<div class="stitle">픽업장소 : ${list.purchs.PICKUP_PLACE}</div> 
@@ -131,7 +130,7 @@
 			</div>
 		</c:if>		
 	</div>
-	
+
 	<c:if test="${!(status1.last and status2.last)}">
 		<div class="line"></div>
 	</c:if>
@@ -139,19 +138,24 @@
 	</c:forEach>
 	</c:forEach>	
 	
+	
+
   <div class="mail_bottom">
   <div class="inbox">
     <div class="tx1">${purchs.CURR_DT}</div>
 	    <div class="tx2">가이드 : <br>
 확인자 : </div>
-  </div>	
- 
+  </div>
+	
 </div>
+ 
+<!-- //본문 -->
+
+
 <div id="blankImageBottom" style="width:900px; height:50px; margin: 0 auto; box-sizing: border-box; background:white; border-top:10px solid #ff6600;">
 </div>
 <div id="blankImageTop" style="width:900px; height:50px; margin: 0 auto; box-sizing: border-box; background:white; border-bottom:10px solid #ff6600;">
 </div>
-<!-- //본문 -->
 <script>
 var blankImageBottom = null;
 var blankImageTop = null;
@@ -218,7 +222,12 @@ function savePDF() {
 			 
 			        // 파일 저장
 			        // 결제일자_대표여행자이름_결제번호.pdf
-			        doc.save('${purchs.PURCHS_DE}_${purchs.TOURIST_NM}_${purchs.PURCHS_SN}(가이드용).pdf');
+			        <c:if test="${purchs != null}">
+				        doc.save('${purchs.PURCHS_DE}_${purchs.TOURIST_NM}_${purchs.PURCHS_SN}(가이드용).pdf');
+			        </c:if>
+			        <c:if test="${purchs == null}">
+			        	doc.save('일정표(가이드용)-임시.pdf');
+			        </c:if>
 		  }
 		});	
 }

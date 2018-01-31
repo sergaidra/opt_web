@@ -34,5 +34,14 @@ public class HitManageServiceImpl implements HitManageService {
 	public int selectGoodsHitListCount(Map<String, String> param) throws Exception {
 		return goodsHitDAO.selectGoodsHitListCount(param);
 	}	
-			
+	
+	@Override
+	public List<Map<String, String>> selectGoodsHitStatsDay(Map<String, String> param) throws Exception {
+		return goodsHitDAO.selectGoodsHitStatsDay(param);
+	}	
+	
+	@Override
+	public List<Map<String, String>> selectGoodsHitStatsMonth(Map<String, String> param) throws Exception {
+		return goodsHitDAO.selectGoodsHitStatsMonth(param);
+	}	
 }

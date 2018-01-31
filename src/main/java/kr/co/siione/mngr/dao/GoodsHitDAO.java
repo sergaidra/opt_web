@@ -22,4 +22,15 @@ public class GoodsHitDAO extends EgovComAbstractDAO {
 	public int selectGoodsHitListCount(Map<String, String> param) throws Exception {
 		return (Integer)selectByPk("GoodsHitDAO.selectGoodsHitListCount", param);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Map<String, String>> selectGoodsHitStatsDay(Map<String, String> param) throws Exception {
+		return list("GoodsHitDAO.selectGoodsHitStatsDay", param);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Map<String, String>> selectGoodsHitStatsMonth(Map<String, String> param) throws Exception {
+		return list("GoodsHitDAO.selectGoodsHitStatsMonth", param);
+	}
+		
 }
