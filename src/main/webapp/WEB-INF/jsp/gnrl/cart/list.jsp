@@ -433,7 +433,7 @@ function lpad(s, padLength, padString){
 				<c:if test="${!empty result.CHKIN_DE}">
 					${fn:substring(result.CHKIN_DE,0,4)}.${fn:substring(result.CHKIN_DE,4,6)}.${fn:substring(result.CHKIN_DE,6,8)}~${fn:substring(result.CHCKT_DE,0,4)}.${fn:substring(result.CHCKT_DE,4,6)}.${fn:substring(result.CHCKT_DE,6,8)}
 				</c:if>  	
-				<c:if test="${result.CL_SE ne 'S' && result.CL_SE ne 'T'}">
+				<c:if test="${result.CL_SE ne 'S' && result.CL_SE ne 'T' && result.CL_SE ne 'M'}">
 					<div class="text1">${fn:substring(result.BEGIN_TIME,0,2)}:${fn:substring(result.BEGIN_TIME,2,4)} ~ ${fn:substring(result.END_TIME,0,2)}:${fn:substring(result.END_TIME,2,4)}</div>
 				</c:if>
 				<c:if test="${result.CL_SE eq 'S'}">

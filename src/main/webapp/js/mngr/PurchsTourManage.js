@@ -226,6 +226,7 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		celldblclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
 			stPurchsGoods.proxy.extraParams.PURCHS_SN = record.data.PURCHS_SN;
 			stPurchsGoods.load();
+			grPurchsGoods.setTitle('구매상품목록 (결제번호 : '+record.data.PURCHS_SN+')');
 		}
 	}
 });
