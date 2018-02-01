@@ -100,9 +100,10 @@ public class PointController {
     	map.put("esntl_id", esntl_id);   
     	
     	int point = pointService.getTotalPoint(map);
+    	int imaxpoint = point - (point % 1000);
     	
 		model.addAttribute("point", point);		
-		model.addAttribute("maxpoint", maxpoint);
+		model.addAttribute("maxpoint", imaxpoint);
 		model.addAttribute("callback", callback);
 		
 		return "gnrl/popup/point";	

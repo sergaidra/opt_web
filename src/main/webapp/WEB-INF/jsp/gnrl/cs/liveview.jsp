@@ -94,77 +94,9 @@ function fnLiveView(url, obj) {
 							</figure>
 							</li>
 						</c:forEach>
-<!-- 						<li>
-							<figure>
-								<img src="/jq/gallery/img/thumb/1.jpg" alt="img01"/>
-								<figcaption><h3>이미지 제목이 나오는곳</h3><p>이미지 상세설명이 나오는곳</p></figcaption>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<img src="/jq/gallery/img/thumb/2.jpg" alt="img02"/>
-								<figcaption><h3>이미지 제목이 나오는곳</h3><p>이미지 상세설명이 나오는곳</p></figcaption>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<img src="/jq/gallery/img/thumb/3.jpg" alt="img03"/>
-								<figcaption><h3>이미지 제목이 나오는곳</h3><p>이미지 상세설명이 나오는곳</p></figcaption>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<img src="/jq/gallery/img/thumb/4.jpg" alt="img04"/>
-								<figcaption><h3>이미지 제목이 나오는곳</h3><p>이미지 상세설명이 나오는곳</p></figcaption>
-							</figure>
-						</li>
-					<li>
-							<figure>
-								<img src="/jq/gallery/img/thumb/1.jpg" alt="img01"/>
-								<figcaption><h3>이미지 제목이 나오는곳</h3><p>이미지 상세설명이 나오는곳</p></figcaption>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<img src="/jq/gallery/img/thumb/2.jpg" alt="img02"/>
-								<figcaption><h3>이미지 제목이 나오는곳</h3><p>이미지 상세설명이 나오는곳</p></figcaption>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<img src="/jq/gallery/img/thumb/3.jpg" alt="img03"/>
-								<figcaption><h3>이미지 제목이 나오는곳</h3><p>이미지 상세설명이 나오는곳</p></figcaption>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<img src="/jq/gallery/img/thumb/4.jpg" alt="img04"/>
-								<figcaption><h3>이미지 제목이 나오는곳</h3><p>이미지 상세설명이 나오는곳</p></figcaption>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<img src="/jq/gallery/img/thumb/1.jpg" alt="img01"/>
-								<figcaption><h3>이미지 제목이 나오는곳</h3><p>이미지 상세설명이 나오는곳</p></figcaption>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<img src="/jq/gallery/img/thumb/2.jpg" alt="img02"/>
-								<figcaption><h3>이미지 제목이 나오는곳</h3><p>이미지 상세설명이 나오는곳</p></figcaption>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<img src="/jq/gallery/img/thumb/3.jpg" alt="img03"/>
-								<figcaption><h3>이미지 제목이 나오는곳</h3><p>이미지 상세설명이 나오는곳</p></figcaption>
-							</figure>
-						</li> -->
-					
-					
 					</ul>
 				</section><!-- // grid-wrap -->
-				<section class="slideshow">
+				<!-- <section class="slideshow">
 					<ul>
 						<li>
 							<figure>
@@ -291,7 +223,7 @@ function fnLiveView(url, obj) {
 						<span class="icon nav-close"></span>
 					</nav>
 				
-				</section><!-- // slideshow -->
+				</section> --><!-- // slideshow -->
 			</div>
 		<script src="/jq/gallery/js/imagesloaded.pkgd.min.js"></script>
 		<script src="/jq/gallery/js/masonry.pkgd.min.js"></script>

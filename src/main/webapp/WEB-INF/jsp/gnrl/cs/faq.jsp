@@ -228,28 +228,28 @@ function changeKind(obj, subcategory) {
 			</li>
 			<li class="line"></li>
 			<li class="icon">
+				<p class="img"><i class="material-icons">&#xE870;</i></p>
+				<p class="text"><a href="javascript:changeKind(this, 'P');">결제관련</a></p>
+			</li>
+			<li class="line"></li>
+			<li class="icon">			
 				<p class="img"><i class="material-icons">&#xE863;</i></p>
-				<p class="text"><a href="#">반품/취소/교환</a></p>
+				<p class="text"><a href="javascript:changeKind(this, 'C');">반품/취소</a></p>
 			</li>
 			<li class="line"></li>
 			<li class="icon">
 				<p class="img"><i class="material-icons">&#xE558;</i></p>
-				<p class="text"><a href="#">주문/배송</a></p>
-			</li>
-			<li class="line"></li>
-			<li class="icon">
-				<p class="img"><i class="material-icons">&#xE870;</i></p>
-				<p class="text"><a href="#">결제관련</a></p>
+				<p class="text"><a href="javascript:changeKind(this, 'O');">주문/배송</a></p>
 			</li>
 			<li class="line"></li>
 			<li class="icon">
 				<p class="img"><i class="material-icons">&#xE8D1;</i></p>
-				<p class="text"><a href="#">입점관련</a></p>
+				<p class="text"><a href="javascript:changeKind(this, 'W');">업무제휴</a></p>
 			</li>
 			<li class="line"></li>
 			<li class="icon">
 				<p class="img"><i class="material-icons">&#xE0C6;</i></p>
-				<p class="text"><a href="#">기타</a></p>
+				<p class="text"><a href="javascript:changeKind(this, 'X');">기타</a></p>
 			</li>
 		</ul>
       </div>
@@ -309,6 +309,11 @@ function changeKind(obj, subcategory) {
 					<select id="subcategory" style="width:100%;" >
 						<option value="U">회원관련</option>
 						<option value="G">상품관련</option>
+						<option value="P">결제관련</option>
+						<option value="C">반품/취소</option>
+						<option value="O">주문/배송</option>
+						<option value="W">업무제휴</option>
+						<option value="X">기타</option>
 					</select>
 				</td>
             </tr>

@@ -24,6 +24,7 @@
 var real_setle_amount = 0;
 var use_point = 0;
 var total_point = Number("${point}");
+var max_point = Number("${maxpoint}");
 
 $(function() {
 	$(".order_detailinput").each(function () {
@@ -307,14 +308,17 @@ function setPoint(point) {
 
 function allPointUse(obj) {
 	var point = 0;
-	if(total_point > real_setle_amount)
-		point = real_setle_amount;
-	else
-		point = total_point;
+	if($(obj).is(":checked")) {
+		if(max_point > real_setle_amount)
+			point = real_setle_amount;
+		else
+			point = max_point;
+	}
 	use_point = Number(point);
 	$("#txtPoint").val(numberWithCommas(point));
+	$("#discountAmount").text('-'+numberWithCommas(point));
 	setAmount();
-	$(obj).prop('checked', false); 
+	//$(obj).prop('checked', false); 
 }
 
 function setAmount() {
@@ -599,7 +603,7 @@ function numberWithCommas(x) {
             <th >포인트</th>
             <td ><div class="order_font1"> <fmt:formatNumber value="${point}" pattern="#,###" /> P </div>
               <div class="order_ch"><input type="checkbox" onclick="allPointUse(this);"> </div>
-			  <div class="order_font2"> 전액사용</div>
+			  <div class="order_font2"> 전액사용 (1,000P 이상 사용 가능합니다.)</div>
 			  </td>
             <td ><input name="textfield" type="text" class="input_stst fl w_50p" id="txtPoint"   value="0" readonly/>
               <a href="javascript:viewPoint();" class="order_tb_btn fl">포인트  </a></td>

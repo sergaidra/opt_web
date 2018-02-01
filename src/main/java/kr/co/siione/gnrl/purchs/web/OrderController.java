@@ -110,7 +110,10 @@ public class OrderController {
         model.addAttribute("inicis_subdomain", inicis_subdomain);
         model.addAttribute("inicis_mode", inicis_mode);
         
-        model.addAttribute("point", pointService.getTotalPoint(map));
+        int point = pointService.getTotalPoint(map);
+        int maxpoint = point - (point % 1000);
+        model.addAttribute("point", point);
+        model.addAttribute("maxpoint", maxpoint);
                 
         model.addAttribute("bp", "06");
        	model.addAttribute("btitle", "세부정보입력/결제하기");
