@@ -14,4 +14,6 @@ public interface PurchsManageService {
 	public List<Map<String, String>> selectPurchsListForSchdul(Map<String, String> param) throws Exception;	
 	
 	public int selectPurchsListForSchdulCount(Map<String, String> param) throws Exception;
+	
+	public List<Map<String, String>> selectPayList(Map<String, String> param) throws Exception;
 }

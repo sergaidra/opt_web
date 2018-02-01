@@ -49,6 +49,15 @@ public class PurchsManageController {
 				
 		return "/mngr/PurchsTourManage";
 	}
+	
+	@RequestMapping(value="/mngr/PayManage/")
+	public String PayManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+				
+		return "/mngr/PayManage";
+	}
 
 	@RequestMapping(value="/mngr/selectPurchsList/")
 	public void selectPurchsList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
@@ -146,4 +155,23 @@ public class PurchsManageController {
 		
 		jsonView.render(result, request, response);
 	}	
+	
+	@RequestMapping(value="/mngr/selectPayList/")
+	public void selectPayList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		UserUtils.log("selectPurchsListForSchdul", param);
+		try {
+			//int cnt = purchsManageService.selectPurchsListForSchdulCount(param);
+			List<Map<String,String>> results = purchsManageService.selectPayList(param);
+			
+			result.put("rows", results.size());
+			result.put("data", results);
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+		}
+		
+		jsonView.render(result, request, response);
+	}		
 }

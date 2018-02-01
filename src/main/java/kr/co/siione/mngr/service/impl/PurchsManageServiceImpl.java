@@ -39,4 +39,8 @@ public class PurchsManageServiceImpl implements PurchsManageService {
 	public int selectPurchsListForSchdulCount(Map<String, String> param) throws Exception {
 		return purchsDAO.selectPurchsListForSchdulCount(param);
 	}
+	
+	public List<Map<String, String>> selectPayList(Map<String, String> param) throws Exception {
+		return purchsDAO.selectPayList(param);
+	}
 }
