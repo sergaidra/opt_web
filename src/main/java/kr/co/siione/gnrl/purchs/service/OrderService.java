@@ -19,6 +19,7 @@ public interface OrderService {
 	public HashMap getCancelRefundAmount(HashMap map) throws Exception;
 	public void cancelPurchs(HashMap map) throws Exception;
 	public void updateStatus(HashMap map) throws Exception;
-	public void updatePay(HashMap mapPurchs, HashMap mapPay) throws Exception;
+	public HashMap getPayPre(HashMap map) throws Exception;
+	public void updateNoti(HashMap mapPurchs, HashMap mapPay) throws Exception;
 	public HashMap getPurchInfoSession(HttpSession session);
 }

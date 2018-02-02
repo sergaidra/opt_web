@@ -32,7 +32,7 @@
 	</select>
 		
 	<select id="gnrl.purchs.selectPurchsList" parameterClass="hashMap" resultClass="hashMap">
-		SELECT P.PURCHS_SN, P.PURCHS_DE, P.TOT_SETLE_AMOUNT
+		SELECT P.PURCHS_SN, P.PURCHS_DE, P.TOT_SETLE_AMOUNT, P.STATUS
 		FROM (
 			SELECT A.PURCHS_SN, ROWNUM AS RNUM
 			FROM (

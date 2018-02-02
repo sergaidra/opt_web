@@ -239,9 +239,11 @@ function getSignature(param) {
 					var tomorrow = new Date();
 					tomorrow.setDate(tomorrow.getDate() + 1);
 					var vbankdate = String(tomorrow.getFullYear()) + lpad(String(tomorrow.getMonth() + 1), 2, "0") + lpad(String(tomorrow.getDate()), 2, "0");
-					vbankdate += lpad(String(tomorrow.getHours()), 2, "0") + lpad(String(tomorrow.getMinutes()), 2, "0");
-
-					$("#SendPayForm_id").find("input[name='acceptmethod']").val("vbank(" + vbankdate + ")");
+					var vbanktime = lpad(String(tomorrow.getHours()), 2, "0") + lpad(String(tomorrow.getMinutes()), 2, "0");
+					
+					$("#SendPayForm_id").find("input[name='acceptmethod']").val("vbank(" + vbankdate + vbanktime + ")");
+					$("#mobileweb_form").find("input[name='P_VBANK_DT']").val(vbankdate);
+					$("#mobileweb_form").find("input[name='P_VBANK_TM']").val(vbanktime);
 				} else {
 					$("#SendPayForm_id").find("input[name='acceptmethod']").val("");
 				}
@@ -979,6 +981,8 @@ function numberWithCommas(x) {
 				<input type=hidden name="P_RETURN_URL" value="">
 				<input type=hidden name="P_HPP_METHOD" value="1">
 				<input type="hidden" name="P_NOTI" value="">
-				<input type="hidden" name="P_RESERVED" value="twotrs_isp=Y&block_isp=Y&twotrs_isp_noti=N&below1000=Y"></td> 
+				<input type="hidden" name="P_RESERVED" value="twotrs_isp=Y&block_isp=Y&twotrs_isp_noti=N&below1000=Y">
+				<input type="hidden" name="P_VBANK_DT" value="">
+				<input type="hidden" name="P_VBANK_TM" value="">				 
 			</form>
 </body>

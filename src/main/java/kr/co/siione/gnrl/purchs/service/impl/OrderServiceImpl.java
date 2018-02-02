@@ -223,9 +223,20 @@ public class OrderServiceImpl implements OrderService {
 		orderDAO.updateStatus(map);		
 	}
 	
-	public void updatePay(HashMap mapPurchs, HashMap mapPay) throws Exception {
-		orderDAO.updateStatus(mapPurchs);		
-		orderDAO.updatePay(mapPay);		
+	public HashMap getPayPre(HashMap map) throws Exception {
+		return orderDAO.getPayPre(map);		
+	}
+	
+	public void updateNoti(HashMap mapPurchs, HashMap mapPay) throws Exception {
+		int cnt = orderDAO.getPayMoid(mapPay);
+		if(cnt > 0) {
+			orderDAO.updateStatus(mapPurchs);		
+			orderDAO.updatePay(mapPay);		
+		} else {
+			mapPay.put("status", mapPurchs.get("status"));
+			orderDAO.deletePayPre(mapPay);
+			orderDAO.insertPayPre(mapPay);
+		}
 	}	
 
 	public HashMap getPurchInfoSession(HttpSession session) {

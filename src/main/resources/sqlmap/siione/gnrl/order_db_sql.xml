@@ -278,5 +278,26 @@
 			, PAYMETHOD = #paymethod#, TOTPRICE = #totprice#, RESULTMSG = #resultmsg#, ACCT_BANKCODE = #acct_bankcode#
 		WHERE MOID = #moid#
 	</update>
+
+	<select id="gnrl.order.getPayMoid" parameterClass="hashMap" resultClass="int">
+		SELECT COUNT(1)
+		FROM TB_PAY
+		WHERE MOID = #moid#
+	</select>
+
+	<insert id="gnrl.order.insertPayPre" parameterClass="hashMap">
+		INSERT INTO TB_PAY_PRE (MOID, TID, RESULTCODE, APPLDATE, APPLTIME, APPLNUM, PAYMETHOD, TOTPRICE, RESULTMSG, ACCT_BANKCODE, STATUS)
+		VALUES (#moid#, #tid#, #resultcode#, #appldate#, #appltime#, #applnum#, #paymethod#, #totprice#, #resultmsg#, #acct_bankcode#, #status#)
+	</insert>
+
+	<select id="gnrl.order.getPayPre" parameterClass="hashMap" resultClass="hashMap">
+		SELECT MOID, TID, RESULTCODE, APPLDATE, APPLTIME, APPLNUM, PAYMETHOD, TOTPRICE, RESULTMSG, ACCT_BANKCODE, STATUS
+		FROM TB_PAY_PRE
+		WHERE MOID = #moid#
+	</select>
+
+	<delete id="gnrl.order.deletePayPre" parameterClass="hashMap">
+		DELETE FROM TB_PAY_PRE WHERE MOID = #moid#
+	</delete>
 	
 </sqlMap>

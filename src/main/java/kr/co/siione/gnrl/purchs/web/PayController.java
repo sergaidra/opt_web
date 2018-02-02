@@ -51,6 +51,7 @@ import com.inicis.std.util.HttpUtil;
 import com.inicis.std.util.ParseUtil;
 import com.inicis.std.util.SignatureUtil;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+import com.sun.org.apache.xml.internal.serializer.utils.Utils;
 
 @Controller
 @RequestMapping(value = "/purchs/")
@@ -114,14 +115,38 @@ public class PayController {
 	public void payReturn(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
 		HttpSession session = request.getSession();
 		String oid = request.getParameter("P_OID");			// 결제요청 페이지에서 세팅한 주문번호
+		HashMap mapPre = new HashMap();
+		mapPre.put("moid", oid);
 		HashMap mapPurchs = orderService.getPurchInfoSession(session); 
-		HashMap mapPay = new HashMap();
+		HashMap mapPay = orderService.getPayPre(mapPre);
 		
-		mapPurchs.put("status", "M");	// 결제정보 요청 대기
+		if(mapPay == null) {
+			mapPay = new HashMap();
 
-		mapPay.put("moid", oid);
+			mapPurchs.put("status", "M");	// 결제정보 요청 대기
+		} else {
+			mapPurchs.put("status", mapPay.get("STATUS"));
+			
+			String paymethod = UserUtils.nvl(mapPay.get("PAYMETHOD"));
+			mapPay.put("tid", mapPay.get("TID"));
+			mapPay.put("resultcode", mapPay.get("RESULTCODE"));
+			mapPay.put("appldate", mapPay.get("APPLDATE"));
+			mapPay.put("appltime", mapPay.get("APPLTIME"));
+			mapPay.put("applnum", mapPay.get("APPLNUM"));
+			mapPay.put("totprice", mapPay.get("TOTPRICE"));
+			mapPay.put("resultmsg", mapPay.get("RESULTMSG"));
+			mapPay.put("acct_bankcode", mapPay.get("ACCT_BANKCODE"));
+			
+			if("Bank".equals(paymethod)) {
+				mapPay.put("paymethod", "DirectBank");				
+			} else {
+				mapPay.put("paymethod", paymethod);				
+			}
+		}
+
+		mapPay.put("moid", oid);			
 		mapPay.put("pay_device", "M");
-		
+
 		String purchs_sn = orderService.addPurchs(mapPurchs, mapPay);
 		
 		response.sendRedirect("/purchs/OrderDetail?purchs_sn=" + purchs_sn);
@@ -179,7 +204,7 @@ public class PayController {
 			mapPay.put("resultmsg", P_RMESG1);
 			mapPay.put("applnum", P_AUTH_NO);
 	
-			orderService.updatePay(mapPurchs, mapPay);
+			orderService.updateNoti(mapPurchs, mapPay);
 
 			return "OK";
 		} catch(Exception e) {

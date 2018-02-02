@@ -67,6 +67,7 @@ public class CartController {
 
 			//long payment = cartService.getCartPayment(map);			
 			List<HashMap> cartList = cartService.getCartList(map);
+			/*
 			for(int i = 0; i < cartList.size(); i++) {
 				if("N".equals(String.valueOf(cartList.get(i).get("HOTDEAL_AT")))) {
 					if(!String.valueOf(cartList.get(i).get("ORIGIN_AMOUNT")).equals(String.valueOf(cartList.get(i).get("PURCHS_AMOUNT")))) {
@@ -77,6 +78,8 @@ public class CartController {
 					}
 				}
 			}
+			*/
+			
 			//int list_cnt = 0;
 			//if(cartList.size() > 0)
 			//	list_cnt = Integer.parseInt(cartList.get(0).get("TOT_CNT").toString());

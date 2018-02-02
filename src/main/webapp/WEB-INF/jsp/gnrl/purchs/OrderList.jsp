@@ -94,8 +94,9 @@ function search(pageNo) {
                 		var td2 = $("<td class='left'><div class='order_list_img'><img src='<c:url value='/file/getImage/'/>?file_code=" + data.list[cnt].cartlist[cnt2].FILE_CODE + "' width='150' alt='''/></div></td>");
                 		var td3 = $("<td class='left'></td>");
                 		var td4 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">" + dateWithHyphen(data.list[cnt].PURCHS_DE) + "</td>");
-                		var td5 = $("<td class='right r_line'><span class='point_color_b4'>" + numberWithCommas(data.list[cnt].cartlist[cnt2].PURCHS_AMOUNT) + "원</span></td>");
-                		var td6 = null;                		
+                		var td5 = null;
+                		var td6 = $("<td class='right r_line'><span class='point_color_b4'>" + numberWithCommas(data.list[cnt].cartlist[cnt2].PURCHS_AMOUNT) + "원</span></td>");                		
+                		var td7 = null;                		
                 		
                 		if(data.list[cnt].cartlist[cnt2].CL_SE == 'S' || data.list[cnt].cartlist[cnt2].CL_SE == 'T') {
                     		$(td3).append("<div class='tx1'>[" + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHKIN_DE) + " ~ " + dateWithHyphen(data.list[cnt].cartlist[cnt2].CHCKT_DE) + "]</div>");
@@ -119,17 +120,29 @@ function search(pageNo) {
                 		$(td3).append(td3sub);
                 		
                 		var today = getToday(); 
-                		
+
+                		if(data.list[cnt].STATUS == "C") {
+                    		td5 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">결제완료</td>");
+                		} else if(data.list[cnt].STATUS == "W") {
+                    		td5 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">무통장입금 대기</td>");
+                		} else if(data.list[cnt].STATUS == "M") {
+                    		td5 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">결제정보 요청 대기</td>");
+                		} else if(data.list[cnt].STATUS == "R") {
+                    		td5 = $("<td rowspan=" + data.list[cnt].cartlist.length + ">환불</td>");
+                		} else {
+                    		td5 = $("<td rowspan=" + data.list[cnt].cartlist.length + "></td>");
+                		}
+
                 		if(data.list[cnt].cartlist[cnt2].ENDDT <= today && today <= data.list[cnt].cartlist[cnt2].REVIEWDT) {
                 			if(data.list[cnt].cartlist[cnt2].EXISTREVIEW == "Y")
-                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\", \"Y\");' class='sbtn_01' style='background-color:#ff6600; border:none;'>후기수정</a></td>");
+                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\", \"Y\");' class='sbtn_01' style='background-color:#ff6600; border:none;'>후기수정</a></td>");
                 			else
-                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\", \"Y\");' class='sbtn_01' style='background-color:#ff6600; border:none;' >후기쓰기</a></td>");
+                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"W\", \"Y\");' class='sbtn_01' style='background-color:#ff6600; border:none;' >후기쓰기</a></td>");
                 		} else {
                 			if(data.list[cnt].cartlist[cnt2].EXISTREVIEW == "Y")
-                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"R\", \"Y\");' class='sbtn_01' style='background-color:#ff6600; border:none;'>후기보기</a></td>");
+                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"R\", \"Y\");' class='sbtn_01' style='background-color:#ff6600; border:none;'>후기보기</a></td>");
                 			else                 			
-                				td6 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"R\", \"N\");' class='sbtn_01' style='cursor:not-allowed;' >후기</a></td>");
+                				td7 = $("<td ><a href='javascript:openWriteReview(\"" + data.list[cnt].PURCHS_SN + "\", \"" + data.list[cnt].cartlist[cnt2].CART_SN + "\", \"" + data.list[cnt].cartlist[cnt2].GOODS_CODE + "\", \"R\", \"N\");' class='sbtn_01' style='cursor:not-allowed;' >후기</a></td>");
                 		}
                 		
                 		if(cnt2 == 0) {
@@ -139,14 +152,15 @@ function search(pageNo) {
                 		$(tr).append(td3);
                 		if(cnt2 == 0) {
 	                		$(tr).append(td4);
+                			$(tr).append(td5);                		
                 		}
-                		$(tr).append(td5);
-                		$(tr).append(td6);                		
+                		$(tr).append(td6);
+                		$(tr).append(td7);                		
                 		
         	        	$("#tblList tbody").append(tr);        
         			}
         			
-            		var tr2 = "<tr><td colspan=\"5\" class=\"totalbg\" >합계 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>";
+            		var tr2 = "<tr><td colspan=\"6\" class=\"totalbg\" >합계 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>";
     	        	$("#tblList tbody").append(tr2);        
         		}
         		// 모바일
@@ -383,8 +397,8 @@ function lpad(s, padLength, padString){
             <col width="13%" />
             <col width="15%" />
             <col width="" />
-            <col width="15%" />
             <col width="10%" />
+            <col width="12%" />
             <col width="10%" />
             <col width="10%" />
             <thead>
@@ -393,6 +407,7 @@ function lpad(s, padLength, padString){
                 <th>이미지</th>
                 <th>여행정보</th>
                 <th>구매일</th>
+                <th>결제상태</th>
                 <th>금액</th>
                 <th>후기</th>
               </tr>
