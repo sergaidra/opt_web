@@ -16,6 +16,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import com.inicis.inipay.INIpay50;
+
 import kr.co.siione.gnrl.purchs.service.OrderService;
 import kr.co.siione.gnrl.purchs.service.PointService;
 import kr.co.siione.gnrl.purchs.service.PurchsService;
@@ -39,6 +41,14 @@ public class OrderServiceImpl implements OrderService {
 	private String webserverip;
 	@Value("#{globals['server.domain']}")
 	private String webserverdomain;
+	@Value("#{globals['inicis.mid']}")
+	private String inicis_mid;
+	@Value("#{globals['inicis.signKey']}")
+	private String inicis_signKey;
+	@Value("#{globals['inicis.subdomain']}")
+	private String inicis_subdomain;
+	@Value("#{globals['inicis.mode']}")
+	private String inicis_mode;	
 
 	public HashMap getCartDetail(HashMap map) throws Exception {
 		return orderDAO.getCartDetail(map);
@@ -217,6 +227,58 @@ public class OrderServiceImpl implements OrderService {
 		orderDAO.cancelPurchs(map);
 		orderDAO.cancelReservationDay(map);
 		pointService.cancelPoint(map);
+		
+		int refund_amount = Integer.valueOf(String.valueOf(map.get("refund_amount")));		
+		int real_setle_amount = Integer.valueOf(String.valueOf(map.get("real_setle_amount")));	
+		//refund_amount = 50;
+		//real_setle_amount = 150;
+		if(refund_amount > 0) {
+			HashMap hm = orderDAO.getPay(map);
+			if(hm != null) {
+				// 이니시스 부분 취소
+				INIpay50 inipay = new INIpay50();	
+
+				/***********************
+				 * 3. 재승인 정보 설정 *
+				 ***********************/
+				inipay.SetField("inipayhome", map.get("inicis_path") );				   // 이니페이 홈디렉터리(상점수정 필요)
+				inipay.SetField("type"         , "repay");							   // 고정 (절대 수정 불가)
+				inipay.SetField("debug"        , "true");								   // 로그모드("true"로 설정하면 상세로그가 생성됨.)
+				inipay.SetField("admin"        , "1111");								   // 비대칭 사용키 키패스워드    
+				//inipay.SetField("admin"        , inicis_signKey);								   // 비대칭 사용키 키패스워드    
+				inipay.SetField("mid"          , inicis_mid);		   // 상점아이디
+				inipay.SetField("oldtid"       , UserUtils.nvl(hm.get("TID")));		   // 취소할 거래의 거래아이디
+				inipay.SetField("currency"     , "WON");	   // 화폐단위
+				inipay.SetField("price"        , String.valueOf(refund_amount));         // 취소금액
+				inipay.SetField("confirm_price", String.valueOf(real_setle_amount - refund_amount)); // 승인요청금액
+				inipay.SetField("buyeremail"   , map.get("email"));    // 구매자 이메일 주소
+
+				inipay.SetField("no_acct"      , "");       // 국민은행 부분취소 환불계좌번호
+				inipay.SetField("nm_acct"      , "");       // 국민은행 부분취소 환불계좌주명
+
+				inipay.SetField("tax"			 , "");		    // 부가세
+				inipay.SetField("tax_free"     , "");       // 비과세
+
+				// ExecureCrypto_v1.0_jdk14.jar 모듈이 설치 되어 있어 있지 않은 상태라면
+				// 익스트러스 암복호화 모듈 설정을 주석 처리 해주시기 바랍니다.
+				inipay.SetField("crypto","execure");//익스트러스 암복호화 모듈 설정
+
+				/******************
+				 * 4. 재승인 요청 *
+				 ******************/
+				inipay.startAction();
+				
+				if("00".equals(inipay.GetResult("ResultCode"))) {
+					// 성공
+				} else { 
+					// 실패
+					String msg = inipay.GetResult("ResultMsg");
+					System.out.println("실패 메시지 : " + msg);
+					new Exception(msg);
+				}
+			}			
+		}
+
 	}
 	
 	public void updateStatus(HashMap map) throws Exception {

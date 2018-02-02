@@ -399,6 +399,7 @@ public class OrderController {
 		try {
 	    	HttpSession session = request.getSession();
 			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+			String email = UserUtils.nvl((String)session.getAttribute("email"));
 
 			if(esntl_id.isEmpty()){
 				resVo.setResult("-2");
@@ -416,10 +417,14 @@ public class OrderController {
 	    	map.put("delete_resn_se", delete_resn_se);
 	    	map.put("delete_resn_etc", delete_resn_etc);
 	    	map.put("esntl_id", esntl_id);
+	    	map.put("email", email);
+	    	String path = request.getSession().getServletContext().getRealPath("/WEB-INF");
+	    	map.put("inicis_path", path);
 	    	System.out.println("[cancelPurchs]map:"+map);
 	    	
 	    	HashMap mapAmount = orderService.getCancelRefundAmount(map);
 	    	map.put("refund_amount", String.valueOf(mapAmount.get("REFUND_AMOUNT")));
+	    	map.put("real_setle_amount", String.valueOf(mapAmount.get("REAL_SETLE_AMOUNT")));
 	    	
 	    	orderService.cancelPurchs(map);
 
