@@ -109,6 +109,11 @@ function addAction() {
 		return;
 	}
 	
+	if(!$('#chk_agree').is(':checked')) {
+		alert('여행자약관에 동의해 주세요.');
+		return;
+	}
+	
 	if(!confirm("결제하겠습니까?"))
 		return;
 	
@@ -907,7 +912,7 @@ function numberWithCommas(x) {
 		<div class="btn_sc" onclick="orderInfo();" style="cursor:pointer;">일정표 보기</div>
 			<c:if test="${purchs_sn == null}">
 				<div class="agr_box">
-				<div class="t1"><input type="checkbox"> <div class="ttx1"> 여행자약관에 동의합니다. </div>
+				<div class="t1"><input type="checkbox" id="chk_agree"> <div class="ttx1"> 여행자약관에 동의합니다. </div>
 				</div> 
 				<a href="javascript:viewUsetext();"><div class="btn">이용약관보기</div></a>
 				</div>			

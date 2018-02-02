@@ -7,7 +7,7 @@
 <!--팝업 : 경고안내문구-->
 <div class="lightbox" id="agr_popup">
   <div class="popup_com">
-	     <div class="title">이용약관 </div>
+	     <div class="title">${mtitle} </div>
     <div class="agr_div">
     <div class="use_box"> 
        ${stplat_cn_html}
