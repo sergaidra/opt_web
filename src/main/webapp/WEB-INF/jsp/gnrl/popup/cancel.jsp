@@ -21,7 +21,9 @@
               	<select class="w_30p" id="delete_resn_se" name="delete_resn_se">
               		<option>선택</option>
               		<c:forEach var="item" items="${lstCancelCode}">
-              			<option value="${item.CODE}">${item.CODE_NM}</option>
+              			<c:if test="${item.CODE ne '003' }">
+	              			<option value="${item.CODE}">${item.CODE_NM}</option>
+              			</c:if>
               		</c:forEach>
               	</select>
               </td>

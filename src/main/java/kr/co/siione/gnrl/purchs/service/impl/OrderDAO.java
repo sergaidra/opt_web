@@ -105,4 +105,8 @@ public class OrderDAO extends EgovComAbstractDAO {
 		update("gnrl.order.deletePayPre", map);
     }   
 
+	public List<HashMap> getPastVBank(HashMap map) throws Exception {
+		return list("gnrl.order.getPastVBank", map);
+	}
+
 }

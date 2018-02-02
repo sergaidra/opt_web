@@ -228,6 +228,11 @@ public class OrderServiceImpl implements OrderService {
 		orderDAO.cancelReservationDay(map);
 		pointService.cancelPoint(map);
 		
+		if(map.containsKey("VBankPast") && "Y".equals(String.valueOf(map.get("VBankPast")))) {
+			// 무통장입금 기한 만료
+			return;
+		} 
+
 		int refund_amount = Integer.valueOf(String.valueOf(map.get("refund_amount")));		
 		int real_setle_amount = Integer.valueOf(String.valueOf(map.get("real_setle_amount")));	
 		//refund_amount = 50;
@@ -330,6 +335,10 @@ public class OrderServiceImpl implements OrderService {
 		map.put("email", email);
 
 		return map;
+	}
+	
+	public List<HashMap> getPastVBank(HashMap map) throws Exception {
+		return orderDAO.getPastVBank(map);
 	}
 }
 

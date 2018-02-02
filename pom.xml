@@ -90,6 +90,12 @@
 			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -251,6 +257,12 @@
 			<artifactId>quartz-jboss</artifactId>
 			<version>1.8.5</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>1.8.6</version>
+		</dependency>		
 
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -340,7 +352,8 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
-			<version>4.1.0.RELEASE</version>
+			<!-- <version>4.1.0.RELEASE</version> -->
+			<version>${org.springframework-version}</version>
 		</dependency>
 
 		<!-- Java Mail API -->

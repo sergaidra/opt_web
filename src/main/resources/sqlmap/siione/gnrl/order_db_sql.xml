@@ -242,7 +242,7 @@
 
 	<update id="gnrl.order.cancelPurchs" parameterClass="hashMap" >
 		UPDATE TB_PURCHS SET DELETE_AT = 'Y', DELETE_ID = #esntl_id#, DELETE_DT = SYSDATE
-			, DELETE_RESN_SE = #delete_resn_se#, DELETE_RESN_ETC = #delete_resn_etc#, REFUND_AMOUNT = #refund_amount# 
+			, DELETE_RESN_SE = #delete_resn_se#, DELETE_RESN_ETC = #delete_resn_etc#, REFUND_AMOUNT = #refund_amount#, STATUS = 'R'
 		WHERE PURCHS_SN = #purchs_sn#
 	</update>
 	
@@ -299,5 +299,15 @@
 	<delete id="gnrl.order.deletePayPre" parameterClass="hashMap">
 		DELETE FROM TB_PAY_PRE WHERE MOID = #moid#
 	</delete>
+
+	<select id="gnrl.order.getPastVBank" parameterClass="hashMap" resultClass="hashMap">
+	<![CDATA[
+		SELECT P.PURCHS_SN, P.ESNTL_ID
+		FROM TB_PURCHS P
+			INNER JOIN TB_PAY PAY ON P.PURCHS_SN = PAY.PURCHS_SN
+		WHERE P.STATUS = 'W' AND TO_DATE(VACT_DATE || VACT_TIME, 'YYYYMMDDHH24MISS') < SYSDATE
+		ORDER BY P.PURCHS_SN
+	]]>		
+	</select>
 	
 </sqlMap>
