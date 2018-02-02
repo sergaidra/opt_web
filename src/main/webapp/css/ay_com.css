@@ -53,6 +53,21 @@ ul.mobile_view {display:block  !important}
 
 
 
+/**** pc ****/
+@media only all and (min-width:769px) {
+.pc_view2 {display:block    !important}	
+.mobile_view2 { display:none !important}
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+.pc_view2 {display:none  !important}
+.mobile_view2 {display:block  !important}
+}
+
+
+
+
+
 
 /**** 타이틀 : pc ****/
 

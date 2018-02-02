@@ -51,14 +51,18 @@
 	.reveal-modal .close-reveal-modal {
 		font-size: 22px;
 		line-height: .5;
-		position: fixed;
+		position: absolute !important;
 		top: 15px;
 		right: 15px;
 		color: #aaa;
 		text-shadow: 0 -1px 1px rbga(0,0,0,.6);
 		font-weight: bold;
-		cursor: pointer; z-index: 9999999999999999999999999999999999999; color: #fff; font-size: 25px
+		cursor: pointer; z-index: 9999999999999999999999999999999999999; color: #000; font-size: 25px
 		} 
+
+
+
+
 	/*
 		
 	NOTES

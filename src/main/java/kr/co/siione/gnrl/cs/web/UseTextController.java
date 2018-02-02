@@ -123,5 +123,19 @@ public class UseTextController {
         model.addAttribute("stplat_cn_html", result.get("STPLAT_CN_HTML"));
 		
 		return "gnrl/cs/usetext";
-	}	
+	}
+	
+    @RequestMapping(value="/popupUsetext")
+    public String popupText(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		Map<String, String> param = new HashMap<String, String>();
+		Map<String, String> result = new HashMap<String, String>();
+		
+		param.put("STPLAT_CODE", "000002"); //여행자약관
+        result = stplatManageService.selectStplatByPk(param);
+        
+        model.addAttribute("mtitle", result.get("STPLAT_SJ"));
+        model.addAttribute("stplat_cn_html", result.get("STPLAT_CN_HTML"));
+        
+		return "gnrl/popup/usetextPop";	
+    }	
 }

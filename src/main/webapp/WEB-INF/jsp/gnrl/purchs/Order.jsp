@@ -299,6 +299,10 @@ function viewPoint() {
 	$.featherlight("/purchs/popupPoint?esntl_id=${esntl_id}&maxpoint=" + real_setle_amount + "&callback=setPoint", {});
 }
 
+function viewUsetext() {
+	$.featherlight("/cs/popupUsetext", {});
+}
+
 function setPoint(point) {
 	use_point = Number(point);
 	$("#txtPoint").val(numberWithCommas(point));
@@ -603,10 +607,11 @@ function numberWithCommas(x) {
             <th >포인트</th>
             <td ><div class="order_font1"> <fmt:formatNumber value="${point}" pattern="#,###" /> P </div>
               <div class="order_ch"><input type="checkbox" onclick="allPointUse(this);"> </div>
-			  <div class="order_font2"> 전액사용 (1,000P 이상 사용 가능합니다.)</div>
+			  <div class="order_font2"> <em>전액사용</em> (1,000P 이상 사용 가능합니다.)</div>
+              <div class="comf mt_10">
+  <input name="textfield" type="text" class="input_stst fl w_50p" id="txtPoint"   value="0" readonly/>
+              <a href="javascript:viewPoint();" class="order_tb_btn fl">포인트  </a></div></td>			  
 			  </td>
-            <td ><input name="textfield" type="text" class="input_stst fl w_50p" id="txtPoint"   value="0" readonly/>
-              <a href="javascript:viewPoint();" class="order_tb_btn fl">포인트  </a></td>
 		   	</c:if>
           </tr>
         </tbody>
@@ -901,6 +906,11 @@ function numberWithCommas(x) {
     <c:if test="${purchs.DELETE_AT != 'Y'}">
 		<div class="btn_sc" onclick="orderInfo();" style="cursor:pointer;">일정표 보기</div>
 			<c:if test="${purchs_sn == null}">
+				<div class="agr_box">
+				<div class="t1"><input type="checkbox"> <div class="ttx1"> 여행자약관에 동의합니다. </div>
+				</div> 
+				<a href="javascript:viewUsetext();"><div class="btn">이용약관보기</div></a>
+				</div>			
 				<div class="btn_buy" onclick="addAction();" style="cursor:pointer;">결제하기</div>
 			</c:if>    
 			<c:if test="${purchs_sn != null}">
