@@ -4,16 +4,16 @@
 <head>
 
 <!-- 날짜선택 -->	
-<script src="/jq/time/build/jquery.datetimepicker.full.js"></script> 
+<!-- <script src="/jq/time/build/jquery.datetimepicker.full.js"></script>  -->
 
 <script type="text/javascript">
 $(function() {
-	$.datetimepicker.setLocale('kr');
+	/*$.datetimepicker.setLocale('kr');
 
 	$('#birth').datetimepicker( {
 		format:'Y-m-d',
 		timepicker:false
-	});
+	});*/
 	
 	$("#password").change(function () { $("#mpassword").val($("#password").val()); });
 	$("#mpassword").change(function () { $("#password").val($("#mpassword").val()); });
@@ -29,6 +29,9 @@ $(function() {
 
 	$("#email").change(function () { $("#memail").val($("#email").val()); });
 	$("#memail").change(function () { $("#email").val($("#memail").val()); });
+	
+	$("#birth").change(function () { $("#mbirth").val($("#birth").val()); });
+	$("#mbirth").change(function () { $("#birth").val($("#mbirth").val()); });
 
 	<c:if test="${joinMethod == 'Naver'}">
 		$("#email").val("${naver_email}");
@@ -288,7 +291,7 @@ function chkPwd(str){
           <th>핸드폰 </th>
           <td class="line"><input id="moblphon_no" name="moblphon_no" type="text"  class="w_20p pc_view" value=""   />
           <!--모바일 --><input id="mmoblphon_no" name="moblphon_no" type="text" class="w_50p mobile_view"  value=""   />
-            &nbsp;&nbsp;(예)000-0000-0000
+            &nbsp;&nbsp;(예)010-1234-1234
             <!-- <div class="btnst2"><a href="#" class="big-link" data-reveal-id="myModal" >인증번호 전송</a></div> --></td>
         </tr>
         <!-- <tr>
@@ -323,7 +326,7 @@ function chkPwd(str){
           <td class="line">
           <input id="birth" name="birth" type="text" class="w_20p pc_view" value=""  />
           <!--모바일 --><input id="mbirth" name="birth" type="text" class="w_50p mobile_view"  value=""   />
-          &nbsp;&nbsp;(예)1980-01-01
+          &nbsp;&nbsp;(예)19800101
           </td>
         </tr>
       </tbody>

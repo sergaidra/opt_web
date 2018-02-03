@@ -195,12 +195,12 @@ function search(pageNo) {
 
         	        	$("#tblmList tbody").append(tr);        
         			}
-        			
-            		if(getToday() < data.list[cnt].cartlist[0].BEGINDT) {
+        			$("#tblmList tbody").append("<tr><td colspan='2' class='totalbg'><div class='total'> <a href='javascript:orderDetail(" + data.list[cnt].PURCHS_SN + ");' class=\"sbtn_01\">상세보기</a><a href='javascript:orderInfo(" + data.list[cnt].PURCHS_SN + ");' class=\"sbtn_01\">일정보기</a> </div>합계 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>");
+            		/* if(getToday() < data.list[cnt].cartlist[0].BEGINDT) {
             			$("#tblmList tbody").append("<tr><td colspan='2' class='totalbg'><div class='total'> <a href='javascript:orderDetail(" + data.list[cnt].PURCHS_SN + ");' class=\"sbtn_01\">상세보기</a><a href='javascript:orderInfo(" + data.list[cnt].PURCHS_SN + ");' class=\"sbtn_01\">일정보기</a> <a href=\"#\" class=\"sbtn_01\" data-featherlight=\"#secession\">취소하기</a></div>합계 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>");
             		} else {
             			$("#tblmList tbody").append("<tr><td colspan='2' class='totalbg'><div class='total'> <a href='javascript:orderDetail(" + data.list[cnt].PURCHS_SN + ");' class=\"sbtn_01\">상세보기</a><a href='javascript:orderInfo(" + data.list[cnt].PURCHS_SN + ");' class=\"sbtn_01\">일정보기</a> </div>합계 : " + numberWithCommas(data.list[cnt].TOT_SETLE_AMOUNT) + "원</td></tr>");
-            		}
+            		} */
         			
         		}
         	}

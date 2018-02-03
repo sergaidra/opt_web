@@ -4,11 +4,11 @@
 <head>
 
 <!-- 날짜선택 -->	
-<script src="/jq/time/build/jquery.datetimepicker.full.js"></script> 
+<!-- <script src="/jq/time/build/jquery.datetimepicker.full.js"></script>  -->
 
 <script type="text/javascript">
 $(function() {
-	$.datetimepicker.setLocale('kr');
+	/* $.datetimepicker.setLocale('kr');
 
 	$('#birth').datetimepicker( {
 		format:'Y-m-d',
@@ -17,7 +17,7 @@ $(function() {
 	$('#mbirth').datetimepicker( {
 		format:'Y-m-d',
 		timepicker:false
-	});
+	}); */
 
 	$("#c_password").change(function () { $("#mc_password").val($("#c_password").val()); });
 	$("#mc_password").change(function () { $("#c_password").val($("#mc_password").val()); });
@@ -209,7 +209,7 @@ function chkPwd(str){
           <th>핸드폰 </th>
           <td class="line"><input id="moblphon_no" name="moblphon_no" type="text"  class="w_20p pc_view" value="${result.MOBLPHON_NO}"   />
           <!--모바일 --><input id="mmoblphon_no" name="moblphon_no" type="text" class="w_50p mobile_view"  value="${result.MOBLPHON_NO}"   />
-            &nbsp;&nbsp;(예)000-0000-0000
+            &nbsp;&nbsp;(예)010-1234-1234
         </tr>
         <tr>
           <th>성별</th>
@@ -223,7 +223,7 @@ function chkPwd(str){
           <td class="line">
           <input id="birth" name="birth" type="text" class="w_20p pc_view" value="${result.BIRTH}"  />
           <!--모바일 --><input id="mbirth" name="birth" type="text" class="w_50p mobile_view"  value="${result.BIRTH}"   />
-          &nbsp;&nbsp;(예)1980-01-01
+          &nbsp;&nbsp;(예)19800101
           </td>
         </tr>
       </tbody>
