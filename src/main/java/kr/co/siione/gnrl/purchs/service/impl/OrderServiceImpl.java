@@ -215,8 +215,8 @@ public class OrderServiceImpl implements OrderService {
 		return orderDAO.getPay(map);
 	}
 
-	public List<HashMap> getCancelCode(HashMap map) throws Exception {
-		return orderDAO.getCancelCode(map);
+	public List<HashMap> getCode(HashMap map) throws Exception {
+		return orderDAO.getCode(map);
 	}
 	
 	public HashMap getCancelRefundAmount(HashMap map) throws Exception {
@@ -224,21 +224,44 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	public void cancelPurchs(HashMap map) throws Exception {
-		orderDAO.cancelPurchs(map);
-		orderDAO.cancelReservationDay(map);
-		pointService.cancelPoint(map);
-		
-		if(map.containsKey("VBankPast") && "Y".equals(String.valueOf(map.get("VBankPast")))) {
-			// 무통장입금 기한 만료
-			return;
-		} 
-
+		map.put("status", "R");		// 환불완료
 		int refund_amount = Integer.valueOf(String.valueOf(map.get("refund_amount")));		
 		int real_setle_amount = Integer.valueOf(String.valueOf(map.get("real_setle_amount")));	
 		//refund_amount = 50;
 		//real_setle_amount = 150;
+
+		Boolean isVBankPast = false;
+		Boolean isVBank = false;
+		HashMap hm = orderDAO.getPay(map);
+
+		if(map.containsKey("VBankPast") && "Y".equals(String.valueOf(map.get("VBankPast")))) {
+			// 무통장입금 기한 만료
+			isVBankPast = true;
+		} 
+		if(hm != null && "VBank".equals(hm.get("PAYMETHOD"))) {
+			// 무통장입금 
+			isVBank = true;
+		} 
+		
+		if(refund_amount > 0 && isVBankPast == false && isVBank == true) {
+			map.put("status", "P");		// 환불요청
+		}
+		
+		orderDAO.cancelPurchs(map);
+		orderDAO.cancelReservationDay(map);
+		pointService.cancelPoint(map);
+		
+		if(isVBankPast == true) {
+			// 무통장입금 기한 만료
+			return;
+		} 
+		
+		if(isVBank == true) {
+			// 무통장입금
+			return;
+		} 		
+
 		if(refund_amount > 0) {
-			HashMap hm = orderDAO.getPay(map);
 			if(hm != null) {
 				// 이니시스 부분 취소
 				INIpay50 inipay = new INIpay50();	

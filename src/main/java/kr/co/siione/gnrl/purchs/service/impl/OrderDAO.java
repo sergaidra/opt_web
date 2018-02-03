@@ -57,8 +57,8 @@ public class OrderDAO extends EgovComAbstractDAO {
 		return (HashMap)selectByPk("gnrl.order.getPurchs", map);
 	}
 
-	public List<HashMap> getCancelCode(HashMap map) throws Exception {
-		return list("gnrl.order.getCancelCode", map);
+	public List<HashMap> getCode(HashMap map) throws Exception {
+		return list("gnrl.order.getCode", map);
 	}
 	
 	public HashMap getCancelRefundAmount(HashMap map) throws Exception {

@@ -19,7 +19,7 @@
               <th >결제취소 구분</th>
               <td>
               	<select class="w_30p" id="delete_resn_se" name="delete_resn_se">
-              		<option>선택</option>
+              		<option value="">선택</option>
               		<c:forEach var="item" items="${lstCancelCode}">
               			<c:if test="${item.CODE ne '003' }">
 	              			<option value="${item.CODE}">${item.CODE_NM}</option>
@@ -32,10 +32,29 @@
               <th >결제취소 사유</th>
               <td><textarea name="delete_resn_etc" id="delete_resn_etc" class="w_100p input_st"  placeholder="" style="height: 300px"></textarea></td>
             </tr>
-			  <!-- <tr>
-              <th >환불계좌정보</th>
-              <td><input type="text" placeholder="국민은행 020-000-0000" class="w_100p input_st"></td>
-            </tr> -->
+            <c:if test="${amount.REFUND_AMOUNT > 0}">
+	            <c:if test="${pay.PAYMETHOD eq 'VBank' and purchs.STATUS eq 'C'}">
+				<tr>
+	              <th >환불계좌은행</th>
+	              <td>
+	              	<select class="w_30p" id="refund_bank" name="refund_bank">
+	              		<option>선택</option>
+	              		<c:forEach var="item" items="${lstBankCode}">
+	              			<option value="${item.CODE}">${item.CODE_NM}</option>
+	              		</c:forEach>
+	              	</select>
+	              </td>
+	            </tr>
+				<tr>
+	              <th >환불계좌 예금주</th>
+	              <td><input type="text" id="refund_name" name="refund_name" placeholder="" class="w_100p input_st"></td>
+	            </tr>
+				<tr>
+	              <th >환불계좌계좌번호</th>
+	              <td><input type="text" id="refund_bankno" name="refund_bankno" placeholder="" class="w_100p input_st"></td>
+	            </tr>
+	            </c:if>
+            </c:if>
             <tr>
             	<th colspan="2">※ 예약 변경 및 취소, 환불 규정은 아래와 같습니다.<br/>
 ㅇ 예약일 기준 30일 전 변경·취소 : 100% 환불<br/>
@@ -68,6 +87,23 @@ function cancelPurchs() {
 		$(".featherlight #delete_resn_etc").focus();
 		return;
 	}
+	if($(".featherlight #refund_bank").length > 0) {
+		if($.trim($(".featherlight #refund_bank").val()) == "") {
+			alert("환불계좌은행를 입력해주세요.");
+			$(".featherlight #refund_bank").focus();
+			return;
+		}
+		if($.trim($(".featherlight #refund_name").val()) == "") {
+			alert("환불계좌 예금주를 입력해주세요.");
+			$(".featherlight #refund_name").focus();
+			return;
+		}
+		if($.trim($(".featherlight #refund_bankno").val()) == "") {
+			alert("환불계좌계좌번호를 입력해주세요.");
+			$(".featherlight #refund_bankno").focus();
+			return;
+		}
+	}
 	
 	if(!confirm("정말 취소하겠습니까?"))
 		return;
@@ -78,8 +114,12 @@ function cancelPurchs() {
 	param.purchs_sn = "${purchs_sn}";
 	param.delete_resn_se = $.trim($(".featherlight #delete_resn_se").val());
 	param.delete_resn_etc = $.trim($(".featherlight #delete_resn_etc").val());
+	param.refund_bank = $.trim($(".featherlight #refund_bank").val());
+	param.refund_name = $.trim($(".featherlight #refund_name").val());
+	param.refund_bankno = $.trim($(".featherlight #refund_bankno").val());
 	param.refund_amount = "";
-	
+	console.log(param);
+
 	$.ajax({
         url : url,
         type: "post",

@@ -381,11 +381,21 @@ public class OrderController {
     	map.put("purchs_sn", purchs_sn);   
     	System.out.println("[popupCancel]map:"+map);
     	
-    	List<HashMap> lstCancelCode = orderService.getCancelCode(map);
-    	
+    	map.put("code_id", "COM009");
+    	List<HashMap> lstCancelCode = orderService.getCode(map);
+    	map.put("code_id", "COM010");
+    	List<HashMap> lstBankCode = orderService.getCode(map);
+		HashMap pay = orderService.getPay(map);
+		HashMap purchs = orderService.getPurchs(map);
+		HashMap amount = orderService.getCancelRefundAmount(map);
+
     	model.addAttribute("lstCancelCode", lstCancelCode);
+    	model.addAttribute("lstBankCode", lstBankCode);
     	model.addAttribute("purchs_sn", purchs_sn);
     	model.addAttribute("callback", callback);
+    	model.addAttribute("pay", pay);
+    	model.addAttribute("purchs", purchs);
+    	model.addAttribute("amount", amount);
     	
 		return "gnrl/popup/cancel";	
     }	
@@ -412,10 +422,16 @@ public class OrderController {
 			String delete_resn_se = UserUtils.nvl(param.get("delete_resn_se"));
 			String delete_resn_etc = UserUtils.nvl(param.get("delete_resn_etc"));
 			String refund_amount = UserUtils.nvl(param.get("refund_amount"));
+			String refund_bank = UserUtils.nvl(param.get("refund_bank"));
+			String refund_name = UserUtils.nvl(param.get("refund_name"));
+			String refund_bankno = UserUtils.nvl(param.get("refund_bankno"));
 
 	    	map.put("purchs_sn", purchs_sn);   
 	    	map.put("delete_resn_se", delete_resn_se);
 	    	map.put("delete_resn_etc", delete_resn_etc);
+	    	map.put("refund_bank", refund_bank);
+	    	map.put("refund_name", refund_name);
+	    	map.put("refund_bankno", refund_bankno);
 	    	map.put("esntl_id", esntl_id);
 	    	map.put("email", email);
 	    	String path = request.getSession().getServletContext().getRealPath("/WEB-INF");

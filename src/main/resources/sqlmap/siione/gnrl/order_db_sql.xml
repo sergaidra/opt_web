@@ -216,9 +216,9 @@
 		) A
 	</select>
 
-	<select id="gnrl.order.getCancelCode" parameterClass="hashMap" resultClass="hashMap">
+	<select id="gnrl.order.getCode" parameterClass="hashMap" resultClass="hashMap">
 		SELECT CODE, CODE_NM FROM TB_CMMN_DETAIL_CODE
-		WHERE CODE_ID =  'COM009' AND USE_AT = 'Y'
+		WHERE CODE_ID =  #code_id# AND USE_AT = 'Y'
 		ORDER BY SORT_ORDR
 	</select>
 	
@@ -242,7 +242,8 @@
 
 	<update id="gnrl.order.cancelPurchs" parameterClass="hashMap" >
 		UPDATE TB_PURCHS SET DELETE_AT = 'Y', DELETE_ID = #esntl_id#, DELETE_DT = SYSDATE
-			, DELETE_RESN_SE = #delete_resn_se#, DELETE_RESN_ETC = #delete_resn_etc#, REFUND_AMOUNT = #refund_amount#, STATUS = 'R'
+			, DELETE_RESN_SE = #delete_resn_se#, DELETE_RESN_ETC = #delete_resn_etc#, REFUND_AMOUNT = #refund_amount#, STATUS = #status#
+			, REFUND_BANK = #refund_bank#, REFUND_NAME = #refund_name#, REFUND_BANKNO = #refund_bankno#
 		WHERE PURCHS_SN = #purchs_sn#
 	</update>
 	
@@ -263,7 +264,10 @@
 	</insert>
 	
 	<select id="gnrl.order.getPay" parameterClass="hashMap" resultClass="hashMap">
-		SELECT *
+		SELECT PURCHS_SN, TID, RESULTCODE, RESULTMSG, EVENTCODE, TOTPRICE, MOID, PAYMETHOD, APPLNUM, APPLDATE, APPLTIME,
+				CARD_NUM, CARD_INTEREST, CARD_QUOTA, CARD_CODE, CARD_BANKCODE, 
+				VACT_NUM, VACT_BANKCODE, ( SELECT CODE_NM FROM TB_CMMN_DETAIL_CODE WHERE CODE_ID = 'COM010' AND CODE = VACT_BANKCODE) AS VACTBANKNAME, VACT_NAME, VACT_INPUTNAME, VACT_DATE, VACT_TIME,
+				ACCT_BANKCODE, CSHR_RESULTCODE, CSHR_TYPE, PAY_DEVICE
 		FROM TB_PAY
 		WHERE PURCHS_SN = #purchs_sn#
 	</select>

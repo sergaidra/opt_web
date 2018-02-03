@@ -642,6 +642,7 @@ function numberWithCommas(x) {
 					<c:if test="${purchs.STATUS == 'W'}">무통장입금 대기</c:if>				
 					<c:if test="${purchs.STATUS == 'R'}">환불</c:if>				
 					<c:if test="${purchs.STATUS == 'M'}">결제정보 요청 대기</c:if>				
+					<c:if test="${purchs.STATUS == 'P'}">환불 요청</c:if>				
 				</td>
 			</tr>
 			<tr>
