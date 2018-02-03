@@ -349,10 +349,10 @@ public class OrderController {
 			for(int i = 0; i < lstCartPurchs.size(); i++) {
 				map.put("cart_sn", lstCartPurchs.get(i).get("CART_SN"));
 				HashMap mapCart = orderService.getCartDetail(map);
-				mapCart.put("PICKUP_PLACE", lstCartPurchs.get(i).get("PICKUP_PLACE"));
-				mapCart.put("DROP_PLACE", lstCartPurchs.get(i).get("DROP_PLACE"));
-				mapCart.put("USE_NMPR", lstCartPurchs.get(i).get("USE_NMPR"));
-				mapCart.put("USE_PD", lstCartPurchs.get(i).get("USE_PD"));
+				mapCart.put("PICKUP_PLACE", UserUtils.nvl(lstCartPurchs.get(i).get("PICKUP_PLACE")));
+				mapCart.put("DROP_PLACE", UserUtils.nvl(lstCartPurchs.get(i).get("DROP_PLACE")));
+				mapCart.put("USE_NMPR", UserUtils.nvl(lstCartPurchs.get(i).get("USE_NMPR")));
+				mapCart.put("USE_PD", UserUtils.nvl(lstCartPurchs.get(i).get("USE_PD")));
 				
 				lstCart.add(mapCart);
 			}

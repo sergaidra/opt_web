@@ -81,7 +81,7 @@
 		  FROM TB_CART_GOODS A
 		 INNER JOIN TB_GOODS X
 		    ON X.GOODS_CODE = A.GOODS_CODE
-		   AND X.DELETE_AT = 'N'
+		   /*AND X.DELETE_AT = 'N'*/
 		 WHERE A.ESNTL_ID = #esntl_id#
 		   AND A.EXPRTN_AT = 'N'
 		   AND A.DELETE_AT = 'N'
