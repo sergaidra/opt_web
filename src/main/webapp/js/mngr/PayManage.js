@@ -1,6 +1,6 @@
 Ext.define('PayInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['PURCHS_SN','TID','RESULTCODE','RESULTMSG','EVENTCODE','TOTPRICE','MOID','PAYMETHOD','APPLNUM','APPLDATE','APPLTIME','CARD_NUM','CARD_INTEREST','CARD_QUOTA','CARD_CODE','CARD_BANKCODE','VACT_NUM','VACT_BANKCODE','VACTBANKNAME','VACT_NAME','VACT_INPUTNAME','VACT_DATE','VACT_TIME','ACCT_BANKCODE','CSHR_RESULTCODE','CSHR_TYPE','PAY_DEVICE']
+	fields: ['PURCHS_SN','TID','RESULTCODE','RESULTMSG','EVENTCODE','TOTPRICE','MOID','PAYMETHOD','APPLNUM','APPLDATE','APPLTIME','CARD_NUM','CARD_INTEREST','CARD_QUOTA','CARD_CODE','CARD_BANKCODE','VACT_NUM','VACT_BANKCODE','VACTBANKNAME','VACT_NAME','VACT_INPUTNAME','VACT_DATE','VACT_TIME','ACCT_BANKCODE','CSHR_RESULTCODE','CSHR_TYPE','PAY_DEVICE','STATUS']
 });
 
 var frPay = Ext.create('Ext.form.Panel', {
@@ -18,7 +18,7 @@ var frPay = Ext.create('Ext.form.Panel', {
 				xtype: 'datefield',
 				vtype: 'daterange',
 				id: 'sch-fr-date',
-				name: 'FR_ACCML_DT',
+				name: 'FR_DE',
 				format: 'Y-m-d',
 				altFormats: 'Y-m-d|Y.m.d|Y/m/d|Ymd',
 				fieldLabel: '검색일자',
@@ -53,7 +53,7 @@ var frPay = Ext.create('Ext.form.Panel', {
 				xtype: 'datefield',
 				vtype: 'daterange',
 				id: 'sch-to-date',
-				name: 'TO_ACCML_DT',
+				name: 'TO_DE',
 				format: 'Y-m-d',
 				altFormats: 'Y-m-d|Y.m.d|Y/m/d|Ymd',
 				fieldLabel: '-',
@@ -92,8 +92,8 @@ var frPay = Ext.create('Ext.form.Panel', {
 				width: 60,
 				listeners: {
 					click: function() {
-						stPoint.proxy.extraParams = Ext.getCmp('form-sch').getForm().getValues();
-						stPoint.loadPage(1);
+						stPay.proxy.extraParams = Ext.getCmp('form-sch').getForm().getValues();
+						stPay.loadPage(1);
 					}
 				}
 			},{
@@ -103,14 +103,14 @@ var frPay = Ext.create('Ext.form.Panel', {
 				width: 60,
 				handler: function(){
 					frPay.getForm().reset();
-					stPoint.removeAll();
+					stPay.removeAll();
 				}
 			}]
 		}]
 	}]
 });
 
-var stPoint = Ext.create('Ext.data.JsonStore', {
+var stPay = Ext.create('Ext.data.JsonStore', {
 	autoLoad: false,
 	//pageSize: 20,
 	model: 'PayInfo',
@@ -129,7 +129,7 @@ var stPoint = Ext.create('Ext.data.JsonStore', {
 var grPay = Ext.create('Ext.grid.Panel', {
 	title: '결제결과목록',
 	region:'center',
-	store: stPoint,
+	store: stPay,
 	border: true,
 	columnLines: true,
 	split : true,
@@ -165,9 +165,10 @@ var grPay = Ext.create('Ext.grid.Panel', {
 			, {text: 'CSHR_RESULTCODE' , width: 150, align: 'left', dataIndex: 'CSHR_RESULTCODE'}
 			, {text: 'CSHR_TYPE'       , width: 150, align: 'left', dataIndex: 'CSHR_TYPE'      }
 			, {text: 'PAY_DEVICE'      , width: 150, align: 'left', dataIndex: 'PAY_DEVICE'     }
+			, {text: 'STATUS'          , width: 150, align: 'left', dataIndex: 'STATUS'         }
 	]
 	/*bbar: Ext.create('Ext.PagingToolbar', {
-		store: stPoint,
+		store: stPay,
 		displayInfo: true,
 		displayMsg: '전체 {2}건 중 {0} - {1}',
 		emptyMsg: "조회된 자료가 없습니다."

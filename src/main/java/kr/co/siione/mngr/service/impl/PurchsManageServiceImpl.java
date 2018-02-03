@@ -43,4 +43,15 @@ public class PurchsManageServiceImpl implements PurchsManageService {
 	public List<Map<String, String>> selectPayList(Map<String, String> param) throws Exception {
 		return purchsDAO.selectPayList(param);
 	}
+	
+	@Override
+	public int refundPurchs(Map<String, String> param) throws Exception {
+		int iRe = purchsDAO.refundPurchs(param);
+
+		if(iRe == 0) {
+			throw new Exception("환불처리 중 오류 발생!");
+		}
+
+		return iRe;
+	}
 }

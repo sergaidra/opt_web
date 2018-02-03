@@ -37,4 +37,8 @@ public class PurchsDAO extends EgovComAbstractDAO {
 	public List<Map<String, String>> selectPayList(Map<String, String> param) throws Exception {
 		return list("PurchsDAO.selectPayList", param);
 	}	
+	
+	public int refundPurchs(Map<String, String> map) throws Exception {
+		return update("PurchsDAO.refundPurchs", map);
+	}
 }

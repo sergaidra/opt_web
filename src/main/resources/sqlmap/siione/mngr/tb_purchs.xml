@@ -46,13 +46,17 @@
 		     , A.USE_POINT
 		     , DECODE(A.DELETE_AT, 'Y', 0, A.REAL_SETLE_AMOUNT) SETLE_AMOUNT
 		     , DECODE(A.DELETE_AT, 'Y', 0, A.USE_POINT) SETLE_POINT
-		     , A.PYMNT_SE
-		     , (SELECT X.CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID = 'COM006' AND X.CODE = A.PYMNT_SE) PYMNT_SE_NM
+		     /*, A.PYMNT_SE */
+		     /*, (SELECT X.CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID = 'COM006' AND X.CODE = A.PYMNT_SE) PYMNT_SE_NM */
+		     , P.PAYMETHOD AS PYMNT_SE
+		     , DECODE(P.PAYMETHOD, 'Card', '신용카드', 'VCard', '신용카드', 'DirectBank', '실시간계좌이체', 'VBank', '무통장입금', '기타('||P.PAYMETHOD||')') AS PYMNT_SE_NM
 		     , A.TOURIST_NM
 		     , A.TOURIST_CTTPC
 		     , A.DELETE_AT
 		     , DECODE(A.DELETE_AT, 'Y', '구매취소', 'N', '구매') DELETE_AT_NM
 		     , TO_CHAR(A.DELETE_DT, 'YYYY-MM-DD HH24:MI:SS') DELETE_DT
+		     , A.REFUND_AMOUNT, A.STATUS, A.REFUND_BANK, A.REFUND_NAME, A.REFUND_BANKNO
+		     , (SELECT CODE_NM FROM TB_CMMN_DETAIL_CODE WHERE CODE_ID = 'COM010' AND CODE = REFUND_BANK) REFUND_BANK_NM
 		     , (SELECT GOODS_NM
 		          FROM TB_PURCHS_GOODS X
 		             , TB_CART_GOODS Y
@@ -66,7 +70,7 @@
 		             , TB_CART_GOODS Y
 		         WHERE A.PURCHS_SN = X.PURCHS_SN
 		           AND X.CART_SN = Y.CART_SN) GOODS_CNT
-		  FROM TB_PURCHS A ]]>
+		  FROM TB_PURCHS A INNER JOIN TB_PAY P ON A.PURCHS_SN = P.PURCHS_SN ]]>
 		<include refid="PurchsDAO.whereForSelectPurchsList"/>
 		<include refid="PurchsDAO.pagingQueryEnd"/>
 	</select>
@@ -240,6 +244,19 @@
 			, CSHR_RESULTCODE
 			, CSHR_TYPE
 			, PAY_DEVICE
-		FROM TB_PAY	
+			, (SELECT STATUS FROM TB_PURCHS A WHERE A.PURCHS_SN = P.PURCHS_SN) STATUS
+		FROM TB_PAY P	
+		WHERE P.APPLDATE BETWEEN REPLACE(#FR_DE#, '-', '') AND REPLACE(#TO_DE#, '-', '')
 	</select>	
+	
+	<update id="PurchsDAO.refundPurchs" parameterClass="hashMap">
+    <![CDATA[
+        UPDATE TB_PURCHS
+           SET STATUS = 'R'
+             , REFUND_PROC_ID = #REFUND_PROC_ID#
+             , REFUND_PROC_DT = SYSDATE
+         WHERE PURCHS_SN = #PURCHS_SN#
+           AND STATUS = 'P' ]]>
+    </update>
+	
 </sqlMap>

@@ -2,7 +2,8 @@ var xlsForm = Ext.create('Ext.form.Panel', {});		//엑셀 저장용 폼
 
 Ext.define('PurchsInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['PURCHS_SN', 'ESNTL_ID', 'USER_NM', 'PURCHS_DT', 'PURCHS_DE', 'PURCHS_TM', 'TOT_SETLE_AMOUNT', 'REAL_SETLE_AMOUNT', 'USE_POINT', 'SETLE_AMOUNT', 'SETLE_POINT', 'PYMNT_SE', 'PYMNT_SE_NM', 'TOURIST_NM', 'TOURIST_CTTPC', 'DELETE_AT', 'DELETE_AT_NM', 'DELETE_DT', 'GOODS_NM', 'GOODS_CNT']
+	fields: ['PURCHS_SN', 'ESNTL_ID', 'USER_NM', 'PURCHS_DT', 'PURCHS_DE', 'PURCHS_TM', 'TOT_SETLE_AMOUNT', 'REAL_SETLE_AMOUNT', 'USE_POINT', 'SETLE_AMOUNT', 'SETLE_POINT', 'PYMNT_SE', 'PYMNT_SE_NM', 'TOURIST_NM', 'TOURIST_CTTPC',
+	         'REFUND_AMOUNT', 'STATUS', 'REFUND_BANK', 'REFUND_BANK_NM', 'REFUND_NAME', 'REFUND_BANKNO', 'DELETE_AT', 'DELETE_AT_NM', 'DELETE_DT', 'GOODS_NM', 'GOODS_CNT']
 });
 
 var comboPymntSe = fn_cmmnCombo('결제구분', 'sch-pymnt-se', 'PYMNT_SE', 'COM006', '', true, 200, 80);
@@ -74,7 +75,7 @@ var frPurchs = Ext.create('Ext.form.Panel', {
 				labelWidth: 80,
 				width: 200,
 				allowBlank: false,
-				value: new Date(Date.parse(new Date())-6*1000*60*60*24),
+				value: new Date(Date.parse(new Date())-1*1000*60*60*24),
 				endDateField: 'sch-to-date',
 				autoCreate: { tag: 'input', type: 'text', maxLength: '10' },
 				style: { 'ime-mode': 'disabled' },
@@ -266,6 +267,28 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 			return '<b><font color="#9F0000">'+str+'</font></b>';
 		}
 	},{
+		text: '목록',
+		align: 'center',
+		menuDisabled: true,
+		xtype: 'actioncolumn',
+		width: 60,
+		items: [{
+    		altText: '상품목록',
+    		iconCls: 'icon-search',
+			handler: function(grid, rowIndex, colIndex){
+				var record = stPurchs.getAt(rowIndex);
+				var str = '결제번호: '+record.data.PURCHS_SN;
+				str += ' / 결제금액: '+Ext.util.Format.number(record.data.SETLE_AMOUNT , '0,000')+'원';
+				str += ' / 대표여행자: '+record.data.TOURIST_NM +'('+record.data.TOURIST_CTTPC+')';
+				Ext.getCmp('form-purchs-win-purchs-info').setValue(str);
+				Ext.getCmp('form-purchs-win-purchs-sn').setValue(record.data.PURCHS_SN);
+				stPurchsGoodsWin.proxy.extraParams.PURCHS_INFO = str;
+				stPurchsGoodsWin.proxy.extraParams.PURCHS_SN = record.data.PURCHS_SN;
+				stPurchsGoodsWin.loadPage(1);
+				winPurchsGoodsList.show();
+			}
+		}]			
+	},{
 		text: '구매일시',
 		width: 100,
 		align: 'center',
@@ -325,7 +348,7 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 
 	},{
 		text: '결제수단',
-		width: 100,
+		width: 120,
 		align: 'center',
 		dataIndex: 'PYMNT_SE_NM'
 	},{
@@ -358,7 +381,84 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		renderer: function(value, metaData, record) {
 			if(record.data.GOODS_CNT != '0') return value + ' 외 ' + record.data.GOODS_CNT + '건';
 			else return value;
+		}			
+	},{
+		text: '결제상태',
+		width: 120,
+		align: 'center',
+		dataIndex: 'STATUS',
+		renderer: function(value, metaData, record) {
+			if(value == 'C') return '결제 완료';
+			else if(value == 'W') return '무통장입금 대기';
+			else if(value == 'R') return '환불';
+			else if(value == 'M') return '결제정보 요청 대기';
+			else if(value == 'P') return '환불 요청';
+			else return value;
 		}
+	},{
+		text: '환불금액',
+		width: 100,
+		align: 'center',
+		dataIndex: 'REFUND_AMOUNT'
+	},{
+		text: '환불은행',
+		width: 100,
+		align: 'center',
+		dataIndex: 'REFUND_BANK_NM'
+	},{
+		text: '환불계좌주',
+		width: 100,
+		align: 'center',
+		dataIndex: 'REFUND_NAME'
+	},{
+		text: '환불계좌번호',
+		width: 180,
+		align: 'center',
+		dataIndex: 'REFUND_BANKNO'			
+	},{
+		text: '환불처리',
+		width: 100,
+		align: 'center',
+		menuDisabled: true,
+		xtype: 'actioncolumn',
+		items: [{
+    		altText: '환불',
+    		iconCls: 'icon-save',
+    		getClass: function(val, metaData, record) {
+				if (record.data.STATUS == 'P') {
+					return 'icon-save';
+				} else {
+					return 'x-hide-display';
+				}
+			},
+			handler: function(grid, rowIndex, colIndex){
+				Ext.MessageBox.confirm("확인", "환불처리하시겠습니까?", function(btn) {
+					if(btn == 'yes') {
+						var record = stPurchs.getAt(rowIndex);
+						Ext.Ajax.request({
+							url: '../refundPurchs/',
+							timeout: 60000,
+							params: {
+								PURCHS_SN: record.data.PURCHS_SN
+							},
+							success: function(response){
+								var result = Ext.decode(response.responseText);
+								Ext.MessageBox.alert('알림', result.message, function(){
+									if(result.success) {
+										stPurchs.reload();
+									}
+								});
+							},
+							failure: function(response){
+								failureMessage(response);
+							}
+						});
+					} else {
+						return;
+					}
+				});
+			}
+		}]	
 	}],
 	bbar: Ext.create('Ext.PagingToolbar', {
 		store: stPurchs,
@@ -368,16 +468,9 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 	}),
 	listeners: {
 		celldblclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
+			alert(cellIndex);
 			if(cellIndex == 0) {
-				var str = '결제번호: '+record.data.PURCHS_SN;
-				str += ' / 결제금액: '+Ext.util.Format.number(record.data.SETLE_AMOUNT , '0,000')+'원';
-				str += ' / 대표여행자: '+record.data.TOURIST_NM +'('+record.data.TOURIST_CTTPC+')';
-				Ext.getCmp('form-purchs-win-purchs-info').setValue(str);
-				Ext.getCmp('form-purchs-win-purchs-sn').setValue(record.data.PURCHS_SN);
-				stPurchsGoodsWin.proxy.extraParams.PURCHS_INFO = str;
-				stPurchsGoodsWin.proxy.extraParams.PURCHS_SN = record.data.PURCHS_SN;
-				stPurchsGoodsWin.loadPage(1);
-				winPurchsGoodsList.show();
+
 			}
 		}
 	}
