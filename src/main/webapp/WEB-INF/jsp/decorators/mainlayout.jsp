@@ -10,6 +10,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="내가 만드는 세부 여행, 고민하지 말고 떠나세요">
 	<title>원패스투어</title>
 	<link rel="stylesheet" type="text/css" href="<c:url value='/css/layout.css' />" media="all">
 	<link rel="stylesheet" type="text/css" href="<c:url value='/css/content.css' />" media="all">

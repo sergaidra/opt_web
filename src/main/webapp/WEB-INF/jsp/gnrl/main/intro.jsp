@@ -5,6 +5,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <head>
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="원패스투어">
+	<meta property="og:description" content="내가 만드는 세부 여행, 고민하지 말고 떠나세요">
+	<!-- <meta property="og:image" content="http://www.mysite.com/myimage.jpg"> -->
+	<meta property="og:url" content="http://onepasstour.com">
+
 <link rel="stylesheet" href="/jq/swiper/dist/css/swiper.css">
 
 <script type="text/javascript">
