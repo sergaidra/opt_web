@@ -146,14 +146,22 @@
 					SELECT GOODS_CODE, ROWNUM AS RNUM
 					FROM (		  
 						SELECT X.GOODS_CODE FROM (
-						    SELECT CG.GOODS_CODE, COUNT(CG.CART_SN)
+						    <!-- SELECT CG.GOODS_CODE, COUNT(CG.CART_SN)
 						    FROM TB_PURCHS P
 						    INNER JOIN TB_PURCHS_GOODS PG ON PG.PURCHS_SN = P.PURCHS_SN
 						    INNER JOIN TB_CART_GOODS CG ON CG.CART_SN = PG.CART_SN AND CG.PURCHS_AT = 'Y'
 						    INNER JOIN TB_GOODS G ON G.GOODS_CODE = CG.GOODS_CODE AND G.DELETE_AT = 'N'
 						    WHERE P.DELETE_AT = 'N'
 						    GROUP BY CG.GOODS_CODE
-						    ORDER BY COUNT(CG.CART_SN) DESC
+						    ORDER BY COUNT(CG.CART_SN) DESC -->
+						    <!-- 임시 -->
+							select a.goods_code, count(1)
+							from tb_goods_hit a, tb_goods b
+							where sysdate - 7 <![CDATA[<=]]> a.HIT_DT
+							and a.goods_code = b.goods_code
+							and b.delete_at = 'N'
+							group by a.goods_code
+							order by count(1) desc
 						) X WHERE ROWNUM <![CDATA[<=]]> 20
 					)  A		  
 				) AA

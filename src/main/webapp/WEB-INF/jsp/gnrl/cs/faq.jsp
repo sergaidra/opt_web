@@ -49,6 +49,21 @@ function search(subcategory) {
         		case "G":
         			categorynm = "상품관련";
         			break;
+        		case "P":
+        			categorynm = "결제관련";
+        			break;
+        		case "C":
+        			categorynm = "반품/취소";
+        			break;
+        		case "O":
+        			categorynm = "주문/배송";
+        			break;
+        		case "W":
+        			categorynm = "업무제휴";
+        			break;
+        		case "X":
+        			categorynm = "기타";
+        			break;        			
         		}
 				var h6 = $("<h6 class=\"acc_trigger\"></h6>");
 				var aTag = $("<a href=\"#\"></a>");
@@ -227,27 +242,27 @@ function changeKind(obj, subcategory) {
 				<p class="text"><a href="javascript:changeKind(this, 'G');">상품관련</a></p>
 			</li>
 			<li class="line"></li>
-			<li class="icon">
+			<li class="icon" onclick="changeKind(this, 'U');" style="cursor:pointer;">
 				<p class="img"><i class="material-icons">&#xE870;</i></p>
 				<p class="text"><a href="javascript:changeKind(this, 'P');">결제관련</a></p>
 			</li>
 			<li class="line"></li>
-			<li class="icon">			
+			<li class="icon" onclick="changeKind(this, 'C');" style="cursor:pointer;">			
 				<p class="img"><i class="material-icons">&#xE863;</i></p>
 				<p class="text"><a href="javascript:changeKind(this, 'C');">반품/취소</a></p>
 			</li>
 			<li class="line"></li>
-			<li class="icon">
+			<li class="icon" onclick="changeKind(this, 'O');" style="cursor:pointer;">
 				<p class="img"><i class="material-icons">&#xE558;</i></p>
 				<p class="text"><a href="javascript:changeKind(this, 'O');">주문/배송</a></p>
 			</li>
 			<li class="line"></li>
-			<li class="icon">
+			<li class="icon" onclick="changeKind(this, 'W');" style="cursor:pointer;">
 				<p class="img"><i class="material-icons">&#xE8D1;</i></p>
 				<p class="text"><a href="javascript:changeKind(this, 'W');">업무제휴</a></p>
 			</li>
 			<li class="line"></li>
-			<li class="icon">
+			<li class="icon" onclick="changeKind(this, 'X');" style="cursor:pointer;">
 				<p class="img"><i class="material-icons">&#xE0C6;</i></p>
 				<p class="text"><a href="javascript:changeKind(this, 'X');">기타</a></p>
 			</li>
