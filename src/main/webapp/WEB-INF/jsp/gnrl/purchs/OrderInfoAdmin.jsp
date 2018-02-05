@@ -34,6 +34,7 @@
 		<div class="go_btn"><a href="javascript:savePDF();" class="btnst1">저장하기</a><!-- <a href="javascript:window.print();" class="btnst2">인쇄하기</a> --></div>
 	</div>
 	<div class="tb_box ">
+		<div class="oder_guide "><em>대표 여행자</em> : ${purchs.TOURIST_NM}&nbsp;&nbsp;&nbsp;&nbsp;<em>연락처 </em>: ${purchs.TOURIST_CTTPC}&nbsp;&nbsp;&nbsp;&nbsp;<em>kakao ID</em> : ${purchs.KAKAO_ID}  </div>
 		<c:forEach var="flight" items="${lstFlight}">
 			<div class="tb_01_box">
 				<table class="tb_01">
@@ -57,7 +58,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="sp_box1"></div>
+			<div class="sp_box1" style="width:900px;"></div>
 		</c:forEach>
 		<div class="tb_01_box">
 			<table class="tb_01">
@@ -106,7 +107,7 @@
 				</c:if>  
 			</div>
 		</div>
-		<div class="sp_box1"></div>
+		<div class="sp_box1" style="width:900px;"></div>
 		<div class="title">
 			<i class="material-icons">&#xE147;</i>  <div class="tx" ><em>${list.text} : </em> <c:out value="${fn:replace(list.options, '<br/>', ', ')}"/></div>
 		</div>
