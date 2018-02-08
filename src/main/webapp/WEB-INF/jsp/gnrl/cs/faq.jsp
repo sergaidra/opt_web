@@ -242,7 +242,7 @@ function changeKind(obj, subcategory) {
 				<p class="text"><a href="javascript:changeKind(this, 'G');">상품관련</a></p>
 			</li>
 			<li class="line"></li>
-			<li class="icon" onclick="changeKind(this, 'U');" style="cursor:pointer;">
+			<li class="icon" onclick="changeKind(this, 'P');" style="cursor:pointer;">
 				<p class="img"><i class="material-icons">&#xE870;</i></p>
 				<p class="text"><a href="javascript:changeKind(this, 'P');">결제관련</a></p>
 			</li>
