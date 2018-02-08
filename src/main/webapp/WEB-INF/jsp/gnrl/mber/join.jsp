@@ -56,9 +56,18 @@ $(function() {
 		
 		$("#email").attr("readonly",true);
 		$("#memail").attr("readonly",true);
-		$("#user_nm").attr("readonly",true);
-		$("#muser_nm").attr("readonly",true);
-		$(":radio[name='rdoSex']").attr('disabled', true);
+		if("${google_name}") {
+			$("#user_nm").attr("readonly",true);
+			$("#muser_nm").attr("readonly",true);			
+		} else {
+			$("#user_nm").attr("readonly",false);
+			$("#muser_nm").attr("readonly",false);
+		}
+		if("${google_gender}" == 'M' || "${google_gender}" == 'F' ) {
+			$(":radio[name='rdoSex']").attr('disabled', true);	
+		} else {
+			$(":radio[name='rdoSex']").attr('disabled', false);
+		}
 	</c:if>
 	
 });
