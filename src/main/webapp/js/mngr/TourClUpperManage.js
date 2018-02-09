@@ -87,6 +87,7 @@ var winFileUpload = Ext.create('Ext.window.Window', {
 				labelSeparator: ':',
 				labelWidth: 70,
 				allowBlank: false,
+				emptyText : '파일크기 287 * 220',
 				width: 360
 			},{
 				id: 'excel-cl-code', xtype: 'hiddenfield', name: 'CL_CODE'

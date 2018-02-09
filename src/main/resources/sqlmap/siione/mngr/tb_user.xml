@@ -14,7 +14,9 @@
 		     , MOBLPHON_NO = #MOBLPHON_NO#
 		     , CRTFC_AT = #CRTFC_AT#
 		     , EMAIL_RECPTN_AT = #EMAIL_RECPTN_AT#
+		     , BIRTH = REPLACE(REPLACE(#BIRTH#, '-'), '.')
 		     , USE_AT = #USE_AT#
+		     , SEX = #SEX#
 		     , UPDT_ID = #UPDT_ID#
 		     , UPDT_DT = SYSDATE
 		 WHERE ESNTL_ID = #ESNTL_ID#
@@ -74,6 +76,8 @@
 		     , MOBLPHON_NO
 		     , NVL(CRTFC_AT, 'N') CRTFC_AT
 		     , NVL(EMAIL_RECPTN_AT, 'N') EMAIL_RECPTN_AT
+		     , BIRTH
+		     , SEX
 		     , NVL(USE_AT, 'Y') USE_AT
 		     , WRITNG_ID
 		     , TO_CHAR(WRITNG_DT, 'YYYY-MM-DD HH24:MI:SS') WRITNG_DT

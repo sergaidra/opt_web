@@ -1,6 +1,6 @@
 Ext.define('UserInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['ESNTL_ID', 'USER_ID', 'USER_NM', 'PASSWORD', 'AUTHOR_CL', 'MOBLPHON_NO', 'CRTFC_AT', 'EMAIL_RECPTN_AT', 'USE_AT', 'WRITNG_DT', 'UPDT_DT']
+	fields: ['ESNTL_ID', 'USER_ID', 'USER_NM', 'PASSWORD', 'AUTHOR_CL', 'MOBLPHON_NO', 'CRTFC_AT', 'EMAIL_RECPTN_AT', 'BIRTH', 'SEX', 'USE_AT', 'WRITNG_DT', 'UPDT_DT']
 });
 
 var comboCrtfcAt = new Ext.create('Ext.form.ComboBox', {
@@ -205,6 +205,27 @@ var grUser = Ext.create('Ext.grid.Panel', {
 		align: 'center',
 		dataIndex: 'USER_NM'
 	},{
+		text: '생년월일',
+		width: 100,
+		align: 'center',
+		dataIndex: 'BIRTH',
+		renderer: function(value) {
+			if(value) {
+				var str = value.replace(/-/gi,'');
+				return str.substring(0,4)+'-'+str.substring(4,6)+'-'+str.substring(6,8);
+			}
+		}
+	},{
+		text: '성별',
+		width: 50,
+		align: 'center',
+		dataIndex: 'SEX',
+		renderer: function(value) {
+			if(value == 'F') return '여';
+			else if(value == 'M') return '남';
+			else return value;
+		}	
+	},{
 		text: '아이디',
 		width: 200,
 		style: 'text-align:center',
@@ -260,7 +281,7 @@ var grUser = Ext.create('Ext.grid.Panel', {
 
 var winUser = Ext.create('Ext.window.Window', {
 	title: '사용자 정보 수정',
-	height: 350,
+	height: 410,
 	width: 450,
 	layout: 'border',
 	closable: true,
@@ -290,9 +311,7 @@ var winUser = Ext.create('Ext.window.Window', {
 				readOnly: true,
 				selectOnFocus: true,
 				allowBlank: false,
-				enableKeyEvents: true,
-				listeners: {
-				}
+				enableKeyEvents: true
 			},{
 				xtype: 'textfield',
 				id: 'info-user-nm',
@@ -305,9 +324,7 @@ var winUser = Ext.create('Ext.window.Window', {
 				maxLength: 25,
 				selectOnFocus: true,
 				allowBlank: false,				
-				enableKeyEvents: true,
-				listeners: {
-				}
+				enableKeyEvents: true
 			},{
 				xtype: 'textfield',
 				id: 'info-user-id',
@@ -321,10 +338,7 @@ var winUser = Ext.create('Ext.window.Window', {
 				readOnly: true,
 				selectOnFocus: true,
 				allowBlank: false,
-				enableKeyEvents: true,
-				listeners: {
-
-				}
+				enableKeyEvents: true
 			},{
 				xtype: 'textfield',
 				id: 'info-moblphon-no',
@@ -337,9 +351,32 @@ var winUser = Ext.create('Ext.window.Window', {
 				maxLength: 20,
 				selectOnFocus: true,
 				allowBlank: false,
-				enableKeyEvents: true,
-				listeners: {
-				}
+				enableKeyEvents: true
+			},{
+				xtype: 'textfield',
+				id: 'info-birth',
+				name: 'BIRTH',
+				labelAlign: 'right',
+				fieldLabel: '생년월일',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 120,
+				width: 320,
+				maskRe: /[0-9]/,
+				maxLength: 8,
+				enforceMaxLength: true,
+				selectOnFocus: true,
+				allowBlank: false,
+				enableKeyEvents: true
+			},{
+				xtype: 'radiogroup',
+				id: 'info-sex',
+				fieldLabel: '성별',
+				labelWidth: 120,
+				labelAlign: 'right',
+				width: 320,
+				border: false,
+				items: [{ boxLabel: '남성', id:'info-sex-m', name: 'SEX', inputValue:'M'},
+						{ boxLabel: '여성', id:'info-sex-f', name: 'SEX', inputValue:'F'}]				
 			},{
 				xtype: 'radiogroup',
 				id: 'info-crtfc-at',
@@ -382,6 +419,10 @@ var winUser = Ext.create('Ext.window.Window', {
 				text: '저장',
 				listeners: {
 					click: function (btn, e, opts) {
+						if(!Ext.getCmp('form-info').getForm().isValid()) {
+							alert('입력값을 확인하세요.');
+							return;
+						} 
 						Ext.Msg.show({
 							 title:'확인',
 							 msg: '저장하시겠습니까?',

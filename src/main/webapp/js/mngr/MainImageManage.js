@@ -48,6 +48,7 @@ var frFile = Ext.create('Ext.form.Panel', {
 		    		labelSeparator: ':',
 		    		labelWidth: 70,
 		    		allowBlank: false,
+		    		emptyText : '파일크기 2000 * 757',
 		    		width: 465
 				}]
 			}, {

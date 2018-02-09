@@ -31,7 +31,7 @@ var frHist = Ext.create('Ext.form.Panel', {
 				format: 'Y-m-d', 
 				altFormats: 'Y-m-d|Y.m.d|Y/m/d|Ymd', 
 				selectOnFocus: true,
-				value: new Date(Date.parse(new Date())-1000*60*60*24)				
+				value: new Date()				
 			}, {
 				xtype: 'datefield', 
 				name: 'TO_CONECT_DT', 

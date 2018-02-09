@@ -3645,6 +3645,7 @@ var frFile = Ext.create('Ext.form.Panel', {
 					labelSeparator: ':',
 					labelWidth: 70,
 					allowBlank: false,
+					emptyText : '상품(860*550), 추천(300*300)',
 					width: 410,
 					listeners:{
 						afterrender : function(ff, eOpts ){
