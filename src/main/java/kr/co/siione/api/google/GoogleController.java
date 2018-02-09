@@ -77,14 +77,20 @@ public class GoogleController {
 
        	if(result == null) {
        		String gender = "";
+       		String google_name = UserUtils.nvl(person.getDisplayName()).trim();
        		if("male".equals(person.getGender()))
        			gender = "M";
        		if("female".equals(person.getGender()))
        			gender = "F";
+       		
+       		if("".equals(google_name)) {
+       			google_name = UserUtils.nvl(person.getGivenName()) + " " + UserUtils.nvl(person.getFamilyName());
+       		}
+
        		model.addAttribute("joinMethod", "Google");
        		model.addAttribute("google_email", user_id);
        		model.addAttribute("google_gender", gender);       		
-       		model.addAttribute("google_name", person.getDisplayName());
+   			model.addAttribute("google_name", google_name);
         		
        		Map<String, String> param = new HashMap<String, String>();
        		Map<String, String> result1 = new HashMap<String, String>();
