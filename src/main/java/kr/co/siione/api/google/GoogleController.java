@@ -1,53 +1,21 @@
 package kr.co.siione.api.google;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import kr.co.siione.dist.utils.SimpleUtils;
-import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.mber.service.LoginService;
 import kr.co.siione.mngr.service.StplatManageService;
-import kr.co.siione.utl.LoginManager;
-import kr.co.siione.utl.MailManager;
 import kr.co.siione.utl.UserUtils;
-import kr.co.siione.utl.egov.EgovProperties;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.google.api.Google;
-import org.springframework.social.google.api.impl.GoogleTemplate;
 import org.springframework.social.google.api.plus.Person;
-import org.springframework.social.google.api.plus.PlusOperations;
-import org.springframework.social.oauth2.AccessGrant;
-import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 
 @Controller
@@ -76,6 +44,7 @@ public class GoogleController {
        	HashMap result = loginService.userInfo(map);
 
        	if(result == null) {
+       		System.out.println("google_person:"+person.getDisplayName()+"/"+person.getGivenName()+"/"+person.getFamilyName()+"/"+person.getGender()+"/");
        		String gender = "";
        		String google_name = UserUtils.nvl(person.getDisplayName()).trim();
        		if("male".equals(person.getGender()))
@@ -84,7 +53,7 @@ public class GoogleController {
        			gender = "F";
        		
        		if("".equals(google_name)) {
-       			google_name = UserUtils.nvl(person.getGivenName()) + " " + UserUtils.nvl(person.getFamilyName());
+       			google_name = (UserUtils.nvl(person.getGivenName()) + " " + UserUtils.nvl(person.getFamilyName())).trim();
        		}
 
        		model.addAttribute("joinMethod", "Google");

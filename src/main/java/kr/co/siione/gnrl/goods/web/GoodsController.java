@@ -254,145 +254,148 @@ public class GoodsController {
         	map.put("admin_at", UserUtils.nvl(param.get("adminAt"))); // 관리자에서 미리보기할 때
         	map.put("esntl_id", esntl_id);
         	HashMap result = goodsService.getGoodsDetail(map);
-        	HashMap review = goodsService.getReviewScore(map);
-        	String ceil_review_score = String.valueOf(review.get("CEIL_REVIEW_SCORE"));
-        	String review_count = String.valueOf(review.get("REVIEW_COUNT"));    
-        	String review_score = String.valueOf(review.get("REVIEW_SCORE"));      
-        	int wish_count = wishService.GoodsWishCount(map);
         	
-        	//hit
-        	if(!param.containsKey("adminAt")) {
-        		map.put("hit_ip", UserUtils.getUserIp(request));
-        		hitManageService.insertGoodsHit(map);
-        	}
+        	if(result == null) response.sendRedirect("/error/");
+        	else {
+            	HashMap review = goodsService.getReviewScore(map);
+            	String ceil_review_score = String.valueOf(review.get("CEIL_REVIEW_SCORE"));
+            	String review_count = String.valueOf(review.get("REVIEW_COUNT"));    
+            	String review_score = String.valueOf(review.get("REVIEW_SCORE"));      
+            	int wish_count = wishService.GoodsWishCount(map);
+            	
+            	//hit
+            	if(!param.containsKey("adminAt")) {
+            		map.put("hit_ip", UserUtils.getUserIp(request));
+            		hitManageService.insertGoodsHit(map);
+            	}
 
-        	List<HashMap> lstNmpr = new ArrayList();
-        	
-        	if(UserUtils.nvl(result.get("CL_SE")).equals("S")) {
-            	List<HashMap> lstNmpr_P = null;
-            	List<HashMap> lstRoom = null;
-            	List<HashMap> lstEat = null;
-            	List<HashMap> lstCheckC = null;
-            	List<HashMap> lstCheckB = null;
-        		map.put("setup_se", "R"); // 객실(필수)
-        		lstRoom = goodsService.getGoodsNmprBySetupSeList(map);
-        		map.put("setup_se", "E"); // 식사
-        		lstEat = goodsService.getGoodsNmprBySetupSeList(map);
-        		map.put("setup_se", "C"); // 늦은 체크아웃
-        		lstCheckC = goodsService.getGoodsNmprBySetupSeList(map);
-        		map.put("setup_se", "B"); // 이른 체크인
-        		lstCheckB = goodsService.getGoodsNmprBySetupSeList(map);
-        		map.put("setup_se", "P"); // 가격/단가(필수) > 숙박 외
-        		lstNmpr_P = goodsService.getGoodsNmprBySetupSeList(map);
-        		lstNmpr.addAll(lstRoom);
-        		lstNmpr.addAll(lstEat);
-        		lstNmpr.addAll(lstCheckB);
-        		lstNmpr.addAll(lstCheckC);
-        		lstNmpr.addAll(lstNmpr_P);
-        		model.addAttribute("E_cnt", lstEat.size());
-        		model.addAttribute("C_cnt", lstCheckB.size() + lstCheckC.size());
-        		model.addAttribute("P_cnt", lstNmpr_P.size());
-        		//model.addAttribute("lstRoom", lstRoom);
-        		//model.addAttribute("lstEat", lstEat);
-        		//model.addAttribute("lstCheck", lstCheck);
-        		//model.addAttribute("lstNmpr", lstNmpr);
-        		
-        		List<HashMap> lstRsvSchdul = goodsService.getReservationDt(map);
-                model.addAttribute("lstRsvSchdul", lstRsvSchdul);
-        	} else {
-        		map.put("setup_se", "P"); // 가격/단가(필수) > 숙박 외
-        		List<HashMap> lstNmpr_P = goodsService.getGoodsNmprBySetupSeList(map);
-        		map.put("setup_se", "V"); // 픽업/드랍(V) > 숙박 외
-        		List<HashMap> lstNmpr_V = goodsService.getGoodsNmprBySetupSeList(map);
-        		lstNmpr.addAll(lstNmpr_P);
-        		lstNmpr.addAll(lstNmpr_V);
-        		//model.addAttribute("lstNmpr_P", lstNmpr_P);
-        		//model.addAttribute("lstNmpr_V", lstNmpr_V);
-        		model.addAttribute("P_cnt", lstNmpr_P.size());
-        		model.addAttribute("V_cnt", lstNmpr_V.size());
-        	}
-        	map.remove("setup_se");
-        	
-        	List<HashMap> lstSchdul = goodsService.getGoodsSchdulList(map);
-        	List<HashMap> lstTime = goodsService.getGoodsTimeList(map);
-        	
-        	if(UserUtils.nvl(result.get("CL_SE")).equals("P")) {
-        		HashMap map2 = new HashMap();
-        		map2.put("USE_AT", "Y");
-        		List<Map<String, String>> lstFlight = arprtManageService.selectArprtList(map2);
-        		model.addAttribute("lstFlight", lstFlight);
-        	}
-        	map.put("file_code", result.get("FILE_CODE"));
-        	map.put("hotdeal_at", "N");
-        	map.put("recomend_at", "N");
-        	map.put("liveview_at", "N");
-        	List<HashMap> lstFile = fileService.getFileList(map);
-        	
-        	List<Map<String, String>> lstVoucher = new ArrayList();
-        	List<Map<String, String>> lstOpGuide = new ArrayList();
-        	List<Map<String, String>> lstEtcInfo = new ArrayList();
+            	List<HashMap> lstNmpr = new ArrayList();
+            	
+            	if(UserUtils.nvl(result.get("CL_SE")).equals("S")) {
+                	List<HashMap> lstNmpr_P = null;
+                	List<HashMap> lstRoom = null;
+                	List<HashMap> lstEat = null;
+                	List<HashMap> lstCheckC = null;
+                	List<HashMap> lstCheckB = null;
+            		map.put("setup_se", "R"); // 객실(필수)
+            		lstRoom = goodsService.getGoodsNmprBySetupSeList(map);
+            		map.put("setup_se", "E"); // 식사
+            		lstEat = goodsService.getGoodsNmprBySetupSeList(map);
+            		map.put("setup_se", "C"); // 늦은 체크아웃
+            		lstCheckC = goodsService.getGoodsNmprBySetupSeList(map);
+            		map.put("setup_se", "B"); // 이른 체크인
+            		lstCheckB = goodsService.getGoodsNmprBySetupSeList(map);
+            		map.put("setup_se", "P"); // 가격/단가(필수) > 숙박 외
+            		lstNmpr_P = goodsService.getGoodsNmprBySetupSeList(map);
+            		lstNmpr.addAll(lstRoom);
+            		lstNmpr.addAll(lstEat);
+            		lstNmpr.addAll(lstCheckB);
+            		lstNmpr.addAll(lstCheckC);
+            		lstNmpr.addAll(lstNmpr_P);
+            		model.addAttribute("E_cnt", lstEat.size());
+            		model.addAttribute("C_cnt", lstCheckB.size() + lstCheckC.size());
+            		model.addAttribute("P_cnt", lstNmpr_P.size());
+            		//model.addAttribute("lstRoom", lstRoom);
+            		//model.addAttribute("lstEat", lstEat);
+            		//model.addAttribute("lstCheck", lstCheck);
+            		//model.addAttribute("lstNmpr", lstNmpr);
+            		
+            		List<HashMap> lstRsvSchdul = goodsService.getReservationDt(map);
+                    model.addAttribute("lstRsvSchdul", lstRsvSchdul);
+            	} else {
+            		map.put("setup_se", "P"); // 가격/단가(필수) > 숙박 외
+            		List<HashMap> lstNmpr_P = goodsService.getGoodsNmprBySetupSeList(map);
+            		map.put("setup_se", "V"); // 픽업/드랍(V) > 숙박 외
+            		List<HashMap> lstNmpr_V = goodsService.getGoodsNmprBySetupSeList(map);
+            		lstNmpr.addAll(lstNmpr_P);
+            		lstNmpr.addAll(lstNmpr_V);
+            		//model.addAttribute("lstNmpr_P", lstNmpr_P);
+            		//model.addAttribute("lstNmpr_V", lstNmpr_V);
+            		model.addAttribute("P_cnt", lstNmpr_P.size());
+            		model.addAttribute("V_cnt", lstNmpr_V.size());
+            	}
+            	map.remove("setup_se");
+            	
+            	List<HashMap> lstSchdul = goodsService.getGoodsSchdulList(map);
+            	List<HashMap> lstTime = goodsService.getGoodsTimeList(map);
+            	
+            	if(UserUtils.nvl(result.get("CL_SE")).equals("P")) {
+            		HashMap map2 = new HashMap();
+            		map2.put("USE_AT", "Y");
+            		List<Map<String, String>> lstFlight = arprtManageService.selectArprtList(map2);
+            		model.addAttribute("lstFlight", lstFlight);
+            	}
+            	map.put("file_code", result.get("FILE_CODE"));
+            	map.put("hotdeal_at", "N");
+            	map.put("recomend_at", "N");
+            	map.put("liveview_at", "N");
+            	List<HashMap> lstFile = fileService.getFileList(map);
+            	
+            	List<Map<String, String>> lstVoucher = new ArrayList();
+            	List<Map<String, String>> lstOpGuide = new ArrayList();
+            	List<Map<String, String>> lstEtcInfo = new ArrayList();
 
-        	// 바우처
-        	if(!isEmpty(result, "VOCHR_TICKET_TY")) {
-        		Map<String, String> m = new HashMap<String, String>();
-        		m.put("text", "티켓형태");
-        		String ty = String.valueOf(result.get("VOCHR_TICKET_TY"));
-        		if("V".equals(ty))
-        			m.put("value", "E-바우처");
-        		else if("T".equals(ty))
-        			m.put("value", "E-티켓(캡쳐가능)");
-        		else if("E".equals(ty))
-        			m.put("value", "확정메일(캡쳐가능)");
-        		
-        		lstVoucher.add(m);
-        	}
-        	addList(result, "VOCHR_NTSS_REQRE_TIME", lstVoucher, "발권소요시간");
-        	addList(result, "VOCHR_USE_MTH", lstVoucher, "사용 방법");
-        	addList(result, "GUIDANCE_USE_TIME", lstOpGuide, "이용시간");
-        	addList(result, "GUIDANCE_REQRE_TIME", lstOpGuide, "소요시간");
-        	addList(result, "GUIDANCE_AGE_DIV", lstOpGuide, "연령구분");
-        	addList(result, "GUIDANCE_TOUR_SCHDUL", lstOpGuide, "여행일정");
-        	addList(result, "GUIDANCE_PRFPLC_LC", lstOpGuide, "가격구성"); //공연장위치
-        	addList(result, "GUIDANCE_EDC_CRSE", lstOpGuide, "긴급연락처"); //교육과정
-        	addList(result, "GUIDANCE_OPTN_MATTER", lstOpGuide, "옵션사항");
-        	addList(result, "GUIDANCE_PICKUP", lstOpGuide, "픽업");
-        	addList(result, "GUIDANCE_PRPARETG", lstOpGuide, "준비물");
-        	addList(result, "GUIDANCE_INCLS_MATTER", lstOpGuide, "포함사항");
-        	addList(result, "GUIDANCE_NOT_INCLS_MATTER", lstOpGuide, "불포함사항");
-        	addList(result, "ADIT_GUIDANCE", lstEtcInfo, "추가안내");
-        	addList(result, "ATENT_MATTER", lstEtcInfo, "유의사항");
-        	addList(result, "CHANGE_REFND_REGLTN", lstEtcInfo, "변경/환불규정");
-        	
-            model.addAttribute("bp", "01");
-            if("S".equals(category))
-            	model.addAttribute("btitle", "셀프여행");
-            else if("H".equals(category))
-                model.addAttribute("btitle", "핫딜여행");
-            else if("R".equals(category))
-                model.addAttribute("btitle", "추천여행");
-            model.addAttribute("mtitle", "여행상품상세보기");
-            model.addAttribute("category", category);
-            
-            model.addAttribute("goods_code", goods_code);
-            model.addAttribute("review_score", review_score);
-            model.addAttribute("review_count", review_count); 
-            model.addAttribute("ceil_review_score", ceil_review_score);
-            model.addAttribute("wish_count", wish_count);
-            model.addAttribute("result", result);
-            model.addAttribute("lstSchdul", lstSchdul);
-            model.addAttribute("lstTime", lstTime);
-            model.addAttribute("lstFile", lstFile);
-            model.addAttribute("lstVoucher", lstVoucher);
-            model.addAttribute("lstOpGuide", lstOpGuide);
-            model.addAttribute("lstEtcInfo", lstEtcInfo);
-            model.addAttribute("today", UserUtils.getDate("yyyy-MM-dd"));
-            model.addAttribute("lstNmpr", lstNmpr);
+            	// 바우처
+            	if(!isEmpty(result, "VOCHR_TICKET_TY")) {
+            		Map<String, String> m = new HashMap<String, String>();
+            		m.put("text", "티켓형태");
+            		String ty = String.valueOf(result.get("VOCHR_TICKET_TY"));
+            		if("V".equals(ty))
+            			m.put("value", "E-바우처");
+            		else if("T".equals(ty))
+            			m.put("value", "E-티켓(캡쳐가능)");
+            		else if("E".equals(ty))
+            			m.put("value", "확정메일(캡쳐가능)");
+            		
+            		lstVoucher.add(m);
+            	}
+            	addList(result, "VOCHR_NTSS_REQRE_TIME", lstVoucher, "발권소요시간");
+            	addList(result, "VOCHR_USE_MTH", lstVoucher, "사용 방법");
+            	addList(result, "GUIDANCE_USE_TIME", lstOpGuide, "이용시간");
+            	addList(result, "GUIDANCE_REQRE_TIME", lstOpGuide, "소요시간");
+            	addList(result, "GUIDANCE_AGE_DIV", lstOpGuide, "연령구분");
+            	addList(result, "GUIDANCE_TOUR_SCHDUL", lstOpGuide, "여행일정");
+            	addList(result, "GUIDANCE_PRFPLC_LC", lstOpGuide, "가격구성"); //공연장위치
+            	addList(result, "GUIDANCE_EDC_CRSE", lstOpGuide, "긴급연락처"); //교육과정
+            	addList(result, "GUIDANCE_OPTN_MATTER", lstOpGuide, "옵션사항");
+            	addList(result, "GUIDANCE_PICKUP", lstOpGuide, "픽업");
+            	addList(result, "GUIDANCE_PRPARETG", lstOpGuide, "준비물");
+            	addList(result, "GUIDANCE_INCLS_MATTER", lstOpGuide, "포함사항");
+            	addList(result, "GUIDANCE_NOT_INCLS_MATTER", lstOpGuide, "불포함사항");
+            	addList(result, "ADIT_GUIDANCE", lstEtcInfo, "추가안내");
+            	addList(result, "ATENT_MATTER", lstEtcInfo, "유의사항");
+            	addList(result, "CHANGE_REFND_REGLTN", lstEtcInfo, "변경/환불규정");
+            	
+                model.addAttribute("bp", "01");
+                if("S".equals(category))
+                	model.addAttribute("btitle", "셀프여행");
+                else if("H".equals(category))
+                    model.addAttribute("btitle", "핫딜여행");
+                else if("R".equals(category))
+                    model.addAttribute("btitle", "추천여행");
+                model.addAttribute("mtitle", "여행상품상세보기");
+                model.addAttribute("category", category);
+                
+                model.addAttribute("goods_code", goods_code);
+                model.addAttribute("review_score", review_score);
+                model.addAttribute("review_count", review_count); 
+                model.addAttribute("ceil_review_score", ceil_review_score);
+                model.addAttribute("wish_count", wish_count);
+                model.addAttribute("result", result);
+                model.addAttribute("lstSchdul", lstSchdul);
+                model.addAttribute("lstTime", lstTime);
+                model.addAttribute("lstFile", lstFile);
+                model.addAttribute("lstVoucher", lstVoucher);
+                model.addAttribute("lstOpGuide", lstOpGuide);
+                model.addAttribute("lstEtcInfo", lstEtcInfo);
+                model.addAttribute("today", UserUtils.getDate("yyyy-MM-dd"));
+                model.addAttribute("lstNmpr", lstNmpr);
 
-            if(referer != null && referer.indexOf("goods/list") > -1)
-            	model.addAttribute("back_goodslist", "Y");
-            else
-            	model.addAttribute("back_goodslist", "N");
-            
+                if(referer != null && referer.indexOf("goods/list") > -1)
+                	model.addAttribute("back_goodslist", "Y");
+                else
+                	model.addAttribute("back_goodslist", "N");
+        	}
     	} catch(Exception e) {
     		e.printStackTrace();
     	}

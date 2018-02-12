@@ -89,7 +89,7 @@ public class LoginController {
         /* 페이스북code 발행 */
         //String facebook_url = facebookService.initFacebookLogin(request);
 
-		System.out.println("구글:" + google_url);
+		//System.out.println("구글:" + google_url);
 		model.addAttribute("google_url", google_url);
 		//model.addAttribute("facebook_url", facebook_url);
 

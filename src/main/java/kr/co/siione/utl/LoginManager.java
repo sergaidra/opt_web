@@ -2,6 +2,7 @@ package kr.co.siione.utl;
 
 import java.io.PrintStream;
 import java.util.*;
+
 import javax.servlet.http.*;
 
 public class LoginManager implements HttpSessionBindingListener{
@@ -29,8 +30,9 @@ public class LoginManager implements HttpSessionBindingListener{
 	public void valueBound(HttpSessionBindingEvent event) {
 		//session값을 put한다.
 		loginUsers.put(event.getSession(), event.getName());
-		System.out.println(event.getName() + "님이 로그인 하셨습니다.");
-		System.out.println("현재 접속자 수 : " + getUserCount());
+		System.out.println(UserUtils.getDate("yyyy-MM-dd HH:mm:ss")+" "+event.getName() + "님이 로그인 하셨습니다.");
+		System.out.println(UserUtils.getDate("yyyy-MM-dd HH:mm:ss")+" 현재 접속자 수 : " + getUserCount());
+		printloginUsers();
 	}
 	
 	
@@ -41,8 +43,9 @@ public class LoginManager implements HttpSessionBindingListener{
 	public void valueUnbound(HttpSessionBindingEvent event) {
 		//session값을 찾아서 없애준다.
 		loginUsers.remove(event.getSession());
-		System.out.println(" " + event.getName() + "님이 로그아웃 하셨습니다.");
-		System.out.println("현재 접속자 수 : " + getUserCount());
+		System.out.println(UserUtils.getDate("yyyy-MM-dd HH:mm:ss")+" "+event.getName() + "님이 로그아웃 하셨습니다.");
+		System.out.println(UserUtils.getDate("yyyy-MM-dd HH:mm:ss")+" 현재 접속자 수 : " + getUserCount());
+		if(getUserCount() > 0) printloginUsers();
 	}
 	
 	

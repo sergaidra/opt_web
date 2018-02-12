@@ -4,6 +4,7 @@
 	<decorator name="mainlayout" page="mainlayout.jsp">
 		<pattern>/main/intro/*</pattern>
 		<pattern>/member/login*</pattern>
+		<pattern>/error/</pattern>
 	</decorator>
 	<decorator name="sublayout" page="sublayout.jsp">
 		<pattern>/*</pattern>

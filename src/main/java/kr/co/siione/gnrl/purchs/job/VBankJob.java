@@ -28,6 +28,7 @@ public class VBankJob  extends QuartzJobBean {
 		
 		try {
 			List<HashMap> lst = orderService.getPastVBank(map);
+			System.out.println("getPastVBank:"+lst);
 
 			for(int i = 0; i < lst.size(); i++) {
 				String purchs_sn = String.valueOf(lst.get(i).get("PURCHS_SN"));
