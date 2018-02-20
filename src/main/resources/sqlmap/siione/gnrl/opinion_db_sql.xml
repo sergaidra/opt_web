@@ -5,20 +5,21 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 	
 	<resultMap id="opinionMap" class="java.util.HashMap">
-	    <result property="OPINION_SN"/>
-	    <result property="OPINION_SJ"/>
-	    <result property="OPINION_CN" javaType="java.lang.String" jdbcType="CLOB"/> 
-	    <result property="GOODS_CODE"/>
-	    <result property="DELETE_AT"/>
-	    <result property="WRITNG_ID"/>
-	    <result property="WRITNG_DT"/>
-	    <result property="PARENT_OPINION_SN"/>
-	    <result property="USER_NM"/>
-	    <result property="GOODS_NM"/>	    
-	    <result property="CHILDCNT"/>	    
-	    <result property="DEPTH"/>	    
-	    <result property="C_OPINION_SN"/>
-	    <result property="C_OPINION_CN" javaType="java.lang.String" jdbcType="CLOB"/> 
+	    <result column="OPINION_SN"        property="OPINION_SN"/>
+	    <result column="OPINION_SJ"        property="OPINION_SJ"/>
+	    <result column="OPINION_CN"        property="OPINION_CN" javaType="java.lang.String" jdbcType="CLOB"/> 
+	    <result column="GOODS_CODE"        property="GOODS_CODE"/>
+	    <result column="DELETE_AT"         property="DELETE_AT"/>
+	    <result column="WRITNG_ID"         property="WRITNG_ID"/>
+	    <result column="WRITNG_DT"         property="WRITNG_DT"/>
+	    <result column="PARENT_OPINION_SN" property="PARENT_OPINION_SN"/>
+	    <result column="USER_NM"           property="USER_NM"/>
+	    <result column="GOODS_NM"          property="GOODS_NM"/>	    
+	    <result column="CHILDCNT"          property="CHILDCNT"/>	    
+	    <result column="DEPTH"             property="DEPTH"/>	    
+	    <result column="ISNEW"             property="ISNEW"/>	    
+	    <result column="C_OPINION_SN"      property="C_OPINION_SN"/>
+	    <result column="C_OPINION_CN"      property="C_OPINION_CN" javaType="java.lang.String" jdbcType="CLOB"/> 
 	</resultMap>
 
 	<sql id="whereOpinionList">
@@ -44,6 +45,7 @@
 		SELECT PO.OPINION_SN, PO.OPINION_SJ, PO.OPINION_CN, PO.GOODS_CODE, PO.DELETE_AT, PO.WRITNG_ID
 			, TO_CHAR(PO.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT, PO.PARENT_OPINION_SN, U.USER_NM, G.GOODS_NM
 			, 0 AS CHILDCNT, 1 AS DEPTH, CPO.OPINION_SN AS C_OPINION_SN, CPO.OPINION_CN AS C_OPINION_CN
+			, CASE WHEN TRUNC(PO.WRITNG_DT) BETWEEN TRUNC(SYSDATE-7) AND TRUNC(SYSDATE) THEN 'Y' ELSE 'N' END AS ISNEW
 		FROM (
 			SELECT OPINION_SN, ROWNUM AS RNUM
 			FROM (
@@ -65,6 +67,7 @@
 		SELECT PO.OPINION_SN, PO.OPINION_SJ, PO.OPINION_CN, PO.GOODS_CODE, PO.DELETE_AT, PO.WRITNG_ID
 			, TO_CHAR(PO.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT, PO.PARENT_OPINION_SN, U.USER_NM, G.GOODS_NM, 0 AS CHILDCNT, 2 AS DEPTH
 			, '' AS C_OPINION_SN, '' AS C_OPINION_CN
+			, CASE WHEN TRUNC(PO.WRITNG_DT) BETWEEN TRUNC(SYSDATE-7) AND TRUNC(SYSDATE) THEN 'Y' ELSE 'N' END AS ISNEW
 		FROM TB_PURCHS_OPINION PO
 		INNER JOIN TB_USER U ON PO.WRITNG_ID = U.ESNTL_ID
 		INNER JOIN TB_GOODS G ON PO.GOODS_CODE = G.GOODS_CODE
@@ -88,6 +91,7 @@
 			, PO.WRITNG_DT, PO.PARENT_OPINION_SN, U.USER_NM, '' AS GOODS_NM
 			, (SELECT COUNT(1) FROM TB_PURCHS_OPINION WHERE PARENT_OPINION_SN = PO.OPINION_SN AND DELETE_AT = 'N') AS CHILDCNT, 1 AS DEPTH
 			, '' AS C_OPINION_SN, '' AS C_OPINION_CN
+			, CASE WHEN TRUNC(PO.WRITNG_DT) BETWEEN TRUNC(SYSDATE-7) AND TRUNC(SYSDATE) THEN 'Y' ELSE 'N' END AS ISNEW
 		FROM TB_PURCHS_OPINION PO
 		INNER JOIN TB_USER U ON PO.WRITNG_ID = U.ESNTL_ID
 		WHERE OPINION_SN = #opinion_sn#

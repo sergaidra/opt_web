@@ -58,7 +58,12 @@ function search(pageNo) {
         		{
             		var tr = $("<tr onclick='javascript:viewBbs(" + data.list[cnt].BBS_SN + ");'></tr>");
             		var td1 = $("<td>" + (Number(data.startIdx) + cnt) + "</td>");
-            		var td2 = $("<td class=\"left\">" + data.list[cnt].SUBJECT + "<img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /></td>")
+            		var td2 = null;
+            		if(data.list[cnt].ISNEW == "Y") {
+            			td2 = $("<td class=\"left\">" + data.list[cnt].SUBJECT + " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /></td>");
+            		} else {
+            			td2 = $("<td class=\"left\">" + data.list[cnt].SUBJECT + "</td>");
+            		}
             		var td3 = $("<td>" + data.list[cnt].VIEWCNT + "</td>");
             		var td4 = $("<td>" + data.list[cnt].WRITNG_DT + "</td>");
             		
@@ -71,8 +76,14 @@ function search(pageNo) {
         		}
         		{
             		var tr = $("<tr onclick='javascript:viewBbs(" + data.list[cnt].BBS_SN + ");'></tr>");;
-            		var td1 = $("<td class=\"left\"><em>no." + (Number(data.startIdx) + cnt) + " [" + data.list[cnt].WRITNG_DT + "]</em><br>"
-            			    + data.list[cnt].SUBJECT + "<img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /></td>");
+            		var td1 = null;
+            		if(data.list[cnt].ISNEW == "Y") {
+            			td1 = $("<td class=\"left\"><em>no." + (Number(data.startIdx) + cnt) + " [" + data.list[cnt].WRITNG_DT + "]</em><br>"
+                			+ data.list[cnt].SUBJECT + " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /></td>");
+            		} else {
+            			td1 = $("<td class=\"left\"><em>no." + (Number(data.startIdx) + cnt) + " [" + data.list[cnt].WRITNG_DT + "]</em><br>"
+                			+ data.list[cnt].SUBJECT + "</td>");
+            		}
             		
             		$(tr).append(td1);
             		

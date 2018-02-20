@@ -64,10 +64,19 @@ function search(pageNo) {
                 		if("${author_cl}" == "A" || "${author_cl}" == "M") {
                 			if(data.list[cnt].DELETE_AT == 'A')
                     			td2 = $("<td class='left'>[삭제] [" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "</td>");
-                			else
-                    			td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "</td>");
+                			else {
+                				if(data.list[cnt].ISNEW == "Y") {
+                					td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /> </td>");
+                				} else {
+                					td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "</td>");	
+                				}
+                			}
                 		} else {
-                    		td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "</td>");
+                			if(data.list[cnt].ISNEW == "Y") {
+                				td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /> </td>");
+                			} else {
+                				td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "</td>");	
+                			}
                 		}
                 		rowCnt++;
             		} else {
@@ -75,7 +84,11 @@ function search(pageNo) {
             			for(var cnt2 = 1; cnt2 < data.list[cnt].LVL; cnt2++)
             				space += "&nbsp;&nbsp;";
                 		td1 = $("<td></td>");
-                		td2 = $("<td class='left'>" + space + "→ " + data.list[cnt].SUBJECT + "</td>");
+                		if(data.list[cnt].ISNEW == "Y") {
+                			td2 = $("<td class='left'>" + space + "→ " + data.list[cnt].SUBJECT + " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /> </td>");
+                		} else {
+                			td2 = $("<td class='left'>" + space + "→ " + data.list[cnt].SUBJECT + "</td>");	
+                		}
             		}
             		var td3 = $("<td>" + data.list[cnt].VIEWCNT + "</td>");
             		var td4 = $("<td>" + data.list[cnt].USER_NM + "</td>");        		
@@ -98,12 +111,20 @@ function search(pageNo) {
             		}
             		var td1 = null;
             		if(data.list[cnt].LVL == 1) {
-                		td1 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "<br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");
+            			if(data.list[cnt].ISNEW == 'Y') {
+            				td1 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /><br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");            				
+            			} else {
+            				td1 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "<br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");	
+            			}
             		} else {
             			var space = "";
             			for(var cnt2 = 1; cnt2 < data.list[cnt].LVL; cnt2++)
             				space += "&nbsp;&nbsp;";
-                		td1 = $("<td class='left'>" + space + "→ " + data.list[cnt].SUBJECT + "<br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");
+            			if(data.list[cnt].ISNEW == 'Y') {
+            				td1 = $("<td class='left'>" + space + "→ " + data.list[cnt].SUBJECT + " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /><br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");
+            			} else {
+            				td1 = $("<td class='left'>" + space + "→ " + data.list[cnt].SUBJECT + "<br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");	
+            			}
             		}
             		
             		$(tr).append(td1);
@@ -177,10 +198,10 @@ function search(pageNo) {
 	   <div class="com_stitle">여행상담&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">※ 해당 게시판은 비공개로 작성됩니다.</span></div>
         <div class="review_list_box">
           <table width="100%" class="review_list"  id="tblList">
-            <col width="8%" />
-            <col width="" />
             <col width="5%" />
-            <col width="15%" />
+            <col width="" />
+            <col width="8%" />
+            <col width="10%" />
             <col width="15%" />
             <thead>
               <tr>

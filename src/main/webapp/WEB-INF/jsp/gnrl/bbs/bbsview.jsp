@@ -51,11 +51,13 @@ function write() {
 	param.category = $("#category").val();
 	param.subject = $.trim($("#subject").val());
 	param.contents = $.trim($("#contents").val());
-	param.secret_at = "Y";
+	//param.secret_at = "Y";
 	param.subcategory = $("#subcategory").val();
-	//if($("#secret_at").is(":checked")) {
-	//	param.secret_at = "Y";
-	//}	
+	if($("#secret_at").is(":checked")) {
+		param.secret_at = "Y";
+	} else {
+		param.secret_at = "N";
+	}	
 	
 	if(!confirm("저장하겠습니까?"))
 		return;
@@ -138,9 +140,14 @@ function deletebbsadmin() {
 	param.category = $("#category").val();
 	param.subject = $.trim($(".featherlight #answer_subject").val());
 	param.contents = $.trim($(".featherlight #answer_contents").val());
-	param.secret_at = "Y";
+	//param.secret_at = "Y";
 	param.subcategory = $("#subcategory").val();
 	param.parent_bbs_sn = $.trim($("#bbs_sn").val());
+	if($("#secret_at").is(":checked")) {
+		param.secret_at = "Y";
+	} else {
+		param.secret_at = "N";
+	}
 	
 	if(!confirm("사용자글을 삭제하겠습니까?"))
 		return;
@@ -195,11 +202,13 @@ function modifyaction() {
 	param.subject = $.trim($("#subject").val());
 	param.contents = $.trim($("#contents").val());
 	param.bbs_sn = $.trim($("#bbs_sn").val());
-	param.secret_at = "Y";
+	//param.secret_at = "Y";
 	param.subcategory = $("#subcategory").val();
-	//if($("#secret_at").is(":checked")) {
-	//	param.secret_at = "Y";
-	//}	
+	if($("#secret_at").is(":checked")) {
+		param.secret_at = "Y";
+	} else {
+		param.secret_at = "N";
+	}
 	
 	if(!confirm("수정하겠습니까?"))
 		return ;
@@ -323,12 +332,14 @@ function writeanswer() {
 	param.category = $("#category").val();
 	param.subject = $.trim($(".featherlight #answer_subject").val());
 	param.contents = $.trim($(".featherlight #answer_contents").val());
-	param.secret_at = "Y";
+	//param.secret_at = "Y";
 	param.subcategory = $("#subcategory").val();
 	param.parent_bbs_sn = $.trim($("#bbs_sn").val());
-	//if($("#secret_at").is(":checked")) {
-	//	param.secret_at = "Y";
-	//}	
+	if($("#secret_at").is(":checked")) {
+		param.secret_at = "Y";
+	} else {
+		param.secret_at = "N";
+	}	
 	
 	if(!confirm("저장하겠습니까?"))
 		return ;
@@ -382,19 +393,26 @@ function writeanswer() {
 	        <c:if test="${mode == 'view'}" >상세보기</c:if>
 	    </div>
         <div class="review_wr_box">
-        	<input type="checkbox" id="secret_at" name="secret_at" checked style="display:none;">
+        	<c:if test="${mode == 'write' or mode == 'modify' }" >
             <table  class="review_wr">
-                <col width="15%" />
-                <col width="" />
-                <col width="15%" />
-                <col width="" />
+                <col width="13%" />
+                <col width="22%" />
+                <col width="12%" />
+                <col width="23%" />
+                <col width="12%" />
+                <col width="18%" />
                 <tbody>
-				<c:if test="${mode == 'write' or mode == 'modify' }" >
                    <tr>
                     <th>작성자</th>
                     <td>${view.USER_NM }</td>
+                    <th>작성일</th>
+                    <td>${view.WRITNG_DT }</td>
+                    <th>비밀글</th>
+                    <td class="end"><input type="checkbox" id="secret_at" name="secret_at" <c:if test="${view.SECRET_AT == 'Y'}"> checked</c:if>></td>
+                  </tr>
+                   <tr>
                     <th>문의종류</th>
-                    <td class="end">
+                    <td>
                     	<c:if test="${mode == 'write'}" >
                     	<select id="subcategory" name="subcategory" style="width:100%;">
                     		<option value="R">예약문의</option>
@@ -405,28 +423,31 @@ function writeanswer() {
                     	<c:if test="${mode == 'modify' }" >
                     		${view.SUBCATEGORYNM}<input id="subcategory" name="subcategory" type="hidden" value="${view.SUBCATEGORY}" />
                     	</c:if>
-                    </td>
-                  </tr>
-                   <tr>
-                    <th>작성일</th>
-                    <td>${view.WRITNG_DT }</td>
+                    </td>                  
                     <th>이메일</th>
-                    <td class="end">${view.EMAIL }</td>
+                    <td class="end" colspan="5">${view.EMAIL }</td>
                   </tr>
                   <tr>
                     <th>제목</th>
-                    <td colspan="3" class="end">
+                    <td colspan="5" class="end">
                     	<input type="text" id="subject" name="subject" class="input_st01" style="width:100%" value="${view.SUBJECT}">
                     </td>
                   </tr>
                   <tr>
                     <th>내용</th>
-                    <td colspan="3" class="end">
+                    <td colspan="5" class="end">
                     	<textarea id="contents" name="contents" class="input_st01" style="width:100%; height:250px;">${view.CONTENTS}</textarea>
                     </td>
                   </tr>
-				</c:if>
-				<c:if test="${mode == 'view' }" >
+			</c:if>
+			<c:if test="${mode == 'view' }" >
+			<input type="checkbox" id="secret_at" name="secret_at" <c:if test="${view.SECRET_AT == 'Y'}"> checked</c:if> style="display:none;">
+            <table  class="review_wr">
+                <col width="15%" />
+                <col/>
+                <col width="15%" />
+                <col/>
+                <tbody>				
                    <tr>
                     <th>작성자</th>
                     <td>${view.USER_NM }</td>

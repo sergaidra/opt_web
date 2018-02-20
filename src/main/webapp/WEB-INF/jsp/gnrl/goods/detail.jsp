@@ -12,7 +12,7 @@
 <c:set var="pageUrl" value="${ baseURL }${ requestPath }?${params}"/>
 	<meta property="og:url"           content="${pageUrl}" />
 	<meta property="og:type"          content="website" />
-	<meta property="og:title"         content="원패스투어 - ${result.GOODS_NM}" />
+	<meta property="og:title"         content='원패스투어 - ${result.GOODS_NM}' />
 	<meta property="og:description"   content="${fn:replace(result.GOODS_INTRCN_SIMPL, '<BR>', ' ')}" />
 	<meta property="og:image"         content="${ baseURL }<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}" />
 
@@ -1199,14 +1199,14 @@ function replaceBrSpace(str) {
 
 function naverShare() {
 	var url = encodeURI(encodeURIComponent(document.location.href));
-    var title = encodeURI("원패스투어 - ${result.GOODS_NM}");
+    var title = encodeURI('원패스투어 - ${result.GOODS_NM}');
     var shareURL = "http://share.naver.com/web/shareView.nhn?url=" + url + "&title=" + title;
     window.open(shareURL);
 }
 
 function facebookShare() {
 	var url = encodeURIComponent(document.location.href);
-    var title = encodeURIComponent("원패스투어 - ${result.GOODS_NM}");
+    var title = encodeURIComponent('원패스투어 - ${result.GOODS_NM}');
     var shareURL = "https://www.facebook.com/sharer/sharer.php?u=" + url;
     window.open(shareURL);
 }
@@ -1234,7 +1234,7 @@ function googleShare() {
 <input type="hidden" id="pageSize" name="pageSize" value="5">
 <input type="hidden" id="blockSize" name="blockSize" value="5">	
 
-<input type="hidden" id="goods_nm" name="goods_nm" value="${result.GOODS_NM}">
+<input type="hidden" id="goods_nm" name="goods_nm" value='${result.GOODS_NM}'>
 <section>
 
 <div id="container">
