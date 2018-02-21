@@ -497,10 +497,12 @@ function writeanswer() {
 	               			</td>
 	               		</tr>
 	                	</c:forEach>
+	                	<c:if test="${!empty esntl_id}">
 	                	<tr>
 	                		<th>댓글 작성</th>
 	                		<td class="end"><input type="text" id="cmt" name="cmt" style="width:calc(100% - 50px);"><a href="javascript:writeComment();" class="button_m1 mr_2" style="float:right; padding:3px;">작성</a></td>
 	                	</tr>
+	                	</c:if>
 	                </tbody>
 				</table>              
 	        </div>

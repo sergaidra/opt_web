@@ -343,7 +343,7 @@ function chkPwd(str){
   </div>
 		  
   <!-- btn -->
-  <div class="btn_box_box"><a href="javascript:join(); " class="button_b1">회원가입</a></div>
+  <div class="btn_box_box"><a href="javascript:join(); " class="button_b1">간편가입</a></div>
   <!-- /btn --> 
   
 </div>

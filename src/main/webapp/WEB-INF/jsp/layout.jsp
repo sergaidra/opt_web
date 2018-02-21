@@ -106,7 +106,7 @@
 				</c:when>
 				<c:otherwise>
 					<li class="login">로그인</li>
-					<li class="regi">회원가입</li>
+					<li class="regi">간편가입</li>
 				</c:otherwise>
 			</c:choose>
 			<c:if test="${author_cl == 'A' || author_cl == 'M' }">

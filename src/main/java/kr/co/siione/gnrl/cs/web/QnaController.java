@@ -54,7 +54,7 @@ public class QnaController {
 
         model.addAttribute("bp", "07");
         model.addAttribute("btitle", "고객지원");
-       	model.addAttribute("mtitle", "문의하기");
+       	model.addAttribute("mtitle", "상품문의·답변");
 		
 		return "gnrl/cs/qna";
 	}

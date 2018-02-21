@@ -16,6 +16,15 @@ $(function(){
 	search(1);
 });
 
+function writeBbs() {
+	if("${esntl_id}") {
+		$(location).attr("href", "/bbs/write");
+	} else {
+		alert("로그인 후 문의가능합니다.");
+		$(location).attr("href", "/member/login/");
+	}
+}
+
 function viewBbs(bbs_sn) {
 	var frm = $("#frmBbs");
 	$("#bbs_sn").val(bbs_sn);
@@ -195,7 +204,26 @@ function search(pageNo) {
 	   <div class="sp_50 pc_view"></div>
 	 <div class="sp_20 mobile_view"></div>
   <div class="inner2"><div class="comf">
-	   <div class="com_stitle">여행상담&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">※ 해당 게시판은 비공개로 작성됩니다.</span></div>
+	   <!-- <div class="com_stitle">여행상담&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">여러분의 즐거운 여행을 상담해 드립니다!!</span></div> -->
+	         <div class="bbs_search">
+        <div class="search_text">
+          <div class="tx1"><i class="material-icons">&#xE8FD;</i></div>
+          <div class="tx2">여러분의 즐거운 여행을 상담해 드립니다!! </div>
+        </div>
+        <!-- <div class="search_in">
+          <div class="search_select ">기본 셀렉트 박스 .w_100p는 사이즈
+            <select class="w_100p">
+              <option>상세분류</option>
+              <option>상세분류</option>
+            </select>
+            
+            //기본 셀렉트 박스</div>
+          <div class="search_input  search_input_w">
+            <input type="text" class="w_100p">
+            <div class="btn"><i class="material-icons">&#xE8B6;</i></div>
+          </div>
+        </div> -->
+      </div>
         <div class="review_list_box">
           <table width="100%" class="review_list"  id="tblList">
             <col width="5%" />
@@ -236,7 +264,7 @@ function search(pageNo) {
       </div>
       <!--//페이징 --> 
 
-       <div class="right_btn"><a href="/bbs/write" class="button_m1">문의하기</a> </div>
+       <div class="right_btn"><a href="javascript:writeBbs();" class="button_m1">문의하기</a> </div>
        
       <!--//하단버튼/ 페이징 -->
       

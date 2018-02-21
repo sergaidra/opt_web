@@ -86,7 +86,7 @@ function facebookLogin() {
         <div class="find">
           <div class="text1">아직도 회원이 아니신가요? </div>
           
-          <div class="btn"><a href="<c:url value='/member/join'/>">회원가입</a></div>
+          <div class="btn"><a href="<c:url value='/member/join'/>">간편가입</a></div>
         </div>
         <div class="find">
           <div class="text1">비밀번호를 분실하셨나요? </div>

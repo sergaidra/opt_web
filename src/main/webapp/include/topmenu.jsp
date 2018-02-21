@@ -22,7 +22,7 @@
       <li><a href="javascript:go_07_08_01();"><spring:message code='topmenu.usetext3'/></a> </li>
     </ul>
   </li>
-	<li><a href="javascript:go_05_01_01();" style="color:red !important;"><spring:message code='topmenu.consult'/></a></li>
+	<li><a href="javascript:go_05_01_01();"><spring:message code='topmenu.consult'/></a></li>
 </ul>
 
 <!---//탑메뉴--> 
