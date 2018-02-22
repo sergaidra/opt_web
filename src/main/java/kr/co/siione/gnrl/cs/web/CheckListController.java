@@ -54,7 +54,7 @@ public class CheckListController {
 
         model.addAttribute("bp", "04");
        	model.addAttribute("btitle", "여행체크리스트");
-       	model.addAttribute("mtitle", "여행체크리스트");
+       	model.addAttribute("mtitle", "");
         
 		return "gnrl/cs/checklist";
 	}

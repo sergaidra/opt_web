@@ -59,6 +59,9 @@ function search(pageNo) {
         success : function(data,status,request){
         	var rowCnt = 0;
         	for(var cnt = 0; cnt < data.list.length; cnt++) {
+				var strImage = "";
+				if(data.list[cnt].SECRET_AT == "Y") strImage += " <img src=\"/images/com/icon_lock.gif\" width=\"14\" height=\"15\" />";
+				if(data.list[cnt].ISNEW == "Y") strImage += " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" />";
         		{
             		var tr = null;
             		if(data.list[cnt].SECRET_AT == "Y" && data.list[cnt].ORIGIN_WRITNG_ID != "${esntl_id}" && !("${author_cl}" == "A" || "${author_cl}" == "M")) {
@@ -74,18 +77,10 @@ function search(pageNo) {
                 			if(data.list[cnt].DELETE_AT == 'A')
                     			td2 = $("<td class='left'>[삭제] [" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "</td>");
                 			else {
-                				if(data.list[cnt].ISNEW == "Y") {
-                					td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /> </td>");
-                				} else {
-                					td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "</td>");	
-                				}
+               					td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + strImage + "</td>");
                 			}
                 		} else {
-                			if(data.list[cnt].ISNEW == "Y") {
-                				td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /> </td>");
-                			} else {
-                				td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "</td>");	
-                			}
+                			td2 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + strImage + "</td>");
                 		}
                 		rowCnt++;
             		} else {
@@ -93,11 +88,7 @@ function search(pageNo) {
             			for(var cnt2 = 1; cnt2 < data.list[cnt].LVL; cnt2++)
             				space += "&nbsp;&nbsp;";
                 		td1 = $("<td></td>");
-                		if(data.list[cnt].ISNEW == "Y") {
-                			td2 = $("<td class='left'>" + space + "→ " + data.list[cnt].SUBJECT + " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /> </td>");
-                		} else {
-                			td2 = $("<td class='left'>" + space + "→ " + data.list[cnt].SUBJECT + "</td>");	
-                		}
+               			td2 = $("<td class='left'>" + space + " <img src=\"/images/com/icon_rere.gif\" width=\"19\" height=\"9\" /> " + data.list[cnt].SUBJECT + strImage + "</td>");
             		}
             		var td3 = $("<td>" + data.list[cnt].VIEWCNT + "</td>");
             		var td4 = $("<td>" + data.list[cnt].USER_NM + "</td>");        		
@@ -120,20 +111,13 @@ function search(pageNo) {
             		}
             		var td1 = null;
             		if(data.list[cnt].LVL == 1) {
-            			if(data.list[cnt].ISNEW == 'Y') {
-            				td1 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /><br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");            				
-            			} else {
-            				td1 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + "<br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");	
-            			}
+						td1 = $("<td class='left'>[" + data.list[cnt].SUBCATEGORYNM + "] " + data.list[cnt].SUBJECT + strImage + "<br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");	
             		} else {
             			var space = "";
             			for(var cnt2 = 1; cnt2 < data.list[cnt].LVL; cnt2++)
             				space += "&nbsp;&nbsp;";
-            			if(data.list[cnt].ISNEW == 'Y') {
-            				td1 = $("<td class='left'>" + space + "→ " + data.list[cnt].SUBJECT + " <img src=\"/images/com/icon_new.gif\" width=\"19\" height=\"9\" /><br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");
-            			} else {
-            				td1 = $("<td class='left'>" + space + "→ " + data.list[cnt].SUBJECT + "<br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");	
-            			}
+
+           				td1 = $("<td class='left'>" + space + " <img src=\"/images/com/icon_rere.gif\" width=\"19\" height=\"9\" /> " + data.list[cnt].SUBJECT + strImage + "<br/>" + data.list[cnt].USER_NM + "(" + data.list[cnt].WRITNG_DT + ")</td>");	
             		}
             		
             		$(tr).append(td1);
@@ -208,7 +192,7 @@ function search(pageNo) {
 	         <div class="bbs_search">
         <div class="search_text">
           <div class="tx1"><i class="material-icons">&#xE8FD;</i></div>
-          <div class="tx2">여러분의 즐거운 여행을 상담해 드립니다!! </div>
+          <div class="tx2">궁금한 점을 남기시면 답변해 드립니다.</div>
         </div>
         <!-- <div class="search_in">
           <div class="search_select ">기본 셀렉트 박스 .w_100p는 사이즈

@@ -387,7 +387,7 @@ function writeanswer() {
 	   <div class="sp_50"></div>
   <div class="inner2">
   	<div class="order_list">
-	   <div class="com_stitle">여행상담
+	   <div class="com_stitle">
 	        <c:if test="${mode == 'write'}" >작성하기</c:if>
 	        <c:if test="${mode == 'modify'}" >수정하기</c:if>
 	        <c:if test="${mode == 'view'}" >상세보기</c:if>
@@ -415,9 +415,10 @@ function writeanswer() {
                     <td>
                     	<c:if test="${mode == 'write'}" >
                     	<select id="subcategory" name="subcategory" style="width:100%;">
-                    		<option value="R">예약문의</option>
-                    		<option value="G">상품문의</option>
-                    		<option value="F">환불문의</option>
+                    		<option value="R">예약</option>
+                    		<option value="G">상품</option>
+                    		<option value="F">환불</option>
+                    		<option value="X">기타</option>
                     	</select>
                     	</c:if>
                     	<c:if test="${mode == 'modify' }" >

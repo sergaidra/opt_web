@@ -76,8 +76,8 @@ public class BbsController {
 
         model.addAttribute("category", "R");
 
-        model.addAttribute("bp", "07");
-       	model.addAttribute("btitle", "여행상담");
+        model.addAttribute("bp", "08");
+       	model.addAttribute("btitle", "문의하기");
         model.addAttribute("mtitle", "");
 		
 		return "gnrl/bbs/bbslist";

@@ -10,25 +10,20 @@
 <section>
      
       <div id="container">
-      <div class="sp_100 w_90p_center mt_100"></div> 
-    <div class="inner  mb_100 text-center">
-
-잘못된 접근입니다.
-
-	 <br><br>
-
-    <!-- btn -->
-  <div class="btn_box_box"><a href="/" class="button_b1">메인으로 이동</a></div>
-  <!-- /btn --> 
-		  
-  
-
-		  
-	    </div> 
-		<div class="sp_50 pc_view"></div>
-	 <div class="sp_20 mobile_view"></div>
+      <div class="sp_50"></div>
+		    <div class="sp_50"></div>
+		    <div class="sp_50"></div>
+    <div class="inner2">
+      <div class="warning">
+        <div class="img"><img src="../../../images/com/warning_img.png"  alt=""/></div>
+		    <div class="tx1">잘못된 접근입니다.</div>
+		    <div class="tx2"></div>
+	    <div class="gohome"><a href="/">메인으로 이동 +</a></div>
+      </div>
+    </div>
+		      <div class="sp_50"></div>
   </div>
-     
+  
 </section>
 <!-- //본문 -->
 

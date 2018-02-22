@@ -2944,3 +2944,43 @@ a.order_tb_btn {  padding:0px 10px 0px; background-color:#c0c0c0; border:1px sol
 }
 
 
+
+/**** pc ****/
+@media only all and (min-width:1301px) {
+.warning{ width: 100%;  float: left; text-align: center; padding: 50px 0px}
+.warning .img{ width: 100%;  float: left; text-align: center; margin-bottom: 20px}
+.warning .img img{ }
+.warning .tx1{ width: 100%;  float: left; text-align: center; margin-bottom:10px; font-size: 22px; color: #333; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR'; letter-spacing: -1px}
+.warning .tx2{ width: 100%;  float: left; text-align: center; margin-bottom:30px; font-size: 14px; color: #666; }
+.warning .gohome{ width: 100%;  float: left; text-align: center; font-size: 14px; color: #666;  }
+.warning .gohome a{ padding: 10px 20px; border-radius: 50px; background: #fff; border: 1px solid #ccc; color: #666; font-size: 14px;}
+.warning .gohome a:hover{ padding: 10px 20px; border-radius: 50px; background: #fff; border: 1px solid #333; color: #333; font-size: 14px;}
+	
+
+}
+/**** 테블릿 ****/
+@media all and (max-width:1300px) and (min-width:769px) {
+.warning{ width: 100%;  float: left; text-align: center; padding: 50px 0px}
+.warning .img{ width: 100%;  float: left; text-align: center; margin-bottom: 20px}
+.warning .img img{ width:150px;}
+.warning .tx1{ width: 100%;  float: left; text-align: center; margin-bottom:10px; font-size: 22px; color: #333; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR'; letter-spacing: -1px}
+.warning .tx2{ width: 100%;  float: left; text-align: center;margin-bottom:30px; font-size: 14px; color: #666; }
+.warning .gohome{ width: 100%;  float: left; text-align: center; margin-bottom:10px; font-size: 14px; color: #666;  margin-bottom: 20px }
+.warning .gohome a{ padding: 10px 20px; border-radius: 50px; background: #fff; border: 1px solid #ccc; color: #666; font-size: 14px;}
+	
+.warning .gohome a:hover{ padding: 10px 20px; border-radius: 50px; background: #fff; border: 1px solid #333; color: #333; font-size: 14px;}
+	
+}
+/**** 모바일 ****/
+@media only all and (max-width:768px) {
+.warning{ width: 100%;  float: left; text-align: center; padding: 50px 0px}
+.warning .img{ width: 100%;  float: left; text-align: center; margin-bottom: 20px}
+.warning .img img{ width:130px;}
+.warning .tx1{ width: 100%;  float: left; text-align: center; margin-bottom:10px; font-size: 18px; color: #333; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR'; letter-spacing: -1px}
+.warning .tx2{ width: 100%;  float: left; text-align: center; margin-bottom:30px;font-size: 12px; color: #666; line-height: 16px }
+
+.warning .gohome{ width: 100%;  float: left; text-align: center; margin-bottom:10px; font-size: 14px; color: #666;  margin-bottom: 20px }
+.warning .gohome a{ padding: 10px 20px; border-radius: 50px; background: #fff; border: 1px solid #ccc; color: #666; font-size: 14px;}
+.warning .gohome a:hover{ padding: 10px 20px; border-radius: 50px; background: #fff; border: 1px solid #333; color: #333; font-size: 14px;}
+			
+}
