@@ -72,6 +72,8 @@ function setForm(editor) {
 	}
 	param.startdt = $("#start_dt").val().replace(/[\-]/g, "");
 	param.enddt = $("#end_dt").val().replace(/[\-]/g, "");
+	param.popup_width = $.trim($("#popup_width").val());
+	param.popup_height = $.trim($("#popup_height").val());
 	
 	if(!confirm("저장하겠습니까?"))
 		return;
@@ -172,10 +174,17 @@ function deleteNotice() {
 				<c:if test="${mode == 'write' or mode == 'modify' }" >
                    <tr>
                     <th>작성자</th>
-                    <td>${view.USER_NM }</td>
+                    <td class="end" colspan="3">${view.USER_NM }</td>
+                   </tr>
+                   <tr>
                     <th>팝업여부</th>
-                    <td class="end">
+                    <td>
                     	<input type="checkbox" id="popup_at" name="popup_at" <c:if test="${view.POPUP_AT == 'Y' }">checked</c:if>>
+                    </td>
+                    <th>팝업크기</th>
+                    <td class="end">
+                    	<div style="float:left;">&nbsp;&nbsp;가로 <input type="text" value="${view.POPUP_WIDTH}" id="popup_width"/></div>
+                    	<div style="float:left;">&nbsp;&nbsp;세로 <input type="text" value="${view.POPUP_HEIGHT}" id="popup_height"/></div>
                     </td>
                   </tr>
                    <tr>

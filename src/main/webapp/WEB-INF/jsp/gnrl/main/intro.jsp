@@ -791,11 +791,19 @@ function fnLiveView(url, title, desc) {
 
 <!-- 메인 이벤트 팝업 POPUP  -->
 <c:forEach var="item" items="${popupNotice}">
-	<div id="divpop_${item.BBS_SN}" class="popup_st">
+	<c:set var="popup_width" value="${item.POPUP_WIDTH}" />
+	<c:set var="popup_height" value="${item.POPUP_HEIGHT}" />
+	<style>
+		@media only all and (min-width:769px) {
+			.popup_width_${item.BBS_SN} { <c:if test="${popup_width != null}">width:${popup_width}px !important;</c:if>	}
+			.popup_height_${item.BBS_SN} { <c:if test="${popup_height != null}">height:${popup_height}px !important;</c:if> }
+		}
+	</style>
+	<div id="divpop_${item.BBS_SN}" class="popup_st popup_width_${item.BBS_SN}"> 
 	 <!-- 제목을 넣을경우-->
 	 <!-- <div class="popup_head">${item.SUBJECT}</div> --> 
-		 <div class="popup_body">
-		   <div class="popupcont1">
+		 <div class="popup_body"> 
+		   <div class="popupcont1 popup_height_${item.BBS_SN}">
 		 	<div class="tx1">${item.SUBJECT}</div>
 		 	<div class="tx3">${item.CONTENTS}</div>
 		   </div>		

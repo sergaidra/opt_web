@@ -140,6 +140,8 @@ public class NoticeController {
 			String startdt = UserUtils.nvl(param.get("startdt"));
 			String enddt = UserUtils.nvl(param.get("enddt"));
 			String bbs_sn = UserUtils.nvl(param.get("bbs_sn"));
+			String popup_width = UserUtils.nvl(param.get("popup_width"));
+			String popup_height = UserUtils.nvl(param.get("popup_height"));
 
 			HashMap map = new HashMap();	
 			map.put("esntl_id", esntl_id);			
@@ -151,6 +153,8 @@ public class NoticeController {
 			map.put("startdt", startdt);	
 			map.put("enddt", enddt);	
 			map.put("bbs_sn", bbs_sn);	
+			map.put("popup_width", popup_width);	
+			map.put("popup_height", popup_height);	
 
 			UserUtils.log("[saveNotice-map]", map);
 			
