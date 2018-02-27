@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.siione.gnrl.purchs.service.PointService;
 import kr.co.siione.gnrl.purchs.service.PurchsService;
+import kr.co.siione.utl.UserUtils;
 
 @Service("PointService")
 public class PointServiceImpl implements PointService {
@@ -34,8 +35,9 @@ public class PointServiceImpl implements PointService {
     	List<HashMap> lst = pointDAO.getMyUsePoint(map);
     	
     	for(int i = 0; i < lst.size(); i++) {
-    		String purchs_sn = String.valueOf(lst.get(i).get("PURCHS_SN"));
-    		String cart_sn = String.valueOf(lst.get(i).get("CART_SN"));
+    		String purchs_sn = UserUtils.nvl(String.valueOf(lst.get(i).get("PURCHS_SN")));
+    		String cart_sn = UserUtils.nvl(String.valueOf(lst.get(i).get("CART_SN")));
+    		String point_sn = UserUtils.nvl(String.valueOf(lst.get(i).get("POINT_SN")));
     		int point = Integer.valueOf(String.valueOf(lst.get(i).get("POINT")));
     		int this_use_point = 0;
     		
@@ -48,12 +50,18 @@ public class PointServiceImpl implements PointService {
     		mapPoint.put("esntl_id", esntl_id);
     		mapPoint.put("purchs_sn", purchs_sn);
     		mapPoint.put("cart_sn", cart_sn);
+    		mapPoint.put("point_sn", point_sn);
     		mapPoint.put("point", this_use_point);
     		mapPoint.put("point_purchs_sn", point_purchs_sn);
     		mapPoint.put("accml_se", "A");
     		
-    		pointDAO.updateUsePoint(mapPoint);
-    		pointDAO.insertPointHistory(mapPoint);
+    		if("".equals(point_sn)) {
+        		pointDAO.updateUsePoint(mapPoint);
+        		pointDAO.insertPointHistory(mapPoint);
+    		} else {
+        		pointDAO.updateUsePoint2(mapPoint);
+        		pointDAO.insertPointHistory(mapPoint);
+    		}
     		
     		use_point -= this_use_point;
     		if(use_point <= 0)
@@ -71,8 +79,9 @@ public class PointServiceImpl implements PointService {
     	List<HashMap> lst = pointDAO.getMyLastUsePoint(map);
     	
     	for(int i = 0; i < lst.size(); i++) {
-    		String purchs_sn = String.valueOf(lst.get(i).get("PURCHS_SN"));
-    		String cart_sn = String.valueOf(lst.get(i).get("CART_SN"));
+    		String purchs_sn = UserUtils.nvl(String.valueOf(lst.get(i).get("PURCHS_SN")));
+    		String cart_sn = UserUtils.nvl(String.valueOf(lst.get(i).get("CART_SN")));
+    		String point_sn = UserUtils.nvl(String.valueOf(lst.get(i).get("POINT_SN")));
     		//int point = Integer.valueOf(String.valueOf(lst.get(i).get("POINT")));
     		int use_point = Integer.valueOf(String.valueOf(lst.get(i).get("USE_POINT")));
     		int this_use_point = 0;
@@ -86,12 +95,18 @@ public class PointServiceImpl implements PointService {
     		mapPoint.put("esntl_id", esntl_id);
     		mapPoint.put("purchs_sn", purchs_sn);
     		mapPoint.put("cart_sn", cart_sn);
+    		mapPoint.put("point_sn", point_sn);
     		mapPoint.put("point", this_use_point);
     		mapPoint.put("point_purchs_sn", point_purchs_sn);
     		mapPoint.put("accml_se", "C");
     		
-    		pointDAO.updateCancelPoint(mapPoint);
-    		pointDAO.insertPointHistory(mapPoint);
+    		if("".equals(point_sn)) {
+    			pointDAO.updateCancelPoint(mapPoint);
+    			pointDAO.insertPointHistory(mapPoint);
+    		} else {
+        		pointDAO.updateCancelPoint2(mapPoint);
+        		pointDAO.insertPointHistory2(mapPoint);
+    		}
     		
     		cancel_point -= this_use_point;
     		if(cancel_point <= 0)

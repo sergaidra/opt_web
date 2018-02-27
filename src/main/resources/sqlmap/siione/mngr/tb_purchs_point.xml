@@ -81,6 +81,7 @@
 		  FROM (
 		  SELECT 0 AS PURCHS_SN
 		       , 0 AS CART_SN
+		       , 0 AS POINT_SN
 		       , USE_POINT * (-1) AS POINT
 		       , ABS(USE_POINT) AS POINT_ABS
 		       , '차감' POINT_DIV
@@ -105,6 +106,7 @@
 		<![CDATA[ UNION ALL
 		  SELECT A.PURCHS_SN
 		       , A.CART_SN
+		       , 0
 		       , A.POINT
 		       , ABS(A.POINT) POINT_ABS
 		       , DECODE(SIGN(A.POINT), 1, '적립', -1, '차감') POINT_DIV
@@ -128,6 +130,31 @@
 		   WHERE A.PURCHS_SN = B.PURCHS_SN (+)
 		     AND A.CART_SN = B.CART_SN (+) ]]>
 		<include refid="PurchsPointDAO.whereForSelectUserPointList_2"/>
+		<![CDATA[ UNION ALL
+		  SELECT 0
+		       , 0
+		       , A.POINT_SN
+		       , A.POINT
+		       , ABS(A.POINT) POINT_ABS
+		       , DECODE(SIGN(A.POINT), 1, '적립', -1, '차감') POINT_DIV
+		       , (SELECT X.CODE_NM FROM TB_CMMN_DETAIL_CODE X WHERE X.CODE_ID = 'COM005' AND A.ACCML_SE = X.CODE) ACCML_SE_NM
+		       , A.ACCML_SE
+		       , TO_CHAR(A.ACCML_DT, 'YYYY-MM-DD') ACCML_DT
+		       , SUBSTR(A.VALID_DE, 1, 4)||'-'||SUBSTR(A.VALID_DE, 5, 2)||'-'||SUBSTR(A.VALID_DE, 7, 2) VALID_DE
+		       , A.ESNTL_ID
+		       , A.EXPRTN_AT
+		       , A.USE_POINT
+		       , A.RECENT_USE_DT
+		       , A.UPDT_ID
+		       , A.UPDT_DT
+		       , '' DELETE_AT
+		       , '' DELETE_ID
+		       , '' DELETE_DT
+		       , '' GOODS_NM
+		       , ACCML_DT AS SORT_DT
+		    FROM TB_POINT A
+		   WHERE 1=1 ]]>
+		<include refid="PurchsPointDAO.whereForSelectUserPointList_2"/>
 		   ORDER BY SORT_DT DESC
 		) T
 		<include refid="PurchsPointDAO.pagingQueryEnd"/>
@@ -135,7 +162,7 @@
 
 	<select id="PurchsPointDAO.selectUserPointSum" parameterClass="hashMap" resultClass="hashMap">
 		SELECT SUM(POINT-USE_POINT) CF_SUM
-		  FROM TB_PURCHS_POINT
+		  FROM VW_POINT
 		 WHERE EXPRTN_AT = 'N'
 		   AND ESNTL_ID = #ESNTL_ID#
 	</select>

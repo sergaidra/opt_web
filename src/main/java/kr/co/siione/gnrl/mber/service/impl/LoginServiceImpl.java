@@ -2,7 +2,9 @@ package kr.co.siione.gnrl.mber.service.impl;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +19,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import kr.co.siione.gnrl.cs.service.impl.ReviewDAO;
 import kr.co.siione.gnrl.mber.service.LoginService;
+import kr.co.siione.gnrl.purchs.service.impl.PointDAO;
 import kr.co.siione.utl.LoginManager;
 import kr.co.siione.utl.MailManager;
 import kr.co.siione.utl.UserUtils;
@@ -28,7 +32,9 @@ public class LoginServiceImpl implements LoginService {
 
 	@Resource(name = "loginDAO")
 	private LoginDAO loginDAO;
-	
+	@Resource(name = "pointDAO")
+	private PointDAO pointDAO;
+
 	@Resource
     private	MailManager mailManager;
 	
@@ -74,6 +80,24 @@ public class LoginServiceImpl implements LoginService {
 
 	public void insertUser(HashMap map) throws Exception {
         loginDAO.insertUser(map);
+        
+        // 신규회원 포인트 적립
+		HashMap mapP = new HashMap();
+		mapP.put("point", "10000");
+		mapP.put("esntl_id", map.get("esntl_id"));
+		mapP.put("accml_se", "J");
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.YEAR, 1);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		mapP.put("valid_de", sdf.format(cal.getTime()));
+		pointDAO.insertPoint(mapP);
+		
+		// 1000번째 신규회원
+		if(loginDAO.getUserCount() == 1000) {
+			mapP.put("point", "100000");
+			mapP.put("accml_se", "T");
+			pointDAO.insertPoint(mapP);		
+		}
         
         if("N".equals(String.valueOf(map.get("crtfc_at")))) {
     		// 메일 발송

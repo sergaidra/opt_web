@@ -5,18 +5,18 @@
 	<typeAlias alias="hashMap" type="java.util.HashMap"/>
 
 	<select id="gnrl.point.getTotalPoint" parameterClass="hashMap" resultClass="int">
-		SELECT NVL(SUM(POINT - USE_POINT), 0) FROM TB_PURCHS_POINT WHERE ESNTL_ID = #esntl_id#
+		SELECT NVL(SUM(POINT - USE_POINT), 0) AS POINT FROM VW_POINT WHERE ESNTL_ID = #esntl_id# AND EXPRTN_AT = 'N'
 	</select>
 	
 	<insert id="gnrl.point.insertPoint" parameterClass="hashMap" >
-		INSERT INTO TB_POINT (ESNTL_ID, POINT_SN, POINT, ACCML_SE, ACCML_DT, VALID_DT)
-		SELECT #esntl_id#, NVL(MAX(POINT_SN), 0) + 1, #point#, #accml_se#, SYSDATE, #valid_dt#
+		INSERT INTO TB_POINT (ESNTL_ID, POINT_SN, POINT, ACCML_SE, ACCML_DT, VALID_DE, USE_POINT, EXPRTN_AT)
+		SELECT #esntl_id#, NVL(MAX(POINT_SN), 0) + 1, #point#, #accml_se#, SYSDATE, #valid_de#, 0, 'N'
 		FROM TB_POINT
 	</insert>
 	
 	<select id="gnrl.point.selectPointListCount" parameterClass="hashMap" resultClass="Integer">
 		SELECT COUNT(1)
-		FROM TB_PURCHS_POINT
+		FROM VW_POINT
 		WHERE ESNTL_ID = #esntl_id#
 	</select>
 	
@@ -26,15 +26,15 @@
 			, TO_CHAR(RECENT_USE_DT,'YYYY-MM-DD') AS RECENT_USE_DT
 			, P.POINT - P.USE_POINT AS REST_POINT
 		FROM (
-			SELECT PURCHS_SN, CART_SN, ROWNUM AS RNUM
+			SELECT PURCHS_SN, CART_SN, POINT_SN, ESNTL_ID, ROWNUM AS RNUM 
 			FROM (
-				SELECT PURCHS_SN, CART_SN
-				FROM TB_PURCHS_POINT
+				SELECT PURCHS_SN, CART_SN, POINT_SN, ESNTL_ID 
+				FROM VW_POINT
 				WHERE ESNTL_ID = #esntl_id#
-				ORDER BY ACCML_DT DESC
+				ORDER BY ACCML_DT DESC, POINT_SN DESC
 			) A
 		) B
-			INNER JOIN TB_PURCHS_POINT P ON B.PURCHS_SN = P.PURCHS_SN AND B.CART_SN = P.CART_SN
+			LEFT OUTER JOIN VW_POINT P ON (B.PURCHS_SN = P.PURCHS_SN AND B.CART_SN = P.CART_SN) OR (B.POINT_SN = P.POINT_SN AND B.ESNTL_ID = P.ESNTL_ID)
 			INNER JOIN TB_CMMN_DETAIL_CODE C ON P.ACCML_SE = C.CODE AND C.CODE_ID = 'COM005'
 			LEFT OUTER JOIN TB_CART_GOODS CG ON P.CART_SN = CG.CART_SN
 			LEFT OUTER JOIN TB_GOODS G ON CG.GOODS_CODE = G.GOODS_CODE	
@@ -42,32 +42,47 @@
 	</select>
 	
 	<select id="gnrl.point.getMyUsePoint" parameterClass="hashMap" resultClass="hashMap">
-		SELECT PURCHS_SN, CART_SN, POINT - USE_POINT AS POINT
-		FROM TB_PURCHS_POINT
+		SELECT PURCHS_SN, CART_SN, POINT_SN, POINT - USE_POINT AS POINT
+		FROM VW_POINT
 		WHERE ESNTL_ID = #esntl_id# AND POINT - USE_POINT > 0 AND EXPRTN_AT = 'N'
-		ORDER BY PURCHS_SN	
+		ORDER BY ACCML_DT, POINT_SN
 	</select>
 	
 	<update id="gnrl.point.updateUsePoint" parameterClass="hashMap">
 		UPDATE TB_PURCHS_POINT SET USE_POINT = USE_POINT + #point#, RECENT_USE_DT = SYSDATE
 		WHERE ESNTL_ID = #esntl_id# AND PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
 	</update>
+
+	<update id="gnrl.point.updateUsePoint2" parameterClass="hashMap">
+		UPDATE TB_POINT SET USE_POINT = USE_POINT + #point#, RECENT_USE_DT = SYSDATE
+		WHERE ESNTL_ID = #esntl_id# AND POINT_SN = #point_sn#
+	</update>
 	
 	<insert id="gnrl.point.insertPointHistory" parameterClass="hashMap">
 		INSERT INTO TB_PURCHS_POINT_HISTORY ( PURCHS_SN, POINT_PURCHS_SN, CART_SN, ESNTL_ID, POINT, USE_DT, ACCML_SE)
 		VALUES (#point_purchs_sn#, #purchs_sn#, #cart_sn#, #esntl_id#, #point#, SYSDATE, #accml_se#)
 	</insert>
+
+	<insert id="gnrl.point.insertPointHistory2" parameterClass="hashMap">
+		INSERT INTO TB_POINT_HISTORY ( PURCHS_SN, POINT_SN, ESNTL_ID, POINT, USE_DT, ACCML_SE)
+		VALUES (#point_purchs_sn#, #purchs_sn#, #esntl_id#, #point#, SYSDATE, #accml_se#)
+	</insert>
 	
 	<select id="gnrl.point.getMyLastUsePoint" parameterClass="hashMap" resultClass="hashMap">
-		SELECT PURCHS_SN, CART_SN, POINT,  USE_POINT
-		FROM TB_PURCHS_POINT
+		SELECT PURCHS_SN, CART_SN, POINT_SN, POINT,  USE_POINT
+		FROM VW_POINT
 		WHERE ESNTL_ID = #esntl_id# AND NVL(USE_POINT, 0) > 0 AND EXPRTN_AT = 'N'
-		ORDER BY PURCHS_SN DESC, USE_POINT DESC
+		ORDER BY ACCML_DT DESC, POINT_SN DESC, USE_POINT DESC
 	</select>
 
 	<update id="gnrl.point.updateCancelPoint" parameterClass="hashMap">
 		UPDATE TB_PURCHS_POINT SET USE_POINT = USE_POINT - #point#
 		WHERE ESNTL_ID = #esntl_id# AND PURCHS_SN = #purchs_sn# AND CART_SN = #cart_sn#
+	</update>
+
+	<update id="gnrl.point.updateCancelPoint2" parameterClass="hashMap">
+		UPDATE TB_POINT SET USE_POINT = USE_POINT - #point#
+		WHERE ESNTL_ID = #esntl_id# AND POINT_SN = #point_sn#
 	</update>
 
 	<select id="gnrl.point.getPurchsPoint" parameterClass="hashMap" resultClass="Integer">

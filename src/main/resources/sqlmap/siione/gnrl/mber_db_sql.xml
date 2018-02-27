@@ -117,4 +117,9 @@
 		WHERE ESNTL_ID = #esntl_id# AND USE_AT = 'Y'
 	</update>
 	
+	<select id="gnrl.mber.getUserCount" resultClass="Integer">
+		SELECT COUNT(1) FROM TB_USER
+		WHERE USE_AT = 'Y' AND AUTHOR_CL = 'G'
+	</select>
+	
 </sqlMap>

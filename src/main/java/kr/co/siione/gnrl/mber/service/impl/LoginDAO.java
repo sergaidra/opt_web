@@ -64,5 +64,9 @@ public class LoginDAO extends EgovComAbstractDAO {
 	public void modifyUser(HashMap map) throws Exception {
 		insert("gnrl.mber.modifyUser", map);
 	}
-	
+
+	public int getUserCount() throws Exception {
+		return (Integer) selectByPk("gnrl.mber.getUserCount", null);
+	}
+
 }
