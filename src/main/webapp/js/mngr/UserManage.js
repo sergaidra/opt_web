@@ -334,7 +334,7 @@ var winUser = Ext.create('Ext.window.Window', {
 				fieldStyle: {'ime-mode':'disabled'},
 				labelWidth: 120,
 				width: 320,
-				maxLength: 20,
+				maxLength: 100,
 				readOnly: true,
 				selectOnFocus: true,
 				allowBlank: false,
