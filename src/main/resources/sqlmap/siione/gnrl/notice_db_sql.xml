@@ -8,7 +8,7 @@
 	<insert id="gnrl.notice.insertBbs" parameterClass="hashMap">
 		INSERT INTO TB_BBS (BBS_SN, CATEGORY, SUBJECT, CONTENTS, WRITNG_ID, WRITNG_DT, VIEWCNT, DELETE_AT, SECRET_AT, POPUP_AT, STARTDT, ENDDT
 			, SUBCATEGORY, PARENT_BBS_SN, POPUP_WIDTH, POPUP_HEIGHT)
-		SELECT NVL(MAX(BBS_SN), 0) + 1, #category#, #subject#, #contents#, #esntl_id#, SYSDATE, 0, 'N', 'N', #popup_at#, #startdt#, #enddt#
+		SELECT NVL(MAX(BBS_SN), 0) + 1, #category#, #subject#, #contents:CLOB#, #esntl_id#, SYSDATE, 0, 'N', 'N', #popup_at#, #startdt#, #enddt#
 			, #subcategory#, #parent_bbs_sn#, #popup_width#, #popup_height#
 		FROM TB_BBS
 	</insert>	
@@ -19,13 +19,32 @@
 	</update>	
 
 	<update id="gnrl.notice.updateBbs" parameterClass="hashMap">
-		UPDATE TB_BBS SET SUBJECT = #subject#, CONTENTS = #contents#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE, SECRET_AT = 'N'
+		UPDATE TB_BBS SET SUBJECT = #subject#, CONTENTS = #contents:CLOB#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE, SECRET_AT = 'N'
 			, SUBCATEGORY = #subcategory#, POPUP_AT = #popup_at#, STARTDT = #startdt#, ENDDT = #enddt#
 			, POPUP_WIDTH = #popup_width#, POPUP_HEIGHT = #popup_height#
 		WHERE BBS_SN = #bbs_sn#
 	</update>	
 	
-	<select id="gnrl.notice.viewBbs"  parameterClass="hashMap" resultClass="hashMap">
+	<resultMap id="noticeMap" class="java.util.HashMap">
+	    <result column="BBS_SN"       property="BBS_SN"/>
+	    <result column="CATEGORY"     property="CATEGORY"/>
+	    <result column="SUBJECT"      property="SUBJECT"/>
+	    <result column="CONTENTS"     property="CONTENTS" javaType="java.lang.String" jdbcType="CLOB"/>
+	    <result column="WRITNG_ID"    property="WRITNG_ID"/>
+	    <result column="VIEWCNT"      property="VIEWCNT"/>
+	    <result column="USER_NM"      property="USER_NM"/>
+	    <result column="SECRET_AT"    property="SECRET_AT"/>
+	    <result column="EMAIL"        property="EMAIL"/>
+	    <result column="WRITNG_DT"    property="WRITNG_DT"/>
+	    <result column="SUBCATEGORY"  property="SUBCATEGORY"/>
+	    <result column="POPUP_AT"     property="POPUP_AT"/>
+	    <result column="STARTDT"      property="STARTDT"/>
+	    <result column="ENDDT"        property="ENDDT"/>
+	    <result column="POPUP_WIDTH"  property="POPUP_WIDTH"/>
+	    <result column="POPUP_HEIGHT" property="POPUP_HEIGHT"/>
+	</resultMap>
+	
+	<select id="gnrl.notice.viewBbs"  parameterClass="hashMap" resultMap="noticeMap">
 		SELECT B.BBS_SN, B.CATEGORY, B.SUBJECT, B.CONTENTS, B.WRITNG_ID, B.VIEWCNT
 			, U.USER_NM AS USER_NM, SECRET_AT, U.EMAIL AS EMAIL, TO_CHAR(B.WRITNG_DT, 'YYYY-MM-DD') AS WRITNG_DT 
 			, B.SUBCATEGORY, B.POPUP_AT, TO_CHAR(TO_DATE(B.STARTDT, 'YYYYMMDD'), 'YYYY-MM-DD') AS STARTDT, TO_CHAR(TO_DATE(B.ENDDT, 'YYYYMMDD'), 'YYYY-MM-DD') AS ENDDT
@@ -46,8 +65,16 @@
 		INNER JOIN TB_BBS B ON A.BBS_SN = B.BBS_SN
 		WHERE ROWNUM <![CDATA[<=]]> 3	
 	</select>		
-	
-	<select id="gnrl.notice.mainPopupNotice" parameterClass="hashMap" resultClass="hashMap">
+
+	<resultMap id="popupNoticeMap" class="java.util.HashMap">
+	    <result column="BBS_SN"       property="BBS_SN"/>
+	    <result column="SUBJECT"      property="SUBJECT"/>
+	    <result column="CONTENTS"     property="CONTENTS" javaType="java.lang.String" jdbcType="CLOB"/>
+	    <result column="POPUP_WIDTH"  property="POPUP_WIDTH"/>
+	    <result column="POPUP_HEIGHT" property="POPUP_HEIGHT"/>
+	</resultMap>
+		
+	<select id="gnrl.notice.mainPopupNotice" parameterClass="hashMap" resultMap="popupNoticeMap">
 		SELECT BBS_SN, SUBJECT, CONTENTS, POPUP_WIDTH, POPUP_HEIGHT
 		FROM TB_BBS
 		WHERE CATEGORY = 'N' AND DELETE_AT = 'N' AND POPUP_AT = 'Y' AND TO_CHAR(SYSDATE, 'YYYYMMDD')  BETWEEN STARTDT AND ENDDT

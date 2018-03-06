@@ -21,7 +21,7 @@
 	<insert id="gnrl.bbs.insertBbs" parameterClass="hashMap">
 		INSERT INTO TB_BBS (BBS_SN, CATEGORY, SUBJECT, CONTENTS, WRITNG_ID, WRITNG_DT, VIEWCNT, DELETE_AT, SECRET_AT
 			, SUBCATEGORY, PARENT_BBS_SN)
-		SELECT NVL(MAX(BBS_SN), 0) + 1, #category#, #subject#, #contents#, #esntl_id#, SYSDATE, 0, 'N', #secret_at#
+		SELECT NVL(MAX(BBS_SN), 0) + 1, #category#, #subject#, #contents:CLOB#, #esntl_id#, SYSDATE, 0, 'N', #secret_at#
 			, #subcategory#, #parent_bbs_sn#
 		FROM TB_BBS
 	</insert>	
@@ -50,12 +50,28 @@
 	</update>	
 
 	<update id="gnrl.bbs.updateBbs" parameterClass="hashMap">
-		UPDATE TB_BBS SET SUBJECT = #subject#, CONTENTS = #contents#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE, SECRET_AT = #secret_at#
+		UPDATE TB_BBS SET SUBJECT = #subject#, CONTENTS = #contents:CLOB#, UPDT_ID = #esntl_id#, UPDT_DT = SYSDATE, SECRET_AT = #secret_at#
 			, SUBCATEGORY = #subcategory#
 		WHERE BBS_SN = #bbs_sn#
 	</update>	
 	
-	<select id="gnrl.bbs.viewBbs"  parameterClass="hashMap" resultClass="hashMap">
+	<resultMap id="bbsMap" class="java.util.HashMap">
+	    <result column="BBS_SN"        property="BBS_SN"/>
+	    <result column="CATEGORY"      property="CATEGORY"/>
+	    <result column="SUBJECT"       property="SUBJECT"/>
+	    <result column="CONTENTS"      property="CONTENTS" javaType="java.lang.String" jdbcType="CLOB"/>
+	    <result column="CONTENTS_VIEW" property="CONTENTS_VIEW" javaType="java.lang.String" jdbcType="CLOB"/>
+	    <result column="WRITNG_ID"     property="WRITNG_ID"/>
+	    <result column="VIEWCNT"       property="VIEWCNT"/>
+	    <result column="USER_NM"       property="USER_NM"/>
+	    <result column="SECRET_AT"     property="SECRET_AT"/>
+	    <result column="EMAIL"         property="EMAIL"/>
+	    <result column="WRITNG_DT"     property="WRITNG_DT"/>
+	    <result column="SUBCATEGORY"   property="SUBCATEGORY"/>
+	    <result column="SUBCATEGORYNM" property="SUBCATEGORYNM"/>
+	</resultMap>	
+	
+	<select id="gnrl.bbs.viewBbs"  parameterClass="hashMap" resultMap="bbsMap">
 		SELECT B.BBS_SN, B.CATEGORY, B.SUBJECT, B.CONTENTS
 			, <![CDATA[REPLACE(REPLACE(REPLACE(REPLACE(B.CONTENTS,CHR(10),'<BR>'),CHR(13),' '), '  ', CHR(38)||'nbsp;'||CHR(38)||'nbsp;'), CHR(9), CHR(38)||'nbsp;'||CHR(38)||'nbsp;'||CHR(38)||'nbsp;'||CHR(38)||'nbsp;')]]> CONTENTS_VIEW
 			, B.WRITNG_ID, B.VIEWCNT

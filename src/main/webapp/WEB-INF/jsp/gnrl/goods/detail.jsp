@@ -1008,10 +1008,10 @@ function goSearchOpinion(pageNo) {
               		if(data.list[cnt].C_OPINION_SN == null && data.list[cnt].WRITNG_ID == "${esntl_id}") {
               			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", 'U');\" class=\"modify\">수정</a>"));
               		}
-              		if(data.list[cnt].C_OPINION_SN == null && "${author_cl}" == "A") {
+              		if(data.list[cnt].C_OPINION_SN == null && ("${author_cl}" == "A" || "${author_cl}" == "M")) {
               			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", 'A');\" class=\"modify\">답변</a>"));
               		}
-                	if(data.list[cnt].C_OPINION_SN != null && "${author_cl}" == "A") {
+                	if(data.list[cnt].C_OPINION_SN != null && ("${author_cl}" == "A" || "${author_cl}" == "M")) {
             			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].C_OPINION_SN + ", 'U');\" class=\"modify\">답변수정</a>"));
               		}
             		td2_1.append(td2_q_title);
@@ -1061,10 +1061,10 @@ function goSearchOpinion(pageNo) {
               		if(data.list[cnt].C_OPINION_SN == null && data.list[cnt].WRITNG_ID == "${esntl_id}") {
               			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", 'U');\" class=\"modify\">수정</a>"));
               		}
-              		if(data.list[cnt].C_OPINION_SN == null && "${author_cl}" == "A") {
+              		if(data.list[cnt].C_OPINION_SN == null && ("${author_cl}" == "A" || "${author_cl}" == "M")) {
               				$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", 'A');\" class=\"modify\">답변</a>"));
               		}
-                	if(data.list[cnt].C_OPINION_SN != null && "${author_cl}" == "A") {
+                	if(data.list[cnt].C_OPINION_SN != null && ("${author_cl}" == "A" || "${author_cl}" == "M")) {
            				$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].C_OPINION_SN + ", 'U');\" class=\"modify\">답변수정</a>"));
               		}
             		td2_1.append(td2_q_title);

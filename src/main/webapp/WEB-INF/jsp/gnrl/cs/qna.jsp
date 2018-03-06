@@ -83,10 +83,10 @@ function search(pageNo) {
             		var td2_a_title = $("<div class=\"title_box\"><div class=\"title mt_20\">답변내용</div></div>");
             		var td2_a_cn = $("<div class=\"t_cont\">" + replaceBrSpace(data.list[cnt].C_OPINION_CN) + "</div>");
             		var td2_btn = $("<div class=\"btn\"></div>");
-              		if(data.list[cnt].C_OPINION_SN == null && "${author_cl}" == "A") {
+              		if(data.list[cnt].C_OPINION_SN == null && ("${author_cl}" == "A" || "${author_cl}" == "M")) {
               			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", '" + data.list[cnt].GOODS_CODE + "', 'A');\" class=\"modify\">답변</a>"));
               		}
-                	if(data.list[cnt].C_OPINION_SN != null && "${author_cl}" == "A") {
+                	if(data.list[cnt].C_OPINION_SN != null && ("${author_cl}" == "A" || "${author_cl}" == "M")) {
             			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].C_OPINION_SN + ", '" + data.list[cnt].GOODS_CODE + "', 'U');\" class=\"modify\">답변수정</a>"));
               		}
             		td2_1.find("#re").append(td2_q_title);
@@ -149,10 +149,10 @@ function search(pageNo) {
             		var td2_a_title = $("<div class=\"title_box\"><div class=\"title mt_20\">답변내용</div></div>");
             		var td2_a_cn = $("<div class=\"t_cont\">" + replaceBrSpace(data.list[cnt].C_OPINION_CN) + "</div>");
             		var td2_btn = $("<div class=\"btn\"></div>");
-              		if(data.list[cnt].C_OPINION_SN == null && "${author_cl}" == "A") {
+              		if(data.list[cnt].C_OPINION_SN == null && ("${author_cl}" == "A" || "${author_cl}" == "M")) {
               			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].OPINION_SN + ", '" + data.list[cnt].GOODS_CODE + "', 'A');\" class=\"modify\">답변</a>"));
               		}
-                	if(data.list[cnt].C_OPINION_SN != null && "${author_cl}" == "A") {
+                	if(data.list[cnt].C_OPINION_SN != null && ("${author_cl}" == "A" || "${author_cl}" == "M")) {
             			$(td2_btn).append($("<a href=\"javascript:viewOpinion(" + data.list[cnt].C_OPINION_SN + ", '" + data.list[cnt].GOODS_CODE + "', 'U');\" class=\"modify\">답변수정</a>"));
               		}
             		td2_1.find("#re").append(td2_q_title);
