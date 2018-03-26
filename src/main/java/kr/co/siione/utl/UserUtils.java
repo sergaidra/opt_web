@@ -437,6 +437,38 @@ public class UserUtils {
 		}
 	}
 
+	public static String convertText2Html(String str){
+		String sRe = "";
+		
+		if(str == null || "".equals(str.trim())) {
+		} else {
+			sRe = str.trim();
+			sRe = sRe.replaceAll("&amp;", "&");
+			sRe = sRe.replaceAll("&lt;", "<");
+			sRe = sRe.replaceAll("&gt;", ">");
+			sRe = sRe.replaceAll("&quot;", "\"");
+			sRe = sRe.replaceAll("&apos;", "'");
+		}
+		
+		return sRe;
+	}
+	
+	public static String convertHtml2Text(String str){
+		String sRe = "";
+		
+		if(str == null || "".equals(str.trim())) {
+		} else {
+			sRe = str.trim();
+			sRe = sRe.replaceAll("&", "&amp;");
+			sRe = sRe.replaceAll("<", "&lt;");
+			sRe = sRe.replaceAll(">", "&gt;");
+			sRe = sRe.replaceAll("\"", "&quot;");
+			sRe = sRe.replaceAll("'", "&apos;");
+			sRe = sRe.replaceAll("\n", "<br>");
+		}
+		
+		return sRe;
+	}	
 
 	public static void log(Map<String, String> param) throws Exception  {
 		LOG.debug("==================== log start ==============================");

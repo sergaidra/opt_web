@@ -8,9 +8,8 @@
 	<insert id="gnrl.notice.insertBbs" parameterClass="hashMap">
 		INSERT INTO TB_BBS (BBS_SN, CATEGORY, SUBJECT, CONTENTS, WRITNG_ID, WRITNG_DT, VIEWCNT, DELETE_AT, SECRET_AT, POPUP_AT, STARTDT, ENDDT
 			, SUBCATEGORY, PARENT_BBS_SN, POPUP_WIDTH, POPUP_HEIGHT)
-		SELECT NVL(MAX(BBS_SN), 0) + 1, #category#, #subject#, #contents:CLOB#, #esntl_id#, SYSDATE, 0, 'N', 'N', #popup_at#, #startdt#, #enddt#
-			, #subcategory#, #parent_bbs_sn#, #popup_width#, #popup_height#
-		FROM TB_BBS
+		values((SELECT NVL(MAX(BBS_SN), 0) + 1 FROM TB_BBS), #category#, #subject#, #contents:CLOB#, #esntl_id#, SYSDATE, 0, 'N', 'N', #popup_at#, #startdt#, #enddt#
+			, #subcategory#, #parent_bbs_sn#, #popup_width#, #popup_height#)
 	</insert>	
 
 	<update id="gnrl.notice.deleteBbs" parameterClass="hashMap">
