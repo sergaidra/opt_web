@@ -20,9 +20,8 @@
 	<insert id="gnrl.faq.insertBbs" parameterClass="hashMap">
 		INSERT INTO TB_BBS (BBS_SN, CATEGORY, SUBJECT, CONTENTS, WRITNG_ID, WRITNG_DT, VIEWCNT, DELETE_AT, SECRET_AT
 			, SUBCATEGORY, PARENT_BBS_SN)
-		SELECT NVL(MAX(BBS_SN), 0) + 1, #category#, #subject#, #contents:CLOB#, #esntl_id#, SYSDATE, 0, 'N', 'N'
-			, #subcategory#, #parent_bbs_sn#
-		FROM TB_BBS
+		values((SELECT NVL(MAX(BBS_SN), 0) + 1 FROM TB_BBS), #category#, #subject#, #contents:CLOB#, #esntl_id#, SYSDATE, 0, 'N', 'N'
+			, #subcategory#, #parent_bbs_sn#)
 	</insert>	
 
 	<update id="gnrl.faq.deleteBbs" parameterClass="hashMap">
