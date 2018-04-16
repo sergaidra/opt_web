@@ -36,6 +36,9 @@ public class HotdealManageController {
 	@Resource(name = "HotdealManageService")
 	private HotdealManageService hotdealManageService;
 
+	@Resource
+	private UserUtils userUtils;
+
 	@RequestMapping(value="/mngr/HotdealManage/")
 	public String HotdealManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
@@ -111,7 +114,7 @@ public class HotdealManageController {
 			
 			MultipartFile file = mRequest.getFile("ATTACH_FLIE_L");
 			Map<String, String> fileParam = new HashMap<String, String>();
-			fileParam = UserUtils.getFileInfo(file, "HOTDEAL_L", false);
+			fileParam = userUtils.getFileInfo(file, "HOTDEAL_L", false);
 			fileParam.put("FILE_SN", "1");
 			fileParam.put("SORT_ORDR", "1");
 			fileParam.put("REPRSNT_AT", "N");
@@ -120,7 +123,7 @@ public class HotdealManageController {
 				
 			MultipartFile file2 = mRequest.getFile("ATTACH_FLIE_S");
 			Map<String, String> fileParam2 = new HashMap<String, String>();
-			fileParam2 = UserUtils.getFileInfo(file2, "HOTDEAL_S", false);
+			fileParam2 = userUtils.getFileInfo(file2, "HOTDEAL_S", false);
 			fileParam2.put("FILE_SN", "1");
 			fileParam2.put("SORT_ORDR", "1");
 			fileParam2.put("REPRSNT_AT", "N");
@@ -179,7 +182,7 @@ public class HotdealManageController {
 			MultipartFile file = mRequest.getFile("ATTACH_FLIE_L");
 			if(!UserUtils.nvl(file.getOriginalFilename()).equals("")) {
 				Map<String, String> fileParam = new HashMap<String, String>();
-				fileParam = UserUtils.getFileInfo(file, "HOTDEAL", false);
+				fileParam = userUtils.getFileInfo(file, "HOTDEAL", false);
 				fileParam.put("FILE_CODE", (String)param.get("FILE_CODE_L"));
 				fileParam.put("FILE_SN", "1");
 				fileParam.put("SORT_ORDR", "1");
@@ -191,7 +194,7 @@ public class HotdealManageController {
 			MultipartFile file2 = mRequest.getFile("ATTACH_FLIE_S");
 			if(!UserUtils.nvl(file2.getOriginalFilename()).equals("")) {
 				Map<String, String> fileParam2 = new HashMap<String, String>();
-				fileParam2 = UserUtils.getFileInfo(file2, "HOTDEAL", false);
+				fileParam2 = userUtils.getFileInfo(file2, "HOTDEAL", false);
 				fileParam2.put("FILE_CODE", (String)param.get("FILE_CODE_S"));
 				fileParam2.put("FILE_SN", "1");
 				fileParam2.put("SORT_ORDR", "1");

@@ -39,6 +39,9 @@ public class TourClManageController {
 	@Resource(name = "FileManageService")
 	private FileManageService fileManageService;
 
+	@Resource
+	private UserUtils userUtils;
+
 	@RequestMapping(value="/mngr/TourClUpperManage/")
 	public String TourClUpperManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
@@ -160,7 +163,7 @@ public class TourClManageController {
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 			MultipartFile file = mRequest.getFile("ATTACH_FLIE");
 			
-			fileParam = UserUtils.getFileInfo(file, "TOUR_CL", false);
+			fileParam = userUtils.getFileInfo(file, "TOUR_CL", false);
 			fileParam.putAll(param);
 			fileParam.put("REGIST_PATH", "여행분류");
 			fileParam.put("FILE_SN", "1");

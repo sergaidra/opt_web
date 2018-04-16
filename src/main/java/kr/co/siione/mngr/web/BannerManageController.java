@@ -40,6 +40,9 @@ public class BannerManageController {
 	@Resource(name = "FileManageService")
 	private FileManageService fileManageService;
 
+	@Resource
+	private UserUtils userUtils;
+
 	@RequestMapping(value="/mngr/BannerManage/")
 	public String BannerManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
@@ -86,7 +89,7 @@ public class BannerManageController {
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 			MultipartFile file = mRequest.getFile("ATTACH_FLIE");  // 파일 1개
 			
-			fileParam = UserUtils.getFileInfo(file, "BANNER", false);
+			fileParam = userUtils.getFileInfo(file, "BANNER", false);
 			fileParam.putAll(param);
 
 			mainImageManageService.insertBanner(fileParam);
@@ -154,7 +157,7 @@ public class BannerManageController {
 			List<MultipartFile> filelist = mRequest.getFiles("ATTACH_FLIE"); // 파일 1개 이상
 			
 			for(MultipartFile file : filelist) {
-				Map<String, String> fileParam = UserUtils.getFileInfo(file, "BANNER", false);
+				Map<String, String> fileParam = userUtils.getFileInfo(file, "BANNER", false);
 				fileParam.put("REGIST_ID", esntl_id);
 				fileParamList.add(fileParam);
 			}

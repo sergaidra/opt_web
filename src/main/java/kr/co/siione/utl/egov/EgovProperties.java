@@ -11,8 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  *  Class Name : EgovProperties.java
@@ -32,6 +35,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 
+@Component
 public class EgovProperties {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EgovProperties.class);
@@ -51,6 +55,9 @@ public class EgovProperties {
 	public static final String RELATIVE_PATH_PREFIX = System.getProperty("user.home") + FILE_SEPARATOR + "opt_web" + FILE_SEPARATOR;
 
 	public static final String GLOBALS_PROPERTIES_FILE = RELATIVE_PATH_PREFIX  + "egovprops" +FILE_SEPARATOR + "globals.properties";
+
+	@Resource(name="globals")
+    private Properties globals;
 
 
 	/**
@@ -91,30 +98,13 @@ public class EgovProperties {
 	 * @param keyName String
 	 * @return String
 	 */
-	public static String getProperty(String keyName) {
+	public String getProperty(String keyName) {
 		String value = "";
-	
-		LOGGER.debug("getProperty : {} = {}", GLOBALS_PROPERTIES_FILE, keyName);
 		
-		FileInputStream fis = null;
 		try {
-			Properties props = new Properties();
-			
-			fis = new FileInputStream(EgovWebUtil.filePathBlackList(GLOBALS_PROPERTIES_FILE));
-			
-			props.load(new BufferedInputStream(fis));
-			if (props.getProperty(keyName) == null) {
-				return "";
-			}
-			value = props.getProperty(keyName).trim();
-		} catch (FileNotFoundException fne) {
-			LOGGER.debug("Property file not found.", fne);
-			throw new RuntimeException("Property file not found", fne);
-		} catch (IOException ioe) {
-			LOGGER.debug("Property file IO exception", ioe);
-			throw new RuntimeException("Property file IO exception", ioe);
-		} finally {
-			EgovResourceCloseHelper.close(fis);
+			value = globals.getProperty(keyName).trim();
+		} catch(Exception ex) {
+			LOGGER.debug("Property key IO exception", keyName);
 		}
 
 		return value;
