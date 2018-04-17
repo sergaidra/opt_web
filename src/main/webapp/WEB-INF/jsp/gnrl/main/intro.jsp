@@ -795,7 +795,7 @@ function fnLiveView(url, title, desc) {
 	<c:set var="popup_height" value="${item.POPUP_HEIGHT}" />
 	<style>
 		@media only all and (min-width:769px) {
-			.popup_width_${item.BBS_SN} { <c:if test="${popup_width != null}">width:${popup_width}px !important;</c:if>	}
+			.popup_width_${item.BBS_SN} { <c:if test="${popup_width != null}">width:${popup_width}px !important; top:90px;</c:if>	}
 			.popup_height_${item.BBS_SN} { <c:if test="${popup_height != null}">height:${popup_height}px !important;</c:if> }
 		}
 	</style>
@@ -803,8 +803,8 @@ function fnLiveView(url, title, desc) {
 	 <!-- 제목을 넣을경우-->
 	 <!-- <div class="popup_head">${item.SUBJECT}</div> --> 
 		 <div class="popup_body"> 
-		   <div class="popupcont1 popup_height_${item.BBS_SN}">
-		 	<div class="tx1">${item.SUBJECT}</div>
+		   <div class="popupcont1 popup_height_${item.BBS_SN}" style="padding:0px;">
+		 	<!--<div class="tx1">${item.SUBJECT}</div>-->
 		 	<div class="tx3">${item.CONTENTS}</div>
 		   </div>		
 		</div>
