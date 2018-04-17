@@ -197,7 +197,12 @@ public class BbsController {
 
 			UserUtils.log("[writeaction-map]", map);
 			
-			bbsService.insertBbs(map);
+			if(!parent_bbs_sn.equals("")) {
+				System.out.println("==> 답변메일 발송");
+				bbsService.mailReply(map);
+			}
+			
+			bbsService.insertBbs(map);	
 				
 			resVo.setResult("0");			
 		} catch(Exception e) {
@@ -384,7 +389,7 @@ public class BbsController {
 			map.put("secret_at", secret_at);	
 			map.put("subcategory", subcategory);	
 
-			UserUtils.log("[writeaction-map]", map);
+			UserUtils.log("[modifyaction-map]", map);
 			
 			bbsService.updateBbs(map);
 				
