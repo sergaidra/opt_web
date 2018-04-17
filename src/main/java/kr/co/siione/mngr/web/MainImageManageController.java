@@ -40,6 +40,9 @@ public class MainImageManageController {
 	@Resource(name = "FileManageService")
 	private FileManageService fileManageService;
 
+	@Resource
+	private UserUtils userUtils;
+
 	@RequestMapping(value="/mngr/MainImageManage/")
 	public String MainImageManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
@@ -86,7 +89,7 @@ public class MainImageManageController {
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 			MultipartFile file = mRequest.getFile("ATTACH_FLIE");  // 파일 1개
 			
-			fileParam = UserUtils.getFileInfo(file, "MAIN", true);
+			fileParam = userUtils.getFileInfo(file, "MAIN", true);
 			fileParam.putAll(param);
 
 			mainImageManageService.insertMainImage(fileParam);
@@ -154,7 +157,7 @@ public class MainImageManageController {
 			List<MultipartFile> filelist = mRequest.getFiles("ATTACH_FLIE"); // 파일 1개 이상
 			
 			for(MultipartFile file : filelist) {
-				Map<String, String> fileParam = UserUtils.getFileInfo(file, "MAIN", true);
+				Map<String, String> fileParam = userUtils.getFileInfo(file, "MAIN", true);
 				fileParam.put("REGIST_ID", esntl_id);
 				fileParamList.add(fileParam);
 			}

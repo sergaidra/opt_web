@@ -47,7 +47,10 @@ public class GoodsManageController {
 
 	@Resource(name = "FileManageService")
 	private FileManageService fileManageService;
-	
+
+	@Resource
+	private UserUtils userUtils;
+
 	@RequestMapping(value="/mngr/GoodsManage/")
 	public String GoodsManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
@@ -487,7 +490,7 @@ public class GoodsManageController {
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 			MultipartFile file = mRequest.getFile("ATTACH_FLIE");
 			
-			fileParam = UserUtils.getFileInfo(file, "GOODS", true);
+			fileParam = userUtils.getFileInfo(file, "GOODS", true);
 			fileParam.put("REPRSNT_AT", "N");
 			fileParam.putAll(param);
 
@@ -539,7 +542,7 @@ public class GoodsManageController {
 			
 			for(MultipartFile file : filelist) {
 				Map<String, String> fileParam = new HashMap<String, String>();
-				fileParam = UserUtils.getFileInfo(file, "GOODS", true);
+				fileParam = userUtils.getFileInfo(file, "GOODS", true);
 				fileParam.put("REPRSNT_AT", "N");
 				fileParam.put("WRITNG_ID", esntl_id);
 

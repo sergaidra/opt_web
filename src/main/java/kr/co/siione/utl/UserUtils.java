@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,9 +29,14 @@ import net.sf.json.JSONSerializer;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+@Component
 public class UserUtils {
+	
+	@Resource
+	private EgovProperties egovProperties;
 
 	private static final Logger LOG = LoggerFactory.getLogger(UserUtils.class);
 
@@ -251,11 +257,11 @@ public class UserUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static HashMap<String, String> getFileInfo(MultipartFile file, String sDirName, boolean isThumb) throws Exception {
+	public HashMap<String, String> getFileInfo(MultipartFile file, String sDirName, boolean isThumb) throws Exception {
 		FileOutputStream fos = null;
 		HashMap<String, String> fileParam = new HashMap<String, String>();
 
-		String sFileStorePath = EgovProperties.getProperty("Globals.fileStorePath");
+		String sFileStorePath = egovProperties.getProperty("Globals.fileStorePath");
 		String sFileSeparator = File.separator;
 		String sPreFix = UserUtils.getDate("yyyyMMddHHmmss");
 		

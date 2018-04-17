@@ -22,7 +22,6 @@ import kr.co.siione.utl.LoginManager;
 import kr.co.siione.utl.MailManager;
 import kr.co.siione.utl.Sha256;
 import kr.co.siione.utl.UserUtils;
-import kr.co.siione.utl.egov.EgovProperties;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -23,7 +23,6 @@ import kr.co.siione.mngr.service.StplatManageService;
 import kr.co.siione.utl.LoginManager;
 import kr.co.siione.utl.MailManager;
 import kr.co.siione.utl.UserUtils;
-import kr.co.siione.utl.egov.EgovProperties;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

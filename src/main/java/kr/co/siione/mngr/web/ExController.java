@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.co.siione.gnrl.bbs.service.BbsService;
 import kr.co.siione.mngr.service.GoodsManageService;
 import kr.co.siione.utl.UserUtils;
 import kr.co.siione.utl.egov.EgovProperties;
@@ -28,6 +29,9 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 public class ExController {
     
 	protected Log log = LogFactory.getLog(this.getClass());
+
+	@Resource
+	private EgovProperties egovProperties;
 
     @Inject
     MappingJackson2JsonView jsonView;
@@ -70,7 +74,7 @@ public class ExController {
 		FileOutputStream fos = null;
 
 		try {
-			log.debug("################Globals.fileStorePath:"+EgovProperties.getProperty("Globals.fileStorePath"));
+			log.debug("################Globals.fileStorePath:"+egovProperties.getProperty("Globals.fileStorePath"));
 			log.debug("################File.separator:"+File.separator);
 
 			MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
@@ -88,7 +92,7 @@ public class ExController {
 				log.debug("@@@@@@@@@@ saveFileNm:"+saveFileNm);
 				
 				
-				String storePath = EgovProperties.getProperty("Globals.fileStorePath") + "TEMP" + File.separator;
+				String storePath = egovProperties.getProperty("Globals.fileStorePath") + "TEMP" + File.separator;
 				File f = new File(storePath);
 				if (!f.exists()) {
 					f.mkdirs();

@@ -22,7 +22,6 @@ import kr.co.siione.gnrl.cmmn.vo.ResponseVo;
 import kr.co.siione.gnrl.goods.service.GoodsService;
 import kr.co.siione.mngr.service.ArprtManageService;
 import kr.co.siione.utl.UserUtils;
-import kr.co.siione.utl.egov.EgovProperties;
 import net.sf.json.JSONObject;
 
 import org.slf4j.Logger;
