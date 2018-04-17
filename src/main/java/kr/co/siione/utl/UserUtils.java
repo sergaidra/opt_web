@@ -459,7 +459,7 @@ public class UserUtils {
 		return sRe;
 	}
 	
-	public static String convertHtml2Text(String str){
+	public static String convertHtml2Text(String str){ 
 		String sRe = "";
 		
 		if(str == null || "".equals(str.trim())) {
