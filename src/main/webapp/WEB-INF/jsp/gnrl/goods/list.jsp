@@ -340,7 +340,10 @@ function addWishAction(goods_code, obj) {
 }
 
 function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	if(x == null)
+		return "";
+	else
+    	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 
