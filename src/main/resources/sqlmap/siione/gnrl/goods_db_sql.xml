@@ -86,7 +86,9 @@
 				</isEqual>
 				<isNotEqual property="upper_cl_code" compareValue="H">
 					<isNotEqual property="upper_cl_code" compareValue="R">
-					   AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = #upper_cl_code#)
+						<isNotEqual property="upper_cl_code" compareValue="P">
+					   		AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = #upper_cl_code#)
+						</isNotEqual>
 					</isNotEqual>
 				</isNotEqual>
 			</isNotEmpty>
@@ -105,6 +107,9 @@
 		<isEqual property="category" compareValue="R">
 		   AND RECOMEND_AT = 'Y'
 		</isEqual>	
+		<isEqual property="category" compareValue="P">
+		   AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00591') 
+		</isEqual>
 	</sql>
 
 	<select id="gnrl.goods.selectGoodsExpsrList1" parameterClass="hashMap" resultClass="hashMap">

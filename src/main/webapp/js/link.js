@@ -47,6 +47,18 @@ function go_03_01_01() {
 	$(frm).submit();
 }
 
+//패키지여행 ///
+function go_03_02_01() {
+	var frm = $("<form></form>");
+	$(frm).attr("action", "/goods/list");
+	$(frm).attr("method", "get");
+	
+	var item = $("<input type='hidden' name='goodskind' value='P'>");
+	$(frm).append(item);
+	$(document.body).append(frm);
+	$(frm).submit();
+}
+
 
 // 여행체크리스트 ///
 function go_04_01_01() {	document.location.href="/cs/checklist"; }

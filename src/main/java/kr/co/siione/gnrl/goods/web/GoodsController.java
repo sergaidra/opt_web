@@ -116,7 +116,13 @@ public class GoodsController {
             			mapGoods.put("CL_NM", commonService.getMessage("topmenu.recom", request));
             			mapGoods.put("CL_CODE", "R");
             			upperTourClList.add(mapGoods);
-            		}
+	        		} else if("P".equals(goodskind)) {
+	        			category = "P";
+	        			HashMap mapGoods = new HashMap();
+	        			mapGoods.put("CL_NM", commonService.getMessage("topmenu.package", request));
+	        			mapGoods.put("CL_CODE", "P");
+	        			upperTourClList.add(mapGoods);
+	        		}
                 	model.addAttribute("upperTourClList", upperTourClList);
             	} else {
             		// 상위 분류목록
@@ -148,6 +154,8 @@ public class GoodsController {
                 model.addAttribute("btitle", commonService.getMessage("topmenu.hotdeal", request));
             else if("R".equals(category))
                 model.addAttribute("btitle", commonService.getMessage("topmenu.recom", request));
+            else if("P".equals(category))
+                model.addAttribute("btitle", commonService.getMessage("topmenu.package", request));
             model.addAttribute("mtitle", commonService.getMessage("goodslist.mtitle", request));
             model.addAttribute("category", category);
     	} catch(Exception e) {
@@ -163,7 +171,7 @@ public class GoodsController {
     	String hidUpperClCode = UserUtils.nvl(param.get("hidUpperClCode"));  // 선택한 여러개의 분류
     	String keyword = UserUtils.nvl(param.get("keyword"));  // 검색어
 		String category = UserUtils.nvl(param.get("category")); // 셀프, 핫딜, 추천
-    	if("H".equals(hidUpperClCode) || "R".equals(hidUpperClCode)) {	// 핫딜이나 추천일때
+    	if("H".equals(hidUpperClCode) || "R".equals(hidUpperClCode) || "P".equals(hidUpperClCode)) {	// 핫딜이나 추천일때
         	map.put("upper_cl_code", hidUpperClCode);  
         	map.put("category", hidUpperClCode);
     	} else {

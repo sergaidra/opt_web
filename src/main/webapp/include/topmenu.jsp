@@ -8,7 +8,7 @@
 <!-- 해당활성화 메뉴   <li  class="active"> -->
   <li><a href="javascript:go_02_01_01();"><spring:message code='topmenu.hotdeal'/></a></li>
   <li><a href="javascript:go_03_01_01();"><spring:message code='topmenu.recom'/></a></li>
-  <li><a href="javascript:go_08_03_01();"><spring:message code='topmenu.usemethod'/></a></li>
+  <li><a href="javascript:go_03_02_01();"><spring:message code='topmenu.package'/></a></li>
   <li><a href="javascript:go_04_01_01();"><spring:message code='topmenu.checklist'/></a></li>
   <li  class="sub-menu"><a href="javascript:void(0);"><spring:message code='topmenu.customer'/><i class="arrow fa fa-angle-down pull-right"></i></a>
     <ul class="submenu">
