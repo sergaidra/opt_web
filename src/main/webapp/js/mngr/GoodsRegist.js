@@ -1022,6 +1022,7 @@ Ext.define('GoodsInfo', {
 			, {name:'HOTDEAL_END_DE', type:'string'}
 			, {name:'HOTDEAL_APPLC_BEGIN_DE', type:'string'}
 			, {name:'HOTDEAL_APPLC_END_DE', type:'string'}
+			, {name:'VIDEO_SORT_ORDR', type:'string'}
 			]
 });
 
@@ -2133,6 +2134,20 @@ var frReg = Ext.create('Ext.form.Panel', {
 				boxLabel  : '',
 				inputValue: 'Y',
 				value: 'Y'
+			}, {
+				xtype: 'textfield',
+				id: 'form-reg-video-sort_ordr',
+				name: 'VIDEO_SORT_ORDR',
+				width: 240,
+				fieldLabel: '동영상홍보 정렬순서',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 150,
+				labelAlign: 'right',
+				maskRe: /[0-9]/,
+				maxLength: 2,
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
 			}]
 		}]
 	},{

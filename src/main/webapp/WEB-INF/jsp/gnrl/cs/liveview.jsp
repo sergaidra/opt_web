@@ -96,126 +96,8 @@ function fnLiveView(url, obj) {
 						</c:forEach>
 					</ul>
 				</section><!-- // grid-wrap -->
-				<!-- <section class="slideshow">
+				<section class="slideshow">
 					<ul>
-						<li>
-							<figure>
-								<figcaption>
-									<h3>이미지 제목이 나옵니다.</h3>
-									<p>이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳</p>
-								</figcaption>
-								<img src="/jq/gallery/img/thumb/1.jpg" alt="img01"/>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<figcaption>
-								<h3>이미지 제목이 나옵니다.</h3>
-									<p>이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳</p>
-								</figcaption>
-								<img src="/jq/gallery/img/thumb/2.jpg" alt="img01"/>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<figcaption>
-									<h3>이미지 제목이 나옵니다.</h3>
-									<p>이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳</p>
-								</figcaption>
-							<img src="/jq/gallery/img/thumb/3.jpg" alt="img01"/>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<figcaption>
-									<h3>이미지 제목이 나옵니다.</h3>
-									<p>이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳</p>
-								</figcaption>
-								<img src="/jq/gallery/img/thumb/4.jpg" alt="img01"/>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<figcaption>
-									<h3>이미지 제목이 나옵니다.</h3>
-									<p>이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳</p>
-								</figcaption>
-							<img src="/jq/gallery/img/thumb/1.jpg" alt="img01"/>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<figcaption>
-								<h3>이미지 제목이 나옵니다.</h3>
-									<p>이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳</p>
-								</figcaption>
-								<img src="/jq/gallery/img/thumb/2.jpg" alt="img01"/>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<figcaption>
-									<h3>이미지 제목이 나옵니다.</h3>
-									<p>이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳</p>
-								</figcaption>
-								<img src="/jq/gallery/img/large/1.png" alt="img01"/>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<figcaption>
-									<h3>이미지 제목이 나옵니다.</h3>
-									<p>이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳</p>
-								</figcaption>
-								<img src="/jq/gallery/img/large/2.png" alt="img02"/>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<figcaption>
-									<h3>이미지 제목이 나옵니다.</h3>
-									<p>이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳</p>
-								</figcaption>
-								<img src="/jq/gallery/img/large/3.png" alt="img03"/>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<figcaption>
-									<h3>이미지 제목이 나옵니다.</h3>
-									<p>이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳</p>
-								</figcaption>
-								<img src="/jq/gallery/img/large/4.png" alt="img04"/>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<figcaption>
-									<h3>이미지 제목이 나옵니다.</h3>
-									<p>이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳</p>
-								</figcaption>
-								<img src="/jq/gallery/img/large/5.png" alt="img05"/>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<figcaption>
-									<h3>이미지 제목이 나옵니다.</h3>
-									<p>이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳 이미지 상세설명이 나오는곳</p>
-								</figcaption>
-								<img src="/jq/gallery/img/large/1.png" alt="img01"/>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<figcaption>
-									<h3>Letterpress asymmetrical</h3>
-									<p>Pickled hoodie Pinterest 90's proident church-key chambray. Salvia incididunt slow-carb ugh skateboard velit, flannel authentic hoodie lomo fixie photo booth farm-to-table. Minim meggings Bushwick, semiotics Vice put a bird.</p>
-								</figcaption>
-								<img src="/jq/gallery/img/large/1.png" alt="img01"/>
-							</figure>
-						</li>
-						
 					</ul>
 					<nav>
 						<span class="icon nav-prev"></span>
@@ -223,14 +105,14 @@ function fnLiveView(url, obj) {
 						<span class="icon nav-close"></span>
 					</nav>
 				
-				</section> --><!-- // slideshow -->
+				</section> <!-- // slideshow -->
 			</div>
 		<script src="/jq/gallery/js/imagesloaded.pkgd.min.js"></script>
 		<script src="/jq/gallery/js/masonry.pkgd.min.js"></script>
 		<script src="/jq/gallery/js/classie.js"></script>
 		<script src="/jq/gallery/js/cbpGridGallery.js"></script>
 		<script>
-			new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
+			new CBPGridGallery( document.getElementById( 'grid-gallery', {slideshow:false} ) );
 		</script>	
 	<!--여백--><div class="sp_50 pc_view"></div>
 	 <div class="sp_20 mobile_view"></div><!--여백-->

@@ -98,6 +98,7 @@
         <result property="HOTDEAL_END_DE"                column="HOTDEAL_END_DE"                jdbcType="string" javaType="string"/>
 		<result property="HOTDEAL_APPLC_BEGIN_DE"        column="HOTDEAL_APPLC_BEGIN_DE"        jdbcType="string" javaType="string"/>
         <result property="HOTDEAL_APPLC_END_DE"          column="HOTDEAL_APPLC_END_DE"          jdbcType="string" javaType="string"/>        
+        <result property="VIDEO_SORT_ORDR"               column="VIDEO_SORT_ORDR"               jdbcType="string" javaType="string"/>        
     </resultMap>
 
     <insert id="GoodsDAO.insertGoods" parameterClass="hashMap">
@@ -155,6 +156,7 @@
                             , INTRCN_PLACE
                             , VIDEO_URL
                             , VIDEO_MAIN_EXPSR_AT
+                            , VIDEO_SORT_ORDR
                             , PICKUP_INCLS_AT
                             , TOUR_DAYS 
                             , HOTDEAL_BEGIN_DE
@@ -209,6 +211,7 @@
                             , #INTRCN_PLACE#
                             , #VIDEO_URL#
                             , NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+                            , #VIDEO_SORT_ORDR#
                             , NVL(#PICKUP_INCLS_AT#, 'N')
                             , #TOUR_DAYS#
                             , REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
@@ -317,6 +320,7 @@
                             , INTRCN_PLACE
                             , VIDEO_URL
                             , VIDEO_MAIN_EXPSR_AT
+                            , VIDEO_SORT_ORDR
                             , PICKUP_INCLS_AT
                             , TOUR_DAYS
                             , HOTDEAL_BEGIN_DE
@@ -358,6 +362,7 @@
                             , #INTRCN_PLACE#
                             , #VIDEO_URL#
                             , NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+                            , #VIDEO_SORT_ORDR#
                             , NVL(#PICKUP_INCLS_AT#, 'N')
                             , #TOUR_DAYS#
                             , REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
@@ -441,6 +446,7 @@
              , INTRCN_PLACE              =  #INTRCN_PLACE#
              , VIDEO_URL                 =  #VIDEO_URL#
              , VIDEO_MAIN_EXPSR_AT       =  NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+             , VIDEO_SORT_ORDR           =  #VIDEO_SORT_ORDR#
              , PICKUP_INCLS_AT           =  NVL(#PICKUP_INCLS_AT#, 'N')
              , TOUR_DAYS                 =  #TOUR_DAYS#
              , HOTDEAL_BEGIN_DE          =  REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
@@ -488,6 +494,7 @@
              , INTRCN_PLACE          = #INTRCN_PLACE#
              , VIDEO_URL             = #VIDEO_URL#
              , VIDEO_MAIN_EXPSR_AT   = NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+             , VIDEO_SORT_ORDR       = #VIDEO_SORT_ORDR#
              , PICKUP_INCLS_AT       = NVL(#PICKUP_INCLS_AT#, 'N')
              , TOUR_DAYS             = #TOUR_DAYS#             
              , HOTDEAL_BEGIN_DE      = REPLACE(#HOTDEAL_BEGIN_DE#, '-', '')              
@@ -721,6 +728,7 @@
              , A.HOTDEAL_END_DE
              , A.HOTDEAL_APPLC_BEGIN_DE
              , A.HOTDEAL_APPLC_END_DE
+             , A.VIDEO_SORT_ORDR
           FROM TB_GOODS A
              , TB_GOODS_ENG B
          WHERE A.GOODS_CODE = B.GOODS_CODE(+)
