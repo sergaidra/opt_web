@@ -9,6 +9,9 @@
 <link rel="stylesheet" type="text/css" href="/jq/gallery/css/component.css" />
 <script src="/jq/gallery/js/modernizr.custom.js"></script>
 
+<style>
+</style>
+
 <script type="text/javascript">
 function fnLiveView(url, obj) {
 	var width = 0;
@@ -42,6 +45,30 @@ function fnLiveView(url, obj) {
 	player.ready(function() {
 		player.play();
 		});
+}
+
+function figResize() {
+   var max_h=0;
+   $("#grid-gallery figcaption").each(function(){ 
+		$(this).css({height:''});
+  });
+   $("#grid-gallery figcaption").each(function(){
+ 		var h = parseInt($(this).css("height"));
+    	if(max_h<h){ max_h = h; }
+   });
+   
+   $("#grid-gallery figcaption").each(function(){ 
+ 		$(this).css({height:max_h});
+   });   
+   var ulW = Number($("#grid-gallery ul:eq(0)").css("width").replace(/[^0-9]/g, "")) + 5;
+   var liW = Number($("#grid-gallery li:eq(0)").css("width").replace(/[^0-9]/g, ""));
+   var cnt = Math.floor(ulW / liW);
+   $("#grid-gallery li").each(function(index){
+	   if(index % cnt == 0)
+ 		$(this).css({clear:"both"});
+	   else
+ 		$(this).css({clear:"none"});
+   });
 }
 </script>
 
@@ -85,9 +112,9 @@ function fnLiveView(url, obj) {
 			<div id="grid-gallery" class="grid-gallery comf">
 				<section class="grid-wrap">
 					<ul class="grid">
-						<li class="grid-sizer"></li><!-- for Masonry column width -->
+						<!-- <li class="grid-sizer"></li> --><!-- for Masonry column width -->
 						<c:forEach var="item" items="${lstVideo}">
-							<li onclick="fnLiveView('${item.VIDEO_URL}', this);">
+							<li onclick="fnLiveView('${item.VIDEO_URL}', this);" style="margin-bottom:10px;">
 							<figure>
 								<img src="<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE}" alt="img01"/>
 								<figcaption><h3>${item.GOODS_NM}</h3><p>${item.GOODS_INTRCN_SIMPL}</p></figcaption>
@@ -112,7 +139,11 @@ function fnLiveView(url, obj) {
 		<script src="/jq/gallery/js/classie.js"></script>
 		<script src="/jq/gallery/js/cbpGridGallery.js"></script>
 		<script>
-			new CBPGridGallery( document.getElementById( 'grid-gallery', {slideshow:false} ) );
+			//new CBPGridGallery( document.getElementById( 'grid-gallery', {slideshow:false} ) );
+			  $(document).ready(function(){
+				  figResize();
+				  $(window).resize(figResize);
+			  });			
 		</script>	
 	<!--여백--><div class="sp_50 pc_view"></div>
 	 <div class="sp_20 mobile_view"></div><!--여백-->

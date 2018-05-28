@@ -1023,6 +1023,7 @@ Ext.define('GoodsInfo', {
 			, {name:'HOTDEAL_APPLC_BEGIN_DE', type:'string'}
 			, {name:'HOTDEAL_APPLC_END_DE', type:'string'}
 			, {name:'VIDEO_SORT_ORDR', type:'string'}
+			, {name:'REPRSNT_PRICE', type:'string'}
 			]
 });
 
@@ -1510,6 +1511,23 @@ var frReg = Ext.create('Ext.form.Panel', {
 				labelAlign: 'right',
 				maskRe: /[0-9]/,
 				maxLength: 3,
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
+			}]
+		},{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'textfield',
+				id: 'form-reg-reprsnt-price',
+				name: 'REPRSNT_PRICE',
+				width: 270,
+				fieldLabel: '대표가격',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 120,
+				labelAlign: 'right',
+				maxLength: 30,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
