@@ -119,8 +119,8 @@ public class MainController {
 	    	
 	    	List<Map> lst = mainService.getMySchedule(map);
 
-	    	SimpleDateFormat format = new SimpleDateFormat("yyyymmdd"); 
-	    	SimpleDateFormat format2 = new SimpleDateFormat("yyyy-mm-dd"); 
+	    	SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd"); 
+	    	SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd"); 
 
 	    	LinkedHashMap<String, Object> mapDate = new LinkedHashMap<String, Object>();
 	    	

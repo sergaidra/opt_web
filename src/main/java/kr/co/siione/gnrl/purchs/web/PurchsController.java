@@ -143,8 +143,8 @@ public class PurchsController {
     	List<HashMap> lstFlight = new ArrayList();
     	List<String> lstFlightSn = new ArrayList();
 
-    	SimpleDateFormat format = new SimpleDateFormat("yyyymmdd"); 
-    	SimpleDateFormat format2 = new SimpleDateFormat("yyyy-mm-dd"); 
+    	SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd"); 
+    	SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd"); 
 
     	LinkedHashMap<String, Object> mapDate = new LinkedHashMap<String, Object>();
     	
@@ -261,7 +261,7 @@ public class PurchsController {
         		Date dt1 = format.parse(strDt);
         		Calendar cal = Calendar.getInstance();
         		cal.setTime(dt1);
-        		int dayNum = cal.get(Calendar.DAY_OF_WEEK);
+        		int dayNum = cal.get(Calendar.DAY_OF_WEEK);        		
         		
         		strDt = format2.format(dt1) + "(" + weekNm[dayNum - 1] + ")";
     		} catch(Exception ex) {
@@ -323,8 +323,8 @@ public class PurchsController {
     	List<HashMap> lstFlight = new ArrayList();
     	List<String> lstFlightSn = new ArrayList();
 
-    	SimpleDateFormat format = new SimpleDateFormat("yyyymmdd"); 
-    	SimpleDateFormat format2 = new SimpleDateFormat("yyyy-mm-dd"); 
+    	SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd"); 
+    	SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd"); 
 
     	LinkedHashMap<String, Object> mapDate = new LinkedHashMap<String, Object>();
     	
