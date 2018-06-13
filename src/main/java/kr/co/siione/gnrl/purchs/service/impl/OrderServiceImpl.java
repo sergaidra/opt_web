@@ -363,5 +363,13 @@ public class OrderServiceImpl implements OrderService {
 	public List<HashMap> getPastVBank(HashMap map) throws Exception {
 		return orderDAO.getPastVBank(map);
 	}
+	
+	public HashMap getReservationStatus(HashMap map) throws Exception {
+		return orderDAO.getReservationStatus(map);
+	}
+
+	public void updateReservationStatus(HashMap map) throws Exception {
+		orderDAO.updateReservationStatus(map);
+	}
 }
 

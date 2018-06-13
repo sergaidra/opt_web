@@ -54,4 +54,16 @@ public class PurchsManageServiceImpl implements PurchsManageService {
 
 		return iRe;
 	}
+	
+	public List<Map<String, Object>> selectOrderWaitList(Map<String, String> param) throws Exception {
+		return purchsDAO.selectOrderWaitList(param);
+	}
+	
+	public int selectOrderWaitListCount(Map<String, String> param) throws Exception {
+		return purchsDAO.selectOrderWaitListCount(param);
+	}
+	
+	public int updateReservationStatus(Map<String, String> map) throws Exception {
+		return purchsDAO.updateReservationStatus(map);
+	}
 }

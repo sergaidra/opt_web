@@ -2325,7 +2325,7 @@ a:hover.sbtn_03{ border: 1px solid #999; background-color: #ccc;  padding: 5px 5
 
 /**** 테블릿 2 ****/
 @media only all and (min-width:769px) {
-.popup_st{position:absolute; z-index:209999999999999999999999999999;visibility:hidden; left:50px;top:190px; width:400px !important}
+.popup_st{position:absolute; z-index:209999999999999999999999999999;visibility:hidden; left:50px;top:190px; /*width:400px !important*/}
 .popup_st .popup_head{ width: 100%;float:left;  background-color: #666; color: #fff; padding: 10px; box-sizing: border-box}
 .popup_st .popup_body{ width: 100%;float:left;  border: 1px solid #333; background-color: #fff; font-size: 14px}
 .popup_st .popup_bottom{ width: 100%;float:left; background-color: #333; color: #fff; text-align: right; box-sizing: border-box; font-size: 12px; padding:0px 10px; height: 40px; line-height: 40px}

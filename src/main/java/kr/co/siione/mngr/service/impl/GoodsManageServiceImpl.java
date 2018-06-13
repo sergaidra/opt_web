@@ -77,6 +77,19 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 			}
 		}
 
+		// 특정인 상품
+		Map<String, Object> mapUser = new HashMap<String, Object>();
+		mapUser.put("GOODS_CODE", newGoodsCode);
+		goodsDAO.deleteGoodsUser(mapUser);
+		String[] arr = StringUtils.split(StringUtils.trimToEmpty(param.get("PARTICULAR_USERID")), ',');
+		for(String str : arr) {
+			if("".equals(str))
+				continue;
+
+			mapUser.put("USER_ID", str);
+			goodsDAO.insertGoodsUser(mapUser);			
+		}
+
 		return newGoodsCode;
 	}
 
@@ -101,6 +114,19 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 				map.put("WRITNG_ID", param.get("WRITNG_ID"));
 				goodsKwrdDAO.insertGoodsKwrd(map);			
 			}
+		}
+
+		// 특정인 상품
+		Map<String, Object> mapUser = new HashMap<String, Object>();
+		mapUser.put("GOODS_CODE", param.get("GOODS_CODE"));
+		goodsDAO.deleteGoodsUser(mapUser);
+		String[] arr = StringUtils.split(StringUtils.trimToEmpty(param.get("PARTICULAR_USERID")), ',');
+		for(String str : arr) {
+			if("".equals(str))
+				continue;
+
+			mapUser.put("USER_ID", str.trim());
+			goodsDAO.insertGoodsUser(mapUser);			
 		}
 
 		return iRe;

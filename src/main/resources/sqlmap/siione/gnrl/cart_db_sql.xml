@@ -338,6 +338,8 @@
 		<result property="HOTDEAL_AT"    column="HOTDEAL_AT"    jdbcType="string" javaType="string"/>		
 		<result property="ORIGIN_AMOUNT" column="ORIGIN_AMOUNT" jdbcType="string" javaType="string"/>
 		<result property="PURCHS_AT"     column="PURCHS_AT"     jdbcType="string" javaType="string"/>
+		<result property="STATUS"        column="STATUS"        jdbcType="string" javaType="string"/>
+		<result property="WAITRESERVATION_YN"   column="WAITRESERVATION_YN"     jdbcType="string" javaType="string"/>
 		<result property="OPTIONS"       column="{ESNTL_ID=ESNTL_ID, CART_SN=CART_SN}" select="gnrl.cart.selectCartDetailList" javaType="java.util.ArrayList"/>
 	</resultMap>	
 	
@@ -379,6 +381,8 @@
 				      THEN 'Y' ELSE 'N' END AS HOTDEAL_AT
 		     , FN_GET_CART_PRICE(A.CART_SN, 'N') AS ORIGIN_AMOUNT 		     
 		     , PURCHS_AT
+		     , A.STATUS
+		     , X.WAITRESERVATION_YN
 		  FROM TB_CART_GOODS A
 		 INNER JOIN TB_GOODS X
 		    ON X.GOODS_CODE = A.GOODS_CODE

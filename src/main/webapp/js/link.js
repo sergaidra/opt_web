@@ -62,6 +62,7 @@ function go_03_02_01() {
 
 // 여행체크리스트 ///
 function go_04_01_01() {	document.location.href="/cs/checklist"; }
+function go_04_02_01() {	document.location.href="/cs/checklistview"; }
 
 
 
@@ -92,6 +93,7 @@ function go_08_03_01() {	alert("준비중입니다."); }
 
 // 여행 상담 //
 function go_05_01_01() {	document.location.href="/bbs/list";}
+function go_05_02_01() {	document.location.href="/bbs/admin";}
 
 // ADMIN //
 function go_09_01_01() {	window.open("/mngr/", "_blank");}

@@ -166,11 +166,14 @@ public class GoodsController {
     }
     
     @RequestMapping(value="/getClInfo")
-    public @ResponseBody Map getClInfo(@RequestBody HashMap param) throws Exception {
+    public @ResponseBody Map getClInfo(HttpServletRequest request, @RequestBody HashMap param) throws Exception {
       	HashMap map = new HashMap();
+    	HttpSession session = request.getSession();
     	String hidUpperClCode = UserUtils.nvl(param.get("hidUpperClCode"));  // 선택한 여러개의 분류
     	String keyword = UserUtils.nvl(param.get("keyword"));  // 검색어
 		String category = UserUtils.nvl(param.get("category")); // 셀프, 핫딜, 추천
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		String user_id = UserUtils.nvl((String)session.getAttribute("user_id"));
     	if("H".equals(hidUpperClCode) || "R".equals(hidUpperClCode) || "P".equals(hidUpperClCode)) {	// 핫딜이나 추천일때
         	map.put("upper_cl_code", hidUpperClCode);  
         	map.put("category", hidUpperClCode);
@@ -183,6 +186,8 @@ public class GoodsController {
         	String[] arrKeyword = keyword.split(",");
         	map.put("keyword", arrKeyword);
     	}
+    	map.put("esntl_id", esntl_id);    	
+    	map.put("user_id", user_id);    	
     	System.out.println("[상세 분류목록]map:"+map);
     	List<HashMap> tourClList = goodsService.getUpperTourClList(map);
     	
@@ -210,7 +215,8 @@ public class GoodsController {
 		String hidKeyword = UserUtils.nvl(param.get("hidKeyword")); // 검색어
 		String category = UserUtils.nvl(param.get("category")); // 셀프, 핫딜, 추천
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		
+		String user_id = UserUtils.nvl((String)session.getAttribute("user_id"));
+
 		String hidNext = UserUtils.nvl(param.get("hidNext")); // 다음페이지 여부
 		String paramPage = UserUtils.nvl(param.get("hidPage")); // 페이지번호
 		if("".equals(paramPage))
@@ -233,6 +239,7 @@ public class GoodsController {
     	map.put("startIdx", startIdx);
     	map.put("endIdx", endIdx);
     	map.put("esntl_id", esntl_id);
+    	map.put("user_id", user_id);
     	System.out.println("[상품목록]map:"+map);
     	if("N".equals(hidNext)) {
     		int totalCount = goodsService.getGoodsListCount(map);
@@ -376,9 +383,9 @@ public class GoodsController {
             	
                 model.addAttribute("bp", "01");
                 if("S".equals(category))
-                	model.addAttribute("btitle", "셀프여행");
+                	model.addAttribute("btitle", "선택여행");
                 else if("H".equals(category))
-                    model.addAttribute("btitle", "핫딜여행");
+                    model.addAttribute("btitle", "핫딜상품");
                 else if("R".equals(category))
                     model.addAttribute("btitle", "추천여행");
                 model.addAttribute("mtitle", "여행상품상세보기");

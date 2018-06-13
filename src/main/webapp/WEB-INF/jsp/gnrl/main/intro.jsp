@@ -805,16 +805,17 @@ function fnLiveView(url, title, desc) {
 <!-- //본문 --> 
 
 <!-- 메인 이벤트 팝업 POPUP  -->
+<div id="" class="popup_st" style=""> 
 <c:forEach var="item" items="${popupNotice}">
 	<c:set var="popup_width" value="${item.POPUP_WIDTH}" />
 	<c:set var="popup_height" value="${item.POPUP_HEIGHT}" />
 	<style>
 		@media only all and (min-width:769px) {
-			.popup_width_${item.BBS_SN} { <c:if test="${popup_width != null}">width:${popup_width}px !important; top:90px;</c:if>	}
+			.popup_width_${item.BBS_SN} { <c:if test="${popup_width != null}">width:${popup_width}px !important; top:90px;</c:if><c:if test="${popup_width == null}">width:400px !important; top:90px;</c:if>	}
 			.popup_height_${item.BBS_SN} { <c:if test="${popup_height != null}">height:${popup_height}px !important;</c:if> }
 		}
 	</style>
-	<div id="divpop_${item.BBS_SN}" class="popup_st popup_width_${item.BBS_SN}"> 
+	<div id="divpop_${item.BBS_SN}" class="popup_width_${item.BBS_SN}" style="float:left;"> 
 	 <!-- 제목을 넣을경우-->
 	 <!-- <div class="popup_head">${item.SUBJECT}</div> --> 
 		 <div class="popup_body"> 
@@ -834,6 +835,7 @@ function fnLiveView(url, title, desc) {
 	
 	</div>  
 </c:forEach>
+</div>
 
 <script language="Javascript">
 cookiedata = document.cookie;

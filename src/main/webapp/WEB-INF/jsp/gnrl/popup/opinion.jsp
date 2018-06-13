@@ -16,15 +16,36 @@
       <div class="tb_01_box">
         <table width="100%"  class="tb_01">
           <col width="20%">
-          <col width="">
+          <col width="30%">
+          <col width="20%">
+          <col width="30%">
           <tbody>
             <tr>
+              <th>작성자</th>
+              <td>${info.USER_NM}</td>
+              <th>작성일</th>
+              <td>${info.WRITNG_DT}</td>
+            </tr>
+            <tr>
+              <th>문의종류</th>
+              <td>
+                  	<select id="category" name="category" style="width:90%;">
+                    	<option value="R" <c:if test="${opinion.CATEGORY == 'R'}">selected</c:if>>예약</option>
+                    	<option value="G" <c:if test="${opinion.CATEGORY == 'G'}">selected</c:if>>상품</option>
+                    	<option value="F" <c:if test="${opinion.CATEGORY == 'F'}">selected</c:if>>환불</option>
+                    	<option value="X" <c:if test="${opinion.CATEGORY == 'X'}">selected</c:if>>기타</option>
+                    </select>
+              </td>
+              <th>이메일</th>
+              <td>${info.EMAIL}</td>
+            </tr>
+            <tr>
               <th >제목</th>
-              <td><input type="text" placeholder="" class="w_100p input_st" id="opinion_sj" name="opinion_cn" value="${opinion.OPINION_SJ}"></td>
+              <td colspan="3"><input type="text" placeholder="" class="w_100p input_st" id="opinion_sj" name="opinion_cn" value="${opinion.OPINION_SJ}"></td>
             </tr>
             <tr>
               <th >내용쓰기</th>
-              <td><textarea name="opinion_cn" id="opinion_cn" class="w_100p input_st"  placeholder="" style="height: 300px">${opinion.OPINION_CN}</textarea></td>
+              <td colspan="3"><textarea name="opinion_cn" id="opinion_cn" class="w_100p input_st"  placeholder="" style="height: 300px">${opinion.OPINION_CN}</textarea></td>
             </tr>
           </tbody>
         </table>
@@ -65,7 +86,7 @@ function answerOpinion() {
 	$(".featherlight #btnOpinion2").hide();	
 	$(".featherlight #btnOpinion4").hide();	
 	$(".featherlight #btnOpinion5").show();	
-	$(".featherlight #btnOpinion3").show();		
+	$(".featherlight #btnOpinion3").show();	
 }
 
 function saveOpinion() {
@@ -87,6 +108,7 @@ function saveOpinion() {
 	param.opinion_sj = $(".featherlight #opinion_sj").val();
 	param.opinion_cn = $(".featherlight #opinion_cn").val();
 	param.goods_code = $(".featherlight #goods_code").val();
+	param.category = $(".featherlight #category").val();
 	param.parent_opinion_sn = $(".featherlight #parent_opinion_sn").val();
 	var callback = $(".featherlight #callback").val();
 

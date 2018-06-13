@@ -72,7 +72,7 @@ function write() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("저장되었습니다.");
-				go_05_01_01();
+				goBbsList();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
@@ -106,7 +106,7 @@ function deleteBbs() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("삭제되었습니다.");
-				go_05_01_01();
+				goBbsList();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
@@ -162,7 +162,7 @@ function deletebbsadmin() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("삭제되었습니다.");
-				go_05_01_01();
+				goBbsList();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
@@ -223,7 +223,7 @@ function modifyaction() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("수정되었습니다.");
-				go_05_01_01();
+				goBbsList();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
@@ -354,7 +354,7 @@ function writeanswer() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("저장되었습니다.");
-				go_05_01_01();
+				goBbsList();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
@@ -369,6 +369,15 @@ function writeanswer() {
         },
 	});			
 }
+
+function goBbsList() {
+	<c:if test="${category == 'A'}">
+		go_05_02_01();
+	</c:if>
+	<c:if test="${category != 'A'}">
+		go_05_01_01();
+	</c:if>
+}
 </script>
 </head>
 
@@ -376,7 +385,7 @@ function writeanswer() {
 
 
 <form id="frmBbs" method="post">
-	<input type="hidden" id="category" name="category" value="R">
+	<input type="hidden" id="category" name="category" value="${category}">
 	<input type="hidden" id="bbs_sn" name="bbs_sn" value="${view.BBS_SN}">
 </form>
 
@@ -530,7 +539,7 @@ function writeanswer() {
                   	<c:if test="${(author_cl == 'A' or author_cl == 'M') and mode == 'view'}">
   	             		<a href="#" data-featherlight="#answerbbs" class="button_m1 mr_2">답글</a>
                   	</c:if>
-                  	<a href="javascript:go_05_01_01();" class="button_m2">목록</a> 
+                  	<a href="javascript:goBbsList();" class="button_m2">목록</a> 
 			       	</div>
        
       </div>

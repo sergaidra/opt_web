@@ -1024,6 +1024,11 @@ Ext.define('GoodsInfo', {
 			, {name:'HOTDEAL_APPLC_END_DE', type:'string'}
 			, {name:'VIDEO_SORT_ORDR', type:'string'}
 			, {name:'REPRSNT_PRICE', type:'string'}
+			, {name:'HOTELSCOMBINE_YN', type:'string'}
+			, {name:'HOTELSCOMBINE_SCRIPT', type:'string'}
+			, {name:'PARTICULAR_YN', type:'string'}
+			, {name:'PARTICULAR_USERID', type:'string'}
+			, {name:'WAITRESERVATION_YN', type:'string'}
 			]
 });
 
@@ -1531,6 +1536,75 @@ var frReg = Ext.create('Ext.form.Panel', {
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
+			}]
+		},{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'checkboxfield',
+				id: 'form-reg-hotelscombine_yn',
+				name: 'HOTELSCOMBINE_YN',
+				width: 240,
+				fieldLabel: '호텔스컴바인여부',
+				labelWidth: 120,
+				labelAlign: 'right',
+				boxLabel  : '',
+				inputValue: 'Y',
+				value: 'Y'
+			}, {
+				xtype: 'textfield',
+				id: 'form-reg-hotelscombine_script',
+				name: 'HOTELSCOMBINE_SCRIPT',
+				width: 700,
+				fieldLabel: '호텔스컴바인 주소',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 150,
+				labelAlign: 'right',
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
+			}]
+		},{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'checkboxfield',
+				id: 'form-reg-particular_yn',
+				name: 'PARTICULAR_YN',
+				width: 240,
+				fieldLabel: '특정고객상품여부',
+				labelWidth: 120,
+				labelAlign: 'right',
+				boxLabel  : '',
+				inputValue: 'Y',
+				value: 'Y'
+			}, {
+				xtype: 'textfield',
+				id: 'form-reg-particular_text',
+				name: 'PARTICULAR_USERID',
+				width: 700,
+				fieldLabel: '고객ID',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 150,
+				labelAlign: 'right',
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
+			}]
+		},{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'checkboxfield',
+				id: 'form-reg-waitreservation_yn',
+				name: 'WAITRESERVATION_YN',
+				width: 240,
+				fieldLabel: '대기예약여부',
+				labelWidth: 120,
+				labelAlign: 'right',
+				boxLabel  : '',
+				inputValue: 'Y',
+				value: 'Y'
 			}]
 		}]
 	},{

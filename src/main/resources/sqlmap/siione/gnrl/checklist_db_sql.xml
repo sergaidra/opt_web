@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'> 
+<sqlMap namespace="gnrl">
+
+	<typeAlias alias="hashMap" type="java.util.HashMap"/>
+	<resultMap id="checklistMap" class="java.util.HashMap">
+	    <result column="CONTENTS"      property="CONTENTS" javaType="java.lang.String" jdbcType="CLOB"/>
+	</resultMap>	
+
+	<select id="gnrl.checklist.getChecklist" parameterClass="hashMap" resultMap="checklistMap">
+		SELECT CONTENTS
+		FROM TB_CHECKLIST
+		WHERE CATEGORY = #category#
+	</select>
+	
+	<delete id="gnrl.checklist.delChecklist" parameterClass="hashMap">
+		DELETE FROM TB_CHECKLIST WHERE CATEGORY = #category#
+	</delete>
+	
+	<insert id="gnrl.checklist.insChecklist" parameterClass="hashMap">
+		INSERT INTO TB_CHECKLIST (CATEGORY, CONTENTS, WRITNG_ID, WRITNG_DT)
+		VALUES (#category#, #contents:CLOB#, #esntl_id#, SYSDATE)
+	</insert>
+	
+</sqlMap>

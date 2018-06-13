@@ -41,4 +41,18 @@ public class PurchsDAO extends EgovComAbstractDAO {
 	public int refundPurchs(Map<String, String> map) throws Exception {
 		return update("PurchsDAO.refundPurchs", map);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> selectOrderWaitList(Map<String, String> param) throws Exception {
+		return list("PurchsDAO.selectOrderWaitList", param);
+	}
+	
+	public int selectOrderWaitListCount(Map<String, String> param) throws Exception {
+		return (Integer)selectByPk("PurchsDAO.selectOrderWaitListCount", param);
+	}
+
+	public int updateReservationStatus(Map<String, String> map) throws Exception {
+		return update("PurchsDAO.updateReservationStatus", map);
+	}
+
 }

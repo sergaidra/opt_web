@@ -270,6 +270,29 @@ public class OrderController {
 				}
 			}
 			
+			// 대기 확인
+			for(int i = 0; i < lstCart.size(); i++) {
+				// 패키지 숙박있는 경우
+				Map d = orderService.getReservationStatus((HashMap)lstCart.get(i));
+				if("Y".equals(d.get("WAITRESERVATION_YN"))) {
+					if("C".equals(d.get("STATUS"))) 
+						continue;
+					
+					if("W".equals(d.get("STATUS"))) {
+						resVo.setResult("4");			
+						resVo.setMessage("관리자가 예약 확인 중 입니다.");
+						isOk = false;
+						break;
+					} else {
+						orderService.updateReservationStatus((HashMap)lstCart.get(i));
+						resVo.setResult("4");			
+						resVo.setMessage("관리자에게 예약 확인 요청하였습니다.");
+						isOk = false;
+						break;
+					}
+				}						
+			}
+			
 			if(isOk == true) {
 				resVo.setResult("0");			
 			}

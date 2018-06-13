@@ -99,7 +99,11 @@
 		<result property="HOTDEAL_APPLC_BEGIN_DE"        column="HOTDEAL_APPLC_BEGIN_DE"        jdbcType="string" javaType="string"/>
         <result property="HOTDEAL_APPLC_END_DE"          column="HOTDEAL_APPLC_END_DE"          jdbcType="string" javaType="string"/>        
         <result property="VIDEO_SORT_ORDR"               column="VIDEO_SORT_ORDR"               jdbcType="string" javaType="string"/>        
-        <result property="REPRSNT_PRICE"                 column="REPRSNT_PRICE"                 jdbcType="string" javaType="string"/>        
+        <result property="HOTELSCOMBINE_YN"              column="HOTELSCOMBINE_YN"              jdbcType="string" javaType="string"/>        
+        <result property="HOTELSCOMBINE_SCRIPT"          column="HOTELSCOMBINE_SCRIPT"          jdbcType="string" javaType="string"/>        
+        <result property="PARTICULAR_YN"                 column="PARTICULAR_YN"                 jdbcType="string" javaType="string"/>        
+        <result property="PARTICULAR_USERID"             column="PARTICULAR_USERID"             jdbcType="string" javaType="string"/>        
+        <result property="WAITRESERVATION_YN"            column="WAITRESERVATION_YN"                 jdbcType="string" javaType="string"/>        
     </resultMap>
 
     <insert id="GoodsDAO.insertGoods" parameterClass="hashMap">
@@ -159,6 +163,10 @@
                             , VIDEO_MAIN_EXPSR_AT
                             , VIDEO_SORT_ORDR
                             , REPRSNT_PRICE
+                            , HOTELSCOMBINE_YN
+                            , HOTELSCOMBINE_SCRIPT
+                            , PARTICULAR_YN
+                            , WAITRESERVATION_YN
                             , PICKUP_INCLS_AT
                             , TOUR_DAYS 
                             , HOTDEAL_BEGIN_DE
@@ -215,6 +223,10 @@
                             , NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
                             , #VIDEO_SORT_ORDR#
                             , #REPRSNT_PRICE#
+                            , #HOTELSCOMBINE_YN#
+                            , #HOTELSCOMBINE_SCRIPT#
+                            , #PARTICULAR_YN#
+                            , #WAITRESERVATION_YN#
                             , NVL(#PICKUP_INCLS_AT#, 'N')
                             , #TOUR_DAYS#
                             , REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
@@ -325,6 +337,10 @@
                             , VIDEO_MAIN_EXPSR_AT
                             , VIDEO_SORT_ORDR
                             , REPRSNT_PRICE
+                            , HOTELSCOMBINE_YN
+                            , HOTELSCOMBINE_SCRIPT
+                            , PARTICULAR_YN
+                            , WAITRESERVATION_YN
                             , PICKUP_INCLS_AT
                             , TOUR_DAYS
                             , HOTDEAL_BEGIN_DE
@@ -368,6 +384,10 @@
                             , NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
                             , #VIDEO_SORT_ORDR#
                             , #REPRSNT_PRICE#
+                            , #HOTELSCOMBINE_YN#
+                            , #HOTELSCOMBINE_SCRIPT#
+                            , #PARTICULAR_YN#
+                            , #WAITRESERVATION_YN#
                             , NVL(#PICKUP_INCLS_AT#, 'N')
                             , #TOUR_DAYS#
                             , REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
@@ -453,6 +473,10 @@
              , VIDEO_MAIN_EXPSR_AT       =  NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
              , VIDEO_SORT_ORDR           =  #VIDEO_SORT_ORDR#
              , REPRSNT_PRICE             =  #REPRSNT_PRICE#
+             , HOTELSCOMBINE_YN          =  #HOTELSCOMBINE_YN#
+             , HOTELSCOMBINE_SCRIPT      =  #HOTELSCOMBINE_SCRIPT#
+             , PARTICULAR_YN             =  #PARTICULAR_YN#
+             , WAITRESERVATION_YN        =  #WAITRESERVATION_YN#
              , PICKUP_INCLS_AT           =  NVL(#PICKUP_INCLS_AT#, 'N')
              , TOUR_DAYS                 =  #TOUR_DAYS#
              , HOTDEAL_BEGIN_DE          =  REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
@@ -502,6 +526,10 @@
              , VIDEO_MAIN_EXPSR_AT   = NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
              , VIDEO_SORT_ORDR       = #VIDEO_SORT_ORDR#
              , REPRSNT_PRICE         = #REPRSNT_PRICE#
+             , HOTELSCOMBINE_YN      = #HOTELSCOMBINE_YN#
+             , HOTELSCOMBINE_SCRIPT  = #HOTELSCOMBINE_SCRIPT#
+             , PARTICULAR_YN         = #PARTICULAR_YN#
+             , WAITRESERVATION_YN    = #WAITRESERVATION_YN#
              , PICKUP_INCLS_AT       = NVL(#PICKUP_INCLS_AT#, 'N')
              , TOUR_DAYS             = #TOUR_DAYS#             
              , HOTDEAL_BEGIN_DE      = REPLACE(#HOTDEAL_BEGIN_DE#, '-', '')              
@@ -737,6 +765,11 @@
              , A.HOTDEAL_APPLC_END_DE
              , A.VIDEO_SORT_ORDR
              , A.REPRSNT_PRICE
+             , A.HOTELSCOMBINE_YN
+             , A.HOTELSCOMBINE_SCRIPT
+             , A.PARTICULAR_YN
+             , (SELECT SUBSTR(XMLAGG(XMLELEMENT(X,',', USER_ID) ORDER BY SORT_ORDR).EXTRACT('//text()'),2) FROM TB_GOODS_USER X WHERE X.GOODS_CODE = A.GOODS_CODE) AS PARTICULAR_USERID
+             , A.WAITRESERVATION_YN
           FROM TB_GOODS A
              , TB_GOODS_ENG B
          WHERE A.GOODS_CODE = B.GOODS_CODE(+)
@@ -831,5 +864,21 @@
         <include refid="GoodsDAO.whereForSelectGoodsListForSearch"/>
         <include refid="GoodsDAO.pagingQueryEnd"/>
     </select>
+
+    <delete id="GoodsDAO.deleteGoodsUser" parameterClass="hashMap">
+    <![CDATA[
+    	DELETE FROM TB_GOODS_USER
+    	WHERE GOODS_CODE = #GOODS_CODE#    	
+	]]>
+    </delete>
+
+    <insert id="GoodsDAO.insertGoodsUser" parameterClass="hashMap">
+    <![CDATA[
+    	INSERT INTO TB_GOODS_USER (GOODS_CODE, USER_ID, SORT_ORDR)
+    	SELECT #GOODS_CODE#, #USER_ID#, NVL(MAX(SORT_ORDR), 0) + 1
+    	FROM TB_GOODS_USER
+		WHERE GOODS_CODE = #GOODS_CODE#    	
+	]]>
+    </insert>
 
 </sqlMap>

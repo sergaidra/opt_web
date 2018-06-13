@@ -74,4 +74,13 @@ public class GoodsDAO extends EgovComAbstractDAO {
 	public List<Map<String, String>> selectGoodsListForSearch(Map<String, String> param) throws Exception {
 		return list("GoodsDAO.selectGoodsListForSearch", param);
 	}
+	
+	public int deleteGoodsUser(Map<String, Object> map) throws Exception {
+		return delete("GoodsDAO.deleteGoodsUser", map);
+	}
+
+	public int insertGoodsUser(Map<String, Object> map) throws Exception {
+		return delete("GoodsDAO.insertGoodsUser", map);
+	}
+
 }
