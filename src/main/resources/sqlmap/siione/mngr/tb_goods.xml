@@ -99,6 +99,7 @@
 		<result property="HOTDEAL_APPLC_BEGIN_DE"        column="HOTDEAL_APPLC_BEGIN_DE"        jdbcType="string" javaType="string"/>
         <result property="HOTDEAL_APPLC_END_DE"          column="HOTDEAL_APPLC_END_DE"          jdbcType="string" javaType="string"/>        
         <result property="VIDEO_SORT_ORDR"               column="VIDEO_SORT_ORDR"               jdbcType="string" javaType="string"/>        
+        <result property="REPRSNT_PRICE"                 column="REPRSNT_PRICE"                 jdbcType="string" javaType="string"/>        
         <result property="HOTELSCOMBINE_YN"              column="HOTELSCOMBINE_YN"              jdbcType="string" javaType="string"/>        
         <result property="HOTELSCOMBINE_SCRIPT"          column="HOTELSCOMBINE_SCRIPT"          jdbcType="string" javaType="string"/>        
         <result property="PARTICULAR_YN"                 column="PARTICULAR_YN"                 jdbcType="string" javaType="string"/>        

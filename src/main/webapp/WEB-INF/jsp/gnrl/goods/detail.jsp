@@ -1588,7 +1588,7 @@ function googleShare() {
         </div>
         <c:if test="${result.HOTELSCOMBINE_YN == 'Y'}">
         <div style="float:left; width:100%;">
-        	<script src="${result.HOTELSCOMBINE_SCRIPT}"></script>
+        	${result.HOTELSCOMBINE_SCRIPT}
         </div>
         </c:if>
         <c:if test="${result.HOTELSCOMBINE_YN != 'Y'}">
