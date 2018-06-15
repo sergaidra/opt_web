@@ -251,12 +251,7 @@ function search(pageNo) {
       <!--//페이징 --> 
 
       <div class="right_btn">
-        <c:if test="${category == 'A'}">
-	       	<a href="javascript:writeBbs();" class="button_m1">작성하기</a>
-	    </c:if> 
-        <c:if test="${category != 'A'}">
-	       	<a href="javascript:writeBbs();" class="button_m1">문의하기</a>
-	    </c:if> 
+       	<a href="javascript:writeBbs();" class="button_m1">작성하기</a>
       </div>
        
       <!--//하단버튼/ 페이징 -->

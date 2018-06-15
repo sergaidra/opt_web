@@ -41,7 +41,7 @@ function btnOk() {
 		return;
 	} else {
 		cateList = cateList.substr(0, cateList.length - 1);
-		$("input:hidden[id=hidUpperClCodeNavi]").val(cateList);
+		form.find("input:hidden[id=hidUpperClCodeNavi]").val(cateList);
 		form.attr({"method":"get","action":"<c:url value='/goods/list'/>"});
 		form.submit();	
 	}

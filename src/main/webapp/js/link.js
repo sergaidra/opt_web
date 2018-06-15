@@ -61,8 +61,9 @@ function go_03_02_01() {
 
 
 // 여행체크리스트 ///
-function go_04_01_01() {	document.location.href="/cs/checklist"; }
+function go_04_01_01() {	document.location.href="/cs/checklist_old"; }
 function go_04_02_01() {	document.location.href="/cs/checklistview"; }
+function go_04_03_01() {	document.location.href="/cs/checklist"; }
 
 
 
