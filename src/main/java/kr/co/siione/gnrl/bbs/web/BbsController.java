@@ -226,11 +226,6 @@ public class BbsController {
 
 			UserUtils.log("[writeaction-map]", map);
 			
-			if(!parent_bbs_sn.equals("")) {
-				System.out.println("==> 답변메일 발송");
-				bbsService.mailReply(map);
-			}
-			
 			bbsService.insertBbs(map);	
 				
 			resVo.setResult("0");			

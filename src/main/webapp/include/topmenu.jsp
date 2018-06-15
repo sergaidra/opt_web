@@ -29,6 +29,7 @@ function goSelfCategory(cl_code) {
 	  <li><a href="javascript:goSelfCategory('00571');">액티비티</a></li>
 	  <li><a href="javascript:goSelfCategory('00415');">마사지</a></li>
 	  <li><a href="javascript:goSelfCategory('00416');">차량렌트</a></li>
+	  <li><a href="javascript:goSelfCategory('00591');">패키지투어</a></li>
 	  <li><a href="javascript:goSelfCategory('00417');">로컬쇼핑(준비중)</a></li>
     </ul>
   </li>

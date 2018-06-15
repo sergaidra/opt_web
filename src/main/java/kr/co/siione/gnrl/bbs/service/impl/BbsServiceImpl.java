@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import kr.co.siione.gnrl.bbs.service.BbsService;
 import kr.co.siione.gnrl.cart.service.CartService;
+import kr.co.siione.gnrl.cmmn.service.CommonService;
+import kr.co.siione.gnrl.cmmn.service.impl.CommonDAO;
 import kr.co.siione.utl.MailManager;
 import kr.co.siione.utl.UserUtils;
 
@@ -25,15 +27,27 @@ public class BbsServiceImpl implements BbsService {
 	private BbsDAO bbsDAO;
 	
 	@Resource
-    private	MailManager mailManager;
+	private CommonService commonService;
 	
-	@Value("#{globals['server.ip']}")
-	private String webserverip;
-	@Value("#{globals['server.domain']}")
-	private String webserverdomain;
-
     public void insertBbs(HashMap map) throws Exception {
     	bbsDAO.insertBbs(map);
+    	
+		if("".equals(map.get("parent_bbs_sn"))) {
+	    	System.out.println("==> 문의메일 발송");
+	    	List<HashMap> lstManager = commonService.getManagerUser(map);
+	    	for(int i = 0;i < lstManager.size(); i++)
+	    		commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), String.valueOf(lstManager.get(i).get("EMAIL")));
+	    	
+    		commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), "onepasstour@gmail.com");
+    		//commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), "leeyikw@gmail.com");
+		} else {
+	    	HashMap map2 = new HashMap();
+	    	map2.put("bbs_sn", String.valueOf(map.get("parent_bbs_sn")));	
+	    	HashMap bbs =  bbsDAO.viewBbs(map2);
+
+	    	System.out.println("==> 답변메일 발송");
+	    	commonService.mailReply(String.valueOf(bbs.get("CONTENTS_VIEW")), UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), String.valueOf(bbs.get("EMAIL")));
+		}
     }
     
     public void deleteBbs(HashMap map) throws Exception {
@@ -85,46 +99,4 @@ public class BbsServiceImpl implements BbsService {
     	return bbsDAO.selectCommentList(map);
     }
     
-    public boolean mailReply(HashMap map) throws Exception {
-    	
-    	boolean re = false;
-    	
-    	HashMap map2 = new HashMap();
-    	map2.put("bbs_sn", String.valueOf(map.get("parent_bbs_sn")));	
-    	HashMap bbs =  bbsDAO.viewBbs(map2);
-    	
-    	//System.out.println("bbs 원본글내용 : "+bbs);
-    	
-    	if(!UserUtils.nvl(bbs.get("EMAIL")).equals("")) {
-    		String subject = "원패스투어 문의하신 내용에 대한 답변을 드립니다.";
-    		String content = getHtml("mailReply.htm");
-    		
-    		content = content.replaceAll("[$]\\{webserverip\\}", webserverip);
-    		content = content.replaceAll("[$]\\{webserverdomain\\}", webserverdomain);		
-    		content = content.replaceAll("[$]\\{contents1\\}", String.valueOf(bbs.get("CONTENTS_VIEW")));
-    		content = content.replaceAll("[$]\\{contents2\\}", UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))));
-    			
-    		Map<String, Object> attachMap = new HashMap<String, Object>();
-    		attachMap.put("images", new ArrayList());    		
-    		re = mailManager.sendMail(subject, content, String.valueOf(bbs.get("EMAIL")), attachMap);	
-    	}
-    	
-    	return re;
-    	
-    }
-    
-	private String getHtml(String filename) {
-		StringBuilder builder = new StringBuilder();
-		org.springframework.core.io.Resource resource = new ClassPathResource("html/" + filename); 
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
-			String line = null;
-            while ((line = reader.readLine()) != null)
-                builder.append(line);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		return builder.toString();
-	}	    
-
 }
