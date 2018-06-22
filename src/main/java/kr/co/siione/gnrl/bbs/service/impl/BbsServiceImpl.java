@@ -32,22 +32,24 @@ public class BbsServiceImpl implements BbsService {
     public void insertBbs(HashMap map) throws Exception {
     	bbsDAO.insertBbs(map);
     	
-		if("".equals(map.get("parent_bbs_sn"))) {
-	    	System.out.println("==> 문의메일 발송");
-	    	List<HashMap> lstManager = commonService.getManagerUser(map);
-	    	for(int i = 0;i < lstManager.size(); i++)
-	    		commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), String.valueOf(lstManager.get(i).get("EMAIL")));
-	    	
-    		commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), "onepasstour@gmail.com");
-    		//commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), "leeyikw@gmail.com");
-		} else {
-	    	HashMap map2 = new HashMap();
-	    	map2.put("bbs_sn", String.valueOf(map.get("parent_bbs_sn")));	
-	    	HashMap bbs =  bbsDAO.viewBbs(map2);
+    	if(!"A".equals(map.get("category"))) {
+    		if("".equals(map.get("parent_bbs_sn"))) {
+    	    	System.out.println("==> 문의메일 발송");
+    	    	List<HashMap> lstManager = commonService.getManagerUser(map);
+    	    	for(int i = 0;i < lstManager.size(); i++)
+    	    		commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), String.valueOf(lstManager.get(i).get("EMAIL")));
+    	    	
+        		commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), "onepasstour@gmail.com"); 
+        		//commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), "leeyikw@gmail.com");
+    		} else {
+    	    	HashMap map2 = new HashMap();
+    	    	map2.put("bbs_sn", String.valueOf(map.get("parent_bbs_sn")));	
+    	    	HashMap bbs =  bbsDAO.viewBbs(map2);
 
-	    	System.out.println("==> 답변메일 발송");
-	    	commonService.mailReply(String.valueOf(bbs.get("CONTENTS_VIEW")), UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), String.valueOf(bbs.get("EMAIL")));
-		}
+    	    	System.out.println("==> 답변메일 발송");
+    	    	commonService.mailReply(String.valueOf(bbs.get("CONTENTS_VIEW")), UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), String.valueOf(bbs.get("EMAIL")));
+    		}
+    	}
     }
     
     public void deleteBbs(HashMap map) throws Exception {

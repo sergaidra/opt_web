@@ -34,9 +34,9 @@ function goSelfCategory(cl_code) {
     </ul>
   </li>
 <!-- 해당활성화 메뉴   <li  class="active"> -->
-  <li><a href="javascript:go_02_01_01();"><spring:message code='topmenu.hotdeal'/></a></li>
   <li><a href="javascript:go_03_01_01();"><spring:message code='topmenu.recom'/></a></li>
   <li><a href="javascript:go_03_02_01();"><spring:message code='topmenu.package'/></a></li>
+  <li><a href="javascript:go_02_01_01();"><spring:message code='topmenu.hotdeal'/></a></li>
   <li><a href="javascript:go_04_03_01();"><spring:message code='topmenu.checklist'/></a></li>
   <li  class="sub-menu"><a href="javascript:void(0);"><spring:message code='topmenu.customer'/><i class="arrow fa fa-angle-down pull-right"></i></a>
     <ul class="submenu">
@@ -46,7 +46,7 @@ function goSelfCategory(cl_code) {
 	  <li><a href="javascript:go_07_05_01();"><spring:message code='topmenu.liveview'/></a> </li>
 	  <li><a href="javascript:go_07_04_01();"><spring:message code='topmenu.notice'/></a> </li>
 	  <li><a href="javascript:go_05_01_01();"><spring:message code='topmenu.bbs1'/></a> </li>
-	  <c:if test="${author_cl == 'A' }">
+	  <c:if test="${author_cl == 'A' or author_cl == 'M' }">
 	  	<li><a href="javascript:go_05_02_01();"><spring:message code='topmenu.bbs2'/></a> </li>
 	  </c:if>
 	  

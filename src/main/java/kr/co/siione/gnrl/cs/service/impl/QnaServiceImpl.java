@@ -43,7 +43,7 @@ public class QnaServiceImpl implements QnaService {
 	    	for(int i = 0;i < lstManager.size(); i++)
 	    		commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("opinion_cn"))), String.valueOf(lstManager.get(i).get("EMAIL")));
 	    	
-    		commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("contents"))), "onepasstour@gmail.com");
+    		commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("opinion_cn"))), "onepasstour@gmail.com");
     		//commonService.mailRequest(UserUtils.convertHtml2Text(String.valueOf(map.get("opinion_cn"))), "leeyikw@gmail.com");
 		} else {
 	    	HashMap map2 = new HashMap();
