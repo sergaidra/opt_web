@@ -96,8 +96,16 @@
 				if(dateToString(sDt) == dateToString(eDt))
 					break;
 				
+				var curDt = dateToString(sDt);
 				for(var cnt = 0; cnt < lstRsvSchdul.length; cnt++) {
-					if (lstRsvSchdul[cnt] == dateToString(sDt)) {
+					if (lstRsvSchdul[cnt] == curDt) {
+						initSelect(e);
+						return;
+					}
+				}
+				
+				for(var cnt = 0; cnt < lstSchdul.length; cnt++) {
+					if(lstSchdul[cnt].BEGIN_DE <= curDt && curDt <= lstSchdul[cnt].END_DE && lstSchdul[cnt].POSBL_AT == "N") {
 						initSelect(e);
 						return;
 					}
