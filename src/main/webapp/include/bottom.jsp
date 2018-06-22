@@ -25,7 +25,7 @@
             <div class="img"><img src="<c:url value='/images/com/bottom_icon03.png' />"  alt=""/></div>
             <div class="t_box"><spring:message code='bottom.opinion'/></div>
           </li>
-              <li style="cursor:pointer;" onclick="go_04_01_01();">
+              <li style="cursor:pointer;" onclick="go_04_03_01();">
             <div class="img"><img src="<c:url value='/images/com/bottom_icon04.png' />"  alt=""/></div>
             <div class="t_box"><spring:message code='bottom.checklist'/></div>
           </li>

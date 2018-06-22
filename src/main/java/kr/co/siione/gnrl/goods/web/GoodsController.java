@@ -122,6 +122,12 @@ public class GoodsController {
 	        			mapGoods.put("CL_NM", commonService.getMessage("topmenu.package", request));
 	        			mapGoods.put("CL_CODE", "P");
 	        			upperTourClList.add(mapGoods);
+	        		} else if("C".equals(goodskind)) {
+	        			category = "C";
+	        			HashMap mapGoods = new HashMap();
+	        			mapGoods.put("CL_NM", commonService.getMessage("topmenu.custom", request));
+	        			mapGoods.put("CL_CODE", "C");
+	        			upperTourClList.add(mapGoods);
 	        		}
                 	model.addAttribute("upperTourClList", upperTourClList);
             	} else {
@@ -156,6 +162,8 @@ public class GoodsController {
                 model.addAttribute("btitle", commonService.getMessage("topmenu.recom", request));
             else if("P".equals(category))
                 model.addAttribute("btitle", commonService.getMessage("topmenu.package", request));
+            else if("C".equals(category))
+                model.addAttribute("btitle", commonService.getMessage("topmenu.custom", request));
             model.addAttribute("mtitle", commonService.getMessage("goodslist.mtitle", request));
             model.addAttribute("category", category);
     	} catch(Exception e) {
@@ -174,7 +182,7 @@ public class GoodsController {
 		String category = UserUtils.nvl(param.get("category")); // 셀프, 핫딜, 추천
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 		String user_id = UserUtils.nvl((String)session.getAttribute("user_id"));
-    	if("H".equals(hidUpperClCode) || "R".equals(hidUpperClCode) || "P".equals(hidUpperClCode)) {	// 핫딜이나 추천일때
+    	if("H".equals(hidUpperClCode) || "R".equals(hidUpperClCode) || "P".equals(hidUpperClCode) || "C".equals(hidUpperClCode)) {	// 핫딜이나 추천일때
         	map.put("upper_cl_code", hidUpperClCode);  
         	map.put("category", hidUpperClCode);
     	} else {
@@ -383,11 +391,13 @@ public class GoodsController {
             	
                 model.addAttribute("bp", "01");
                 if("S".equals(category))
-                	model.addAttribute("btitle", "선택여행");
+                	model.addAttribute("btitle", "선택투어");
                 else if("H".equals(category))
-                    model.addAttribute("btitle", "핫딜상품");
+                    model.addAttribute("btitle", "원패스핫딜");
                 else if("R".equals(category))
-                    model.addAttribute("btitle", "추천여행");
+                    model.addAttribute("btitle", "원패스추천");
+                else if("C".equals(category))
+                    model.addAttribute("btitle", "맞춤투어");
                 model.addAttribute("mtitle", "여행상품상세보기");
                 model.addAttribute("category", category);
                 

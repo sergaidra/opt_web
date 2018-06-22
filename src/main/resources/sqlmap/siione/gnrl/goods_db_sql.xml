@@ -89,7 +89,9 @@
 				<isNotEqual property="upper_cl_code" compareValue="H">
 					<isNotEqual property="upper_cl_code" compareValue="R">
 						<isNotEqual property="upper_cl_code" compareValue="P">
-					   		AND G.CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = #upper_cl_code#)
+							<isNotEqual property="upper_cl_code" compareValue="C">
+						   		AND G.CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = #upper_cl_code#)
+							</isNotEqual>
 						</isNotEqual>
 					</isNotEqual>
 				</isNotEqual>
@@ -111,6 +113,9 @@
 		</isEqual>	
 		<isEqual property="category" compareValue="P">
 		   AND G.CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00591') 
+		</isEqual>
+		<isEqual property="category" compareValue="C">
+		   AND G.CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00412') 
 		</isEqual>
 		<isEmpty property="user_id">
 		   AND NVL(G.PARTICULAR_YN, 'N') = 'N'
