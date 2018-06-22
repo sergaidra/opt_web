@@ -24,7 +24,7 @@ function goSelfCategory(cl_code) {
 	  <li><a href="javascript:goSelfCategory('00411');">숙박</a></li>
 	  <li><a href="javascript:goSelfCategory('00412');">맞춤투어</a></li>
 	  <li><a href="javascript:goSelfCategory('00591');">패키지투어</a></li>
-	  <li><a href="javascript:goSelfCategory('00631');">추천여행</a></li>
+	  <li><a href="javascript:goSelfCategory('00631');">원패스추천</a></li>
 	  <li><a href="javascript:goSelfCategory('00413');">데이투어</a></li>
 	  <li><a href="javascript:goSelfCategory('00429');">해양스포츠</a></li>
 	  <li><a href="javascript:goSelfCategory('00571');">액티비티</a></li>
