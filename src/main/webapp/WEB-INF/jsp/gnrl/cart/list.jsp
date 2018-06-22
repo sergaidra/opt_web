@@ -367,10 +367,10 @@ function lpad(s, padLength, padString){
 					<div class="title">${result.GOODS_NM}
 						<c:if test="${result.WAITRESERVATION_YN == 'Y'}">
 							<c:if test="${result.STATUS == 'C'}">
-								(예약 확정)
+								<span style="font-weight:bold; color:red;">(예약 확정)</span>
 							</c:if>
 							<c:if test="${result.STATUS == 'W'}">
-								(예약 대기)
+								<span style="font-weight:bold; color:red;">(예약 대기)</span>
 							</c:if>
 						</c:if>
 						<br />
