@@ -221,7 +221,7 @@ function search(pageNo) {
       </div>
       <!--//페이징 --> 
 
-   	<c:if test="${author_cl == 'A'}">
+   	<c:if test="${author_cl == 'A' or author_cl == 'M'}">
        <div class="right_btn">
    		<c:if test="${category == 'C'}">
        		<a href="/cs/writeChecklist" class="button_m1">작성하기</a>
