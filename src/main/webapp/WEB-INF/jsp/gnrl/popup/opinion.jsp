@@ -10,6 +10,7 @@
 	<input type="hidden" id="goods_code" value="${goods_code}" >	
 	<input type="hidden" id="callback" value="${callback}" >	
 	<input type="hidden" id="parent_opinion_sn" value="${opinion.PARENT_OPINION_SN}">
+	<input type="hidden" id="isOpinionInput" value="0">
   <div class="popup_com">
     <div class="title">문의하기 </div>
     <div class="popup_cont">
@@ -89,13 +90,24 @@ function answerOpinion() {
 	$(".featherlight #btnOpinion3").show();	
 }
 
+function initOpinionStatus() {
+	$("#isOpinionInput").val("0");
+}
+
 function saveOpinion() {
+	if($("#isOpinionInput").val() == "1")
+		return;
+
+	$("#isOpinionInput").val("1");
+
 	if($.trim($(".featherlight #opinion_sj").val()) == "") {
+		initOpinionStatus();
 		alert("제목을 입력해주세요.");
 		$(".featherlight #opinion_sj").focus();
 		return;
 	}
 	if($.trim($(".featherlight #opinion_cn").val()) == "") {
+		initOpinionStatus();
 		alert("내용을 입력해주세요.");
 		$(".featherlight #opinion_cn").focus();
 		return;
@@ -127,17 +139,22 @@ function saveOpinion() {
 					// is object a function?
 					if (typeof fn === "function") fn();
 				}
+				initOpinionStatus();
 				$.featherlight.close();
 			} else if(data.result == "-2") {
+				initOpinionStatus();
 				alert("로그인이 필요합니다.");
 				go_login();
 			} else if(data.result == "9") {
+				initOpinionStatus();
 				alert(data.message);
 			} else{
+				initOpinionStatus();
 				alert("작업을 실패하였습니다.");
 			}	        	
         },
         error : function(request,status,error) {
+    		initOpinionStatus();
         	alert(error);
         },
 	});			

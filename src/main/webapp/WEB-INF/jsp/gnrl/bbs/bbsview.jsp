@@ -34,13 +34,24 @@ $(function() {
 	</c:if>
 });
 
+var isWrite = false;
+function initWrite() {
+	isWrite = false;
+}
+
 function write() {
+	if(isWrite == true)
+		return;
+	isWrite = true;
+
 	if($.trim($("#subject").val()) == "") {
+		initWrite();
 		alert("제목을 입력해주세요.");
 		$("#subject").focus();
 		return ;
 	}
 	if($.trim($("#contents").val()) == "") {
+		initWrite();
 		alert("내용을 입력해주세요.");
 		$("#contents").focus();
 		return ;
@@ -59,9 +70,11 @@ function write() {
 		param.secret_at = "N";
 	}	
 	
-	if(!confirm("저장하겠습니까?"))
+	if(!confirm("저장하겠습니까?")) {
+		initWrite();
 		return;
-		
+	}
+
 	$.ajax({
         url : url,
         type: "post",
@@ -71,18 +84,23 @@ function write() {
         data : JSON.stringify( param ),
         success : function(data,status,request){
 			if(data.result == "0") {
+				initWrite();
 				alert("저장되었습니다.");
 				goBbsList();
 			} else if(data.result == "-2") {
+				initWrite();
 				alert("로그인이 필요합니다.");
 				go_login();
 			} else if(data.result == "9") {
+				initWrite();
 				alert(data.message);
 			} else{
+				initWrite();
 				alert("작업을 실패하였습니다.");
 			}	        	
         },
         error : function(request,status,error) {
+    		initWrite();
         	alert(error);
         },
 	});			
