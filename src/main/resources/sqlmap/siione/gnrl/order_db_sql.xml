@@ -326,5 +326,12 @@
 		UPDATE TB_CART_GOODS SET STATUS = 'W'
 		WHERE CART_SN = #cart_sn#
 	</update>
+
+	<select id="gnrl.order.getUserInfoByCart" parameterClass="hashMap" resultClass="hashMap">
+		SELECT U.ESNTL_ID, U.EMAIL, G.CART_SN
+		FROM TB_CART_GOODS G
+			INNER JOIN TB_USER U ON G.ESNTL_ID = U.ESNTL_ID
+		WHERE CART_SN = #cart_sn#
+	</select>
 	
 </sqlMap>

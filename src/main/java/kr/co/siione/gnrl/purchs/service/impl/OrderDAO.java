@@ -117,4 +117,7 @@ public class OrderDAO extends EgovComAbstractDAO {
 		update("gnrl.order.updateReservationStatus", map);
     }   
 
+    public HashMap getUserInfoByCart(HashMap map) throws Exception {
+		return (HashMap)selectByPk("gnrl.order.getUserInfoByCart", map);
+	}
 }

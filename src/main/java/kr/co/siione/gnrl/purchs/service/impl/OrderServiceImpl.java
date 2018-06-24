@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.inicis.inipay.INIpay50;
 
+import kr.co.siione.gnrl.cmmn.service.CommonService;
 import kr.co.siione.gnrl.purchs.service.OrderService;
 import kr.co.siione.gnrl.purchs.service.PointService;
 import kr.co.siione.gnrl.purchs.service.PurchsService;
@@ -36,6 +37,10 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Resource
     private PointService pointService;
+	
+	@Resource
+	private CommonService commonService;
+
 	
 	@Value("#{globals['server.ip']}")
 	private String webserverip;
@@ -370,6 +375,31 @@ public class OrderServiceImpl implements OrderService {
 
 	public void updateReservationStatus(HashMap map) throws Exception {
 		orderDAO.updateReservationStatus(map);
+
+		// 메일 발송
+		Map<String, Object> attachMap = new HashMap<String, Object>();
+		attachMap.put("images", new ArrayList());
+		
+		HashMap mapCart = getCartDetail(map);
+
+		String subject = "원패스투어 예약 확인 요청드립니다.";
+		String title = "예약 확인 요청드립니다.";
+		String file_code = String.valueOf(mapCart.get("FILE_CODE"));
+		String goods_nm = String.valueOf(mapCart.get("GOODS_NM"));
+		String date = String.valueOf(mapCart.get("GOODS_DATE"));
+		String options = String.valueOf(mapCart.get("GOODS_TIME"));		
+		String item_amount = String.format("%,d", Integer.valueOf(String.valueOf(mapCart.get("ORIGIN_AMOUNT"))));
+
+		if(!"".equals(options))
+			options += "<br/>";
+		options += String.valueOf(mapCart.get("GOODS_OPTION"));
+
+    	List<HashMap> lstManager = commonService.getManagerUser(map);
+    	for(int i = 0;i < lstManager.size(); i++)
+    		commonService.mailWaitComfirm(subject, title, file_code, goods_nm, date, options, item_amount, String.valueOf(map.get("email")));
+    	
+    	commonService.mailWaitComfirm(subject, title, file_code, goods_nm, date, options, item_amount,"onepasstour@gmail.com");
+    	//commonService.mailWaitComfirm(subject, title, file_code, goods_nm, date, options, item_amount,"leeyikw@gmail.com");
 	}
 }
 

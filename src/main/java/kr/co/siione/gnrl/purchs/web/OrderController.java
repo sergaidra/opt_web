@@ -284,6 +284,7 @@ public class OrderController {
 						isOk = false;
 						break;
 					} else {
+						((HashMap)lstCart.get(i)).put("esntl_id", esntl_id);
 						orderService.updateReservationStatus((HashMap)lstCart.get(i));
 						resVo.setResult("4");			
 						resVo.setMessage("관리자에게 예약 확인 요청하였습니다.");

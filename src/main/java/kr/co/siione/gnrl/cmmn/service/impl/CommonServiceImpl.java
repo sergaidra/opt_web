@@ -77,6 +77,30 @@ public class CommonServiceImpl implements CommonService {
     	}
 	}
 	
+	public void mailWaitComfirm(String subject, String title, String file_code, String goods_nm
+			, String date, String options, String item_amount, String email) throws Exception {
+    	if(!UserUtils.nvl(email).equals("")) {
+    		//String subject = "원패스투어 예약 확인 요청드립니다.";
+    		String content = getHtml("waitConfirm.htm");
+    		
+    		content = content.replaceAll("[$]\\{file_code\\}", file_code);
+    		content = content.replaceAll("[$]\\{goods_nm\\}", goods_nm);
+    		content = content.replaceAll("[$]\\{date\\}", date);
+    		content = content.replaceAll("[$]\\{options\\}", options);
+    		content = content.replaceAll("[$]\\{item_amount\\}", item_amount);
+    		
+    		content = content.replaceAll("[$]\\{webserverip\\}", webserverip);
+    		content = content.replaceAll("[$]\\{webserverdomain\\}", webserverdomain);		
+    		content = content.replaceAll("[$]\\{title\\}", title);
+    		content = content.replaceAll("[$]\\{title2\\}", "");		
+    		content = content.replaceAll("[$]\\{contents\\}", content);
+    			
+    		Map<String, Object> attachMap = new HashMap<String, Object>();
+    		attachMap.put("images", new ArrayList());    		
+    		mailManager.sendMail(subject, content, email, attachMap);	
+    	}
+	}
+	
 	private String getHtml(String filename) {
 		StringBuilder builder = new StringBuilder();
 		org.springframework.core.io.Resource resource = new ClassPathResource("html/" + filename); 
