@@ -31,4 +31,9 @@ public class GoodsNmprDAO extends EgovComAbstractDAO {
 	public List<Map<String, String>> selectGoodsNmprList(Map<String, String> param) throws Exception {
 		return list("GoodsNmprDAO.selectGoodsNmprList", param);
 	}
+	
+	public Object copyNmpr(Map<String, String> map) throws Exception {
+		return insert("GoodsNmprDAO.copyNmpr", map);
+	}	
+	
 }

@@ -47,4 +47,8 @@ public class FileManageDAO extends EgovComAbstractDAO {
     public int selectFileReprsntCnt(Map<String, String> param) throws Exception{
         return (Integer)selectByPk("FileManageDAO.selectFileReprsntCnt", param);
     }	
+    
+	public Object copyFileDetail(Map<String, String> map) throws Exception {
+		return insert("FileManageDAO.copyFileDetail", map);
+	}    
 }

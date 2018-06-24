@@ -46,4 +46,6 @@ public interface GoodsManageService {
 	public void uploadGoodsFileMulti(Map<String, Object> param) throws Exception;
 	
 	public int startSellingGoods(Map<String, String> param) throws Exception;
+	
+	public String copyGoods(Map<String, String> param) throws Exception;
 }

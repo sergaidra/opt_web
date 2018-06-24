@@ -83,4 +83,12 @@ public class GoodsDAO extends EgovComAbstractDAO {
 		return delete("GoodsDAO.insertGoodsUser", map);
 	}
 
+	public String getNewGoodsCode(Map<String, String> param) throws Exception {
+		return (String)selectByPk("GoodsDAO.getNewGoodsCode", param);
+	}
+
+	public Object copyGoods(Map<String, String> map) throws Exception {
+		return insert("GoodsDAO.copyGoods", map);
+	}	
+
 }

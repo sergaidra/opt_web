@@ -731,6 +731,44 @@ function fn_preview() {
 	}
 }
 
+function fn_copyGoods() {
+	var sGoodsCode = ""
+	sGoodsCode = Ext.getCmp('form-reg-goods-code').getValue();
+	
+	if(sGoodsCode == "")
+		return;
+
+	Ext.Msg.confirm('확인', '상품을 복사하시겠습니까?', function(btn) {
+		if(btn == 'yes') {
+			Ext.Msg.prompt('상품명', '상품명을 입력하세요 :', function(btn, text) {
+				if (btn == 'ok') {
+					if(text != "") {
+						stParams = { "GOODS_CODE" : sGoodsCode, "NEW_GOODS_NM" : text };
+						sMsg = "복사";
+						frReg.getForm().submit({
+							waitMsg: sMsg + ' 중입니다...',
+							url: '../copyGoods/',
+							params: stParams,
+							timeout:180,
+							success: function(form, action) {
+								Ext.Msg.alert('알림', "복사하였습니다.");
+							},
+							failure: function(form, action) {
+								if(action.result.message) {
+									Ext.Msg.alert('알림', action.result.message);
+								} else {
+									Ext.Msg.alert('알림', sMsg+' 중 오류가 발생하였습니다. 다시 시도하여 주십시오.');
+								}
+							}
+						});						
+					}
+				}
+			});
+		}
+	});
+}
+
+
 function fn_activeNextTab() {
 	if(Ext.getCmp('form-reg-crud-se').getValue() == 'C') {
 		Ext.Msg.confirm('확인', '상품 내용을 계속 입력하시겠습니까?', function(btn) {
@@ -1176,6 +1214,13 @@ var frReg = Ext.create('Ext.form.Panel', {
 		width: 80,
 		handler: function() {
 			fn_preview();
+		}
+	}, {
+		xtype: 'button',
+		text: '상품복사',
+		width: 80,
+		handler: function() {
+			fn_copyGoods();
 		}
 	}, {
 		xtype: 'button',

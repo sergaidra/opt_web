@@ -575,4 +575,31 @@ public class GoodsManageController {
 		return mav;
 	}
 
+	@RequestMapping(value="/mngr/copyGoods/")
+	public void copyGoods(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception{
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		String goods_nm = UserUtils.nvl(request.getParameter("NEW_GOODS_NM"));
+		param.put("WRITNG_ID", esntl_id);
+		param.put("GOODS_NM", goods_nm);
+		
+		try {
+			UserUtils.log("[copyGoods]param", param);
+
+			String sGoodsCode = goodsManageService.copyGoods(param);
+
+			result.put("success", true);
+			result.put("message", "(1)복사 성공");
+			result.put("GOODS_CODE", sGoodsCode);
+		}  catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("error"  , e.getMessage());
+		}
+
+		jsonView.render(result, request, response);
+	}
+
 }

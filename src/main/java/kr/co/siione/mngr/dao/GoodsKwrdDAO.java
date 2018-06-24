@@ -35,4 +35,9 @@ public class GoodsKwrdDAO extends EgovComAbstractDAO {
 	public List<Map<String, String>> selectGoodsKwrdList(Map<String, String> param) throws Exception {
 		return list("GoodsKwrdDAO.selectGoodsKwrdList", param);
 	}
+	
+	public Object copyKwrd(Map<String, String> map) throws Exception {
+		return insert("GoodsKwrdDAO.copyKwrd", map);
+	}	
+
 }

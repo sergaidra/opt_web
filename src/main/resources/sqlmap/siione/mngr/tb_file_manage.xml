@@ -171,4 +171,15 @@
             </isEmpty>
         </isEmpty>
      </select>
+     
+    <insert id="FileManageDAO.copyFileDetail" parameterClass="hashMap">
+    <![CDATA[
+        INSERT INTO TB_FILE_DETAIL( FILE_CODE, FILE_SN, FILE_NM, FILE_PATH, FILE_DC, FILE_SIZE, FILE_CL
+        	, REPRSNT_AT, HOTDEAL_AT, RECOMEND_AT, LIVEVIEW_AT, SORT_NO, WRITNG_ID, WRITNG_DT)
+        SELECT #NEW_FILE_CODE#, FILE_SN, FILE_NM, #FILE_PATH#, FILE_DC, FILE_SIZE, FILE_CL
+        	, REPRSNT_AT, HOTDEAL_AT, RECOMEND_AT, LIVEVIEW_AT, SORT_NO, #WRITNG_ID#, SYSDATE
+        FROM TB_FILE_DETAIL D
+        WHERE FILE_CODE = #FILE_CODE# AND FILE_SN = #FILE_SN#
+    ]]>
+    </insert>     
 </sqlMap>

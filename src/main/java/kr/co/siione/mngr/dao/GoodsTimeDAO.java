@@ -31,4 +31,9 @@ public class GoodsTimeDAO extends EgovComAbstractDAO {
 	public List<Map<String, String>> selectGoodsTimeList(Map<String, String> param) throws Exception {
 		return list("GoodsTimeDAO.selectGoodsTimeList", param);
 	}
+	
+	public Object copyTime(Map<String, String> map) throws Exception {
+		return insert("GoodsTimeDAO.copyTime", map);
+	}	
+
 }
