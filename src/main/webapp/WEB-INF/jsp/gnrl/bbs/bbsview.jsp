@@ -29,8 +29,10 @@ $(function() {
 	});
 	
 	<c:if test="${mode == 'write' }" >
-	$("#subcategory").val("R");
-	$("#subcategory").trigger("change");
+		<c:if test="${category != 'A' }" >
+		$("#subcategory").val("R");
+		$("#subcategory").trigger("change");
+		</c:if>
 	</c:if>
 });
 
@@ -437,7 +439,7 @@ function goBbsList() {
                     <th>비밀글</th>
                     <td class="end"><input type="checkbox" id="secret_at" name="secret_at" <c:if test="${view.SECRET_AT == 'Y'}"> checked</c:if>></td>
                   </tr>
-                   <tr>
+                   <tr style="display:<c:if test='${category == "A"}'>none</c:if>;">
                     <th>문의종류</th>
                     <td>
                     	<c:if test="${mode == 'write'}" >
@@ -478,9 +480,11 @@ function goBbsList() {
                 <tbody>				
                    <tr>
                     <th>작성자</th>
-                    <td>${view.USER_NM }</td>
+                    <td <c:if test='${category == "A"}'>colspan="3"</c:if>>${view.USER_NM }</td>
+                    <c:if test='${category != "A"}'>
                     <th>문의종류</th>
                     <td class="end">${view.SUBCATEGORYNM }<input id="subcategory" name="subcategory" type="hidden" value="${view.SUBCATEGORY}" /></td>
+                    </c:if>
                   </tr>
                    <tr>
                     <th>작성일</th>
