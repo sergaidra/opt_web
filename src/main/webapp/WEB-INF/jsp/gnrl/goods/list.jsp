@@ -32,6 +32,7 @@ $(function(){
 			$(".list_tab li").removeClass("on");
 			$(this).addClass("on");
 			var upper_cl_code = $(this).find("#cl_code").val();
+			var dc = $(this).find("#dc").val();
 			//$("#tabresult").empty();
 			$(".panelTab").hide();
 			if($("#divPan" + upper_cl_code).length > 0) {
@@ -65,6 +66,10 @@ $(function(){
 		        	
 		        	$(search).find("#sboxClCode").append(html1);
 		        	$(search).find("#sboxCtyCode").append(html2);
+		        	if(dc == "")
+		        		$(search).find("span[name='dc']").closest("div").hide();
+		        	else
+		        		$(search).find("span[name='dc']").text(dc);
 					$(search).show();
 					
 					$("#tabresult").append(search);
@@ -378,10 +383,10 @@ function numberWithCommas(x) {
 	   	<ul>
 		<c:forEach var="result" items="${upperTourClList}" varStatus="status">
            	<c:if test="${pageContext.response.locale.language == 'en'}">
-		   		<li>${result.CL_NM_ENG}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"></li>
+		   		<li>${result.CL_NM_ENG}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"><input type="hidden" id="dc" name="dc" value="${result.DC_ENG}"></li>
 		   	</c:if>
            	<c:if test="${pageContext.response.locale.language != 'en'}">
-		   		<li>${result.CL_NM}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"></li>
+		   		<li>${result.CL_NM}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"><input type="hidden" id="dc" name="dc" value="${result.DC}"></li>
 		   	</c:if>
 		</c:forEach>
 	   	</ul>
@@ -413,6 +418,9 @@ function numberWithCommas(x) {
 		<input type="hidden" name="hidKeyword" value="">
 		<input type="hidden" name="hidTotalcount" value="">
 		<input type="hidden" name="hidPage" value="">
+	    <div class="list_search" style="color:#ff9600; padding-top:5px; padding-bottom:5px; margin-bottom:0px; font-weight:bold;">
+	    	<span name="dc"></span>
+	    </div>
 	    <div class="list_search">
 	      <div class="info_text" style="display:none;"><spring:message code='goodslist.goodscount.msg' arguments="<span name='totalcount'> </span>"/></div>
 		  <div class="inputbox">
