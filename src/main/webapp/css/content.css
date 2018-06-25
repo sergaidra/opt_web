@@ -1465,7 +1465,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	
 .list_box01 ul li .photo img{ width:100%; }
 .list_box01 ul li .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px;  position: relative }
-.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
+/*.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }*/
+.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 14px; color: #999; font-weight:bold; }
 .list_box01 ul li .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
@@ -1478,7 +1479,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	
 .list_box01 ul li:hover .photo img{ width:100%; }
 .list_box01 ul li:hover .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px; position: relative }
-.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
+/*.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }*/
+.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 14px; color: #999; font-weight:bold; }
 .list_box01 ul li:hover .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li:hover .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
@@ -1489,7 +1491,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li.ch .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
 .list_box01 ul li.ch .photo img{ width:100%; }
 .list_box01 ul li.ch .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px;  position: relative }
-.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
+/* .list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 } */
+.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 14px; color: #999; font-weight:bold; }
 .list_box01 ul li.ch .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li.ch .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_on.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 
@@ -1505,7 +1508,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	
 .list_box01 ul li .photo img{ width:100%; }
 .list_box01 ul li .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
-.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
+/*.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }*/
+.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 14px; color: #999; font-weight:bold; }
 .list_box01 ul li .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
@@ -1519,7 +1523,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .li
 .list_box01 ul li:hover .photo img{ width:100%; }
 .list_box01 ul li:hover .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
-.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
+/*.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }*/
+.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 14px; color: #999; font-weight:bold; }
 .list_box01 ul li:hover .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li:hover .text_box .ch_icon{  position: absolute;top: 30px;right: 10px; background: url(../images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
@@ -1530,7 +1535,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li.ch .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
 .list_box01 ul li.ch .photo img{ width:100%; }
 .list_box01 ul li.ch .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
-.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
+/*.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }*/
+.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 14px; color: #999; font-weight:bold; }
 .list_box01 ul li.ch .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li.ch .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_on.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 
@@ -1546,7 +1552,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	
 .list_box01 ul li .photo img{ width:100%; }
 .list_box01 ul li .text_box{ width:100%; float: left; padding: 10px ;  position: relative; height: 80px; position: relative }
-.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }
+/*.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }*/
+.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 13px; color: #999; font-weight:bold; }
 .list_box01 ul li .text_box .tx2{ width:100%; float: left; font-size: 16px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li .text_box .ch_icon{  position: absolute;  bottom: 8px; right: 10px; background: url(../images/sub/select_off.png); background-size: 30px;; background-position: right center;  background-repeat: no-repeat; width: 30px; height: 30px }
 	
@@ -1556,7 +1563,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li:hover .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
 .list_box01 ul li:hover .photo img{ width:100%; }
 .list_box01 ul li:hover .text_box{ width:100%; float: left; padding: 10px ;   position: relative }
-.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }
+/*.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }*/
+.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 13px; color: #999; font-weight:bold; }
 .list_box01 ul li:hover .text_box .tx2{ width:100%; float: left; font-size:16px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li:hover .text_box .ch_icon{  position: absolute;  bottom: 8px; right: 10px; background: url(../images/sub/select_off.png); background-size: 30px;; background-position: right center;  background-repeat: no-repeat; width: 30px; height: 30px}
 	
@@ -1567,7 +1575,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li.ch .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
 .list_box01 ul li.ch .photo img{ width:100%; }
 .list_box01 ul li.ch .text_box{ width:100%; float: left;padding: 10px ;   position: relative }
-.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }
+/*.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }*/
+.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 13px; color: #999; font-weight:bold; }
 .list_box01 ul li.ch .text_box .tx2{ width:100%; float: left; font-size: 16px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li.ch .text_box .ch_icon{ position: absolute;  bottom: 8px; right: 10px; background: url(../images/sub/select_on.png); background-size: 30px;; background-position: right center;  background-repeat: no-repeat; width: 30px; height: 30px}
 
