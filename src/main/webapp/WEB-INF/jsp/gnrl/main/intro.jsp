@@ -815,7 +815,7 @@ function fnLiveView(url, title, desc) {
 			.popup_height_${item.BBS_SN} { <c:if test="${popup_height != null}">height:${popup_height}px !important;</c:if> }
 		}
 	</style>
-	<div id="divpop_${item.BBS_SN}" class="popup_width_${item.BBS_SN}" style="float:left;"> 
+	<div id="divpop_${item.BBS_SN}" class="popup_width_${item.BBS_SN}" style="float:left; margin:5px;"> 
 	 <!-- 제목을 넣을경우-->
 	 <!-- <div class="popup_head">${item.SUBJECT}</div> --> 
 		 <div class="popup_body"> 
