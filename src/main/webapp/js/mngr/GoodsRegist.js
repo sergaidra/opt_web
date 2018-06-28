@@ -1898,7 +1898,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 					fields:['code', 'name'],
 					data :[
 						['G', '단체투어'],
-						['P', '프라이빗투어']
+						['P', '단독투어']
 					]
 				}),
 				width: 320,
@@ -2051,7 +2051,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-intrcn-posbl-age',
 				name: 'INTRCN_POSBL_AGE',
 				width: 320,
-				fieldLabel: '가능연령',
+				fieldLabel: '최소인원',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 120,
@@ -2065,7 +2065,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-intrcn-posbl-age-eng',
 				name: 'INTRCN_POSBL_AGE_ENG',
 				width: 330,
-				fieldLabel: '가능연령(영문)',
+				fieldLabel: '최소인원(영문)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 130,

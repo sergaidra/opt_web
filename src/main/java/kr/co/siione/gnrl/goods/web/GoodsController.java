@@ -121,12 +121,26 @@ public class GoodsController {
 	        			HashMap mapGoods = new HashMap();
 	        			mapGoods.put("CL_NM", commonService.getMessage("topmenu.package", request));
 	        			mapGoods.put("CL_CODE", "P");
+
+            			HashMap mapT = new HashMap();
+                		mapT.put("cl_code", "00591");
+                		List<HashMap> lst = goodsService.getUpperTourClMain(mapT);
+            			if(lst.size() > 0)
+    	        			mapGoods.put("DC", lst.get(0).get("DC"));
+            				
 	        			upperTourClList.add(mapGoods);
 	        		} else if("C".equals(goodskind)) {
 	        			category = "C";
 	        			HashMap mapGoods = new HashMap();
 	        			mapGoods.put("CL_NM", commonService.getMessage("topmenu.custom", request));
 	        			mapGoods.put("CL_CODE", "C");
+	        			
+            			HashMap mapT = new HashMap();
+                		mapT.put("cl_code", "00412");
+                		List<HashMap> lst = goodsService.getUpperTourClMain(mapT);
+            			if(lst.size() > 0)
+    	        			mapGoods.put("DC", lst.get(0).get("DC"));
+	        			
 	        			upperTourClList.add(mapGoods);
 	        		}
                 	model.addAttribute("upperTourClList", upperTourClList);

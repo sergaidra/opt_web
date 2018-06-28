@@ -1330,7 +1330,7 @@ function googleShare() {
 	              <div class="icon_b">
 	                <div class="icon_in"><img src="/images/sub/detail_icon01.png" alt=""/></div>
 	                <div class="tx1">상품유형</div>
-	                <div class="tx2"><c:if test="${result.INTRCN_GOODS_TY eq 'G'}">단체투어</c:if><c:if test="${result.INTRCN_GOODS_TY eq 'P'}">프라이빗투어</c:if>
+	                <div class="tx2"><c:if test="${result.INTRCN_GOODS_TY eq 'G'}">단체투어</c:if><c:if test="${result.INTRCN_GOODS_TY eq 'P'}">단독투어</c:if>
 	              
 	            </li>
 	            </c:if>
@@ -1374,7 +1374,7 @@ function googleShare() {
 	            <li>
 	              <div class="icon_b">
 	                <div class="icon_in"><img src="/images/sub/detail_icon06.png" alt=""/></div>
-	                <div class="tx1">가능연령</div>
+	                <div class="tx1">최소인원</div>
 	                <div class="tx2">${result.INTRCN_POSBL_AGE}</div>
 	              </div>
 	            </li>
