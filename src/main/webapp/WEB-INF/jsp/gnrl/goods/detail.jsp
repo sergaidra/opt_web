@@ -1259,7 +1259,7 @@ function googleShare() {
           </div>
           <div class="sp-black">
             <div class="slider_text">
-              <div class="slider_t1">${result.GOODS_NM}</div>
+              <div class="slider_t1" style="color:#ff6600;">${result.GOODS_NM}</div>
               <div class="slider_t2">${result.GOODS_INTRCN_SIMPL}</div>
             </div>
           </div>
