@@ -81,6 +81,9 @@ var hotdeal_at = "${result.HOTDEAL_AT}";
 var hotdeal_applc_begin_de = "${result.HOTDEAL_APPLC_BEGIN_DE}";
 var hotdeal_applc_end_de = "${result.HOTDEAL_APPLC_END_DE}";
 
+var fixDate = "${date}";
+var fixMode = "${mode}";
+
 <c:forEach var="list" items="${lstSchdul}">
 	lstSchdul.push({"BEGIN_DE" : "${list.BEGIN_DE}", "END_DE" : "${list.END_DE}", "POSBL_AT" : "${list.POSBL_AT}" });
 </c:forEach>
@@ -420,6 +423,7 @@ $(function() {
 	
 	goSearchReview(1);
 	goSearchOpinion(1);
+	
 });
 
 function initOptionInfo() {
@@ -1259,7 +1263,7 @@ function googleShare() {
           </div>
           <div class="sp-black">
             <div class="slider_text">
-              <div class="slider_t1" style="color:#ff6600;">${result.GOODS_NM}</div>
+              <div class="slider_t1" style="font-weight:600;">${result.GOODS_NM}</div>
               <div class="slider_t2">${result.GOODS_INTRCN_SIMPL}</div>
             </div>
           </div>

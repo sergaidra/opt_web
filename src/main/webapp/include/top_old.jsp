@@ -149,8 +149,8 @@ $("#leftside-navigation .sub-menu > a").click(function(e) {
     <div class="mobile_close  mobile_view"><a class="side-right-pushy-button"><i class="material-icons" >&#xE5CD;</i></a></div>
     <div class="ri_box">
 		<div class="title"><spring:message code='top.reservation'/>
-        	<div id="divAirReset" class="reset" style="cursor:pointer;" onclick="flightInit();"><spring:message code='top.reservation.flight.init'/></div>
-        	<div id="divAirUpdate" class="reset" style="cursor:pointer;" onclick="flightView();"><spring:message code='top.reservation.flight.update'/></div>
+        	<div id="divAirReset" class="reset" style="display:none; cursor:pointer;" onclick="flightInit();"><spring:message code='top.reservation.flight.init'/></div>
+        	<div id="divAirUpdate" class="reset" style="display:none; cursor:pointer;" onclick="flightView();"><spring:message code='top.reservation.flight.update'/></div>
 		</div>
 <script language="javascript" type="text/javascript">
 function switch_product_img(divName, totalImgs) {
@@ -258,72 +258,6 @@ function getMySchedule() {
 			if(data.result == "0") {
 				$("#tblMyScheduleInfo tbody").empty();
 				var html = ""; 
-				console.log(data.data);
-				for(var cnt = 0; cnt < data.data.lst.length; cnt++) {
-					var item = data.data.lst[cnt];
-					console.log(item);
-					for(var cnt2 = 0; cnt2 < item.lstTime.length; cnt2++) {
-						html += "<tr>";
-						if(cnt2 == 0) {
-							html += "<td rowspan='" + item.lstTime.length + "'>" + item.date + "</td>";
-						}
-						if(item.lstTime[cnt2].text == null) {
-							if(item.lstTime[cnt2].mode == "breakfast")
-								html += "<td colspan='2' style='text-align:center;'><button onclick='javascript:goScheduleSelect(\"" + item.date + "\", \"breakfast\");'>조식 선택</button></td>";
-							if(item.lstTime[cnt2].mode == "morning")
-								html += "<td colspan='2' style='text-align:center;'><button onclick='javascript:goScheduleSelect(\"" + item.date + "\", \"morning\");'>오전일정 선택</button></td>";
-							if(item.lstTime[cnt2].mode == "lunch")
-								html += "<td colspan='2' style='text-align:center;'><button onclick='javascript:goScheduleSelect(\"" + item.date + "\", \"lunch\");'>중식 선택</button></td>";
-							if(item.lstTime[cnt2].mode == "afternoon")
-								html += "<td colspan='2' style='text-align:center;'><button onclick='javascript:goScheduleSelect(\"" + item.date + "\", \"afternoon\");'>오후일정 선택</button></td>";
-							if(item.lstTime[cnt2].mode == "dinner")
-								html += "<td colspan='2' style='text-align:center;'><button onclick='javascript:goScheduleSelect(\"" + item.date + "\", \"dinner\");'>석식 선택</button></td>";
-							if(item.lstTime[cnt2].mode == "night")
-								html += "<td colspan='2' style='text-align:center;'><button onclick='javascript:goScheduleSelect(\"" + item.date + "\", \"night\");'>저녁일정 선택</button></td>";
-						} else {
-							html += "<td style='text-align:center;'>" + nvl(item.lstTime[cnt2].time) + "</td><td style='text-align:center;'>" + nvl(item.lstTime[cnt2].text) + "</td>";
-						}
-						html += "</tr>";
-					}
-				}
-				$("#tblMyScheduleInfo tbody").append(html);				
-				$("#tblMyScheduleInfo td[name='schedulePrice']").text(numberWithCommas(data.data.totalPrice) + " 원");
-			} else if(data.result == "-2") {
-				alert("<spring:message code='info.login'/>");
-				go_login();
-			} else if(data.result == "9") {
-				alert(data.message);
-			} else{
-				alert("<spring:message code='info.ajax.fail'/>");
-			}	        	
-        },
-        error : function(request,status,error) {
-        	alert(error);
-        },
-	});				
-}
-
-function numberWithCommas(x) {
-	if(x == null)
-		return "";
-	else
-    	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-function getMySchedule_old() {
-	var url = "<c:url value='/main/getMySchedule'/>";
-
-	$.ajax({
-        url : url,
-        type: "post",
-        dataType : "json",
-        async: "true",
-        contentType: "application/json; charset=utf-8",
-        data : JSON.stringify( {} ),
-        success : function(data,status,request){
-			if(data.result == "0") {
-				$("#tblMyScheduleInfo tbody").empty();
-				var html = ""; 
 				for(var cnt = 0; cnt < data.data.length; cnt++) {
 					var item = data.data[cnt];
 					for(var cnt2 = 0; cnt2 < item.list.length; cnt2++) {
@@ -353,53 +287,19 @@ function getMySchedule_old() {
 	});				
 }
 
-function goScheduleSelect(date, mode) {
-	if(mode == "breakfast" || mode == "lunch" || mode == "dinner") {
-		alert("준비 중 입니다.");
-		return;		
-	}
-	
-	var form = $("form[id=frmMenuCategory]");
-	$(form).empty();
-	$(form).append("<input type=\"hidden\" name=\"hidUpperClCodeNavi\" value=\"00429@00571@00414@00415\" >");
-	$(form).append("<input type=\"hidden\" name=\"category\" value=\"S\" >");
-	$(form).append("<input type=\"hidden\" name=\"date\" value=\"" + date.replace(/-/g, "") + "\" >");
-	$(form).append("<input type=\"hidden\" name=\"mode\" value=\"" + mode + "\" >");
-	form.attr({"method":"get","action":"<c:url value='/goods/list'/>"});
-	form.submit();
-}
-
 getMySchedule();
 getMyFlightInfo();
 </script>
 
 		<div id="cont_1" >
 		<!--일정표 -->
-			<div class="ri_tab" style="text-align:center; font-size:12px; color:#333; background-color:#fff; border:1px solid #000; padding:5px;">
-				숙박
+			<div class="ri_tab">
+				<ul>
+					<li class="on"><a href="javascript:void(0)" onclick="switch_product_img('cont_1', 2);" ><spring:message code='top.reservation.schedule'/></a></li>
+					<li><a href="javascript:void(0)" onclick="switch_product_img('cont_2', 2);" ><spring:message code='top.reservation.flight'/></a></li>
+				</ul>
 			</div>
 			<div class="ri_tb">
-				<div class="tb_01_box_s" style="">
-					<table class="tb_01" id="tblHotelInfo">
-						<col width="20%">
-						<col width="">
-						<tbody>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="ri_tab" style="text-align:center; font-size:12px; color:#333; background-color:#fff; border:1px solid #000; padding:5px;">
-				<spring:message code='top.reservation.schedule'/>
-			</div>
-			<div class="ri_tb">
-				<div class="tb_01_box_s" style="display:none;">
-					<table class="tb_01" id="tblFlightInfo">
-						<col width="20%">
-						<col width="">
-						<tbody>
-						</tbody>
-					</table>
-				</div>
 				<div class="tb_01_box_s">
 					<table class="tb_01" id="tblMyScheduleInfo">
 						<col width="22%">
@@ -407,11 +307,6 @@ getMyFlightInfo();
 						<col width="">
 						<tbody>
 						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="2" style="text-align:center;">총 결재 예정금</td><td name="schedulePrice" style="text-align:right; padding:10px;"></td>
-							</tr>
-						</tfoot>
 					</table>
 				</div>
 			</div>

@@ -8,7 +8,11 @@
           <div class="tx2">(63)977-815-0153  <br>070-7422-0153</div>
           <div class="tx4">kakao ID : onepasstour</div>
           <div class="tx3"><spring:message code='bottom.msg1'/></div>
-          <div class="sns"> <img src="<c:url value='/images/com/sns_03.png' />"  alt=""/> <img src="<c:url value='/images/com/sns_02.png' />"  alt=""/> <img src="<c:url value='/images/com/sns_01.png' />"  alt=""/></div>
+          <div class="sns"> 
+          	<img src="<c:url value='/images/com/sns_03.png' />"  alt=""/> 
+          	<img src="<c:url value='/images/com/sns_02.png' />"  alt=""/> 
+          	<a href="javascript:window.open('https://www.facebook.com/JHOSUB/');"><img src="<c:url value='/images/com/sns_01.png' />"  alt=""/></a>
+          </div>
         </div>
     <div class="bt_left">
           <div class="bottom_gomenu">

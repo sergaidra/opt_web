@@ -94,6 +94,8 @@ public class GoodsController {
 
         	String keyword = URLDecoder.decode(UserUtils.nvl(param.get("keyword")), "UTF-8");
         	String category = UserUtils.nvl(param.get("category"));
+        	String date = UserUtils.nvl(param.get("date"));
+        	String mode = UserUtils.nvl(param.get("mode"));
         	if("".equals(category))
         		category = "S";
 
@@ -180,6 +182,8 @@ public class GoodsController {
                 model.addAttribute("btitle", commonService.getMessage("topmenu.custom", request));
             model.addAttribute("mtitle", commonService.getMessage("goodslist.mtitle", request));
             model.addAttribute("category", category);
+            model.addAttribute("date", date);
+            model.addAttribute("mode", mode);
     	} catch(Exception e) {
     		e.printStackTrace();
     	}
@@ -194,8 +198,12 @@ public class GoodsController {
     	String hidUpperClCode = UserUtils.nvl(param.get("hidUpperClCode"));  // 선택한 여러개의 분류
     	String keyword = UserUtils.nvl(param.get("keyword"));  // 검색어
 		String category = UserUtils.nvl(param.get("category")); // 셀프, 핫딜, 추천
+		String date = UserUtils.nvl(param.get("date")); 
+		String mode = UserUtils.nvl(param.get("mode")); 
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 		String user_id = UserUtils.nvl((String)session.getAttribute("user_id"));
+		map.put("date", date);
+		map.put("mode", mode);
     	if("H".equals(hidUpperClCode) || "R".equals(hidUpperClCode) || "P".equals(hidUpperClCode) || "C".equals(hidUpperClCode)) {	// 핫딜이나 추천일때
         	map.put("upper_cl_code", hidUpperClCode);  
         	map.put("category", hidUpperClCode);
@@ -238,6 +246,8 @@ public class GoodsController {
 		String category = UserUtils.nvl(param.get("category")); // 셀프, 핫딜, 추천
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
 		String user_id = UserUtils.nvl((String)session.getAttribute("user_id"));
+		String date = UserUtils.nvl(param.get("date")); 
+		String mode = UserUtils.nvl(param.get("mode")); 
 
 		String hidNext = UserUtils.nvl(param.get("hidNext")); // 다음페이지 여부
 		String paramPage = UserUtils.nvl(param.get("hidPage")); // 페이지번호
@@ -262,6 +272,10 @@ public class GoodsController {
     	map.put("endIdx", endIdx);
     	map.put("esntl_id", esntl_id);
     	map.put("user_id", user_id);
+    	
+		map.put("date", date);
+		map.put("mode", mode);
+
     	System.out.println("[상품목록]map:"+map);
     	if("N".equals(hidNext)) {
     		int totalCount = goodsService.getGoodsListCount(map);
@@ -278,7 +292,9 @@ public class GoodsController {
     	try {
           	HashMap map = new HashMap();
         	UserUtils.log("[goods_detail]param:", param);
-        	
+    		String date = UserUtils.nvl(param.get("date")); 
+    		String mode = UserUtils.nvl(param.get("mode")); 
+
         	String category = UserUtils.nvl(param.get("category"));
         	if("".equals(category))
         		category = "S";
@@ -434,6 +450,9 @@ public class GoodsController {
                 	model.addAttribute("back_goodslist", "Y");
                 else
                 	model.addAttribute("back_goodslist", "N");
+                
+        		model.addAttribute("date", date);
+        		model.addAttribute("mode", mode);
         	}
     	} catch(Exception e) {
     		e.printStackTrace();
