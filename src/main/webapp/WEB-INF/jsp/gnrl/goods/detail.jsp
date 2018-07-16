@@ -1395,7 +1395,7 @@ function googleShare() {
 	          </ul>
 	        </div>
 		</c:if>
-		<div class="text_info" style="font-size:14px; line-height:180%;">
+		<div class="text_info" style="font-size:15px; line-height:180%;">
 			${result.GOODS_INTRCN}
 		</div>
         <!--바우처-->

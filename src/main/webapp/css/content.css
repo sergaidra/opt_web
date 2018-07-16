@@ -1188,18 +1188,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 /****상세페이지 좌측  (텍스트설명): pc ****/
 @media only all and (min-width:769px) {
 .good_detail .fl_left .text_info{ width: 100%;float:left; box-sizing: border-box; padding: 30px 40px; border-bottom: 1px solid #ddd}
-.good_detail .fl_left .text_info .fl_tx{ width: 100px; float:left; font-size: 20px; color: #ff6600; padding-top: 8px }
+.good_detail .fl_left .text_info .fl_tx{ width: 100px; float:left; font-size: 21px;/*20px;*/ color: #ff6600; padding-top: 8px }
 .good_detail .fl_left .text_info .fr_tx{ width:calc(100% - 100px); float:left; }
 .good_detail .fl_left .text_info .fr_tx .tx_line{ width:100%; float:left; padding:10px 0px; border-bottom: 1px solid #eee }
-.good_detail .fl_left .text_info .fr_tx .tx_line .fl_intx{ width:20%; float:left; font-size: 14px; color: #222}
-.good_detail .fl_left .text_info .fr_tx .tx_line .fr_intx{ width:80%; float:left; font-size: 14px; color: #666; line-height: 180%}
+.good_detail .fl_left .text_info .fr_tx .tx_line .fl_intx{ width:20%; float:left; font-size: 15px; /*14px;*/ color: #222}
+.good_detail .fl_left .text_info .fr_tx .tx_line .fr_intx{ width:80%; float:left; font-size: 15px; /*14px;*/ color: #666; line-height: 180%}
 .good_detail .fl_left .text_info .fr_tx .tx_noline{ width:100%; float:left; padding:10px 0px; border-bottom:none}
-.good_detail .fl_left .text_info .fr_tx .tx_noline .fl_intx{ width:20%; float:left; font-size: 14px; color: #222}
-.good_detail .fl_left .text_info .fr_tx .tx_noline .fr_intx{ width:80%; float:left; font-size: 14px; color: #666;  line-height: 180%}
+.good_detail .fl_left .text_info .fr_tx .tx_noline .fl_intx{ width:20%; float:left; font-size: 15px; /*14px;*/ color: #222}
+.good_detail .fl_left .text_info .fr_tx .tx_noline .fr_intx{ width:80%; float:left; font-size: 15px; /*14px;*/ color: #666;  line-height: 180%}
 	
 .good_detail .fl_left .text_info2{ width: 100%;float:left; box-sizing: border-box; padding: 30px 40px; border-bottom: 1px solid #ddd}
-.good_detail .fl_left .text_info2 .fl_tx{ width: 100%; float:left; font-size: 20px; color: #ff6600; margin-bottom: 15px }
-.good_detail .fl_left .text_info2 .fr_tx{ width:100% float:left; float:left; font-size: 13px; color: #666;  line-height: 180% }
+.good_detail .fl_left .text_info2 .fl_tx{ width: 100%; float:left; font-size: 21px;/*20px;*/ color: #ff6600; margin-bottom: 15px }
+.good_detail .fl_left .text_info2 .fr_tx{ width:100% float:left; float:left; font-size: 14px; /*13px;*/ color: #666;  line-height: 180% }
 }
 /****  상세페이지 좌측   (텍스트설명): 모바일 ****/
 @media only all and (max-width:768px) {
