@@ -5,7 +5,7 @@
       <div class="inner2">
     <div class="bt_right">
       <div class="tx1">CUSTOMER CENTER</div>
-          <div class="tx2">(63)977-815-0153  <br>070-7422-0153</div>
+          <div class="tx2">(63)32-410-8454  <br>070-8668-2286</div>
           <div class="tx4">kakao ID : onepasstour</div>
           <div class="tx3"><spring:message code='bottom.msg1'/></div>
           <div class="sns"> 
