@@ -96,6 +96,7 @@ public class GoodsController {
         	String category = UserUtils.nvl(param.get("category"));
         	String date = UserUtils.nvl(param.get("date"));
         	String mode = UserUtils.nvl(param.get("mode"));
+        	String date2 = UserUtils.nvl(param.get("date2"));
         	if("".equals(category))
         		category = "S";
 
@@ -184,6 +185,7 @@ public class GoodsController {
             model.addAttribute("category", category);
             model.addAttribute("date", date);
             model.addAttribute("mode", mode);
+            model.addAttribute("date2", date2);
     	} catch(Exception e) {
     		e.printStackTrace();
     	}
@@ -248,6 +250,7 @@ public class GoodsController {
 		String user_id = UserUtils.nvl((String)session.getAttribute("user_id"));
 		String date = UserUtils.nvl(param.get("date")); 
 		String mode = UserUtils.nvl(param.get("mode")); 
+		String date2 = UserUtils.nvl(param.get("date2")); 
 
 		String hidNext = UserUtils.nvl(param.get("hidNext")); // 다음페이지 여부
 		String paramPage = UserUtils.nvl(param.get("hidPage")); // 페이지번호
@@ -275,6 +278,7 @@ public class GoodsController {
     	
 		map.put("date", date);
 		map.put("mode", mode);
+		map.put("date2", date2);
 
     	System.out.println("[상품목록]map:"+map);
     	if("N".equals(hidNext)) {
@@ -294,6 +298,7 @@ public class GoodsController {
         	UserUtils.log("[goods_detail]param:", param);
     		String date = UserUtils.nvl(param.get("date")); 
     		String mode = UserUtils.nvl(param.get("mode")); 
+    		String date2 = UserUtils.nvl(param.get("date2")); 
 
         	String category = UserUtils.nvl(param.get("category"));
         	if("".equals(category))
@@ -453,6 +458,7 @@ public class GoodsController {
                 
         		model.addAttribute("date", date);
         		model.addAttribute("mode", mode);
+        		model.addAttribute("date2", date2);
         	}
     	} catch(Exception e) {
     		e.printStackTrace();

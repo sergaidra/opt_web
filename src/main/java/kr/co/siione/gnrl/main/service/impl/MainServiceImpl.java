@@ -23,6 +23,10 @@ public class MainServiceImpl implements MainService {
     	return mainDAO.getMySchedule(map);
     }
     
+    public List getMyScheduleRoom(HashMap map) throws Exception {
+    	return mainDAO.getMyScheduleRoom(map);
+    }    
+    
     public List getBanner(HashMap map) throws Exception {
     	return mainDAO.getBanner(map);
     }

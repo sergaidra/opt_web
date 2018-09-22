@@ -83,6 +83,7 @@ var hotdeal_applc_end_de = "${result.HOTDEAL_APPLC_END_DE}";
 
 var fixDate = "${date}";
 var fixMode = "${mode}";
+var fixDate2 = "${date2}";
 
 <c:forEach var="list" items="${lstSchdul}">
 	lstSchdul.push({"BEGIN_DE" : "${list.BEGIN_DE}", "END_DE" : "${list.END_DE}", "POSBL_AT" : "${list.POSBL_AT}" });

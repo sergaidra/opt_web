@@ -47,7 +47,7 @@ $(function(){
 		        dataType : "json",
 		        async: "true",
 		        contentType: "application/json; charset=utf-8",
-		        data : JSON.stringify({ "hidUpperClCode" : upper_cl_code, "keyword" : "${keyword}", "category" : "${category}", "date" : "${date}", "mode" : "${mode}" } ),
+		        data : JSON.stringify({ "hidUpperClCode" : upper_cl_code, "keyword" : "${keyword}", "category" : "${category}", "date" : "${date}", "date2" : "${date2}", "mode" : "${mode}" } ),
 		        //data : "hidUpperClCode=00411",
 		        success : function(data,status,request){
 					var search = $("#pan").clone();
@@ -182,6 +182,7 @@ function fnSearch(obj, isNext) {
 	param.category = $("#category").val();
 	param.date = "${date}";
 	param.mode = "${mode}";
+	param.date2 = "${date2}";
 
 	var url = "<c:url value='/goods/getGoodsList'/>";
 	$.ajax({
@@ -374,6 +375,7 @@ function numberWithCommas(x) {
 	<input type="hidden" id="category" name="category" value="${category}">
 	<input type="hidden" id="date" name="date" value="${date}">
 	<input type="hidden" id="mode" name="mode" value="${mode}">
+	<input type="hidden" id="date2" name="date2" value="${date2}">
 </form>
 
 <!-- 본문 -->
@@ -424,6 +426,7 @@ function numberWithCommas(x) {
 		<input type="hidden" name="hidPage" value="">
 		<input type="hidden" name="hidDate" value="">
 		<input type="hidden" name="hidMode" value="">
+		<input type="hidden" name="hidDate2" value="">
 	    <div class="list_search" style="color:#ff9600; padding-top:5px; padding-bottom:5px; margin-bottom:0px; font-weight:bold;">
 	    	<span name="dc"></span>
 	    </div>

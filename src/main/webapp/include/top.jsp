@@ -207,6 +207,9 @@ function flightInit() {
 	});			
 }
 
+var startRoomtDt = "";
+var endRoomDt = "";
+
 function getMyFlightInfo() {
 	var url = "<c:url value='/cmmn/getCurrentFlight'/>";
 
@@ -227,6 +230,9 @@ function getMyFlightInfo() {
 					html += "<tr><td>[<spring:message code='flight.departure'/>] " + nvl(item.DTRMC_START_DT) + "<br>[<spring:message code='flight.arrival'/>] " + nvl(item.DTRMC_ARVL_DT) + "<br></td></tr>";
 					html += "<tr><td rowspan='2'><spring:message code='flight.entry'/></td><td>" + nvl(item.HMCMG_START_ARPRT_NM) + " &rarr; " + nvl(item.HMCMG_ARVL_ARPRT_NM) + " (<spring:message code='flight.flightname'/>:" + nvl(item.HMCMG_FLIGHT) + ")</td></tr>";
 					html += "<tr><td>[<spring:message code='flight.departure'/>] " + nvl(item.HMCMG_START_DT) + "<br>[<spring:message code='flight.arrival'/>] " + nvl(item.HMCMG_ARVL_DT) + "<br></td></tr>";
+					
+					startRoomtDt = nvl(item.DTRMC_ARVL_DT);
+					endRoomtDt = nvl(item.HMCMG_START_DT);
 				}
 				$("#tblFlightInfo tbody").append(html);
 			} else if(data.result == "-2") {
@@ -303,6 +309,42 @@ function getMySchedule() {
 	});				
 }
 
+function getMyScheduleRoom() {
+	var url = "<c:url value='/main/getMyScheduleRoom'/>";
+
+	$.ajax({
+        url : url,
+        type: "post",
+        dataType : "json",
+        async: "true",
+        contentType: "application/json; charset=utf-8",
+        data : JSON.stringify( {} ),
+        success : function(data,status,request){
+			if(data.result == "0") {
+				$("#tblHotelInfo tbody").empty();
+				console.log(data);
+				var html = "<tr>";
+				for(var cnt = 0; cnt < data.data.length; cnt++) {
+					var item = data.data[cnt];
+					html += "<td style='text-align:center;'>" + item.CHKIN_DE + " ~ " + item.CHCKT_DE + "</td><td>" + item.GOODS_NM + "</td>";
+					html += "</tr>";
+				}
+				$("#tblHotelInfo tbody").append(html);
+			} else if(data.result == "-2") {
+				alert("<spring:message code='info.login'/>");
+				go_login();
+			} else if(data.result == "9") {
+				alert(data.message);
+			} else{
+				alert("<spring:message code='info.ajax.fail'/>");
+			}	        	
+        },
+        error : function(request,status,error) {
+        	alert(error);
+        },
+	});				
+}
+
 function numberWithCommas(x) {
 	if(x == null)
 		return "";
@@ -353,7 +395,7 @@ function getMySchedule_old() {
 	});				
 }
 
-function goScheduleSelect(date, mode) {
+function goScheduleSelect(date, mode, date2) {
 	if(mode == "breakfast" || mode == "lunch" || mode == "dinner") {
 		alert("준비 중 입니다.");
 		return;		
@@ -361,27 +403,50 @@ function goScheduleSelect(date, mode) {
 	
 	var form = $("form[id=frmMenuCategory]");
 	$(form).empty();
+
 	$(form).append("<input type=\"hidden\" name=\"hidUpperClCodeNavi\" value=\"00429@00571@00414@00415\" >");
 	$(form).append("<input type=\"hidden\" name=\"category\" value=\"S\" >");
 	$(form).append("<input type=\"hidden\" name=\"date\" value=\"" + date.replace(/-/g, "") + "\" >");
 	$(form).append("<input type=\"hidden\" name=\"mode\" value=\"" + mode + "\" >");
+	$(form).append("<input type=\"hidden\" name=\"date2\" value=\"" + date2.replace(/-/g, "") + "\" >");
+	form.attr({"method":"get","action":"<c:url value='/goods/list'/>"});
+	form.submit();
+}
+
+function goScheduleRoomSelect() {
+	if(startRoomtDt == "" || endRoomtDt == "") {
+		alert("항공편을 입력해주세요.");
+		return;
+	}
+	var form = $("form[id=frmMenuCategory]");
+	$(form).empty();
+	
+	var st = startRoomtDt.substring(0, 10).replace(/-/g, "");
+	var end = endRoomtDt.substring(0, 10).replace(/-/g, "");
+
+	$(form).append("<input type=\"hidden\" name=\"hidUpperClCodeNavi\" value=\"00411\" >");
+	$(form).append("<input type=\"hidden\" name=\"category\" value=\"S\" >");
+	$(form).append("<input type=\"hidden\" name=\"date\" value=\"" + st + "\" >");
+	$(form).append("<input type=\"hidden\" name=\"mode\" value=\"room\" >");
+	$(form).append("<input type=\"hidden\" name=\"date2\" value=\"" + end + "\" >");
 	form.attr({"method":"get","action":"<c:url value='/goods/list'/>"});
 	form.submit();
 }
 
 getMySchedule();
 getMyFlightInfo();
+getMyScheduleRoom();
 </script>
 
 		<div id="cont_1" >
 		<!--일정표 -->
-			<div class="ri_tab" style="text-align:center; font-size:12px; color:#333; background-color:#fff; border:1px solid #000; padding:5px;">
-				숙박
+			<div class="ri_tab" style="text-align:center; font-size:12px; color:#333; background-color:#fff; border:1px solid #000; padding:5px; cursor:pointer;" onclick="javascript:goScheduleRoomSelect();">
+				숙박선택
 			</div>
 			<div class="ri_tb">
 				<div class="tb_01_box_s" style="">
 					<table class="tb_01" id="tblHotelInfo">
-						<col width="20%">
+						<col width="50%">
 						<col width="">
 						<tbody>
 						</tbody>

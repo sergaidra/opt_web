@@ -327,6 +327,38 @@ public class MainController {
 		return resVo;    	    
 	}
     
+    @RequestMapping(value="/getMyScheduleRoom")
+    public @ResponseBody ResponseVo getMyScheduleRoom(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+		ResponseVo resVo = new ResponseVo();
+		resVo.setResult("-1");
+		resVo.setMessage("");
+
+		try {
+	    	HttpSession session = request.getSession();
+			String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+			if(esntl_id.isEmpty()){
+				resVo.setResult("-2");
+				return resVo;
+			}
+
+			HashMap map = new HashMap();
+	    	map.put("esntl_id", esntl_id);
+	    	
+	    	List<Map> lstSchedule = mainService.getMyScheduleRoom(map);
+
+	    	resVo.setData(lstSchedule);
+	    	resVo.setResult("0");			
+		} catch(Exception e) {
+			resVo.setResult("9");			
+			resVo.setMessage(e.getMessage());	
+			e.printStackTrace();
+		}
+		
+		return resVo;    	    
+    }
+    
+    
     private List<Map> makeSchedule(List<Map> lst) throws Exception {
     	SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd"); 
     	SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd"); 

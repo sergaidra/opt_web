@@ -124,7 +124,7 @@
 		   AND (NVL(G.PARTICULAR_YN, 'N') = 'N' OR ( PARTICULAR_YN = 'Y' AND EXISTS ( SELECT GOODS_CODE FROM TB_GOODS_USER WHERE GOODS_CODE = G.GOODS_CODE AND USER_ID = #user_id# ) ) )
 		</isNotEmpty>
 		<isNotEmpty property="date">
-		   AND FN_CAN_SCHDUL(G.GOODS_CODE, #date#, #mode#) = 'Y'
+		   AND FN_CAN_SCHDUL(G.GOODS_CODE, #date#, #mode#, #date2#) = 'Y'
 		</isNotEmpty>
 	</sql>
 
