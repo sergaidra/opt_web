@@ -4047,7 +4047,7 @@ var imageTpl = new Ext.XTemplate(
 	,'<table width="97%">'
 	,'<tpl for=".">'
 	,'{[xindex % 3 == 1 ? "<tr height=100 valign=top>" : ""]}'
-	,'<td width="33%"><img src="{FILE_URL}"/><br>{[xindex]}.{FILE_NM}'
+	,'<td width="33%"><img src="{FILE_URL}" style="width:100%;"/><br>{[xindex]}.{FILE_NM}'
 	,'<tpl if="REPRSNT_AT==\'Y\'"><font color="red"> P</font></tpl>'
 	,'<tpl if="HOTDEAL_AT==\'Y\'"><font color="blue"> H</font></tpl>'
 	,'<tpl if="RECOMEND_AT==\'Y\'"><font color="blue"> R</font></tpl>'
@@ -4062,7 +4062,7 @@ var imageTpl = new Ext.XTemplate(
 var imageView = Ext.create('Ext.view.View', {
 	store: storeFile,
 	tpl: imageTpl,
-	height : 1500,
+	height : 15000,
 	itemSelector: 'div.thumb-wrap',
 	emptyText: '&nbsp;&nbsp;&nbsp;&nbsp;이미지가 없습니다.<br>&nbsp;&nbsp;&nbsp;'
 });
