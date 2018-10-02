@@ -1,5 +1,7 @@
 package kr.co.siione.mngr.web;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import kr.co.siione.mngr.service.FileManageService;
 import kr.co.siione.mngr.service.GoodsManageService;
 import kr.co.siione.mngr.service.TourClManageService;
+import kr.co.siione.utl.ImageCompress;
 import kr.co.siione.utl.UserUtils;
 
 import org.apache.commons.lang.StringUtils;
@@ -602,4 +605,31 @@ public class GoodsManageController {
 		jsonView.render(result, request, response);
 	}
 
+	//@RequestMapping(value="/mngr/imgTempChange/")
+	public void imgTempChange(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//String path = "C:\\upload\\GOODS\\origin";
+		//String destPath = "C:\\upload\\GOODS";
+		String path = "C:\\upload\\MAIN\\origin";
+		String destPath = "C:\\upload\\MAIN";
+		
+		File dirFile = new File(path);
+		File []fileList=dirFile.listFiles();
+		for(File tempFile : fileList) {
+		  if(tempFile.isFile()) {
+			  System.out.println(tempFile.getName());
+			  byte[] bytesArray = new byte[(int) tempFile.length()]; 
+
+			  FileInputStream fis = new FileInputStream(tempFile);
+			  fis.read(bytesArray); //read file into bytes[]
+			  fis.close();
+
+			  String fileName = tempFile.getName();
+			String file = fileName.substring(0, fileName.lastIndexOf(".")) + ".jpg";
+
+			  String destFile = destPath + "\\" + file;
+			  ImageCompress.toJpg(bytesArray, destFile, 50);
+			  System.out.println(tempFile.getName());
+		  }
+		}
+	}
 }
