@@ -258,5 +258,43 @@
          WHERE PURCHS_SN = #PURCHS_SN#
            AND STATUS = 'P' ]]>
     </update>
+
+	<sql id="PurchsDAO.whereForSelectOrderWaitList">
+		 WHERE 1 = 1
+		<isNotEmpty property="STATUS">
+		   AND A.STATUS = #STATUS#
+		</isNotEmpty>
+		<isEmpty property="STATUS">
+		   AND A.STATUS IS NOT NULL
+		</isEmpty>
+	</sql>
+
+	<select id="PurchsDAO.selectOrderWaitListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
+		SELECT COUNT(CART_SN)
+		  FROM TB_CART_GOODS A
+		  	INNER JOIN TB_GOODS G ON A.GOODS_CODE = G.GOODS_CODE
+		<include refid="PurchsDAO.whereForSelectOrderWaitList"/>
+	</select>
+
+	<select id="PurchsDAO.selectOrderWaitList" parameterClass="hashMap" resultClass="hashMap">
+		<include refid="PurchsDAO.pagingQueryStart"/><![CDATA[
+		SELECT ROW_NUMBER() OVER(ORDER BY A.CART_SN DESC) AS ROWSEQ
+			, A.CART_SN
+			, (SELECT X.USER_NM FROM TB_USER X WHERE X.ESNTL_ID = A.ESNTL_ID) USER_NM
+			, TO_CHAR(A.WRITNG_DT, 'YYYY-MM-DD HH24:MI:SS') CART_DT
+			, G.GOODS_NM
+			,  TO_CHAR(TO_DATE(A.CHKIN_DE, 'YYYYMMDD'), 'YYYY-MM-DD') AS CHKIN_DE
+			,  TO_CHAR(TO_DATE(A.CHCKT_DE, 'YYYYMMDD'), 'YYYY-MM-DD') AS CHCKT_DE
+			, STATUS
+		FROM TB_CART_GOODS A
+			INNER JOIN TB_GOODS G ON A.GOODS_CODE = G.GOODS_CODE ]]>
+		<include refid="PurchsDAO.whereForSelectOrderWaitList"/>
+		<include refid="PurchsDAO.pagingQueryEnd"/>
+	</select>
+
+	<update id="PurchsDAO.updateReservationStatus" parameterClass="hashMap">
+		UPDATE TB_CART_GOODS SET STATUS = 'C'
+		WHERE CART_SN = #CART_SN#
+	</update>
 	
 </sqlMap>

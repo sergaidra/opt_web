@@ -98,6 +98,13 @@
         <result property="HOTDEAL_END_DE"                column="HOTDEAL_END_DE"                jdbcType="string" javaType="string"/>
 		<result property="HOTDEAL_APPLC_BEGIN_DE"        column="HOTDEAL_APPLC_BEGIN_DE"        jdbcType="string" javaType="string"/>
         <result property="HOTDEAL_APPLC_END_DE"          column="HOTDEAL_APPLC_END_DE"          jdbcType="string" javaType="string"/>        
+        <result property="VIDEO_SORT_ORDR"               column="VIDEO_SORT_ORDR"               jdbcType="string" javaType="string"/>        
+        <result property="REPRSNT_PRICE"                 column="REPRSNT_PRICE"                 jdbcType="string" javaType="string"/>        
+        <result property="HOTELSCOMBINE_YN"              column="HOTELSCOMBINE_YN"              jdbcType="string" javaType="string"/>        
+        <result property="HOTELSCOMBINE_SCRIPT"          column="HOTELSCOMBINE_SCRIPT"          jdbcType="string" javaType="string"/>        
+        <result property="PARTICULAR_YN"                 column="PARTICULAR_YN"                 jdbcType="string" javaType="string"/>        
+        <result property="PARTICULAR_USERID"             column="PARTICULAR_USERID"             jdbcType="string" javaType="string"/>        
+        <result property="WAITRESERVATION_YN"            column="WAITRESERVATION_YN"                 jdbcType="string" javaType="string"/>        
     </resultMap>
 
     <insert id="GoodsDAO.insertGoods" parameterClass="hashMap">
@@ -155,6 +162,12 @@
                             , INTRCN_PLACE
                             , VIDEO_URL
                             , VIDEO_MAIN_EXPSR_AT
+                            , VIDEO_SORT_ORDR
+                            , REPRSNT_PRICE
+                            , HOTELSCOMBINE_YN
+                            , HOTELSCOMBINE_SCRIPT
+                            , PARTICULAR_YN
+                            , WAITRESERVATION_YN
                             , PICKUP_INCLS_AT
                             , TOUR_DAYS 
                             , HOTDEAL_BEGIN_DE
@@ -209,6 +222,12 @@
                             , #INTRCN_PLACE#
                             , #VIDEO_URL#
                             , NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+                            , #VIDEO_SORT_ORDR#
+                            , #REPRSNT_PRICE#
+                            , #HOTELSCOMBINE_YN#
+                            , #HOTELSCOMBINE_SCRIPT#
+                            , #PARTICULAR_YN#
+                            , #WAITRESERVATION_YN#
                             , NVL(#PICKUP_INCLS_AT#, 'N')
                             , #TOUR_DAYS#
                             , REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
@@ -317,6 +336,12 @@
                             , INTRCN_PLACE
                             , VIDEO_URL
                             , VIDEO_MAIN_EXPSR_AT
+                            , VIDEO_SORT_ORDR
+                            , REPRSNT_PRICE
+                            , HOTELSCOMBINE_YN
+                            , HOTELSCOMBINE_SCRIPT
+                            , PARTICULAR_YN
+                            , WAITRESERVATION_YN
                             , PICKUP_INCLS_AT
                             , TOUR_DAYS
                             , HOTDEAL_BEGIN_DE
@@ -358,6 +383,12 @@
                             , #INTRCN_PLACE#
                             , #VIDEO_URL#
                             , NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+                            , #VIDEO_SORT_ORDR#
+                            , #REPRSNT_PRICE#
+                            , #HOTELSCOMBINE_YN#
+                            , #HOTELSCOMBINE_SCRIPT#
+                            , #PARTICULAR_YN#
+                            , #WAITRESERVATION_YN#
                             , NVL(#PICKUP_INCLS_AT#, 'N')
                             , #TOUR_DAYS#
                             , REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
@@ -441,6 +472,12 @@
              , INTRCN_PLACE              =  #INTRCN_PLACE#
              , VIDEO_URL                 =  #VIDEO_URL#
              , VIDEO_MAIN_EXPSR_AT       =  NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+             , VIDEO_SORT_ORDR           =  #VIDEO_SORT_ORDR#
+             , REPRSNT_PRICE             =  #REPRSNT_PRICE#
+             , HOTELSCOMBINE_YN          =  #HOTELSCOMBINE_YN#
+             , HOTELSCOMBINE_SCRIPT      =  #HOTELSCOMBINE_SCRIPT#
+             , PARTICULAR_YN             =  #PARTICULAR_YN#
+             , WAITRESERVATION_YN        =  #WAITRESERVATION_YN#
              , PICKUP_INCLS_AT           =  NVL(#PICKUP_INCLS_AT#, 'N')
              , TOUR_DAYS                 =  #TOUR_DAYS#
              , HOTDEAL_BEGIN_DE          =  REPLACE(#HOTDEAL_BEGIN_DE#, '-', '') 
@@ -488,6 +525,12 @@
              , INTRCN_PLACE          = #INTRCN_PLACE#
              , VIDEO_URL             = #VIDEO_URL#
              , VIDEO_MAIN_EXPSR_AT   = NVL(#VIDEO_MAIN_EXPSR_AT#, 'N')
+             , VIDEO_SORT_ORDR       = #VIDEO_SORT_ORDR#
+             , REPRSNT_PRICE         = #REPRSNT_PRICE#
+             , HOTELSCOMBINE_YN      = #HOTELSCOMBINE_YN#
+             , HOTELSCOMBINE_SCRIPT  = #HOTELSCOMBINE_SCRIPT#
+             , PARTICULAR_YN         = #PARTICULAR_YN#
+             , WAITRESERVATION_YN    = #WAITRESERVATION_YN#
              , PICKUP_INCLS_AT       = NVL(#PICKUP_INCLS_AT#, 'N')
              , TOUR_DAYS             = #TOUR_DAYS#             
              , HOTDEAL_BEGIN_DE      = REPLACE(#HOTDEAL_BEGIN_DE#, '-', '')              
@@ -721,6 +764,13 @@
              , A.HOTDEAL_END_DE
              , A.HOTDEAL_APPLC_BEGIN_DE
              , A.HOTDEAL_APPLC_END_DE
+             , A.VIDEO_SORT_ORDR
+             , A.REPRSNT_PRICE
+             , A.HOTELSCOMBINE_YN
+             , A.HOTELSCOMBINE_SCRIPT
+             , A.PARTICULAR_YN
+             , (SELECT SUBSTR(XMLAGG(XMLELEMENT(X,',', USER_ID) ORDER BY SORT_ORDR).EXTRACT('//text()'),2) FROM TB_GOODS_USER X WHERE X.GOODS_CODE = A.GOODS_CODE) AS PARTICULAR_USERID
+             , A.WAITRESERVATION_YN
           FROM TB_GOODS A
              , TB_GOODS_ENG B
          WHERE A.GOODS_CODE = B.GOODS_CODE(+)
@@ -815,5 +865,65 @@
         <include refid="GoodsDAO.whereForSelectGoodsListForSearch"/>
         <include refid="GoodsDAO.pagingQueryEnd"/>
     </select>
+
+    <delete id="GoodsDAO.deleteGoodsUser" parameterClass="hashMap">
+    <![CDATA[
+    	DELETE FROM TB_GOODS_USER
+    	WHERE GOODS_CODE = #GOODS_CODE#    	
+	]]>
+    </delete>
+
+    <insert id="GoodsDAO.insertGoodsUser" parameterClass="hashMap">
+    <![CDATA[
+    	INSERT INTO TB_GOODS_USER (GOODS_CODE, USER_ID, SORT_ORDR)
+    	SELECT #GOODS_CODE#, #USER_ID#, NVL(MAX(SORT_ORDR), 0) + 1
+    	FROM TB_GOODS_USER
+		WHERE GOODS_CODE = #GOODS_CODE#    	
+	]]>
+    </insert>
+
+	<select id="GoodsDAO.getNewGoodsCode" resultClass="string">
+        SELECT LPAD(SQ_GOODS_CODE.NEXTVAL, 10, '0') FROM DUAL
+	</select>
+	
+    <insert id="GoodsDAO.copyGoods" parameterClass="hashMap">
+    <![CDATA[
+    DECLARE
+    BEGIN
+        INSERT INTO TB_GOODS( GOODS_CODE, GOODS_NM, GOODS_INTRCN, GOODS_INTRCN_SIMPL, CL_CODE, CTY_CODE, CL_SE, FILE_CODE, SORT_ORDR, WAIT_TIME
+        	, MVMN_TIME, ACT_LA, ACT_LO, HOTDEAL_AT, RECOMEND_AT, VOCHR_TICKET_TY, VOCHR_NTSS_REQRE_TIME, VOCHR_USE_MTH, GUIDANCE_USE_TIME, GUIDANCE_REQRE_TIME
+			, GUIDANCE_AGE_DIV, GUIDANCE_TOUR_SCHDUL, GUIDANCE_PRFPLC_LC, GUIDANCE_EDC_CRSE, GUIDANCE_OPTN_MATTER, GUIDANCE_PICKUP, GUIDANCE_PRPARETG, GUIDANCE_INCLS_MATTER, GUIDANCE_NOT_INCLS_MATTER, ADIT_GUIDANCE
+			, ATENT_MATTER, CHANGE_REFND_REGLTN, INTRCN_GOODS_TY, INTRCN_USE_TIME, INTRCN_MEET_TIME, INTRCN_REQRE_TIME, INTRCN_PROVD_LANG, INTRCN_POSBL_AGE, INTRCN_PLACE, VIDEO_URL
+			, VIDEO_MAIN_EXPSR_AT, DELETE_AT, WRITNG_ID, WRITNG_DT, HOTDEAL_SORT_ORDR, RECOMEND_SORT_ORDR, HOTDEAL_MAIN_AT, RECOMEND_MAIN_AT
+			, SLE_BEGIN_ID, SLE_BEGIN_DT, PICKUP_INCLS_AT, TOUR_DAYS, HOTDEAL_BEGIN_DE, HOTDEAL_END_DE, GOODS_NM_SUB, HOTDEAL_APPLC_BEGIN_DE, HOTDEAL_APPLC_END_DE, DELETE_ID
+			, DELETE_DT, WAIT_ID, WAIT_DT, VIDEO_SORT_ORDR, REPRSNT_PRICE, HOTELSCOMBINE_YN, HOTELSCOMBINE_SCRIPT, PARTICULAR_YN, WAITRESERVATION_YN)
+		SELECT #NEW_GOODS_CODE#, #GOODS_NM#, GOODS_INTRCN, GOODS_INTRCN_SIMPL, CL_CODE, CTY_CODE, CL_SE, #FILE_CODE#, (SELECT MAX(SORT_ORDR)+1 FROM TB_GOODS WHERE CL_CODE = G.CL_CODE), WAIT_TIME
+        	, MVMN_TIME, ACT_LA, ACT_LO, HOTDEAL_AT, RECOMEND_AT, VOCHR_TICKET_TY, VOCHR_NTSS_REQRE_TIME, VOCHR_USE_MTH, GUIDANCE_USE_TIME, GUIDANCE_REQRE_TIME
+			, GUIDANCE_AGE_DIV, GUIDANCE_TOUR_SCHDUL, GUIDANCE_PRFPLC_LC, GUIDANCE_EDC_CRSE, GUIDANCE_OPTN_MATTER, GUIDANCE_PICKUP, GUIDANCE_PRPARETG, GUIDANCE_INCLS_MATTER, GUIDANCE_NOT_INCLS_MATTER, ADIT_GUIDANCE
+			, ATENT_MATTER, CHANGE_REFND_REGLTN, INTRCN_GOODS_TY, INTRCN_USE_TIME, INTRCN_MEET_TIME, INTRCN_REQRE_TIME, INTRCN_PROVD_LANG, INTRCN_POSBL_AGE, INTRCN_PLACE, VIDEO_URL
+			, VIDEO_MAIN_EXPSR_AT, 'T', #WRITNG_ID#, SYSDATE, HOTDEAL_SORT_ORDR, RECOMEND_SORT_ORDR, HOTDEAL_MAIN_AT, RECOMEND_MAIN_AT
+			, SLE_BEGIN_ID, SLE_BEGIN_DT, PICKUP_INCLS_AT, TOUR_DAYS, HOTDEAL_BEGIN_DE, HOTDEAL_END_DE, GOODS_NM_SUB, HOTDEAL_APPLC_BEGIN_DE, HOTDEAL_APPLC_END_DE, DELETE_ID
+			, DELETE_DT, WAIT_ID, WAIT_DT, VIDEO_SORT_ORDR, REPRSNT_PRICE, HOTELSCOMBINE_YN, HOTELSCOMBINE_SCRIPT, PARTICULAR_YN, WAITRESERVATION_YN
+		FROM TB_GOODS G
+		WHERE G.GOODS_CODE = #GOODS_CODE#;
+
+
+        INSERT INTO TB_GOODS_ENG ( GOODS_CODE, GOODS_NM_ENG, GOODS_NM_SUB_ENG, GOODS_INTRCN_ENG, GOODS_INTRCN_SIMPL_ENG, VOCHR_NTSS_REQRE_TIME_ENG, VOCHR_USE_MTH_ENG, GUIDANCE_USE_TIME_ENG, GUIDANCE_REQRE_TIME_ENG, GUIDANCE_AGE_DIV_ENG
+        	, GUIDANCE_TOUR_SCHDUL_ENG, GUIDANCE_PRFPLC_LC_ENG, GUIDANCE_EDC_CRSE_ENG, GUIDANCE_OPTN_MATTER_ENG, GUIDANCE_PICKUP_ENG, GUIDANCE_PRPARETG_ENG, GUIDANCE_INCLS_MATTER_ENG, GUIDANCE_NOT_INCLS_MATTER_ENG, ADIT_GUIDANCE_ENG, ATENT_MATTER_ENG
+			, CHANGE_REFND_REGLTN_ENG, INTRCN_USE_TIME_ENG, INTRCN_MEET_TIME_ENG, INTRCN_REQRE_TIME_ENG, INTRCN_PROVD_LANG_ENG, INTRCN_POSBL_AGE_ENG, INTRCN_PLACE_ENG, WRITNG_ID, WRITNG_DT )
+		SELECT #NEW_GOODS_CODE#, GOODS_NM_ENG, GOODS_NM_SUB_ENG, GOODS_INTRCN_ENG, GOODS_INTRCN_SIMPL_ENG, VOCHR_NTSS_REQRE_TIME_ENG, VOCHR_USE_MTH_ENG, GUIDANCE_USE_TIME_ENG, GUIDANCE_REQRE_TIME_ENG, GUIDANCE_AGE_DIV_ENG
+        	, GUIDANCE_TOUR_SCHDUL_ENG, GUIDANCE_PRFPLC_LC_ENG, GUIDANCE_EDC_CRSE_ENG, GUIDANCE_OPTN_MATTER_ENG, GUIDANCE_PICKUP_ENG, GUIDANCE_PRPARETG_ENG, GUIDANCE_INCLS_MATTER_ENG, GUIDANCE_NOT_INCLS_MATTER_ENG, ADIT_GUIDANCE_ENG, ATENT_MATTER_ENG
+			, CHANGE_REFND_REGLTN_ENG, INTRCN_USE_TIME_ENG, INTRCN_MEET_TIME_ENG, INTRCN_REQRE_TIME_ENG, INTRCN_PROVD_LANG_ENG, INTRCN_POSBL_AGE_ENG, INTRCN_PLACE_ENG, #WRITNG_ID#, SYSDATE 
+		FROM TB_GOODS_ENG E
+		WHERE E.GOODS_CODE = #GOODS_CODE#;
+
+    	INSERT INTO TB_GOODS_USER (GOODS_CODE, USER_ID, SORT_ORDR)
+    	SELECT #NEW_GOODS_CODE#, USER_ID, SORT_ORDR
+    	FROM TB_GOODS_USER U
+		WHERE U.GOODS_CODE = #GOODS_CODE#;	
+		
+    END;
+	]]>
+    </insert>
 
 </sqlMap>

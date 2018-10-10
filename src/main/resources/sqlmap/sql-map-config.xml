@@ -20,6 +20,7 @@
 	<sqlMap resource="sqlmap/siione/gnrl/cancel_db_sql.xml"/>
 	<sqlMap resource="sqlmap/siione/gnrl/liveview_db_sql.xml"/>
 	<sqlMap resource="sqlmap/siione/gnrl/order_db_sql.xml"/>
+	<sqlMap resource="sqlmap/siione/gnrl/checklist_db_sql.xml"/>
 
 	<sqlMap resource="sqlmap/siione/mngr/tb_file_manage.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_cty.xml"/>

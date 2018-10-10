@@ -731,6 +731,44 @@ function fn_preview() {
 	}
 }
 
+function fn_copyGoods() {
+	var sGoodsCode = ""
+	sGoodsCode = Ext.getCmp('form-reg-goods-code').getValue();
+	
+	if(sGoodsCode == "")
+		return;
+
+	Ext.Msg.confirm('확인', '상품을 복사하시겠습니까?', function(btn) {
+		if(btn == 'yes') {
+			Ext.Msg.prompt('상품명', '상품명을 입력하세요 :', function(btn, text) {
+				if (btn == 'ok') {
+					if(text != "") {
+						stParams = { "GOODS_CODE" : sGoodsCode, "NEW_GOODS_NM" : text };
+						sMsg = "복사";
+						frReg.getForm().submit({
+							waitMsg: sMsg + ' 중입니다...',
+							url: '../copyGoods/',
+							params: stParams,
+							timeout:180,
+							success: function(form, action) {
+								Ext.Msg.alert('알림', "복사하였습니다.");
+							},
+							failure: function(form, action) {
+								if(action.result.message) {
+									Ext.Msg.alert('알림', action.result.message);
+								} else {
+									Ext.Msg.alert('알림', sMsg+' 중 오류가 발생하였습니다. 다시 시도하여 주십시오.');
+								}
+							}
+						});						
+					}
+				}
+			});
+		}
+	});
+}
+
+
 function fn_activeNextTab() {
 	if(Ext.getCmp('form-reg-crud-se').getValue() == 'C') {
 		Ext.Msg.confirm('확인', '상품 내용을 계속 입력하시겠습니까?', function(btn) {
@@ -1022,6 +1060,13 @@ Ext.define('GoodsInfo', {
 			, {name:'HOTDEAL_END_DE', type:'string'}
 			, {name:'HOTDEAL_APPLC_BEGIN_DE', type:'string'}
 			, {name:'HOTDEAL_APPLC_END_DE', type:'string'}
+			, {name:'VIDEO_SORT_ORDR', type:'string'}
+			, {name:'REPRSNT_PRICE', type:'string'}
+			, {name:'HOTELSCOMBINE_YN', type:'string'}
+			, {name:'HOTELSCOMBINE_SCRIPT', type:'string'}
+			, {name:'PARTICULAR_YN', type:'string'}
+			, {name:'PARTICULAR_USERID', type:'string'}
+			, {name:'WAITRESERVATION_YN', type:'string'}
 			]
 });
 
@@ -1169,6 +1214,13 @@ var frReg = Ext.create('Ext.form.Panel', {
 		width: 80,
 		handler: function() {
 			fn_preview();
+		}
+	}, {
+		xtype: 'button',
+		text: '상품복사',
+		width: 80,
+		handler: function() {
+			fn_copyGoods();
 		}
 	}, {
 		xtype: 'button',
@@ -1513,6 +1565,92 @@ var frReg = Ext.create('Ext.form.Panel', {
 				allowBlank: true,
 				enableKeyEvents: true
 			}]
+		},{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'textfield',
+				id: 'form-reg-reprsnt-price',
+				name: 'REPRSNT_PRICE',
+				width: 270,
+				fieldLabel: '대표가격',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 120,
+				labelAlign: 'right',
+				maxLength: 30,
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
+			}]
+		},{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'checkboxfield',
+				id: 'form-reg-hotelscombine_yn',
+				name: 'HOTELSCOMBINE_YN',
+				width: 240,
+				fieldLabel: '호텔스컴바인여부',
+				labelWidth: 120,
+				labelAlign: 'right',
+				boxLabel  : '',
+				inputValue: 'Y',
+				value: 'Y'
+			}, {
+				xtype: 'textfield',
+				id: 'form-reg-hotelscombine_script',
+				name: 'HOTELSCOMBINE_SCRIPT',
+				width: 700,
+				fieldLabel: '호텔스컴바인 주소',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 150,
+				labelAlign: 'right',
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
+			}]
+		},{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'checkboxfield',
+				id: 'form-reg-particular_yn',
+				name: 'PARTICULAR_YN',
+				width: 240,
+				fieldLabel: '특정고객상품여부',
+				labelWidth: 120,
+				labelAlign: 'right',
+				boxLabel  : '',
+				inputValue: 'Y',
+				value: 'Y'
+			}, {
+				xtype: 'textfield',
+				id: 'form-reg-particular_text',
+				name: 'PARTICULAR_USERID',
+				width: 700,
+				fieldLabel: '고객ID',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 150,
+				labelAlign: 'right',
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
+			}]
+		},{
+			xtype: 'fieldcontainer',
+			layout: 'hbox',
+			items: [{
+				xtype: 'checkboxfield',
+				id: 'form-reg-waitreservation_yn',
+				name: 'WAITRESERVATION_YN',
+				width: 240,
+				fieldLabel: '대기예약여부',
+				labelWidth: 120,
+				labelAlign: 'right',
+				boxLabel  : '',
+				inputValue: 'Y',
+				value: 'Y'
+			}]
 		}]
 	},{
 		xtype: 'fieldset',
@@ -1760,7 +1898,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 					fields:['code', 'name'],
 					data :[
 						['G', '단체투어'],
-						['P', '프라이빗투어']
+						['P', '단독투어']
 					]
 				}),
 				width: 320,
@@ -1913,7 +2051,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-intrcn-posbl-age',
 				name: 'INTRCN_POSBL_AGE',
 				width: 320,
-				fieldLabel: '가능연령',
+				fieldLabel: '최소인원',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 120,
@@ -1927,7 +2065,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-intrcn-posbl-age-eng',
 				name: 'INTRCN_POSBL_AGE_ENG',
 				width: 330,
-				fieldLabel: '가능연령(영문)',
+				fieldLabel: '최소인원(영문)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 130,
@@ -2043,7 +2181,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-vochr-use-mth',
 				name: 'VOCHR_USE_MTH',
-				fieldLabel: '사용방법<br>(500자)',
+				fieldLabel: '사용방법<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 120,
@@ -2052,7 +2190,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 650,
 				height: 50,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2064,7 +2202,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-vochr-use-mth-eng',
 				name: 'VOCHR_USE_MTH_ENG',
-				fieldLabel: '사용방법(영문)<br>(500자)',
+				fieldLabel: '사용방법(영문)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 120,
@@ -2073,7 +2211,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 650,
 				height: 50,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2133,6 +2271,20 @@ var frReg = Ext.create('Ext.form.Panel', {
 				boxLabel  : '',
 				inputValue: 'Y',
 				value: 'Y'
+			}, {
+				xtype: 'textfield',
+				id: 'form-reg-video-sort_ordr',
+				name: 'VIDEO_SORT_ORDR',
+				width: 240,
+				fieldLabel: '동영상홍보 정렬순서',
+				fieldStyle: {'ime-mode':'disabled'},
+				labelWidth: 150,
+				labelAlign: 'right',
+				maskRe: /[0-9]/,
+				maxLength: 2,
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true
 			}]
 		}]
 	},{
@@ -2220,7 +2372,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-use-time',
 				name: 'GUIDANCE_USE_TIME',
-				fieldLabel: '이용시간<br>(50자)',
+				fieldLabel: '이용시간<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2229,7 +2381,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 100,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2241,7 +2393,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-use-time-eng',
 				name: 'GUIDANCE_USE_TIME_ENG',
-				fieldLabel: '이용시간(영문)<br>(100자)',
+				fieldLabel: '이용시간(영문)<br>(4000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2250,7 +2402,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 100,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2262,7 +2414,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-reqre-time',
 				name: 'GUIDANCE_REQRE_TIME',
-				fieldLabel: '소요시간<br>(50자)',
+				fieldLabel: '소요시간<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2271,7 +2423,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 100,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2283,7 +2435,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-reqre-time-eng',
 				name: 'GUIDANCE_REQRE_TIME_ENG',
-				fieldLabel: '소요시간(영문)<br>(100자)',
+				fieldLabel: '소요시간(영문)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2292,7 +2444,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 100,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2304,7 +2456,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-age-div',
 				name: 'GUIDANCE_AGE_DIV',
-				fieldLabel: '연령구분<br>(100자)',
+				fieldLabel: '연령구분<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2313,7 +2465,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 200,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2325,7 +2477,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-age-div-eng',
 				name: 'GUIDANCE_AGE_DIV_ENG',
-				fieldLabel: '연령구분(영문)<br>(200자)',
+				fieldLabel: '연령구분(영문)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2334,7 +2486,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 200,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2433,7 +2585,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-guidance-edc-crse',
 				name: 'GUIDANCE_EDC_CRSE',
 				//fieldLabel: '교육과정<br>(500자)',
-				fieldLabel: '긴급연락처<br>(500자)',
+				fieldLabel: '긴급연락처<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2442,7 +2594,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2455,7 +2607,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-guidance-edc-crse-eng',
 				name: 'GUIDANCE_EDC_CRSE_ENG',
 				//fieldLabel: '교육과정(영문)<br>(1000자)',
-				fieldLabel: '긴급연락처(영문)<br>(1000자)',
+				fieldLabel: '긴급연락처(영문)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2464,7 +2616,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2476,7 +2628,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-optn-matter',
 				name: 'GUIDANCE_OPTN_MATTER',
-				fieldLabel: '옵션사항<br>(500자)',
+				fieldLabel: '옵션사항<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2485,7 +2637,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2497,7 +2649,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-optn-matter-eng',
 				name: 'GUIDANCE_OPTN_MATTER_ENG',
-				fieldLabel: '옵션사항(영문)<br>(1000자)',
+				fieldLabel: '옵션사항(영문)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2506,7 +2658,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2518,7 +2670,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-pickup',
 				name: 'GUIDANCE_PICKUP',
-				fieldLabel: '픽업<br>(100자)',
+				fieldLabel: '픽업<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2527,7 +2679,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 200,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2540,7 +2692,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-guidance-pickup-eng',
 				name: 'GUIDANCE_PICKUP_ENG',
 				width: 300,
-				fieldLabel: '픽업(영문)<br>(200자)',
+				fieldLabel: '픽업(영문)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2549,7 +2701,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 200,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2561,7 +2713,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-prparetg',
 				name: 'GUIDANCE_PRPARETG',
-				fieldLabel: '준비물<br>(500자)',
+				fieldLabel: '준비물<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2570,7 +2722,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2582,7 +2734,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-prparetg-eng',
 				name: 'GUIDANCE_PRPARETG_ENG',
-				fieldLabel: '준비물(영문)<br>(1000자)',
+				fieldLabel: '준비물(영문)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2591,7 +2743,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 50,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2603,7 +2755,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-incls-matter',
 				name: 'GUIDANCE_INCLS_MATTER',
-				fieldLabel: '포함사항<br>(1000자)',
+				fieldLabel: '포함사항<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2612,7 +2764,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 80,
-				maxLength: 2000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2624,7 +2776,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-incls-matter-eng',
 				name: 'GUIDANCE_INCLS_MATTER_ENG',
-				fieldLabel: '포함사항(영문)<br>(2000자)',
+				fieldLabel: '포함사항(영문)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2633,7 +2785,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 80,
-				maxLength: 2000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2645,7 +2797,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-not-incls-matter',
 				name: 'GUIDANCE_NOT_INCLS_MATTER',
-				fieldLabel: '불포함사항<br>(250자)',
+				fieldLabel: '불포함사항<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2654,7 +2806,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 80,
-				maxLength: 250,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2666,7 +2818,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-not-incls-matter-eng',
 				name: 'GUIDANCE_NOT_INCLS_MATTER_ENG',
-				fieldLabel: '불포함사항(영문)<br>(500자)',
+				fieldLabel: '불포함사항(영문)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2675,7 +2827,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 80,
-				maxLength: 500,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2721,7 +2873,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-adit-guidance',
 				name: 'ADIT_GUIDANCE',
-				fieldLabel: '추가안내<br>(500자)',
+				fieldLabel: '추가안내<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2730,7 +2882,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2742,7 +2894,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-adit-guidance-eng',
 				name: 'ADIT_GUIDANCE_ENG',
-				fieldLabel: '추가안내(영문)<br>(1000자)',
+				fieldLabel: '추가안내(영문)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2751,7 +2903,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2763,7 +2915,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-atent-matter',
 				name: 'ATENT_MATTER',
-				fieldLabel: '유의사항<br>(500자)',
+				fieldLabel: '유의사항<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2772,7 +2924,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2784,7 +2936,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-atent-matter-eng',
 				name: 'ATENT_MATTER_ENG',
-				fieldLabel: '유의사항(영문)<br>(1000자)',
+				fieldLabel: '유의사항(영문)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2793,7 +2945,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2805,7 +2957,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-change-refnd-regltn',
 				name: 'CHANGE_REFND_REGLTN',
-				fieldLabel: '변경/환불규정<br>(500자)',
+				fieldLabel: '변경/환불규정<br>(2000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2814,7 +2966,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -2826,7 +2978,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-change-refnd-regltn-eng',
 				name: 'CHANGE_REFND_REGLTN_ENG',
-				fieldLabel: '변경/환불규정<br>(1000자)(영문)',
+				fieldLabel: '변경/환불규정<br>(4000자)(영문)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2835,7 +2987,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				isFocus: false,
 				width: 630,
 				height: 150,
-				maxLength: 1000,
+				maxLength: 4000,
 				enforceMaxLength: true,
 				allowBlank: true,
 				enableKeyEvents: true
@@ -3895,7 +4047,7 @@ var imageTpl = new Ext.XTemplate(
 	,'<table width="97%">'
 	,'<tpl for=".">'
 	,'{[xindex % 3 == 1 ? "<tr height=100 valign=top>" : ""]}'
-	,'<td width="33%"><img src="{FILE_URL}"/><br>{[xindex]}.{FILE_NM}'
+	,'<td width="33%"><img src="{FILE_URL}" style="width:100%;"/><br>{[xindex]}.{FILE_NM}'
 	,'<tpl if="REPRSNT_AT==\'Y\'"><font color="red"> P</font></tpl>'
 	,'<tpl if="HOTDEAL_AT==\'Y\'"><font color="blue"> H</font></tpl>'
 	,'<tpl if="RECOMEND_AT==\'Y\'"><font color="blue"> R</font></tpl>'
@@ -3910,7 +4062,7 @@ var imageTpl = new Ext.XTemplate(
 var imageView = Ext.create('Ext.view.View', {
 	store: storeFile,
 	tpl: imageTpl,
-	height : 1500,
+	height : 15000,
 	itemSelector: 'div.thumb-wrap',
 	emptyText: '&nbsp;&nbsp;&nbsp;&nbsp;이미지가 없습니다.<br>&nbsp;&nbsp;&nbsp;'
 });

@@ -13,12 +13,11 @@
 	
 	// user select/click action
 	function userSelect(e,main,month,year){
-		
 		var sel1 = _id('sel1'),
 			sel2 = _id('sel2');
 		
 		var isDisabled = _hasClass(e, 'disabled');
-			
+
 		// first doesnt exist
 		if( selectDt.startDt === null && !isDisabled ) {
 			e.id = 'sel1';
@@ -64,7 +63,7 @@
 					isExistSel1 = true;
 				}
 			});
-			
+
 			if(isExistSel1 == false)
 				isStartSel1 = true;
 			
@@ -96,8 +95,16 @@
 				if(dateToString(sDt) == dateToString(eDt))
 					break;
 				
+				var curDt = dateToString(sDt);
 				for(var cnt = 0; cnt < lstRsvSchdul.length; cnt++) {
-					if (lstRsvSchdul[cnt] == dateToString(sDt)) {
+					if (lstRsvSchdul[cnt] == curDt) {
+						initSelect(e);
+						return;
+					}
+				}
+				
+				for(var cnt = 0; cnt < lstSchdul.length; cnt++) {
+					if(lstSchdul[cnt].BEGIN_DE <= curDt && curDt <= lstSchdul[cnt].END_DE && lstSchdul[cnt].POSBL_AT == "N") {
 						initSelect(e);
 						return;
 					}
@@ -357,8 +364,11 @@ var monthArr = [
 	
 /* INIT */
 var date = new Date();
+if(fixDate != "") {
+	date = new Date(Number(fixDate.substring(0, 4)), Number(fixDate.substring(4, 6)) - 1, Number(fixDate.substring(6, 8)) );
+}
 var month = date.getMonth() + 1,
-		year = date.getFullYear();
+year = date.getFullYear();
 
 getMonth(month, year);
 //$('#month').text( monthArr[month-1] + ' ' + year); // set month text
@@ -366,7 +376,8 @@ $('#month').text( year + "년 " + month + "월"); // set month text
 	
 function bind(month,year){
 	var tb = _id('cal');
-	$(tb).on('click', 'td', function(){ userSelect(this,null,month,year); });
+	if(fixDate == "") 
+		$(tb).on('click', 'td', function(){ userSelect(this,null,month,year); });
 	
 	// next month
 	$('#disp').on('click', 'div', function(){
@@ -389,6 +400,49 @@ function bind(month,year){
 };
 	
 bind(month,year);
+
+if(fixDate != "") {
+	var yy = Number(fixDate.substring(0, 4));
+	var mm = Number(fixDate.substring(4, 6));
+	var dd = Number(fixDate.substring(6, 8));
+	var yy2 = Number(fixDate2.substring(0, 4));
+	var mm2 = Number(fixDate2.substring(4, 6));
+	var dd2 = Number(fixDate2.substring(6, 8));
+	var tb = _id('cal');
+	var td = tb.querySelectorAll('td');
+	var isEqualMonth = false;
+	if(yy == yy2 & mm == mm2)
+		isEqualMonth = true;
+	_for(td, function(e){
+		if(e.innerText == dd && !_hasClass(e, 'disabled')) {
+			userSelect(e, null, month, year);
+		}
+		
+		if(isEqualMonth == true) {
+			if(e.innerText == dd2 && !_hasClass(e, 'disabled')) {
+				userSelect(e, null, mm2, yy2);
+			}
+		}
+	});
+	
+	if(isEqualMonth == false) {
+		$('table.daytb').remove();
+		getMonth(mm2,yy2);
+		$('#month').text( yy2 + "년 " + mm2 + "월"); // set month text
+
+		tb = _id('cal');
+		td = tb.querySelectorAll('td');
+		_for(td, function(e){
+			if(e.innerText == dd2 && !_hasClass(e, 'disabled')) {
+				userSelect(e, null, mm2, yy2);
+			}
+		});
+		
+		$('table.daytb').remove();
+		getMonth(mm,yy);
+		$('#month').text( yy + "년 " + mm + "월"); // set month text
+	}	
+}
 
 function lpad(s, padLength, padString){
 	 

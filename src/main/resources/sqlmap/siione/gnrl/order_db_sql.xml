@@ -313,5 +313,25 @@
 		ORDER BY P.PURCHS_SN
 	]]>		
 	</select>
+
+
+	<select id="gnrl.order.getReservationStatus" parameterClass="hashMap" resultClass="hashMap">
+		SELECT G.WAITRESERVATION_YN, CG.STATUS
+		FROM TB_CART_GOODS CG
+			INNER JOIN TB_GOODS G ON CG.GOODS_CODE = G.GOODS_CODE
+		WHERE CART_SN = #cart_sn#
+	</select>
+	
+	<update id="gnrl.order.updateReservationStatus" parameterClass="hashMap">
+		UPDATE TB_CART_GOODS SET STATUS = 'W'
+		WHERE CART_SN = #cart_sn#
+	</update>
+
+	<select id="gnrl.order.getUserInfoByCart" parameterClass="hashMap" resultClass="hashMap">
+		SELECT U.ESNTL_ID, U.EMAIL, G.CART_SN
+		FROM TB_CART_GOODS G
+			INNER JOIN TB_USER U ON G.ESNTL_ID = U.ESNTL_ID
+		WHERE CART_SN = #cart_sn#
+	</select>
 	
 </sqlMap>

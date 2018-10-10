@@ -29,18 +29,31 @@ $(function() {
 	});
 	
 	<c:if test="${mode == 'write' }" >
-	$("#subcategory").val("R");
-	$("#subcategory").trigger("change");
+		<c:if test="${category != 'A' }" >
+		$("#subcategory").val("R");
+		$("#subcategory").trigger("change");
+		</c:if>
 	</c:if>
 });
 
+var isWrite = false;
+function initWrite() {
+	isWrite = false;
+}
+
 function write() {
+	if(isWrite == true)
+		return;
+	isWrite = true;
+
 	if($.trim($("#subject").val()) == "") {
+		initWrite();
 		alert("제목을 입력해주세요.");
 		$("#subject").focus();
 		return ;
 	}
 	if($.trim($("#contents").val()) == "") {
+		initWrite();
 		alert("내용을 입력해주세요.");
 		$("#contents").focus();
 		return ;
@@ -59,9 +72,11 @@ function write() {
 		param.secret_at = "N";
 	}	
 	
-	if(!confirm("저장하겠습니까?"))
+	if(!confirm("저장하겠습니까?")) {
+		initWrite();
 		return;
-		
+	}
+
 	$.ajax({
         url : url,
         type: "post",
@@ -71,18 +86,23 @@ function write() {
         data : JSON.stringify( param ),
         success : function(data,status,request){
 			if(data.result == "0") {
+				initWrite();
 				alert("저장되었습니다.");
-				go_05_01_01();
+				goBbsList();
 			} else if(data.result == "-2") {
+				initWrite();
 				alert("로그인이 필요합니다.");
 				go_login();
 			} else if(data.result == "9") {
+				initWrite();
 				alert(data.message);
 			} else{
+				initWrite();
 				alert("작업을 실패하였습니다.");
 			}	        	
         },
         error : function(request,status,error) {
+    		initWrite();
         	alert(error);
         },
 	});			
@@ -106,7 +126,7 @@ function deleteBbs() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("삭제되었습니다.");
-				go_05_01_01();
+				goBbsList();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
@@ -162,7 +182,7 @@ function deletebbsadmin() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("삭제되었습니다.");
-				go_05_01_01();
+				goBbsList();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
@@ -223,7 +243,7 @@ function modifyaction() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("수정되었습니다.");
-				go_05_01_01();
+				goBbsList();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
@@ -354,7 +374,7 @@ function writeanswer() {
         success : function(data,status,request){
 			if(data.result == "0") {
 				alert("저장되었습니다.");
-				go_05_01_01();
+				goBbsList();
 			} else if(data.result == "-2") {
 				alert("로그인이 필요합니다.");
 				go_login();
@@ -369,6 +389,15 @@ function writeanswer() {
         },
 	});			
 }
+
+function goBbsList() {
+	<c:if test="${category == 'A'}">
+		go_05_02_01();
+	</c:if>
+	<c:if test="${category != 'A'}">
+		go_05_01_01();
+	</c:if>
+}
 </script>
 </head>
 
@@ -376,7 +405,7 @@ function writeanswer() {
 
 
 <form id="frmBbs" method="post">
-	<input type="hidden" id="category" name="category" value="R">
+	<input type="hidden" id="category" name="category" value="${category}">
 	<input type="hidden" id="bbs_sn" name="bbs_sn" value="${view.BBS_SN}">
 </form>
 
@@ -410,7 +439,7 @@ function writeanswer() {
                     <th>비밀글</th>
                     <td class="end"><input type="checkbox" id="secret_at" name="secret_at" <c:if test="${view.SECRET_AT == 'Y'}"> checked</c:if>></td>
                   </tr>
-                   <tr>
+                   <tr style="display:<c:if test='${category == "A"}'>none</c:if>;">
                     <th>문의종류</th>
                     <td>
                     	<c:if test="${mode == 'write'}" >
@@ -451,9 +480,11 @@ function writeanswer() {
                 <tbody>				
                    <tr>
                     <th>작성자</th>
-                    <td>${view.USER_NM }</td>
+                    <td <c:if test='${category == "A"}'>colspan="3"</c:if>>${view.USER_NM }</td>
+                    <c:if test='${category != "A"}'>
                     <th>문의종류</th>
                     <td class="end">${view.SUBCATEGORYNM }<input id="subcategory" name="subcategory" type="hidden" value="${view.SUBCATEGORY}" /></td>
+                    </c:if>
                   </tr>
                    <tr>
                     <th>작성일</th>
@@ -530,7 +561,7 @@ function writeanswer() {
                   	<c:if test="${(author_cl == 'A' or author_cl == 'M') and mode == 'view'}">
   	             		<a href="#" data-featherlight="#answerbbs" class="button_m1 mr_2">답글</a>
                   	</c:if>
-                  	<a href="javascript:go_05_01_01();" class="button_m2">목록</a> 
+                  	<a href="javascript:goBbsList();" class="button_m2">목록</a> 
 			       	</div>
        
       </div>

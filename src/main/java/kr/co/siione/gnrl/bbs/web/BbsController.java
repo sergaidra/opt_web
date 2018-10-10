@@ -76,7 +76,34 @@ public class BbsController {
         model.addAttribute("category", "R");
 
         model.addAttribute("bp", "08");
-       	model.addAttribute("btitle", "문의하기");
+       	model.addAttribute("btitle", "자유게시판");
+        model.addAttribute("mtitle", "");
+		
+		return "gnrl/bbs/bbslist";
+	}
+	
+	@RequestMapping(value="/admin")
+	public String admin(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+
+		HttpSession session = request.getSession();
+		String author_cl = UserUtils.nvl((String)session.getAttribute("author_cl"));
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+
+		if(!"A".equals(author_cl) && !"M".equals(author_cl))
+			response.sendRedirect("/member/login/");
+
+		HashMap map = new HashMap();
+		map.put("esntl_id", esntl_id);
+
+		try {
+
+		
+		} catch(Exception e) {e.printStackTrace();}
+
+        model.addAttribute("category", "A");
+
+        model.addAttribute("bp", "08");
+       	model.addAttribute("btitle", "관리자게시판");
         model.addAttribute("mtitle", "");
 		
 		return "gnrl/bbs/bbslist";
@@ -134,6 +161,7 @@ public class BbsController {
 
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		String category = UserUtils.nvl(request.getParameter("category"));
 		
 		if("".equals(esntl_id))
 			response.sendRedirect("/member/login/");
@@ -161,6 +189,7 @@ public class BbsController {
         model.addAttribute("mtitle", "");
 
         model.addAttribute("mode", "write");
+        model.addAttribute("category", category);
 
 		return "gnrl/bbs/bbsview";
 	}
@@ -197,11 +226,6 @@ public class BbsController {
 
 			UserUtils.log("[writeaction-map]", map);
 			
-			if(!parent_bbs_sn.equals("")) {
-				System.out.println("==> 답변메일 발송");
-				bbsService.mailReply(map);
-			}
-			
 			bbsService.insertBbs(map);	
 				
 			resVo.setResult("0");			
@@ -219,7 +243,8 @@ public class BbsController {
 
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		
+		String category = UserUtils.nvl(request.getParameter("category"));
+
 		//if("".equals(esntl_id))
 		//	response.sendRedirect("/member/login/");
 
@@ -244,6 +269,7 @@ public class BbsController {
         model.addAttribute("bp", "07");
        	model.addAttribute("btitle", "문의하기");
         model.addAttribute("mtitle", "");
+        model.addAttribute("category", category);
 
         model.addAttribute("mode", "view");
 
@@ -336,7 +362,8 @@ public class BbsController {
 
 		HttpSession session = request.getSession();
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		
+		String category = UserUtils.nvl(request.getParameter("category"));
+
 		if("".equals(esntl_id))
 			response.sendRedirect("/member/login/");
 
@@ -353,6 +380,7 @@ public class BbsController {
         model.addAttribute("bp", "07");
        	model.addAttribute("btitle", "여행상담");
         model.addAttribute("mtitle", "");
+        model.addAttribute("category", category);
 
         model.addAttribute("mode", "modify");
 

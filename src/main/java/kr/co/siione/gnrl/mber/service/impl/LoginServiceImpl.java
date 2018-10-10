@@ -182,8 +182,8 @@ public class LoginServiceImpl implements LoginService {
     	session.setAttribute("author_cl", result.get("AUTHOR_CL"));            	
     	session.setAttribute("email", result.get("EMAIL"));
     	session.setAttribute("esntl_id", esntl_id);
-    	//timeout 30분
-    	session.setMaxInactiveInterval(1800);
+    	//timeout 30분->1시간으로 변경
+    	session.setMaxInactiveInterval(3600);
 
     	//새로운 접속(세션) 생성
     	loginManager.setSession(session, esntl_id);

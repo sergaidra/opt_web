@@ -51,13 +51,15 @@
         <result property="SORT_ORDR"                 column="SORT_ORDR"                 jdbcType="string" javaType="string"/>
         <result property="CF_MIN_BEGIN_DE"           column="CF_MIN_BEGIN_DE"           jdbcType="string" javaType="string"/>
         <result property="CF_MAX_END_DE"             column="CF_MAX_END_DE"             jdbcType="string" javaType="string"/>
-        <result property="GOODS_INTRCN_SIMPL"        column="GOODS_INTRCN_SIMPL"             jdbcType="string" javaType="string"/>        
-        <result property="HOTDEAL_AT"        		column="HOTDEAL_AT"             jdbcType="string" javaType="string"/>        
-        <result property="RECOMEND_AT"        		column="RECOMEND_AT"             jdbcType="string" javaType="string"/>    
-        <result property="TOUR_DAYS"        		column="TOUR_DAYS"             jdbcType="string" javaType="string"/>            
-        <result property="HOTDEAL_APPLC_BEGIN_DE"   column="HOTDEAL_APPLC_BEGIN_DE"             jdbcType="string" javaType="string"/>            
-        <result property="HOTDEAL_APPLC_END_DE"     column="HOTDEAL_APPLC_END_DE"             jdbcType="string" javaType="string"/>            
-        <result property="BKMK"        		column="BKMK"             jdbcType="string" javaType="string"/>       
+        <result property="GOODS_INTRCN_SIMPL"        column="GOODS_INTRCN_SIMPL"        jdbcType="string" javaType="string"/>        
+        <result property="HOTDEAL_AT"        		 column="HOTDEAL_AT"                jdbcType="string" javaType="string"/>        
+        <result property="RECOMEND_AT"        		 column="RECOMEND_AT"               jdbcType="string" javaType="string"/>    
+        <result property="TOUR_DAYS"        		 column="TOUR_DAYS"                 jdbcType="string" javaType="string"/>            
+        <result property="HOTDEAL_APPLC_BEGIN_DE"    column="HOTDEAL_APPLC_BEGIN_DE"    jdbcType="string" javaType="string"/>            
+        <result property="HOTDEAL_APPLC_END_DE"      column="HOTDEAL_APPLC_END_DE"      jdbcType="string" javaType="string"/>            
+        <result property="BKMK"        		         column="BKMK"                      jdbcType="string" javaType="string"/>       
+        <result property="HOTELSCOMBINE_YN"        	 column="HOTELSCOMBINE_YN"          jdbcType="string" javaType="string"/>       
+        <result property="HOTELSCOMBINE_SCRIPT"      column="HOTELSCOMBINE_SCRIPT"      jdbcType="string" javaType="string"/>       
 	</resultMap>
 
 	<resultMap id="goodsDetailSub" class="hashMap">
@@ -71,28 +73,32 @@
 	
 	<sql id="whereList">
 		<isNotEmpty property="cty_code">
-		   AND CTY_CODE = #cty_code#
+		   AND G.CTY_CODE = #cty_code#
 		</isNotEmpty>
 		<isNotEmpty property="cl_code">
-		   AND CL_CODE = #cl_code#
+		   AND G.CL_CODE = #cl_code#
 		</isNotEmpty>
 		<isEmpty property="cl_code">
 			<isNotEmpty property="upper_cl_code">
 				<isEqual property="upper_cl_code" compareValue="H">
-					AND HOTDEAL_AT = 'Y' AND TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN HOTDEAL_BEGIN_DE AND HOTDEAL_END_DE 
+					AND G.HOTDEAL_AT = 'Y' AND TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN G.HOTDEAL_BEGIN_DE AND G.HOTDEAL_END_DE 
 				</isEqual>
 				<isEqual property="upper_cl_code" compareValue="R">
-				   AND RECOMEND_AT = 'Y'
+				   AND G.RECOMEND_AT = 'Y'
 				</isEqual>
 				<isNotEqual property="upper_cl_code" compareValue="H">
 					<isNotEqual property="upper_cl_code" compareValue="R">
-					   AND CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = #upper_cl_code#)
+						<isNotEqual property="upper_cl_code" compareValue="P">
+							<isNotEqual property="upper_cl_code" compareValue="C">
+						   		AND G.CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = #upper_cl_code#)
+							</isNotEqual>
+						</isNotEqual>
 					</isNotEqual>
 				</isNotEqual>
 			</isNotEmpty>
 		</isEmpty>
 		<isNotEmpty property="keyword">
-		   AND GOODS_CODE IN
+		   AND G.GOODS_CODE IN
 		   		( SELECT GOODS_CODE FROM TB_GOODS_KWRD WHERE
 		    <iterate property="keyword" conjunction=" OR ">
 		             UPPER(KWRD) LIKE '%' || UPPER(#keyword[]#) || '%'
@@ -100,11 +106,26 @@
 		    	)
 		</isNotEmpty>
 		<isEqual property="category" compareValue="H">
-		   AND HOTDEAL_AT = 'Y' AND TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN HOTDEAL_BEGIN_DE AND HOTDEAL_END_DE
+		   AND G.HOTDEAL_AT = 'Y' AND TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN G.HOTDEAL_BEGIN_DE AND G.HOTDEAL_END_DE
 		</isEqual>
 		<isEqual property="category" compareValue="R">
-		   AND RECOMEND_AT = 'Y'
+		   AND G.RECOMEND_AT = 'Y'
 		</isEqual>	
+		<isEqual property="category" compareValue="P">
+		   AND G.CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00591') 
+		</isEqual>
+		<isEqual property="category" compareValue="C">
+		   AND G.CL_CODE IN (SELECT CL_CODE FROM TB_TOUR_CL X WHERE X.UPPER_CL_CODE = '00412') 
+		</isEqual>
+		<isEmpty property="user_id">
+		   AND NVL(G.PARTICULAR_YN, 'N') = 'N'
+		</isEmpty>
+		<isNotEmpty property="user_id">
+		   AND (NVL(G.PARTICULAR_YN, 'N') = 'N' OR ( PARTICULAR_YN = 'Y' AND EXISTS ( SELECT GOODS_CODE FROM TB_GOODS_USER WHERE GOODS_CODE = G.GOODS_CODE AND USER_ID = #user_id# ) ) )
+		</isNotEmpty>
+		<isNotEmpty property="date">
+		   AND FN_CAN_SCHDUL(G.GOODS_CODE, #date#, #mode#, #date2#) = 'Y'
+		</isNotEmpty>
 	</sql>
 
 	<select id="gnrl.goods.selectGoodsExpsrList1" parameterClass="hashMap" resultClass="hashMap">
@@ -142,6 +163,7 @@
 			     	, (SELECT DECODE(G.CL_SE, 'S', MIN(X.SETUP_AMOUNT), NVL(MIN(DECODE(X.FIXED_AT, 'Y', NVL(X.SETUP_AMOUNT, 0), NVL(ROUND(X.SETUP_AMOUNT / NVL(X.NMPR_CO, 1), 0), 0))), 0)) FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = G.GOODS_CODE AND X.PC_REPRSNT_AT = 'Y') ORIGIN_AMOUNT
 			     	, (SELECT NVL(MIN(X.DSCNT_RATE), 1) FROM TB_GOODS_NMPR X WHERE X.DELETE_AT = 'N' AND X.GOODS_CODE = G.GOODS_CODE AND X.PC_REPRSNT_AT = 'Y') DSCNT_RATE
 				    , CASE WHEN G.HOTDEAL_AT = 'Y' AND TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN G.HOTDEAL_BEGIN_DE AND G.HOTDEAL_END_DE THEN 'Y' ELSE 'N' END AS HOTDEAL_AT
+				    , G.REPRSNT_PRICE
 				FROM (
 					SELECT GOODS_CODE, ROWNUM AS RNUM
 					FROM (		  
@@ -242,17 +264,17 @@
 		     , DECODE(A.UPPER_CL_CODE, '00000', A.SORT_ORDR*1000, (SELECT B.SORT_ORDR*1000 FROM TB_TOUR_CL B WHERE B.CL_CODE = A.UPPER_CL_CODE)+A.SORT_ORDR) CF_SORT
 		  FROM TB_TOUR_CL A
 		 WHERE DELETE_AT = 'N'
-		   AND CL_CODE IN ( SELECT CL_CODE 
-		   					FROM TB_GOODS 
-		   					WHERE DELETE_AT = 'N' 
+		   AND CL_CODE IN ( SELECT G.CL_CODE 
+		   					FROM TB_GOODS G
+		   					WHERE G.DELETE_AT = 'N' 
 				 			<include refid="whereList"/> )	
 		 ORDER BY CF_SORT
 	</select>
 	
 	<select id="gnrl.goods.selectGoodsListCount" parameterClass="hashMap" resultClass="Integer">
 		SELECT COUNT(1)
-		FROM TB_GOODS A
-		WHERE DELETE_AT = 'N'
+		FROM TB_GOODS G
+		WHERE G.DELETE_AT = 'N'
 		 <include refid="whereList"/>	
 	</select>
 
@@ -286,33 +308,34 @@
 			     , A.RECOMEND_AT
 			     , A.GOODS_NM_ENG
 			     , A.GOODS_NM_SUB_ENG
+			     , A.REPRSNT_PRICE
 		FROM (
 			SELECT GOODS_CODE, CL_SE, ROWNUM AS RNUM
 			FROM (
 				SELECT B.GOODS_CODE, CL_SE, ROWNUM AS RNUM
 				FROM (
-					SELECT GOODS_CODE, CL_SE
+					SELECT G.GOODS_CODE, G.CL_SE
 					FROM TB_GOODS G
-					WHERE DELETE_AT = 'N' 
+					WHERE G.DELETE_AT = 'N' 
 					<include refid="whereList"/>
 					<isNotEmpty property="sortOrd">
 						<isEqual property="sortOrd" compareValue="L">
-							ORDER BY 2, GOODS_NM
+							ORDER BY 2, G.GOODS_NM
 						</isEqual>
 						<isEqual property="sortOrd" compareValue="H">
-							ORDER BY 2 DESC, GOODS_NM
+							ORDER BY 2 DESC, G.GOODS_NM
 						</isEqual>
 					</isNotEmpty>
 					<isEmpty property="sortOrd">
 						<isEqual property="upper_cl_code" compareValue="H">
-							 	ORDER BY HOTDEAL_SORT_ORDR, GOODS_NM
+							 	ORDER BY G.HOTDEAL_SORT_ORDR, G.GOODS_NM
 						</isEqual>
 						<isEqual property="upper_cl_code" compareValue="R">
-							 	ORDER BY RECOMEND_SORT_ORDR, GOODS_NM
+							 	ORDER BY G.RECOMEND_SORT_ORDR, G.GOODS_NM
 						</isEqual>
 						<isNotEqual property="upper_cl_code" compareValue="H">
 							<isNotEqual property="upper_cl_code" compareValue="R">
-							 	ORDER BY SORT_ORDR, GOODS_NM
+							 	ORDER BY G.SORT_ORDR, G.GOODS_NM
 							</isNotEqual>
 						</isNotEqual>
 					</isEmpty>
@@ -379,6 +402,8 @@
              , HOTDEAL_APPLC_BEGIN_DE
              , HOTDEAL_APPLC_END_DE
 		     , (SELECT CASE WHEN COUNT(1) > 0 THEN 'Y' ELSE 'N' END FROM TB_BKMK WHERE ESNTL_ID = #esntl_id# AND GOODS_CODE = A.GOODS_CODE) BKMK
+		     , HOTELSCOMBINE_YN
+		     , HOTELSCOMBINE_SCRIPT
           FROM TB_GOODS A 
          WHERE GOODS_CODE = #goods_code# ]]>
 		<isEmpty property="admin_at">

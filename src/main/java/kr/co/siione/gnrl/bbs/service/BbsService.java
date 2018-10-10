@@ -18,6 +18,5 @@ public interface BbsService {
     public void deleteComment(HashMap map) throws Exception;
     public void updateComment(HashMap map) throws Exception;
     public List<HashMap> selectCommentList(HashMap map) throws Exception;
-    
-    public boolean mailReply(HashMap map) throws Exception;
+
 }

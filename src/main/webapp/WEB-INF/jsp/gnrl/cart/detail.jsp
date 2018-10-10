@@ -340,7 +340,7 @@
 			<ul class="information7_area">
 			<c:if test="${!empty result.INTRCN_GOODS_TY}">
 				<li><img src="<c:url value='/images/picon_01.gif'/>" width="42" height="42"><span>상품유형</span>
-				<sapn class="infor7_txt"><c:if test="${result.INTRCN_GOODS_TY eq 'G'}">단체투어</c:if><c:if test="${result.INTRCN_GOODS_TY eq 'P'}">프라이빗투어</c:if></span></li>
+				<sapn class="infor7_txt"><c:if test="${result.INTRCN_GOODS_TY eq 'G'}">단체투어</c:if><c:if test="${result.INTRCN_GOODS_TY eq 'P'}">단독투어</c:if></span></li>
 			</c:if><c:if test="${!empty result.INTRCN_USE_TIME}">
 				<li><img src="<c:url value='/images/picon_02.gif'/>" width="42" height="42"><span>이용시간</span>
 				<sapn class="infor7_txt">${result.INTRCN_USE_TIME}</span></li>
@@ -354,7 +354,7 @@
 				<li><img src="<c:url value='/images/picon_03.gif'/>" width="42" height="42"><span>제공언어</span>
 				<sapn class="infor7_txt">${result.INTRCN_PROVD_LANG}</span></li>
 			</c:if><c:if test="${!empty result.INTRCN_POSBL_AGE}">
-				<li><img src="<c:url value='/images/picon_03.gif'/>" width="42" height="42"><span>가능연령</span>
+				<li><img src="<c:url value='/images/picon_03.gif'/>" width="42" height="42"><span>최소인원</span>
 				<sapn class="infor7_txt">${result.INTRCN_POSBL_AGE}</span></li>
 			</c:if><c:if test="${!empty result.INTRCN_PLACE}">
 				<li><img src="<c:url value='/images/picon_03.gif'/>" width="42" height="42"><span>장소</span>

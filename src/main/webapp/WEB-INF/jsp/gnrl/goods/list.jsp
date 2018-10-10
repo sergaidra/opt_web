@@ -32,6 +32,7 @@ $(function(){
 			$(".list_tab li").removeClass("on");
 			$(this).addClass("on");
 			var upper_cl_code = $(this).find("#cl_code").val();
+			var dc = $(this).find("#dc").val();
 			//$("#tabresult").empty();
 			$(".panelTab").hide();
 			if($("#divPan" + upper_cl_code).length > 0) {
@@ -46,7 +47,7 @@ $(function(){
 		        dataType : "json",
 		        async: "true",
 		        contentType: "application/json; charset=utf-8",
-		        data : JSON.stringify({ "hidUpperClCode" : upper_cl_code, "keyword" : "${keyword}", "category" : "${category}" } ),
+		        data : JSON.stringify({ "hidUpperClCode" : upper_cl_code, "keyword" : "${keyword}", "category" : "${category}", "date" : "${date}", "date2" : "${date2}", "mode" : "${mode}" } ),
 		        //data : "hidUpperClCode=00411",
 		        success : function(data,status,request){
 					var search = $("#pan").clone();
@@ -65,6 +66,10 @@ $(function(){
 		        	
 		        	$(search).find("#sboxClCode").append(html1);
 		        	$(search).find("#sboxCtyCode").append(html2);
+		        	if(dc == "")
+		        		$(search).find("span[name='dc']").closest("div").hide();
+		        	else
+		        		$(search).find("span[name='dc']").text(dc);
 					$(search).show();
 					
 					$("#tabresult").append(search);
@@ -175,6 +180,9 @@ function fnSearch(obj, isNext) {
 	param.hidPage = $(list_search).find("input[name='hidPage']").val();
 	param.hidNext = (isNext == true ? "Y" : "N");
 	param.category = $("#category").val();
+	param.date = "${date}";
+	param.mode = "${mode}";
+	param.date2 = "${date2}";
 
 	var url = "<c:url value='/goods/getGoodsList'/>";
 	$.ajax({
@@ -194,13 +202,23 @@ function fnSearch(obj, isNext) {
 				var item = $("#liItem").clone();
 				$(item).attr("id", "");
 				
-				if(data.list[cnt].HOTDEAL_AT == "Y") {
-					$(item).find("span[name='cf_reprsnt_amount']").text(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT));				
-					$(item).find("span[name='cf_hotdeal_amount']").text(numberWithCommas(Math.round(data.list[cnt].CF_REPRSNT_AMOUNT * data.list[cnt].DSCNT_RATE)));
-					$(item).find(".total_s").show();
-				} else {
-					$(item).find("span[name='cf_hotdeal_amount']").text(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT));
+				if(data.list[cnt].REPRSNT_PRICE != null && data.list[cnt].REPRSNT_PRICE != "") {
+					$(item).find(".total").append(data.list[cnt].REPRSNT_PRICE);
 					$(item).find(".total_s").hide();
+				} else {
+					if(data.list[cnt].HOTDEAL_AT == "Y") {
+						//$(item).find("span[name='cf_reprsnt_amount']").text(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT));				
+						//$(item).find("span[name='cf_hotdeal_amount']").text(numberWithCommas(Math.round(data.list[cnt].CF_REPRSNT_AMOUNT * data.list[cnt].DSCNT_RATE)));
+						//$(item).find(".total_s").append(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT) + "<spring:message code='goodslist.goodsprice.unit'/>");
+						//$(item).find(".total").append(numberWithCommas(Math.round(data.list[cnt].CF_REPRSNT_AMOUNT * data.list[cnt].DSCNT_RATE)) + "<spring:message code='goodslist.goodsprice.unit'/>");
+						$(item).find(".total_s").append("￦ " + numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT));
+						$(item).find(".total").append("￦ " + numberWithCommas(Math.round(data.list[cnt].CF_REPRSNT_AMOUNT * data.list[cnt].DSCNT_RATE)));
+						$(item).find(".total_s").show();
+					} else {
+						//$(item).find(".total").append(numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT) + "<spring:message code='goodslist.goodsprice.unit'/>");
+						$(item).find(".total").append("￦ " + numberWithCommas(data.list[cnt].CF_REPRSNT_AMOUNT));
+						$(item).find(".total_s").hide();
+					}
 				}
               	<c:if test="${pageContext.response.locale.language == 'en'}">
 				$(item).find("span[name='cty_nm']").text(nvl(data.list[cnt].CTY_NM_ENG));
@@ -340,7 +358,10 @@ function addWishAction(goods_code, obj) {
 }
 
 function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	if(x == null)
+		return "";
+	else
+    	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 
@@ -352,6 +373,9 @@ function numberWithCommas(x) {
 <form id="frmList" name="frmList" action="<c:url value='/goods/detail'/>">
 	<input type="hidden" id="hidGoodsCode" name="hidGoodsCode">
 	<input type="hidden" id="category" name="category" value="${category}">
+	<input type="hidden" id="date" name="date" value="${date}">
+	<input type="hidden" id="mode" name="mode" value="${mode}">
+	<input type="hidden" id="date2" name="date2" value="${date2}">
 </form>
 
 <!-- 본문 -->
@@ -365,10 +389,10 @@ function numberWithCommas(x) {
 	   	<ul>
 		<c:forEach var="result" items="${upperTourClList}" varStatus="status">
            	<c:if test="${pageContext.response.locale.language == 'en'}">
-		   		<li>${result.CL_NM_ENG}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"></li>
+		   		<li>${result.CL_NM_ENG}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"><input type="hidden" id="dc" name="dc" value="${result.DC_ENG}"></li>
 		   	</c:if>
            	<c:if test="${pageContext.response.locale.language != 'en'}">
-		   		<li>${result.CL_NM}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"></li>
+		   		<li>${result.CL_NM}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"><input type="hidden" id="dc" name="dc" value="${result.DC}"></li>
 		   	</c:if>
 		</c:forEach>
 	   	</ul>
@@ -400,6 +424,12 @@ function numberWithCommas(x) {
 		<input type="hidden" name="hidKeyword" value="">
 		<input type="hidden" name="hidTotalcount" value="">
 		<input type="hidden" name="hidPage" value="">
+		<input type="hidden" name="hidDate" value="">
+		<input type="hidden" name="hidMode" value="">
+		<input type="hidden" name="hidDate2" value="">
+	    <div class="list_search" style="color:#ff9600; padding-top:5px; padding-bottom:5px; margin-bottom:0px; font-weight:bold;">
+	    	<span name="dc"></span>
+	    </div>
 	    <div class="list_search">
 	      <div class="info_text" style="display:none;"><spring:message code='goodslist.goodscount.msg' arguments="<span name='totalcount'> </span>"/></div>
 		  <div class="inputbox">
@@ -457,8 +487,8 @@ function numberWithCommas(x) {
 			   <div id="divHit" class="hit" style="z-index:999;" ><i class="material-icons">favorite</i>
 
 				   </div>
-			    <div class="total_s"><spring:message code='goodslist.goodsprice.msg' arguments="<span name='cf_reprsnt_amount'></span>"/></div>
-			    <div class="total"><spring:message code='goodslist.goodsprice.msg' arguments="<span name='cf_hotdeal_amount'></span>"/></div>
+			    <div class="total_s"></div>
+			    <div class="total"></div>
 		  </div>
 			<div class="ar_text"><span name="cty_nm"></span>  >  <span name="upper_cl_nm"></span>  >  <span name="cl_nm"></span></div>
         </div>

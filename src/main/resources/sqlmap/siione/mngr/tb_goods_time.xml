@@ -91,4 +91,13 @@
         ORDER BY TIME_SN
     </select>
 
+    <insert id="GoodsTimeDAO.copyTime" parameterClass="hashMap">
+    <![CDATA[
+        INSERT INTO TB_GOODS_TIME( GOODS_CODE, TIME_SN, BEGIN_TIME, END_TIME, DELETE_AT, WRITNG_ID, WRITNG_DT)
+		SELECT #NEW_GOODS_CODE#, TIME_SN, BEGIN_TIME, END_TIME, DELETE_AT, #WRITNG_ID#, SYSDATE
+		FROM TB_GOODS_TIME S
+		WHERE S.GOODS_CODE = #GOODS_CODE#
+    ]]>
+    </insert>
+
 </sqlMap>

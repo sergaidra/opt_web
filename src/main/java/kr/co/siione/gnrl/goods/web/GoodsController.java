@@ -94,6 +94,9 @@ public class GoodsController {
 
         	String keyword = URLDecoder.decode(UserUtils.nvl(param.get("keyword")), "UTF-8");
         	String category = UserUtils.nvl(param.get("category"));
+        	String date = UserUtils.nvl(param.get("date"));
+        	String mode = UserUtils.nvl(param.get("mode"));
+        	String date2 = UserUtils.nvl(param.get("date2"));
         	if("".equals(category))
         		category = "S";
 
@@ -116,7 +119,33 @@ public class GoodsController {
             			mapGoods.put("CL_NM", commonService.getMessage("topmenu.recom", request));
             			mapGoods.put("CL_CODE", "R");
             			upperTourClList.add(mapGoods);
-            		}
+	        		} else if("P".equals(goodskind)) {
+	        			category = "P";
+	        			HashMap mapGoods = new HashMap();
+	        			mapGoods.put("CL_NM", commonService.getMessage("topmenu.package", request));
+	        			mapGoods.put("CL_CODE", "P");
+
+            			HashMap mapT = new HashMap();
+                		mapT.put("cl_code", "00591");
+                		List<HashMap> lst = goodsService.getUpperTourClMain(mapT);
+            			if(lst.size() > 0)
+    	        			mapGoods.put("DC", lst.get(0).get("DC"));
+            				
+	        			upperTourClList.add(mapGoods);
+	        		} else if("C".equals(goodskind)) {
+	        			category = "C";
+	        			HashMap mapGoods = new HashMap();
+	        			mapGoods.put("CL_NM", commonService.getMessage("topmenu.custom", request));
+	        			mapGoods.put("CL_CODE", "C");
+	        			
+            			HashMap mapT = new HashMap();
+                		mapT.put("cl_code", "00412");
+                		List<HashMap> lst = goodsService.getUpperTourClMain(mapT);
+            			if(lst.size() > 0)
+    	        			mapGoods.put("DC", lst.get(0).get("DC"));
+	        			
+	        			upperTourClList.add(mapGoods);
+	        		}
                 	model.addAttribute("upperTourClList", upperTourClList);
             	} else {
             		// 상위 분류목록
@@ -148,8 +177,15 @@ public class GoodsController {
                 model.addAttribute("btitle", commonService.getMessage("topmenu.hotdeal", request));
             else if("R".equals(category))
                 model.addAttribute("btitle", commonService.getMessage("topmenu.recom", request));
+            else if("P".equals(category))
+                model.addAttribute("btitle", commonService.getMessage("topmenu.package", request));
+            else if("C".equals(category))
+                model.addAttribute("btitle", commonService.getMessage("topmenu.custom", request));
             model.addAttribute("mtitle", commonService.getMessage("goodslist.mtitle", request));
             model.addAttribute("category", category);
+            model.addAttribute("date", date);
+            model.addAttribute("mode", mode);
+            model.addAttribute("date2", date2);
     	} catch(Exception e) {
     		e.printStackTrace();
     	}
@@ -158,12 +194,19 @@ public class GoodsController {
     }
     
     @RequestMapping(value="/getClInfo")
-    public @ResponseBody Map getClInfo(@RequestBody HashMap param) throws Exception {
+    public @ResponseBody Map getClInfo(HttpServletRequest request, @RequestBody HashMap param) throws Exception {
       	HashMap map = new HashMap();
+    	HttpSession session = request.getSession();
     	String hidUpperClCode = UserUtils.nvl(param.get("hidUpperClCode"));  // 선택한 여러개의 분류
     	String keyword = UserUtils.nvl(param.get("keyword"));  // 검색어
 		String category = UserUtils.nvl(param.get("category")); // 셀프, 핫딜, 추천
-    	if("H".equals(hidUpperClCode) || "R".equals(hidUpperClCode)) {	// 핫딜이나 추천일때
+		String date = UserUtils.nvl(param.get("date")); 
+		String mode = UserUtils.nvl(param.get("mode")); 
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		String user_id = UserUtils.nvl((String)session.getAttribute("user_id"));
+		map.put("date", date);
+		map.put("mode", mode);
+    	if("H".equals(hidUpperClCode) || "R".equals(hidUpperClCode) || "P".equals(hidUpperClCode) || "C".equals(hidUpperClCode)) {	// 핫딜이나 추천일때
         	map.put("upper_cl_code", hidUpperClCode);  
         	map.put("category", hidUpperClCode);
     	} else {
@@ -175,6 +218,8 @@ public class GoodsController {
         	String[] arrKeyword = keyword.split(",");
         	map.put("keyword", arrKeyword);
     	}
+    	map.put("esntl_id", esntl_id);    	
+    	map.put("user_id", user_id);    	
     	System.out.println("[상세 분류목록]map:"+map);
     	List<HashMap> tourClList = goodsService.getUpperTourClList(map);
     	
@@ -202,7 +247,11 @@ public class GoodsController {
 		String hidKeyword = UserUtils.nvl(param.get("hidKeyword")); // 검색어
 		String category = UserUtils.nvl(param.get("category")); // 셀프, 핫딜, 추천
 		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
-		
+		String user_id = UserUtils.nvl((String)session.getAttribute("user_id"));
+		String date = UserUtils.nvl(param.get("date")); 
+		String mode = UserUtils.nvl(param.get("mode")); 
+		String date2 = UserUtils.nvl(param.get("date2")); 
+
 		String hidNext = UserUtils.nvl(param.get("hidNext")); // 다음페이지 여부
 		String paramPage = UserUtils.nvl(param.get("hidPage")); // 페이지번호
 		if("".equals(paramPage))
@@ -225,6 +274,12 @@ public class GoodsController {
     	map.put("startIdx", startIdx);
     	map.put("endIdx", endIdx);
     	map.put("esntl_id", esntl_id);
+    	map.put("user_id", user_id);
+    	
+		map.put("date", date);
+		map.put("mode", mode);
+		map.put("date2", date2);
+
     	System.out.println("[상품목록]map:"+map);
     	if("N".equals(hidNext)) {
     		int totalCount = goodsService.getGoodsListCount(map);
@@ -241,7 +296,10 @@ public class GoodsController {
     	try {
           	HashMap map = new HashMap();
         	UserUtils.log("[goods_detail]param:", param);
-        	
+    		String date = UserUtils.nvl(param.get("date")); 
+    		String mode = UserUtils.nvl(param.get("mode")); 
+    		String date2 = UserUtils.nvl(param.get("date2")); 
+
         	String category = UserUtils.nvl(param.get("category"));
         	if("".equals(category))
         		category = "S";
@@ -368,11 +426,13 @@ public class GoodsController {
             	
                 model.addAttribute("bp", "01");
                 if("S".equals(category))
-                	model.addAttribute("btitle", "셀프여행");
+                	model.addAttribute("btitle", "선택투어");
                 else if("H".equals(category))
-                    model.addAttribute("btitle", "핫딜여행");
+                    model.addAttribute("btitle", "원패스핫딜");
                 else if("R".equals(category))
-                    model.addAttribute("btitle", "추천여행");
+                    model.addAttribute("btitle", "원패스추천");
+                else if("C".equals(category))
+                    model.addAttribute("btitle", "맞춤투어");
                 model.addAttribute("mtitle", "여행상품상세보기");
                 model.addAttribute("category", category);
                 
@@ -395,6 +455,10 @@ public class GoodsController {
                 	model.addAttribute("back_goodslist", "Y");
                 else
                 	model.addAttribute("back_goodslist", "N");
+                
+        		model.addAttribute("date", date);
+        		model.addAttribute("mode", mode);
+        		model.addAttribute("date2", date2);
         	}
     	} catch(Exception e) {
     		e.printStackTrace();

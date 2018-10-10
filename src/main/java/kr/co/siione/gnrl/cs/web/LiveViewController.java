@@ -56,7 +56,7 @@ public class LiveViewController {
 
         model.addAttribute("bp", "07");
        	model.addAttribute("btitle", "고객지원");
-        model.addAttribute("mtitle", "동영상 홍보");
+        model.addAttribute("mtitle", "홍보영상");
         model.addAttribute("lstVideo", lstVideo);
 		
 		return "gnrl/cs/liveview";

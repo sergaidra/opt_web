@@ -70,4 +70,13 @@
     ]]>
     </select>
 
+    <insert id="GoodsKwrdDAO.copyKwrd" parameterClass="hashMap">
+    <![CDATA[
+        INSERT INTO TB_GOODS_KWRD( GOODS_CODE, KWRD_SN, KWRD, WRITNG_ID, WRITNG_DT )
+        SELECT #NEW_GOODS_CODE#, KWRD_SN, KWRD, #WRITNG_ID#, SYSDATE 
+        FROM TB_GOODS_KWRD E
+		WHERE E.GOODS_CODE = #GOODS_CODE#
+    ]]>
+    </insert>
+
 </sqlMap>

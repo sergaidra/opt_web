@@ -81,6 +81,10 @@ var hotdeal_at = "${result.HOTDEAL_AT}";
 var hotdeal_applc_begin_de = "${result.HOTDEAL_APPLC_BEGIN_DE}";
 var hotdeal_applc_end_de = "${result.HOTDEAL_APPLC_END_DE}";
 
+var fixDate = "${date}";
+var fixMode = "${mode}";
+var fixDate2 = "${date2}";
+
 <c:forEach var="list" items="${lstSchdul}">
 	lstSchdul.push({"BEGIN_DE" : "${list.BEGIN_DE}", "END_DE" : "${list.END_DE}", "POSBL_AT" : "${list.POSBL_AT}" });
 </c:forEach>
@@ -420,6 +424,7 @@ $(function() {
 	
 	goSearchReview(1);
 	goSearchOpinion(1);
+	
 });
 
 function initOptionInfo() {
@@ -817,7 +822,10 @@ function displayNmpr() {
 
 
 function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	if(x == null)
+		return "";
+	else
+    	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 var isMap = false;
@@ -1256,7 +1264,7 @@ function googleShare() {
           </div>
           <div class="sp-black">
             <div class="slider_text">
-              <div class="slider_t1">${result.GOODS_NM}</div>
+              <div class="slider_t1" style="font-weight:600;">${result.GOODS_NM}</div>
               <div class="slider_t2">${result.GOODS_INTRCN_SIMPL}</div>
             </div>
           </div>
@@ -1327,7 +1335,7 @@ function googleShare() {
 	              <div class="icon_b">
 	                <div class="icon_in"><img src="/images/sub/detail_icon01.png" alt=""/></div>
 	                <div class="tx1">상품유형</div>
-	                <div class="tx2"><c:if test="${result.INTRCN_GOODS_TY eq 'G'}">단체투어</c:if><c:if test="${result.INTRCN_GOODS_TY eq 'P'}">프라이빗투어</c:if>
+	                <div class="tx2"><c:if test="${result.INTRCN_GOODS_TY eq 'G'}">단체투어</c:if><c:if test="${result.INTRCN_GOODS_TY eq 'P'}">단독투어</c:if>
 	              
 	            </li>
 	            </c:if>
@@ -1371,7 +1379,7 @@ function googleShare() {
 	            <li>
 	              <div class="icon_b">
 	                <div class="icon_in"><img src="/images/sub/detail_icon06.png" alt=""/></div>
-	                <div class="tx1">가능연령</div>
+	                <div class="tx1">최소인원</div>
 	                <div class="tx2">${result.INTRCN_POSBL_AGE}</div>
 	              </div>
 	            </li>
@@ -1388,7 +1396,7 @@ function googleShare() {
 	          </ul>
 	        </div>
 		</c:if>
-		<div class="text_info" style="font-size:14px; line-height:180%;">
+		<div class="text_info" style="font-size:15px; line-height:180%;">
 			${result.GOODS_INTRCN}
 		</div>
         <!--바우처-->
@@ -1583,192 +1591,201 @@ function googleShare() {
             <div class="um">${review_score}</div>
           </div>
         </div>
-        <div class="day_box2">
-			<c:if test="${result.CL_SE ne 'S' and result.CL_SE ne 'T'}">
-				<div id="c">
-					<div id="disp">
-						<div id="prev" class="nav">&larr;</div>
-						<div id="month">Hello world</div>
-						<div id="next" class="nav">&rarr;</div>
+        <c:if test="${result.HOTELSCOMBINE_YN == 'Y'}">
+        <div style="float:left; width:100%;">
+        	${result.HOTELSCOMBINE_SCRIPT}
+        </div>
+        </c:if>
+        <c:if test="${result.HOTELSCOMBINE_YN != 'Y'}">
+        <div>
+	        <div class="day_box2">
+				<c:if test="${result.CL_SE ne 'S' and result.CL_SE ne 'T'}">
+					<div id="c">
+						<div id="disp">
+							<div id="prev" class="nav">&larr;</div>
+							<div id="month">Hello world</div>
+							<div id="next" class="nav">&rarr;</div>
+						</div>
+						<div id="cal" ></div>
+						<div id="calHelp">
+							<c:if test="${result.CL_SE eq 'M'}">
+								<div class="first active" style="width:100%;"><i style="width:60px;">수령일자</i> <b id="sel1text">날짜선택</b></div>
+							</c:if>
+							<c:if test="${result.CL_SE ne 'M'}">
+								<div class="first active"><i>일정</i> <b id="sel1text">날짜선택</b></div>
+							</c:if>
+						</div>
 					</div>
-					<div id="cal" ></div>
-					<div id="calHelp">
-						<c:if test="${result.CL_SE eq 'M'}">
-							<div class="first active" style="width:100%;"><i style="width:60px;">수령일자</i> <b id="sel1text">날짜선택</b></div>
-						</c:if>
-						<c:if test="${result.CL_SE ne 'M'}">
-							<div class="first active"><i>일정</i> <b id="sel1text">날짜선택</b></div>
-						</c:if>
-					</div>
-				</div>
-				<!-- /#c --> 
-				<!-- <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script> --> 
-				<script src="/jq/calendar/js/index2.js"></script>
-			</c:if>
-			<c:if test="${result.CL_SE eq 'T'}">
-				<div id="c">
-					<div id="disp">
-						<div id="prev" class="nav">&larr;</div>
-						<div id="month">Hello world</div>
-						<div id="next" class="nav">&rarr;</div>
-					</div>
-					<div id="cal" ></div>
-					<div id="calHelp">
-						<div class="first active"><i>시작</i> <b id="sel1text">날짜선택</b></div>
-						<div class="disabled"><i>종료</i> <b id="sel2text">날짜선택</b></div>
-					</div>
-				</div>
-				<!-- /#c --> 
-				<!-- <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script> --> 
-				<script src="/jq/calendar/js/index3.js"></script>
-			</c:if> 
-			<c:if test="${result.CL_SE eq 'S'}">
-				<div id="c">
-					<div id="disp">
-						<div id="prev" class="nav">&larr;</div>
-						<div id="month">Hello world</div>
-						<div id="next" class="nav">&rarr;</div>
-					</div>
-					<div id="cal" ></div>
-					<div id="calHelp">
-						<div class="first active"><i>입실</i> <b id="sel1text">날짜선택</b></div>
-						<div class="disabled"><i>퇴실</i> <b id="sel2text">날짜선택</b></div>
-					</div>
-				</div>
-				<!-- /#c --> 
-				<!-- <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script> --> 
-				<script src="/jq/calendar/js/index.js"></script>
-			</c:if> 
-		</div>
-        <div class="day_box3 ">
-        	<c:if test="${result.CL_SE ne 'S'}">
-	        	<c:if test="${result.CL_SE ne 'T' and result.CL_SE ne 'M'}">
-				<div class="input_box">
-					<div class="tx1">시간</div>
-					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p pointer" id="cmbTime">
-							<option value="">시간선택</option>
-							<c:forEach var="list" items="${lstTime}" varStatus="status">
-								<option value="${list.TOUR_TIME}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~ ${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</option>
-							</c:forEach>							
-						</select>
-						<!--//기본 셀렉트 박스 -->
-					</div>
-				</div>
+					<!-- /#c --> 
+					<!-- <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script> --> 
+					<script src="/jq/calendar/js/index2.js"></script>
 				</c:if>
-				<div class="input_box">
-					<c:set var="optionNm" value="인원" />
-					<c:if test="${result.CL_SE == 'P' or result.CL_SE == 'M'}">
-						<c:set var="optionNm" value="옵션" />
-					</c:if>
-					<div class="tx1"><c:out value="${optionNm}" /></div>
-					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p pointer" id="cmbNmpr_P">
-							<option value=""><c:out value="${optionNm}" />선택</option>
-							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
-								<c:if test="${list.SETUP_SE == 'P'}">
-									<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
-								</c:if>
-							</c:forEach>							
-						</select>
-						<!--//기본 셀렉트 박스 -->
+				<c:if test="${result.CL_SE eq 'T'}">
+					<div id="c">
+						<div id="disp">
+							<div id="prev" class="nav">&larr;</div>
+							<div id="month">Hello world</div>
+							<div id="next" class="nav">&rarr;</div>
+						</div>
+						<div id="cal" ></div>
+						<div id="calHelp">
+							<div class="first active"><i>시작</i> <b id="sel1text">날짜선택</b></div>
+							<div class="disabled"><i>종료</i> <b id="sel2text">날짜선택</b></div>
+						</div>
 					</div>
-					<c:if test="${V_cnt > 0}">
-					<div class="tx1"></div>
-					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p pointer" id="cmbNmpr_V">
-							<option value="">옵션선택</option>
-							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
-								<c:if test="${list.SETUP_SE == 'V'}">
-									<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
-								</c:if>
-							</c:forEach>							
-						</select>
-						<!--//기본 셀렉트 박스 -->
+					<!-- /#c --> 
+					<!-- <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script> --> 
+					<script src="/jq/calendar/js/index3.js"></script>
+				</c:if> 
+				<c:if test="${result.CL_SE eq 'S'}">
+					<div id="c">
+						<div id="disp">
+							<div id="prev" class="nav">&larr;</div>
+							<div id="month">Hello world</div>
+							<div id="next" class="nav">&rarr;</div>
+						</div>
+						<div id="cal" ></div>
+						<div id="calHelp">
+							<div class="first active"><i>입실</i> <b id="sel1text">날짜선택</b></div>
+							<div class="disabled"><i>퇴실</i> <b id="sel2text">날짜선택</b></div>
+						</div>
 					</div>
-					</c:if>
-				</div>
-        	</c:if>
-        	<c:if test="${result.CL_SE eq 'S'}">
-				<div class="input_box">
-					<div class="tx1">객실선택</div>
-					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p pointer" id="cmbRoom">
-							<option value="">객실선택</option>
-							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
-								<c:if test="${list.SETUP_SE == 'R'}">
-									<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
-								</c:if>
-							</c:forEach>							
-						</select>
-						<!--//기본 셀렉트 박스 -->
-					</div>
-				</div>
-	        	<c:if test="${E_cnt > 0}">
-				<div class="input_box">
-					<div class="tx1">옵션선택</div>
-					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p pointer" id="cmbEat">
-							<option value="">옵션선택</option>
-							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
-								<c:if test="${list.SETUP_SE == 'E'}">
-									<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
-								</c:if>
-							</c:forEach>							
-						</select>
-						<!--//기본 셀렉트 박스 -->
-					</div>
-				</div>
-	        	</c:if>
-	        	<c:if test="${P_cnt > 0}">
-				<div class="input_box">
-					<div class="tx1"></div>
-					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p pointer" id="cmbNmpr_S">
-							<option value=""><c:out value="${optionNm}" />선택</option>
-							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
-								<c:if test="${list.SETUP_SE == 'P'}">
-									<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
-								</c:if>
-							</c:forEach>							
-						</select>
-						<!--//기본 셀렉트 박스 -->
-					</div>
-				</div>
-	        	</c:if>
-	        	<c:if test="${C_cnt > 0}">
-				<div class="input_box">
-					<div class="tx1"></div>
-					<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
-						<select class="w_100p pointer" id="cmbCheck">
-							<option value="">선택</option>
-							<c:forEach var="list" items="${lstNmpr}" varStatus="status">
-								<c:if test="${list.SETUP_SE == 'C'}">
-									<option value="${list.NMPR_SN}" setup_se="C">${list.NMPR_CND}</option>
-								</c:if>
-								<c:if test="${list.SETUP_SE == 'B'}">
-									<option value="${list.NMPR_SN}" setup_se="B">${list.NMPR_CND}</option>
-								</c:if>
-							</c:forEach>							
-						</select>
-						<!--//기본 셀렉트 박스 -->
-					</div>
-				</div>
-	        	</c:if>
-        	</c:if>
- 		</div>
-		<!--개수추가 -->
-		<div class="day_box4" id="purchInfo">
-		</div>
-		<!---->
-		<div class="day_box3 ">        	
-			<div class="total_box">
-				<div class="tx1" id="originTotalPrice"></div>
-				<div class="tx2" id="totalprice"></div>
-				<div class="icon"><img id="imgSale" src="/images/sub/icon_sale.png" alt="" style="display:none;"/> </div>
+					<!-- /#c --> 
+					<!-- <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script> --> 
+					<script src="/jq/calendar/js/index.js"></script>
+				</c:if> 
 			</div>
-        	<div class="btn_box" id="reservation" style="cursor:pointer;">예약하기</div>
-      	</div>
+	        <div class="day_box3 ">
+	        	<c:if test="${result.CL_SE ne 'S'}">
+		        	<c:if test="${result.CL_SE ne 'T' and result.CL_SE ne 'M'}">
+					<div class="input_box">
+						<div class="tx1">시간</div>
+						<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+							<select class="w_100p pointer" id="cmbTime">
+								<option value="">시간선택</option>
+								<c:forEach var="list" items="${lstTime}" varStatus="status">
+									<option value="${list.TOUR_TIME}">${fn:substring(list.BEGIN_TIME,0,2)} : ${fn:substring(list.BEGIN_TIME,2,4)} ~ ${fn:substring(list.END_TIME,0,2)} : ${fn:substring(list.END_TIME,2,4)}</option>
+								</c:forEach>							
+							</select>
+							<!--//기본 셀렉트 박스 -->
+						</div>
+					</div>
+					</c:if>
+					<div class="input_box">
+						<c:set var="optionNm" value="인원" />
+						<c:if test="${result.CL_SE == 'P' or result.CL_SE == 'M'}">
+							<c:set var="optionNm" value="옵션" />
+						</c:if>
+						<div class="tx1"><c:out value="${optionNm}" /></div>
+						<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+							<select class="w_100p pointer" id="cmbNmpr_P">
+								<option value=""><c:out value="${optionNm}" />선택</option>
+								<c:forEach var="list" items="${lstNmpr}" varStatus="status">
+									<c:if test="${list.SETUP_SE == 'P'}">
+										<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
+									</c:if>
+								</c:forEach>							
+							</select>
+							<!--//기본 셀렉트 박스 -->
+						</div>
+						<c:if test="${V_cnt > 0}">
+						<div class="tx1"></div>
+						<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+							<select class="w_100p pointer" id="cmbNmpr_V">
+								<option value="">옵션선택</option>
+								<c:forEach var="list" items="${lstNmpr}" varStatus="status">
+									<c:if test="${list.SETUP_SE == 'V'}">
+										<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
+									</c:if>
+								</c:forEach>							
+							</select>
+							<!--//기본 셀렉트 박스 -->
+						</div>
+						</c:if>
+					</div>
+	        	</c:if>
+	        	<c:if test="${result.CL_SE eq 'S'}">
+					<div class="input_box">
+						<div class="tx1">객실선택</div>
+						<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+							<select class="w_100p pointer" id="cmbRoom">
+								<option value="">객실선택</option>
+								<c:forEach var="list" items="${lstNmpr}" varStatus="status">
+									<c:if test="${list.SETUP_SE == 'R'}">
+										<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
+									</c:if>
+								</c:forEach>							
+							</select>
+							<!--//기본 셀렉트 박스 -->
+						</div>
+					</div>
+		        	<c:if test="${E_cnt > 0}">
+					<div class="input_box">
+						<div class="tx1">옵션선택</div>
+						<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+							<select class="w_100p pointer" id="cmbEat">
+								<option value="">옵션선택</option>
+								<c:forEach var="list" items="${lstNmpr}" varStatus="status">
+									<c:if test="${list.SETUP_SE == 'E'}">
+										<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
+									</c:if>
+								</c:forEach>							
+							</select>
+							<!--//기본 셀렉트 박스 -->
+						</div>
+					</div>
+		        	</c:if>
+		        	<c:if test="${P_cnt > 0}">
+					<div class="input_box">
+						<div class="tx1"></div>
+						<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+							<select class="w_100p pointer" id="cmbNmpr_S">
+								<option value=""><c:out value="${optionNm}" />선택</option>
+								<c:forEach var="list" items="${lstNmpr}" varStatus="status">
+									<c:if test="${list.SETUP_SE == 'P'}">
+										<option value="${list.NMPR_SN}">${list.NMPR_CND}</option>
+									</c:if>
+								</c:forEach>							
+							</select>
+							<!--//기본 셀렉트 박스 -->
+						</div>
+					</div>
+		        	</c:if>
+		        	<c:if test="${C_cnt > 0}">
+					<div class="input_box">
+						<div class="tx1"></div>
+						<div class="select_box"><!--기본 셀렉트 박스 .w_100p는 사이즈-->
+							<select class="w_100p pointer" id="cmbCheck">
+								<option value="">선택</option>
+								<c:forEach var="list" items="${lstNmpr}" varStatus="status">
+									<c:if test="${list.SETUP_SE == 'C'}">
+										<option value="${list.NMPR_SN}" setup_se="C">${list.NMPR_CND}</option>
+									</c:if>
+									<c:if test="${list.SETUP_SE == 'B'}">
+										<option value="${list.NMPR_SN}" setup_se="B">${list.NMPR_CND}</option>
+									</c:if>
+								</c:forEach>							
+							</select>
+							<!--//기본 셀렉트 박스 -->
+						</div>
+					</div>
+		        	</c:if>
+	        	</c:if>
+	 		</div>
+			<!--개수추가 -->
+			<div class="day_box4" id="purchInfo">
+			</div>
+			<!---->
+			<div class="day_box3 ">        	
+				<div class="total_box">
+					<div class="tx1" id="originTotalPrice"></div>
+					<div class="tx2" id="totalprice"></div>
+					<div class="icon"><img id="imgSale" src="/images/sub/icon_sale.png" alt="" style="display:none;"/> </div>
+				</div>
+	        	<div class="btn_box" id="reservation" style="cursor:pointer;">예약하기</div>
+	      	</div>
+      	</div>    
+      	</c:if>  	
     </div>
   </div>
   <div class="reservation_mobile_btn mobile_view">	<a href="#" class="big-link" data-reveal-id="myModal2" data-animation="fade">예약하기</a></div>

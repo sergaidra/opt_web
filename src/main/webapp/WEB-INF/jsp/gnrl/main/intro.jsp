@@ -288,12 +288,17 @@ function fnLiveView(url, title, desc) {
 		                  	</c:if>
 		                  </div>
 		                  <div class="price">
-		                  	<c:if test="${list.HOTDEAL_AT == 'Y'}">
-		                    	<div class="tr_tx1">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
-		                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT * list.DSCNT_RATE}" pattern="#,###" /></div>
+		                  	<c:if test="${list.REPRSNT_PRICE != null and list.REPRSNT_PRICE != ''}">
+		                    	<div class="tr_tx2">${list.REPRSNT_PRICE}</div>
 		                  	</c:if>
-		                  	<c:if test="${list.HOTDEAL_AT != 'Y'}">
-		                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+		                  	<c:if test="${list.REPRSNT_PRICE == null or list.REPRSNT_PRICE == ''}">
+			                  	<c:if test="${list.HOTDEAL_AT == 'Y'}">
+			                    	<div class="tr_tx1">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+			                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT * list.DSCNT_RATE}" pattern="#,###" /></div>
+			                  	</c:if>
+			                  	<c:if test="${list.HOTDEAL_AT != 'Y'}">
+			                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+			                  	</c:if>
 		                  	</c:if>
 	                      </div>
 	                    </div>
@@ -342,13 +347,18 @@ function fnLiveView(url, title, desc) {
 		                  	</c:if>
 		                  </div>
 		                  <div class="price">
-		                  	<c:if test="${list.HOTDEAL_AT == 'Y'}">
-		                    	<div class="tr_tx1">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
-		                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT * list.DSCNT_RATE}" pattern="#,###" /></div>
+		                  	<c:if test="${list.REPRSNT_PRICE != null and list.REPRSNT_PRICE != ''}">
+		                    	<div class="tr_tx2">${list.REPRSNT_PRICE}</div>
 		                  	</c:if>
-		                  	<c:if test="${list.HOTDEAL_AT != 'Y'}">
-		                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
-		                  	</c:if>
+		                  	<c:if test="${list.REPRSNT_PRICE == null or list.REPRSNT_PRICE == ''}">
+			                  	<c:if test="${list.HOTDEAL_AT == 'Y'}">
+			                    	<div class="tr_tx1">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+			                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT * list.DSCNT_RATE}" pattern="#,###" /></div>
+			                  	</c:if>
+			                  	<c:if test="${list.HOTDEAL_AT != 'Y'}">
+			                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+			                  	</c:if>
+			                 </c:if>
 	                      </div>
 	                    </div>
 	                    </div>
@@ -396,13 +406,18 @@ function fnLiveView(url, title, desc) {
 		                  	</c:if>
 		                  </div>
 		                  <div class="price">
-		                  	<c:if test="${list.HOTDEAL_AT == 'Y'}">
-		                    	<div class="tr_tx1">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
-		                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT * list.DSCNT_RATE}" pattern="#,###" /></div>
+		                  	<c:if test="${list.REPRSNT_PRICE != null and list.REPRSNT_PRICE != ''}">
+		                    	<div class="tr_tx2">${list.REPRSNT_PRICE}</div>
 		                  	</c:if>
-		                  	<c:if test="${list.HOTDEAL_AT != 'Y'}">
-		                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
-		                  	</c:if>
+		                  	<c:if test="${list.REPRSNT_PRICE == null or list.REPRSNT_PRICE == ''}">
+			                  	<c:if test="${list.HOTDEAL_AT == 'Y'}">
+			                    	<div class="tr_tx1">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+			                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT * list.DSCNT_RATE}" pattern="#,###" /></div>
+			                  	</c:if>
+			                  	<c:if test="${list.HOTDEAL_AT != 'Y'}">
+			                    	<div class="tr_tx2">￦ <fmt:formatNumber value="${list.ORIGIN_AMOUNT}" pattern="#,###" /></div>
+			                  	</c:if>
+			                 </c:if>
 	                      </div>
 	                    </div>
 	                    </div>
@@ -790,21 +805,22 @@ function fnLiveView(url, title, desc) {
 <!-- //본문 --> 
 
 <!-- 메인 이벤트 팝업 POPUP  -->
+<div id="" class="popup_st" style=""> 
 <c:forEach var="item" items="${popupNotice}">
 	<c:set var="popup_width" value="${item.POPUP_WIDTH}" />
 	<c:set var="popup_height" value="${item.POPUP_HEIGHT}" />
 	<style>
 		@media only all and (min-width:769px) {
-			.popup_width_${item.BBS_SN} { <c:if test="${popup_width != null}">width:${popup_width}px !important;</c:if>	}
+			.popup_width_${item.BBS_SN} { <c:if test="${popup_width != null}">width:${popup_width}px !important; top:90px;</c:if><c:if test="${popup_width == null}">width:400px !important; top:90px;</c:if>	}
 			.popup_height_${item.BBS_SN} { <c:if test="${popup_height != null}">height:${popup_height}px !important;</c:if> }
 		}
 	</style>
-	<div id="divpop_${item.BBS_SN}" class="popup_st popup_width_${item.BBS_SN}"> 
+	<div id="divpop_${item.BBS_SN}" class="popup_width_${item.BBS_SN}" style="float:left; margin:5px;"> 
 	 <!-- 제목을 넣을경우-->
 	 <!-- <div class="popup_head">${item.SUBJECT}</div> --> 
 		 <div class="popup_body"> 
-		   <div class="popupcont1 popup_height_${item.BBS_SN}">
-		 	<div class="tx1">${item.SUBJECT}</div>
+		   <div class="popupcont1 popup_height_${item.BBS_SN}" style="padding:0px;">
+		 	<!--<div class="tx1">${item.SUBJECT}</div>-->
 		 	<div class="tx3">${item.CONTENTS}</div>
 		   </div>		
 		</div>
@@ -819,6 +835,7 @@ function fnLiveView(url, title, desc) {
 	
 	</div>  
 </c:forEach>
+</div>
 
 <script language="Javascript">
 cookiedata = document.cookie;

@@ -1,5 +1,9 @@
 package kr.co.siione.mngr.service.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +11,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import kr.co.siione.dist.utils.SimpleUtils;
 import kr.co.siione.mngr.dao.FileManageDAO;
 import kr.co.siione.mngr.dao.GoodsDAO;
 import kr.co.siione.mngr.dao.GoodsKwrdDAO;
@@ -77,6 +82,19 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 			}
 		}
 
+		// 특정인 상품
+		Map<String, Object> mapUser = new HashMap<String, Object>();
+		mapUser.put("GOODS_CODE", newGoodsCode);
+		goodsDAO.deleteGoodsUser(mapUser);
+		String[] arr = StringUtils.split(StringUtils.trimToEmpty(param.get("PARTICULAR_USERID")), ',');
+		for(String str : arr) {
+			if("".equals(str))
+				continue;
+
+			mapUser.put("USER_ID", str);
+			goodsDAO.insertGoodsUser(mapUser);			
+		}
+
 		return newGoodsCode;
 	}
 
@@ -101,6 +119,19 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 				map.put("WRITNG_ID", param.get("WRITNG_ID"));
 				goodsKwrdDAO.insertGoodsKwrd(map);			
 			}
+		}
+
+		// 특정인 상품
+		Map<String, Object> mapUser = new HashMap<String, Object>();
+		mapUser.put("GOODS_CODE", param.get("GOODS_CODE"));
+		goodsDAO.deleteGoodsUser(mapUser);
+		String[] arr = StringUtils.split(StringUtils.trimToEmpty(param.get("PARTICULAR_USERID")), ',');
+		for(String str : arr) {
+			if("".equals(str))
+				continue;
+
+			mapUser.put("USER_ID", str.trim());
+			goodsDAO.insertGoodsUser(mapUser);			
 		}
 
 		return iRe;
@@ -400,4 +431,88 @@ public class GoodsManageServiceImpl implements GoodsManageService {
 		return iRe;
 	}
 
+	@Override
+	public String copyGoods(Map<String, String> param) throws Exception {
+
+		try {
+			param.put("REGIST_PATH", "상품");
+			String newFileCode = String.valueOf(fileManageDAO.insertFileManage(param));
+			String newGoodsCode = goodsDAO.getNewGoodsCode(param);
+
+			param.put("FILE_CODE", newFileCode);		
+			param.put("NEW_GOODS_CODE", newGoodsCode);
+			
+			goodsDAO.copyGoods(param);
+			goodsKwrdDAO.copyKwrd(param);
+			goodsNmprDAO.copyNmpr(param);
+			goodsSchdulDAO.copySchdul(param);
+			goodsTimeDAO.copyTime(param);
+
+			// 파일
+			Map<String, String> mapFile = new HashMap<String, String>();
+			mapFile.put("GOODS_CODE", param.get("GOODS_CODE"));
+			List<Map<String, String>> lstFile = fileManageDAO.selectFileDetailList(mapFile);
+
+			String dt = UserUtils.getDate("yyyyMMddHHmmss");
+			for(int i = 0; i < lstFile.size(); i++) {
+				String file_path = lstFile.get(i).get("FILE_PATH");
+				String saveFileNm = dt + "_" + lstFile.get(i).get("FILE_NM");
+				String savePath = file_path.substring(0, file_path.lastIndexOf(File.separator) + 1);
+				String new_file_path = savePath + saveFileNm;
+
+            	String thumbFile_Path = StringUtils.replace(file_path, "GOODS", "GOODS\\thumb");
+            	String thumbNew_File_Path = StringUtils.replace(new_file_path, "GOODS", "GOODS\\thumb");
+            	String thumb_file_path_NM = thumbFile_Path.substring(0, thumbFile_Path.lastIndexOf(".")) + "_resize" + thumbFile_Path.substring(thumbFile_Path.lastIndexOf("."));
+            	String new_thumb_file_path = thumbNew_File_Path.substring(0, thumbNew_File_Path.lastIndexOf(".")) + "_resize" + thumbNew_File_Path.substring(thumbNew_File_Path.lastIndexOf("."));
+				
+				if(fileIsLive(file_path)) {
+					fileCopy(file_path, new_file_path);
+				}
+				if(fileIsLive(thumb_file_path_NM)) {
+					fileCopy(thumb_file_path_NM, new_thumb_file_path);
+				}
+
+				lstFile.get(i).put("NEW_FILE_CODE", newFileCode);
+				lstFile.get(i).put("FILE_PATH", new_file_path);
+				lstFile.get(i).put("WRITNG_ID", param.get("WRITNG_ID"));
+				
+				fileManageDAO.copyFileDetail(lstFile.get(i));
+			}
+
+			return newGoodsCode;
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			throw new Exception("상품 등록 중 오류 발생!!");
+		}
+	}
+	
+	//파일을 복사하는 메소드
+	public void fileCopy(String inFileName, String outFileName) {
+		try {
+			FileInputStream fis = new FileInputStream(inFileName);
+			FileOutputStream fos = new FileOutputStream(outFileName);
+	   
+			int data = 0;
+			while((data=fis.read())!=-1) {
+				fos.write(data);
+			}
+			fis.close();
+			fos.close();
+		} catch (IOException e) {
+			//TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}	
+	
+	//파일을 존재여부를 확인하는 메소드
+	public Boolean fileIsLive(String isLivefile) {
+		File f1 = new File(isLivefile);
+	  
+		if(f1.exists())
+		{
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

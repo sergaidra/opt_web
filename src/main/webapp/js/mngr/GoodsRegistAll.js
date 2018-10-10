@@ -306,7 +306,7 @@ var frReg = Ext.create('Ext.form.Panel', {
                 id: 'form-reg-intrcn-posbl-age',
             	name: 'INTRCN_POSBL_AGE',
                 width: 300,
-                fieldLabel: '가능연령',                
+                fieldLabel: '최소인원',                
     			fieldStyle: {'ime-mode':'active'},	
     			labelSeparator: ':',
     			labelWidth: 100,

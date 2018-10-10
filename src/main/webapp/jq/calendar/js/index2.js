@@ -198,8 +198,13 @@ var monthArr = [
 	
 /* INIT */
 var date = new Date();
+if(fixDate != "") {
+	date = new Date(Number(fixDate.substring(0, 4)), Number(fixDate.substring(4, 6)) - 1, Number(fixDate.substring(6, 8)) );
+}
 var month = date.getMonth() + 1,
-		year = date.getFullYear();
+year = date.getFullYear();
+
+
 
 getMonth(month, year);
 //$('#month').text( monthArr[month-1] + ' ' + year); // set month text
@@ -207,7 +212,8 @@ $('#month').text( year + "년 " + month + "월"); // set month text
 	
 function bind(month,year){
 	var tb = _id('cal');
-	$(tb).on('click', 'td', function(){ userSelect(this,null,month,year); });
+	if(fixDate == "") 
+		$(tb).on('click', 'td', function(){ userSelect(this,null,month,year); });
 	
 	// next month
 	$('#disp').on('click', 'div', function(){
@@ -230,6 +236,17 @@ function bind(month,year){
 };
 	
 bind(month,year);
+
+if(fixDate != "") {
+	var dd = Number(fixDate.substring(6, 8));
+	var tb = _id('cal');
+	var td = tb.querySelectorAll('td');
+	_for(td, function(e){
+		if(e.innerText == dd && !_hasClass(e, 'disabled')) {
+			userSelect(e, null, month, year);
+		}
+	});	
+}
 
 function lpad(s, padLength, padString){
 	 

@@ -23,4 +23,6 @@ public interface OrderService {
 	public void updateNoti(HashMap mapPurchs, HashMap mapPay) throws Exception;
 	public HashMap getPurchInfoSession(HttpSession session);
 	public List<HashMap> getPastVBank(HashMap map) throws Exception;
+	public HashMap getReservationStatus(HashMap map) throws Exception;
+	public void updateReservationStatus(HashMap map) throws Exception;
 }

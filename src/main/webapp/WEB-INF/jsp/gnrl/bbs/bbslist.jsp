@@ -18,7 +18,7 @@ $(function(){
 
 function writeBbs() {
 	if("${esntl_id}") {
-		$(location).attr("href", "/bbs/write");
+		$(location).attr("href", "/bbs/write?category=${category}");
 	} else {
 		alert("로그인 후 문의가능합니다.");
 		$(location).attr("href", "/member/login/");
@@ -191,8 +191,10 @@ function search(pageNo) {
 	   <!-- <div class="com_stitle">여행상담&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px;">여러분의 즐거운 여행을 상담해 드립니다!!</span></div> -->
 	         <div class="bbs_search">
         <div class="search_text">
-          <div class="tx1"><i class="material-icons">&#xE8FD;</i></div>
-          <div class="tx2">궁금한 점을 남기시면 답변해 드립니다.</div>
+          <c:if test="${category != 'A'}">
+	          <div class="tx1"><i class="material-icons">&#xE8FD;</i></div>
+    	      <div class="tx2">궁금한 점을 남기시면 답변해 드립니다.</div>
+          </c:if>
         </div>
         <!-- <div class="search_in">
           <div class="search_select ">기본 셀렉트 박스 .w_100p는 사이즈
@@ -248,7 +250,9 @@ function search(pageNo) {
       </div>
       <!--//페이징 --> 
 
-       <div class="right_btn"><a href="javascript:writeBbs();" class="button_m1">문의하기</a> </div>
+      <div class="right_btn">
+       	<a href="javascript:writeBbs();" class="button_m1">작성하기</a>
+      </div>
        
       <!--//하단버튼/ 페이징 -->
       

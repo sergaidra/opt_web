@@ -54,7 +54,7 @@ public class QnaController {
 
         model.addAttribute("bp", "07");
         model.addAttribute("btitle", "고객지원");
-       	model.addAttribute("mtitle", "상품문의·답변");
+       	model.addAttribute("mtitle", "질문과답변");
 		
 		return "gnrl/cs/qna";
 	}
@@ -110,17 +110,33 @@ public class QnaController {
 		String goods_code = UserUtils.nvl(request.getParameter("goods_code"));
 		String callback = UserUtils.nvl(request.getParameter("callback"));		
 		String mode = UserUtils.nvl(request.getParameter("mode"));		
+    	HttpSession session = request.getSession(); 
+		String user_nm = UserUtils.nvl((String)session.getAttribute("user_nm"));
+		String email = UserUtils.nvl((String)session.getAttribute("email"));
 
     	map.put("opinion_sn", opinion_sn);   
     	map.put("goods_code", goods_code);   
     	System.out.println("[viewOpinion]map:"+map);
 		HashMap opinion = qnaService.viewOpinion(map);
+		HashMap info = new HashMap();
 		
+		if(opinion == null) {			
+			info.put("USER_NM", user_nm);
+			info.put("EMAIL", email);
+			SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyy-MM-dd" );
+			Date currentTime = new Date ();
+			info.put("WRITNG_DT", mSimpleDateFormat.format ( currentTime ));
+		} else {
+			info.put("USER_NM", opinion.get("USER_NM"));
+			info.put("EMAIL", opinion.get("EMAIL"));
+			info.put("WRITNG_DT", opinion.get("WRITNG_DT"));
+		}
 		model.addAttribute("opinion", opinion);
 		model.addAttribute("opinion_sn", opinion_sn);
 		model.addAttribute("goods_code", goods_code);
 		model.addAttribute("callback", callback);
 		model.addAttribute("mode", mode);
+		model.addAttribute("info", info);
 		
 		return "gnrl/popup/opinion";	
     }	
@@ -146,12 +162,14 @@ public class QnaController {
 			String goods_code = UserUtils.nvl(param.get("goods_code"));
 			String opinion_sj = UserUtils.nvl(param.get("opinion_sj"));
 			String opinion_cn = UserUtils.nvl(param.get("opinion_cn"));
+			String category = UserUtils.nvl(param.get("category"));
 			String parent_opinion_sn = UserUtils.nvl(param.get("parent_opinion_sn"));
 
 	    	map.put("opinion_sn", opinion_sn);
 	    	map.put("goods_code", goods_code);
 	    	map.put("opinion_sj", opinion_sj);
 	    	map.put("opinion_cn", opinion_cn);
+	    	map.put("category", category);
 	    	map.put("esntl_id", esntl_id);
 	    	map.put("parent_opinion_sn", parent_opinion_sn);
 	    	

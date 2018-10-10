@@ -1188,18 +1188,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 /****상세페이지 좌측  (텍스트설명): pc ****/
 @media only all and (min-width:769px) {
 .good_detail .fl_left .text_info{ width: 100%;float:left; box-sizing: border-box; padding: 30px 40px; border-bottom: 1px solid #ddd}
-.good_detail .fl_left .text_info .fl_tx{ width: 100px; float:left; font-size: 20px; color: #ff6600; padding-top: 8px }
+.good_detail .fl_left .text_info .fl_tx{ width: 100px; float:left; font-size: 21px;/*20px;*/ color: #ff6600; padding-top: 8px }
 .good_detail .fl_left .text_info .fr_tx{ width:calc(100% - 100px); float:left; }
 .good_detail .fl_left .text_info .fr_tx .tx_line{ width:100%; float:left; padding:10px 0px; border-bottom: 1px solid #eee }
-.good_detail .fl_left .text_info .fr_tx .tx_line .fl_intx{ width:20%; float:left; font-size: 14px; color: #222}
-.good_detail .fl_left .text_info .fr_tx .tx_line .fr_intx{ width:80%; float:left; font-size: 14px; color: #666; line-height: 180%}
+.good_detail .fl_left .text_info .fr_tx .tx_line .fl_intx{ width:20%; float:left; font-size: 15px; /*14px;*/ color: #222}
+.good_detail .fl_left .text_info .fr_tx .tx_line .fr_intx{ width:80%; float:left; font-size: 15px; /*14px;*/ color: #666; line-height: 180%}
 .good_detail .fl_left .text_info .fr_tx .tx_noline{ width:100%; float:left; padding:10px 0px; border-bottom:none}
-.good_detail .fl_left .text_info .fr_tx .tx_noline .fl_intx{ width:20%; float:left; font-size: 14px; color: #222}
-.good_detail .fl_left .text_info .fr_tx .tx_noline .fr_intx{ width:80%; float:left; font-size: 14px; color: #666;  line-height: 180%}
+.good_detail .fl_left .text_info .fr_tx .tx_noline .fl_intx{ width:20%; float:left; font-size: 15px; /*14px;*/ color: #222}
+.good_detail .fl_left .text_info .fr_tx .tx_noline .fr_intx{ width:80%; float:left; font-size: 15px; /*14px;*/ color: #666;  line-height: 180%}
 	
 .good_detail .fl_left .text_info2{ width: 100%;float:left; box-sizing: border-box; padding: 30px 40px; border-bottom: 1px solid #ddd}
-.good_detail .fl_left .text_info2 .fl_tx{ width: 100%; float:left; font-size: 20px; color: #ff6600; margin-bottom: 15px }
-.good_detail .fl_left .text_info2 .fr_tx{ width:100% float:left; float:left; font-size: 13px; color: #666;  line-height: 180% }
+.good_detail .fl_left .text_info2 .fl_tx{ width: 100%; float:left; font-size: 21px;/*20px;*/ color: #ff6600; margin-bottom: 15px }
+.good_detail .fl_left .text_info2 .fr_tx{ width:100% float:left; float:left; font-size: 14px; /*13px;*/ color: #666;  line-height: 180% }
 }
 /****  상세페이지 좌측   (텍스트설명): 모바일 ****/
 @media only all and (max-width:768px) {
@@ -1464,8 +1464,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li .photo .imgbox{ width:100% ;height: 220px; background-size: cover !important; position: absolute; top: 0px; left: 0px}
 	
 .list_box01 ul li .photo img{ width:100%; }
-.list_box01 ul li .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px;  position: relative }
-.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
+.list_box01 ul li .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px;  position: relative; height:100px; }
+/*.list_box01 ul li .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px;  position: relative }*/
+/*.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }*/
+.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 14px; color: #ff9600; font-weight:bold; }
 .list_box01 ul li .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
@@ -1478,7 +1480,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	
 .list_box01 ul li:hover .photo img{ width:100%; }
 .list_box01 ul li:hover .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px; position: relative }
-.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
+/*.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }*/
+.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 14px; color: #ff9600; font-weight:bold; }
 .list_box01 ul li:hover .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li:hover .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
@@ -1489,7 +1492,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li.ch .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
 .list_box01 ul li.ch .photo img{ width:100%; }
 .list_box01 ul li.ch .text_box{ width:100%; float: left; padding: 15px 20px 30px 20px;  position: relative }
-.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
+/* .list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 } */
+.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 14px; color: #ff9600; font-weight:bold; }
 .list_box01 ul li.ch .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li.ch .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_on.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 
@@ -1505,7 +1509,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	
 .list_box01 ul li .photo img{ width:100%; }
 .list_box01 ul li .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
-.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
+/*.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }*/
+.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 14px; color: #ff9600; font-weight:bold; }
 .list_box01 ul li .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
@@ -1519,7 +1524,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .li
 .list_box01 ul li:hover .photo img{ width:100%; }
 .list_box01 ul li:hover .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
-.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
+/*.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }*/
+.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 14px; color: #ff9600; font-weight:bold; }
 .list_box01 ul li:hover .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li:hover .text_box .ch_icon{  position: absolute;top: 30px;right: 10px; background: url(../images/sub/select_off.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 	
@@ -1530,7 +1536,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li.ch .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
 .list_box01 ul li.ch .photo img{ width:100%; }
 .list_box01 ul li.ch .text_box{ width:100%; float: left; padding: 15px 20px;  position: relative }
-.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }
+/*.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 12px; color: #999 }*/
+.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 14px; color: #ff9600; font-weight:bold; }
 .list_box01 ul li.ch .text_box .tx2{ width:100%; float: left; font-size: 24px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li.ch .text_box .ch_icon{  position: absolute; top: 30px; right: 10px; background: url(../images/sub/select_on.png); background-size: 50px;; background-position: right center;  background-repeat: no-repeat; width: 50px; height: 50px }
 
@@ -1546,7 +1553,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 	
 .list_box01 ul li .photo img{ width:100%; }
 .list_box01 ul li .text_box{ width:100%; float: left; padding: 10px ;  position: relative; height: 80px; position: relative }
-.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }
+/*.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }*/
+.list_box01 ul li .text_box .tx1{ width:100%; float: left; font-size: 13px; color: #ff9600; font-weight:bold; }
 .list_box01 ul li .text_box .tx2{ width:100%; float: left; font-size: 16px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li .text_box .ch_icon{  position: absolute;  bottom: 8px; right: 10px; background: url(../images/sub/select_off.png); background-size: 30px;; background-position: right center;  background-repeat: no-repeat; width: 30px; height: 30px }
 	
@@ -1556,7 +1564,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li:hover .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
 .list_box01 ul li:hover .photo img{ width:100%; }
 .list_box01 ul li:hover .text_box{ width:100%; float: left; padding: 10px ;   position: relative }
-.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }
+/*.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }*/
+.list_box01 ul li:hover .text_box .tx1{ width:100%; float: left; font-size: 13px; color: #ff9600; font-weight:bold; }
 .list_box01 ul li:hover .text_box .tx2{ width:100%; float: left; font-size:16px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li:hover .text_box .ch_icon{  position: absolute;  bottom: 8px; right: 10px; background: url(../images/sub/select_off.png); background-size: 30px;; background-position: right center;  background-repeat: no-repeat; width: 30px; height: 30px}
 	
@@ -1567,7 +1576,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .list_box01 ul li.ch .photo{ width:100% ; float:left; max-height: 250px; overflow: hidden}
 .list_box01 ul li.ch .photo img{ width:100%; }
 .list_box01 ul li.ch .text_box{ width:100%; float: left;padding: 10px ;   position: relative }
-.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }
+/*.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 11px; color: #999 }*/
+.list_box01 ul li.ch .text_box .tx1{ width:100%; float: left; font-size: 13px; color: #ff9600; font-weight:bold; }
 .list_box01 ul li.ch .text_box .tx2{ width:100%; float: left; font-size: 16px; color: #666; font-weight: 500; font-family:'Noto Sans Korean', 'Noto Sans KR';}	
 .list_box01 ul li.ch .text_box .ch_icon{ position: absolute;  bottom: 8px; right: 10px; background: url(../images/sub/select_on.png); background-size: 30px;; background-position: right center;  background-repeat: no-repeat; width: 30px; height: 30px}
 
@@ -2325,7 +2335,7 @@ a:hover.sbtn_03{ border: 1px solid #999; background-color: #ccc;  padding: 5px 5
 
 /**** 테블릿 2 ****/
 @media only all and (min-width:769px) {
-.popup_st{position:absolute; z-index:209999999999999999999999999999;visibility:hidden; left:50px;top:190px; width:400px !important}
+.popup_st{position:absolute; z-index:209999999999999999999999999999;visibility:hidden; left:50px;top:190px; /*width:400px !important*/}
 .popup_st .popup_head{ width: 100%;float:left;  background-color: #666; color: #fff; padding: 10px; box-sizing: border-box}
 .popup_st .popup_body{ width: 100%;float:left;  border: 1px solid #333; background-color: #fff; font-size: 14px}
 .popup_st .popup_bottom{ width: 100%;float:left; background-color: #333; color: #fff; text-align: right; box-sizing: border-box; font-size: 12px; padding:0px 10px; height: 40px; line-height: 40px}

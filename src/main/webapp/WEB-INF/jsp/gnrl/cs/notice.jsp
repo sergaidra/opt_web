@@ -28,7 +28,12 @@ $(function(){
 function viewBbs(bbs_sn) {
 	var frm = $("#frmBbs");
 	$("#bbs_sn").val(bbs_sn);
-	$(frm).attr("action", "/cs/viewNotice");
+	<c:if test="${category == 'C'}">
+		$(frm).attr("action", "/cs/viewChecklist");
+	</c:if>
+	<c:if test="${category == 'N'}">
+		$(frm).attr("action", "/cs/viewNotice");
+	</c:if>
 	$(frm).submit();
 }
 
@@ -159,7 +164,12 @@ function search(pageNo) {
 		             <!--FAQ검색-->  <div class="bbs_search">
 			    <div class="search_text">
 			      <div class="tx1"><i class="material-icons">&#xE02A;</i></div>
-				  <div class="tx2">원패스투어의 새로운 소식을 전합니다. </div>
+			      <c:if test="${category == 'N'}">
+					  <div class="tx2">원패스투어의 새로운 소식을 전합니다. </div>
+			      </c:if>
+			      <c:if test="${category == 'C'}">
+					  <div class="tx2">여행에 꼭 필요한 내용을 확인하세요.</div>
+			      </c:if>
 			    </div>
 		<div class="search_in">
       
@@ -211,8 +221,15 @@ function search(pageNo) {
       </div>
       <!--//페이징 --> 
 
-   	<c:if test="${author_cl == 'A'}">
-       <div class="right_btn"><a href="/cs/writeNotice" class="button_m1">작성하기</a> </div>
+   	<c:if test="${author_cl == 'A' or author_cl == 'M'}">
+       <div class="right_btn">
+   		<c:if test="${category == 'C'}">
+       		<a href="/cs/writeChecklist" class="button_m1">작성하기</a>
+       	</c:if> 
+   		<c:if test="${category == 'N'}">
+       		<a href="/cs/writeNotice" class="button_m1">작성하기</a>
+       	</c:if> 
+       </div>
 	</c:if>   
       </div></div> 
 		<div class="sp_50 pc_view"></div>

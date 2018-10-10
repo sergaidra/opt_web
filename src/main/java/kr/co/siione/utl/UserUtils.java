@@ -1,6 +1,7 @@
 package kr.co.siione.utl;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -276,15 +277,24 @@ public class UserUtils {
 			}
 			
 			String fileName = sDiv + file.getOriginalFilename();
+			if(fileName.lastIndexOf(".") > -1) {
+				fileName = fileName.substring(0, fileName.lastIndexOf(".")) + ".jpg";
+			}
 			String saveFileNm = sPreFix + "_" + fileName;
 
 			String storePath  = sFileStorePath + sDirName + sFileSeparator;
 			File f = new File(storePath);
 			if (!f.exists()) f.mkdirs();
+			File ff = new File(storePath + "origin" + sFileSeparator);
+			if (!ff.exists()) ff.mkdirs();
 
-			fos = new FileOutputStream(storePath + saveFileNm);
+			ImageCompress.toJpg(file.getBytes(), storePath + saveFileNm, 50);
+
+			fos = new FileOutputStream(storePath + "origin" + sFileSeparator + saveFileNm);
 			fos.write(file.getBytes());
-
+			fos.close();
+			fos = null;
+			
 			// 상품 썸네일 이미지 저장
 			if(isThumb) {
 				String resizeFileNm = sPreFix + "_" + fileName.substring(0, fileName.lastIndexOf(".")) + "_resize" + fileName.substring(fileName.lastIndexOf("."));
@@ -292,7 +302,8 @@ public class UserUtils {
 				File f2 = new File(resizePath);
 				if (!f2.exists()) f2.mkdirs();
 
-				BufferedImage bi = ImageIO.read(new File(storePath + saveFileNm));
+				//BufferedImage bi = ImageIO.read(new File(storePath + saveFileNm));
+				BufferedImage bi = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
 
 				int scaledWidth = 200; //bi.getWidth();    //x
 				int scaledHeight = 148;
@@ -323,16 +334,32 @@ public class UserUtils {
 				ImageResizer.resize(storePath + saveFileNm, resizePath + resizeFileNm, scaledWidth, scaledHeight);
 			}
 
+			// 그림 파일 용량 줄이기
+			/*
+			if(isCompress) {
+				// 파일이 100kb이상이면
+				if(file.getSize() > 1024 * 100) {
+					if("jpg".equals(fileExt) || "jpeg".equals(fileExt)) {
+						ImageCompress.compress(storePath + saveFileNm, storePath + "comp_" + saveFileNm);
+						File f1 = new File(storePath + saveFileNm);
+						File f2 = new File(storePath + "comp_" + saveFileNm);
+						f1.delete();
+						f2.renameTo(f1);
+					}
+				}
+			}*/
 			//param.put("REGIST_PATH", "상품");
 			//param.put("FILE_SN", "1");
 			if(sDirName.equals("MAIN") || sDirName.equals("BANNER")) {
+				File fileReal = new File(storePath + saveFileNm);
 				fileParam.put("IMAGE_NM", fileName);
 				fileParam.put("IMAGE_PATH", storePath + saveFileNm);
-				fileParam.put("IMAGE_SIZE", String.valueOf(file.getSize()));
+				fileParam.put("IMAGE_SIZE", String.valueOf(fileReal.length()));
 			} else {
+				File fileReal = new File(storePath + saveFileNm);
 				fileParam.put("FILE_NM", fileName);
 				fileParam.put("FILE_PATH", storePath + saveFileNm);
-				fileParam.put("FILE_SIZE", String.valueOf(file.getSize()));
+				fileParam.put("FILE_SIZE", String.valueOf(fileReal.length()));
 				fileParam.put("FILE_CL", ((file.getContentType().indexOf("image") > -1)?"I":"M")); // I:이미지, M:동영상
 			}
 
@@ -459,7 +486,7 @@ public class UserUtils {
 		return sRe;
 	}
 	
-	public static String convertHtml2Text(String str){
+	public static String convertHtml2Text(String str){ 
 		String sRe = "";
 		
 		if(str == null || "".equals(str.trim())) {

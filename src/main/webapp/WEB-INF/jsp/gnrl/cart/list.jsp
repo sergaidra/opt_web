@@ -10,7 +10,7 @@
 var cartInfo = [];
 
 <c:forEach var="item" items="${cartList}" varStatus="status">
-	cartInfo.push({ "cart_sn": "${item.CART_SN}", "purchs_amount": "${item.PURCHS_AMOUNT}", "goods_code": "${item.GOODS_CODE}", "origin_amount": "${item.ORIGIN_AMOUNT}", "tour_de":"${item.TOUR_DE}", "chkin_de":"${item.CHKIN_DE}", "chckt_de":"${item.CHCKT_DE}", "hotdeal_at":"${item.HOTDEAL_AT}", "chk" : false});
+	cartInfo.push({ "cart_sn": "${item.CART_SN}", "purchs_amount": "${item.PURCHS_AMOUNT}", "goods_code": "${item.GOODS_CODE}", "origin_amount": "${item.ORIGIN_AMOUNT}", "tour_de":"${item.TOUR_DE}", "chkin_de":"${item.CHKIN_DE}", "chckt_de":"${item.CHCKT_DE}", "hotdeal_at":"${item.HOTDEAL_AT}", "waitreservation_yn":"${item.WAITRESERVATION_YN}", "status":"${item.STATUS}", "chk" : false});
 </c:forEach>
 
 $(function(){	
@@ -184,6 +184,9 @@ function paymentCart() {
 			} else if(data.result == "3") {
 				alert(data.message);
 				$.featherlight('/cmmn/popupFlight?callback=inputFlightCart', {});
+			} else if(data.result == "4") {
+				alert(data.message);
+				go_cartpage();
 			} else{
 				alert("작업을 실패하였습니다.");
 			}	        	
@@ -290,7 +293,10 @@ function orderInfo() {
 }
 
 function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	if(x == null)
+		return "";
+	else
+    	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function getToday() {
@@ -358,7 +364,16 @@ function lpad(s, padLength, padString){
 			<td class="left"><div class="cart_img" style="background: url(<c:url value='/file/getImage/'/>?file_code=${result.FILE_CODE}); background-size: cover; "></div></td>
 			<td  class="t_left">
 				<div class="cart_pro_text">
-					<div class="title">${result.GOODS_NM}<br />
+					<div class="title">${result.GOODS_NM}
+						<c:if test="${result.WAITRESERVATION_YN == 'Y'}">
+							<c:if test="${result.STATUS == 'C'}">
+								<span style="font-weight:bold; color:red;">(예약 확정)</span>
+							</c:if>
+							<c:if test="${result.STATUS == 'W'}">
+								<span style="font-weight:bold; color:red;">(예약 대기)</span>
+							</c:if>
+						</c:if>
+						<br />
 						<c:if test="${!empty result.TOUR_DE}">
 							${fn:substring(result.TOUR_DE,0,4)}년 ${fn:substring(result.TOUR_DE,4,6)}월 ${fn:substring(result.TOUR_DE,6,8)}일
 						</c:if>

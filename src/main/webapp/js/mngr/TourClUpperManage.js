@@ -345,14 +345,14 @@ var grid = Ext.create('Ext.grid.Panel', {
 		width: 300,
 		style: 'text-align:center',
 		align: 'left',
-		editor: {xtype:'textfield', allowBlank: false, maxLength: 23, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
+		editor: {xtype:'textfield', allowBlank: false, maxLength: 40, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'DC'
 	},{
 		text: '설명(영문)',
 		width: 300,
 		style: 'text-align:center',
 		align: 'left',
-		editor: {xtype:'textfield', allowBlank: true, maxLength: 40, enforceMaxLength: true, fieldStyle: {'ime-mode':'disabled'}, maskRe: /^[a-zA-Z0-9]+$/},
+		editor: {xtype:'textfield', allowBlank: true, maxLength: 80, enforceMaxLength: true, fieldStyle: {'ime-mode':'disabled'}, maskRe: /^[a-zA-Z0-9]+$/},
 		dataIndex: 'DC_ENG'			
 	},{
 		text: '분류구분',
