@@ -1067,6 +1067,7 @@ Ext.define('GoodsInfo', {
 			, {name:'PARTICULAR_YN', type:'string'}
 			, {name:'PARTICULAR_USERID', type:'string'}
 			, {name:'WAITRESERVATION_YN', type:'string'}
+			, {name:'DEPOSIT', type:'string'}
 			]
 });
 
@@ -1650,6 +1651,20 @@ var frReg = Ext.create('Ext.form.Panel', {
 				boxLabel  : '',
 				inputValue: 'Y',
 				value: 'Y'
+			}, {
+				xtype: 'textfield',
+				id: 'form-reg-deposit',
+				name: 'DEPOSIT',
+				width: 270,
+				fieldLabel: '예약금(%)',
+				labelWidth: 150,
+				labelAlign: 'right',
+				maskRe: /[0-9]/,
+				maxLength: 3,
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true,
+				value: '100'
 			}]
 		}]
 	},{

@@ -84,6 +84,11 @@ var hotdeal_applc_end_de = "${result.HOTDEAL_APPLC_END_DE}";
 var fixDate = "${date}";
 var fixMode = "${mode}";
 var fixDate2 = "${date2}";
+var deposit = 100;
+if(!isNaN("${result.DEPOSIT}")) {
+	deposit = Number("${result.DEPOSIT}");
+}
+console.log("deposit : " + deposit);
 
 <c:forEach var="list" items="${lstSchdul}">
 	lstSchdul.push({"BEGIN_DE" : "${list.BEGIN_DE}", "END_DE" : "${list.END_DE}", "POSBL_AT" : "${list.POSBL_AT}" });
@@ -229,6 +234,8 @@ $(function() {
 		param.CHCKT_DE = chckt_de;
 		param.flight_sn = detail_flight_sn;
 		param.nmprList = nmprList;
+		var depositPrice = purchs_amount * (deposit / 100.0);
+		param.DEPOSIT_AMOUNT = depositPrice;
 
 		if(!confirm("예약하겠습니까?"))
 			return;
@@ -611,6 +618,8 @@ function displayRoom() {
 
 	$("#totalprice").text("￦ " + numberWithCommas(totalprice));
 	$("#originTotalPrice").text("￦ " + numberWithCommas(originTotalPrice));
+	var depositPrice = totalprice * (deposit / 100.0);
+	$("#depositPrice").text("예약금 ￦ " + numberWithCommas(depositPrice));
 	
 	if(totalprice == originTotalPrice) {
 		$("#originTotalPrice").hide();
@@ -810,7 +819,9 @@ function displayNmpr() {
 
 	$("#totalprice").text("￦ " + numberWithCommas(totalprice));
 	$("#originTotalPrice").text("￦ " + numberWithCommas(originTotalPrice));
-	
+	var depositPrice = totalprice * (deposit / 100.0);
+	$("#depositPrice").text("예약금 ￦ " + numberWithCommas(depositPrice));
+
 	if(totalprice == originTotalPrice) {
 		$("#originTotalPrice").hide();
 		$("#imgSale").hide();
@@ -1781,6 +1792,7 @@ function googleShare() {
 					<div class="tx1" id="originTotalPrice"></div>
 					<div class="tx2" id="totalprice"></div>
 					<div class="icon"><img id="imgSale" src="/images/sub/icon_sale.png" alt="" style="display:none;"/> </div>
+					<div class="tx2" id="depositPrice"></div>
 				</div>
 	        	<div class="btn_box" id="reservation" style="cursor:pointer;">예약하기</div>
 	      	</div>

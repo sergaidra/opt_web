@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.co.siione.mngr.service.ExchangeService;
 import kr.co.siione.mngr.service.PurchsManageService;
 import kr.co.siione.utl.UserUtils;
 
@@ -31,6 +32,8 @@ public class PurchsManageController {
 
 	@Resource(name = "PurchsManageService")
 	private PurchsManageService purchsManageService;
+	@Resource(name = "ExchangeService")
+	private ExchangeService exchangeService;
 
 	@RequestMapping(value="/mngr/PurchsManage/")
 	public String PurchsManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -234,7 +237,7 @@ public class PurchsManageController {
 	}	
 	
 	@RequestMapping(value="/mngr/selectOrderWaitListExcel/")
-    public ModelAndView selectOrderWaitExcel(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+    public ModelAndView selectOrderWaitListExcel(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
        	Map<String, Object> result = new HashMap<String, Object>();
        	UserUtils.log("selectOrderWaitListExcel", param);		
     	try {
@@ -280,4 +283,52 @@ public class PurchsManageController {
 
 		jsonView.render(result, request, response);
 	}
+	
+	@RequestMapping(value="/mngr/ExchangeManage/")
+	public String ExchangeManage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		String esntl_id = UserUtils.nvl((String)session.getAttribute("esntl_id"));
+		if(esntl_id.equals("")) response.sendRedirect("/member/login/");
+		
+		return "/mngr/ExchangeManage";
+	}
+
+	@RequestMapping(value="/mngr/selectExchangeList/")
+	public void selectExchangeList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		UserUtils.log("selectExchangeList", param);
+		try {
+			int cnt = exchangeService.selectExchangeListCount(param);
+			List<Map<String,Object>> results = exchangeService.selectExchangeList(param);
+			
+			result.put("rows", cnt);
+			result.put("data", results);
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+		}
+		
+		jsonView.render(result, request, response);
+	}	
+	
+	@RequestMapping(value="/mngr/selectExchangeListExcel/")
+    public ModelAndView selectExchangeListExcel(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+       	Map<String, Object> result = new HashMap<String, Object>();
+       	UserUtils.log("selectExchangeListExcel", param);		
+    	try {
+    		int cnt = exchangeService.selectExchangeListCount(param);
+			param.put("limit", String.valueOf(cnt));
+			param.put("page" , "1");
+			param.put("start", "0");
+			
+    		List<Map<String,Object>> results = exchangeService.selectExchangeList(param);
+
+			result.put("CHILD", results);
+    	} catch (Exception e) {
+    		result.put("CHILD", null);
+			log.error(e.getMessage());
+    	}
+		return new ModelAndView("PurchsListExcel", "modelMap", result);
+    } 	
 }

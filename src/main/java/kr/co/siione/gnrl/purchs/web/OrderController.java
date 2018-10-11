@@ -114,6 +114,9 @@ public class OrderController {
         int maxpoint = point - (point % 1000);
         model.addAttribute("point", point);
         model.addAttribute("maxpoint", maxpoint);
+        
+        double exchangeRate = orderService.getExchangeRate(new HashMap());
+        model.addAttribute("exchangeRate", exchangeRate);
                 
         model.addAttribute("bp", "06");
        	model.addAttribute("btitle", "세부정보입력/결제하기");

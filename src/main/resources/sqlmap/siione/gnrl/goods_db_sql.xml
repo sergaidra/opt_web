@@ -60,6 +60,7 @@
         <result property="BKMK"        		         column="BKMK"                      jdbcType="string" javaType="string"/>       
         <result property="HOTELSCOMBINE_YN"        	 column="HOTELSCOMBINE_YN"          jdbcType="string" javaType="string"/>       
         <result property="HOTELSCOMBINE_SCRIPT"      column="HOTELSCOMBINE_SCRIPT"      jdbcType="string" javaType="string"/>       
+        <result property="DEPOSIT"                   column="DEPOSIT"                   jdbcType="string" javaType="string"/>       
 	</resultMap>
 
 	<resultMap id="goodsDetailSub" class="hashMap">
@@ -404,6 +405,7 @@
 		     , (SELECT CASE WHEN COUNT(1) > 0 THEN 'Y' ELSE 'N' END FROM TB_BKMK WHERE ESNTL_ID = #esntl_id# AND GOODS_CODE = A.GOODS_CODE) BKMK
 		     , HOTELSCOMBINE_YN
 		     , HOTELSCOMBINE_SCRIPT
+		     , DEPOSIT
           FROM TB_GOODS A 
          WHERE GOODS_CODE = #goods_code# ]]>
 		<isEmpty property="admin_at">

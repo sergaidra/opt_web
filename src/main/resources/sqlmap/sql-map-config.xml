@@ -48,5 +48,6 @@
 	<sqlMap resource="sqlmap/siione/mngr/tb_stplat.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_banner.xml"/>
 	<sqlMap resource="sqlmap/siione/mngr/tb_hotdeal.xml"/>
+	<sqlMap resource="sqlmap/siione/mngr/tb_exchange.xml"/>
 	
 </sqlMapConfig>

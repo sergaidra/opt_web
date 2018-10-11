@@ -120,4 +120,8 @@ public class OrderDAO extends EgovComAbstractDAO {
     public HashMap getUserInfoByCart(HashMap map) throws Exception {
 		return (HashMap)selectByPk("gnrl.order.getUserInfoByCart", map);
 	}
+    
+    public Double getExchangeRate(HashMap map) throws Exception {
+		return (Double)selectByPk("gnrl.order.getExchangeRate", map);
+	}
 }

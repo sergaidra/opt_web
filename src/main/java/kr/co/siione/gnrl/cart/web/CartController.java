@@ -332,6 +332,7 @@ public class CartController {
 			String goods_code = UserUtils.nvl(param.get("hidGoodsCode"));
 			String purchs_amount = UserUtils.nvl(param.get("PURCHS_AMOUNT"));
 			String origin_amount = UserUtils.nvl(param.get("ORIGIN_AMOUNT"));
+			String deposit_amount = UserUtils.nvl(param.get("DEPOSIT_AMOUNT"));
 			String flight_sn = UserUtils.nvl(param.get("flight_sn"));
 			
 			// 일반상품
@@ -358,6 +359,7 @@ public class CartController {
 			map.put("goods_code", goods_code);
 			map.put("purchs_amount", purchs_amount);
 			map.put("origin_amount", origin_amount);			
+			map.put("deposit_amount", deposit_amount);			
 			map.put("tour_de", tour_de);
 			map.put("chkin_de", chkin_de);
 			map.put("chckt_de", chckt_de);
