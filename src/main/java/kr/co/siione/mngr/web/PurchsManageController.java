@@ -311,7 +311,26 @@ public class PurchsManageController {
 		
 		jsonView.render(result, request, response);
 	}	
-	
+
+	@RequestMapping(value="/mngr/selectExchangeHistoryList/")
+	public void selectExchangeHistoryList(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		UserUtils.log("selectExchangeHistoryList", param);
+		try {
+			int cnt = exchangeService.selectExchangeHistoryListCount(param);
+			List<Map<String,Object>> results = exchangeService.selectExchangeHistoryList(param);
+			
+			result.put("rows", cnt);
+			result.put("data", results);
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			result.put("success", false);
+			result.put("message", e.getLocalizedMessage());
+		}
+		
+		jsonView.render(result, request, response);
+	}	
+
 	@RequestMapping(value="/mngr/selectExchangeListExcel/")
     public ModelAndView selectExchangeListExcel(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> param) throws Exception {
        	Map<String, Object> result = new HashMap<String, Object>();

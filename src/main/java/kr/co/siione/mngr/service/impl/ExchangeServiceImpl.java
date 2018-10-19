@@ -33,4 +33,12 @@ public class ExchangeServiceImpl implements ExchangeService {
 		return exchangeDAO.selectExchangeListCount(param);
 	}
 
+	public List<Map<String, Object>> selectExchangeHistoryList(Map<String, String> param) throws Exception {
+		return exchangeDAO.selectExchangeHistoryList(param);
+	}
+	
+	public int selectExchangeHistoryListCount(Map<String, String> param) throws Exception {
+		return exchangeDAO.selectExchangeHistoryListCount(param);
+	}
+
 }

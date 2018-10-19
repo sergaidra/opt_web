@@ -1,9 +1,14 @@
 var xlsForm = Ext.create('Ext.form.Panel', {});		//엑셀 저장용 폼
 
 
-Ext.define('PurchsInfo', {
+Ext.define('ExchangeInfo', {
 	extend: 'Ext.data.Model',
-	fields: ['NAME', 'RATE', 'UP_DT']
+	fields: ['NAME', 'RATE', 'UP_DT', 'RAWNAME']
+});
+
+Ext.define('ExchangeHistoryInfo', {
+	extend: 'Ext.data.Model',
+	fields: ['NAME', 'RATE', 'ORIGIN_RATE', 'UP_DT']
 });
 
 var frPurchs = Ext.create('Ext.form.Panel', {
@@ -40,7 +45,7 @@ var frPurchs = Ext.create('Ext.form.Panel', {
 var stPurchs = Ext.create('Ext.data.JsonStore', {
 	autoLoad: false,
 	pageSize: 20,
-	model: 'PurchsInfo',
+	model: 'ExchangeInfo',
 	proxy: {
 		type: 'ajax',
 		url: '../selectExchangeList/',
@@ -54,7 +59,8 @@ var stPurchs = Ext.create('Ext.data.JsonStore', {
 
 var grPurchs = Ext.create('Ext.grid.Panel', {
 	title: '환율목록',
-	region:'center',
+	region:'north',
+	height: 300,
 	store: stPurchs,
 	border: true,
 	split : true,
@@ -86,6 +92,12 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 		width: 200,
 		align: 'center',
 		dataIndex: 'UP_DT'
+	},{
+		text: 'RAWNAME',
+		width: 200,
+		align: 'center',
+		dataIndex: 'RAWNAME',
+		hidden: true
 	}],
 	bbar: Ext.create('Ext.PagingToolbar', {
 		store: stPurchs,
@@ -95,12 +107,68 @@ var grPurchs = Ext.create('Ext.grid.Panel', {
 	}),
 	listeners: {
 		celldblclick: function(gr, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
-			alert(cellIndex);
-			if(cellIndex == 0) {
-
-			}
+			stPurchsGoods.proxy.extraParams.NAME = record.data.RAWNAME;
+			stPurchsGoods.load();
+			grPurchsGoods.setTitle('환율이력  : '+record.data.NAME+'');
 		}
 	}
+});
+
+var stPurchsGoods = Ext.create('Ext.data.JsonStore', {
+	autoLoad: false,
+	model: 'ExchangeHistoryInfo',
+	proxy: {
+		type: 'ajax',
+		url: '../selectExchangeHistoryList/',
+		reader: {
+			type: 'json',
+			root: 'data',
+			totalProperty: 'rows'
+		}
+	}
+});
+
+var grPurchsGoods = Ext.create('Ext.grid.Panel', {
+	title: '환율이력',
+	region: 'center',
+	store: stPurchsGoods,
+	border: true,
+	split : true,
+	viewConfig: {
+		stripeRows: true,
+		emptyText: '등록된 자료가 없습니다.'
+	},
+	columnLines: true,
+	animCollapse: false,
+	columns: [{
+		xtype: 'rownumberer'
+			},{
+	      		text: '통화명',
+	      		width: 100,
+	      		align: 'center',
+	      		dataIndex: 'NAME'
+	      	},{
+	      		text: '환율',
+	      		width: 200,
+	      		align: 'center',
+	      		dataIndex: 'RATE'
+	      	},{
+	      		text: '환율(올림 전)',
+	      		width: 200,
+	      		align: 'center',
+	      		dataIndex: 'ORIGIN_RATE'
+	      	},{
+	      		text: '적용시각',
+	      		width: 200,
+	      		align: 'center',
+	      		dataIndex: 'UP_DT'
+	      	}],
+	 bbar: Ext.create('Ext.PagingToolbar', {
+	      		store: stPurchs,
+	      		displayInfo: true,
+	      		displayMsg: '전체 {2}건 중 {0} - {1}',
+	      		emptyMsg: "조회된 자료가 없습니다."
+	      	}),
 });
 
 Ext.onReady(function(){
@@ -110,8 +178,15 @@ Ext.onReady(function(){
 		style: {
 			backgroundColor: '#FFFFFF'
 		},
-		items: [frPurchs, grPurchs]
-	});
+		items: [frPurchs, Ext.create('Ext.panel.Panel',{
+			layout: 'border',
+			region: 'center',
+			style: {
+				backgroundColor: '#FFFFFF'
+			},
+			items: [grPurchs, grPurchsGoods]
+		})]
+	});	
 	
 	stPurchs.load({params:{STATUS:'W'}});
 });

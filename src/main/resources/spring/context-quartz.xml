@@ -27,8 +27,10 @@
 
 	<bean id="cronTrigger2" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="myjob2" />		
+		<!-- 아침 7시 실행 -->
+		<property name="cronExpression" value="0 0 7 * * ?"/> 
 		<!-- 1시간마다 실행 -->
-		<property name="cronExpression" value="0 0 0/1 * * ?"/> 
+		<!--<property name="cronExpression" value="0 0 0/1 * * ?"/>--> 
 		<!--<property name="cronExpression" value="0 0/1 * * * ?"/>--> 
 		<!-- <property name="cronExpression" value="*/10 * * * * ?"/> -->  
 	</bean>

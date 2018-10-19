@@ -23,4 +23,13 @@ public class ExchangeDAO extends EgovComAbstractDAO {
 		return (Integer)selectByPk("ExchangeDAO.selectExchangeListCount", param);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> selectExchangeHistoryList(Map<String, String> param) throws Exception {
+		return list("ExchangeDAO.selectExchangeHistoryList", param);
+	}
+	
+	public int selectExchangeHistoryListCount(Map<String, String> param) throws Exception {
+		return (Integer)selectByPk("ExchangeDAO.selectExchangeHistoryListCount", param);
+	}
+
 }
