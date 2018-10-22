@@ -8,7 +8,7 @@
           <div class="tx2">(63)32-410-8454  <br>070-8668-2286</div>
           <div class="tx4">kakao ID : onepasstour</div>
           <div class="tx3"><spring:message code='bottom.msg1'/></div>
-          <div class="sns"> 
+          <div class="sns">    
           	<a href="javascript:window.open('http://pf.kakao.com/_IDATj');"><img src="<c:url value='/images/com/sns_03.png' />"  alt=""/> 
           	<a href="javascript:window.open('https://www.instagram.com/one_pass_tour');"><img src="<c:url value='/images/com/sns_02.png' />"  alt=""/> 
           	<a href="javascript:window.open('https://www.facebook.com/JHOSUB/');"><img src="<c:url value='/images/com/sns_01.png' />"  alt=""/></a>
