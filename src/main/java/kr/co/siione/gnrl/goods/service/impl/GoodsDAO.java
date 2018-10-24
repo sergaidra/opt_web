@@ -54,6 +54,10 @@ public class GoodsDAO extends EgovComAbstractDAO {
         return (HashMap)selectByPk("gnrl.goods.selectGoodsDetail", map);
     }
 
+    public HashMap selectGoodsEngDetail(HashMap map) throws Exception {
+        return (HashMap)selectByPk("gnrl.goods.selectGoodsEngDetail", map);
+    }
+
 	public List selectGoodsClList(HashMap map) throws Exception {
 		return list("gnrl.goods.selectGoodsClList", map);
 	}

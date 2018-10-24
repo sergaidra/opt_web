@@ -50,7 +50,8 @@ function changeLocale() {
 			<div class="lang_sel">
 				<select id="cmbLocale" class="w_50p pointer" onchange="changeLocale();">
 					<option <c:if test="${pageContext.response.locale.language == 'ko'}">selected</c:if> value="ko">Korean</option>
-					<option <c:if test="${pageContext.response.locale.language == 'en'}">selected</c:if> value="en">English</option>
+					<!-- <option <c:if test="${pageContext.response.locale.language == 'en'}">selected</c:if> value="en">English</option> -->
+					<option <c:if test="${pageContext.response.locale.language == 'ja'}">selected</c:if> value="ja">Japanese</option>
 				</select>
 			</div>			
 

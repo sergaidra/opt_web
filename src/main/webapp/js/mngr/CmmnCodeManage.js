@@ -200,7 +200,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: false, maxLength: 10, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'CODE_ID_NM'
 	},{
-		text: '공통코드명(영문)',
+		text: '공통코드명(일어)',
 		width: 170,
 		style: 'text-align:center',
 		align: 'left',

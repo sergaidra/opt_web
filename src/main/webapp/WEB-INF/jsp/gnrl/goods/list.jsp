@@ -220,14 +220,14 @@ function fnSearch(obj, isNext) {
 						$(item).find(".total_s").hide();
 					}
 				}
-              	<c:if test="${pageContext.response.locale.language == 'en'}">
+              	<c:if test="${pageContext.response.locale.language == 'ja'}">
 				$(item).find("span[name='cty_nm']").text(nvl(data.list[cnt].CTY_NM_ENG));
 				$(item).find("span[name='upper_cl_nm']").text(nvl(data.list[cnt].UPPER_CL_NM_ENG));
 				$(item).find("span[name='cl_nm']").text(nvl(data.list[cnt].CL_NM_ENG));
 				$(item).find("div[name='goods_nm']").text(nvl(data.list[cnt].GOODS_NM_SUB_ENG));	
 				$(item).find("div[name='goods_nm_title']").text(nvl(data.list[cnt].GOODS_NM_ENG));
 				</c:if>
-              	<c:if test="${pageContext.response.locale.language != 'en'}">
+              	<c:if test="${pageContext.response.locale.language != 'ja'}">
 				$(item).find("span[name='cty_nm']").text(nvl(data.list[cnt].CTY_NM));
 				$(item).find("span[name='upper_cl_nm']").text(nvl(data.list[cnt].UPPER_CL_NM));
 				$(item).find("span[name='cl_nm']").text(nvl(data.list[cnt].CL_NM));
@@ -388,10 +388,10 @@ function numberWithCommas(x) {
 	   <div class="list_tab">
 	   	<ul>
 		<c:forEach var="result" items="${upperTourClList}" varStatus="status">
-           	<c:if test="${pageContext.response.locale.language == 'en'}">
+           	<c:if test="${pageContext.response.locale.language == 'ja'}">
 		   		<li>${result.CL_NM_ENG}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"><input type="hidden" id="dc" name="dc" value="${result.DC_ENG}"></li>
 		   	</c:if>
-           	<c:if test="${pageContext.response.locale.language != 'en'}">
+           	<c:if test="${pageContext.response.locale.language != 'ja'}">
 		   		<li>${result.CL_NM}<input type="hidden" id="cl_code" name="cl_code" value="${result.CL_CODE}"><input type="hidden" id="dc" name="dc" value="${result.DC}"></li>
 		   	</c:if>
 		</c:forEach>

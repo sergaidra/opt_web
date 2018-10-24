@@ -412,6 +412,39 @@
            AND DELETE_AT = 'N'
 		</isEmpty>          
 	</select>
+	
+	<select id="gnrl.goods.selectGoodsEngDetail" parameterClass="hashMap" resultClass="hashMap"> 
+	<![CDATA[	
+		SELECT GOODS_CODE
+			, GOODS_NM_ENG
+            , REPLACE(REPLACE(REPLACE(GOODS_INTRCN_ENG,CHR(10),'<BR>'),CHR(13),' '), '  ', CHR(38)||'nbsp;'||CHR(38)||'nbsp;') GOODS_INTRCN_ENG
+			, GOODS_INTRCN_SIMPL_ENG
+			, VOCHR_NTSS_REQRE_TIME_ENG
+            , FN_CONVERT_BR(VOCHR_USE_MTH_ENG            ) VOCHR_USE_MTH_ENG
+            , FN_CONVERT_BR(GUIDANCE_USE_TIME_ENG            ) GUIDANCE_USE_TIME_ENG
+            , FN_CONVERT_BR(GUIDANCE_REQRE_TIME_ENG            ) GUIDANCE_REQRE_TIME_ENG
+            , FN_CONVERT_BR(GUIDANCE_AGE_DIV_ENG            ) GUIDANCE_AGE_DIV_ENG
+            , FN_CONVERT_BR(GUIDANCE_TOUR_SCHDUL_ENG            ) GUIDANCE_TOUR_SCHDUL_ENG
+            , FN_CONVERT_BR(GUIDANCE_PRFPLC_LC_ENG            ) GUIDANCE_PRFPLC_LC_ENG
+            , FN_CONVERT_BR(GUIDANCE_EDC_CRSE_ENG            ) GUIDANCE_EDC_CRSE_ENG
+            , FN_CONVERT_BR(GUIDANCE_OPTN_MATTER_ENG            ) GUIDANCE_OPTN_MATTER_ENG
+            , FN_CONVERT_BR(GUIDANCE_PICKUP_ENG            ) GUIDANCE_PICKUP_ENG
+            , FN_CONVERT_BR(GUIDANCE_PRPARETG_ENG            ) GUIDANCE_PRPARETG_ENG
+            , FN_CONVERT_BR(GUIDANCE_INCLS_MATTER_ENG            ) GUIDANCE_INCLS_MATTER_ENG
+            , FN_CONVERT_BR(GUIDANCE_NOT_INCLS_MATTER_ENG            ) GUIDANCE_NOT_INCLS_MATTER_ENG
+            , FN_CONVERT_BR(ADIT_GUIDANCE_ENG            ) ADIT_GUIDANCE_ENG
+            , FN_CONVERT_BR(ATENT_MATTER_ENG            ) ATENT_MATTER_ENG
+            , FN_CONVERT_BR(CHANGE_REFND_REGLTN_ENG            ) CHANGE_REFND_REGLTN_ENG
+			, INTRCN_USE_TIME_ENG
+			, INTRCN_MEET_TIME_ENG
+			, INTRCN_REQRE_TIME_ENG
+			, INTRCN_PROVD_LANG_ENG
+			, INTRCN_POSBL_AGE_ENG
+			, INTRCN_PLACE_ENG
+			, GOODS_NM_SUB_ENG	
+          FROM TB_GOODS_ENG A 
+         WHERE GOODS_CODE = #goods_code# ]]>
+	</select>
 
 	<select id="gnrl.goods.selectGoodsSchdulList" parameterClass="hashMap" resultClass="hashMap">
 		SELECT BEGIN_DE, END_DE, NVL(POSBL_AT, 'Y') AS POSBL_AT
