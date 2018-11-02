@@ -1849,11 +1849,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 .my_box01 .info .photo img{width: 100%; float:left;  }
 .my_box01 .info .text{width: calc(100% - 50px); float:left; box-sizing: border-box; padding-left: 10px; font-size: 14px; color: #666; padding-top: 5px}
 .my_box01 .info .text em{ font-size: 16px; color: #333; font-weight: 400;  font-family:'Noto Sans Korean', 'Noto Sans KR';}
-.my_box01 .info .btn{ position: absolute; right: 20px; top: 50px ; border: 1px solid #ccc; background-color: #f7f7f7; font-size: 12px; color: #666 ; padding: 5px 10px}
+.my_box01 .info .btn{ position: absolute; right: 10px; top: 50px ; border: 1px solid #ccc; background-color: #f7f7f7; font-size: 12px; color: #666 ; padding: 5px 10px}
 .my_box01 .point{width: 20%; float:left; border-right: 1px solid #b9b9b9; padding: 40px 20px 0px 20px; box-sizing: border-box; position: relative; margin-left: -1px;  height: 130px}
 .my_box01 .point .t1{width: 100%; float:left;  font-size: 16px}
 .my_box01 .point .t1 em{width: 100%; float:left;  font-size: 20px; font-weight: 500;  font-family:'Noto Sans Korean', 'Noto Sans KR';}
-.my_box01 .point .btn{ position: absolute; right: 10px; top: 50px ; border: 1px solid #ccc; background-color: #f7f7f7; font-size: 12px; color: #666 ; padding: 5px 10px}
+.my_box01 .point .btn{ position: absolute; right: 20px; top: 50px ; border: 1px solid #ccc; background-color: #f7f7f7; font-size: 12px; color: #666 ; padding: 5px 10px}
 	
 .my_box01 .mymenu{width: 60%; float:left;  box-sizing: border-box; position: relative;  height: 150px}
 .my_box01 .mymenu ul li{width: 20%; float:left; border-left: 1px solid #b9b9b9;  box-sizing: border-box; position: relative; margin-left: -1px; ;  height: 130px;}
