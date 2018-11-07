@@ -334,7 +334,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: false, maxLength: 23, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'CL_NM'
 	},{
-		text: '분류명(영문)',
+		text: '분류명(일어)',
 		width: 170,
 		style: 'text-align:center',
 		align: 'left',
@@ -348,7 +348,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: false, maxLength: 40, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'DC'
 	},{
-		text: '설명(영문)',
+		text: '설명(일어)',
 		width: 300,
 		style: 'text-align:center',
 		align: 'left',

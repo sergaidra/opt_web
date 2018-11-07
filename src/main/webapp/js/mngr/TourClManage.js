@@ -187,7 +187,7 @@ var grid = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: false, maxLength: 23, enforceMaxLength: true, fieldStyle: {'ime-mode':'active'}},
 		dataIndex: 'CL_NM'
 	},{
-		text: '분류명(영문)',
+		text: '분류명(일어)',
 		width: 200,
 		style: 'text-align:center',
 		align: 'left',

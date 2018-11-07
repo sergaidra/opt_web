@@ -25,4 +25,5 @@ public interface OrderService {
 	public List<HashMap> getPastVBank(HashMap map) throws Exception;
 	public HashMap getReservationStatus(HashMap map) throws Exception;
 	public void updateReservationStatus(HashMap map) throws Exception;
+	public Double getExchangeRate(HashMap map) throws Exception;
 }

@@ -793,7 +793,7 @@ function fn_checkValue(objId) {
 		Ext.Msg.alert('알림', '입력 글자수(한글기준 '+(len/2)+'자)를 초과하였습니다.', function(){Ext.getCmp(objId).focus();});
 		return false;
 	} else if(fn_getByteLength(Ext.getCmp(objId+'-eng').getValue()) > len) {
-		Ext.Msg.alert('알림', '입력 글자수(영문기준 '+len+'자)를 초과하였습니다.', function(){Ext.getCmp(objId+'-eng').focus();});
+		Ext.Msg.alert('알림', '입력 글자수(일어기준 '+len+'자)를 초과하였습니다.', function(){Ext.getCmp(objId+'-eng').focus();});
 		return false;
 	} else {
 		return true;
@@ -1025,7 +1025,7 @@ Ext.define('GoodsInfo', {
 			, {name:'HOTDEAL_SORT_ORDR', type:'string'}
 			, {name:'RECOMEND_SORT_ORDR', type:'string'}
 			, {name:'CRUD_SE', type:'string'}
-			, {name:'GOODS_NM_ENG', type:'string'}  // 영문 컬럼
+			, {name:'GOODS_NM_ENG', type:'string'}  // 일어 컬럼
 			, {name:'GOODS_NM_SUB_ENG', type:'string'}
 			, {name:'GOODS_INTRCN_ENG', type:'string'}
 			, {name:'GOODS_INTRCN_SIMPL_ENG', type:'string'}
@@ -1067,6 +1067,7 @@ Ext.define('GoodsInfo', {
 			, {name:'PARTICULAR_YN', type:'string'}
 			, {name:'PARTICULAR_USERID', type:'string'}
 			, {name:'WAITRESERVATION_YN', type:'string'}
+			, {name:'DEPOSIT', type:'string'}
 			]
 });
 
@@ -1312,7 +1313,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			xtype: 'textfield',
 			id: 'form-reg-goods-nm-eng',
 			name: 'GOODS_NM_ENG',
-			fieldLabel: '상품명(영문)',
+			fieldLabel: '상품명(일어)',
 			fieldStyle: {'ime-mode':'disabled'},
 			labelSeparator: ':',
 			labelWidth: 120,
@@ -1354,7 +1355,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			xtype: 'textfield',
 			id: 'form-reg-goods-nm-sub-eng',
 			name: 'GOODS_NM_SUB_ENG',
-			fieldLabel: '상품명(2)(영문)',
+			fieldLabel: '상품명(2)(일어)',
 			fieldStyle: {'ime-mode':'disabled'},
 			labelSeparator: ':',
 			labelWidth: 120,
@@ -1385,7 +1386,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			xtype: 'textareafield',
 			id: 'form-reg-goods-intrcn-eng',
 			name: 'GOODS_INTRCN_ENG',
-			fieldLabel: '상품설명(영문)',
+			fieldLabel: '상품설명(일어)',
 			fieldStyle: {'ime-mode':'disabled'},
 			labelSeparator: ':',
 			labelWidth: 120,
@@ -1419,7 +1420,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 			xtype: 'textareafield',
 			id: 'form-reg-goods-intrcn-simpl-eng',
 			name: 'GOODS_INTRCN_SIMPL_ENG',
-			fieldLabel: '간단설명(영문)<br>(300자)',
+			fieldLabel: '간단설명(일어)<br>(300자)',
 			fieldStyle: {'ime-mode':'disabled'},
 			labelSeparator: ':',
 			labelWidth: 120,
@@ -1650,6 +1651,20 @@ var frReg = Ext.create('Ext.form.Panel', {
 				boxLabel  : '',
 				inputValue: 'Y',
 				value: 'Y'
+			}, {
+				xtype: 'textfield',
+				id: 'form-reg-deposit',
+				name: 'DEPOSIT',
+				width: 270,
+				fieldLabel: '예약금(%)',
+				labelWidth: 150,
+				labelAlign: 'right',
+				maskRe: /[0-9]/,
+				maxLength: 3,
+				enforceMaxLength: true,
+				allowBlank: true,
+				enableKeyEvents: true,
+				value: '100'
 			}]
 		}]
 	},{
@@ -1937,7 +1952,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-intrcn-use-time-eng',
 				name: 'INTRCN_USE_TIME_ENG',
 				width: 330,
-				fieldLabel: '이용시간(영문)',
+				fieldLabel: '이용시간(일어)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 130,
@@ -1969,7 +1984,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-intrcn-meet-time-eng',
 				name: 'INTRCN_MEET_TIME_ENG',
 				width: 330,
-				fieldLabel: '집합시간(영문)',
+				fieldLabel: '집합시간(일어)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 130,
@@ -2001,7 +2016,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-intrcn-reqre-time-eng',
 				name: 'INTRCN_REQRE_TIME_ENG',
 				width: 330,
-				fieldLabel: '소요시간(영문)',
+				fieldLabel: '소요시간(일어)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 130,
@@ -2033,7 +2048,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-intrcn-provd-lang-eng',
 				name: 'INTRCN_PROVD_LANG_ENG',
 				width: 330,
-				fieldLabel: '제공언어(영문)',
+				fieldLabel: '제공언어(일어)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 130,
@@ -2065,7 +2080,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-intrcn-posbl-age-eng',
 				name: 'INTRCN_POSBL_AGE_ENG',
 				width: 330,
-				fieldLabel: '최소인원(영문)',
+				fieldLabel: '최소인원(일어)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 130,
@@ -2097,7 +2112,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-intrcn-place-eng',
 				name: 'INTRCN_PLACE_ENG',
 				width: 330,
-				fieldLabel: '장소(영문)',
+				fieldLabel: '장소(일어)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 130,
@@ -2164,7 +2179,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-vochr-ntss-reqre-time-eng',
 				name: 'VOCHR_NTSS_REQRE_TIME_ENG',
 				width: 330,
-				fieldLabel: '발권소요시간(영문)',
+				fieldLabel: '발권소요시간(일어)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 130,
@@ -2202,7 +2217,7 @@ var frReg = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-vochr-use-mth-eng',
 				name: 'VOCHR_USE_MTH_ENG',
-				fieldLabel: '사용방법(영문)<br>(4000자)',
+				fieldLabel: '사용방법(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 120,
@@ -2393,7 +2408,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-use-time-eng',
 				name: 'GUIDANCE_USE_TIME_ENG',
-				fieldLabel: '이용시간(영문)<br>(4000자)',
+				fieldLabel: '이용시간(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'active'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2435,7 +2450,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-reqre-time-eng',
 				name: 'GUIDANCE_REQRE_TIME_ENG',
-				fieldLabel: '소요시간(영문)<br>(4000자)',
+				fieldLabel: '소요시간(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2477,7 +2492,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-age-div-eng',
 				name: 'GUIDANCE_AGE_DIV_ENG',
-				fieldLabel: '연령구분(영문)<br>(4000자)',
+				fieldLabel: '연령구분(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2519,7 +2534,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-tour-schdul-eng',
 				name: 'GUIDANCE_TOUR_SCHDUL_ENG',
-				fieldLabel: '여행일정(영문)<br>(4000자)',
+				fieldLabel: '여행일정(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2562,8 +2577,8 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-prfplc-lc-eng',
 				name: 'GUIDANCE_PRFPLC_LC_ENG',
-				//fieldLabel: '공연장위치(영문)<br>(1000자)',
-				fieldLabel: '가격구성(영문)<br>(4000자)',
+				//fieldLabel: '공연장위치(일어)<br>(1000자)',
+				fieldLabel: '가격구성(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2606,8 +2621,8 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-edc-crse-eng',
 				name: 'GUIDANCE_EDC_CRSE_ENG',
-				//fieldLabel: '교육과정(영문)<br>(1000자)',
-				fieldLabel: '긴급연락처(영문)<br>(4000자)',
+				//fieldLabel: '교육과정(일어)<br>(1000자)',
+				fieldLabel: '긴급연락처(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2649,7 +2664,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-optn-matter-eng',
 				name: 'GUIDANCE_OPTN_MATTER_ENG',
-				fieldLabel: '옵션사항(영문)<br>(4000자)',
+				fieldLabel: '옵션사항(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2692,7 +2707,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				id: 'form-reg-guidance-pickup-eng',
 				name: 'GUIDANCE_PICKUP_ENG',
 				width: 300,
-				fieldLabel: '픽업(영문)<br>(4000자)',
+				fieldLabel: '픽업(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2734,7 +2749,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-prparetg-eng',
 				name: 'GUIDANCE_PRPARETG_ENG',
-				fieldLabel: '준비물(영문)<br>(4000자)',
+				fieldLabel: '준비물(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2776,7 +2791,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-incls-matter-eng',
 				name: 'GUIDANCE_INCLS_MATTER_ENG',
-				fieldLabel: '포함사항(영문)<br>(4000자)',
+				fieldLabel: '포함사항(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2818,7 +2833,7 @@ var frReg2 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-guidance-not-incls-matter-eng',
 				name: 'GUIDANCE_NOT_INCLS_MATTER_ENG',
-				fieldLabel: '불포함사항(영문)<br>(4000자)',
+				fieldLabel: '불포함사항(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2894,7 +2909,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-adit-guidance-eng',
 				name: 'ADIT_GUIDANCE_ENG',
-				fieldLabel: '추가안내(영문)<br>(4000자)',
+				fieldLabel: '추가안내(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2936,7 +2951,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-atent-matter-eng',
 				name: 'ATENT_MATTER_ENG',
-				fieldLabel: '유의사항(영문)<br>(4000자)',
+				fieldLabel: '유의사항(일어)<br>(4000자)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -2978,7 +2993,7 @@ var frReg3 = Ext.create('Ext.form.Panel', {
 				xtype: 'textareafield',
 				id: 'form-reg-change-refnd-regltn-eng',
 				name: 'CHANGE_REFND_REGLTN_ENG',
-				fieldLabel: '변경/환불규정<br>(4000자)(영문)',
+				fieldLabel: '변경/환불규정<br>(4000자)(일어)',
 				fieldStyle: {'ime-mode':'disabled'},
 				labelSeparator: ':',
 				labelWidth: 100,
@@ -3492,7 +3507,7 @@ var gridNmpr = Ext.create('Ext.grid.Panel', {
 		editor: {xtype:'textfield', allowBlank: false, maxLength: 50, fieldStyle: {'ime-mode':'active'}, enforceMaxLength: true},
 		dataIndex: 'NMPR_CND'
 	},{
-		text: '조건(영문)',
+		text: '조건(일어)',
 		width: 170,
 		align: 'center',
 		sortable: false,

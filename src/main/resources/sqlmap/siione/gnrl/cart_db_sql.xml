@@ -29,7 +29,8 @@
 			DELETE_AT,
 			ORIGIN_AMOUNT,
 			PURCHS_AT,
-			FLIGHT_SN
+			FLIGHT_SN,
+			DEPOSIT_AMOUNT
 		) VALUES(
 			#esntl_id#,
 			#cart_sn#,
@@ -46,7 +47,8 @@
 			'N',
 			#origin_amount#,
 			'N',
-			#flight_sn#
+			#flight_sn#,
+			#deposit_amount#
 		)
 	]]>
 	</insert>
@@ -340,6 +342,7 @@
 		<result property="PURCHS_AT"     column="PURCHS_AT"     jdbcType="string" javaType="string"/>
 		<result property="STATUS"        column="STATUS"        jdbcType="string" javaType="string"/>
 		<result property="WAITRESERVATION_YN"   column="WAITRESERVATION_YN"     jdbcType="string" javaType="string"/>
+		<result property="DEPOSIT_AMOUNT" column="DEPOSIT_AMOUNT" jdbcType="string" javaType="string"/>
 		<result property="OPTIONS"       column="{ESNTL_ID=ESNTL_ID, CART_SN=CART_SN}" select="gnrl.cart.selectCartDetailList" javaType="java.util.ArrayList"/>
 	</resultMap>	
 	
@@ -380,6 +383,7 @@
 				     AND TO_CHAR(SYSDATE, 'YYYYMMDD') BETWEEN X.HOTDEAL_BEGIN_DE AND X.HOTDEAL_END_DE
 				      THEN 'Y' ELSE 'N' END AS HOTDEAL_AT
 		     , FN_GET_CART_PRICE(A.CART_SN, 'N') AS ORIGIN_AMOUNT 		     
+		     , A.DEPOSIT_AMOUNT
 		     , PURCHS_AT
 		     , A.STATUS
 		     , X.WAITRESERVATION_YN

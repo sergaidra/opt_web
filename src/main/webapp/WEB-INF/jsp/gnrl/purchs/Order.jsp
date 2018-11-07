@@ -125,6 +125,9 @@ function addAction() {
 	param.tourist_nm = tourist_nm;
 	param.tourist_cttpc = tourist_cttpc;
 	param.kakao_id = kakao_id;
+	param.deposit_amount = $("#total_deposit_amount").val();
+	param.remain_amount = $("#total_remain_amount").val();
+	param.exchange_rate = ${exchangeRate};
 
 	var url = "<c:url value='/purchs/checkReservationSchedule'/>";
 	$.ajax({
@@ -200,7 +203,8 @@ function purchInfoStore(param) {
 function getSignature(param) {
 	var v_param = {};
 	v_param.oid = "${oid}";
-	v_param.price = param.real_setle_amount;
+	//v_param.price = param.real_setle_amount;
+	v_param.price = param.deposit_amount;	
 	//Test
 	if("${inicis_mode}" == "Test")
 		v_param.price = 150;
@@ -217,8 +221,10 @@ function getSignature(param) {
         success : function(data,status,request){
 			if(data.result == "0") {
 				// Test
-				$("#SendPayForm_id").find("input[name='price']").val(param.real_setle_amount);
-				$("#mobileweb_form").find("input[name='P_AMT']").val(param.real_setle_amount);				
+				//$("#SendPayForm_id").find("input[name='price']").val(param.real_setle_amount);
+				//$("#mobileweb_form").find("input[name='P_AMT']").val(param.real_setle_amount);				
+				$("#SendPayForm_id").find("input[name='price']").val(param.deposit_amount);
+				$("#mobileweb_form").find("input[name='P_AMT']").val(param.deposit_amount);				
 				if("${inicis_mode}" == "Test") {
 					$("#SendPayForm_id").find("input[name='price']").val("150");
 					$("#mobileweb_form").find("input[name='P_AMT']").val("150");
@@ -459,6 +465,7 @@ function numberWithCommas(x) {
   </div>
   <c:set var="purchs_amount" value="0" />
   <c:set var="origin_amount" value="0" />
+  <c:set var="deposit_amount" value="0" />
   <c:set var="purchs_goods_nm" value="" />
   <div class="order_detail_box">
 	  <c:forEach var="item" items="${lstCart}" varStatus="statusCart">
@@ -471,8 +478,10 @@ function numberWithCommas(x) {
 			<input type="hidden" id="purchs_amount" name="purchs_amount" value="${item.PURCHS_AMOUNT}"/>
 			<input type="hidden" id="goods_code" name="goods_code" value="${item.GOODS_CODE}"/>
 			<input type="hidden" id="origin_amount" name="origin_amount" value="${item.ORIGIN_AMOUNT}"/>
+			<input type="hidden" id="deposit_amount" name="deposit_amount" value="${item.DEPOSIT_AMOUNT}"/>
 			<c:set var="purchs_amount" value="${purchs_amount + item.PURCHS_AMOUNT}" />
 			<c:set var="origin_amount" value="${origin_amount + item.ORIGIN_AMOUNT}" />
+			<c:set var="deposit_amount" value="${deposit_amount + item.DEPOSIT_AMOUNT}" />
 			<div class="pro_info">
 				<div class="photo">
 					<div class="img" style="background: url(<c:url value='/file/getImage/'/>?file_code=${item.FILE_CODE});)"></div>
@@ -897,14 +906,46 @@ function numberWithCommas(x) {
 					<div class="right"><em id="discountAmount"><fmt:formatNumber value="${purchs_amount - origin_amount}" pattern="#,###" /></em>원</div>
 					</c:if>
 				</div>
+				<div class="t1">
+					<div class="left">최종 금액</div>
+		          	<c:if test="${purchs != null}">
+						<div class="right"><fmt:formatNumber value="${purchs.REAL_SETLE_AMOUNT}" pattern="#,###" />원</div>
+					</c:if>
+		          	<c:if test="${purchs == null}">
+						<div class="right"><fmt:formatNumber value="${purchs_amount}" pattern="#,###" />원</div>
+					</c:if>
+				</div>
+				<div class="t1">
+					<div class="left">예약금</div>
+		          	<c:if test="${purchs != null}">
+						<div class="right"><fmt:formatNumber value="${purchs.DEPOSIT_AMOUNT}" pattern="#,###" />원</div>
+					</c:if>
+		          	<c:if test="${purchs == null}">	          	
+						<div class="right"><fmt:formatNumber value="${deposit_amount}" pattern="#,###" />원</div>
+						<input type="hidden" id="total_deposit_amount" value="${deposit_amount}">
+					</c:if>
+				</div>
+				<div class="t1">
+					<div class="left">잔금(현장지불)</div>
+		          	<c:if test="${purchs != null}">
+						<div class="right">$ <fmt:formatNumber value="${purchs.REMAIN_AMOUNT}" pattern="#,###" /></div>
+					</c:if>
+		          	<c:if test="${purchs == null}">
+		          		<c:set var="remain_amount" value="${purchs_amount -  deposit_amount}" />		          	
+		          		<c:set var="remain_amount" value="${remain_amount / exchangeRate}" />
+		          		<fmt:parseNumber var = "remain_amount" type = "number" integerOnly = "true"  value = "${remain_amount}" />	
+						<div class="right">$ <fmt:formatNumber value="${remain_amount}" pattern="#,###" /></div>
+						<input type="hidden" id="total_remain_amount" value="${remain_amount}">
+					</c:if>
+				</div>
 			</div>
 			<div class="total_2">
 				<div class="t1">최종결제금액</div>
 	          	<c:if test="${purchs != null}">
-				<div class="t2"><em id="finalAmount"><fmt:formatNumber value="${purchs.REAL_SETLE_AMOUNT}" pattern="#,###" /></em>원</div>
+				<div class="t2"><em id="finalAmount"><fmt:formatNumber value="${purchs.DEPOSIT_AMOUNT}" pattern="#,###" /></em>원</div>
 				</c:if>
 	          	<c:if test="${purchs == null}">
-				<div class="t2"><em id="finalAmount"><fmt:formatNumber value="${purchs_amount}" pattern="#,###" /></em>원</div>
+				<div class="t2"><em id="finalAmount"><fmt:formatNumber value="${deposit_amount}" pattern="#,###" /></em>원</div>
 				</c:if>
 			</div>
 			<c:if test="${purchs.DELETE_AT == 'Y'}">

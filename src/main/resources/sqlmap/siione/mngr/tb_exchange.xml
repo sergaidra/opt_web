@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="mngr">
+    <typeAlias alias="hashMap" type="java.util.HashMap"/>
+    <typeAlias alias="string" type="java.lang.String"/>
+
+	<sql id="ExchangeDAO.pagingQueryStart">
+	  SELECT TT.* FROM (
+	</sql>
+
+	<sql id="ExchangeDAO.pagingQueryEnd">
+	  ) TT WHERE ROWSEQ BETWEEN #start# + 1 AND #page# * #limit#
+	</sql>
+
+	<sql id="ExchangeDAO.whereForSelectExchangeList">
+		 WHERE 1 = 1 AND NAME <![CDATA[<>]]> 'KRW=X'
+	</sql>
+
+	<sql id="ExchangeDAO.whereForSelectExchangeHistoryList">
+		 WHERE 1 = 1 AND NAME = #NAME#
+	</sql>
+	
+    <insert id="ExchangeDAO.insertExchange" parameterClass="hashMap">
+    <![CDATA[
+    DECLARE
+    BEGIN
+		MERGE INTO TB_EXCHANGE
+            USING DUAL
+            ON (NAME = #NAME#)
+            WHEN MATCHED THEN
+                      UPDATE SET
+                            RATE = CEIL(#RATE#),
+                            UP_DT = SYSDATE
+            WHEN NOT MATCHED THEN
+                      INSERT (NAME, RATE, UP_DT) 
+                      VALUES (#NAME#, CEIL(#RATE#), SYSDATE );
+                      
+    	INSERT INTO TB_EXCHANGE_HISTORY(NAME, RATE, ORIGIN_RATE, UP_DT) 
+    	VALUES (#NAME#, CEIL(#RATE#), #RATE#, SYSDATE); 
+    END;                      
+    ]]>
+    </insert>
+
+	<select id="ExchangeDAO.selectExchangeListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
+		SELECT COUNT(A.NAME)
+		  FROM TB_EXCHANGE A
+		<include refid="ExchangeDAO.whereForSelectExchangeList"/>
+	</select>
+
+	<select id="ExchangeDAO.selectExchangeList" parameterClass="hashMap" resultClass="hashMap">
+		<include refid="ExchangeDAO.pagingQueryStart"/><![CDATA[
+		SELECT ROW_NUMBER() OVER(ORDER BY A.NAME DESC) AS ROWSEQ
+			, CASE NAME WHEN 'JPYKRW=X' THEN '일본 JPY' WHEN 'USDKRW=X' THEN '미국 USD' ELSE '' END AS NAME
+			, RATE
+			,  TO_CHAR(A.UP_DT, 'YYYY-MM-DD HH24:MI:SS') AS UP_DT
+			, NAME AS RAWNAME
+		FROM TB_EXCHANGE A ]]>
+		<include refid="ExchangeDAO.whereForSelectExchangeList"/>
+		<include refid="ExchangeDAO.pagingQueryEnd"/>
+	</select>
+
+	<select id="ExchangeDAO.selectExchangeHistoryListCount" parameterClass="hashMap" resultClass="java.lang.Integer">
+		SELECT COUNT(A.NAME)
+		  FROM TB_EXCHANGE A
+		<include refid="ExchangeDAO.whereForSelectExchangeHistoryList"/>
+	</select>
+
+	<select id="ExchangeDAO.selectExchangeHistoryList" parameterClass="hashMap" resultClass="hashMap">
+		<include refid="ExchangeDAO.pagingQueryStart"/><![CDATA[
+		SELECT ROW_NUMBER() OVER(ORDER BY A.UP_DT DESC) AS ROWSEQ
+			, CASE NAME WHEN 'JPYKRW=X' THEN '일본 JPY' WHEN 'USDKRW=X' THEN '미국 USD' ELSE '' END AS NAME
+			, RATE, ORIGIN_RATE
+			,  TO_CHAR(A.UP_DT, 'YYYY-MM-DD HH24:MI:SS') AS UP_DT
+		FROM TB_EXCHANGE_HISTORY A ]]>
+		<include refid="ExchangeDAO.whereForSelectExchangeHistoryList"/>
+		<include refid="ExchangeDAO.pagingQueryEnd"/>
+	</select>
+
+</sqlMap>

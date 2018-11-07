@@ -34,6 +34,7 @@
 		<result property="GOODS_DATE"         column="GOODS_DATE"        	jdbcType="string" javaType="string"/>		
 		<result property="GOODS_TIME"         column="GOODS_TIME"        	jdbcType="string" javaType="string"/>		
 		<result property="SETUP_SE_V"         column="SETUP_SE_V"        	jdbcType="string" javaType="string"/>
+		<result property="DEPOSIT_AMOUNT"     column="DEPOSIT_AMOUNT"        	jdbcType="string" javaType="string"/>
 		<!-- <result property="OPTIONS"       column="{ESNTL_ID=ESNTL_ID, CART_SN=CART_SN}" select="gnrl.order.selectCartDetailList" javaType="java.util.ArrayList"/> -->
 	</resultMap>	
 
@@ -78,6 +79,7 @@
 		     	FROM TB_CART_NMPR AAA
 		     		INNER JOIN TB_GOODS_NMPR BBB ON AAA.GOODS_CODE = BBB.GOODS_CODE AND AAA.NMPR_SN = BBB.NMPR_SN AND AAA.SETUP_SE = BBB.SETUP_SE 
 		     	WHERE BBB.SETUP_SE = 'V' AND AAA.CART_SN = A.CART_SN ) > 0 THEN 'Y' ELSE 'N' END SETUP_SE_V
+		     , A.DEPOSIT_AMOUNT
 		  FROM TB_CART_GOODS A
 		 INNER JOIN TB_GOODS X
 		    ON X.GOODS_CODE = A.GOODS_CODE
@@ -126,10 +128,10 @@
 	<insert id="gnrl.order.insertPurchs"  parameterClass="hashMap">
 		INSERT INTO TB_PURCHS (PURCHS_SN, PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT
 			, CRTFC_NO, SETLE_DT, SETLE_IP, ESNTL_ID, WRITNG_ID, WRITNG_DT, DELETE_AT
-			, TOURIST_NM, TOURIST_CTTPC, KAKAO_ID, STATUS) 
+			, TOURIST_NM, TOURIST_CTTPC, KAKAO_ID, STATUS, DEPOSIT_AMOUNT, REMAIN_AMOUNT, EXCHANGE_RATE) 
 		VALUES (#purchs_sn#, TO_CHAR(SYSDATE, 'YYYYMMDD'), #tot_setle_amount#, #real_setle_amount#, #use_point#
 			, #crtfc_no#, SYSDATE, #setle_ip#, #esntl_id#, #esntl_id#, SYSDATE ,'N'
-			, #tourist_nm#, #tourist_cttpc#, #kakao_id#, #status#)
+			, #tourist_nm#, #tourist_cttpc#, #kakao_id#, #status#, #deposit_amount#, #remain_amount#, #exchange_rate#)
 	</insert>
 
 	<insert id="gnrl.order.insertPurchsGoods"  parameterClass="hashMap">
@@ -202,7 +204,7 @@
 	<select id="gnrl.order.getPurchs" parameterClass="hashMap" resultClass="hashMap">
 		SELECT PURCHS_DE, TOT_SETLE_AMOUNT, REAL_SETLE_AMOUNT, USE_POINT, TOURIST_NM, TOURIST_CTTPC, KAKAO_ID, BEGINDT
 			, CASE WHEN TO_CHAR(TO_DATE(BEGINDT, 'YYYYMMDD') - 14, 'YYYYMMDD') > TO_CHAR(SYSDATE, 'YYYYMMDD') THEN 'Y' ELSE 'N' END ISCANCEL
-			, DELETE_AT, DELETE_RESN_SE, DELETE_RESN_ETC, REFUND_AMOUNT, STATUS
+			, DELETE_AT, DELETE_RESN_SE, DELETE_RESN_ETC, REFUND_AMOUNT, STATUS, DEPOSIT_AMOUNT, REMAIN_AMOUNT, EXCHANGE_RATE
 		FROM (
 				SELECT P.PURCHS_DE, P.TOT_SETLE_AMOUNT, P.REAL_SETLE_AMOUNT, P.USE_POINT, P.TOURIST_NM, P.TOURIST_CTTPC, P.KAKAO_ID
 					, (	SELECT MIN( CASE WHEN TOUR_DE IS NOT NULL THEN TOUR_DE ELSE CHKIN_DE END)
@@ -210,6 +212,7 @@
 							INNER JOIN TB_CART_GOODS CG ON PG.CART_SN = CG.CART_SN		
 						WHERE PURCHS_SN = #purchs_sn# ) AS BEGINDT
 					, P.DELETE_AT, DC.CODE_NM AS DELETE_RESN_SE, P.DELETE_RESN_ETC, P.REFUND_AMOUNT, P.STATUS
+					, P.DEPOSIT_AMOUNT, P.REMAIN_AMOUNT, P.EXCHANGE_RATE
 				FROM TB_PURCHS P
 					LEFT OUTER JOIN TB_CMMN_DETAIL_CODE DC ON P.DELETE_RESN_SE = DC.CODE AND DC.CODE_ID = 'COM009'
 				WHERE PURCHS_SN = #purchs_sn# 
@@ -332,6 +335,12 @@
 		FROM TB_CART_GOODS G
 			INNER JOIN TB_USER U ON G.ESNTL_ID = U.ESNTL_ID
 		WHERE CART_SN = #cart_sn#
+	</select>
+	
+	<select id="gnrl.order.getExchangeRate" parameterClass="hashMap" resultClass="Double">
+		SELECT RATE
+		FROM TB_EXCHANGE
+		WHERE NAME = 'USDKRW=X'
 	</select>
 	
 </sqlMap>

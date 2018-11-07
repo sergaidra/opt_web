@@ -21,17 +21,32 @@ function goSelfCategory(cl_code) {
   <li class="sub-menu" >
   	<a href="javascript:go_01_01_01();" ><spring:message code='topmenu.self'/><i class="arrow fa fa-angle-down pull-right"></i></a>
     <ul class="submenu">
-	  <li><a href="javascript:goSelfCategory('00411');">숙박</a></li>
-	  <li><a href="javascript:goSelfCategory('00412');">맞춤투어</a></li>
-	  <li><a href="javascript:goSelfCategory('00591');">패키지투어</a></li>
-	  <li><a href="javascript:goSelfCategory('00413');">데이투어</a></li>
-	  <li><a href="javascript:goSelfCategory('00429');">해양스포츠</a></li>
-	  <li><a href="javascript:goSelfCategory('00571');">액티비티</a></li>
-	  <li><a href="javascript:goSelfCategory('00414');">골프투어</a></li>
-	  <li><a href="javascript:goSelfCategory('00631');">프라이빗 투어(준비중)</a></li>
-	  <li><a href="javascript:goSelfCategory('00415');">마사지</a></li>
-	  <li><a href="javascript:goSelfCategory('00416');">차량렌트</a></li>
-	  <li><a href="javascript:goSelfCategory('00417');">로컬쇼핑(준비중)</a></li>
+      <c:if test="${pageContext.response.locale.language == 'ja'}">
+		  <li><a href="javascript:goSelfCategory('00411');">숙박</a></li>
+		  <li><a href="javascript:goSelfCategory('00412');">맞춤투어</a></li>
+		  <li><a href="javascript:goSelfCategory('00591');">패키지투어</a></li>
+		  <li><a href="javascript:goSelfCategory('00413');">데이투어</a></li>
+		  <li><a href="javascript:goSelfCategory('00429');">해양스포츠</a></li>
+		  <li><a href="javascript:goSelfCategory('00571');">액티비티</a></li>
+		  <li><a href="javascript:goSelfCategory('00414');">골프투어</a></li>
+		  <li><a href="javascript:goSelfCategory('00631');">프라이빗 투어(준비중)</a></li>
+		  <li><a href="javascript:goSelfCategory('00415');">마사지</a></li>
+		  <li><a href="javascript:goSelfCategory('00416');">차량렌트</a></li>
+		  <li><a href="javascript:goSelfCategory('00417');">로컬쇼핑(준비중)</a></li>
+	  </c:if>
+      <c:if test="${pageContext.response.locale.language != 'ja'}">
+		  <li><a href="javascript:goSelfCategory('00411');">숙박</a></li>
+		  <li><a href="javascript:goSelfCategory('00412');">맞춤투어</a></li>
+		  <li><a href="javascript:goSelfCategory('00591');">패키지투어</a></li>
+		  <li><a href="javascript:goSelfCategory('00413');">데이투어</a></li>
+		  <li><a href="javascript:goSelfCategory('00429');">해양스포츠</a></li>
+		  <li><a href="javascript:goSelfCategory('00571');">액티비티</a></li>
+		  <li><a href="javascript:goSelfCategory('00414');">골프투어</a></li>
+		  <li><a href="javascript:goSelfCategory('00631');">프라이빗 투어(준비중)</a></li>
+		  <li><a href="javascript:goSelfCategory('00415');">마사지</a></li>
+		  <li><a href="javascript:goSelfCategory('00416');">차량렌트</a></li>
+		  <li><a href="javascript:goSelfCategory('00417');">로컬쇼핑(준비중)</a></li>
+	  </c:if>
     </ul>
   </li>
 <!-- 해당활성화 메뉴   <li  class="active"> -->

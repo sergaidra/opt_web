@@ -57,6 +57,10 @@ public class GoodsServiceImpl implements GoodsService {
     public HashMap getGoodsDetail(HashMap map) throws Exception {
         return goodsDAO.selectGoodsDetail(map);
     }
+    
+    public HashMap selectGoodsEngDetail(HashMap map) throws Exception {
+    	return goodsDAO.selectGoodsEngDetail(map);
+    }
 
     public List<HashMap> getGoodsClList(HashMap map) throws Exception {
         return goodsDAO.selectGoodsClList(map);

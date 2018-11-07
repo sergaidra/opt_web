@@ -4,6 +4,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -315,6 +317,36 @@ public class GoodsController {
         	
         	if(result == null) response.sendRedirect("/error/");
         	else {
+            	if(RequestContextUtils.getLocale(request) != null && "ja".equals(RequestContextUtils.getLocale(request).getLanguage())) {
+            		HashMap mapEng = goodsService.selectGoodsEngDetail(map);        		
+            		result.put("GOODS_NM", mapEng.get("GOODS_NM_ENG"));
+            		result.put("GOODS_INTRCN", mapEng.get("GOODS_INTRCN_ENG"));
+            		result.put("GOODS_INTRCN_SIMPL", mapEng.get("GOODS_INTRCN_SIMPL_ENG"));
+            		result.put("VOCHR_NTSS_REQRE_TIME", mapEng.get("VOCHR_NTSS_REQRE_TIME_ENG"));
+            		result.put("VOCHR_USE_MTH", mapEng.get("VOCHR_USE_MTH_ENG"));
+            		result.put("GUIDANCE_USE_TIME", mapEng.get("GUIDANCE_USE_TIME_ENG"));
+            		result.put("GUIDANCE_REQRE_TIME", mapEng.get("GUIDANCE_REQRE_TIME_ENG"));
+            		result.put("GUIDANCE_AGE_DIV", mapEng.get("GUIDANCE_AGE_DIV_ENG"));
+            		result.put("GUIDANCE_TOUR_SCHDUL", mapEng.get("GUIDANCE_TOUR_SCHDUL_ENG"));
+            		result.put("GUIDANCE_PRFPLC_LC", mapEng.get("GUIDANCE_PRFPLC_LC_ENG"));
+            		result.put("GUIDANCE_EDC_CRSE", mapEng.get("GUIDANCE_EDC_CRSE_ENG"));
+            		result.put("GUIDANCE_OPTN_MATTER", mapEng.get("GUIDANCE_OPTN_MATTER_ENG"));
+            		result.put("GUIDANCE_PICKUP", mapEng.get("GUIDANCE_PICKUP_ENG"));
+            		result.put("GUIDANCE_PRPARETG", mapEng.get("GUIDANCE_PRPARETG_ENG"));
+            		result.put("GUIDANCE_INCLS_MATTER", mapEng.get("GUIDANCE_INCLS_MATTER_ENG"));
+            		result.put("GUIDANCE_NOT_INCLS_MATTER", mapEng.get("GUIDANCE_NOT_INCLS_MATTER_ENG"));
+            		result.put("ADIT_GUIDANCE", mapEng.get("ADIT_GUIDANCE_ENG"));
+            		result.put("ATENT_MATTER", mapEng.get("ATENT_MATTER_ENG"));
+            		result.put("CHANGE_REFND_REGLTN", mapEng.get("CHANGE_REFND_REGLTN_ENG"));        		
+            		result.put("INTRCN_USE_TIME", mapEng.get("INTRCN_USE_TIME_ENG"));
+            		result.put("INTRCN_MEET_TIME", mapEng.get("INTRCN_MEET_TIME_ENG"));
+            		result.put("INTRCN_REQRE_TIME", mapEng.get("INTRCN_REQRE_TIME_ENG"));
+            		result.put("INTRCN_PROVD_LANG", mapEng.get("INTRCN_PROVD_LANG_ENG"));
+            		result.put("INTRCN_POSBL_AGE", mapEng.get("INTRCN_POSBL_AGE_ENG"));
+            		result.put("INTRCN_PLACE", mapEng.get("INTRCN_PLACE_ENG"));
+            		result.put("GOODS_NM_SUB", mapEng.get("GOODS_NM_SUB_ENG"));
+            	}
+            	
             	HashMap review = goodsService.getReviewScore(map);
             	String ceil_review_score = String.valueOf(review.get("CEIL_REVIEW_SCORE"));
             	String review_count = String.valueOf(review.get("REVIEW_COUNT"));    

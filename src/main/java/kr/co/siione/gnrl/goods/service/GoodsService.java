@@ -15,6 +15,7 @@ public interface GoodsService {
     public int getGoodsListCount(HashMap map) throws Exception;
     public List<HashMap> getGoodsList(HashMap map) throws Exception;
     public HashMap getGoodsDetail(HashMap map) throws Exception;
+    public HashMap selectGoodsEngDetail(HashMap map) throws Exception;
     public List<HashMap> getGoodsClList(HashMap map) throws Exception;
     public List<HashMap> getGoodsSchdulList(HashMap map) throws Exception;
     public List<HashMap> getGoodsNmprList(HashMap map) throws Exception;

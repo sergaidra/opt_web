@@ -20,10 +20,26 @@
 		<!-- <property name="cronExpression" value="*/10 * * * * ?"/> -->  
 	</bean>
 	
+	<bean id="myjob2" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="kr.co.siione.mngr.job.ExchangeJob" />
+		<property name="applicationContextJobDataKey" value="applicationContext" />
+	</bean>
+
+	<bean id="cronTrigger2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="myjob2" />		
+		<!-- 아침 7시 실행 -->
+		<property name="cronExpression" value="0 0 7 * * ?"/> 
+		<!-- 1시간마다 실행 -->
+		<!--<property name="cronExpression" value="0 0 0/1 * * ?"/>--> 
+		<!--<property name="cronExpression" value="0 0/1 * * * ?"/>--> 
+		<!-- <property name="cronExpression" value="*/10 * * * * ?"/> -->  
+	</bean>
+	
 	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
 				<ref bean="cronTrigger1" />
+				<ref bean="cronTrigger2" />
 			</list>
 		</property>
 	</bean>

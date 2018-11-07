@@ -141,7 +141,8 @@ public class OrderServiceImpl implements OrderService {
 				options = String.valueOf(mapCart.get("GOODS_TIME"));
 				if(!"".equals(options))
 					options += "<br/>";
-				options += String.valueOf(mapCart.get("GOODS_OPTION"));
+				if(mapCart.get("GOODS_OPTION") != null)
+					options += String.valueOf(mapCart.get("GOODS_OPTION"));
 
 				str = str.replaceAll("[$]\\{webserverdomain\\}", webserverdomain);
 				str = str.replaceAll("[$]\\{file_code\\}", String.valueOf(mapCart.get("FILE_CODE")));
@@ -190,6 +191,8 @@ public class OrderServiceImpl implements OrderService {
 		order = order.replaceAll("[$]\\{origin_amount\\}", String.format("%,d", Integer.valueOf(String.valueOf(map.get("real_setle_amount")))));
 		order = order.replaceAll("[$]\\{sale_amount\\}", String.format("%,d", saleAmount));
 		order = order.replaceAll("[$]\\{purchs_amount\\}", String.format("%,d", Integer.valueOf(String.valueOf(map.get("tot_setle_amount")))));
+		order = order.replaceAll("[$]\\{deposit_amount\\}", String.format("%,d", Integer.valueOf(String.valueOf(map.get("deposit_amount")))));
+		order = order.replaceAll("[$]\\{remain_amount\\}", String.format("%,d", Integer.valueOf(String.valueOf(map.get("remain_amount")))));
 		order = order.replaceAll("[$]\\{webserverdomain\\}", webserverdomain);
 		order = order.replaceAll("[$]\\{purchs_sn\\}", String.valueOf(purchs_sn));		
 		
@@ -347,6 +350,9 @@ public class OrderServiceImpl implements OrderService {
 		String kakao_id = UserUtils.nvl(purchInfo.get("kakao_id"));
 		String crtfc_no = "";
 		String setle_ip = "";
+		String deposit_amount = UserUtils.nvl(purchInfo.get("deposit_amount"));
+		String remain_amount = UserUtils.nvl(purchInfo.get("remain_amount"));
+		String exchange_rate = UserUtils.nvl(purchInfo.get("exchange_rate"));
         List<Map> lstCart = (List<Map>)purchInfo.get("lstCart");
 
 		HashMap map = new HashMap();	
@@ -361,6 +367,9 @@ public class OrderServiceImpl implements OrderService {
 		map.put("kakao_id", kakao_id);
 		map.put("lstCart", lstCart);
 		map.put("email", email);
+		map.put("deposit_amount", deposit_amount);
+		map.put("remain_amount", remain_amount);
+		map.put("exchange_rate", exchange_rate);
 
 		return map;
 	}
@@ -400,6 +409,10 @@ public class OrderServiceImpl implements OrderService {
     	
     	commonService.mailWaitComfirm(subject, title, file_code, goods_nm, date, options, item_amount,"onepasstour@gmail.com");
     	//commonService.mailWaitComfirm(subject, title, file_code, goods_nm, date, options, item_amount,"leeyikw@gmail.com");
+	}
+	
+	public Double getExchangeRate(HashMap map) throws Exception {
+		return orderDAO.getExchangeRate(map);
 	}
 }
 
