@@ -70,7 +70,7 @@ public class MainController {
     	List<HashMap> expsrList2 = goodsService.getGoodsExpsrList2(map);
     	List<HashMap> expsrList3 = goodsService.getGoodsExpsrList3(map);
     	List<HashMap> lstVideo = liveViewService.mainVideolist(map);
-    	//List<HashMap> lstBanner = mainService.getBanner(null);
+    	List<HashMap> lstBanner = mainService.getBanner(null);
     	
     	List<HashMap> lstNotice = noticeService.mainNoticelist(map);
     	List<HashMap> popupNotice = noticeService.mainPopupNotice(map);
@@ -93,7 +93,7 @@ public class MainController {
         model.addAttribute("reco", expsrList2);
         model.addAttribute("self", expsrList3);
         model.addAttribute("video", lstVideo);
-        //model.addAttribute("lstBanner", lstBanner);        
+        model.addAttribute("lstBanner", lstBanner);        
         model.addAttribute("lstNotice", lstNotice);
         model.addAttribute("popupNotice", popupNotice);        
         
