@@ -62,7 +62,8 @@ function changeLocale() {
 						<div class="tx"><spring:message code='top.login'/> </div>
 					</div>
 				</a> 
-				<a href="javascript:go_join();">
+				<!-- <a href="javascript:go_join();"> -->
+				<a href="javascript:go_login();">
 					<div class="allmenu">
 						<i class="material-icons">&#xE853;</i>
         				<div class="tx"><spring:message code='top.join'/></div>
@@ -112,7 +113,7 @@ function changeLocale() {
 				<div class="name"><spring:message code='top.login.msg'/></div>
 				<div class="info_btn"> 
 					<a href="javascript:go_login();" class="info"><spring:message code='top.login'/></a>
-					<a href="javascript:go_join();" class="logout"><spring:message code='top.join'/></a>
+					<a href="javascript:go_login();" class="logout"><!-- <a href="javascript:go_join();" class="logout"> --><spring:message code='top.join'/></a>
 				</div>
 			</div>
 			</c:if>
