@@ -819,7 +819,7 @@ function displayNmpr() {
 
 	$("#totalprice").text("￦ " + numberWithCommas(totalprice));
 	$("#originTotalPrice").text("￦ " + numberWithCommas(originTotalPrice));
-	var depositPrice = totalprice * (deposit / 100.0);
+	var depositPrice = Math.floor(totalprice * (deposit / 100.0));
 	$("#depositPrice").text("예약금 ￦ " + numberWithCommas(depositPrice));
 
 	if(totalprice == originTotalPrice) {
